@@ -31,6 +31,10 @@ import type {
   Resource,
 } from '../../domain/models'
 
+import type {
+  ItemProvenance,
+} from '../../domain/provenance'
+
 import { CargoExportsEditor } from './CargoExportsEditor'
 import './CargoPadEditor.css'
 
@@ -43,7 +47,9 @@ interface CargoPadEditorProps {
   resources: Resource[]
   products: Product[]
   availableItems: CargoItem[]
-
+  getItemProvenance: (
+    item: CargoItem,
+  ) => ItemProvenance
   linkedOutpostId: string
   linkedCargoPadId: string
   onLinkedOutpostChange: (outpostId: string) => void
@@ -62,6 +68,7 @@ export function CargoPadEditor({
   resources,
   products,
   availableItems,
+  getItemProvenance,
   onChange,
   onRemove,
   linkedOutpostId,
@@ -179,7 +186,9 @@ export function CargoPadEditor({
       <CargoExportsEditor
         resources={resources}
         products={products}
+        outposts={outposts}
         availableItems={availableItems}
+        getItemProvenance={getItemProvenance}
         exports={pad.outboundItems}
         onChange={(outboundItems) =>
           onChange({

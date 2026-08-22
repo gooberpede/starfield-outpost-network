@@ -21,7 +21,18 @@ import { HeaderLayout } from './ui/layout/HeaderLayout'
 import { WorkspaceLayout } from './ui/layout/WorkspaceLayout'
 import { AppFooter } from './ui/layout/AppFooter'
 
-import type { OutpostNetwork } from './domain/models'
+import {
+  getItemProvenanceAtOutpost,
+} from './domain/provenance'
+
+import type {
+  ItemProvenance,
+} from './domain/provenance'
+
+import type {
+  CargoItem,
+  OutpostNetwork,
+} from './domain/models'
 
 /**
  * Removes Planned Supply entries that have acquired a real source.
@@ -127,6 +138,22 @@ function App() {
       selectedOutpost.id,
       network,
     )
+
+  /**
+   * Returns actual source provenance for one item at the selected outpost.
+   *
+   * The domain function works from the complete network, while downstream
+   * cargo components receive only this narrow lookup capability.
+   */
+  function getSelectedOutpostItemProvenance(
+    item: CargoItem,
+  ): ItemProvenance {
+    return getItemProvenanceAtOutpost(
+      selectedOutpost.id,
+      item,
+      network,
+    )
+  }
 
   const bodyResources = referenceData?.bodyResources ?? []
 
@@ -493,6 +520,7 @@ function App() {
             resources={resources}
             products={products}
             availableItems={availableCargoItems}
+            getItemProvenance={getSelectedOutpostItemProvenance}
             onChange={updateCargoPads}
             onCargoLinksChange={(cargoLinks) =>
               setNetwork((currentNetwork) =>

@@ -20,23 +20,34 @@
  */
 import type {
   CargoItem,
+  Outpost,
   Product,
   Resource,
 } from '../../domain/models'
 
+import type {
+  ItemProvenance,
+} from '../../domain/provenance'
+
 interface CargoExportsEditorProps {
   resources: Resource[]
   products: Product[]
+  outposts: Outpost[]
   exports: CargoItem[]
   availableItems: CargoItem[]
+  getItemProvenance: (
+    item: CargoItem,
+  ) => ItemProvenance
   onChange: (exports: CargoItem[]) => void
 }
 
 export function CargoExportsEditor({
   resources,
   products,
+  outposts,
   exports,
   availableItems,
+  getItemProvenance,
   onChange,
 }: CargoExportsEditorProps) {
 
@@ -67,6 +78,41 @@ export function CargoExportsEditor({
         item.type === type &&
         item.id === id,
     )
+  }
+
+  /**
+   * Formats structured provenance for the cargo catalogue.
+   *
+   * Domain provenance contains stable outpost IDs. This presentation helper
+   * resolves those IDs to current outpost names and decides how the source
+   * information should be displayed to the user.
+   */
+  function getSourceLabel(item: CargoItem) {
+    const provenance =
+      getItemProvenance(item)
+
+    const sourceLabels: string[] = []
+
+    if (provenance.local) {
+      sourceLabels.push('local')
+    }
+
+    for (const remoteOutpostId of provenance.remoteOutpostIds) {
+      const remoteOutpost =
+        outposts.find(
+          (candidate) =>
+            candidate.id === remoteOutpostId,
+        )
+
+      sourceLabels.push(
+        remoteOutpost?.name ??
+          remoteOutpostId,
+      )
+    }
+
+    return sourceLabels.length > 0
+      ? sourceLabels.join(', ')
+      : 'no source'
   }
 
   /**
@@ -138,17 +184,19 @@ const visibleProducts =
           <p>None available.</p>
         ) : (
           visibleResources.map((resource) => {
-            const available =
-              isAvailable(
-                'resource',
-                resource.id,
-              )
-
             const exported =
               isExported(
                 'resource',
                 resource.id,
               )
+            
+            const item: CargoItem = {
+              type: 'resource',
+              id: resource.id,
+            }
+
+            const sourceLabel =
+              getSourceLabel(item)
 
             return (
               <p key={`resource-${resource.id}`}>
@@ -157,20 +205,15 @@ const visibleProducts =
                     type="checkbox"
                     checked={exported}
                     onChange={() =>
-                      toggleExport({
-                        type: 'resource',
-                        id: resource.id,
-                      })
+                      toggleExport(item)
                     }
                   />
                   {resource.name}
 
-                  {exported && !available && (
-                    <>
-                      {' '}
-                      ⚠ not currently available
-                    </>
-                  )}
+                  {' '}
+                  <small>
+                    — {sourceLabel}
+                  </small>
                 </label>
               </p>
             )
@@ -185,17 +228,19 @@ const visibleProducts =
           <p>None available.</p>
         ) : (
           visibleProducts.map((product) => {
-            const available =
-              isAvailable(
-                'product',
-                product.id,
-              )
-
             const exported =
               isExported(
                 'product',
                 product.id,
               )
+
+            const item: CargoItem = {
+              type: 'product',
+              id: product.id,
+            }
+
+            const sourceLabel =
+              getSourceLabel(item)
 
             return (
               <p key={`product-${product.id}`}>
@@ -204,20 +249,15 @@ const visibleProducts =
                     type="checkbox"
                     checked={exported}
                     onChange={() =>
-                      toggleExport({
-                        type: 'product',
-                        id: product.id,
-                      })
+                      toggleExport(item)
                     }
                   />
                   {product.name}
 
-                  {exported && !available && (
-                    <>
-                      {' '}
-                      ⚠ not currently available
-                    </>
-                  )}
+                  {' '}
+                  <small>
+                    — {sourceLabel}
+                  </small>
                 </label>
               </p>
             )

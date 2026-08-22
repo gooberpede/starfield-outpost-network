@@ -48,6 +48,10 @@ import type {
   Resource,
 } from '../../domain/models'
 
+import type {
+  ItemProvenance,
+} from '../../domain/provenance'
+
 import { CargoPadEditor } from './CargoPadEditor'
 import './CargoPadsEditor.css'
 
@@ -60,6 +64,9 @@ interface CargoPadsEditorProps {
   resources: Resource[]
   products: Product[]
   availableItems: CargoItem[]
+  getItemProvenance: (
+    item: CargoItem,
+  ) => ItemProvenance
 }
 
 export function CargoPadsEditor({
@@ -69,6 +76,7 @@ export function CargoPadsEditor({
   resources,
   products,
   availableItems,
+  getItemProvenance,
   onChange,
   onCargoLinksChange,
 }: CargoPadsEditorProps) {
@@ -579,6 +587,7 @@ export function CargoPadsEditor({
                 resources={resources}
                 products={products}
                 availableItems={availableItems}
+                getItemProvenance={getItemProvenance}
                 onChange={updatePad}
                 onRemove={() => removeCargoPad(pad.id)}
                 linkedOutpostId={linkedOutpostId}
