@@ -49,8 +49,10 @@ interface LegacyCargoPad {
 interface LegacyOutpost {
   id: string
   name: string
-  system: string
-  body: string
+  system?: string
+  body?: string
+  systemId?: string
+  bodyId?: string
   localResources?: string[]
   activeProduction?: string[]
   manufacturing?: {
@@ -111,8 +113,15 @@ export function loadNetwork(): OutpostNetwork | null {
     const outposts = (storedNetwork.outposts ?? []).map((outpost) => ({
       id: outpost.id,
       name: outpost.name,
-      systemId: outpost.system,
-      bodyId: outpost.body,
+      systemId:
+        outpost.systemId ??
+        outpost.system ??
+        '',
+
+      bodyId:
+        outpost.bodyId ??
+        outpost.body ??
+        '',
 
       /*
       * Persisted outpost collections have been added over time. Supply an
