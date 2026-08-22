@@ -1,0 +1,482 @@
+[
+  {
+    "id": "65147",
+    "name": "Al-Battani"
+  },
+  {
+    "id": "59020",
+    "name": "Alchiba"
+  },
+  {
+    "id": "60776",
+    "name": "Algorab"
+  },
+  {
+    "id": "5325",
+    "name": "Alpha Andraste"
+  },
+  {
+    "id": "71456",
+    "name": "Alpha Centauri"
+  },
+  {
+    "id": "85407",
+    "name": "Alpha Marae"
+  },
+  {
+    "id": "119060",
+    "name": "Alpha Ternion"
+  },
+  {
+    "id": "57270",
+    "name": "Alpha Tirna"
+  },
+  {
+    "id": "97338",
+    "name": "Altair"
+  },
+  {
+    "id": "86705",
+    "name": "Andromas"
+  },
+  {
+    "id": "72955",
+    "name": "Aranae"
+  },
+  {
+    "id": "75150",
+    "name": "Archimedes"
+  },
+  {
+    "id": "69451",
+    "name": "Arcturus"
+  },
+  {
+    "id": "69793",
+    "name": "Bannoc"
+  },
+  {
+    "id": "118959",
+    "name": "Bannoc Secondus"
+  },
+  {
+    "id": "65515",
+    "name": "Bara"
+  },
+  {
+    "id": "90582",
+    "name": "Bardeen"
+  },
+  {
+    "id": "87665",
+    "name": "Barnard's Star"
+  },
+  {
+    "id": "69192",
+    "name": "Bel"
+  },
+  {
+    "id": "103883",
+    "name": "Bessel"
+  },
+  {
+    "id": "119221",
+    "name": "Beta Andraste"
+  },
+  {
+    "id": "119159",
+    "name": "Beta Marae"
+  },
+  {
+    "id": "119225",
+    "name": "Beta Ternion"
+  },
+  {
+    "id": "118771",
+    "name": "Beta Tirna"
+  },
+  {
+    "id": "73018",
+    "name": "Bohr"
+  },
+  {
+    "id": "118818",
+    "name": "Bolivar"
+  },
+  {
+    "id": "81444",
+    "name": "Bradbury"
+  },
+  {
+    "id": "118021",
+    "name": "Carinae"
+  },
+  {
+    "id": "86475",
+    "name": "Celebrai"
+  },
+  {
+    "id": "56075",
+    "name": "Charybdis"
+  },
+  {
+    "id": "72432",
+    "name": "Cheyenne"
+  },
+  {
+    "id": "76816",
+    "name": "Copernicus"
+  },
+  {
+    "id": "119039",
+    "name": "Copernicus Minor"
+  },
+  {
+    "id": "119105",
+    "name": "Decaran"
+  },
+  {
+    "id": "98924",
+    "name": "Delta Pavonis"
+  },
+  {
+    "id": "75493",
+    "name": "Delta Vulpes"
+  },
+  {
+    "id": "57459",
+    "name": "Denebola"
+  },
+  {
+    "id": "78498",
+    "name": "Enlil"
+  },
+  {
+    "id": "15471",
+    "name": "Eridani"
+  },
+  {
+    "id": "3814",
+    "name": "Eta Cassiopeia"
+  },
+  {
+    "id": "73788",
+    "name": "Fermi"
+  },
+  {
+    "id": "86469",
+    "name": "Feynman"
+  },
+  {
+    "id": "72377",
+    "name": "Foucault"
+  },
+  {
+    "id": "72341",
+    "name": "Freya"
+  },
+  {
+    "id": "75489",
+    "name": "Gamma Vulpes"
+  },
+  {
+    "id": "57767",
+    "name": "Groombridge"
+  },
+  {
+    "id": "84147",
+    "name": "Guniibuu"
+  },
+  {
+    "id": "73489",
+    "name": "Hawking"
+  },
+  {
+    "id": "71731",
+    "name": "Heinlein"
+  },
+  {
+    "id": "83344",
+    "name": "Heisenberg"
+  },
+  {
+    "id": "73082",
+    "name": "Huygens"
+  },
+  {
+    "id": "70096",
+    "name": "Hyla"
+  },
+  {
+    "id": "119135",
+    "name": "Indum"
+  },
+  {
+    "id": "62328",
+    "name": "Ixyll"
+  },
+  {
+    "id": "79431",
+    "name": "Jaffa"
+  },
+  {
+    "id": "71517",
+    "name": "Kang"
+  },
+  {
+    "id": "24129",
+    "name": "Kapteyn's Star"
+  },
+  {
+    "id": "55539",
+    "name": "Katydid"
+  },
+  {
+    "id": "65150",
+    "name": "Khayyam"
+  },
+  {
+    "id": "77022",
+    "name": "Kryx"
+  },
+  {
+    "id": "56828",
+    "name": "Kumasi"
+  },
+  {
+    "id": "57584",
+    "name": "Lantana"
+  },
+  {
+    "id": "55476",
+    "name": "Leonis"
+  },
+  {
+    "id": "89684",
+    "name": "Leviathan"
+  },
+  {
+    "id": "91156",
+    "name": "Linnaeus"
+  },
+  {
+    "id": "83865",
+    "name": "Lunara"
+  },
+  {
+    "id": "36107",
+    "name": "Luyten's Star"
+  },
+  {
+    "id": "74746",
+    "name": "Maal"
+  },
+  {
+    "id": "118988",
+    "name": "Maheo"
+  },
+  {
+    "id": "60805",
+    "name": "Marduk"
+  },
+  {
+    "id": "83021",
+    "name": "Masada"
+  },
+  {
+    "id": "119106",
+    "name": "McClure"
+  },
+  {
+    "id": "68463",
+    "name": "Moloch"
+  },
+  {
+    "id": "67711",
+    "name": "Muphrid"
+  },
+  {
+    "id": "88327",
+    "name": "Narion"
+  },
+  {
+    "id": "84604",
+    "name": "Nemeria"
+  },
+  {
+    "id": "91756",
+    "name": "Newton"
+  },
+  {
+    "id": "119217",
+    "name": "Nikola"
+  },
+  {
+    "id": "77172",
+    "name": "Nirah"
+  },
+  {
+    "id": "58401",
+    "name": "Nirvana"
+  },
+  {
+    "id": "119220",
+    "name": "Oborum Prime"
+  },
+  {
+    "id": "119144",
+    "name": "Oborum Proxima"
+  },
+  {
+    "id": "72957",
+    "name": "Olympus"
+  },
+  {
+    "id": "74309",
+    "name": "Ophion"
+  },
+  {
+    "id": "103879",
+    "name": "Piazzi"
+  },
+  {
+    "id": "61748",
+    "name": "Porrima"
+  },
+  {
+    "id": "37173",
+    "name": "Procyon A"
+  },
+  {
+    "id": "118493",
+    "name": "Procyon B"
+  },
+  {
+    "id": "119059",
+    "name": "Proxima Ternion"
+  },
+  {
+    "id": "68415",
+    "name": "Pyraas"
+  },
+  {
+    "id": "69766",
+    "name": "Rana"
+  },
+  {
+    "id": "85769",
+    "name": "Rasalhague"
+  },
+  {
+    "id": "118819",
+    "name": "Rivera"
+  },
+  {
+    "id": "64587",
+    "name": "Rutherford"
+  },
+  {
+    "id": "72717",
+    "name": "Sagan"
+  },
+  {
+    "id": "85264",
+    "name": "Sakharov"
+  },
+  {
+    "id": "87902",
+    "name": "Schrodinger"
+  },
+  {
+    "id": "76835",
+    "name": "Serpentis"
+  },
+  {
+    "id": "67063",
+    "name": "Shoza"
+  },
+  {
+    "id": "32263",
+    "name": "Sirius"
+  },
+  {
+    "id": "0",
+    "name": "SOL"
+  },
+  {
+    "id": "79252",
+    "name": "Sparta"
+  },
+  {
+    "id": "72407",
+    "name": "Strix"
+  },
+  {
+    "id": "69479",
+    "name": "Syrma"
+  },
+  {
+    "id": "8087",
+    "name": "Tau Ceti"
+  },
+  {
+    "id": "119224",
+    "name": "The Pup"
+  },
+  {
+    "id": "82337",
+    "name": "Tidacha"
+  },
+  {
+    "id": "119223",
+    "name": "Toliman"
+  },
+  {
+    "id": "118742",
+    "name": "Ursae Majoris"
+  },
+  {
+    "id": "119222",
+    "name": "Ursae Minoris"
+  },
+  {
+    "id": "119198",
+    "name": "Valo"
+  },
+  {
+    "id": "3820",
+    "name": "Van Maanen's Star"
+  },
+  {
+    "id": "90979",
+    "name": "Vega"
+  },
+  {
+    "id": "63947",
+    "name": "Verne"
+  },
+  {
+    "id": "64720",
+    "name": "Volii"
+  },
+  {
+    "id": "118720",
+    "name": "Wolf"
+  },
+  {
+    "id": "84636",
+    "name": "Xi Ophiuchi"
+  },
+  {
+    "id": "59092",
+    "name": "Zelazny"
+  },
+  {
+    "id": "119147",
+    "name": "Zeta Ophiuchi"
+  },
+  {
+    "id": "54712",
+    "name": "Zosma"
+  }
+]

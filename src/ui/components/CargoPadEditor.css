@@ -1,0 +1,47 @@
+/**
+ * CargoPadEditor.css
+ *
+ * Purpose:
+ *   Styles the editable controls shown when a cargo pad is expanded.
+ *
+ * Architecture:
+ *   CargoPadEditor provides the editing controls for one pad. This
+ *   stylesheet keeps those controls compact and prevents long destination
+ *   names or cargo-pad descriptions from expanding the cargo panel.
+ *
+ * Change this file when:
+ *   - expanded cargo-pad control layout changes;
+ *   - selector sizing or wrapping behaviour changes;
+ *   - destructive pad actions need different placement.
+ */
+
+.cargo-pad-editor {
+  min-width: 0;
+}
+
+.cargo-pad-editor__controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cargo-pad-editor__controls label {
+  min-width: 0;
+}
+
+.cargo-pad-editor__controls label:has(select) {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cargo-pad-editor__controls select {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.cargo-pad-editor__remove {
+  align-self: flex-end;
+}

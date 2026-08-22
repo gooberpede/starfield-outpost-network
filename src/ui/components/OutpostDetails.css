@@ -1,0 +1,49 @@
+/**
+ * OutpostDetails.css
+ *
+ * Purpose:
+ *   Lays out the selected outpost's identity and location fields as a compact
+ *   horizontal strip.
+ *
+ * Architecture:
+ *   This stylesheet controls only the presentation of OutpostDetails. The
+ *   component retains responsibility for field values and callbacks.
+ *
+ * Change this file when:
+ *   - spacing or field widths change;
+ *   - the details strip needs to wrap differently;
+ *   - the delete action is repositioned;
+ *   - responsive behaviour is introduced.
+ */
+
+.outpost-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.outpost-details__heading {
+  margin-bottom: 0;
+}
+
+.outpost-details__fields {
+  display: flex;
+  align-items: end;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.outpost-details__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.outpost-details__field input,
+.outpost-details__field select {
+  min-width: 180px;
+}
+
+.outpost-details__delete {
+  margin-left: auto;
+}

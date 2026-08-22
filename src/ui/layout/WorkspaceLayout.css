@@ -1,0 +1,53 @@
+/**
+ * WorkspaceLayout.css
+ *
+ * Purpose:
+ *   Positions the outpost navigation beside the selected-outpost workspace,
+ *   then divides that selected-outpost workspace into a spanning top region
+ *   and two editing columns beneath it.
+ *
+ * Architecture:
+ *   The left column is navigation.
+ *
+ *   The remaining width belongs to the selected outpost:
+ *   - top: outpost-level details spanning both editing columns;
+ *   - middle: resources/manufacturing;
+ *   - right: cargo pads.
+ *
+ * Change this file when:
+ *   - workspace column widths change;
+ *   - selected-outpost regions need different proportions;
+ *   - responsive wrapping or stacking is introduced.
+ */
+
+.workspace-layout {
+  display: grid;
+  grid-template-columns:
+    220px
+    minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.workspace-layout__left,
+.workspace-layout__outpost,
+.workspace-layout__top,
+.workspace-layout__middle,
+.workspace-layout__right {
+  min-width: 0;
+}
+
+.workspace-layout__outpost {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.workspace-layout__content {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    360px;
+  gap: 1rem;
+  align-items: start;
+}

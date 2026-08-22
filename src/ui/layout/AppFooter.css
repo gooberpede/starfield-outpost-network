@@ -1,0 +1,32 @@
+/**
+ * AppFooter.css
+ *
+ * Purpose:
+ *   Styles the application's low-priority utility and metadata region.
+ *
+ * Architecture:
+ *   AppFooter is intentionally visually quieter than the main workspace.
+ *   It provides spacing and separation without dictating the contents placed
+ *   inside it.
+ *
+ * Change this file when:
+ *   - footer spacing or alignment changes;
+ *   - footer content needs grouping;
+ *   - utility/status information needs different emphasis.
+ */
+
+.app-footer {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+
+  border-top: 1px solid currentColor;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  flex-wrap: wrap;
+
+  font-size: 0.9rem;
+}

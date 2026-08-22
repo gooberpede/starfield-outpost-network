@@ -1,0 +1,470 @@
+[
+  {
+    "id": "aldumite",
+    "name": "Aldumite",
+    "shortName": "Ad",
+    "category": "inorganic"
+  },
+  {
+    "id": "alkanes",
+    "name": "Alkanes",
+    "shortName": "HnCn",
+    "category": "inorganic"
+  },
+  {
+    "id": "aluminium",
+    "name": "Aluminium",
+    "shortName": "Al",
+    "category": "inorganic"
+  },
+  {
+    "id": "antimony",
+    "name": "Antimony",
+    "shortName": "Sb",
+    "category": "inorganic"
+  },
+  {
+    "id": "argon",
+    "name": "Argon",
+    "shortName": "Ar",
+    "category": "inorganic"
+  },
+  {
+    "id": "benzene",
+    "name": "Benzene",
+    "shortName": "C6Hn",
+    "category": "inorganic"
+  },
+  {
+    "id": "beryllium",
+    "name": "Beryllium",
+    "shortName": "Be",
+    "category": "inorganic"
+  },
+  {
+    "id": "caesium",
+    "name": "Caesium",
+    "shortName": "Cs",
+    "category": "inorganic"
+  },
+  {
+    "id": "carboxylic-acids",
+    "name": "Carboxylic Acids",
+    "shortName": "R-COC",
+    "category": "inorganic"
+  },
+  {
+    "id": "chlorine",
+    "name": "Chlorine",
+    "shortName": "Cl",
+    "category": "inorganic"
+  },
+  {
+    "id": "chlorosilanes",
+    "name": "Chlorosilanes",
+    "shortName": "SiH3Cl",
+    "category": "inorganic"
+  },
+  {
+    "id": "cobalt",
+    "name": "Cobalt",
+    "shortName": "Co",
+    "category": "inorganic"
+  },
+  {
+    "id": "copper",
+    "name": "Copper",
+    "shortName": "Cu",
+    "category": "inorganic"
+  },
+  {
+    "id": "dysprosium",
+    "name": "Dysprosium",
+    "shortName": "Dy",
+    "category": "inorganic"
+  },
+  {
+    "id": "europium",
+    "name": "Europium",
+    "shortName": "Eu",
+    "category": "inorganic"
+  },
+  {
+    "id": "fluorine",
+    "name": "Fluorine",
+    "shortName": "F",
+    "category": "inorganic"
+  },
+  {
+    "id": "gold",
+    "name": "Gold",
+    "shortName": "Au",
+    "category": "inorganic"
+  },
+  {
+    "id": "helium-3",
+    "name": "Helium-3",
+    "shortName": "He-3",
+    "category": "inorganic"
+  },
+  {
+    "id": "indicite",
+    "name": "Indicite",
+    "shortName": "Ie",
+    "category": "inorganic"
+  },
+  {
+    "id": "ionic-liquids",
+    "name": "Ionic Liquids",
+    "shortName": "IL",
+    "category": "inorganic"
+  },
+  {
+    "id": "iridium",
+    "name": "Iridium",
+    "shortName": "Ir",
+    "category": "inorganic"
+  },
+  {
+    "id": "iron",
+    "name": "Iron",
+    "shortName": "Fe",
+    "category": "inorganic"
+  },
+  {
+    "id": "lead",
+    "name": "Lead",
+    "shortName": "Pb",
+    "category": "inorganic"
+  },
+  {
+    "id": "lithium",
+    "name": "Lithium",
+    "shortName": "Li",
+    "category": "inorganic"
+  },
+  {
+    "id": "mercury",
+    "name": "Mercury",
+    "shortName": "Hg",
+    "category": "inorganic"
+  },
+  {
+    "id": "neodymium",
+    "name": "Neodymium",
+    "shortName": "Nd",
+    "category": "inorganic"
+  },
+  {
+    "id": "neon",
+    "name": "Neon",
+    "shortName": "Ne",
+    "category": "inorganic"
+  },
+  {
+    "id": "nickel",
+    "name": "Nickel",
+    "shortName": "Ni",
+    "category": "inorganic"
+  },
+  {
+    "id": "palladium",
+    "name": "Palladium",
+    "shortName": "Pd",
+    "category": "inorganic"
+  },
+  {
+    "id": "platinum",
+    "name": "Platinum",
+    "shortName": "Pt",
+    "category": "inorganic"
+  },
+  {
+    "id": "plutonium",
+    "name": "Plutonium",
+    "shortName": "Pu",
+    "category": "inorganic"
+  },
+  {
+    "id": "rothicite",
+    "name": "Rothicite",
+    "shortName": "Rc",
+    "category": "inorganic"
+  },
+  {
+    "id": "silver",
+    "name": "Silver",
+    "shortName": "Ag",
+    "category": "inorganic"
+  },
+  {
+    "id": "tantalum",
+    "name": "Tantalum",
+    "shortName": "Ta",
+    "category": "inorganic"
+  },
+  {
+    "id": "tasine",
+    "name": "Tasine",
+    "shortName": "Tsn",
+    "category": "inorganic"
+  },
+  {
+    "id": "tetrafluorides",
+    "name": "Tetrafluorides",
+    "shortName": "xF4",
+    "category": "inorganic"
+  },
+  {
+    "id": "titanium",
+    "name": "Titanium",
+    "shortName": "Ti",
+    "category": "inorganic"
+  },
+  {
+    "id": "tungsten",
+    "name": "Tungsten",
+    "shortName": "W",
+    "category": "inorganic"
+  },
+  {
+    "id": "uranium",
+    "name": "Uranium",
+    "shortName": "U",
+    "category": "inorganic"
+  },
+  {
+    "id": "vanadium",
+    "name": "Vanadium",
+    "shortName": "V",
+    "category": "inorganic"
+  },
+  {
+    "id": "veryl",
+    "name": "Veryl",
+    "shortName": "Vr",
+    "category": "inorganic"
+  },
+  {
+    "id": "vytinium",
+    "name": "Vytinium",
+    "shortName": "Vy",
+    "category": "inorganic"
+  },
+  {
+    "id": "water",
+    "name": "Water",
+    "shortName": "H2O",
+    "category": "inorganic"
+  },
+  {
+    "id": "xenon",
+    "name": "Xenon",
+    "shortName": "Xe",
+    "category": "inorganic"
+  },
+  {
+    "id": "ytterbium",
+    "name": "Ytterbium",
+    "shortName": "Yb",
+    "category": "inorganic"
+  },
+  {
+    "id": "adhesive",
+    "name": "Adhesive",
+    "shortName": "Adh",
+    "category": "organic"
+  },
+  {
+    "id": "amino-acids",
+    "name": "Amino Acids",
+    "shortName": "AAc",
+    "category": "organic"
+  },
+  {
+    "id": "analgesic",
+    "name": "Analgesic",
+    "shortName": "Ana",
+    "category": "organic"
+  },
+  {
+    "id": "antimicrobial",
+    "name": "Antimicrobial",
+    "shortName": "AMb",
+    "category": "organic"
+  },
+  {
+    "id": "aromatic",
+    "name": "Aromatic",
+    "shortName": "Aro",
+    "category": "organic"
+  },
+  {
+    "id": "biosuppressant",
+    "name": "Biosuppressant",
+    "shortName": "Bio",
+    "category": "organic"
+  },
+  {
+    "id": "cosmetic",
+    "name": "Cosmetic",
+    "shortName": "Cos",
+    "category": "organic"
+  },
+  {
+    "id": "fiber",
+    "name": "Fiber",
+    "shortName": "Fib",
+    "category": "organic"
+  },
+  {
+    "id": "gastronomic-delight",
+    "name": "Gastronomic Delight",
+    "shortName": "GDl",
+    "category": "organic"
+  },
+  {
+    "id": "hallucinogen",
+    "name": "Hallucinogen",
+    "shortName": "Hal",
+    "category": "organic"
+  },
+  {
+    "id": "high-tensile-spidroin",
+    "name": "High-Tensile Spidroin",
+    "shortName": "HTS",
+    "category": "organic"
+  },
+  {
+    "id": "hypercatalyst",
+    "name": "Hypercatalyst",
+    "shortName": "Hyp",
+    "category": "organic"
+  },
+  {
+    "id": "immunostimulant",
+    "name": "Immunostimulant",
+    "shortName": "Imm",
+    "category": "organic"
+  },
+  {
+    "id": "lubricant",
+    "name": "Lubricant",
+    "shortName": "Lub",
+    "category": "organic"
+  },
+  {
+    "id": "luxury-textile",
+    "name": "Luxury Textile",
+    "shortName": "LTx",
+    "category": "organic"
+  },
+  {
+    "id": "membrane",
+    "name": "Membrane",
+    "shortName": "Mem",
+    "category": "organic"
+  },
+  {
+    "id": "memory-substrate",
+    "name": "Memory Substrate",
+    "shortName": "MSb",
+    "category": "organic"
+  },
+  {
+    "id": "metabolic-agent",
+    "name": "Metabolic Agent",
+    "shortName": "MAg",
+    "category": "organic"
+  },
+  {
+    "id": "neurologic",
+    "name": "Neurologic",
+    "shortName": "Neu",
+    "category": "organic"
+  },
+  {
+    "id": "none",
+    "name": "None",
+    "shortName": "Non",
+    "category": "organic"
+  },
+  {
+    "id": "nutrient",
+    "name": "Nutrient",
+    "shortName": "Nut",
+    "category": "organic"
+  },
+  {
+    "id": "ornamental",
+    "name": "Ornamental",
+    "shortName": "Orn",
+    "category": "organic"
+  },
+  {
+    "id": "pigment",
+    "name": "Pigment",
+    "shortName": "Pig",
+    "category": "organic"
+  },
+  {
+    "id": "polymer",
+    "name": "Polymer",
+    "shortName": "Pol",
+    "category": "organic"
+  },
+  {
+    "id": "sealant",
+    "name": "Sealant",
+    "shortName": "Sea",
+    "category": "organic"
+  },
+  {
+    "id": "sedative",
+    "name": "Sedative",
+    "shortName": "Sed",
+    "category": "organic"
+  },
+  {
+    "id": "solvent",
+    "name": "Solvent",
+    "shortName": "Slv",
+    "category": "organic"
+  },
+  {
+    "id": "spice",
+    "name": "Spice",
+    "shortName": "Spc",
+    "category": "organic"
+  },
+  {
+    "id": "stimulant",
+    "name": "Stimulant",
+    "shortName": "Stm",
+    "category": "organic"
+  },
+  {
+    "id": "structural",
+    "name": "Structural",
+    "shortName": "Str",
+    "category": "organic"
+  },
+  {
+    "id": "toxin",
+    "name": "Toxin",
+    "shortName": "Txn",
+    "category": "organic"
+  },
+  {
+    "id": "toxin-agent",
+    "name": "Toxin Agent",
+    "shortName": "TxA",
+    "category": "organic"
+  },
+  {
+    "id": "unique",
+    "name": "Unique",
+    "shortName": "Unq",
+    "category": "organic"
+  }
+]

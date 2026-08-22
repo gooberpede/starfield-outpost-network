@@ -1,0 +1,152 @@
+[
+  {
+    "id": "adaptive-frame",
+    "name": "Adaptive Frame",
+    "shortName": "AFr"
+  },
+  {
+    "id": "aldumite-drilling-rig",
+    "name": "Aldumite Drilling Rig",
+    "shortName": "ADR"
+  },
+  {
+    "id": "austenitic-manifold",
+    "name": "Austenitic Manifold",
+    "shortName": "AMn"
+  },
+  {
+    "id": "comm-relay",
+    "name": "Comm Relay",
+    "shortName": "CmR"
+  },
+  {
+    "id": "control-rod",
+    "name": "Control Rod",
+    "shortName": "CtR"
+  },
+  {
+    "id": "drilling-rig",
+    "name": "Drilling Rig",
+    "shortName": "DrR"
+  },
+  {
+    "id": "indicite-wafer",
+    "name": "Indicite Wafer",
+    "shortName": "IWf"
+  },
+  {
+    "id": "isocentered-magnet",
+    "name": "Isocentered Magnet",
+    "shortName": "IMg"
+  },
+  {
+    "id": "isotopic-coolant",
+    "name": "Isotopic Coolant",
+    "shortName": "ICl"
+  },
+  {
+    "id": "mag-pressure-tank",
+    "name": "Mag Pressure Tank",
+    "shortName": "MPT"
+  },
+  {
+    "id": "microsecond-regulator",
+    "name": "Microsecond Regulator",
+    "shortName": "MRg"
+  },
+  {
+    "id": "molecular-sieve",
+    "name": "Molecular Sieve",
+    "shortName": "MSv"
+  },
+  {
+    "id": "monopropellant",
+    "name": "Monopropellant",
+    "shortName": "MPr"
+  },
+  {
+    "id": "nuclear-fuel-rod",
+    "name": "Nuclear Fuel Rod",
+    "shortName": "NFR"
+  },
+  {
+    "id": "paramagnon-conductor",
+    "name": "Paramagnon Conductor",
+    "shortName": "PmC"
+  },
+  {
+    "id": "polytextile",
+    "name": "Polytextile",
+    "shortName": "PTx"
+  },
+  {
+    "id": "positron-battery",
+    "name": "Positron Battery",
+    "shortName": "PBt"
+  },
+  {
+    "id": "power-circuit",
+    "name": "Power Circuit",
+    "shortName": "PCt"
+  },
+  {
+    "id": "reactive-gauge",
+    "name": "Reactive Gauge",
+    "shortName": "RGa"
+  },
+  {
+    "id": "rothicite-magnet",
+    "name": "Rothicite Magnet",
+    "shortName": "RMg"
+  },
+  {
+    "id": "semimetal-wafer",
+    "name": "Semimetal Wafer",
+    "shortName": "SWf"
+  },
+  {
+    "id": "sterile-nanotubes",
+    "name": "Sterile Nanotubes",
+    "shortName": "SNt"
+  },
+  {
+    "id": "substrate-molecular-sieve",
+    "name": "Substrate Molecular Sieve",
+    "shortName": "SMS"
+  },
+  {
+    "id": "supercooled-magnet",
+    "name": "Supercooled Magnet",
+    "shortName": "SMg"
+  },
+  {
+    "id": "tasine-superconductor",
+    "name": "Tasine Superconductor",
+    "shortName": "TSu"
+  },
+  {
+    "id": "tau-grade-rheostat",
+    "name": "Tau Grade Rheostat",
+    "shortName": "TGR"
+  },
+  {
+    "id": "veryl-treated-manifold",
+    "name": "Veryl-Treated Manifold",
+    "shortName": "VTM"
+  },
+  {
+    "id": "vytinium-fuel-rod",
+    "name": "Vytinium Fuel Rod",
+    "shortName": "VFR"
+  },
+  {
+    "id": "zero-wire",
+    "name": "Zero Wire",
+    "shortName": "ZWr"
+  },
+  {
+    "id": "zero-g-gimbal",
+    "name": "Zero-G Gimbal",
+    "shortName": "ZGG"
+  }
+]

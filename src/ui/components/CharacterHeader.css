@@ -1,0 +1,49 @@
+/**
+ * CharacterHeader.css
+ *
+ * Purpose:
+ *   Lays out character-level information as a compact horizontal strip.
+ *
+ * Architecture:
+ *   This stylesheet controls only the internal presentation of
+ *   CharacterHeader. It does not determine where the header sits in the
+ *   overall application layout.
+ *
+ * Change this file when:
+ *   - spacing or field widths change;
+ *   - the character strip needs different wrapping behaviour;
+ *   - header actions are added;
+ *   - responsive behaviour is introduced.
+ */
+
+.character-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.character-header__title {
+  margin: 0;
+}
+
+.character-header__fields {
+  display: flex;
+  align-items: end;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.character-header__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.character-header__field input {
+  min-width: 140px;
+}
+
+.character-header__number {
+  width: 4rem;
+  min-width: 4rem;
+}

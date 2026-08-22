@@ -1,0 +1,8462 @@
+[
+  {
+    "id": "0005DEC9",
+    "systemId": "0",
+    "name": "Ariel"
+  },
+  {
+    "id": "0005DEBE",
+    "systemId": "0",
+    "name": "Callisto"
+  },
+  {
+    "id": "0005DED0",
+    "systemId": "0",
+    "name": "Charon"
+  },
+  {
+    "id": "0005DEB8",
+    "systemId": "0",
+    "name": "Deimos"
+  },
+  {
+    "id": "0005DEC3",
+    "systemId": "0",
+    "name": "Dione"
+  },
+  {
+    "id": "0005DEB5",
+    "systemId": "0",
+    "name": "Earth"
+  },
+  {
+    "id": "0005DEC1",
+    "systemId": "0",
+    "name": "Enceladus"
+  },
+  {
+    "id": "0005DEBC",
+    "systemId": "0",
+    "name": "Europa"
+  },
+  {
+    "id": "0005DEBD",
+    "systemId": "0",
+    "name": "Ganymede"
+  },
+  {
+    "id": "0005DEC6",
+    "systemId": "0",
+    "name": "Iapetus"
+  },
+  {
+    "id": "0005DEBB",
+    "systemId": "0",
+    "name": "Io"
+  },
+  {
+    "id": "0005DEBA",
+    "systemId": "0",
+    "name": "Jupiter"
+  },
+  {
+    "id": "0005DEB6",
+    "systemId": "0",
+    "name": "Luna"
+  },
+  {
+    "id": "0003F59A",
+    "systemId": "0",
+    "name": "Mars"
+  },
+  {
+    "id": "0005DEB2",
+    "systemId": "0",
+    "name": "Mercury"
+  },
+  {
+    "id": "0005DEC0",
+    "systemId": "0",
+    "name": "Mimas"
+  },
+  {
+    "id": "0005DEC8",
+    "systemId": "0",
+    "name": "Miranda"
+  },
+  {
+    "id": "0005DECD",
+    "systemId": "0",
+    "name": "Neptune"
+  },
+  {
+    "id": "0005DECC",
+    "systemId": "0",
+    "name": "Oberon"
+  },
+  {
+    "id": "0005DEB7",
+    "systemId": "0",
+    "name": "Phobos"
+  },
+  {
+    "id": "0005DECF",
+    "systemId": "0",
+    "name": "Pluto"
+  },
+  {
+    "id": "0005DEC4",
+    "systemId": "0",
+    "name": "Rhea"
+  },
+  {
+    "id": "0005DEBF",
+    "systemId": "0",
+    "name": "Saturn"
+  },
+  {
+    "id": "0005DEC2",
+    "systemId": "0",
+    "name": "Tethys"
+  },
+  {
+    "id": "0005DEC5",
+    "systemId": "0",
+    "name": "Titan"
+  },
+  {
+    "id": "0005DECB",
+    "systemId": "0",
+    "name": "Titania"
+  },
+  {
+    "id": "0005DECE",
+    "systemId": "0",
+    "name": "Triton"
+  },
+  {
+    "id": "0005DECA",
+    "systemId": "0",
+    "name": "Umbriel"
+  },
+  {
+    "id": "0005DEC7",
+    "systemId": "0",
+    "name": "Uranus"
+  },
+  {
+    "id": "0005DEB3",
+    "systemId": "0",
+    "name": "Venus"
+  },
+  {
+    "id": "0005E023",
+    "systemId": "103879",
+    "name": "Piazzi I"
+  },
+  {
+    "id": "0005E024",
+    "systemId": "103879",
+    "name": "Piazzi II"
+  },
+  {
+    "id": "0005E025",
+    "systemId": "103879",
+    "name": "Piazzi III"
+  },
+  {
+    "id": "0005E026",
+    "systemId": "103879",
+    "name": "Piazzi III-a"
+  },
+  {
+    "id": "0005E027",
+    "systemId": "103879",
+    "name": "Piazzi III-b"
+  },
+  {
+    "id": "0005E028",
+    "systemId": "103879",
+    "name": "Piazzi IV"
+  },
+  {
+    "id": "0005E02A",
+    "systemId": "103879",
+    "name": "Piazzi IV-a"
+  },
+  {
+    "id": "0005E02B",
+    "systemId": "103879",
+    "name": "Piazzi IV-b"
+  },
+  {
+    "id": "0005E029",
+    "systemId": "103879",
+    "name": "Piazzi IV-c"
+  },
+  {
+    "id": "0005E02C",
+    "systemId": "103879",
+    "name": "Piazzi V"
+  },
+  {
+    "id": "0005E02D",
+    "systemId": "103879",
+    "name": "Piazzi V-a"
+  },
+  {
+    "id": "0005E02E",
+    "systemId": "103879",
+    "name": "Piazzi V-b"
+  },
+  {
+    "id": "0005E02F",
+    "systemId": "103879",
+    "name": "Piazzi V-c"
+  },
+  {
+    "id": "0005E030",
+    "systemId": "103879",
+    "name": "Piazzi VI"
+  },
+  {
+    "id": "0005E032",
+    "systemId": "103879",
+    "name": "Piazzi VI-a"
+  },
+  {
+    "id": "0005E031",
+    "systemId": "103879",
+    "name": "Piazzi VI-b"
+  },
+  {
+    "id": "0005E033",
+    "systemId": "103879",
+    "name": "Piazzi VI-c"
+  },
+  {
+    "id": "0005E034",
+    "systemId": "103879",
+    "name": "Piazzi VII"
+  },
+  {
+    "id": "0005E035",
+    "systemId": "103879",
+    "name": "Piazzi VII-a"
+  },
+  {
+    "id": "0005E037",
+    "systemId": "103879",
+    "name": "Piazzi VII-b"
+  },
+  {
+    "id": "0005E036",
+    "systemId": "103879",
+    "name": "Piazzi VII-c"
+  },
+  {
+    "id": "0005E01C",
+    "systemId": "103883",
+    "name": "Bessel I"
+  },
+  {
+    "id": "0005E01D",
+    "systemId": "103883",
+    "name": "Bessel II"
+  },
+  {
+    "id": "0005E01E",
+    "systemId": "103883",
+    "name": "Bessel III"
+  },
+  {
+    "id": "0005E01F",
+    "systemId": "103883",
+    "name": "Bessel III-a"
+  },
+  {
+    "id": "0005E020",
+    "systemId": "103883",
+    "name": "Bessel III-b"
+  },
+  {
+    "id": "0005E4D6",
+    "systemId": "118021",
+    "name": "Carinae I"
+  },
+  {
+    "id": "0005E4D8",
+    "systemId": "118021",
+    "name": "Carinae II"
+  },
+  {
+    "id": "0005E4D7",
+    "systemId": "118021",
+    "name": "Carinae II-a"
+  },
+  {
+    "id": "0005E4D9",
+    "systemId": "118021",
+    "name": "Carinae III"
+  },
+  {
+    "id": "0005E4DA",
+    "systemId": "118021",
+    "name": "Carinae III-a"
+  },
+  {
+    "id": "0005E4DB",
+    "systemId": "118021",
+    "name": "Carinae III-b"
+  },
+  {
+    "id": "0005E4DD",
+    "systemId": "118021",
+    "name": "Carinae III-c"
+  },
+  {
+    "id": "0005E4DC",
+    "systemId": "118021",
+    "name": "Carinae III-d"
+  },
+  {
+    "id": "0005E4DE",
+    "systemId": "118021",
+    "name": "Carinae IV"
+  },
+  {
+    "id": "0005E4DF",
+    "systemId": "118021",
+    "name": "Carinae IV-a"
+  },
+  {
+    "id": "0005E4E0",
+    "systemId": "118021",
+    "name": "Carinae V"
+  },
+  {
+    "id": "0005E4E2",
+    "systemId": "118021",
+    "name": "Carinae V-a"
+  },
+  {
+    "id": "0005E4E3",
+    "systemId": "118021",
+    "name": "Carinae V-b"
+  },
+  {
+    "id": "0005E4E1",
+    "systemId": "118021",
+    "name": "Carinae V-c"
+  },
+  {
+    "id": "0021E060",
+    "systemId": "118493",
+    "name": "Procyon-B I"
+  },
+  {
+    "id": "00290FC8",
+    "systemId": "118720",
+    "name": "Chthonia"
+  },
+  {
+    "id": "00290FC7",
+    "systemId": "118720",
+    "name": "Etherea"
+  },
+  {
+    "id": "00290FC6",
+    "systemId": "118720",
+    "name": "Pontem"
+  },
+  {
+    "id": "0005E4BD",
+    "systemId": "118742",
+    "name": "Ursa Major I"
+  },
+  {
+    "id": "0005E4BE",
+    "systemId": "118742",
+    "name": "Ursa Major I-a"
+  },
+  {
+    "id": "0005E4BF",
+    "systemId": "118742",
+    "name": "Ursa Major I-b"
+  },
+  {
+    "id": "0005E4C0",
+    "systemId": "118742",
+    "name": "Ursa Major I-c"
+  },
+  {
+    "id": "0005E4C1",
+    "systemId": "118742",
+    "name": "Ursa Major II"
+  },
+  {
+    "id": "0005E4C2",
+    "systemId": "118742",
+    "name": "Ursa Major III"
+  },
+  {
+    "id": "0005E473",
+    "systemId": "118771",
+    "name": "Tirna B"
+  },
+  {
+    "id": "0005E547",
+    "systemId": "118818",
+    "name": "Bolivar I"
+  },
+  {
+    "id": "0005E539",
+    "systemId": "118819",
+    "name": "Rivera I"
+  },
+  {
+    "id": "0005E53A",
+    "systemId": "118819",
+    "name": "Rivera I-a"
+  },
+  {
+    "id": "0005E53B",
+    "systemId": "118819",
+    "name": "Rivera II"
+  },
+  {
+    "id": "0005E53C",
+    "systemId": "118819",
+    "name": "Rivera II-a"
+  },
+  {
+    "id": "0005E53D",
+    "systemId": "118819",
+    "name": "Rivera II-b"
+  },
+  {
+    "id": "0005E53E",
+    "systemId": "118819",
+    "name": "Rivera II-c"
+  },
+  {
+    "id": "0005E53F",
+    "systemId": "118819",
+    "name": "Rivera III"
+  },
+  {
+    "id": "0005E540",
+    "systemId": "118819",
+    "name": "Rivera IV"
+  },
+  {
+    "id": "0005E541",
+    "systemId": "118819",
+    "name": "Rivera IV-a"
+  },
+  {
+    "id": "0005E542",
+    "systemId": "118819",
+    "name": "Rivera V"
+  },
+  {
+    "id": "0005E543",
+    "systemId": "118819",
+    "name": "Rivera V-a"
+  },
+  {
+    "id": "0005E333",
+    "systemId": "118959",
+    "name": "Bannoc Secondus I"
+  },
+  {
+    "id": "0005E2A3",
+    "systemId": "118988",
+    "name": "Maheo I"
+  },
+  {
+    "id": "0005E2A4",
+    "systemId": "118988",
+    "name": "Maheo II"
+  },
+  {
+    "id": "0005E2A5",
+    "systemId": "118988",
+    "name": "Maheo III"
+  },
+  {
+    "id": "0005E2A6",
+    "systemId": "118988",
+    "name": "Maheo III-a"
+  },
+  {
+    "id": "0005E2A7",
+    "systemId": "118988",
+    "name": "Maheo III-b"
+  },
+  {
+    "id": "0005E2A8",
+    "systemId": "118988",
+    "name": "Maheo IV"
+  },
+  {
+    "id": "0005E2AA",
+    "systemId": "118988",
+    "name": "Maheo IV-a"
+  },
+  {
+    "id": "0005E2AC",
+    "systemId": "118988",
+    "name": "Maheo IV-b"
+  },
+  {
+    "id": "0005E2A9",
+    "systemId": "118988",
+    "name": "Maheo IV-c"
+  },
+  {
+    "id": "0005E2AB",
+    "systemId": "118988",
+    "name": "Maheo IV-d"
+  },
+  {
+    "id": "0005E2AD",
+    "systemId": "118988",
+    "name": "Maheo V"
+  },
+  {
+    "id": "0005E2AE",
+    "systemId": "118988",
+    "name": "Maheo V-a"
+  },
+  {
+    "id": "0005E2AF",
+    "systemId": "118988",
+    "name": "Maheo VI"
+  },
+  {
+    "id": "0005E2B0",
+    "systemId": "118988",
+    "name": "Maheo VI-a"
+  },
+  {
+    "id": "0005E2B1",
+    "systemId": "118988",
+    "name": "Maheo VII"
+  },
+  {
+    "id": "0005E2B2",
+    "systemId": "118988",
+    "name": "Maheo VII-a"
+  },
+  {
+    "id": "0005E250",
+    "systemId": "119039",
+    "name": "Copernicus Minor I"
+  },
+  {
+    "id": "0005E252",
+    "systemId": "119039",
+    "name": "Copernicus Minor I-a"
+  },
+  {
+    "id": "0005E251",
+    "systemId": "119039",
+    "name": "Copernicus Minor I-b"
+  },
+  {
+    "id": "0005DEFA",
+    "systemId": "119059",
+    "name": "Proxima Ternion I"
+  },
+  {
+    "id": "0005DEFC",
+    "systemId": "119059",
+    "name": "Proxima Ternion I-a"
+  },
+  {
+    "id": "0005DEFD",
+    "systemId": "119059",
+    "name": "Proxima Ternion I-b"
+  },
+  {
+    "id": "0005DEFB",
+    "systemId": "119059",
+    "name": "Proxima Ternion I-c"
+  },
+  {
+    "id": "0005DEFE",
+    "systemId": "119059",
+    "name": "Proxima Ternion II"
+  },
+  {
+    "id": "0005DEFF",
+    "systemId": "119059",
+    "name": "Proxima Ternion III"
+  },
+  {
+    "id": "0005DF00",
+    "systemId": "119059",
+    "name": "Proxima Ternion IV"
+  },
+  {
+    "id": "0005DF01",
+    "systemId": "119059",
+    "name": "Proxima Ternion IV-a"
+  },
+  {
+    "id": "0005DEE7",
+    "systemId": "119060",
+    "name": "Ternion I"
+  },
+  {
+    "id": "0005DEE8",
+    "systemId": "119060",
+    "name": "Ternion II"
+  },
+  {
+    "id": "0005DEE9",
+    "systemId": "119060",
+    "name": "Ternion III"
+  },
+  {
+    "id": "0005DEEA",
+    "systemId": "119060",
+    "name": "Ternion III-a"
+  },
+  {
+    "id": "0005DEEB",
+    "systemId": "119060",
+    "name": "Ternion IV"
+  },
+  {
+    "id": "0005DEF3",
+    "systemId": "119060",
+    "name": "Ternion IX"
+  },
+  {
+    "id": "0005DEF5",
+    "systemId": "119060",
+    "name": "Ternion IX-a"
+  },
+  {
+    "id": "0005DEF6",
+    "systemId": "119060",
+    "name": "Ternion IX-b"
+  },
+  {
+    "id": "0005DEF7",
+    "systemId": "119060",
+    "name": "Ternion IX-c"
+  },
+  {
+    "id": "0005DEF4",
+    "systemId": "119060",
+    "name": "Ternion IX-d"
+  },
+  {
+    "id": "0005DEEC",
+    "systemId": "119060",
+    "name": "Ternion V"
+  },
+  {
+    "id": "0005DEED",
+    "systemId": "119060",
+    "name": "Ternion V-a"
+  },
+  {
+    "id": "0005DEEE",
+    "systemId": "119060",
+    "name": "Ternion V-b"
+  },
+  {
+    "id": "0005DEEF",
+    "systemId": "119060",
+    "name": "Ternion VI"
+  },
+  {
+    "id": "0005DEF0",
+    "systemId": "119060",
+    "name": "Ternion VI-a"
+  },
+  {
+    "id": "0005DEF1",
+    "systemId": "119060",
+    "name": "Ternion VII"
+  },
+  {
+    "id": "0005DEF2",
+    "systemId": "119060",
+    "name": "Ternion VIII"
+  },
+  {
+    "id": "0005DF74",
+    "systemId": "119105",
+    "name": "Decaran I"
+  },
+  {
+    "id": "0005DF75",
+    "systemId": "119105",
+    "name": "Decaran II"
+  },
+  {
+    "id": "0005DF76",
+    "systemId": "119105",
+    "name": "Decaran III"
+  },
+  {
+    "id": "0005DF77",
+    "systemId": "119105",
+    "name": "Decaran IV"
+  },
+  {
+    "id": "0005DF83",
+    "systemId": "119105",
+    "name": "Decaran IX"
+  },
+  {
+    "id": "0005DF78",
+    "systemId": "119105",
+    "name": "Decaran V"
+  },
+  {
+    "id": "0005DF79",
+    "systemId": "119105",
+    "name": "Decaran V-a"
+  },
+  {
+    "id": "0005DF7A",
+    "systemId": "119105",
+    "name": "Decaran V-b"
+  },
+  {
+    "id": "0005DF7B",
+    "systemId": "119105",
+    "name": "Decaran VI"
+  },
+  {
+    "id": "0005DF7C",
+    "systemId": "119105",
+    "name": "Decaran VI-a"
+  },
+  {
+    "id": "0005DF7D",
+    "systemId": "119105",
+    "name": "Decaran VII"
+  },
+  {
+    "id": "0005DF7E",
+    "systemId": "119105",
+    "name": "Decaran VII-a"
+  },
+  {
+    "id": "0005DF7F",
+    "systemId": "119105",
+    "name": "Decaran VII-b"
+  },
+  {
+    "id": "0005DF80",
+    "systemId": "119105",
+    "name": "Decaran VIII"
+  },
+  {
+    "id": "0005DF81",
+    "systemId": "119105",
+    "name": "Decaran VIII-a"
+  },
+  {
+    "id": "0005DF82",
+    "systemId": "119105",
+    "name": "Decaran VIII-b"
+  },
+  {
+    "id": "0005E1F3",
+    "systemId": "119106",
+    "name": "McClure I"
+  },
+  {
+    "id": "0005E1F4",
+    "systemId": "119106",
+    "name": "McClure I-a"
+  },
+  {
+    "id": "0005E1F5",
+    "systemId": "119106",
+    "name": "McClure II"
+  },
+  {
+    "id": "0005E1F7",
+    "systemId": "119106",
+    "name": "McClure II-a"
+  },
+  {
+    "id": "0005E1F6",
+    "systemId": "119106",
+    "name": "McClure II-b"
+  },
+  {
+    "id": "0005E1F9",
+    "systemId": "119106",
+    "name": "McClure II-c"
+  },
+  {
+    "id": "0005E1FA",
+    "systemId": "119106",
+    "name": "McClure III"
+  },
+  {
+    "id": "0005E190",
+    "systemId": "119135",
+    "name": "Indum I"
+  },
+  {
+    "id": "0005E191",
+    "systemId": "119135",
+    "name": "Indum I-a"
+  },
+  {
+    "id": "0005E192",
+    "systemId": "119135",
+    "name": "Indum II"
+  },
+  {
+    "id": "0005E194",
+    "systemId": "119135",
+    "name": "Indum III"
+  },
+  {
+    "id": "0005E196",
+    "systemId": "119135",
+    "name": "Indum III-a"
+  },
+  {
+    "id": "0005E198",
+    "systemId": "119135",
+    "name": "Indum III-b"
+  },
+  {
+    "id": "0005E197",
+    "systemId": "119135",
+    "name": "Indum III-c"
+  },
+  {
+    "id": "0005E195",
+    "systemId": "119135",
+    "name": "Indum III-d"
+  },
+  {
+    "id": "0005E199",
+    "systemId": "119135",
+    "name": "Indum IV"
+  },
+  {
+    "id": "0005E19D",
+    "systemId": "119135",
+    "name": "Indum IV-a"
+  },
+  {
+    "id": "0005E19B",
+    "systemId": "119135",
+    "name": "Indum IV-b"
+  },
+  {
+    "id": "0005E19C",
+    "systemId": "119135",
+    "name": "Indum IV-c"
+  },
+  {
+    "id": "0005E19A",
+    "systemId": "119135",
+    "name": "Indum IV-d"
+  },
+  {
+    "id": "0005E19E",
+    "systemId": "119135",
+    "name": "Indum V"
+  },
+  {
+    "id": "0005E19F",
+    "systemId": "119135",
+    "name": "Indum V-a"
+  },
+  {
+    "id": "0005E17F",
+    "systemId": "119144",
+    "name": "Oborum Proxima I"
+  },
+  {
+    "id": "0005E151",
+    "systemId": "119147",
+    "name": "Zeta Ophiuchi I"
+  },
+  {
+    "id": "0005E152",
+    "systemId": "119147",
+    "name": "Zeta Ophiuchi II"
+  },
+  {
+    "id": "0005E153",
+    "systemId": "119147",
+    "name": "Zeta Ophiuchi III"
+  },
+  {
+    "id": "0005E154",
+    "systemId": "119147",
+    "name": "Zeta Ophiuchi III-a"
+  },
+  {
+    "id": "0005E155",
+    "systemId": "119147",
+    "name": "Zeta Ophiuchi IV"
+  },
+  {
+    "id": "0005E158",
+    "systemId": "119147",
+    "name": "Zeta Ophiuchi IV-a"
+  },
+  {
+    "id": "0005E159",
+    "systemId": "119147",
+    "name": "Zeta Ophiuchi IV-b"
+  },
+  {
+    "id": "0005E157",
+    "systemId": "119147",
+    "name": "Zeta Ophiuchi IV-c"
+  },
+  {
+    "id": "0005E15A",
+    "systemId": "119147",
+    "name": "Zeta Ophiuchi IV-d"
+  },
+  {
+    "id": "0005E156",
+    "systemId": "119147",
+    "name": "Zeta Ophiuchi IV-e"
+  },
+  {
+    "id": "0005E15B",
+    "systemId": "119147",
+    "name": "Zeta Ophiuchi V"
+  },
+  {
+    "id": "0005E15D",
+    "systemId": "119147",
+    "name": "Zeta Ophiuchi V-a"
+  },
+  {
+    "id": "0005E15C",
+    "systemId": "119147",
+    "name": "Zeta Ophiuchi V-b"
+  },
+  {
+    "id": "0005E15E",
+    "systemId": "119147",
+    "name": "Zeta Ophiuchi VI"
+  },
+  {
+    "id": "0005E15F",
+    "systemId": "119147",
+    "name": "Zeta Ophiuchi VI-a"
+  },
+  {
+    "id": "0005E163",
+    "systemId": "119147",
+    "name": "Zeta Ophiuchi VI-b"
+  },
+  {
+    "id": "0005E162",
+    "systemId": "119147",
+    "name": "Zeta Ophiuchi VI-c"
+  },
+  {
+    "id": "0005E161",
+    "systemId": "119147",
+    "name": "Zeta Ophiuchi VI-d"
+  },
+  {
+    "id": "0005E160",
+    "systemId": "119147",
+    "name": "Zeta Ophiuchi VI-e"
+  },
+  {
+    "id": "0005E10C",
+    "systemId": "119159",
+    "name": "Beta Marae I"
+  },
+  {
+    "id": "0005E10D",
+    "systemId": "119159",
+    "name": "Beta Marae I-a"
+  },
+  {
+    "id": "0005E10E",
+    "systemId": "119159",
+    "name": "Beta Marae II"
+  },
+  {
+    "id": "0005E10F",
+    "systemId": "119159",
+    "name": "Beta Marae II-a"
+  },
+  {
+    "id": "0005E110",
+    "systemId": "119159",
+    "name": "Beta Marae II-b"
+  },
+  {
+    "id": "0005E111",
+    "systemId": "119159",
+    "name": "Beta Marae III"
+  },
+  {
+    "id": "0005E112",
+    "systemId": "119159",
+    "name": "Beta Marae III-a"
+  },
+  {
+    "id": "0005E113",
+    "systemId": "119159",
+    "name": "Beta Marae IV"
+  },
+  {
+    "id": "0005E117",
+    "systemId": "119159",
+    "name": "Beta Marae IV-a"
+  },
+  {
+    "id": "0005E116",
+    "systemId": "119159",
+    "name": "Beta Marae IV-b"
+  },
+  {
+    "id": "0005E115",
+    "systemId": "119159",
+    "name": "Beta Marae IV-c"
+  },
+  {
+    "id": "0005E114",
+    "systemId": "119159",
+    "name": "Beta Marae IV-d"
+  },
+  {
+    "id": "0005E118",
+    "systemId": "119159",
+    "name": "Beta Marae V"
+  },
+  {
+    "id": "0005E11B",
+    "systemId": "119159",
+    "name": "Beta Marae V-a"
+  },
+  {
+    "id": "0005E119",
+    "systemId": "119159",
+    "name": "Beta Marae V-b"
+  },
+  {
+    "id": "0005E11C",
+    "systemId": "119159",
+    "name": "Beta Marae V-c"
+  },
+  {
+    "id": "0005E11A",
+    "systemId": "119159",
+    "name": "Beta Marae V-d"
+  },
+  {
+    "id": "0005E11D",
+    "systemId": "119159",
+    "name": "Beta Marae VI"
+  },
+  {
+    "id": "0005E120",
+    "systemId": "119159",
+    "name": "Beta Marae VI-a"
+  },
+  {
+    "id": "0005E11F",
+    "systemId": "119159",
+    "name": "Beta Marae VI-b"
+  },
+  {
+    "id": "0005E11E",
+    "systemId": "119159",
+    "name": "Beta Marae VI-c"
+  },
+  {
+    "id": "0005E54B",
+    "systemId": "119198",
+    "name": "Cantra"
+  },
+  {
+    "id": "0005E550",
+    "systemId": "119198",
+    "name": "Golga"
+  },
+  {
+    "id": "0005E54D",
+    "systemId": "119198",
+    "name": "Hillex"
+  },
+  {
+    "id": "0005E551",
+    "systemId": "119198",
+    "name": "Kindi"
+  },
+  {
+    "id": "0005E54E",
+    "systemId": "119198",
+    "name": "Lumos"
+  },
+  {
+    "id": "0005E54A",
+    "systemId": "119198",
+    "name": "Miatha"
+  },
+  {
+    "id": "0003F59C",
+    "systemId": "119198",
+    "name": "Navacci"
+  },
+  {
+    "id": "0003F59B",
+    "systemId": "119198",
+    "name": "Polvo"
+  },
+  {
+    "id": "0005E54C",
+    "systemId": "119198",
+    "name": "Prax"
+  },
+  {
+    "id": "0005E54F",
+    "systemId": "119198",
+    "name": "Shorun"
+  },
+  {
+    "id": "0005E552",
+    "systemId": "119198",
+    "name": "Virum"
+  },
+  {
+    "id": "0005DF5F",
+    "systemId": "119217",
+    "name": "Nikola I"
+  },
+  {
+    "id": "0005DF60",
+    "systemId": "119217",
+    "name": "Nikola II"
+  },
+  {
+    "id": "0005DF61",
+    "systemId": "119217",
+    "name": "Nikola II-a"
+  },
+  {
+    "id": "0005DF62",
+    "systemId": "119217",
+    "name": "Nikola III"
+  },
+  {
+    "id": "0005DF63",
+    "systemId": "119217",
+    "name": "Nikola III-a"
+  },
+  {
+    "id": "0005DF64",
+    "systemId": "119217",
+    "name": "Nikola III-b"
+  },
+  {
+    "id": "0005DF65",
+    "systemId": "119217",
+    "name": "Nikola IV"
+  },
+  {
+    "id": "0005DF66",
+    "systemId": "119217",
+    "name": "Nikola IV-a"
+  },
+  {
+    "id": "0005DF6F",
+    "systemId": "119217",
+    "name": "Nikola IX"
+  },
+  {
+    "id": "0005DF67",
+    "systemId": "119217",
+    "name": "Nikola V"
+  },
+  {
+    "id": "0005DF68",
+    "systemId": "119217",
+    "name": "Nikola VI"
+  },
+  {
+    "id": "0005DF69",
+    "systemId": "119217",
+    "name": "Nikola VI-a"
+  },
+  {
+    "id": "0005DF6A",
+    "systemId": "119217",
+    "name": "Nikola VI-b"
+  },
+  {
+    "id": "0005DF6B",
+    "systemId": "119217",
+    "name": "Nikola VII"
+  },
+  {
+    "id": "0005DF6C",
+    "systemId": "119217",
+    "name": "Nikola VII-a"
+  },
+  {
+    "id": "0005DF6D",
+    "systemId": "119217",
+    "name": "Nikola VIII"
+  },
+  {
+    "id": "0005DF6E",
+    "systemId": "119217",
+    "name": "Nikola VIII-a"
+  },
+  {
+    "id": "0005DF70",
+    "systemId": "119217",
+    "name": "Nikola X"
+  },
+  {
+    "id": "0005DF71",
+    "systemId": "119217",
+    "name": "Nikola X-a"
+  },
+  {
+    "id": "0005E182",
+    "systemId": "119220",
+    "name": "Oborum I"
+  },
+  {
+    "id": "0005E183",
+    "systemId": "119220",
+    "name": "Oborum II"
+  },
+  {
+    "id": "0005E184",
+    "systemId": "119220",
+    "name": "Oborum II-a"
+  },
+  {
+    "id": "0005E18D",
+    "systemId": "119220",
+    "name": "Oborum II-b"
+  },
+  {
+    "id": "0005E186",
+    "systemId": "119220",
+    "name": "Oborum III"
+  },
+  {
+    "id": "0005E187",
+    "systemId": "119220",
+    "name": "Oborum III-a"
+  },
+  {
+    "id": "0005E189",
+    "systemId": "119220",
+    "name": "Oborum III-b"
+  },
+  {
+    "id": "0005E188",
+    "systemId": "119220",
+    "name": "Oborum III-c"
+  },
+  {
+    "id": "0005E18A",
+    "systemId": "119220",
+    "name": "Oborum III-d"
+  },
+  {
+    "id": "0005E18B",
+    "systemId": "119220",
+    "name": "Oborum IV"
+  },
+  {
+    "id": "0005E33C",
+    "systemId": "119221",
+    "name": "Beta Andraste I"
+  },
+  {
+    "id": "0005E340",
+    "systemId": "119221",
+    "name": "Beta Andraste I-a"
+  },
+  {
+    "id": "0005E33D",
+    "systemId": "119221",
+    "name": "Beta Andraste I-b"
+  },
+  {
+    "id": "0005E33E",
+    "systemId": "119221",
+    "name": "Beta Andraste I-c"
+  },
+  {
+    "id": "0005E33F",
+    "systemId": "119221",
+    "name": "Beta Andraste I-d"
+  },
+  {
+    "id": "0005E4B5",
+    "systemId": "119222",
+    "name": "Ursa Minor I"
+  },
+  {
+    "id": "0005E4B6",
+    "systemId": "119222",
+    "name": "Ursa Minor I-a"
+  },
+  {
+    "id": "0005E4B7",
+    "systemId": "119222",
+    "name": "Ursa Minor I-b"
+  },
+  {
+    "id": "0005E4B8",
+    "systemId": "119222",
+    "name": "Ursa Minor II"
+  },
+  {
+    "id": "0005E4B9",
+    "systemId": "119222",
+    "name": "Ursa Minor II-a"
+  },
+  {
+    "id": "0005E4BA",
+    "systemId": "119222",
+    "name": "Ursa Minor III"
+  },
+  {
+    "id": "0005E586",
+    "systemId": "119223",
+    "name": "Toliman I"
+  },
+  {
+    "id": "0005E587",
+    "systemId": "119223",
+    "name": "Toliman II"
+  },
+  {
+    "id": "0005E589",
+    "systemId": "119223",
+    "name": "Toliman II-a"
+  },
+  {
+    "id": "0005E588",
+    "systemId": "119223",
+    "name": "Toliman II-b"
+  },
+  {
+    "id": "0005E58A",
+    "systemId": "119223",
+    "name": "Toliman II-c"
+  },
+  {
+    "id": "0021E061",
+    "systemId": "119224",
+    "name": "Pup I"
+  },
+  {
+    "id": "0005DF04",
+    "systemId": "119225",
+    "name": "Beta Ternion I"
+  },
+  {
+    "id": "0005DF05",
+    "systemId": "119225",
+    "name": "Beta Ternion I-a"
+  },
+  {
+    "id": "0005DF06",
+    "systemId": "119225",
+    "name": "Beta Ternion II"
+  },
+  {
+    "id": "0005DF07",
+    "systemId": "119225",
+    "name": "Beta Ternion III"
+  },
+  {
+    "id": "0005DF08",
+    "systemId": "119225",
+    "name": "Beta Ternion III-a"
+  },
+  {
+    "id": "0005E509",
+    "systemId": "15471",
+    "name": "Eridani I"
+  },
+  {
+    "id": "0005E50A",
+    "systemId": "15471",
+    "name": "Eridani II"
+  },
+  {
+    "id": "0005E50B",
+    "systemId": "15471",
+    "name": "Eridani III"
+  },
+  {
+    "id": "0005E50E",
+    "systemId": "15471",
+    "name": "Eridani III-a"
+  },
+  {
+    "id": "0005E50C",
+    "systemId": "15471",
+    "name": "Eridani III-b"
+  },
+  {
+    "id": "0005E50D",
+    "systemId": "15471",
+    "name": "Eridani III-c"
+  },
+  {
+    "id": "0005E50F",
+    "systemId": "15471",
+    "name": "Eridani IV"
+  },
+  {
+    "id": "0005E510",
+    "systemId": "15471",
+    "name": "Eridani IV-a"
+  },
+  {
+    "id": "0005E511",
+    "systemId": "15471",
+    "name": "Eridani IV-b"
+  },
+  {
+    "id": "0005E512",
+    "systemId": "15471",
+    "name": "Eridani IV-c"
+  },
+  {
+    "id": "0005E51F",
+    "systemId": "15471",
+    "name": "Eridani IX"
+  },
+  {
+    "id": "0005E513",
+    "systemId": "15471",
+    "name": "Eridani V"
+  },
+  {
+    "id": "0005E514",
+    "systemId": "15471",
+    "name": "Eridani VI"
+  },
+  {
+    "id": "0005E515",
+    "systemId": "15471",
+    "name": "Eridani VI-a"
+  },
+  {
+    "id": "0005E516",
+    "systemId": "15471",
+    "name": "Eridani VII"
+  },
+  {
+    "id": "0005E518",
+    "systemId": "15471",
+    "name": "Eridani VII-a"
+  },
+  {
+    "id": "0005E519",
+    "systemId": "15471",
+    "name": "Eridani VII-b"
+  },
+  {
+    "id": "0005E517",
+    "systemId": "15471",
+    "name": "Eridani VII-c"
+  },
+  {
+    "id": "0005E51A",
+    "systemId": "15471",
+    "name": "Eridani VIII"
+  },
+  {
+    "id": "0005E51D",
+    "systemId": "15471",
+    "name": "Eridani VIII-a"
+  },
+  {
+    "id": "0005E51E",
+    "systemId": "15471",
+    "name": "Eridani VIII-b"
+  },
+  {
+    "id": "0005E51B",
+    "systemId": "15471",
+    "name": "Eridani VIII-c"
+  },
+  {
+    "id": "0005E51C",
+    "systemId": "15471",
+    "name": "Eridani VIII-d"
+  },
+  {
+    "id": "002C88FA",
+    "systemId": "24129",
+    "name": "Kapteyn I"
+  },
+  {
+    "id": "002C890A",
+    "systemId": "24129",
+    "name": "Kapteyn II"
+  },
+  {
+    "id": "0005E590",
+    "systemId": "32263",
+    "name": "Sirius I"
+  },
+  {
+    "id": "0005E591",
+    "systemId": "32263",
+    "name": "Sirius II"
+  },
+  {
+    "id": "0005E592",
+    "systemId": "32263",
+    "name": "Sirius II-a"
+  },
+  {
+    "id": "0005E593",
+    "systemId": "32263",
+    "name": "Sirius III"
+  },
+  {
+    "id": "0005E595",
+    "systemId": "32263",
+    "name": "Sirius III-a"
+  },
+  {
+    "id": "0005E594",
+    "systemId": "32263",
+    "name": "Sirius III-b"
+  },
+  {
+    "id": "0005E504",
+    "systemId": "36107",
+    "name": "Luyten's Rock"
+  },
+  {
+    "id": "0005E4F3",
+    "systemId": "37173",
+    "name": "Procyon I"
+  },
+  {
+    "id": "0005E4F4",
+    "systemId": "37173",
+    "name": "Procyon I-a"
+  },
+  {
+    "id": "0005E4F5",
+    "systemId": "37173",
+    "name": "Procyon II"
+  },
+  {
+    "id": "0005E4F6",
+    "systemId": "37173",
+    "name": "Procyon III"
+  },
+  {
+    "id": "0005E4F7",
+    "systemId": "37173",
+    "name": "Procyon III-a"
+  },
+  {
+    "id": "0005E4F8",
+    "systemId": "37173",
+    "name": "Procyon IV"
+  },
+  {
+    "id": "0005E4F9",
+    "systemId": "37173",
+    "name": "Procyon IV-a"
+  },
+  {
+    "id": "0005E4FA",
+    "systemId": "37173",
+    "name": "Procyon V"
+  },
+  {
+    "id": "0005E4FD",
+    "systemId": "37173",
+    "name": "Procyon V-a"
+  },
+  {
+    "id": "0005E4FC",
+    "systemId": "37173",
+    "name": "Procyon V-b"
+  },
+  {
+    "id": "0005E4FB",
+    "systemId": "37173",
+    "name": "Procyon V-c"
+  },
+  {
+    "id": "0005E4FE",
+    "systemId": "37173",
+    "name": "Procyon VI"
+  },
+  {
+    "id": "0005E501",
+    "systemId": "37173",
+    "name": "Procyon VI-a"
+  },
+  {
+    "id": "0005E4FF",
+    "systemId": "37173",
+    "name": "Procyon VI-b"
+  },
+  {
+    "id": "0005E500",
+    "systemId": "37173",
+    "name": "Procyon VI-c"
+  },
+  {
+    "id": "0005E4E6",
+    "systemId": "3814",
+    "name": "Cassiopeia I"
+  },
+  {
+    "id": "0005E4E7",
+    "systemId": "3814",
+    "name": "Cassiopeia II"
+  },
+  {
+    "id": "0005E4E8",
+    "systemId": "3814",
+    "name": "Cassiopeia II-a"
+  },
+  {
+    "id": "0005E4E9",
+    "systemId": "3814",
+    "name": "Cassiopeia III"
+  },
+  {
+    "id": "0005E4EA",
+    "systemId": "3814",
+    "name": "Cassiopeia III-a"
+  },
+  {
+    "id": "0005E4EB",
+    "systemId": "3814",
+    "name": "Cassiopeia IV"
+  },
+  {
+    "id": "0005E4ED",
+    "systemId": "3814",
+    "name": "Cassiopeia IV-a"
+  },
+  {
+    "id": "0005E4EC",
+    "systemId": "3814",
+    "name": "Cassiopeia IV-b"
+  },
+  {
+    "id": "0005E4EE",
+    "systemId": "3814",
+    "name": "Cassiopeia IV-c"
+  },
+  {
+    "id": "0021E05F",
+    "systemId": "3820",
+    "name": "Van Maanen I"
+  },
+  {
+    "id": "0005E342",
+    "systemId": "5325",
+    "name": "Alpha Andraste I"
+  },
+  {
+    "id": "0005E343",
+    "systemId": "5325",
+    "name": "Alpha Andraste I-a"
+  },
+  {
+    "id": "0005E344",
+    "systemId": "5325",
+    "name": "Alpha Andraste II"
+  },
+  {
+    "id": "0005E345",
+    "systemId": "5325",
+    "name": "Alpha Andraste III"
+  },
+  {
+    "id": "0005E346",
+    "systemId": "5325",
+    "name": "Alpha Andraste IV"
+  },
+  {
+    "id": "0005E347",
+    "systemId": "5325",
+    "name": "Alpha Andraste V"
+  },
+  {
+    "id": "0005E348",
+    "systemId": "5325",
+    "name": "Alpha Andraste VI"
+  },
+  {
+    "id": "0005E4C5",
+    "systemId": "54712",
+    "name": "Zosma I"
+  },
+  {
+    "id": "0005E4C6",
+    "systemId": "54712",
+    "name": "Zosma I-a"
+  },
+  {
+    "id": "0005E4C7",
+    "systemId": "54712",
+    "name": "Zosma II"
+  },
+  {
+    "id": "0005E4C8",
+    "systemId": "54712",
+    "name": "Zosma III"
+  },
+  {
+    "id": "0005E4C9",
+    "systemId": "54712",
+    "name": "Zosma III-a"
+  },
+  {
+    "id": "0005E4CA",
+    "systemId": "54712",
+    "name": "Zosma IV"
+  },
+  {
+    "id": "0005E4CD",
+    "systemId": "54712",
+    "name": "Zosma IV-a"
+  },
+  {
+    "id": "0005E4CC",
+    "systemId": "54712",
+    "name": "Zosma IV-b"
+  },
+  {
+    "id": "0005E4CB",
+    "systemId": "54712",
+    "name": "Zosma IV-c"
+  },
+  {
+    "id": "0005E4CE",
+    "systemId": "54712",
+    "name": "Zosma V"
+  },
+  {
+    "id": "0005E4CF",
+    "systemId": "54712",
+    "name": "Zosma V-a"
+  },
+  {
+    "id": "0005E4D1",
+    "systemId": "54712",
+    "name": "Zosma V-b"
+  },
+  {
+    "id": "0005E4D0",
+    "systemId": "54712",
+    "name": "Zosma V-c"
+  },
+  {
+    "id": "0005DE9F",
+    "systemId": "55476",
+    "name": "Leonis I"
+  },
+  {
+    "id": "0005DEA0",
+    "systemId": "55476",
+    "name": "Leonis I-a"
+  },
+  {
+    "id": "0005DEA1",
+    "systemId": "55476",
+    "name": "Leonis I-b"
+  },
+  {
+    "id": "0005DEA2",
+    "systemId": "55476",
+    "name": "Leonis II"
+  },
+  {
+    "id": "0005DEA3",
+    "systemId": "55476",
+    "name": "Leonis II-a"
+  },
+  {
+    "id": "0005DEA4",
+    "systemId": "55476",
+    "name": "Leonis III"
+  },
+  {
+    "id": "0005DEA5",
+    "systemId": "55476",
+    "name": "Leonis IV"
+  },
+  {
+    "id": "0005DEAF",
+    "systemId": "55476",
+    "name": "Leonis IX"
+  },
+  {
+    "id": "0005DEA6",
+    "systemId": "55476",
+    "name": "Leonis V"
+  },
+  {
+    "id": "0005DEA7",
+    "systemId": "55476",
+    "name": "Leonis V-a"
+  },
+  {
+    "id": "0005DEA8",
+    "systemId": "55476",
+    "name": "Leonis VI"
+  },
+  {
+    "id": "0005DEA9",
+    "systemId": "55476",
+    "name": "Leonis VI-a"
+  },
+  {
+    "id": "0005DEAA",
+    "systemId": "55476",
+    "name": "Leonis VII"
+  },
+  {
+    "id": "0005DEAB",
+    "systemId": "55476",
+    "name": "Leonis VIII"
+  },
+  {
+    "id": "0005DEAD",
+    "systemId": "55476",
+    "name": "Leonis VIII-a"
+  },
+  {
+    "id": "0005DEAC",
+    "systemId": "55476",
+    "name": "Leonis VIII-b"
+  },
+  {
+    "id": "0005DEAE",
+    "systemId": "55476",
+    "name": "Leonis VIII-c"
+  },
+  {
+    "id": "0005DE79",
+    "systemId": "55539",
+    "name": "Katydid I"
+  },
+  {
+    "id": "0005DE7A",
+    "systemId": "55539",
+    "name": "Katydid I-a"
+  },
+  {
+    "id": "0005DE7B",
+    "systemId": "55539",
+    "name": "Katydid I-b"
+  },
+  {
+    "id": "0005DE7C",
+    "systemId": "55539",
+    "name": "Katydid II"
+  },
+  {
+    "id": "0005DE7D",
+    "systemId": "55539",
+    "name": "Katydid III"
+  },
+  {
+    "id": "0005E007",
+    "systemId": "56075",
+    "name": "Charybdis I"
+  },
+  {
+    "id": "0005E008",
+    "systemId": "56075",
+    "name": "Charybdis II"
+  },
+  {
+    "id": "0005E009",
+    "systemId": "56075",
+    "name": "Charybdis III"
+  },
+  {
+    "id": "0005E00A",
+    "systemId": "56075",
+    "name": "Charybdis IV"
+  },
+  {
+    "id": "0005E00B",
+    "systemId": "56075",
+    "name": "Charybdis IV-a"
+  },
+  {
+    "id": "0005E019",
+    "systemId": "56075",
+    "name": "Charybdis IX"
+  },
+  {
+    "id": "0005E00C",
+    "systemId": "56075",
+    "name": "Charybdis V"
+  },
+  {
+    "id": "0005E00D",
+    "systemId": "56075",
+    "name": "Charybdis V-a"
+  },
+  {
+    "id": "0005E00E",
+    "systemId": "56075",
+    "name": "Charybdis VI"
+  },
+  {
+    "id": "0005E00F",
+    "systemId": "56075",
+    "name": "Charybdis VI-a"
+  },
+  {
+    "id": "0005E010",
+    "systemId": "56075",
+    "name": "Charybdis VI-b"
+  },
+  {
+    "id": "0005E011",
+    "systemId": "56075",
+    "name": "Charybdis VII"
+  },
+  {
+    "id": "0005E014",
+    "systemId": "56075",
+    "name": "Charybdis VII-a"
+  },
+  {
+    "id": "0005E012",
+    "systemId": "56075",
+    "name": "Charybdis VII-b"
+  },
+  {
+    "id": "0005E013",
+    "systemId": "56075",
+    "name": "Charybdis VII-c"
+  },
+  {
+    "id": "0005E015",
+    "systemId": "56075",
+    "name": "Charybdis VII-d"
+  },
+  {
+    "id": "0005E016",
+    "systemId": "56075",
+    "name": "Charybdis VIII"
+  },
+  {
+    "id": "0005E017",
+    "systemId": "56075",
+    "name": "Charybdis VIII-a"
+  },
+  {
+    "id": "0005E018",
+    "systemId": "56075",
+    "name": "Charybdis VIII-b"
+  },
+  {
+    "id": "0005E496",
+    "systemId": "56828",
+    "name": "Kumasi I"
+  },
+  {
+    "id": "0005E497",
+    "systemId": "56828",
+    "name": "Kumasi I-a"
+  },
+  {
+    "id": "0005E498",
+    "systemId": "56828",
+    "name": "Kumasi II"
+  },
+  {
+    "id": "0005E499",
+    "systemId": "56828",
+    "name": "Kumasi II-a"
+  },
+  {
+    "id": "0005E49A",
+    "systemId": "56828",
+    "name": "Kumasi III"
+  },
+  {
+    "id": "0005E49B",
+    "systemId": "56828",
+    "name": "Kumasi III-a"
+  },
+  {
+    "id": "0005E49C",
+    "systemId": "56828",
+    "name": "Kumasi IV"
+  },
+  {
+    "id": "0005E49D",
+    "systemId": "56828",
+    "name": "Kumasi IV-a"
+  },
+  {
+    "id": "0005E4B0",
+    "systemId": "56828",
+    "name": "Kumasi IX"
+  },
+  {
+    "id": "0005E4B1",
+    "systemId": "56828",
+    "name": "Kumasi IX-a"
+  },
+  {
+    "id": "0005E49E",
+    "systemId": "56828",
+    "name": "Kumasi V"
+  },
+  {
+    "id": "0005E4A3",
+    "systemId": "56828",
+    "name": "Kumasi V-a"
+  },
+  {
+    "id": "0005E4A0",
+    "systemId": "56828",
+    "name": "Kumasi V-b"
+  },
+  {
+    "id": "0005E4A1",
+    "systemId": "56828",
+    "name": "Kumasi V-c"
+  },
+  {
+    "id": "0005E4A2",
+    "systemId": "56828",
+    "name": "Kumasi V-d"
+  },
+  {
+    "id": "0005E49F",
+    "systemId": "56828",
+    "name": "Kumasi V-e"
+  },
+  {
+    "id": "0005E4A4",
+    "systemId": "56828",
+    "name": "Kumasi VI"
+  },
+  {
+    "id": "0005E4A5",
+    "systemId": "56828",
+    "name": "Kumasi VI-a"
+  },
+  {
+    "id": "0005E4A6",
+    "systemId": "56828",
+    "name": "Kumasi VII"
+  },
+  {
+    "id": "0005E4A9",
+    "systemId": "56828",
+    "name": "Kumasi VII-a"
+  },
+  {
+    "id": "0005E4A8",
+    "systemId": "56828",
+    "name": "Kumasi VII-b"
+  },
+  {
+    "id": "0005E4AA",
+    "systemId": "56828",
+    "name": "Kumasi VII-c"
+  },
+  {
+    "id": "0005E4A7",
+    "systemId": "56828",
+    "name": "Kumasi VII-d"
+  },
+  {
+    "id": "0005E4AB",
+    "systemId": "56828",
+    "name": "Kumasi VIII"
+  },
+  {
+    "id": "0005E4AF",
+    "systemId": "56828",
+    "name": "Kumasi VIII-a"
+  },
+  {
+    "id": "0005E4AD",
+    "systemId": "56828",
+    "name": "Kumasi VIII-b"
+  },
+  {
+    "id": "0005E4AE",
+    "systemId": "56828",
+    "name": "Kumasi VIII-c"
+  },
+  {
+    "id": "0005E4AC",
+    "systemId": "56828",
+    "name": "Kumasi VIII-d"
+  },
+  {
+    "id": "0005E475",
+    "systemId": "57270",
+    "name": "Tirna I"
+  },
+  {
+    "id": "0005E476",
+    "systemId": "57270",
+    "name": "Tirna II"
+  },
+  {
+    "id": "0005E477",
+    "systemId": "57270",
+    "name": "Tirna II-a"
+  },
+  {
+    "id": "0005E478",
+    "systemId": "57270",
+    "name": "Tirna III"
+  },
+  {
+    "id": "0005E47B",
+    "systemId": "57270",
+    "name": "Tirna III-a"
+  },
+  {
+    "id": "0005E47A",
+    "systemId": "57270",
+    "name": "Tirna III-b"
+  },
+  {
+    "id": "0005E479",
+    "systemId": "57270",
+    "name": "Tirna III-c"
+  },
+  {
+    "id": "0005E47C",
+    "systemId": "57270",
+    "name": "Tirna IV"
+  },
+  {
+    "id": "0005E47D",
+    "systemId": "57270",
+    "name": "Tirna IV-a"
+  },
+  {
+    "id": "0005E48F",
+    "systemId": "57270",
+    "name": "Tirna IX"
+  },
+  {
+    "id": "0005E47E",
+    "systemId": "57270",
+    "name": "Tirna V"
+  },
+  {
+    "id": "0005E47F",
+    "systemId": "57270",
+    "name": "Tirna VI"
+  },
+  {
+    "id": "0005E483",
+    "systemId": "57270",
+    "name": "Tirna VI-a"
+  },
+  {
+    "id": "0005E482",
+    "systemId": "57270",
+    "name": "Tirna VI-b"
+  },
+  {
+    "id": "0005E484",
+    "systemId": "57270",
+    "name": "Tirna VI-c"
+  },
+  {
+    "id": "0005E480",
+    "systemId": "57270",
+    "name": "Tirna VI-d"
+  },
+  {
+    "id": "0005E481",
+    "systemId": "57270",
+    "name": "Tirna VI-e"
+  },
+  {
+    "id": "0005E485",
+    "systemId": "57270",
+    "name": "Tirna VII"
+  },
+  {
+    "id": "0005E486",
+    "systemId": "57270",
+    "name": "Tirna VII-a"
+  },
+  {
+    "id": "0005E488",
+    "systemId": "57270",
+    "name": "Tirna VII-b"
+  },
+  {
+    "id": "0005E487",
+    "systemId": "57270",
+    "name": "Tirna VII-c"
+  },
+  {
+    "id": "0005E489",
+    "systemId": "57270",
+    "name": "Tirna VIII"
+  },
+  {
+    "id": "0005E48C",
+    "systemId": "57270",
+    "name": "Tirna VIII-a"
+  },
+  {
+    "id": "0005E48B",
+    "systemId": "57270",
+    "name": "Tirna VIII-b"
+  },
+  {
+    "id": "0005E48A",
+    "systemId": "57270",
+    "name": "Tirna VIII-c"
+  },
+  {
+    "id": "0005E48D",
+    "systemId": "57270",
+    "name": "Tirna VIII-d"
+  },
+  {
+    "id": "0005E48E",
+    "systemId": "57270",
+    "name": "Tirna VIII-e"
+  },
+  {
+    "id": "0005E490",
+    "systemId": "57270",
+    "name": "Tirna X"
+  },
+  {
+    "id": "0005E493",
+    "systemId": "57270",
+    "name": "Tirna X-a"
+  },
+  {
+    "id": "0005E491",
+    "systemId": "57270",
+    "name": "Tirna X-b"
+  },
+  {
+    "id": "0005E492",
+    "systemId": "57270",
+    "name": "Tirna X-c"
+  },
+  {
+    "id": "0005E468",
+    "systemId": "57459",
+    "name": "Denebola I"
+  },
+  {
+    "id": "0005E469",
+    "systemId": "57459",
+    "name": "Denebola I-a"
+  },
+  {
+    "id": "0005E46A",
+    "systemId": "57459",
+    "name": "Denebola I-b"
+  },
+  {
+    "id": "0005E46B",
+    "systemId": "57459",
+    "name": "Denebola II"
+  },
+  {
+    "id": "0005E46C",
+    "systemId": "57459",
+    "name": "Denebola II-a"
+  },
+  {
+    "id": "0005E46D",
+    "systemId": "57459",
+    "name": "Denebola III"
+  },
+  {
+    "id": "0005E46E",
+    "systemId": "57459",
+    "name": "Denebola III-a"
+  },
+  {
+    "id": "0005E46F",
+    "systemId": "57459",
+    "name": "Denebola III-b"
+  },
+  {
+    "id": "0005E450",
+    "systemId": "57584",
+    "name": "Lantana I"
+  },
+  {
+    "id": "0005E451",
+    "systemId": "57584",
+    "name": "Lantana II"
+  },
+  {
+    "id": "0005E452",
+    "systemId": "57584",
+    "name": "Lantana III"
+  },
+  {
+    "id": "0005E453",
+    "systemId": "57584",
+    "name": "Lantana III-a"
+  },
+  {
+    "id": "0005E454",
+    "systemId": "57584",
+    "name": "Lantana IV"
+  },
+  {
+    "id": "0005E460",
+    "systemId": "57584",
+    "name": "Lantana IX"
+  },
+  {
+    "id": "0005E463",
+    "systemId": "57584",
+    "name": "Lantana IX-a"
+  },
+  {
+    "id": "0005E465",
+    "systemId": "57584",
+    "name": "Lantana IX-b"
+  },
+  {
+    "id": "0005E461",
+    "systemId": "57584",
+    "name": "Lantana IX-c"
+  },
+  {
+    "id": "0005E464",
+    "systemId": "57584",
+    "name": "Lantana IX-d"
+  },
+  {
+    "id": "0005E462",
+    "systemId": "57584",
+    "name": "Lantana IX-e"
+  },
+  {
+    "id": "0005E455",
+    "systemId": "57584",
+    "name": "Lantana V"
+  },
+  {
+    "id": "0005E456",
+    "systemId": "57584",
+    "name": "Lantana V-a"
+  },
+  {
+    "id": "0005E457",
+    "systemId": "57584",
+    "name": "Lantana V-b"
+  },
+  {
+    "id": "0005E458",
+    "systemId": "57584",
+    "name": "Lantana VI"
+  },
+  {
+    "id": "0005E459",
+    "systemId": "57584",
+    "name": "Lantana VII"
+  },
+  {
+    "id": "0005E45A",
+    "systemId": "57584",
+    "name": "Lantana VIII"
+  },
+  {
+    "id": "0005E45E",
+    "systemId": "57584",
+    "name": "Lantana VIII-a"
+  },
+  {
+    "id": "0005E45F",
+    "systemId": "57584",
+    "name": "Lantana VIII-b"
+  },
+  {
+    "id": "0005E45B",
+    "systemId": "57584",
+    "name": "Lantana VIII-c"
+  },
+  {
+    "id": "0005E45C",
+    "systemId": "57584",
+    "name": "Lantana VIII-d"
+  },
+  {
+    "id": "0005E435",
+    "systemId": "57767",
+    "name": "Groombridge I"
+  },
+  {
+    "id": "0003F5A2",
+    "systemId": "57767",
+    "name": "Groombridge II"
+  },
+  {
+    "id": "0005E438",
+    "systemId": "57767",
+    "name": "Groombridge II-a"
+  },
+  {
+    "id": "0005E437",
+    "systemId": "57767",
+    "name": "Groombridge II-b"
+  },
+  {
+    "id": "0005E436",
+    "systemId": "57767",
+    "name": "Groombridge II-c"
+  },
+  {
+    "id": "0005E439",
+    "systemId": "57767",
+    "name": "Groombridge III"
+  },
+  {
+    "id": "0005E43A",
+    "systemId": "57767",
+    "name": "Groombridge III-a"
+  },
+  {
+    "id": "0005E43B",
+    "systemId": "57767",
+    "name": "Groombridge IV"
+  },
+  {
+    "id": "0005E43C",
+    "systemId": "57767",
+    "name": "Groombridge IV-a"
+  },
+  {
+    "id": "0005E43D",
+    "systemId": "57767",
+    "name": "Groombridge V"
+  },
+  {
+    "id": "0005E441",
+    "systemId": "57767",
+    "name": "Groombridge V-a"
+  },
+  {
+    "id": "0005E43E",
+    "systemId": "57767",
+    "name": "Groombridge V-b"
+  },
+  {
+    "id": "0005E43F",
+    "systemId": "57767",
+    "name": "Groombridge V-c"
+  },
+  {
+    "id": "0005E442",
+    "systemId": "57767",
+    "name": "Groombridge V-d"
+  },
+  {
+    "id": "0005E440",
+    "systemId": "57767",
+    "name": "Groombridge V-e"
+  },
+  {
+    "id": "0005E443",
+    "systemId": "57767",
+    "name": "Groombridge VI"
+  },
+  {
+    "id": "0005E445",
+    "systemId": "57767",
+    "name": "Groombridge VI-a"
+  },
+  {
+    "id": "0005E444",
+    "systemId": "57767",
+    "name": "Groombridge VI-b"
+  },
+  {
+    "id": "0005E446",
+    "systemId": "57767",
+    "name": "Groombridge VII"
+  },
+  {
+    "id": "0005E447",
+    "systemId": "57767",
+    "name": "Groombridge VII-a"
+  },
+  {
+    "id": "0005E448",
+    "systemId": "57767",
+    "name": "Groombridge VII-b"
+  },
+  {
+    "id": "0005E449",
+    "systemId": "57767",
+    "name": "Groombridge VIII"
+  },
+  {
+    "id": "0005E44B",
+    "systemId": "57767",
+    "name": "Groombridge VIII-a"
+  },
+  {
+    "id": "0005E44A",
+    "systemId": "57767",
+    "name": "Groombridge VIII-b"
+  },
+  {
+    "id": "0005E44D",
+    "systemId": "57767",
+    "name": "Groombridge VIII-c"
+  },
+  {
+    "id": "0005E44C",
+    "systemId": "57767",
+    "name": "Groombridge VIII-d"
+  },
+  {
+    "id": "0005E42C",
+    "systemId": "58401",
+    "name": "Nirvana I"
+  },
+  {
+    "id": "0005E42D",
+    "systemId": "58401",
+    "name": "Nirvana II"
+  },
+  {
+    "id": "0005E42E",
+    "systemId": "58401",
+    "name": "Nirvana II-a"
+  },
+  {
+    "id": "0005E42F",
+    "systemId": "58401",
+    "name": "Nirvana III"
+  },
+  {
+    "id": "0005E430",
+    "systemId": "58401",
+    "name": "Nirvana III-a"
+  },
+  {
+    "id": "0005E431",
+    "systemId": "58401",
+    "name": "Nirvana IV"
+  },
+  {
+    "id": "0005E432",
+    "systemId": "58401",
+    "name": "Nirvana IV-a"
+  },
+  {
+    "id": "0005E40E",
+    "systemId": "59020",
+    "name": "Alchiba I"
+  },
+  {
+    "id": "0005E40F",
+    "systemId": "59020",
+    "name": "Alchiba II"
+  },
+  {
+    "id": "0005E410",
+    "systemId": "59020",
+    "name": "Alchiba II-a"
+  },
+  {
+    "id": "0005E411",
+    "systemId": "59020",
+    "name": "Alchiba III"
+  },
+  {
+    "id": "0005E413",
+    "systemId": "59020",
+    "name": "Alchiba III-a"
+  },
+  {
+    "id": "0005E412",
+    "systemId": "59020",
+    "name": "Alchiba III-b"
+  },
+  {
+    "id": "0005E414",
+    "systemId": "59020",
+    "name": "Alchiba III-c"
+  },
+  {
+    "id": "0005E415",
+    "systemId": "59020",
+    "name": "Alchiba IV"
+  },
+  {
+    "id": "0005E416",
+    "systemId": "59020",
+    "name": "Alchiba IV-a"
+  },
+  {
+    "id": "0005E425",
+    "systemId": "59020",
+    "name": "Alchiba IX"
+  },
+  {
+    "id": "0005E426",
+    "systemId": "59020",
+    "name": "Alchiba IX-a"
+  },
+  {
+    "id": "0005E417",
+    "systemId": "59020",
+    "name": "Alchiba V"
+  },
+  {
+    "id": "0005E418",
+    "systemId": "59020",
+    "name": "Alchiba V-a"
+  },
+  {
+    "id": "0005E419",
+    "systemId": "59020",
+    "name": "Alchiba VI"
+  },
+  {
+    "id": "0005E41B",
+    "systemId": "59020",
+    "name": "Alchiba VI-a"
+  },
+  {
+    "id": "0005E41A",
+    "systemId": "59020",
+    "name": "Alchiba VI-b"
+  },
+  {
+    "id": "0005E41C",
+    "systemId": "59020",
+    "name": "Alchiba VI-c"
+  },
+  {
+    "id": "0005E41D",
+    "systemId": "59020",
+    "name": "Alchiba VII"
+  },
+  {
+    "id": "0005E420",
+    "systemId": "59020",
+    "name": "Alchiba VII-a"
+  },
+  {
+    "id": "0005E421",
+    "systemId": "59020",
+    "name": "Alchiba VII-b"
+  },
+  {
+    "id": "0005E41E",
+    "systemId": "59020",
+    "name": "Alchiba VII-c"
+  },
+  {
+    "id": "0005E41F",
+    "systemId": "59020",
+    "name": "Alchiba VII-d"
+  },
+  {
+    "id": "0005E422",
+    "systemId": "59020",
+    "name": "Alchiba VIII"
+  },
+  {
+    "id": "0005E424",
+    "systemId": "59020",
+    "name": "Alchiba VIII-a"
+  },
+  {
+    "id": "0005E423",
+    "systemId": "59020",
+    "name": "Alchiba VIII-b"
+  },
+  {
+    "id": "0005E427",
+    "systemId": "59020",
+    "name": "Alchiba X"
+  },
+  {
+    "id": "0005E429",
+    "systemId": "59020",
+    "name": "Alchiba X-a"
+  },
+  {
+    "id": "0005E428",
+    "systemId": "59020",
+    "name": "Alchiba X-b"
+  },
+  {
+    "id": "0005DF4B",
+    "systemId": "59092",
+    "name": "Zelazny I"
+  },
+  {
+    "id": "0005DF4C",
+    "systemId": "59092",
+    "name": "Zelazny II"
+  },
+  {
+    "id": "0005DF4D",
+    "systemId": "59092",
+    "name": "Zelazny II-a"
+  },
+  {
+    "id": "0005DF4E",
+    "systemId": "59092",
+    "name": "Zelazny III"
+  },
+  {
+    "id": "0005DF4F",
+    "systemId": "59092",
+    "name": "Zelazny IV"
+  },
+  {
+    "id": "0005DF50",
+    "systemId": "59092",
+    "name": "Zelazny V"
+  },
+  {
+    "id": "0005DF51",
+    "systemId": "59092",
+    "name": "Zelazny VI"
+  },
+  {
+    "id": "0005DF52",
+    "systemId": "59092",
+    "name": "Zelazny VII"
+  },
+  {
+    "id": "0005DF55",
+    "systemId": "59092",
+    "name": "Zelazny VII-a"
+  },
+  {
+    "id": "0005DF56",
+    "systemId": "59092",
+    "name": "Zelazny VII-b"
+  },
+  {
+    "id": "0005DF54",
+    "systemId": "59092",
+    "name": "Zelazny VII-c"
+  },
+  {
+    "id": "0005DF53",
+    "systemId": "59092",
+    "name": "Zelazny VII-d"
+  },
+  {
+    "id": "0005DF57",
+    "systemId": "59092",
+    "name": "Zelazny VIII"
+  },
+  {
+    "id": "0005DF5B",
+    "systemId": "59092",
+    "name": "Zelazny VIII-a"
+  },
+  {
+    "id": "0005DF59",
+    "systemId": "59092",
+    "name": "Zelazny VIII-b"
+  },
+  {
+    "id": "0005DF5A",
+    "systemId": "59092",
+    "name": "Zelazny VIII-c"
+  },
+  {
+    "id": "0005DF5C",
+    "systemId": "59092",
+    "name": "Zelazny VIII-d"
+  },
+  {
+    "id": "0005DF58",
+    "systemId": "59092",
+    "name": "Zelazny VIII-e"
+  },
+  {
+    "id": "0003F599",
+    "systemId": "60776",
+    "name": "Algorab I"
+  },
+  {
+    "id": "0005DE57",
+    "systemId": "60776",
+    "name": "Algorab II"
+  },
+  {
+    "id": "0005DE58",
+    "systemId": "60776",
+    "name": "Algorab III"
+  },
+  {
+    "id": "0005DE5B",
+    "systemId": "60776",
+    "name": "Algorab III-a"
+  },
+  {
+    "id": "0005DE5D",
+    "systemId": "60776",
+    "name": "Algorab III-b"
+  },
+  {
+    "id": "0005DE5C",
+    "systemId": "60776",
+    "name": "Algorab III-c"
+  },
+  {
+    "id": "0005DE5A",
+    "systemId": "60776",
+    "name": "Algorab III-d"
+  },
+  {
+    "id": "0005DE59",
+    "systemId": "60776",
+    "name": "Algorab III-e"
+  },
+  {
+    "id": "0005E3FA",
+    "systemId": "60805",
+    "name": "Marduk I"
+  },
+  {
+    "id": "0005E3FB",
+    "systemId": "60805",
+    "name": "Marduk I-a"
+  },
+  {
+    "id": "0005E3FC",
+    "systemId": "60805",
+    "name": "Marduk II"
+  },
+  {
+    "id": "0005E3FD",
+    "systemId": "60805",
+    "name": "Marduk III"
+  },
+  {
+    "id": "0005E3FE",
+    "systemId": "60805",
+    "name": "Marduk III-a"
+  },
+  {
+    "id": "0005E3FF",
+    "systemId": "60805",
+    "name": "Marduk IV"
+  },
+  {
+    "id": "0005E409",
+    "systemId": "60805",
+    "name": "Marduk IX"
+  },
+  {
+    "id": "0005E40A",
+    "systemId": "60805",
+    "name": "Marduk IX-a"
+  },
+  {
+    "id": "0005E40B",
+    "systemId": "60805",
+    "name": "Marduk IX-b"
+  },
+  {
+    "id": "0005E400",
+    "systemId": "60805",
+    "name": "Marduk V"
+  },
+  {
+    "id": "0005E401",
+    "systemId": "60805",
+    "name": "Marduk V-a"
+  },
+  {
+    "id": "0005E402",
+    "systemId": "60805",
+    "name": "Marduk VI"
+  },
+  {
+    "id": "0005E403",
+    "systemId": "60805",
+    "name": "Marduk VII"
+  },
+  {
+    "id": "0005E405",
+    "systemId": "60805",
+    "name": "Marduk VII-a"
+  },
+  {
+    "id": "0005E404",
+    "systemId": "60805",
+    "name": "Marduk VII-b"
+  },
+  {
+    "id": "0005E407",
+    "systemId": "60805",
+    "name": "Marduk VII-c"
+  },
+  {
+    "id": "0005E406",
+    "systemId": "60805",
+    "name": "Marduk VII-d"
+  },
+  {
+    "id": "0005E408",
+    "systemId": "60805",
+    "name": "Marduk VIII"
+  },
+  {
+    "id": "0005E3E3",
+    "systemId": "61748",
+    "name": "Porrima I"
+  },
+  {
+    "id": "0005E3E4",
+    "systemId": "61748",
+    "name": "Porrima I-a"
+  },
+  {
+    "id": "0005E3E5",
+    "systemId": "61748",
+    "name": "Porrima I-b"
+  },
+  {
+    "id": "0005E3E6",
+    "systemId": "61748",
+    "name": "Porrima II"
+  },
+  {
+    "id": "0005E3E8",
+    "systemId": "61748",
+    "name": "Porrima II-a"
+  },
+  {
+    "id": "0005E3E9",
+    "systemId": "61748",
+    "name": "Porrima II-b"
+  },
+  {
+    "id": "0005E3E7",
+    "systemId": "61748",
+    "name": "Porrima II-c"
+  },
+  {
+    "id": "0005E3EA",
+    "systemId": "61748",
+    "name": "Porrima III"
+  },
+  {
+    "id": "0005E3EB",
+    "systemId": "61748",
+    "name": "Porrima III-a"
+  },
+  {
+    "id": "0005E3EC",
+    "systemId": "61748",
+    "name": "Porrima III-b"
+  },
+  {
+    "id": "0005E3ED",
+    "systemId": "61748",
+    "name": "Porrima IV"
+  },
+  {
+    "id": "0005E3EE",
+    "systemId": "61748",
+    "name": "Porrima IV-a"
+  },
+  {
+    "id": "0005E3F1",
+    "systemId": "61748",
+    "name": "Porrima IV-b"
+  },
+  {
+    "id": "0005E3EF",
+    "systemId": "61748",
+    "name": "Porrima IV-c"
+  },
+  {
+    "id": "0005E3F0",
+    "systemId": "61748",
+    "name": "Porrima IV-d"
+  },
+  {
+    "id": "0005E3F2",
+    "systemId": "61748",
+    "name": "Porrima V"
+  },
+  {
+    "id": "0005E3F5",
+    "systemId": "61748",
+    "name": "Porrima V-a"
+  },
+  {
+    "id": "0005E3F4",
+    "systemId": "61748",
+    "name": "Porrima V-b"
+  },
+  {
+    "id": "0005E3F3",
+    "systemId": "61748",
+    "name": "Porrima V-c"
+  },
+  {
+    "id": "0005E3F6",
+    "systemId": "61748",
+    "name": "Porrima VI"
+  },
+  {
+    "id": "0005E3F7",
+    "systemId": "61748",
+    "name": "Porrima VI-a"
+  },
+  {
+    "id": "0005E3C7",
+    "systemId": "62328",
+    "name": "Ixyll I"
+  },
+  {
+    "id": "0005E3C8",
+    "systemId": "62328",
+    "name": "Ixyll II"
+  },
+  {
+    "id": "0005E3C9",
+    "systemId": "62328",
+    "name": "Ixyll II-a"
+  },
+  {
+    "id": "0005E3CA",
+    "systemId": "62328",
+    "name": "Ixyll III"
+  },
+  {
+    "id": "0005E3CC",
+    "systemId": "62328",
+    "name": "Ixyll III-a"
+  },
+  {
+    "id": "0005E3CB",
+    "systemId": "62328",
+    "name": "Ixyll III-b"
+  },
+  {
+    "id": "0005E3CD",
+    "systemId": "62328",
+    "name": "Ixyll IV"
+  },
+  {
+    "id": "0005E3DC",
+    "systemId": "62328",
+    "name": "Ixyll IX"
+  },
+  {
+    "id": "0005E3DF",
+    "systemId": "62328",
+    "name": "Ixyll IX-a"
+  },
+  {
+    "id": "0005E3DD",
+    "systemId": "62328",
+    "name": "Ixyll IX-b"
+  },
+  {
+    "id": "0005E3E0",
+    "systemId": "62328",
+    "name": "Ixyll IX-c"
+  },
+  {
+    "id": "0005E3DE",
+    "systemId": "62328",
+    "name": "Ixyll IX-d"
+  },
+  {
+    "id": "0005E3CE",
+    "systemId": "62328",
+    "name": "Ixyll V"
+  },
+  {
+    "id": "0005E3CF",
+    "systemId": "62328",
+    "name": "Ixyll VI"
+  },
+  {
+    "id": "0005E3D0",
+    "systemId": "62328",
+    "name": "Ixyll VI-a"
+  },
+  {
+    "id": "0005E3D3",
+    "systemId": "62328",
+    "name": "Ixyll VI-b"
+  },
+  {
+    "id": "0005E3D2",
+    "systemId": "62328",
+    "name": "Ixyll VI-c"
+  },
+  {
+    "id": "0005E3D4",
+    "systemId": "62328",
+    "name": "Ixyll VI-d"
+  },
+  {
+    "id": "0005E3D1",
+    "systemId": "62328",
+    "name": "Ixyll VI-e"
+  },
+  {
+    "id": "0005E3D5",
+    "systemId": "62328",
+    "name": "Ixyll VII"
+  },
+  {
+    "id": "0005E3D6",
+    "systemId": "62328",
+    "name": "Ixyll VII-a"
+  },
+  {
+    "id": "0005E3D8",
+    "systemId": "62328",
+    "name": "Ixyll VII-b"
+  },
+  {
+    "id": "0005E3D7",
+    "systemId": "62328",
+    "name": "Ixyll VII-c"
+  },
+  {
+    "id": "0005E3D9",
+    "systemId": "62328",
+    "name": "Ixyll VIII"
+  },
+  {
+    "id": "0005E3DA",
+    "systemId": "62328",
+    "name": "Ixyll VIII-a"
+  },
+  {
+    "id": "0005E3DB",
+    "systemId": "62328",
+    "name": "Ixyll VIII-b"
+  },
+  {
+    "id": "0005DF38",
+    "systemId": "63947",
+    "name": "Verne I"
+  },
+  {
+    "id": "0005DF39",
+    "systemId": "63947",
+    "name": "Verne I-a"
+  },
+  {
+    "id": "0005DF3A",
+    "systemId": "63947",
+    "name": "Verne II"
+  },
+  {
+    "id": "0005DF3B",
+    "systemId": "63947",
+    "name": "Verne II-a"
+  },
+  {
+    "id": "0005DF3C",
+    "systemId": "63947",
+    "name": "Verne III"
+  },
+  {
+    "id": "0005DF3D",
+    "systemId": "63947",
+    "name": "Verne III-a"
+  },
+  {
+    "id": "0005DF3E",
+    "systemId": "63947",
+    "name": "Verne IV"
+  },
+  {
+    "id": "0005DF3F",
+    "systemId": "63947",
+    "name": "Verne V"
+  },
+  {
+    "id": "0005DF40",
+    "systemId": "63947",
+    "name": "Verne VI"
+  },
+  {
+    "id": "0005DF42",
+    "systemId": "63947",
+    "name": "Verne VI-a"
+  },
+  {
+    "id": "0005DF41",
+    "systemId": "63947",
+    "name": "Verne VI-b"
+  },
+  {
+    "id": "0005DF43",
+    "systemId": "63947",
+    "name": "Verne VII"
+  },
+  {
+    "id": "0005DF47",
+    "systemId": "63947",
+    "name": "Verne VII-a"
+  },
+  {
+    "id": "0005DF48",
+    "systemId": "63947",
+    "name": "Verne VII-b"
+  },
+  {
+    "id": "0005DF46",
+    "systemId": "63947",
+    "name": "Verne VII-c"
+  },
+  {
+    "id": "0005DF44",
+    "systemId": "63947",
+    "name": "Verne VII-d"
+  },
+  {
+    "id": "0005DF45",
+    "systemId": "63947",
+    "name": "Verne VII-e"
+  },
+  {
+    "id": "0005E3B0",
+    "systemId": "64587",
+    "name": "Rutherford I"
+  },
+  {
+    "id": "0005E3B1",
+    "systemId": "64587",
+    "name": "Rutherford I-a"
+  },
+  {
+    "id": "0005E3B2",
+    "systemId": "64587",
+    "name": "Rutherford I-b"
+  },
+  {
+    "id": "0005E3B3",
+    "systemId": "64587",
+    "name": "Rutherford II"
+  },
+  {
+    "id": "0005E3B4",
+    "systemId": "64587",
+    "name": "Rutherford II-a"
+  },
+  {
+    "id": "0005E3B5",
+    "systemId": "64587",
+    "name": "Rutherford III"
+  },
+  {
+    "id": "0005E3B6",
+    "systemId": "64587",
+    "name": "Rutherford III-a"
+  },
+  {
+    "id": "0005E3B7",
+    "systemId": "64587",
+    "name": "Rutherford IV"
+  },
+  {
+    "id": "0005E3BB",
+    "systemId": "64587",
+    "name": "Rutherford IV-a"
+  },
+  {
+    "id": "0005E3B8",
+    "systemId": "64587",
+    "name": "Rutherford IV-b"
+  },
+  {
+    "id": "0005E3BA",
+    "systemId": "64587",
+    "name": "Rutherford IV-c"
+  },
+  {
+    "id": "0005E3B9",
+    "systemId": "64587",
+    "name": "Rutherford IV-d"
+  },
+  {
+    "id": "0005E3BC",
+    "systemId": "64587",
+    "name": "Rutherford IV-e"
+  },
+  {
+    "id": "0005E3BD",
+    "systemId": "64587",
+    "name": "Rutherford V"
+  },
+  {
+    "id": "0005E3BF",
+    "systemId": "64587",
+    "name": "Rutherford V-a"
+  },
+  {
+    "id": "0005E3BE",
+    "systemId": "64587",
+    "name": "Rutherford V-b"
+  },
+  {
+    "id": "0005E3C0",
+    "systemId": "64587",
+    "name": "Rutherford VI"
+  },
+  {
+    "id": "0005E3C1",
+    "systemId": "64587",
+    "name": "Rutherford VI-a"
+  },
+  {
+    "id": "0005E3C3",
+    "systemId": "64587",
+    "name": "Rutherford VI-b"
+  },
+  {
+    "id": "0005E3C4",
+    "systemId": "64587",
+    "name": "Rutherford VI-c"
+  },
+  {
+    "id": "0005E3C2",
+    "systemId": "64587",
+    "name": "Rutherford VI-d"
+  },
+  {
+    "id": "0005E3A5",
+    "systemId": "64720",
+    "name": "Volii Alpha"
+  },
+  {
+    "id": "0005E3A3",
+    "systemId": "64720",
+    "name": "Volii Beta"
+  },
+  {
+    "id": "0005E3AD",
+    "systemId": "64720",
+    "name": "Volii Chi"
+  },
+  {
+    "id": "0005E3A4",
+    "systemId": "64720",
+    "name": "Volii Delta"
+  },
+  {
+    "id": "0005E3A6",
+    "systemId": "64720",
+    "name": "Volii Epsilon"
+  },
+  {
+    "id": "0005E3A7",
+    "systemId": "64720",
+    "name": "Volii Gamma"
+  },
+  {
+    "id": "0005E3AB",
+    "systemId": "64720",
+    "name": "Volii Omega"
+  },
+  {
+    "id": "0005E3AA",
+    "systemId": "64720",
+    "name": "Volii Phi"
+  },
+  {
+    "id": "0005E3A9",
+    "systemId": "64720",
+    "name": "Volii Psi"
+  },
+  {
+    "id": "0005E3A8",
+    "systemId": "64720",
+    "name": "Volii Tau"
+  },
+  {
+    "id": "0005E3AC",
+    "systemId": "64720",
+    "name": "Volii Upsilon"
+  },
+  {
+    "id": "0005DFF1",
+    "systemId": "65147",
+    "name": "Al-Battani I"
+  },
+  {
+    "id": "0005DFF2",
+    "systemId": "65147",
+    "name": "Al-Battani I-a"
+  },
+  {
+    "id": "0005DFF3",
+    "systemId": "65147",
+    "name": "Al-Battani I-b"
+  },
+  {
+    "id": "0005DFF4",
+    "systemId": "65147",
+    "name": "Al-Battani I-c"
+  },
+  {
+    "id": "0005DFF5",
+    "systemId": "65147",
+    "name": "Al-Battani II"
+  },
+  {
+    "id": "0005DFF6",
+    "systemId": "65147",
+    "name": "Al-Battani III"
+  },
+  {
+    "id": "0005DFF7",
+    "systemId": "65147",
+    "name": "Al-Battani III-a"
+  },
+  {
+    "id": "0005DFF8",
+    "systemId": "65147",
+    "name": "Al-Battani III-b"
+  },
+  {
+    "id": "0005DFF9",
+    "systemId": "65147",
+    "name": "Al-Battani IV"
+  },
+  {
+    "id": "0005DFFB",
+    "systemId": "65147",
+    "name": "Al-Battani IV-a"
+  },
+  {
+    "id": "0005DFFA",
+    "systemId": "65147",
+    "name": "Al-Battani IV-b"
+  },
+  {
+    "id": "0005DFFC",
+    "systemId": "65147",
+    "name": "Al-Battani V"
+  },
+  {
+    "id": "0005DFFD",
+    "systemId": "65147",
+    "name": "Al-Battani V-a"
+  },
+  {
+    "id": "0005DFFE",
+    "systemId": "65147",
+    "name": "Al-Battani VI"
+  },
+  {
+    "id": "0005E000",
+    "systemId": "65147",
+    "name": "Al-Battani VI-a"
+  },
+  {
+    "id": "0005DFFF",
+    "systemId": "65147",
+    "name": "Al-Battani VI-b"
+  },
+  {
+    "id": "0005E001",
+    "systemId": "65147",
+    "name": "Al-Battani VII"
+  },
+  {
+    "id": "0005E002",
+    "systemId": "65147",
+    "name": "Al-Battani VII-a"
+  },
+  {
+    "id": "0005E003",
+    "systemId": "65147",
+    "name": "Al-Battani VIII"
+  },
+  {
+    "id": "0005E004",
+    "systemId": "65147",
+    "name": "Al-Battani VIII-a"
+  },
+  {
+    "id": "0005DFDD",
+    "systemId": "65150",
+    "name": "Khayyam I"
+  },
+  {
+    "id": "0005DFDE",
+    "systemId": "65150",
+    "name": "Khayyam I-a"
+  },
+  {
+    "id": "0005DFDF",
+    "systemId": "65150",
+    "name": "Khayyam II"
+  },
+  {
+    "id": "0005DFE0",
+    "systemId": "65150",
+    "name": "Khayyam II-a"
+  },
+  {
+    "id": "0005DFE1",
+    "systemId": "65150",
+    "name": "Khayyam III"
+  },
+  {
+    "id": "0005DFE3",
+    "systemId": "65150",
+    "name": "Khayyam III-a"
+  },
+  {
+    "id": "0005DFE2",
+    "systemId": "65150",
+    "name": "Khayyam III-b"
+  },
+  {
+    "id": "0005DFE4",
+    "systemId": "65150",
+    "name": "Khayyam III-c"
+  },
+  {
+    "id": "0005DFE5",
+    "systemId": "65150",
+    "name": "Khayyam IV"
+  },
+  {
+    "id": "0005DFE6",
+    "systemId": "65150",
+    "name": "Khayyam IV-a"
+  },
+  {
+    "id": "0005DFE7",
+    "systemId": "65150",
+    "name": "Khayyam V"
+  },
+  {
+    "id": "0005DFE8",
+    "systemId": "65150",
+    "name": "Khayyam V-a"
+  },
+  {
+    "id": "0005DFE9",
+    "systemId": "65150",
+    "name": "Khayyam VI"
+  },
+  {
+    "id": "0005DFEC",
+    "systemId": "65150",
+    "name": "Khayyam VI-a"
+  },
+  {
+    "id": "0005DFEE",
+    "systemId": "65150",
+    "name": "Khayyam VI-b"
+  },
+  {
+    "id": "0005DFED",
+    "systemId": "65150",
+    "name": "Khayyam VI-c"
+  },
+  {
+    "id": "0005DFEA",
+    "systemId": "65150",
+    "name": "Khayyam VI-d"
+  },
+  {
+    "id": "0005DFEB",
+    "systemId": "65150",
+    "name": "Khayyam VI-e"
+  },
+  {
+    "id": "0005E390",
+    "systemId": "65515",
+    "name": "Bara I"
+  },
+  {
+    "id": "0005E391",
+    "systemId": "65515",
+    "name": "Bara II"
+  },
+  {
+    "id": "0005E392",
+    "systemId": "65515",
+    "name": "Bara II-a"
+  },
+  {
+    "id": "0005E393",
+    "systemId": "65515",
+    "name": "Bara III"
+  },
+  {
+    "id": "0005E394",
+    "systemId": "65515",
+    "name": "Bara III-a"
+  },
+  {
+    "id": "0005E395",
+    "systemId": "65515",
+    "name": "Bara IV"
+  },
+  {
+    "id": "0005E396",
+    "systemId": "65515",
+    "name": "Bara V"
+  },
+  {
+    "id": "0005E397",
+    "systemId": "65515",
+    "name": "Bara V-a"
+  },
+  {
+    "id": "0005E398",
+    "systemId": "65515",
+    "name": "Bara VI"
+  },
+  {
+    "id": "0005E39A",
+    "systemId": "65515",
+    "name": "Bara VI-a"
+  },
+  {
+    "id": "0005E39B",
+    "systemId": "65515",
+    "name": "Bara VI-b"
+  },
+  {
+    "id": "0005E399",
+    "systemId": "65515",
+    "name": "Bara VI-c"
+  },
+  {
+    "id": "0005E39C",
+    "systemId": "65515",
+    "name": "Bara VII"
+  },
+  {
+    "id": "0005E39E",
+    "systemId": "65515",
+    "name": "Bara VII-a"
+  },
+  {
+    "id": "0005E39D",
+    "systemId": "65515",
+    "name": "Bara VII-b"
+  },
+  {
+    "id": "0005E3A0",
+    "systemId": "65515",
+    "name": "Bara VII-c"
+  },
+  {
+    "id": "0005E39F",
+    "systemId": "65515",
+    "name": "Bara VII-d"
+  },
+  {
+    "id": "0005E37A",
+    "systemId": "67063",
+    "name": "Shoza I"
+  },
+  {
+    "id": "0005E37B",
+    "systemId": "67063",
+    "name": "Shoza I-a"
+  },
+  {
+    "id": "0005E37C",
+    "systemId": "67063",
+    "name": "Shoza II"
+  },
+  {
+    "id": "0005E37D",
+    "systemId": "67063",
+    "name": "Shoza II-a"
+  },
+  {
+    "id": "0005E37E",
+    "systemId": "67063",
+    "name": "Shoza III"
+  },
+  {
+    "id": "0005E37F",
+    "systemId": "67063",
+    "name": "Shoza III-a"
+  },
+  {
+    "id": "0005E380",
+    "systemId": "67063",
+    "name": "Shoza IV"
+  },
+  {
+    "id": "0005E38D",
+    "systemId": "67063",
+    "name": "Shoza IX"
+  },
+  {
+    "id": "0005E381",
+    "systemId": "67063",
+    "name": "Shoza V"
+  },
+  {
+    "id": "0005E382",
+    "systemId": "67063",
+    "name": "Shoza VI"
+  },
+  {
+    "id": "0005E383",
+    "systemId": "67063",
+    "name": "Shoza VI-a"
+  },
+  {
+    "id": "0005E384",
+    "systemId": "67063",
+    "name": "Shoza VII"
+  },
+  {
+    "id": "0005E387",
+    "systemId": "67063",
+    "name": "Shoza VII-a"
+  },
+  {
+    "id": "0005E386",
+    "systemId": "67063",
+    "name": "Shoza VII-b"
+  },
+  {
+    "id": "0005E385",
+    "systemId": "67063",
+    "name": "Shoza VII-c"
+  },
+  {
+    "id": "0005E388",
+    "systemId": "67063",
+    "name": "Shoza VIII"
+  },
+  {
+    "id": "0005E38C",
+    "systemId": "67063",
+    "name": "Shoza VIII-a"
+  },
+  {
+    "id": "0005E38A",
+    "systemId": "67063",
+    "name": "Shoza VIII-b"
+  },
+  {
+    "id": "0005E38B",
+    "systemId": "67063",
+    "name": "Shoza VIII-c"
+  },
+  {
+    "id": "0005E389",
+    "systemId": "67063",
+    "name": "Shoza VIII-d"
+  },
+  {
+    "id": "0005E35B",
+    "systemId": "67711",
+    "name": "Muphrid I"
+  },
+  {
+    "id": "0005E35C",
+    "systemId": "67711",
+    "name": "Muphrid I-a"
+  },
+  {
+    "id": "0005E35D",
+    "systemId": "67711",
+    "name": "Muphrid I-b"
+  },
+  {
+    "id": "0005E35E",
+    "systemId": "67711",
+    "name": "Muphrid II"
+  },
+  {
+    "id": "0005E35F",
+    "systemId": "67711",
+    "name": "Muphrid II-a"
+  },
+  {
+    "id": "0005E360",
+    "systemId": "67711",
+    "name": "Muphrid III"
+  },
+  {
+    "id": "0005E361",
+    "systemId": "67711",
+    "name": "Muphrid III-a"
+  },
+  {
+    "id": "0005E362",
+    "systemId": "67711",
+    "name": "Muphrid III-b"
+  },
+  {
+    "id": "0005E363",
+    "systemId": "67711",
+    "name": "Muphrid III-c"
+  },
+  {
+    "id": "0005E364",
+    "systemId": "67711",
+    "name": "Muphrid IV"
+  },
+  {
+    "id": "0005E365",
+    "systemId": "67711",
+    "name": "Muphrid V"
+  },
+  {
+    "id": "0005E367",
+    "systemId": "67711",
+    "name": "Muphrid V-a"
+  },
+  {
+    "id": "0005E369",
+    "systemId": "67711",
+    "name": "Muphrid V-b"
+  },
+  {
+    "id": "0005E368",
+    "systemId": "67711",
+    "name": "Muphrid V-c"
+  },
+  {
+    "id": "0005E366",
+    "systemId": "67711",
+    "name": "Muphrid V-d"
+  },
+  {
+    "id": "0005E36A",
+    "systemId": "67711",
+    "name": "Muphrid VI"
+  },
+  {
+    "id": "0005E36E",
+    "systemId": "67711",
+    "name": "Muphrid VI-a"
+  },
+  {
+    "id": "0005E36B",
+    "systemId": "67711",
+    "name": "Muphrid VI-b"
+  },
+  {
+    "id": "0005E36C",
+    "systemId": "67711",
+    "name": "Muphrid VI-c"
+  },
+  {
+    "id": "0005E36D",
+    "systemId": "67711",
+    "name": "Muphrid VI-d"
+  },
+  {
+    "id": "0005E36F",
+    "systemId": "67711",
+    "name": "Muphrid VII"
+  },
+  {
+    "id": "0005E372",
+    "systemId": "67711",
+    "name": "Muphrid VII-a"
+  },
+  {
+    "id": "0005E371",
+    "systemId": "67711",
+    "name": "Muphrid VII-b"
+  },
+  {
+    "id": "0005E370",
+    "systemId": "67711",
+    "name": "Muphrid VII-c"
+  },
+  {
+    "id": "0005E373",
+    "systemId": "67711",
+    "name": "Muphrid VIII"
+  },
+  {
+    "id": "0005E376",
+    "systemId": "67711",
+    "name": "Muphrid VIII-a"
+  },
+  {
+    "id": "0005E375",
+    "systemId": "67711",
+    "name": "Muphrid VIII-b"
+  },
+  {
+    "id": "0005E374",
+    "systemId": "67711",
+    "name": "Muphrid VIII-c"
+  },
+  {
+    "id": "0005E377",
+    "systemId": "67711",
+    "name": "Muphrid VIII-d"
+  },
+  {
+    "id": "0005DFC5",
+    "systemId": "68415",
+    "name": "Pyraas I"
+  },
+  {
+    "id": "0005DFC6",
+    "systemId": "68415",
+    "name": "Pyraas II"
+  },
+  {
+    "id": "0005DFC7",
+    "systemId": "68415",
+    "name": "Pyraas II-a"
+  },
+  {
+    "id": "0005DFC8",
+    "systemId": "68415",
+    "name": "Pyraas III"
+  },
+  {
+    "id": "0005DFCA",
+    "systemId": "68415",
+    "name": "Pyraas III-a"
+  },
+  {
+    "id": "0005DFC9",
+    "systemId": "68415",
+    "name": "Pyraas III-b"
+  },
+  {
+    "id": "0005DFCB",
+    "systemId": "68415",
+    "name": "Pyraas IV"
+  },
+  {
+    "id": "0005DFCC",
+    "systemId": "68415",
+    "name": "Pyraas V"
+  },
+  {
+    "id": "0005DFCD",
+    "systemId": "68415",
+    "name": "Pyraas VI"
+  },
+  {
+    "id": "0005DFCE",
+    "systemId": "68415",
+    "name": "Pyraas VI-a"
+  },
+  {
+    "id": "0005DFD1",
+    "systemId": "68415",
+    "name": "Pyraas VI-b"
+  },
+  {
+    "id": "0005DFCF",
+    "systemId": "68415",
+    "name": "Pyraas VI-c"
+  },
+  {
+    "id": "0005DFD0",
+    "systemId": "68415",
+    "name": "Pyraas VI-d"
+  },
+  {
+    "id": "0005DFD2",
+    "systemId": "68415",
+    "name": "Pyraas VII"
+  },
+  {
+    "id": "0005DFD3",
+    "systemId": "68415",
+    "name": "Pyraas VII-a"
+  },
+  {
+    "id": "0005DFD4",
+    "systemId": "68415",
+    "name": "Pyraas VII-b"
+  },
+  {
+    "id": "0005DFD5",
+    "systemId": "68415",
+    "name": "Pyraas VIII"
+  },
+  {
+    "id": "0005DFD9",
+    "systemId": "68415",
+    "name": "Pyraas VIII-a"
+  },
+  {
+    "id": "0005DFD8",
+    "systemId": "68415",
+    "name": "Pyraas VIII-b"
+  },
+  {
+    "id": "0005DFD6",
+    "systemId": "68415",
+    "name": "Pyraas VIII-c"
+  },
+  {
+    "id": "0005DFD7",
+    "systemId": "68415",
+    "name": "Pyraas VIII-d"
+  },
+  {
+    "id": "0005E34B",
+    "systemId": "68463",
+    "name": "Moloch I"
+  },
+  {
+    "id": "0005E34C",
+    "systemId": "68463",
+    "name": "Moloch I-a"
+  },
+  {
+    "id": "0005E34D",
+    "systemId": "68463",
+    "name": "Moloch II"
+  },
+  {
+    "id": "0005E34E",
+    "systemId": "68463",
+    "name": "Moloch III"
+  },
+  {
+    "id": "0005E34F",
+    "systemId": "68463",
+    "name": "Moloch IV"
+  },
+  {
+    "id": "0005E350",
+    "systemId": "68463",
+    "name": "Moloch V"
+  },
+  {
+    "id": "0005E352",
+    "systemId": "68463",
+    "name": "Moloch V-a"
+  },
+  {
+    "id": "0005E351",
+    "systemId": "68463",
+    "name": "Moloch V-b"
+  },
+  {
+    "id": "0005E353",
+    "systemId": "68463",
+    "name": "Moloch V-c"
+  },
+  {
+    "id": "0005E354",
+    "systemId": "68463",
+    "name": "Moloch V-d"
+  },
+  {
+    "id": "0005E355",
+    "systemId": "68463",
+    "name": "Moloch VI"
+  },
+  {
+    "id": "0005E357",
+    "systemId": "68463",
+    "name": "Moloch VI-a"
+  },
+  {
+    "id": "0005E356",
+    "systemId": "68463",
+    "name": "Moloch VI-b"
+  },
+  {
+    "id": "0005E358",
+    "systemId": "68463",
+    "name": "Moloch VII"
+  },
+  {
+    "id": "0005DFB1",
+    "systemId": "69192",
+    "name": "Bel I"
+  },
+  {
+    "id": "0005DFB2",
+    "systemId": "69192",
+    "name": "Bel I-a"
+  },
+  {
+    "id": "0005DFB3",
+    "systemId": "69192",
+    "name": "Bel II"
+  },
+  {
+    "id": "0005DFB4",
+    "systemId": "69192",
+    "name": "Bel II-a"
+  },
+  {
+    "id": "0005DFB5",
+    "systemId": "69192",
+    "name": "Bel III"
+  },
+  {
+    "id": "0005DFB6",
+    "systemId": "69192",
+    "name": "Bel III-a"
+  },
+  {
+    "id": "0005DFB7",
+    "systemId": "69192",
+    "name": "Bel III-b"
+  },
+  {
+    "id": "0005DFB8",
+    "systemId": "69192",
+    "name": "Bel III-c"
+  },
+  {
+    "id": "0005DFB9",
+    "systemId": "69192",
+    "name": "Bel IV"
+  },
+  {
+    "id": "0005DFBD",
+    "systemId": "69192",
+    "name": "Bel IV-a"
+  },
+  {
+    "id": "0005DFBB",
+    "systemId": "69192",
+    "name": "Bel IV-b"
+  },
+  {
+    "id": "0005DFBA",
+    "systemId": "69192",
+    "name": "Bel IV-c"
+  },
+  {
+    "id": "0005DFBC",
+    "systemId": "69192",
+    "name": "Bel IV-d"
+  },
+  {
+    "id": "0005DFBE",
+    "systemId": "69192",
+    "name": "Bel IV-e"
+  },
+  {
+    "id": "0005DFBF",
+    "systemId": "69192",
+    "name": "Bel V"
+  },
+  {
+    "id": "0005DFC0",
+    "systemId": "69192",
+    "name": "Bel V-a"
+  },
+  {
+    "id": "0005DFC1",
+    "systemId": "69192",
+    "name": "Bel VI"
+  },
+  {
+    "id": "0005DFC2",
+    "systemId": "69192",
+    "name": "Bel VII"
+  },
+  {
+    "id": "0005E336",
+    "systemId": "69451",
+    "name": "Arcturus I"
+  },
+  {
+    "id": "0005E337",
+    "systemId": "69451",
+    "name": "Arcturus II"
+  },
+  {
+    "id": "0005E338",
+    "systemId": "69451",
+    "name": "Arcturus III"
+  },
+  {
+    "id": "0005E339",
+    "systemId": "69451",
+    "name": "Arcturus III-a"
+  },
+  {
+    "id": "0005DF24",
+    "systemId": "69479",
+    "name": "Syrma I"
+  },
+  {
+    "id": "0005DF26",
+    "systemId": "69479",
+    "name": "Syrma I-a"
+  },
+  {
+    "id": "0005DF25",
+    "systemId": "69479",
+    "name": "Syrma I-b"
+  },
+  {
+    "id": "0005DF27",
+    "systemId": "69479",
+    "name": "Syrma II"
+  },
+  {
+    "id": "0005DF28",
+    "systemId": "69479",
+    "name": "Syrma II-a"
+  },
+  {
+    "id": "0005DF29",
+    "systemId": "69479",
+    "name": "Syrma III"
+  },
+  {
+    "id": "0005DF2A",
+    "systemId": "69479",
+    "name": "Syrma IV"
+  },
+  {
+    "id": "0005DF2B",
+    "systemId": "69479",
+    "name": "Syrma IV-a"
+  },
+  {
+    "id": "0005DF2C",
+    "systemId": "69479",
+    "name": "Syrma V"
+  },
+  {
+    "id": "0005DF2D",
+    "systemId": "69479",
+    "name": "Syrma V-a"
+  },
+  {
+    "id": "0005DF2E",
+    "systemId": "69479",
+    "name": "Syrma VI"
+  },
+  {
+    "id": "0005DF32",
+    "systemId": "69479",
+    "name": "Syrma VI-a"
+  },
+  {
+    "id": "0005DF30",
+    "systemId": "69479",
+    "name": "Syrma VI-b"
+  },
+  {
+    "id": "0005DF31",
+    "systemId": "69479",
+    "name": "Syrma VI-c"
+  },
+  {
+    "id": "0005DF2F",
+    "systemId": "69479",
+    "name": "Syrma VI-d"
+  },
+  {
+    "id": "0005DF33",
+    "systemId": "69479",
+    "name": "Syrma VII"
+  },
+  {
+    "id": "0005DF34",
+    "systemId": "69479",
+    "name": "Syrma VII-a"
+  },
+  {
+    "id": "0005DF35",
+    "systemId": "69479",
+    "name": "Syrma VII-b"
+  },
+  {
+    "id": "0005DF97",
+    "systemId": "69766",
+    "name": "Rana I"
+  },
+  {
+    "id": "0005DF9A",
+    "systemId": "69766",
+    "name": "Rana I-a"
+  },
+  {
+    "id": "0005DF98",
+    "systemId": "69766",
+    "name": "Rana I-b"
+  },
+  {
+    "id": "0005DF99",
+    "systemId": "69766",
+    "name": "Rana I-c"
+  },
+  {
+    "id": "0005DF9B",
+    "systemId": "69766",
+    "name": "Rana II"
+  },
+  {
+    "id": "0005DF9C",
+    "systemId": "69766",
+    "name": "Rana II-a"
+  },
+  {
+    "id": "0005DF9D",
+    "systemId": "69766",
+    "name": "Rana III"
+  },
+  {
+    "id": "0005DF9E",
+    "systemId": "69766",
+    "name": "Rana III-a"
+  },
+  {
+    "id": "0005DF9F",
+    "systemId": "69766",
+    "name": "Rana IV"
+  },
+  {
+    "id": "0005DFAC",
+    "systemId": "69766",
+    "name": "Rana IX"
+  },
+  {
+    "id": "0005DFAE",
+    "systemId": "69766",
+    "name": "Rana IX-a"
+  },
+  {
+    "id": "0005DFAD",
+    "systemId": "69766",
+    "name": "Rana IX-b"
+  },
+  {
+    "id": "0005DFA0",
+    "systemId": "69766",
+    "name": "Rana V"
+  },
+  {
+    "id": "0005DFA1",
+    "systemId": "69766",
+    "name": "Rana V-a"
+  },
+  {
+    "id": "0005DFA2",
+    "systemId": "69766",
+    "name": "Rana VI"
+  },
+  {
+    "id": "0005DFA3",
+    "systemId": "69766",
+    "name": "Rana VI-a"
+  },
+  {
+    "id": "0005DFA4",
+    "systemId": "69766",
+    "name": "Rana VI-b"
+  },
+  {
+    "id": "0005DFA5",
+    "systemId": "69766",
+    "name": "Rana VI-c"
+  },
+  {
+    "id": "0005DFA7",
+    "systemId": "69766",
+    "name": "Rana VI-d"
+  },
+  {
+    "id": "0005DFA6",
+    "systemId": "69766",
+    "name": "Rana VI-e"
+  },
+  {
+    "id": "0005DFA8",
+    "systemId": "69766",
+    "name": "Rana VII"
+  },
+  {
+    "id": "0005DFAA",
+    "systemId": "69766",
+    "name": "Rana VII-a"
+  },
+  {
+    "id": "0005DFA9",
+    "systemId": "69766",
+    "name": "Rana VII-b"
+  },
+  {
+    "id": "0005DFAB",
+    "systemId": "69766",
+    "name": "Rana VIII"
+  },
+  {
+    "id": "0005E03B",
+    "systemId": "69793",
+    "name": "Bannoc I"
+  },
+  {
+    "id": "0005E03C",
+    "systemId": "69793",
+    "name": "Bannoc II"
+  },
+  {
+    "id": "0005E03D",
+    "systemId": "69793",
+    "name": "Bannoc III"
+  },
+  {
+    "id": "0005E03E",
+    "systemId": "69793",
+    "name": "Bannoc III-a"
+  },
+  {
+    "id": "0005E03F",
+    "systemId": "69793",
+    "name": "Bannoc IV"
+  },
+  {
+    "id": "0005E041",
+    "systemId": "69793",
+    "name": "Bannoc IV-a"
+  },
+  {
+    "id": "0005E040",
+    "systemId": "69793",
+    "name": "Bannoc IV-b"
+  },
+  {
+    "id": "0005E31B",
+    "systemId": "70096",
+    "name": "Hyla I"
+  },
+  {
+    "id": "0005E31C",
+    "systemId": "70096",
+    "name": "Hyla I-a"
+  },
+  {
+    "id": "0005E31D",
+    "systemId": "70096",
+    "name": "Hyla II"
+  },
+  {
+    "id": "0005E31E",
+    "systemId": "70096",
+    "name": "Hyla II-a"
+  },
+  {
+    "id": "0005E31F",
+    "systemId": "70096",
+    "name": "Hyla II-b"
+  },
+  {
+    "id": "0005E320",
+    "systemId": "70096",
+    "name": "Hyla III"
+  },
+  {
+    "id": "0005E321",
+    "systemId": "70096",
+    "name": "Hyla IV"
+  },
+  {
+    "id": "0005E323",
+    "systemId": "70096",
+    "name": "Hyla IV-a"
+  },
+  {
+    "id": "0005E322",
+    "systemId": "70096",
+    "name": "Hyla IV-b"
+  },
+  {
+    "id": "0005E324",
+    "systemId": "70096",
+    "name": "Hyla V"
+  },
+  {
+    "id": "0005E325",
+    "systemId": "70096",
+    "name": "Hyla V-a"
+  },
+  {
+    "id": "0005E326",
+    "systemId": "70096",
+    "name": "Hyla VI"
+  },
+  {
+    "id": "0005E327",
+    "systemId": "70096",
+    "name": "Hyla VI-a"
+  },
+  {
+    "id": "0005E328",
+    "systemId": "70096",
+    "name": "Hyla VI-b"
+  },
+  {
+    "id": "0005E329",
+    "systemId": "70096",
+    "name": "Hyla VII"
+  },
+  {
+    "id": "0005E32A",
+    "systemId": "70096",
+    "name": "Hyla VII-a"
+  },
+  {
+    "id": "0005E32B",
+    "systemId": "70096",
+    "name": "Hyla VIII"
+  },
+  {
+    "id": "0005E330",
+    "systemId": "70096",
+    "name": "Hyla VIII-a"
+  },
+  {
+    "id": "0005E32C",
+    "systemId": "70096",
+    "name": "Hyla VIII-b"
+  },
+  {
+    "id": "0005E32E",
+    "systemId": "70096",
+    "name": "Hyla VIII-c"
+  },
+  {
+    "id": "0005E32D",
+    "systemId": "70096",
+    "name": "Hyla VIII-d"
+  },
+  {
+    "id": "0005E32F",
+    "systemId": "70096",
+    "name": "Hyla VIII-e"
+  },
+  {
+    "id": "0005E30E",
+    "systemId": "71456",
+    "name": "Bondar"
+  },
+  {
+    "id": "0005E315",
+    "systemId": "71456",
+    "name": "Chawla"
+  },
+  {
+    "id": "0005E310",
+    "systemId": "71456",
+    "name": "Curbeam"
+  },
+  {
+    "id": "0005E311",
+    "systemId": "71456",
+    "name": "Gagarin"
+  },
+  {
+    "id": "0005E30F",
+    "systemId": "71456",
+    "name": "Grissom"
+  },
+  {
+    "id": "0005E317",
+    "systemId": "71456",
+    "name": "Hawley"
+  },
+  {
+    "id": "0003F5A1",
+    "systemId": "71456",
+    "name": "Jemison"
+  },
+  {
+    "id": "0005E312",
+    "systemId": "71456",
+    "name": "Kurtz"
+  },
+  {
+    "id": "0005E318",
+    "systemId": "71456",
+    "name": "Lovell"
+  },
+  {
+    "id": "0005E313",
+    "systemId": "71456",
+    "name": "Olivas"
+  },
+  {
+    "id": "0005E316",
+    "systemId": "71456",
+    "name": "Voss"
+  },
+  {
+    "id": "0005E314",
+    "systemId": "71456",
+    "name": "Zamka"
+  },
+  {
+    "id": "0005DE89",
+    "systemId": "71517",
+    "name": "Kang I"
+  },
+  {
+    "id": "0005DE8A",
+    "systemId": "71517",
+    "name": "Kang II"
+  },
+  {
+    "id": "0005DE8B",
+    "systemId": "71517",
+    "name": "Kang III"
+  },
+  {
+    "id": "0005DE8C",
+    "systemId": "71517",
+    "name": "Kang IV"
+  },
+  {
+    "id": "0005DE8E",
+    "systemId": "71517",
+    "name": "Kang IV-a"
+  },
+  {
+    "id": "0005DE8F",
+    "systemId": "71517",
+    "name": "Kang IV-b"
+  },
+  {
+    "id": "0005DE8D",
+    "systemId": "71517",
+    "name": "Kang IV-c"
+  },
+  {
+    "id": "0005DE90",
+    "systemId": "71517",
+    "name": "Kang V"
+  },
+  {
+    "id": "0005DE91",
+    "systemId": "71517",
+    "name": "Kang VI"
+  },
+  {
+    "id": "0005DE92",
+    "systemId": "71517",
+    "name": "Kang VI-a"
+  },
+  {
+    "id": "0005DE93",
+    "systemId": "71517",
+    "name": "Kang VII"
+  },
+  {
+    "id": "0005DE95",
+    "systemId": "71517",
+    "name": "Kang VII-a"
+  },
+  {
+    "id": "0005DE96",
+    "systemId": "71517",
+    "name": "Kang VII-b"
+  },
+  {
+    "id": "0005DE94",
+    "systemId": "71517",
+    "name": "Kang VII-c"
+  },
+  {
+    "id": "0005DE97",
+    "systemId": "71517",
+    "name": "Kang VII-d"
+  },
+  {
+    "id": "0005DE98",
+    "systemId": "71517",
+    "name": "Kang VIII"
+  },
+  {
+    "id": "0005DE9B",
+    "systemId": "71517",
+    "name": "Kang VIII-a"
+  },
+  {
+    "id": "0005DE99",
+    "systemId": "71517",
+    "name": "Kang VIII-b"
+  },
+  {
+    "id": "0005DE9A",
+    "systemId": "71517",
+    "name": "Kang VIII-c"
+  },
+  {
+    "id": "0005DE9C",
+    "systemId": "71517",
+    "name": "Kang VIII-d"
+  },
+  {
+    "id": "0005DF0B",
+    "systemId": "71731",
+    "name": "Heinlein I"
+  },
+  {
+    "id": "0005DF0C",
+    "systemId": "71731",
+    "name": "Heinlein II"
+  },
+  {
+    "id": "0005DF0E",
+    "systemId": "71731",
+    "name": "Heinlein II-a"
+  },
+  {
+    "id": "0005DF0D",
+    "systemId": "71731",
+    "name": "Heinlein II-b"
+  },
+  {
+    "id": "0005DF0F",
+    "systemId": "71731",
+    "name": "Heinlein III"
+  },
+  {
+    "id": "0005DF10",
+    "systemId": "71731",
+    "name": "Heinlein III-a"
+  },
+  {
+    "id": "0005DF11",
+    "systemId": "71731",
+    "name": "Heinlein IV"
+  },
+  {
+    "id": "0005DF12",
+    "systemId": "71731",
+    "name": "Heinlein IV-a"
+  },
+  {
+    "id": "0005DF13",
+    "systemId": "71731",
+    "name": "Heinlein IV-b"
+  },
+  {
+    "id": "0005DF15",
+    "systemId": "71731",
+    "name": "Heinlein IV-c"
+  },
+  {
+    "id": "0005DF14",
+    "systemId": "71731",
+    "name": "Heinlein IV-d"
+  },
+  {
+    "id": "0005DF16",
+    "systemId": "71731",
+    "name": "Heinlein IV-e"
+  },
+  {
+    "id": "0005DF17",
+    "systemId": "71731",
+    "name": "Heinlein V"
+  },
+  {
+    "id": "0005DF19",
+    "systemId": "71731",
+    "name": "Heinlein V-a"
+  },
+  {
+    "id": "0005DF18",
+    "systemId": "71731",
+    "name": "Heinlein V-b"
+  },
+  {
+    "id": "0005DF1A",
+    "systemId": "71731",
+    "name": "Heinlein V-c"
+  },
+  {
+    "id": "0005DF1B",
+    "systemId": "71731",
+    "name": "Heinlein VI"
+  },
+  {
+    "id": "0005DF20",
+    "systemId": "71731",
+    "name": "Heinlein VI-a"
+  },
+  {
+    "id": "0005DF1D",
+    "systemId": "71731",
+    "name": "Heinlein VI-b"
+  },
+  {
+    "id": "0005DF1C",
+    "systemId": "71731",
+    "name": "Heinlein VI-c"
+  },
+  {
+    "id": "0005DF1F",
+    "systemId": "71731",
+    "name": "Heinlein VI-d"
+  },
+  {
+    "id": "0005DF1E",
+    "systemId": "71731",
+    "name": "Heinlein VI-e"
+  },
+  {
+    "id": "0005DF21",
+    "systemId": "71731",
+    "name": "Heinlein VII"
+  },
+  {
+    "id": "0005E2DB",
+    "systemId": "72341",
+    "name": "Freya I"
+  },
+  {
+    "id": "0005E2DC",
+    "systemId": "72341",
+    "name": "Freya II"
+  },
+  {
+    "id": "0005E2DD",
+    "systemId": "72341",
+    "name": "Freya III"
+  },
+  {
+    "id": "0005E2DE",
+    "systemId": "72341",
+    "name": "Freya IV"
+  },
+  {
+    "id": "0005E2DF",
+    "systemId": "72341",
+    "name": "Freya IV-a"
+  },
+  {
+    "id": "0005E2E0",
+    "systemId": "72341",
+    "name": "Freya IV-b"
+  },
+  {
+    "id": "0005E2E1",
+    "systemId": "72341",
+    "name": "Freya IV-c"
+  },
+  {
+    "id": "0005E2E8",
+    "systemId": "72341",
+    "name": "Freya IX"
+  },
+  {
+    "id": "0005E2EA",
+    "systemId": "72341",
+    "name": "Freya IX-a"
+  },
+  {
+    "id": "0005E2EB",
+    "systemId": "72341",
+    "name": "Freya IX-b"
+  },
+  {
+    "id": "0005E2E9",
+    "systemId": "72341",
+    "name": "Freya IX-c"
+  },
+  {
+    "id": "0005E2E2",
+    "systemId": "72341",
+    "name": "Freya V"
+  },
+  {
+    "id": "0005E2E3",
+    "systemId": "72341",
+    "name": "Freya VI"
+  },
+  {
+    "id": "0005E2E4",
+    "systemId": "72341",
+    "name": "Freya VII"
+  },
+  {
+    "id": "0005E2E5",
+    "systemId": "72341",
+    "name": "Freya VII-a"
+  },
+  {
+    "id": "0005E2E6",
+    "systemId": "72341",
+    "name": "Freya VIII"
+  },
+  {
+    "id": "0005E2E7",
+    "systemId": "72341",
+    "name": "Freya VIII-a"
+  },
+  {
+    "id": "0005E2EE",
+    "systemId": "72377",
+    "name": "Foucault I"
+  },
+  {
+    "id": "0005E2EF",
+    "systemId": "72377",
+    "name": "Foucault I-a"
+  },
+  {
+    "id": "0005E2F0",
+    "systemId": "72377",
+    "name": "Foucault I-b"
+  },
+  {
+    "id": "0005E2F1",
+    "systemId": "72377",
+    "name": "Foucault II"
+  },
+  {
+    "id": "0005E2F3",
+    "systemId": "72377",
+    "name": "Foucault II-a"
+  },
+  {
+    "id": "0005E2F2",
+    "systemId": "72377",
+    "name": "Foucault II-b"
+  },
+  {
+    "id": "0005E2F4",
+    "systemId": "72377",
+    "name": "Foucault III"
+  },
+  {
+    "id": "0005E2F6",
+    "systemId": "72377",
+    "name": "Foucault III-a"
+  },
+  {
+    "id": "0005E2F5",
+    "systemId": "72377",
+    "name": "Foucault III-b"
+  },
+  {
+    "id": "0005E2F7",
+    "systemId": "72377",
+    "name": "Foucault IV"
+  },
+  {
+    "id": "0005E2F8",
+    "systemId": "72377",
+    "name": "Foucault V"
+  },
+  {
+    "id": "0005E2F9",
+    "systemId": "72377",
+    "name": "Foucault V-a"
+  },
+  {
+    "id": "0005E2FC",
+    "systemId": "72377",
+    "name": "Foucault V-b"
+  },
+  {
+    "id": "0005E2FB",
+    "systemId": "72377",
+    "name": "Foucault V-c"
+  },
+  {
+    "id": "0005E2FA",
+    "systemId": "72377",
+    "name": "Foucault V-d"
+  },
+  {
+    "id": "0005E2FD",
+    "systemId": "72377",
+    "name": "Foucault VI"
+  },
+  {
+    "id": "0005E2FF",
+    "systemId": "72377",
+    "name": "Foucault VI-a"
+  },
+  {
+    "id": "0005E300",
+    "systemId": "72377",
+    "name": "Foucault VI-b"
+  },
+  {
+    "id": "0005E2FE",
+    "systemId": "72377",
+    "name": "Foucault VI-c"
+  },
+  {
+    "id": "0005E301",
+    "systemId": "72377",
+    "name": "Foucault VI-d"
+  },
+  {
+    "id": "0005E302",
+    "systemId": "72377",
+    "name": "Foucault VI-e"
+  },
+  {
+    "id": "0005E303",
+    "systemId": "72377",
+    "name": "Foucault VII"
+  },
+  {
+    "id": "0005E304",
+    "systemId": "72377",
+    "name": "Foucault VII-a"
+  },
+  {
+    "id": "0005E307",
+    "systemId": "72377",
+    "name": "Foucault VII-b"
+  },
+  {
+    "id": "0005E308",
+    "systemId": "72377",
+    "name": "Foucault VII-c"
+  },
+  {
+    "id": "0005E306",
+    "systemId": "72377",
+    "name": "Foucault VII-d"
+  },
+  {
+    "id": "0005E305",
+    "systemId": "72377",
+    "name": "Foucault VII-e"
+  },
+  {
+    "id": "0005E309",
+    "systemId": "72377",
+    "name": "Foucault VIII"
+  },
+  {
+    "id": "0005E30A",
+    "systemId": "72377",
+    "name": "Foucault VIII-a"
+  },
+  {
+    "id": "0005DF86",
+    "systemId": "72407",
+    "name": "Strix I"
+  },
+  {
+    "id": "0005DF87",
+    "systemId": "72407",
+    "name": "Strix I-a"
+  },
+  {
+    "id": "0005DF88",
+    "systemId": "72407",
+    "name": "Strix II"
+  },
+  {
+    "id": "0005DF89",
+    "systemId": "72407",
+    "name": "Strix III"
+  },
+  {
+    "id": "0005DF8C",
+    "systemId": "72407",
+    "name": "Strix III-a"
+  },
+  {
+    "id": "0005DF8D",
+    "systemId": "72407",
+    "name": "Strix III-b"
+  },
+  {
+    "id": "0005DF8B",
+    "systemId": "72407",
+    "name": "Strix III-c"
+  },
+  {
+    "id": "0005DF8A",
+    "systemId": "72407",
+    "name": "Strix III-d"
+  },
+  {
+    "id": "0005DF8E",
+    "systemId": "72407",
+    "name": "Strix IV"
+  },
+  {
+    "id": "0005DF8F",
+    "systemId": "72407",
+    "name": "Strix IV-a"
+  },
+  {
+    "id": "0005DF90",
+    "systemId": "72407",
+    "name": "Strix V"
+  },
+  {
+    "id": "0005DF91",
+    "systemId": "72407",
+    "name": "Strix VI"
+  },
+  {
+    "id": "0005DF92",
+    "systemId": "72407",
+    "name": "Strix VI-a"
+  },
+  {
+    "id": "0005DF94",
+    "systemId": "72407",
+    "name": "Strix VI-b"
+  },
+  {
+    "id": "0005DF93",
+    "systemId": "72407",
+    "name": "Strix VI-c"
+  },
+  {
+    "id": "0005E2C5",
+    "systemId": "72432",
+    "name": "Agamon"
+  },
+  {
+    "id": "0005E2C9",
+    "systemId": "72432",
+    "name": "Agamon A"
+  },
+  {
+    "id": "0005E2C8",
+    "systemId": "72432",
+    "name": "Agamon B"
+  },
+  {
+    "id": "0005E2C7",
+    "systemId": "72432",
+    "name": "Agamon C"
+  },
+  {
+    "id": "0005E2C6",
+    "systemId": "72432",
+    "name": "Agamon D"
+  },
+  {
+    "id": "0005E2B6",
+    "systemId": "72432",
+    "name": "Akila"
+  },
+  {
+    "id": "0005E2B8",
+    "systemId": "72432",
+    "name": "Antharum"
+  },
+  {
+    "id": "0005E2D6",
+    "systemId": "72432",
+    "name": "Belwah"
+  },
+  {
+    "id": "0005E2B7",
+    "systemId": "72432",
+    "name": "Bindi"
+  },
+  {
+    "id": "0005E2D3",
+    "systemId": "72432",
+    "name": "Bismark"
+  },
+  {
+    "id": "0005E2BC",
+    "systemId": "72432",
+    "name": "Burran"
+  },
+  {
+    "id": "0005E2B9",
+    "systemId": "72432",
+    "name": "Codos"
+  },
+  {
+    "id": "0005E2D0",
+    "systemId": "72432",
+    "name": "Cragg"
+  },
+  {
+    "id": "0005E2CF",
+    "systemId": "72432",
+    "name": "Fenn"
+  },
+  {
+    "id": "0005E2BE",
+    "systemId": "72432",
+    "name": "Grizzit"
+  },
+  {
+    "id": "0005E2D5",
+    "systemId": "72432",
+    "name": "Hardpoint"
+  },
+  {
+    "id": "0005E2C0",
+    "systemId": "72432",
+    "name": "Heilo"
+  },
+  {
+    "id": "0005E2C3",
+    "systemId": "72432",
+    "name": "Kalira"
+  },
+  {
+    "id": "0005E2D4",
+    "systemId": "72432",
+    "name": "Laramie"
+  },
+  {
+    "id": "0005E2BF",
+    "systemId": "72432",
+    "name": "Montara"
+  },
+  {
+    "id": "0005E2C4",
+    "systemId": "72432",
+    "name": "Montara Luna"
+  },
+  {
+    "id": "0005E2D2",
+    "systemId": "72432",
+    "name": "Navaha"
+  },
+  {
+    "id": "0005E2D7",
+    "systemId": "72432",
+    "name": "Olaran"
+  },
+  {
+    "id": "0005E2BD",
+    "systemId": "72432",
+    "name": "Rell"
+  },
+  {
+    "id": "0005E2B5",
+    "systemId": "72432",
+    "name": "Skink"
+  },
+  {
+    "id": "0005E2BB",
+    "systemId": "72432",
+    "name": "Smet"
+  },
+  {
+    "id": "0005E2CA",
+    "systemId": "72432",
+    "name": "Stellis"
+  },
+  {
+    "id": "0005E2CE",
+    "systemId": "72432",
+    "name": "Stellis A"
+  },
+  {
+    "id": "0005E2CD",
+    "systemId": "72432",
+    "name": "Stellis B"
+  },
+  {
+    "id": "0005E2CC",
+    "systemId": "72432",
+    "name": "Stellis C"
+  },
+  {
+    "id": "0005E2CB",
+    "systemId": "72432",
+    "name": "Stellis D"
+  },
+  {
+    "id": "0005E2D1",
+    "systemId": "72432",
+    "name": "Tahrnis"
+  },
+  {
+    "id": "0005E2C2",
+    "systemId": "72432",
+    "name": "Thren"
+  },
+  {
+    "id": "0005E2BA",
+    "systemId": "72432",
+    "name": "Washakie"
+  },
+  {
+    "id": "0005E2C1",
+    "systemId": "72432",
+    "name": "Wellish"
+  },
+  {
+    "id": "002C7831",
+    "systemId": "72717",
+    "name": "Sagan I"
+  },
+  {
+    "id": "0005E287",
+    "systemId": "72955",
+    "name": "Aranae I"
+  },
+  {
+    "id": "0005E288",
+    "systemId": "72955",
+    "name": "Aranae II"
+  },
+  {
+    "id": "0005E28A",
+    "systemId": "72955",
+    "name": "Aranae II-a"
+  },
+  {
+    "id": "0005E289",
+    "systemId": "72955",
+    "name": "Aranae II-b"
+  },
+  {
+    "id": "0005E28B",
+    "systemId": "72955",
+    "name": "Aranae III"
+  },
+  {
+    "id": "0005E28C",
+    "systemId": "72955",
+    "name": "Aranae IV"
+  },
+  {
+    "id": "0005E28F",
+    "systemId": "72955",
+    "name": "Aranae IV-a"
+  },
+  {
+    "id": "0005E28D",
+    "systemId": "72955",
+    "name": "Aranae IV-b"
+  },
+  {
+    "id": "0005E290",
+    "systemId": "72955",
+    "name": "Aranae IV-c"
+  },
+  {
+    "id": "0005E28E",
+    "systemId": "72955",
+    "name": "Aranae IV-d"
+  },
+  {
+    "id": "0005E291",
+    "systemId": "72955",
+    "name": "Aranae V"
+  },
+  {
+    "id": "0005E29C",
+    "systemId": "72957",
+    "name": "Aion"
+  },
+  {
+    "id": "0005E299",
+    "systemId": "72957",
+    "name": "Ananke"
+  },
+  {
+    "id": "0005E29F",
+    "systemId": "72957",
+    "name": "Cybele"
+  },
+  {
+    "id": "0005E29D",
+    "systemId": "72957",
+    "name": "Dionysus"
+  },
+  {
+    "id": "0005E296",
+    "systemId": "72957",
+    "name": "Erebus"
+  },
+  {
+    "id": "0005E29B",
+    "systemId": "72957",
+    "name": "Hypnos"
+  },
+  {
+    "id": "0005E29E",
+    "systemId": "72957",
+    "name": "Mithras"
+  },
+  {
+    "id": "0005E294",
+    "systemId": "72957",
+    "name": "Nesoi"
+  },
+  {
+    "id": "0005E2A0",
+    "systemId": "72957",
+    "name": "Orphius"
+  },
+  {
+    "id": "0005E295",
+    "systemId": "72957",
+    "name": "Ourea"
+  },
+  {
+    "id": "0005E297",
+    "systemId": "72957",
+    "name": "Pontus"
+  },
+  {
+    "id": "0005E298",
+    "systemId": "72957",
+    "name": "Thalassa"
+  },
+  {
+    "id": "0005E29A",
+    "systemId": "72957",
+    "name": "Thanatos"
+  },
+  {
+    "id": "0005DDF0",
+    "systemId": "73018",
+    "name": "Bohr I"
+  },
+  {
+    "id": "0005DDF1",
+    "systemId": "73018",
+    "name": "Bohr I-a"
+  },
+  {
+    "id": "0003F598",
+    "systemId": "73018",
+    "name": "Bohr II"
+  },
+  {
+    "id": "0005DDF2",
+    "systemId": "73018",
+    "name": "Bohr III"
+  },
+  {
+    "id": "0005DDF3",
+    "systemId": "73018",
+    "name": "Bohr III-a"
+  },
+  {
+    "id": "0005DDF4",
+    "systemId": "73018",
+    "name": "Bohr III-b"
+  },
+  {
+    "id": "0005DDF5",
+    "systemId": "73018",
+    "name": "Bohr IV"
+  },
+  {
+    "id": "0005DDF6",
+    "systemId": "73018",
+    "name": "Bohr V"
+  },
+  {
+    "id": "0005DDF7",
+    "systemId": "73018",
+    "name": "Bohr VI"
+  },
+  {
+    "id": "0005DDF9",
+    "systemId": "73018",
+    "name": "Bohr VI-a"
+  },
+  {
+    "id": "0005DDF8",
+    "systemId": "73018",
+    "name": "Bohr VI-b"
+  },
+  {
+    "id": "0005DDFA",
+    "systemId": "73018",
+    "name": "Bohr VI-c"
+  },
+  {
+    "id": "0005DDFB",
+    "systemId": "73018",
+    "name": "Bohr VI-d"
+  },
+  {
+    "id": "0005DDFC",
+    "systemId": "73018",
+    "name": "Bohr VII"
+  },
+  {
+    "id": "0005DDFD",
+    "systemId": "73018",
+    "name": "Bohr VIII"
+  },
+  {
+    "id": "0005DE02",
+    "systemId": "73082",
+    "name": "Huygens I"
+  },
+  {
+    "id": "0005DE03",
+    "systemId": "73082",
+    "name": "Huygens I-a"
+  },
+  {
+    "id": "0005DE05",
+    "systemId": "73082",
+    "name": "Huygens I-b"
+  },
+  {
+    "id": "0005DE0A",
+    "systemId": "73082",
+    "name": "Huygens II"
+  },
+  {
+    "id": "0005DE0B",
+    "systemId": "73082",
+    "name": "Huygens II-a"
+  },
+  {
+    "id": "0005DE0C",
+    "systemId": "73082",
+    "name": "Huygens II-b"
+  },
+  {
+    "id": "0005DE0D",
+    "systemId": "73082",
+    "name": "Huygens III"
+  },
+  {
+    "id": "0005DE0E",
+    "systemId": "73082",
+    "name": "Huygens IV"
+  },
+  {
+    "id": "0005DE0F",
+    "systemId": "73082",
+    "name": "Huygens V"
+  },
+  {
+    "id": "0005DE10",
+    "systemId": "73082",
+    "name": "Huygens V-a"
+  },
+  {
+    "id": "0005DE11",
+    "systemId": "73082",
+    "name": "Huygens V-b"
+  },
+  {
+    "id": "0005DE12",
+    "systemId": "73082",
+    "name": "Huygens VI"
+  },
+  {
+    "id": "0005DE13",
+    "systemId": "73082",
+    "name": "Huygens VI-a"
+  },
+  {
+    "id": "0005DE14",
+    "systemId": "73082",
+    "name": "Huygens VII"
+  },
+  {
+    "id": "0005DE16",
+    "systemId": "73082",
+    "name": "Huygens VII-a"
+  },
+  {
+    "id": "0005DE15",
+    "systemId": "73082",
+    "name": "Huygens VII-b"
+  },
+  {
+    "id": "0005DE17",
+    "systemId": "73082",
+    "name": "Huygens VII-c"
+  },
+  {
+    "id": "0005DE19",
+    "systemId": "73082",
+    "name": "Huygens VII-d"
+  },
+  {
+    "id": "0005DE18",
+    "systemId": "73082",
+    "name": "Huygens VII-e"
+  },
+  {
+    "id": "0005DE1A",
+    "systemId": "73082",
+    "name": "Huygens VIII"
+  },
+  {
+    "id": "0005DE1D",
+    "systemId": "73489",
+    "name": "Hawking I"
+  },
+  {
+    "id": "0005DE1E",
+    "systemId": "73489",
+    "name": "Hawking I-a"
+  },
+  {
+    "id": "0005DE1F",
+    "systemId": "73489",
+    "name": "Hawking II"
+  },
+  {
+    "id": "0005DE20",
+    "systemId": "73489",
+    "name": "Hawking III"
+  },
+  {
+    "id": "0005DE21",
+    "systemId": "73489",
+    "name": "Hawking IV"
+  },
+  {
+    "id": "0005DE22",
+    "systemId": "73489",
+    "name": "Hawking IV-a"
+  },
+  {
+    "id": "0005DE23",
+    "systemId": "73489",
+    "name": "Hawking V"
+  },
+  {
+    "id": "0005DE24",
+    "systemId": "73489",
+    "name": "Hawking V-a"
+  },
+  {
+    "id": "0005DE25",
+    "systemId": "73489",
+    "name": "Hawking VI"
+  },
+  {
+    "id": "0005DE27",
+    "systemId": "73489",
+    "name": "Hawking VI-a"
+  },
+  {
+    "id": "0005DE26",
+    "systemId": "73489",
+    "name": "Hawking VI-b"
+  },
+  {
+    "id": "0005DE2A",
+    "systemId": "73788",
+    "name": "Fermi I"
+  },
+  {
+    "id": "0005DE2B",
+    "systemId": "73788",
+    "name": "Fermi II"
+  },
+  {
+    "id": "0005DE2C",
+    "systemId": "73788",
+    "name": "Fermi II-a"
+  },
+  {
+    "id": "0005DE2D",
+    "systemId": "73788",
+    "name": "Fermi III"
+  },
+  {
+    "id": "0005DE2E",
+    "systemId": "73788",
+    "name": "Fermi III-a"
+  },
+  {
+    "id": "0005DE2F",
+    "systemId": "73788",
+    "name": "Fermi III-b"
+  },
+  {
+    "id": "0005DE30",
+    "systemId": "73788",
+    "name": "Fermi IV"
+  },
+  {
+    "id": "0005DE32",
+    "systemId": "73788",
+    "name": "Fermi IV-a"
+  },
+  {
+    "id": "0005DE31",
+    "systemId": "73788",
+    "name": "Fermi IV-b"
+  },
+  {
+    "id": "0005DE40",
+    "systemId": "73788",
+    "name": "Fermi IX"
+  },
+  {
+    "id": "0005DE45",
+    "systemId": "73788",
+    "name": "Fermi IX-a"
+  },
+  {
+    "id": "0005DE42",
+    "systemId": "73788",
+    "name": "Fermi IX-b"
+  },
+  {
+    "id": "0005DE43",
+    "systemId": "73788",
+    "name": "Fermi IX-c"
+  },
+  {
+    "id": "0005DE41",
+    "systemId": "73788",
+    "name": "Fermi IX-d"
+  },
+  {
+    "id": "0005DE44",
+    "systemId": "73788",
+    "name": "Fermi IX-e"
+  },
+  {
+    "id": "0005DE33",
+    "systemId": "73788",
+    "name": "Fermi V"
+  },
+  {
+    "id": "0005DE34",
+    "systemId": "73788",
+    "name": "Fermi V-a"
+  },
+  {
+    "id": "0005DE35",
+    "systemId": "73788",
+    "name": "Fermi VI"
+  },
+  {
+    "id": "0005DE36",
+    "systemId": "73788",
+    "name": "Fermi VI-a"
+  },
+  {
+    "id": "0005DE37",
+    "systemId": "73788",
+    "name": "Fermi VII"
+  },
+  {
+    "id": "0005DE3A",
+    "systemId": "73788",
+    "name": "Fermi VII-a"
+  },
+  {
+    "id": "0005DE39",
+    "systemId": "73788",
+    "name": "Fermi VII-b"
+  },
+  {
+    "id": "0005DE38",
+    "systemId": "73788",
+    "name": "Fermi VII-c"
+  },
+  {
+    "id": "0005DE3B",
+    "systemId": "73788",
+    "name": "Fermi VIII"
+  },
+  {
+    "id": "0005DE3C",
+    "systemId": "73788",
+    "name": "Fermi VIII-a"
+  },
+  {
+    "id": "0005DE3F",
+    "systemId": "73788",
+    "name": "Fermi VIII-b"
+  },
+  {
+    "id": "0005DE3E",
+    "systemId": "73788",
+    "name": "Fermi VIII-c"
+  },
+  {
+    "id": "0005DE3D",
+    "systemId": "73788",
+    "name": "Fermi VIII-d"
+  },
+  {
+    "id": "0005DE46",
+    "systemId": "73788",
+    "name": "Fermi X"
+  },
+  {
+    "id": "0005E5A1",
+    "systemId": "74309",
+    "name": "Ophion I"
+  },
+  {
+    "id": "0005E5A2",
+    "systemId": "74309",
+    "name": "Ophion I-a"
+  },
+  {
+    "id": "0005DE60",
+    "systemId": "74746",
+    "name": "Maal I"
+  },
+  {
+    "id": "0005DE62",
+    "systemId": "74746",
+    "name": "Maal I-a"
+  },
+  {
+    "id": "0005DE61",
+    "systemId": "74746",
+    "name": "Maal I-b"
+  },
+  {
+    "id": "0005DE63",
+    "systemId": "74746",
+    "name": "Maal II"
+  },
+  {
+    "id": "0005DE64",
+    "systemId": "74746",
+    "name": "Maal II-a"
+  },
+  {
+    "id": "0005DE65",
+    "systemId": "74746",
+    "name": "Maal III"
+  },
+  {
+    "id": "0005DE66",
+    "systemId": "74746",
+    "name": "Maal III-a"
+  },
+  {
+    "id": "0005DE67",
+    "systemId": "74746",
+    "name": "Maal IV"
+  },
+  {
+    "id": "0005DE71",
+    "systemId": "74746",
+    "name": "Maal IX"
+  },
+  {
+    "id": "0005DE72",
+    "systemId": "74746",
+    "name": "Maal IX-a"
+  },
+  {
+    "id": "0005DE74",
+    "systemId": "74746",
+    "name": "Maal IX-b"
+  },
+  {
+    "id": "0005DE75",
+    "systemId": "74746",
+    "name": "Maal IX-c"
+  },
+  {
+    "id": "0005DE73",
+    "systemId": "74746",
+    "name": "Maal IX-d"
+  },
+  {
+    "id": "0005DE68",
+    "systemId": "74746",
+    "name": "Maal V"
+  },
+  {
+    "id": "0005DE69",
+    "systemId": "74746",
+    "name": "Maal V-a"
+  },
+  {
+    "id": "0005DE6A",
+    "systemId": "74746",
+    "name": "Maal VI"
+  },
+  {
+    "id": "0005DE6B",
+    "systemId": "74746",
+    "name": "Maal VI-a"
+  },
+  {
+    "id": "0005DE6D",
+    "systemId": "74746",
+    "name": "Maal VI-b"
+  },
+  {
+    "id": "0005DE6C",
+    "systemId": "74746",
+    "name": "Maal VI-c"
+  },
+  {
+    "id": "0005DE6E",
+    "systemId": "74746",
+    "name": "Maal VII"
+  },
+  {
+    "id": "0005DE6F",
+    "systemId": "74746",
+    "name": "Maal VIII"
+  },
+  {
+    "id": "0005DE70",
+    "systemId": "74746",
+    "name": "Maal VIII-a"
+  },
+  {
+    "id": "0005DE76",
+    "systemId": "74746",
+    "name": "Maal X"
+  },
+  {
+    "id": "0005DE49",
+    "systemId": "75150",
+    "name": "Archimedes I"
+  },
+  {
+    "id": "0005DE4A",
+    "systemId": "75150",
+    "name": "Archimedes I-a"
+  },
+  {
+    "id": "0005DE4B",
+    "systemId": "75150",
+    "name": "Archimedes II"
+  },
+  {
+    "id": "0005DE4C",
+    "systemId": "75150",
+    "name": "Archimedes III"
+  },
+  {
+    "id": "0005DE4D",
+    "systemId": "75150",
+    "name": "Archimedes IV"
+  },
+  {
+    "id": "0005DE4E",
+    "systemId": "75150",
+    "name": "Archimedes IV-a"
+  },
+  {
+    "id": "0005DE4F",
+    "systemId": "75150",
+    "name": "Archimedes V"
+  },
+  {
+    "id": "0005DE51",
+    "systemId": "75150",
+    "name": "Archimedes V-a"
+  },
+  {
+    "id": "0005DE50",
+    "systemId": "75150",
+    "name": "Archimedes V-b"
+  },
+  {
+    "id": "0005DE52",
+    "systemId": "75150",
+    "name": "Archimedes VI"
+  },
+  {
+    "id": "0005DE53",
+    "systemId": "75150",
+    "name": "Archimedes VI-a"
+  },
+  {
+    "id": "0005DE54",
+    "systemId": "75150",
+    "name": "Archimedes VI-b"
+  },
+  {
+    "id": "0005E278",
+    "systemId": "75489",
+    "name": "Gamma Vulpes I"
+  },
+  {
+    "id": "0005E279",
+    "systemId": "75489",
+    "name": "Gamma Vulpes II"
+  },
+  {
+    "id": "0005E27B",
+    "systemId": "75489",
+    "name": "Gamma Vulpes II-a"
+  },
+  {
+    "id": "0005E27A",
+    "systemId": "75489",
+    "name": "Gamma Vulpes II-b"
+  },
+  {
+    "id": "0005E27C",
+    "systemId": "75489",
+    "name": "Gamma Vulpes II-c"
+  },
+  {
+    "id": "0005E27D",
+    "systemId": "75489",
+    "name": "Gamma Vulpes II-d"
+  },
+  {
+    "id": "0005E27E",
+    "systemId": "75489",
+    "name": "Gamma Vulpes III"
+  },
+  {
+    "id": "0005E27F",
+    "systemId": "75489",
+    "name": "Gamma Vulpes III-a"
+  },
+  {
+    "id": "0005E280",
+    "systemId": "75489",
+    "name": "Gamma Vulpes IV"
+  },
+  {
+    "id": "0005E284",
+    "systemId": "75489",
+    "name": "Gamma Vulpes IV-a"
+  },
+  {
+    "id": "0005E281",
+    "systemId": "75489",
+    "name": "Gamma Vulpes IV-b"
+  },
+  {
+    "id": "0005E282",
+    "systemId": "75489",
+    "name": "Gamma Vulpes IV-c"
+  },
+  {
+    "id": "0005E283",
+    "systemId": "75489",
+    "name": "Gamma Vulpes IV-d"
+  },
+  {
+    "id": "0005E266",
+    "systemId": "75493",
+    "name": "Delta Vulpes I"
+  },
+  {
+    "id": "0005E267",
+    "systemId": "75493",
+    "name": "Delta Vulpes II"
+  },
+  {
+    "id": "0005E268",
+    "systemId": "75493",
+    "name": "Delta Vulpes III"
+  },
+  {
+    "id": "0005E269",
+    "systemId": "75493",
+    "name": "Delta Vulpes III-a"
+  },
+  {
+    "id": "0005E26A",
+    "systemId": "75493",
+    "name": "Delta Vulpes IV"
+  },
+  {
+    "id": "0005E26B",
+    "systemId": "75493",
+    "name": "Delta Vulpes IV-a"
+  },
+  {
+    "id": "0005E26C",
+    "systemId": "75493",
+    "name": "Delta Vulpes V"
+  },
+  {
+    "id": "0005E271",
+    "systemId": "75493",
+    "name": "Delta Vulpes V-a"
+  },
+  {
+    "id": "0005E270",
+    "systemId": "75493",
+    "name": "Delta Vulpes V-b"
+  },
+  {
+    "id": "0005E26E",
+    "systemId": "75493",
+    "name": "Delta Vulpes V-c"
+  },
+  {
+    "id": "0005E26F",
+    "systemId": "75493",
+    "name": "Delta Vulpes V-d"
+  },
+  {
+    "id": "0005E26D",
+    "systemId": "75493",
+    "name": "Delta Vulpes V-e"
+  },
+  {
+    "id": "0005E272",
+    "systemId": "75493",
+    "name": "Delta Vulpes VI"
+  },
+  {
+    "id": "0005E273",
+    "systemId": "75493",
+    "name": "Delta Vulpes VI-a"
+  },
+  {
+    "id": "0005E274",
+    "systemId": "75493",
+    "name": "Delta Vulpes VII"
+  },
+  {
+    "id": "0005E255",
+    "systemId": "76816",
+    "name": "Copernicus I"
+  },
+  {
+    "id": "0005E256",
+    "systemId": "76816",
+    "name": "Copernicus II"
+  },
+  {
+    "id": "0005E257",
+    "systemId": "76816",
+    "name": "Copernicus III"
+  },
+  {
+    "id": "0005E258",
+    "systemId": "76816",
+    "name": "Copernicus III-a"
+  },
+  {
+    "id": "0005E259",
+    "systemId": "76816",
+    "name": "Copernicus IV"
+  },
+  {
+    "id": "0005E25A",
+    "systemId": "76816",
+    "name": "Copernicus V"
+  },
+  {
+    "id": "0005E25B",
+    "systemId": "76816",
+    "name": "Copernicus VI"
+  },
+  {
+    "id": "0005E25C",
+    "systemId": "76816",
+    "name": "Copernicus VII"
+  },
+  {
+    "id": "0005E25E",
+    "systemId": "76816",
+    "name": "Copernicus VII-a"
+  },
+  {
+    "id": "0005E25D",
+    "systemId": "76816",
+    "name": "Copernicus VII-b"
+  },
+  {
+    "id": "0005E25F",
+    "systemId": "76816",
+    "name": "Copernicus VIII"
+  },
+  {
+    "id": "0005E262",
+    "systemId": "76816",
+    "name": "Copernicus VIII-a"
+  },
+  {
+    "id": "0005E260",
+    "systemId": "76816",
+    "name": "Copernicus VIII-b"
+  },
+  {
+    "id": "0005E261",
+    "systemId": "76816",
+    "name": "Copernicus VIII-c"
+  },
+  {
+    "id": "0005E263",
+    "systemId": "76816",
+    "name": "Copernicus VIII-d"
+  },
+  {
+    "id": "0005E23F",
+    "systemId": "76835",
+    "name": "Serpentis I"
+  },
+  {
+    "id": "0005E240",
+    "systemId": "76835",
+    "name": "Serpentis II"
+  },
+  {
+    "id": "0005E241",
+    "systemId": "76835",
+    "name": "Serpentis II-a"
+  },
+  {
+    "id": "0005E242",
+    "systemId": "76835",
+    "name": "Serpentis II-b"
+  },
+  {
+    "id": "0005E243",
+    "systemId": "76835",
+    "name": "Serpentis III"
+  },
+  {
+    "id": "0005E244",
+    "systemId": "76835",
+    "name": "Serpentis IV"
+  },
+  {
+    "id": "0005E245",
+    "systemId": "76835",
+    "name": "Serpentis IV-a"
+  },
+  {
+    "id": "0005E246",
+    "systemId": "76835",
+    "name": "Serpentis V"
+  },
+  {
+    "id": "0005E249",
+    "systemId": "76835",
+    "name": "Serpentis V-a"
+  },
+  {
+    "id": "0005E24A",
+    "systemId": "76835",
+    "name": "Serpentis V-b"
+  },
+  {
+    "id": "0005E247",
+    "systemId": "76835",
+    "name": "Serpentis V-c"
+  },
+  {
+    "id": "0005E248",
+    "systemId": "76835",
+    "name": "Serpentis V-d"
+  },
+  {
+    "id": "0005E24B",
+    "systemId": "76835",
+    "name": "Serpentis VI"
+  },
+  {
+    "id": "0005E24C",
+    "systemId": "76835",
+    "name": "Serpentis VI-a"
+  },
+  {
+    "id": "0005E24D",
+    "systemId": "76835",
+    "name": "Serpentis VI-b"
+  },
+  {
+    "id": "0005E239",
+    "systemId": "77022",
+    "name": "Boron"
+  },
+  {
+    "id": "0005E238",
+    "systemId": "77022",
+    "name": "Candore"
+  },
+  {
+    "id": "0005E236",
+    "systemId": "77022",
+    "name": "Ice"
+  },
+  {
+    "id": "0005E23C",
+    "systemId": "77022",
+    "name": "Max"
+  },
+  {
+    "id": "0005E237",
+    "systemId": "77022",
+    "name": "Neebas"
+  },
+  {
+    "id": "0005E23B",
+    "systemId": "77022",
+    "name": "Nox"
+  },
+  {
+    "id": "0005E23A",
+    "systemId": "77022",
+    "name": "Rocklock"
+  },
+  {
+    "id": "0005E235",
+    "systemId": "77022",
+    "name": "Suvorov"
+  },
+  {
+    "id": "0005E599",
+    "systemId": "77172",
+    "name": "Delah"
+  },
+  {
+    "id": "0005E59B",
+    "systemId": "77172",
+    "name": "Ka'zaal"
+  },
+  {
+    "id": "0005E59A",
+    "systemId": "77172",
+    "name": "Kazarah"
+  },
+  {
+    "id": "0005E598",
+    "systemId": "77172",
+    "name": "Lontrah"
+  },
+  {
+    "id": "0005E59D",
+    "systemId": "77172",
+    "name": "N'raal"
+  },
+  {
+    "id": "0005E59C",
+    "systemId": "77172",
+    "name": "Nirah Prime"
+  },
+  {
+    "id": "0005E59E",
+    "systemId": "77172",
+    "name": "Umanah"
+  },
+  {
+    "id": "0005DED5",
+    "systemId": "78498",
+    "name": "Enlil I"
+  },
+  {
+    "id": "0005DED6",
+    "systemId": "78498",
+    "name": "Enlil I-a"
+  },
+  {
+    "id": "0005DED7",
+    "systemId": "78498",
+    "name": "Enlil II"
+  },
+  {
+    "id": "0005DED8",
+    "systemId": "78498",
+    "name": "Enlil II-a"
+  },
+  {
+    "id": "0005DED9",
+    "systemId": "78498",
+    "name": "Enlil III"
+  },
+  {
+    "id": "0005DEDA",
+    "systemId": "78498",
+    "name": "Enlil IV"
+  },
+  {
+    "id": "0005DEDB",
+    "systemId": "78498",
+    "name": "Enlil IV-a"
+  },
+  {
+    "id": "0005DEDC",
+    "systemId": "78498",
+    "name": "Enlil V"
+  },
+  {
+    "id": "0005DEDE",
+    "systemId": "78498",
+    "name": "Enlil VI"
+  },
+  {
+    "id": "0005DEE1",
+    "systemId": "78498",
+    "name": "Enlil VI-a"
+  },
+  {
+    "id": "0005DEE2",
+    "systemId": "78498",
+    "name": "Enlil VI-b"
+  },
+  {
+    "id": "0005DEE0",
+    "systemId": "78498",
+    "name": "Enlil VI-c"
+  },
+  {
+    "id": "0005DEDF",
+    "systemId": "78498",
+    "name": "Enlil VI-d"
+  },
+  {
+    "id": "0005DEE3",
+    "systemId": "78498",
+    "name": "Enlil VII"
+  },
+  {
+    "id": "0005DEE4",
+    "systemId": "78498",
+    "name": "Enlil VII-a"
+  },
+  {
+    "id": "0005E21E",
+    "systemId": "79252",
+    "name": "Sparta I"
+  },
+  {
+    "id": "0005E21F",
+    "systemId": "79252",
+    "name": "Sparta II"
+  },
+  {
+    "id": "0005E221",
+    "systemId": "79252",
+    "name": "Sparta II-a"
+  },
+  {
+    "id": "0005E220",
+    "systemId": "79252",
+    "name": "Sparta II-b"
+  },
+  {
+    "id": "0005E222",
+    "systemId": "79252",
+    "name": "Sparta III"
+  },
+  {
+    "id": "0005E223",
+    "systemId": "79252",
+    "name": "Sparta III-a"
+  },
+  {
+    "id": "0005E224",
+    "systemId": "79252",
+    "name": "Sparta IV"
+  },
+  {
+    "id": "0005E225",
+    "systemId": "79252",
+    "name": "Sparta V"
+  },
+  {
+    "id": "0005E226",
+    "systemId": "79252",
+    "name": "Sparta V-a"
+  },
+  {
+    "id": "0005E227",
+    "systemId": "79252",
+    "name": "Sparta VI"
+  },
+  {
+    "id": "0005E228",
+    "systemId": "79252",
+    "name": "Sparta VI-a"
+  },
+  {
+    "id": "0005E229",
+    "systemId": "79252",
+    "name": "Sparta VI-b"
+  },
+  {
+    "id": "0005E22A",
+    "systemId": "79252",
+    "name": "Sparta VI-c"
+  },
+  {
+    "id": "0005E22B",
+    "systemId": "79252",
+    "name": "Sparta VII"
+  },
+  {
+    "id": "0005E22C",
+    "systemId": "79252",
+    "name": "Sparta VII-a"
+  },
+  {
+    "id": "0005E22E",
+    "systemId": "79252",
+    "name": "Sparta VII-b"
+  },
+  {
+    "id": "0005E22D",
+    "systemId": "79252",
+    "name": "Sparta VII-c"
+  },
+  {
+    "id": "0005E22F",
+    "systemId": "79252",
+    "name": "Sparta VIII"
+  },
+  {
+    "id": "0005E231",
+    "systemId": "79252",
+    "name": "Sparta VIII-a"
+  },
+  {
+    "id": "0005E232",
+    "systemId": "79252",
+    "name": "Sparta VIII-b"
+  },
+  {
+    "id": "0005E230",
+    "systemId": "79252",
+    "name": "Sparta VIII-c"
+  },
+  {
+    "id": "0005E208",
+    "systemId": "79431",
+    "name": "Jaffa I"
+  },
+  {
+    "id": "0005E209",
+    "systemId": "79431",
+    "name": "Jaffa I-a"
+  },
+  {
+    "id": "0005E20A",
+    "systemId": "79431",
+    "name": "Jaffa II"
+  },
+  {
+    "id": "0005E20B",
+    "systemId": "79431",
+    "name": "Jaffa II-a"
+  },
+  {
+    "id": "0005E20C",
+    "systemId": "79431",
+    "name": "Jaffa III"
+  },
+  {
+    "id": "0005E20D",
+    "systemId": "79431",
+    "name": "Jaffa IV"
+  },
+  {
+    "id": "0005E20E",
+    "systemId": "79431",
+    "name": "Jaffa IV-a"
+  },
+  {
+    "id": "0005E20F",
+    "systemId": "79431",
+    "name": "Jaffa V"
+  },
+  {
+    "id": "0005E210",
+    "systemId": "79431",
+    "name": "Jaffa V-a"
+  },
+  {
+    "id": "0005E211",
+    "systemId": "79431",
+    "name": "Jaffa VI"
+  },
+  {
+    "id": "0005E212",
+    "systemId": "79431",
+    "name": "Jaffa VI-a"
+  },
+  {
+    "id": "0005E214",
+    "systemId": "79431",
+    "name": "Jaffa VI-b"
+  },
+  {
+    "id": "0005E213",
+    "systemId": "79431",
+    "name": "Jaffa VI-c"
+  },
+  {
+    "id": "0005E215",
+    "systemId": "79431",
+    "name": "Jaffa VII"
+  },
+  {
+    "id": "0005E21A",
+    "systemId": "79431",
+    "name": "Jaffa VII-a"
+  },
+  {
+    "id": "0005E216",
+    "systemId": "79431",
+    "name": "Jaffa VII-b"
+  },
+  {
+    "id": "0005E217",
+    "systemId": "79431",
+    "name": "Jaffa VII-c"
+  },
+  {
+    "id": "0005E219",
+    "systemId": "79431",
+    "name": "Jaffa VII-d"
+  },
+  {
+    "id": "0005E218",
+    "systemId": "79431",
+    "name": "Jaffa VII-e"
+  },
+  {
+    "id": "0005E21B",
+    "systemId": "79431",
+    "name": "Jaffa VIII"
+  },
+  {
+    "id": "0005E09F",
+    "systemId": "8087",
+    "name": "Tau Ceti I"
+  },
+  {
+    "id": "0005E0A0",
+    "systemId": "8087",
+    "name": "Tau Ceti II"
+  },
+  {
+    "id": "0005E0A1",
+    "systemId": "8087",
+    "name": "Tau Ceti II-a"
+  },
+  {
+    "id": "0005E0A2",
+    "systemId": "8087",
+    "name": "Tau Ceti III"
+  },
+  {
+    "id": "0005E0A3",
+    "systemId": "8087",
+    "name": "Tau Ceti IV"
+  },
+  {
+    "id": "0005E0A5",
+    "systemId": "8087",
+    "name": "Tau Ceti IV-a"
+  },
+  {
+    "id": "0005E0A4",
+    "systemId": "8087",
+    "name": "Tau Ceti IV-b"
+  },
+  {
+    "id": "0005E0AF",
+    "systemId": "8087",
+    "name": "Tau Ceti IX"
+  },
+  {
+    "id": "0005E0A6",
+    "systemId": "8087",
+    "name": "Tau Ceti V"
+  },
+  {
+    "id": "0005E0A7",
+    "systemId": "8087",
+    "name": "Tau Ceti VI"
+  },
+  {
+    "id": "0005E0A8",
+    "systemId": "8087",
+    "name": "Tau Ceti VI-a"
+  },
+  {
+    "id": "0005E0A9",
+    "systemId": "8087",
+    "name": "Tau Ceti VII"
+  },
+  {
+    "id": "0005E0AA",
+    "systemId": "8087",
+    "name": "Tau Ceti VII-a"
+  },
+  {
+    "id": "0005E0AB",
+    "systemId": "8087",
+    "name": "Tau Ceti VIII"
+  },
+  {
+    "id": "0005E0AC",
+    "systemId": "8087",
+    "name": "Tau Ceti VIII-a"
+  },
+  {
+    "id": "0005E0B0",
+    "systemId": "8087",
+    "name": "Tau Ceti VIII-b"
+  },
+  {
+    "id": "0005E0AD",
+    "systemId": "8087",
+    "name": "Tau Ceti VIII-c"
+  },
+  {
+    "id": "0005E0AE",
+    "systemId": "8087",
+    "name": "Tau Ceti VIII-d"
+  },
+  {
+    "id": "0005E1FD",
+    "systemId": "81444",
+    "name": "Bradbury I"
+  },
+  {
+    "id": "0005E1FF",
+    "systemId": "81444",
+    "name": "Bradbury I-a"
+  },
+  {
+    "id": "0005E1FE",
+    "systemId": "81444",
+    "name": "Bradbury I-b"
+  },
+  {
+    "id": "0005E200",
+    "systemId": "81444",
+    "name": "Bradbury II"
+  },
+  {
+    "id": "0005E201",
+    "systemId": "81444",
+    "name": "Bradbury III"
+  },
+  {
+    "id": "0005E202",
+    "systemId": "81444",
+    "name": "Bradbury IV"
+  },
+  {
+    "id": "0005E203",
+    "systemId": "81444",
+    "name": "Bradbury IV-a"
+  },
+  {
+    "id": "0005E204",
+    "systemId": "81444",
+    "name": "Bradbury V"
+  },
+  {
+    "id": "0005E205",
+    "systemId": "81444",
+    "name": "Bradbury V-a"
+  },
+  {
+    "id": "0005E1ED",
+    "systemId": "82337",
+    "name": "Tidacha I"
+  },
+  {
+    "id": "0005E1EE",
+    "systemId": "82337",
+    "name": "Tidacha I-a"
+  },
+  {
+    "id": "0005E1F0",
+    "systemId": "82337",
+    "name": "Tidacha I-b"
+  },
+  {
+    "id": "0005E1EF",
+    "systemId": "82337",
+    "name": "Tidacha I-c"
+  },
+  {
+    "id": "0005E1DA",
+    "systemId": "83021",
+    "name": "Masada I"
+  },
+  {
+    "id": "0005E1DB",
+    "systemId": "83021",
+    "name": "Masada II"
+  },
+  {
+    "id": "0005E1DC",
+    "systemId": "83021",
+    "name": "Masada III"
+  },
+  {
+    "id": "0005E1DD",
+    "systemId": "83021",
+    "name": "Masada IV"
+  },
+  {
+    "id": "0005E1DE",
+    "systemId": "83021",
+    "name": "Masada IV-a"
+  },
+  {
+    "id": "0005E1EA",
+    "systemId": "83021",
+    "name": "Masada IX"
+  },
+  {
+    "id": "0005E1DF",
+    "systemId": "83021",
+    "name": "Masada V"
+  },
+  {
+    "id": "0005E1E1",
+    "systemId": "83021",
+    "name": "Masada V-a"
+  },
+  {
+    "id": "0005E1E0",
+    "systemId": "83021",
+    "name": "Masada V-b"
+  },
+  {
+    "id": "0005E1E2",
+    "systemId": "83021",
+    "name": "Masada V-c"
+  },
+  {
+    "id": "0005E1E3",
+    "systemId": "83021",
+    "name": "Masada VI"
+  },
+  {
+    "id": "0005E1E4",
+    "systemId": "83021",
+    "name": "Masada VI-a"
+  },
+  {
+    "id": "0005E1E5",
+    "systemId": "83021",
+    "name": "Masada VII"
+  },
+  {
+    "id": "0005E1E6",
+    "systemId": "83021",
+    "name": "Masada VII-a"
+  },
+  {
+    "id": "0005E1E7",
+    "systemId": "83021",
+    "name": "Masada VII-b"
+  },
+  {
+    "id": "0005E1E8",
+    "systemId": "83021",
+    "name": "Masada VIII"
+  },
+  {
+    "id": "0005E1E9",
+    "systemId": "83021",
+    "name": "Masada VIII-a"
+  },
+  {
+    "id": "0005E1C5",
+    "systemId": "83344",
+    "name": "Heisenberg I"
+  },
+  {
+    "id": "0005E1C6",
+    "systemId": "83344",
+    "name": "Heisenberg II"
+  },
+  {
+    "id": "0005E1C7",
+    "systemId": "83344",
+    "name": "Heisenberg III"
+  },
+  {
+    "id": "0005E1C8",
+    "systemId": "83344",
+    "name": "Heisenberg IV"
+  },
+  {
+    "id": "0005E1D6",
+    "systemId": "83344",
+    "name": "Heisenberg IX"
+  },
+  {
+    "id": "0005E1C9",
+    "systemId": "83344",
+    "name": "Heisenberg V"
+  },
+  {
+    "id": "0005E1CA",
+    "systemId": "83344",
+    "name": "Heisenberg V-a"
+  },
+  {
+    "id": "0005E1CB",
+    "systemId": "83344",
+    "name": "Heisenberg VI"
+  },
+  {
+    "id": "0005E1CE",
+    "systemId": "83344",
+    "name": "Heisenberg VI-a"
+  },
+  {
+    "id": "0005E1CC",
+    "systemId": "83344",
+    "name": "Heisenberg VI-b"
+  },
+  {
+    "id": "0005E1CD",
+    "systemId": "83344",
+    "name": "Heisenberg VI-c"
+  },
+  {
+    "id": "0005E1CF",
+    "systemId": "83344",
+    "name": "Heisenberg VII"
+  },
+  {
+    "id": "0005E1D0",
+    "systemId": "83344",
+    "name": "Heisenberg VII-a"
+  },
+  {
+    "id": "0005E1D1",
+    "systemId": "83344",
+    "name": "Heisenberg VIII"
+  },
+  {
+    "id": "0005E1D4",
+    "systemId": "83344",
+    "name": "Heisenberg VIII-a"
+  },
+  {
+    "id": "0005E1D5",
+    "systemId": "83344",
+    "name": "Heisenberg VIII-b"
+  },
+  {
+    "id": "0005E1D3",
+    "systemId": "83344",
+    "name": "Heisenberg VIII-c"
+  },
+  {
+    "id": "0005E1D2",
+    "systemId": "83344",
+    "name": "Heisenberg VIII-d"
+  },
+  {
+    "id": "0005E1D7",
+    "systemId": "83344",
+    "name": "Heisenberg X"
+  },
+  {
+    "id": "0005E570",
+    "systemId": "83865",
+    "name": "Abetti"
+  },
+  {
+    "id": "0005E580",
+    "systemId": "83865",
+    "name": "Az-Valok"
+  },
+  {
+    "id": "0005E56F",
+    "systemId": "83865",
+    "name": "Cassini"
+  },
+  {
+    "id": "0005E56D",
+    "systemId": "83865",
+    "name": "Coeus"
+  },
+  {
+    "id": "0005E56E",
+    "systemId": "83865",
+    "name": "Crius"
+  },
+  {
+    "id": "0005E57F",
+    "systemId": "83865",
+    "name": "Cthol"
+  },
+  {
+    "id": "0005E56B",
+    "systemId": "83865",
+    "name": "Earrach"
+  },
+  {
+    "id": "0005E56C",
+    "systemId": "83865",
+    "name": "Gaea"
+  },
+  {
+    "id": "0005E572",
+    "systemId": "83865",
+    "name": "Gasparis"
+  },
+  {
+    "id": "0005E571",
+    "systemId": "83865",
+    "name": "Lillius"
+  },
+  {
+    "id": "0005E564",
+    "systemId": "83865",
+    "name": "Numitor"
+  },
+  {
+    "id": "0005E582",
+    "systemId": "83865",
+    "name": "Nyarloth"
+  },
+  {
+    "id": "0005E573",
+    "systemId": "83865",
+    "name": "Okoro"
+  },
+  {
+    "id": "0005E575",
+    "systemId": "83865",
+    "name": "Okoro Alpha"
+  },
+  {
+    "id": "0005E576",
+    "systemId": "83865",
+    "name": "Okoro Beta"
+  },
+  {
+    "id": "0005E57A",
+    "systemId": "83865",
+    "name": "Okoro Delta"
+  },
+  {
+    "id": "0005E577",
+    "systemId": "83865",
+    "name": "Okoro Epsilon"
+  },
+  {
+    "id": "0005E574",
+    "systemId": "83865",
+    "name": "Okoro Gamma"
+  },
+  {
+    "id": "0005E56A",
+    "systemId": "83865",
+    "name": "Petria"
+  },
+  {
+    "id": "0005E567",
+    "systemId": "83865",
+    "name": "Remus"
+  },
+  {
+    "id": "0005E583",
+    "systemId": "83865",
+    "name": "Reva's World"
+  },
+  {
+    "id": "0005E565",
+    "systemId": "83865",
+    "name": "Romulus"
+  },
+  {
+    "id": "0005E581",
+    "systemId": "83865",
+    "name": "Uvhan"
+  },
+  {
+    "id": "0005E568",
+    "systemId": "83865",
+    "name": "Vesta"
+  },
+  {
+    "id": "0005E569",
+    "systemId": "83865",
+    "name": "Vesta Lunaris"
+  },
+  {
+    "id": "0005E1A2",
+    "systemId": "84147",
+    "name": "Guniibuu I"
+  },
+  {
+    "id": "0005E1A3",
+    "systemId": "84147",
+    "name": "Guniibuu I-a"
+  },
+  {
+    "id": "0005E1A4",
+    "systemId": "84147",
+    "name": "Guniibuu I-b"
+  },
+  {
+    "id": "0005E1A5",
+    "systemId": "84147",
+    "name": "Guniibuu II"
+  },
+  {
+    "id": "0005E1A6",
+    "systemId": "84147",
+    "name": "Guniibuu III"
+  },
+  {
+    "id": "0005E1AE",
+    "systemId": "84147",
+    "name": "Guniibuu III-a"
+  },
+  {
+    "id": "0005E1A7",
+    "systemId": "84147",
+    "name": "Guniibuu III-b"
+  },
+  {
+    "id": "0005E1AD",
+    "systemId": "84147",
+    "name": "Guniibuu III-c"
+  },
+  {
+    "id": "0005E1AF",
+    "systemId": "84147",
+    "name": "Guniibuu IV"
+  },
+  {
+    "id": "0005E1B1",
+    "systemId": "84147",
+    "name": "Guniibuu IV-a"
+  },
+  {
+    "id": "0005E1B0",
+    "systemId": "84147",
+    "name": "Guniibuu IV-b"
+  },
+  {
+    "id": "0005E1B2",
+    "systemId": "84147",
+    "name": "Guniibuu V"
+  },
+  {
+    "id": "0005E1B3",
+    "systemId": "84147",
+    "name": "Guniibuu V-a"
+  },
+  {
+    "id": "0005E1B7",
+    "systemId": "84147",
+    "name": "Guniibuu V-b"
+  },
+  {
+    "id": "0005E1B6",
+    "systemId": "84147",
+    "name": "Guniibuu V-c"
+  },
+  {
+    "id": "0005E1B5",
+    "systemId": "84147",
+    "name": "Guniibuu V-d"
+  },
+  {
+    "id": "0005E1B4",
+    "systemId": "84147",
+    "name": "Guniibuu V-e"
+  },
+  {
+    "id": "0005E1B8",
+    "systemId": "84147",
+    "name": "Guniibuu VI"
+  },
+  {
+    "id": "0005E1BB",
+    "systemId": "84147",
+    "name": "Guniibuu VI-a"
+  },
+  {
+    "id": "0005E1BA",
+    "systemId": "84147",
+    "name": "Guniibuu VI-b"
+  },
+  {
+    "id": "0005E1BC",
+    "systemId": "84147",
+    "name": "Guniibuu VI-c"
+  },
+  {
+    "id": "0005E1BD",
+    "systemId": "84147",
+    "name": "Guniibuu VI-d"
+  },
+  {
+    "id": "0005E1B9",
+    "systemId": "84147",
+    "name": "Guniibuu VI-e"
+  },
+  {
+    "id": "0005E1BE",
+    "systemId": "84147",
+    "name": "Guniibuu VII"
+  },
+  {
+    "id": "0005E1BF",
+    "systemId": "84147",
+    "name": "Guniibuu VII-a"
+  },
+  {
+    "id": "0005E1C1",
+    "systemId": "84147",
+    "name": "Guniibuu VII-b"
+  },
+  {
+    "id": "0005E1C0",
+    "systemId": "84147",
+    "name": "Guniibuu VII-c"
+  },
+  {
+    "id": "0005E135",
+    "systemId": "84604",
+    "name": "Nemeria I"
+  },
+  {
+    "id": "0005E136",
+    "systemId": "84604",
+    "name": "Nemeria II"
+  },
+  {
+    "id": "0005E137",
+    "systemId": "84604",
+    "name": "Nemeria II-a"
+  },
+  {
+    "id": "0005E138",
+    "systemId": "84604",
+    "name": "Nemeria II-b"
+  },
+  {
+    "id": "0005E139",
+    "systemId": "84604",
+    "name": "Nemeria III"
+  },
+  {
+    "id": "0005E13A",
+    "systemId": "84604",
+    "name": "Nemeria III-a"
+  },
+  {
+    "id": "0005E13B",
+    "systemId": "84604",
+    "name": "Nemeria IV"
+  },
+  {
+    "id": "0005E13C",
+    "systemId": "84604",
+    "name": "Nemeria IV-a"
+  },
+  {
+    "id": "0005E13D",
+    "systemId": "84604",
+    "name": "Nemeria IV-b"
+  },
+  {
+    "id": "0005E13E",
+    "systemId": "84604",
+    "name": "Nemeria V"
+  },
+  {
+    "id": "0005E147",
+    "systemId": "84604",
+    "name": "Nemeria V-a"
+  },
+  {
+    "id": "0005E148",
+    "systemId": "84604",
+    "name": "Nemeria V-b"
+  },
+  {
+    "id": "0005E13F",
+    "systemId": "84604",
+    "name": "Nemeria V-c"
+  },
+  {
+    "id": "0005E149",
+    "systemId": "84604",
+    "name": "Nemeria VI"
+  },
+  {
+    "id": "0005E14C",
+    "systemId": "84604",
+    "name": "Nemeria VI-a"
+  },
+  {
+    "id": "0005E14B",
+    "systemId": "84604",
+    "name": "Nemeria VI-b"
+  },
+  {
+    "id": "0005E14D",
+    "systemId": "84604",
+    "name": "Nemeria VI-c"
+  },
+  {
+    "id": "0005E14A",
+    "systemId": "84604",
+    "name": "Nemeria VI-d"
+  },
+  {
+    "id": "0005E14E",
+    "systemId": "84604",
+    "name": "Nemeria VII"
+  },
+  {
+    "id": "0005E166",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi I"
+  },
+  {
+    "id": "0005E167",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi II"
+  },
+  {
+    "id": "0005E168",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi III"
+  },
+  {
+    "id": "0005E169",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi III-a"
+  },
+  {
+    "id": "0005E16A",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi IV"
+  },
+  {
+    "id": "0005E17C",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi IX"
+  },
+  {
+    "id": "0005E16B",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi V"
+  },
+  {
+    "id": "0005E16C",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi V-a"
+  },
+  {
+    "id": "0005E16D",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi VI"
+  },
+  {
+    "id": "0005E16F",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi VI-a"
+  },
+  {
+    "id": "0005E170",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi VI-b"
+  },
+  {
+    "id": "0005E16E",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi VI-c"
+  },
+  {
+    "id": "0005E172",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi VI-d"
+  },
+  {
+    "id": "0005E171",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi VI-e"
+  },
+  {
+    "id": "0005E173",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi VII"
+  },
+  {
+    "id": "0005E175",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi VII-a"
+  },
+  {
+    "id": "0005E174",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi VII-b"
+  },
+  {
+    "id": "0005E176",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi VIII"
+  },
+  {
+    "id": "0005E178",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi VIII-a"
+  },
+  {
+    "id": "0005E17B",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi VIII-b"
+  },
+  {
+    "id": "0005E179",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi VIII-c"
+  },
+  {
+    "id": "0005E177",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi VIII-d"
+  },
+  {
+    "id": "0005E17A",
+    "systemId": "84636",
+    "name": "Xi Ophiuchi VIII-e"
+  },
+  {
+    "id": "0005E131",
+    "systemId": "85264",
+    "name": "Bonner"
+  },
+  {
+    "id": "0005E132",
+    "systemId": "85264",
+    "name": "Mir II"
+  },
+  {
+    "id": "0005E123",
+    "systemId": "85407",
+    "name": "Alpha Marae I"
+  },
+  {
+    "id": "0005E124",
+    "systemId": "85407",
+    "name": "Alpha Marae II"
+  },
+  {
+    "id": "0005E125",
+    "systemId": "85407",
+    "name": "Alpha Marae II-a"
+  },
+  {
+    "id": "0005E126",
+    "systemId": "85407",
+    "name": "Alpha Marae III"
+  },
+  {
+    "id": "0005E129",
+    "systemId": "85407",
+    "name": "Alpha Marae III-a"
+  },
+  {
+    "id": "0005E12A",
+    "systemId": "85407",
+    "name": "Alpha Marae III-b"
+  },
+  {
+    "id": "0005E128",
+    "systemId": "85407",
+    "name": "Alpha Marae III-c"
+  },
+  {
+    "id": "0005E127",
+    "systemId": "85407",
+    "name": "Alpha Marae III-d"
+  },
+  {
+    "id": "0005E12B",
+    "systemId": "85407",
+    "name": "Alpha Marae IV"
+  },
+  {
+    "id": "0005E12C",
+    "systemId": "85407",
+    "name": "Alpha Marae IV-a"
+  },
+  {
+    "id": "0005E12D",
+    "systemId": "85407",
+    "name": "Alpha Marae IV-b"
+  },
+  {
+    "id": "0005E12E",
+    "systemId": "85407",
+    "name": "Alpha Marae V"
+  },
+  {
+    "id": "0005E0F3",
+    "systemId": "85769",
+    "name": "Rasalhague I"
+  },
+  {
+    "id": "0005E103",
+    "systemId": "85769",
+    "name": "Rasalhague I-a"
+  },
+  {
+    "id": "0005E104",
+    "systemId": "85769",
+    "name": "Rasalhague II"
+  },
+  {
+    "id": "0005E105",
+    "systemId": "85769",
+    "name": "Rasalhague III"
+  },
+  {
+    "id": "0005E106",
+    "systemId": "85769",
+    "name": "Rasalhague III-a"
+  },
+  {
+    "id": "0005E107",
+    "systemId": "85769",
+    "name": "Rasalhague III-b"
+  },
+  {
+    "id": "0005E108",
+    "systemId": "85769",
+    "name": "Rasalhague IV"
+  },
+  {
+    "id": "0005E0DA",
+    "systemId": "86469",
+    "name": "Feynman I"
+  },
+  {
+    "id": "0005E0DB",
+    "systemId": "86469",
+    "name": "Feynman II"
+  },
+  {
+    "id": "0005E0DC",
+    "systemId": "86469",
+    "name": "Feynman III"
+  },
+  {
+    "id": "0005E0DD",
+    "systemId": "86469",
+    "name": "Feynman IV"
+  },
+  {
+    "id": "0005E0EF",
+    "systemId": "86469",
+    "name": "Feynman IX"
+  },
+  {
+    "id": "0005E0F0",
+    "systemId": "86469",
+    "name": "Feynman IX-a"
+  },
+  {
+    "id": "0005E0DE",
+    "systemId": "86469",
+    "name": "Feynman V"
+  },
+  {
+    "id": "0005E0E0",
+    "systemId": "86469",
+    "name": "Feynman V-a"
+  },
+  {
+    "id": "0005E0DF",
+    "systemId": "86469",
+    "name": "Feynman V-b"
+  },
+  {
+    "id": "0005E0E1",
+    "systemId": "86469",
+    "name": "Feynman VI"
+  },
+  {
+    "id": "0005E0E4",
+    "systemId": "86469",
+    "name": "Feynman VI-a"
+  },
+  {
+    "id": "0005E0E3",
+    "systemId": "86469",
+    "name": "Feynman VI-b"
+  },
+  {
+    "id": "0005E0E2",
+    "systemId": "86469",
+    "name": "Feynman VI-c"
+  },
+  {
+    "id": "0005E0E5",
+    "systemId": "86469",
+    "name": "Feynman VII"
+  },
+  {
+    "id": "0005E0E6",
+    "systemId": "86469",
+    "name": "Feynman VII-a"
+  },
+  {
+    "id": "0005E0E7",
+    "systemId": "86469",
+    "name": "Feynman VII-b"
+  },
+  {
+    "id": "0005E0E8",
+    "systemId": "86469",
+    "name": "Feynman VII-c"
+  },
+  {
+    "id": "0005E0E9",
+    "systemId": "86469",
+    "name": "Feynman VIII"
+  },
+  {
+    "id": "0005E0EA",
+    "systemId": "86469",
+    "name": "Feynman VIII-a"
+  },
+  {
+    "id": "0005E0EE",
+    "systemId": "86469",
+    "name": "Feynman VIII-b"
+  },
+  {
+    "id": "0005E0ED",
+    "systemId": "86469",
+    "name": "Feynman VIII-c"
+  },
+  {
+    "id": "0005E0EB",
+    "systemId": "86469",
+    "name": "Feynman VIII-d"
+  },
+  {
+    "id": "0005E0EC",
+    "systemId": "86469",
+    "name": "Feynman VIII-e"
+  },
+  {
+    "id": "0005DE80",
+    "systemId": "86475",
+    "name": "Celebrai I"
+  },
+  {
+    "id": "0005DE81",
+    "systemId": "86475",
+    "name": "Celebrai II"
+  },
+  {
+    "id": "0005DE82",
+    "systemId": "86475",
+    "name": "Celebrai III"
+  },
+  {
+    "id": "0005DE83",
+    "systemId": "86475",
+    "name": "Celebrai III-a"
+  },
+  {
+    "id": "0005DE84",
+    "systemId": "86475",
+    "name": "Celebrai III-b"
+  },
+  {
+    "id": "0005DE85",
+    "systemId": "86475",
+    "name": "Celebrai III-c"
+  },
+  {
+    "id": "0005DE86",
+    "systemId": "86475",
+    "name": "Celebrai IV"
+  },
+  {
+    "id": "0005E0CD",
+    "systemId": "86705",
+    "name": "Andromas I"
+  },
+  {
+    "id": "0005E0CE",
+    "systemId": "86705",
+    "name": "Andromas II"
+  },
+  {
+    "id": "0005E0CF",
+    "systemId": "86705",
+    "name": "Andromas III"
+  },
+  {
+    "id": "0005E0D0",
+    "systemId": "86705",
+    "name": "Andromas IV"
+  },
+  {
+    "id": "0005E0D1",
+    "systemId": "86705",
+    "name": "Andromas IV-a"
+  },
+  {
+    "id": "0005E0D2",
+    "systemId": "86705",
+    "name": "Andromas V"
+  },
+  {
+    "id": "0005E0D4",
+    "systemId": "86705",
+    "name": "Andromas V-a"
+  },
+  {
+    "id": "0005E0D3",
+    "systemId": "86705",
+    "name": "Andromas V-b"
+  },
+  {
+    "id": "0005E0D5",
+    "systemId": "86705",
+    "name": "Andromas VI"
+  },
+  {
+    "id": "0005E0D6",
+    "systemId": "86705",
+    "name": "Andromas VI-a"
+  },
+  {
+    "id": "0005E0D7",
+    "systemId": "86705",
+    "name": "Andromas VI-b"
+  },
+  {
+    "id": "0005E0CB",
+    "systemId": "87665",
+    "name": "Frost"
+  },
+  {
+    "id": "0005E0B3",
+    "systemId": "87902",
+    "name": "Schrodinger I"
+  },
+  {
+    "id": "0005E0B4",
+    "systemId": "87902",
+    "name": "Schrodinger I-a"
+  },
+  {
+    "id": "0005E0B5",
+    "systemId": "87902",
+    "name": "Schrodinger II"
+  },
+  {
+    "id": "0005E0B6",
+    "systemId": "87902",
+    "name": "Schrodinger III"
+  },
+  {
+    "id": "0005E0B7",
+    "systemId": "87902",
+    "name": "Schrodinger III-a"
+  },
+  {
+    "id": "0005E0B8",
+    "systemId": "87902",
+    "name": "Schrodinger IV"
+  },
+  {
+    "id": "0005E0B9",
+    "systemId": "87902",
+    "name": "Schrodinger V"
+  },
+  {
+    "id": "0005E0BA",
+    "systemId": "87902",
+    "name": "Schrodinger V-a"
+  },
+  {
+    "id": "0005E0BB",
+    "systemId": "87902",
+    "name": "Schrodinger VI"
+  },
+  {
+    "id": "0005E0BC",
+    "systemId": "87902",
+    "name": "Schrodinger VI-a"
+  },
+  {
+    "id": "0005E0BD",
+    "systemId": "87902",
+    "name": "Schrodinger VI-b"
+  },
+  {
+    "id": "0005E0BE",
+    "systemId": "87902",
+    "name": "Schrodinger VI-c"
+  },
+  {
+    "id": "0005E0BF",
+    "systemId": "87902",
+    "name": "Schrodinger VII"
+  },
+  {
+    "id": "0005E0C1",
+    "systemId": "87902",
+    "name": "Schrodinger VII-a"
+  },
+  {
+    "id": "0005E0C0",
+    "systemId": "87902",
+    "name": "Schrodinger VII-b"
+  },
+  {
+    "id": "0005E0C2",
+    "systemId": "87902",
+    "name": "Schrodinger VII-c"
+  },
+  {
+    "id": "0005E0C3",
+    "systemId": "87902",
+    "name": "Schrodinger VIII"
+  },
+  {
+    "id": "0005E0C5",
+    "systemId": "87902",
+    "name": "Schrodinger VIII-a"
+  },
+  {
+    "id": "0005E0C6",
+    "systemId": "87902",
+    "name": "Schrodinger VIII-b"
+  },
+  {
+    "id": "0005E0C4",
+    "systemId": "87902",
+    "name": "Schrodinger VIII-c"
+  },
+  {
+    "id": "0005E0C7",
+    "systemId": "87902",
+    "name": "Schrodinger VIII-d"
+  },
+  {
+    "id": "0005E0C8",
+    "systemId": "87902",
+    "name": "Schrodinger VIII-e"
+  },
+  {
+    "id": "0005E557",
+    "systemId": "88327",
+    "name": "Andraphon"
+  },
+  {
+    "id": "0005E55F",
+    "systemId": "88327",
+    "name": "Anselon"
+  },
+  {
+    "id": "0005E561",
+    "systemId": "88327",
+    "name": "Cruth"
+  },
+  {
+    "id": "0005E55D",
+    "systemId": "88327",
+    "name": "Dalvik"
+  },
+  {
+    "id": "0005E558",
+    "systemId": "88327",
+    "name": "Danra"
+  },
+  {
+    "id": "0005E55C",
+    "systemId": "88327",
+    "name": "Deepala"
+  },
+  {
+    "id": "0005E55E",
+    "systemId": "88327",
+    "name": "Grimsey"
+  },
+  {
+    "id": "0005E559",
+    "systemId": "88327",
+    "name": "Gryphus"
+  },
+  {
+    "id": "0005E55B",
+    "systemId": "88327",
+    "name": "Hyperia"
+  },
+  {
+    "id": "0003F59F",
+    "systemId": "88327",
+    "name": "Kreet"
+  },
+  {
+    "id": "0005E55A",
+    "systemId": "88327",
+    "name": "Magreth"
+  },
+  {
+    "id": "0005E555",
+    "systemId": "88327",
+    "name": "Niira"
+  },
+  {
+    "id": "0003F59D",
+    "systemId": "88327",
+    "name": "Podius"
+  },
+  {
+    "id": "0005E556",
+    "systemId": "88327",
+    "name": "Sumati"
+  },
+  {
+    "id": "0003F59E",
+    "systemId": "88327",
+    "name": "Vectera"
+  },
+  {
+    "id": "0005E093",
+    "systemId": "89684",
+    "name": "Leviathan I"
+  },
+  {
+    "id": "0005E094",
+    "systemId": "89684",
+    "name": "Leviathan II"
+  },
+  {
+    "id": "0005E095",
+    "systemId": "89684",
+    "name": "Leviathan III"
+  },
+  {
+    "id": "0005E096",
+    "systemId": "89684",
+    "name": "Leviathan IV"
+  },
+  {
+    "id": "0005E097",
+    "systemId": "89684",
+    "name": "Leviathan V"
+  },
+  {
+    "id": "0005E098",
+    "systemId": "89684",
+    "name": "Leviathan V-a"
+  },
+  {
+    "id": "0005E099",
+    "systemId": "89684",
+    "name": "Leviathan VI"
+  },
+  {
+    "id": "0005E09A",
+    "systemId": "89684",
+    "name": "Leviathan VI-a"
+  },
+  {
+    "id": "0005E09B",
+    "systemId": "89684",
+    "name": "Leviathan VI-b"
+  },
+  {
+    "id": "0005E09C",
+    "systemId": "89684",
+    "name": "Leviathan VII"
+  },
+  {
+    "id": "0005E523",
+    "systemId": "90582",
+    "name": "Bardeen I"
+  },
+  {
+    "id": "0005E524",
+    "systemId": "90582",
+    "name": "Bardeen I-a"
+  },
+  {
+    "id": "0005E525",
+    "systemId": "90582",
+    "name": "Bardeen II"
+  },
+  {
+    "id": "0005E526",
+    "systemId": "90582",
+    "name": "Bardeen III"
+  },
+  {
+    "id": "0005E527",
+    "systemId": "90582",
+    "name": "Bardeen III-a"
+  },
+  {
+    "id": "0005E528",
+    "systemId": "90582",
+    "name": "Bardeen III-b"
+  },
+  {
+    "id": "0005E529",
+    "systemId": "90582",
+    "name": "Bardeen IV"
+  },
+  {
+    "id": "0005E52A",
+    "systemId": "90582",
+    "name": "Bardeen IV-a"
+  },
+  {
+    "id": "0005E52B",
+    "systemId": "90582",
+    "name": "Bardeen V"
+  },
+  {
+    "id": "0005E52E",
+    "systemId": "90582",
+    "name": "Bardeen V-a"
+  },
+  {
+    "id": "0005E52D",
+    "systemId": "90582",
+    "name": "Bardeen V-b"
+  },
+  {
+    "id": "0005E530",
+    "systemId": "90582",
+    "name": "Bardeen V-c"
+  },
+  {
+    "id": "0005E52C",
+    "systemId": "90582",
+    "name": "Bardeen V-d"
+  },
+  {
+    "id": "0005E52F",
+    "systemId": "90582",
+    "name": "Bardeen V-e"
+  },
+  {
+    "id": "0005E531",
+    "systemId": "90582",
+    "name": "Bardeen V-f"
+  },
+  {
+    "id": "0005E532",
+    "systemId": "90582",
+    "name": "Bardeen VI"
+  },
+  {
+    "id": "0005E533",
+    "systemId": "90582",
+    "name": "Bardeen VI-a"
+  },
+  {
+    "id": "0005E534",
+    "systemId": "90582",
+    "name": "Bardeen VI-b"
+  },
+  {
+    "id": "0005E535",
+    "systemId": "90582",
+    "name": "Bardeen VII"
+  },
+  {
+    "id": "0005E536",
+    "systemId": "90582",
+    "name": "Bardeen VII-a"
+  },
+  {
+    "id": "0005E087",
+    "systemId": "90979",
+    "name": "Vega I"
+  },
+  {
+    "id": "0005E08A",
+    "systemId": "90979",
+    "name": "Vega I-a"
+  },
+  {
+    "id": "0005E088",
+    "systemId": "90979",
+    "name": "Vega I-b"
+  },
+  {
+    "id": "0005E089",
+    "systemId": "90979",
+    "name": "Vega I-c"
+  },
+  {
+    "id": "0005E08B",
+    "systemId": "90979",
+    "name": "Vega II"
+  },
+  {
+    "id": "0005E08F",
+    "systemId": "90979",
+    "name": "Vega II-a"
+  },
+  {
+    "id": "0005E090",
+    "systemId": "90979",
+    "name": "Vega II-b"
+  },
+  {
+    "id": "0005E08C",
+    "systemId": "90979",
+    "name": "Vega II-c"
+  },
+  {
+    "id": "0005E08E",
+    "systemId": "90979",
+    "name": "Vega II-d"
+  },
+  {
+    "id": "0005E08D",
+    "systemId": "90979",
+    "name": "Vega II-e"
+  },
+  {
+    "id": "0005E078",
+    "systemId": "91156",
+    "name": "Linnaeus I"
+  },
+  {
+    "id": "0005E079",
+    "systemId": "91156",
+    "name": "Linnaeus II"
+  },
+  {
+    "id": "0005E07A",
+    "systemId": "91156",
+    "name": "Linnaeus II-a"
+  },
+  {
+    "id": "0005E07B",
+    "systemId": "91156",
+    "name": "Linnaeus III"
+  },
+  {
+    "id": "0005E07C",
+    "systemId": "91156",
+    "name": "Linnaeus III-a"
+  },
+  {
+    "id": "0005E07D",
+    "systemId": "91156",
+    "name": "Linnaeus IV"
+  },
+  {
+    "id": "0005E07E",
+    "systemId": "91156",
+    "name": "Linnaeus IV-a"
+  },
+  {
+    "id": "0005E080",
+    "systemId": "91156",
+    "name": "Linnaeus IV-b"
+  },
+  {
+    "id": "0005E07F",
+    "systemId": "91156",
+    "name": "Linnaeus IV-c"
+  },
+  {
+    "id": "0005E081",
+    "systemId": "91156",
+    "name": "Linnaeus V"
+  },
+  {
+    "id": "0005E082",
+    "systemId": "91156",
+    "name": "Linnaeus VI"
+  },
+  {
+    "id": "0005E083",
+    "systemId": "91156",
+    "name": "Linnaeus VII"
+  },
+  {
+    "id": "0005E06A",
+    "systemId": "91756",
+    "name": "Newton I"
+  },
+  {
+    "id": "0005E06B",
+    "systemId": "91756",
+    "name": "Newton I-a"
+  },
+  {
+    "id": "0005E06C",
+    "systemId": "91756",
+    "name": "Newton II"
+  },
+  {
+    "id": "0005E06D",
+    "systemId": "91756",
+    "name": "Newton II-a"
+  },
+  {
+    "id": "0005E06E",
+    "systemId": "91756",
+    "name": "Newton II-b"
+  },
+  {
+    "id": "0005E06F",
+    "systemId": "91756",
+    "name": "Newton III"
+  },
+  {
+    "id": "0005E070",
+    "systemId": "91756",
+    "name": "Newton IV"
+  },
+  {
+    "id": "0005E071",
+    "systemId": "91756",
+    "name": "Newton V"
+  },
+  {
+    "id": "0005E074",
+    "systemId": "91756",
+    "name": "Newton V-a"
+  },
+  {
+    "id": "0005E073",
+    "systemId": "91756",
+    "name": "Newton V-b"
+  },
+  {
+    "id": "0005E072",
+    "systemId": "91756",
+    "name": "Newton V-c"
+  },
+  {
+    "id": "0005E075",
+    "systemId": "91756",
+    "name": "Newton VI"
+  },
+  {
+    "id": "0005E05B",
+    "systemId": "97338",
+    "name": "Altair I"
+  },
+  {
+    "id": "0005E05C",
+    "systemId": "97338",
+    "name": "Altair II"
+  },
+  {
+    "id": "0005E05D",
+    "systemId": "97338",
+    "name": "Altair III"
+  },
+  {
+    "id": "0005E060",
+    "systemId": "97338",
+    "name": "Altair III-a"
+  },
+  {
+    "id": "0005E05F",
+    "systemId": "97338",
+    "name": "Altair III-b"
+  },
+  {
+    "id": "0005E05E",
+    "systemId": "97338",
+    "name": "Altair III-c"
+  },
+  {
+    "id": "0005E061",
+    "systemId": "97338",
+    "name": "Altair IV"
+  },
+  {
+    "id": "0005E063",
+    "systemId": "97338",
+    "name": "Altair IV-a"
+  },
+  {
+    "id": "0005E065",
+    "systemId": "97338",
+    "name": "Altair IV-b"
+  },
+  {
+    "id": "0005E064",
+    "systemId": "97338",
+    "name": "Altair IV-c"
+  },
+  {
+    "id": "0005E062",
+    "systemId": "97338",
+    "name": "Altair IV-d"
+  },
+  {
+    "id": "0005E066",
+    "systemId": "97338",
+    "name": "Altair V"
+  },
+  {
+    "id": "0005E067",
+    "systemId": "97338",
+    "name": "Altair V-a"
+  },
+  {
+    "id": "0005E053",
+    "systemId": "98924",
+    "name": "Ampere"
+  },
+  {
+    "id": "0005E046",
+    "systemId": "98924",
+    "name": "Arachna"
+  },
+  {
+    "id": "0005E050",
+    "systemId": "98924",
+    "name": "Augur"
+  },
+  {
+    "id": "0005E049",
+    "systemId": "98924",
+    "name": "Bitsy"
+  },
+  {
+    "id": "0005E04F",
+    "systemId": "98924",
+    "name": "Bode"
+  },
+  {
+    "id": "0005E04B",
+    "systemId": "98924",
+    "name": "Bose"
+  },
+  {
+    "id": "0005E055",
+    "systemId": "98924",
+    "name": "Coulomb"
+  },
+  {
+    "id": "0005E044",
+    "systemId": "98924",
+    "name": "Curie"
+  },
+  {
+    "id": "0005E052",
+    "systemId": "98924",
+    "name": "Faraday"
+  },
+  {
+    "id": "0005E04E",
+    "systemId": "98924",
+    "name": "Fundament"
+  },
+  {
+    "id": "0005E04A",
+    "systemId": "98924",
+    "name": "Gamow"
+  },
+  {
+    "id": "0005E051",
+    "systemId": "98924",
+    "name": "Herald"
+  },
+  {
+    "id": "0005E047",
+    "systemId": "98924",
+    "name": "Itsy"
+  },
+  {
+    "id": "0005E045",
+    "systemId": "98924",
+    "name": "Magnar"
+  },
+  {
+    "id": "0005E04C",
+    "systemId": "98924",
+    "name": "Nascent"
+  },
+  {
+    "id": "0005E056",
+    "systemId": "98924",
+    "name": "Ohm"
+  },
+  {
+    "id": "0005E04D",
+    "systemId": "98924",
+    "name": "Rudiment"
+  },
+  {
+    "id": "0005E054",
+    "systemId": "98924",
+    "name": "Volt"
+  },
+  {
+    "id": "0005E048",
+    "systemId": "98924",
+    "name": "Worthless"
+  }
+]
