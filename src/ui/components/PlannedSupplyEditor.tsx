@@ -23,6 +23,8 @@
  * Do not put cargo-pad-specific rules or source-resolution logic here.
  */
 
+import { useState } from 'react'
+
 import type {
   CargoItem,
   Product,
@@ -48,6 +50,8 @@ export function PlannedSupplyEditor({
    * Returns whether one catalogue item is already part of the outpost's
    * persisted planning assumption.
    */
+  const [isExpanded, setIsExpanded] = useState(false)
+
   function isPlanned(
     type: CargoItem['type'],
     id: string,
@@ -101,94 +105,121 @@ export function PlannedSupplyEditor({
     ])
   }
 
-/*
- * Planned Supply should offer only items that still need a real source.
- *
- * Existing planned items remain visible for now even if they have become
- * available; the next milestone will retire those fulfilled entries
- * automatically.
- */
-const visibleResources =
-  resources.filter(
-    (resource) =>
-      isPlanned(
-        'resource',
-        resource.id,
-      ) ||
-      !isActuallyAvailable(
-        'resource',
-        resource.id,
-      ),
-  )
+  /*
+  * Expanded view offers the complete catalogue of currently unsourced items.
+  *
+  * Collapsed view acts as a compact summary and therefore shows only items
+  * already selected as Planned Supply.
+  */
+  const visibleResources =
+    resources.filter(
+      (resource) =>
+        isPlanned(
+          'resource',
+          resource.id,
+        ) ||
+        (
+          isExpanded &&
+          !isActuallyAvailable(
+            'resource',
+            resource.id,
+          )
+        ),
+    )
 
-const visibleProducts =
-  products.filter(
-    (product) =>
-      isPlanned(
-        'product',
-        product.id,
-      ) ||
-      !isActuallyAvailable(
-        'product',
-        product.id,
-      ),
-  )
+  const visibleProducts =
+    products.filter(
+      (product) =>
+        isPlanned(
+          'product',
+          product.id,
+        ) ||
+        (
+          isExpanded &&
+          !isActuallyAvailable(
+            'product',
+            product.id,
+          )
+        ),
+    )
 
   return (
     <section>
-      <h2>Planned Supply</h2>
+      <h2>
+        <button
+          type="button"
+          onClick={() =>
+            setIsExpanded((current) => !current)
+          }
+          aria-expanded={isExpanded}
+        >
+          {isExpanded ? '▼' : '▶'}
+        </button>
 
-      <div>
-        <strong>Resources</strong>
+        {' '}
+        Planned Supply
+      </h2>
+      {!isExpanded && plannedSupply.length === 0 && (
+          <p>No planned supply.</p>
+      )}
 
-        {visibleResources.map((resource) => (
-          <p key={`resource-${resource.id}`}>
-            <label>
-              <input
-                type="checkbox"
-                checked={isPlanned(
-                  'resource',
-                  resource.id,
-                )}
-                onChange={() =>
-                  togglePlannedSupply({
-                    type: 'resource',
-                    id: resource.id,
-                  })
-                }
-              />
 
-              {resource.name} ({resource.shortName})
-            </label>
-          </p>
-        ))}
-      </div>
+      {visibleResources.length > 0 && (
+        <div>
+          <strong>Resources</strong>
 
-      <div>
-        <strong>Manufactured Products</strong>
+          {visibleResources.map((resource) => (
+            <p key={`resource-${resource.id}`}>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={isPlanned(
+                    'resource',
+                    resource.id,
+                  )}
+                  onChange={() =>
+                    togglePlannedSupply({
+                      type: 'resource',
+                      id: resource.id,
+                    })
+                  }
+                />
 
-        {visibleProducts.map((product) => (
-          <p key={`product-${product.id}`}>
-            <label>
-              <input
-                type="checkbox"
-                checked={isPlanned(
-                  'product',
-                  product.id,
-                )}
-                onChange={() =>
-                  togglePlannedSupply({
-                    type: 'product',
-                    id: product.id,
-                  })
-                }
-              />
+                {resource.name} ({resource.shortName})
+              </label>
+            </p>
+          ))}
+        </div>
+      )}
 
-              {product.name} ({product.shortName})
-            </label>
-          </p>
-        ))}
-      </div>
+      {visibleProducts.length > 0 && (
+        <div>
+          <strong>Manufactured Products</strong>
+
+          {visibleProducts.map((product) => (
+            <p key={`product-${product.id}`}>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={isPlanned(
+                    'product',
+                    product.id,
+                  )}
+                  onChange={() =>
+                    togglePlannedSupply({
+                      type: 'product',
+                      id: product.id,
+                    })
+                  }
+                />
+
+                {product.name} ({product.shortName})
+              </label>
+            </p>
+          ))}
+        </div>
+      )}
+
     </section>
   )
 }
