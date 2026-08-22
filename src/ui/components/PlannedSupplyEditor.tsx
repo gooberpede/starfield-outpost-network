@@ -163,7 +163,6 @@ export function PlannedSupplyEditor({
           <p>No planned supply.</p>
       )}
 
-
       {visibleResources.length > 0 && (
         <div>
           <strong>Resources</strong>
@@ -185,7 +184,7 @@ export function PlannedSupplyEditor({
                   }
                 />
 
-                {resource.name} ({resource.shortName})
+                {resource.name}
               </label>
             </p>
           ))}
@@ -213,7 +212,7 @@ export function PlannedSupplyEditor({
                   }
                 />
 
-                {product.name} ({product.shortName})
+                {product.name}
               </label>
             </p>
           ))}
