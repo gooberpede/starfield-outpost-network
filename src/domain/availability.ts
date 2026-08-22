@@ -10,15 +10,14 @@
  *   state from becoming stale when extraction, manufacturing, or cargo
  *   links change.
  *
- *   Current sources of availability are:
+ *   Actual supply comes from:
  *   - resources in active local production;
  *   - products currently manufactured at the outpost;
- *   - items arriving through inbound cargo links;
- *   - items explicitly recorded as planned supply for the outpost.
+ *   - items arriving through inbound cargo links.
  *
- *   Planned supply is an assertion of intended future availability. It can
- *   therefore make an item selectable even when no actual source currently
- *   exists.
+ *   Selectable supply additionally includes Planned Supply. Planned Supply
+ *   lets downstream configuration assume an item will eventually be present
+ *   even though no actual source currently exists.
  *
  *   Manual stockpiles and other asserted sources are intentionally not
  *   modelled yet.
@@ -70,7 +69,7 @@ function addAvailableItem(
  * their persistent configuration against current availability and flag
  * unresolved usages.
  */
-export function getAvailableItemsAtOutpost(
+export function getActuallyAvailableItemsAtOutpost(
   outpostId: string,
   network: OutpostNetwork,
 ): CargoItem[] {
@@ -116,22 +115,6 @@ export function getAvailableItemsAtOutpost(
   }
 
   /*
-   * Planned supply records items the player expects this outpost to receive
-   * even when no local production or inbound cargo route currently provides
-   * them.
-   *
-   * The same item may also have a real source. addAvailableItem() deduplicates
-   * those cases so planning intent and actual supply can coexist without
-   * producing duplicate selectable items.
-   */
-  for (const item of outpost.plannedSupply) {
-    addAvailableItem(
-      itemsByKey,
-      item,
-    )
-  }
-
-  /*
    * Cargo links are bidirectional relationships. For every link involving
    * this outpost, locate the remote cargo pad and treat its outbound items
    * as inbound availability at the current outpost.
@@ -171,6 +154,56 @@ export function getAvailableItemsAtOutpost(
         item,
       )
     }
+  }
+
+  return [...itemsByKey.values()]
+}
+
+/**
+ * Returns the resources and products selectable as supply at one outpost.
+ *
+ * Cargo configuration may use both genuinely supplied items and explicit
+ * Planned Supply assumptions. Existing callers that need the complete
+ * selectable set should use this function rather than actual availability
+ * alone.
+ */
+export function getAvailableItemsAtOutpost(
+  outpostId: string,
+  network: OutpostNetwork,
+): CargoItem[] {
+  const outpost =
+    network.outposts.find(
+      (candidate) => candidate.id === outpostId,
+    )
+
+  if (!outpost) {
+    return []
+  }
+
+  const itemsByKey =
+    new Map<string, CargoItem>()
+
+  for (
+    const item of getActuallyAvailableItemsAtOutpost(
+      outpostId,
+      network,
+    )
+  ) {
+    addAvailableItem(
+      itemsByKey,
+      item,
+    )
+  }
+
+  /*
+   * Planned Supply extends the selectable set without pretending that
+   * those items already have a real source.
+   */
+  for (const item of outpost.plannedSupply) {
+    addAvailableItem(
+      itemsByKey,
+      item,
+    )
   }
 
   return [...itemsByKey.values()]

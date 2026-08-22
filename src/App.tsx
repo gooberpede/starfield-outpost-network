@@ -7,7 +7,10 @@ import { CharacterHeader } from './ui/components/CharacterHeader'
 import { OutpostDetails } from './ui/components/OutpostDetails'
 import { OutpostList } from './ui/components/OutpostList'
 import { createDefaultOutpost } from './domain/defaults'
-import { getAvailableItemsAtOutpost } from './domain/availability'
+import {
+  getActuallyAvailableItemsAtOutpost,
+  getAvailableItemsAtOutpost,
+} from './domain/availability'
 import { ResourceEditor } from './ui/components/ResourceEditor'
 import { ManufacturingEditor } from './ui/components/ManufacturingEditor'
 import { PlannedSupplyEditor } from './ui/components/PlannedSupplyEditor'
@@ -19,6 +22,65 @@ import { WorkspaceLayout } from './ui/layout/WorkspaceLayout'
 import { AppFooter } from './ui/layout/AppFooter'
 
 import type { OutpostNetwork } from './domain/models'
+
+/**
+ * Removes Planned Supply entries that have acquired a real source.
+ *
+ * Planned Supply represents unresolved supply intent only. Once active local
+ * production, manufacturing, or inbound cargo actually provides an item, the
+ * planning placeholder has fulfilled its purpose and is retired.
+ *
+ * Downstream configuration such as cargo-pad exports is deliberately left
+ * untouched.
+ */
+function retireFulfilledPlannedSupply(
+  network: OutpostNetwork,
+): OutpostNetwork {
+  const outposts = network.outposts.map((outpost) => {
+    const actuallyAvailableItems =
+      getActuallyAvailableItemsAtOutpost(
+        outpost.id,
+        network,
+      )
+
+    const availableItemKeys =
+      new Set(
+        actuallyAvailableItems.map(
+          (item) => `${item.type}:${item.id}`,
+        ),
+      )
+
+    const plannedSupply =
+      outpost.plannedSupply.filter(
+        (item) =>
+          !availableItemKeys.has(
+            `${item.type}:${item.id}`,
+          ),
+      )
+
+    /*
+     * Preserve the original outpost object when nothing changed. Apart from
+     * avoiding unnecessary object creation, this makes it clear that the
+     * reconciliation modifies only fulfilled planning placeholders.
+     */
+    if (
+      plannedSupply.length ===
+      outpost.plannedSupply.length
+    ) {
+      return outpost
+    }
+
+    return {
+      ...outpost,
+      plannedSupply,
+    }
+  })
+
+  return {
+    ...network,
+    outposts,
+  }
+}
 
 function App() {
   const [network, setNetwork] = useState(() => {
@@ -50,6 +112,18 @@ function App() {
    */
   const availableCargoItems =
     getAvailableItemsAtOutpost(
+      selectedOutpost.id,
+      network,
+    )
+
+  /**
+   * Materials that already have a real source at the selected outpost.
+   *
+   * Planned Supply is intentionally excluded so the planning UI can offer only
+   * items that still need a source.
+   */
+  const actuallyAvailableItems =
+    getActuallyAvailableItemsAtOutpost(
       selectedOutpost.id,
       network,
     )
@@ -241,33 +315,37 @@ function App() {
   }
 
   function updateActiveProduction(resourceIds: string[]) {
-    setNetwork((currentNetwork) => ({
-      ...currentNetwork,
-      outposts: currentNetwork.outposts.map((outpost) =>
-        outpost.id === selectedOutpostId
-          ? {
-              ...outpost,
-              activeProduction: resourceIds,
-            }
-          : outpost,
-      ),
-    }))
+    setNetwork((currentNetwork) =>
+      retireFulfilledPlannedSupply({
+        ...currentNetwork,
+        outposts: currentNetwork.outposts.map((outpost) =>
+          outpost.id === selectedOutpostId
+            ? {
+                ...outpost,
+                activeProduction: resourceIds,
+              }
+            : outpost,
+        ),
+      }),
+    )
   }
 
   function updateManufacturing(
     entries: typeof selectedOutpost.manufacturing,
   ) {
-    setNetwork((currentNetwork) => ({
-      ...currentNetwork,
-      outposts: currentNetwork.outposts.map((outpost) =>
-        outpost.id === selectedOutpostId
-          ? {
-              ...outpost,
-              manufacturing: entries,
-            }
-          : outpost,
-      ),
-    }))
+    setNetwork((currentNetwork) =>
+      retireFulfilledPlannedSupply({
+        ...currentNetwork,
+        outposts: currentNetwork.outposts.map((outpost) =>
+          outpost.id === selectedOutpostId
+            ? {
+                ...outpost,
+                manufacturing: entries,
+              }
+            : outpost,
+        ),
+      }),
+    )
   }
 
   /**
@@ -279,33 +357,37 @@ function App() {
   function updatePlannedSupply(
     plannedSupply: typeof selectedOutpost.plannedSupply,
   ) {
-    setNetwork((currentNetwork) => ({
-      ...currentNetwork,
-      outposts: currentNetwork.outposts.map((outpost) =>
-        outpost.id === selectedOutpostId
-          ? {
-              ...outpost,
-              plannedSupply,
-            }
-          : outpost,
-      ),
-    }))
+    setNetwork((currentNetwork) =>
+      retireFulfilledPlannedSupply({
+        ...currentNetwork,
+        outposts: currentNetwork.outposts.map((outpost) =>
+          outpost.id === selectedOutpostId
+            ? {
+                ...outpost,
+                plannedSupply,
+              }
+            : outpost,
+        ),
+      }),
+    )
   }
 
   function updateCargoPads(
     cargoPads: typeof selectedOutpost.cargoPads,
   ) {
-    setNetwork((currentNetwork) => ({
-      ...currentNetwork,
-      outposts: currentNetwork.outposts.map((outpost) =>
-        outpost.id === selectedOutpostId
-          ? {
-              ...outpost,
-              cargoPads,
-            }
-          : outpost,
-      ),
-    }))
+    setNetwork((currentNetwork) =>
+      retireFulfilledPlannedSupply({
+        ...currentNetwork,
+        outposts: currentNetwork.outposts.map((outpost) =>
+          outpost.id === selectedOutpostId
+            ? {
+                ...outpost,
+                cargoPads,
+              }
+            : outpost,
+        ),
+      }),
+    )
   }
 
   function importNetwork(importedNetwork: OutpostNetwork) {
@@ -397,6 +479,7 @@ function App() {
               resources={resources}
               products={products}
               plannedSupply={selectedOutpost.plannedSupply ?? []}
+              actuallyAvailableItems={actuallyAvailableItems}
               onChange={updatePlannedSupply}
             />
           </>
@@ -412,10 +495,12 @@ function App() {
             availableItems={availableCargoItems}
             onChange={updateCargoPads}
             onCargoLinksChange={(cargoLinks) =>
-              setNetwork((currentNetwork) => ({
-                ...currentNetwork,
-                cargoLinks,
-              }))
+              setNetwork((currentNetwork) =>
+                retireFulfilledPlannedSupply({
+                  ...currentNetwork,
+                  cargoLinks,
+                }),
+              )
             }
           />
         }

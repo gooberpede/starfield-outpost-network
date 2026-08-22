@@ -33,6 +33,7 @@ interface PlannedSupplyEditorProps {
   resources: Resource[]
   products: Product[]
   plannedSupply: CargoItem[]
+  actuallyAvailableItems: CargoItem[]
   onChange: (plannedSupply: CargoItem[]) => void
 }
 
@@ -40,6 +41,7 @@ export function PlannedSupplyEditor({
   resources,
   products,
   plannedSupply,
+  actuallyAvailableItems,
   onChange,
 }: PlannedSupplyEditorProps) {
   /**
@@ -51,6 +53,23 @@ export function PlannedSupplyEditor({
     id: string,
   ) {
     return plannedSupply.some(
+      (item) =>
+        item.type === type &&
+        item.id === id,
+    )
+  }
+
+  /**
+   * Returns whether an item already has a real source at this outpost.
+   *
+   * Planned Supply itself is excluded from this test; this answers only
+   * whether the recorded network currently provides the item.
+   */
+  function isActuallyAvailable(
+    type: CargoItem['type'],
+    id: string,
+  ) {
+    return actuallyAvailableItems.some(
       (item) =>
         item.type === type &&
         item.id === id,
@@ -82,6 +101,39 @@ export function PlannedSupplyEditor({
     ])
   }
 
+/*
+ * Planned Supply should offer only items that still need a real source.
+ *
+ * Existing planned items remain visible for now even if they have become
+ * available; the next milestone will retire those fulfilled entries
+ * automatically.
+ */
+const visibleResources =
+  resources.filter(
+    (resource) =>
+      isPlanned(
+        'resource',
+        resource.id,
+      ) ||
+      !isActuallyAvailable(
+        'resource',
+        resource.id,
+      ),
+  )
+
+const visibleProducts =
+  products.filter(
+    (product) =>
+      isPlanned(
+        'product',
+        product.id,
+      ) ||
+      !isActuallyAvailable(
+        'product',
+        product.id,
+      ),
+  )
+
   return (
     <section>
       <h2>Planned Supply</h2>
@@ -89,7 +141,7 @@ export function PlannedSupplyEditor({
       <div>
         <strong>Resources</strong>
 
-        {resources.map((resource) => (
+        {visibleResources.map((resource) => (
           <p key={`resource-${resource.id}`}>
             <label>
               <input
@@ -115,7 +167,7 @@ export function PlannedSupplyEditor({
       <div>
         <strong>Manufactured Products</strong>
 
-        {products.map((product) => (
+        {visibleProducts.map((product) => (
           <p key={`product-${product.id}`}>
             <label>
               <input
