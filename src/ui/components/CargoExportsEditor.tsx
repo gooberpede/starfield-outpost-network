@@ -163,7 +163,7 @@ const visibleProducts =
                       })
                     }
                   />
-                  {resource.name} ({resource.shortName})
+                  {resource.name}
 
                   {exported && !available && (
                     <>
