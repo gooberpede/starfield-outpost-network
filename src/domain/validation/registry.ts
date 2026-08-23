@@ -26,6 +26,10 @@ import {
   missingCargoLinkEndpointRule,
 } from './rules/missingCargoLinkEndpoint'
 
+import {
+  cargoPadLinkedMultipleTimesRule,
+} from './rules/cargoPadLinkedMultipleTimes'
+
 import type {
   ValidationRule,
 } from './types'
@@ -36,4 +40,5 @@ import type {
 export const validationRules: ValidationRule[] = [
   unresolvedCargoExportRule,
   missingCargoLinkEndpointRule,
+  cargoPadLinkedMultipleTimesRule,
 ]
