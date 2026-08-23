@@ -151,7 +151,10 @@ function App() {
    * every registered rule is enabled by default.
    */
   const validationIssues =
-    validateNetwork(network)
+    validateNetwork(
+      network,
+      referenceData ?? undefined,
+    )
 
   /**
    * Returns actual source provenance for one item at the selected outpost.
@@ -555,7 +558,7 @@ function App() {
           resources={resources}
           products={products}
         />
-        
+
         <div>
           {referenceDataError && (
             <span>

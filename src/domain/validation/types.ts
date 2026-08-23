@@ -24,6 +24,10 @@ import type {
   OutpostNetwork,
 } from '../models'
 
+import type {
+  ReferenceData,
+} from '../referenceData'
+
 /**
  * Groups validators by the kind of problem they detect.
  *
@@ -82,5 +86,6 @@ export interface ValidationRule {
 
   validate: (
     network: OutpostNetwork,
+    referenceData?: ReferenceData,
   ) => ValidationIssue[]
 }

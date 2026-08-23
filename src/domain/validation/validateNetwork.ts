@@ -23,6 +23,10 @@ import type {
   OutpostNetwork,
 } from '../models'
 
+import type {
+  ReferenceData,
+} from '../referenceData'
+
 import {
   validationRules,
 } from './registry'
@@ -38,6 +42,7 @@ import type {
  */
 export function validateNetwork(
   network: OutpostNetwork,
+  referenceData?: ReferenceData,
   enabledRuleIds?: Set<string>,
 ): ValidationIssue[] {
   const issues: ValidationIssue[] = []
@@ -51,7 +56,10 @@ export function validateNetwork(
     }
 
     issues.push(
-      ...rule.validate(network),
+      ...rule.validate(
+        network,
+        referenceData,
+      ),
     )
   }
 

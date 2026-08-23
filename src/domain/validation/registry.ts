@@ -54,6 +54,10 @@ import {
   interstellarCargoHelium3Rule,
 } from './rules/interstellarCargoHelium3'
 
+import {
+  bodySystemMismatchRule,
+} from './rules/bodySystemMismatch'
+
 import type {
   ValidationRule,
 } from './types'
@@ -71,4 +75,5 @@ export const validationRules: ValidationRule[] = [
   selfLinkedCargoPadRule,
   regularCargoPadCrossSystemRule,
   interstellarCargoHelium3Rule,
+  bodySystemMismatchRule,
 ]
