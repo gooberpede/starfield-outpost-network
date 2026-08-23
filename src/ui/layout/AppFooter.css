@@ -16,8 +16,13 @@
  */
 
 .app-footer {
-  margin-top: 1rem;
-  padding: 0.75rem 1rem;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 3.5rem;
+  padding: 0 1rem;
 
   border-top: 1px solid currentColor;
 
@@ -26,7 +31,12 @@
   justify-content: space-between;
   gap: 1rem;
 
-  flex-wrap: wrap;
+  box-sizing: border-box;
+
+  background: Canvas;
+  color: CanvasText;
+
+  z-index: 1000;
 
   font-size: 0.9rem;
 }

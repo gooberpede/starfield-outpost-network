@@ -54,6 +54,8 @@
   width: 100%;
   min-height: 100svh;
   box-sizing: border-box;
+
+  padding-bottom: 3.5rem;
 }
 
 body {
