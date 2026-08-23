@@ -66,6 +66,10 @@ import {
   activeProductionValidForBodyRule,
 } from './rules/activeProductionValidForBody'
 
+import {
+  unknownReferenceDataIdRule,
+} from './rules/unknownReferenceDataId'
+
 import type {
   ValidationRule,
 } from './types'
@@ -86,4 +90,5 @@ export const validationRules: ValidationRule[] = [
   bodySystemMismatchRule,
   duplicateCollectionEntriesRule,
   activeProductionValidForBodyRule,
+  unknownReferenceDataIdRule,
 ]
