@@ -34,6 +34,10 @@ import {
   cargoPadSkillLimitRule,
 } from './rules/cargoPadSkillLimit'
 
+import {
+  outpostSkillLimitRule,
+} from './rules/outpostSkillLimit'
+
 import type {
   ValidationRule,
 } from './types'
@@ -46,4 +50,5 @@ export const validationRules: ValidationRule[] = [
   missingCargoLinkEndpointRule,
   cargoPadLinkedMultipleTimesRule,
   cargoPadSkillLimitRule,
+  outpostSkillLimitRule,
 ]
