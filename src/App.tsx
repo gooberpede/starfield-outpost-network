@@ -22,6 +22,10 @@ import { WorkspaceLayout } from './ui/layout/WorkspaceLayout'
 import { AppFooter } from './ui/layout/AppFooter'
 
 import {
+  validateNetwork,
+} from './domain/validation/validateNetwork'
+
+import {
   getItemProvenanceAtOutpost,
 } from './domain/provenance'
 
@@ -138,6 +142,15 @@ function App() {
       selectedOutpost.id,
       network,
     )
+
+  /**
+   * Current validation results for the recorded network.
+   *
+   * Validation is derived from network state rather than persisted. For now
+   * every registered rule is enabled by default.
+   */
+  const validationIssues =
+    validateNetwork(network)
 
   /**
    * Returns actual source provenance for one item at the selected outpost.
