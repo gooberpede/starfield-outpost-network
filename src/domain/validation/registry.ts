@@ -30,6 +30,10 @@ import {
   cargoPadLinkedMultipleTimesRule,
 } from './rules/cargoPadLinkedMultipleTimes'
 
+import {
+  cargoPadSkillLimitRule,
+} from './rules/cargoPadSkillLimit'
+
 import type {
   ValidationRule,
 } from './types'
@@ -41,4 +45,5 @@ export const validationRules: ValidationRule[] = [
   unresolvedCargoExportRule,
   missingCargoLinkEndpointRule,
   cargoPadLinkedMultipleTimesRule,
+  cargoPadSkillLimitRule,
 ]
