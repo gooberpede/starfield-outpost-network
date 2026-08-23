@@ -62,6 +62,10 @@ import {
   duplicateCollectionEntriesRule,
 } from './rules/duplicateCollectionEntries'
 
+import {
+  activeProductionValidForBodyRule,
+} from './rules/activeProductionValidForBody'
+
 import type {
   ValidationRule,
 } from './types'
@@ -81,4 +85,5 @@ export const validationRules: ValidationRule[] = [
   interstellarCargoHelium3Rule,
   bodySystemMismatchRule,
   duplicateCollectionEntriesRule,
+  activeProductionValidForBodyRule,
 ]
