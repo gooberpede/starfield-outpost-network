@@ -58,6 +58,10 @@ import {
   bodySystemMismatchRule,
 } from './rules/bodySystemMismatch'
 
+import {
+  duplicateCollectionEntriesRule,
+} from './rules/duplicateCollectionEntries'
+
 import type {
   ValidationRule,
 } from './types'
@@ -76,4 +80,5 @@ export const validationRules: ValidationRule[] = [
   regularCargoPadCrossSystemRule,
   interstellarCargoHelium3Rule,
   bodySystemMismatchRule,
+  duplicateCollectionEntriesRule,
 ]
