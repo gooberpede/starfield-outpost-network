@@ -22,6 +22,10 @@ import {
   unresolvedCargoExportRule,
 } from './rules/unresolvedCargoExport'
 
+import {
+  missingCargoLinkEndpointRule,
+} from './rules/missingCargoLinkEndpoint'
+
 import type {
   ValidationRule,
 } from './types'
@@ -31,4 +35,5 @@ import type {
  */
 export const validationRules: ValidationRule[] = [
   unresolvedCargoExportRule,
+  missingCargoLinkEndpointRule,
 ]
