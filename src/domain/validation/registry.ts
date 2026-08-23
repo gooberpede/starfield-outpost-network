@@ -38,6 +38,10 @@ import {
   outpostSkillLimitRule,
 } from './rules/outpostSkillLimit'
 
+import {
+  invalidSkillLevelRule,
+} from './rules/invalidSkillLevel'
+
 import type {
   ValidationRule,
 } from './types'
@@ -51,4 +55,5 @@ export const validationRules: ValidationRule[] = [
   cargoPadLinkedMultipleTimesRule,
   cargoPadSkillLimitRule,
   outpostSkillLimitRule,
+  invalidSkillLevelRule,
 ]
