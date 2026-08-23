@@ -1,0 +1,56 @@
+/**
+ * ValidationSummary.css
+ *
+ * Purpose:
+ *   Styles the persistent validation counter and its expandable summary panel.
+ *
+ * Architecture:
+ *   The counter lives inside the fixed application footer. The summary panel
+ *   is positioned above that footer so opening it does not increase the
+ *   footer height or push workspace content around.
+ *
+ * Change this file when:
+ *   - validation counter emphasis changes;
+ *   - summary panel sizing or positioning changes;
+ *   - severity presentation gains richer styling.
+ */
+
+.validation-summary {
+  position: relative;
+}
+
+.validation-summary-panel {
+  position: absolute;
+
+  left: 0;
+  bottom: calc(100% + 0.5rem);
+
+  width: 32rem;
+  max-width: calc(100vw - 2rem);
+  max-height: 20rem;
+
+  padding: 1rem;
+
+  box-sizing: border-box;
+
+  overflow-y: auto;
+
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+
+  background: var(--bg);
+  color: var(--text);
+
+  box-shadow: var(--shadow);
+
+  font-size: 0.9rem;
+}
+
+.validation-summary-panel ul {
+  margin: 0.75rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.validation-summary-panel li + li {
+  margin-top: 0.5rem;
+}

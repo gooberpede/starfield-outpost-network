@@ -20,6 +20,7 @@ import { NetworkImportButton } from './ui/components/NetworkImportButton'
 import { HeaderLayout } from './ui/layout/HeaderLayout'
 import { WorkspaceLayout } from './ui/layout/WorkspaceLayout'
 import { AppFooter } from './ui/layout/AppFooter'
+import { ValidationSummary } from './ui/components/ValidationSummary'
 
 import {
   validateNetwork,
@@ -548,6 +549,13 @@ function App() {
       />
       
       <AppFooter>
+        <ValidationSummary
+          issues={validationIssues}
+          outposts={network.outposts}
+          resources={resources}
+          products={products}
+        />
+        
         <div>
           {referenceDataError && (
             <span>
