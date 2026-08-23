@@ -50,6 +50,10 @@ import {
   regularCargoPadCrossSystemRule,
 } from './rules/regularCargoPadCrossSystem'
 
+import {
+  interstellarCargoHelium3Rule,
+} from './rules/interstellarCargoHelium3'
+
 import type {
   ValidationRule,
 } from './types'
@@ -66,4 +70,5 @@ export const validationRules: ValidationRule[] = [
   invalidSkillLevelRule,
   selfLinkedCargoPadRule,
   regularCargoPadCrossSystemRule,
+  interstellarCargoHelium3Rule,
 ]

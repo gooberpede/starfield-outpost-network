@@ -58,7 +58,8 @@ export interface ValidationIssue {
   category: ValidationCategory
   severity: ValidationSeverity
   message: string
-
+  
+  cargoLinkId?: string
   outpostId?: string
   cargoPadId?: string
   cargoItem?: CargoItem
