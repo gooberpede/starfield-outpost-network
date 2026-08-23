@@ -120,6 +120,46 @@ export interface ProductReference {
 }
 
 /**
+ * Identifies one resource or manufactured product used as a recipe input.
+ *
+ * This intentionally mirrors the resource/product distinction used by
+ * CargoItem without importing the persisted network model into reference
+ * data. Reference data should remain independent of player-network state.
+ */
+export type RecipeIngredientItemReference =
+  | {
+      type: 'resource'
+      id: ResourceId
+    }
+  | {
+      type: 'product'
+      id: ProductId
+    }
+
+/**
+ * Represents one input required by a product's canonical crafting recipe.
+ *
+ * Quantity stores the unmodified base-game requirement. Character-specific
+ * modifiers such as Research Methods must be applied separately by domain
+ * logic rather than altering the stored recipe.
+ */
+export interface RecipeIngredientReference {
+  item: RecipeIngredientItemReference
+  quantity: number
+}
+
+/**
+ * Represents the canonical crafting recipe for one manufactured product.
+ *
+ * Recipes are stored separately from ProductReference so product identity
+ * remains independent of crafting relationships and future recipe metadata.
+ */
+export interface ProductRecipeReference {
+  productId: ProductId
+  ingredients: RecipeIngredientReference[]
+}
+
+/**
  * Aggregates all reference datasets loaded by the application.
  *
  * Keeping the datasets inside one top-level object gives the loader and
@@ -132,4 +172,5 @@ export interface ReferenceData {
   resources: ResourceReference[]
   products: ProductReference[]
   bodyResources: BodyResourcesReference[]
+  productRecipes: ProductRecipeReference[]
 }

@@ -22,6 +22,7 @@
 
 import type {
   PlanetaryBodyReference,
+  ProductRecipeReference,
   ProductReference,
   ReferenceData,
   ResourceReference,
@@ -61,6 +62,7 @@ export async function loadReferenceData(): Promise<ReferenceData> {
     resources,
     products,
     bodyResources,
+    productRecipes,
   ] = await Promise.all([
     loadJsonFile<StarSystemReference[]>(
       '/reference-data/systems.json',
@@ -77,6 +79,9 @@ export async function loadReferenceData(): Promise<ReferenceData> {
     loadJsonFile<BodyResourcesReference[]>(
       '/reference-data/body-resources.json',
     ),
+    loadJsonFile<ProductRecipeReference[]>(
+      '/reference-data/product-recipes.json',
+    ),
   ])
 
   return {
@@ -85,5 +90,6 @@ export async function loadReferenceData(): Promise<ReferenceData> {
     resources,
     products,
     bodyResources,
+    productRecipes,
   }
 }

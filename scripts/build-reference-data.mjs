@@ -19,6 +19,7 @@
  *   - resources.json
  *   - products.json
  *   - body-resources.json
+ *   - product-recipes.json
  *
  * Resource occurrence architecture:
  *   Planetary resource occurrence data identifies resources with canonical
@@ -113,6 +114,13 @@ const PRODUCTS_OUTPUT_FILE = resolve(
   'public',
   'reference-data',
   'products.json',
+)
+
+const PRODUCT_RECIPES_OUTPUT_FILE = resolve(
+  PROJECT_ROOT,
+  'public',
+  'reference-data',
+  'product-recipes.json',
 )
 
 const BODY_RESOURCES_OUTPUT_FILE = resolve(
@@ -974,6 +982,158 @@ function buildProducts(
 }
 
 /**
+ * Builds canonical manufacturing recipes from Industrial Workbench rows.
+ *
+ * Product and ingredient names are resolved against the already-built
+ * application catalogues rather than converted directly into IDs here.
+ * This makes source/catalogue discrepancies visible during generation.
+ *
+ * Recipe quantities remain the unmodified base-game values. Character
+ * modifiers such as Research Methods belong to later domain logic.
+ */
+function buildProductRecipes(
+  rows,
+  resources,
+  products,
+) {
+  const resourcesByName =
+    new Map(
+      resources.map((resource) => [
+        resource.name,
+        resource,
+      ]),
+    )
+
+  const productsByName =
+    new Map(
+      products.map((product) => [
+        product.name,
+        product,
+      ]),
+    )
+
+  const recipesByProductId = new Map()
+
+  for (const [index, row] of rows.entries()) {
+    if (
+      !row.Product ||
+      !row.Ingredient ||
+      !row.Quantity
+    ) {
+      throw new Error(
+        `Industrial Workbench row ${index + 2} is missing ` +
+          'Product, Ingredient, or Quantity.',
+      )
+    }
+
+    const product =
+      productsByName.get(row.Product)
+
+    if (!product) {
+      throw new Error(
+        `Industrial Workbench row ${index + 2} refers to ` +
+          `unknown product "${row.Product}".`,
+      )
+    }
+
+    const resourceIngredient =
+      resourcesByName.get(row.Ingredient)
+
+    const productIngredient =
+      productsByName.get(row.Ingredient)
+
+    if (
+      resourceIngredient &&
+      productIngredient
+    ) {
+      throw new Error(
+        `Industrial Workbench row ${index + 2} has ambiguous ` +
+          `ingredient "${row.Ingredient}", which exists as both ` +
+          'a resource and a product.',
+      )
+    }
+
+    if (
+      !resourceIngredient &&
+      !productIngredient
+    ) {
+      throw new Error(
+        `Industrial Workbench row ${index + 2} refers to ` +
+          `unknown ingredient "${row.Ingredient}".`,
+      )
+    }
+
+    const quantity =
+      Number(row.Quantity)
+
+    if (
+      !Number.isInteger(quantity) ||
+      quantity < 1
+    ) {
+      throw new Error(
+        `Industrial Workbench row ${index + 2} has invalid ` +
+          `quantity "${row.Quantity}".`,
+      )
+    }
+
+    const item =
+      resourceIngredient
+        ? {
+            type: 'resource',
+            id: resourceIngredient.id,
+          }
+        : {
+            type: 'product',
+            id: productIngredient.id,
+          }
+
+    let recipe =
+      recipesByProductId.get(product.id)
+
+    if (!recipe) {
+      recipe = {
+        productId: product.id,
+        ingredients: [],
+      }
+
+      recipesByProductId.set(
+        product.id,
+        recipe,
+      )
+    }
+
+    const duplicateIngredient =
+      recipe.ingredients.some(
+        (ingredient) =>
+          ingredient.item.type === item.type &&
+          ingredient.item.id === item.id,
+      )
+
+    if (duplicateIngredient) {
+      throw new Error(
+        `Industrial Workbench contains duplicate ingredient ` +
+          `"${row.Ingredient}" for product "${row.Product}".`,
+      )
+    }
+
+    recipe.ingredients.push({
+      item,
+      quantity,
+    })
+  }
+
+  /*
+   * Follow product catalogue order so generated output stays deterministic
+   * and easy to compare with products.json.
+   */
+  return products
+    .map((product) =>
+      recipesByProductId.get(product.id),
+    )
+    .filter((recipe) => recipe !== undefined)
+}
+
+/**
  * Writes a generated reference dataset as readable two-space JSON.
  */
 async function writeJson(path, data) {
@@ -1082,6 +1242,13 @@ async function main() {
       abbreviationLookup,
     )
 
+  const productRecipes =
+    buildProductRecipes(
+      productRows,
+      resources,
+      products,
+    )
+
   await writeJson(
     SYSTEMS_OUTPUT_FILE,
     systems,
@@ -1103,6 +1270,11 @@ async function main() {
   )
 
   await writeJson(
+    PRODUCT_RECIPES_OUTPUT_FILE,
+    productRecipes,
+  )
+
+  await writeJson(
     BODY_RESOURCES_OUTPUT_FILE,
     bodyResources,
   )
@@ -1111,8 +1283,9 @@ async function main() {
     `Generated ${systems.length} star systems, ` +
       `${bodies.length} planetary bodies, ` +
       `${resources.length} resources, ` +
-      `${products.length} products, and ` +
-      `${bodyResources.length} body-resource records.`,
+      `${products.length} products, ` +
+      `${bodyResources.length} body-resource records, and ` +
+      `${productRecipes.length} product recipes.`,
   )
 }
 

@@ -1,0 +1,775 @@
+[
+  {
+    "productId": "adaptive-frame",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "aluminium"
+        },
+        "quantity": 1
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "iron"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "aldumite-drilling-rig",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "aldumite"
+        },
+        "quantity": 4
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "caesium"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "drilling-rig"
+        },
+        "quantity": 1
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "microsecond-regulator"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "austenitic-manifold",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "iron"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "nickel"
+        },
+        "quantity": 2
+      }
+    ]
+  },
+  {
+    "productId": "comm-relay",
+    "ingredients": [
+      {
+        "item": {
+          "type": "product",
+          "id": "isocentered-magnet"
+        },
+        "quantity": 1
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "tau-grade-rheostat"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "control-rod",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "dysprosium"
+        },
+        "quantity": 3
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "austenitic-manifold"
+        },
+        "quantity": 1
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "isotopic-coolant"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "drilling-rig",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "lubricant"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "tungsten"
+        },
+        "quantity": 3
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "reactive-gauge"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "indicite-wafer",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "caesium"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "indicite"
+        },
+        "quantity": 4
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "solvent"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "semimetal-wafer"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "isocentered-magnet",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "cobalt"
+        },
+        "quantity": 1
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "nickel"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "isotopic-coolant",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "ionic-liquids"
+        },
+        "quantity": 1
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "tetrafluorides"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "mag-pressure-tank",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "aluminium"
+        },
+        "quantity": 1
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "nickel"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "microsecond-regulator",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "europium"
+        },
+        "quantity": 4
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "lithium"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "supercooled-magnet"
+        },
+        "quantity": 1
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "tau-grade-rheostat"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "molecular-sieve",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "ionic-liquids"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "membrane"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "mag-pressure-tank"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "monopropellant",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "alkanes"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "mag-pressure-tank"
+        },
+        "quantity": 1
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "reactive-gauge"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "nuclear-fuel-rod",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "solvent"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "uranium"
+        },
+        "quantity": 3
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "semimetal-wafer"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "paramagnon-conductor",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "gold"
+        },
+        "quantity": 1
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "neodymium"
+        },
+        "quantity": 1
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "zero-wire"
+        },
+        "quantity": 3
+      }
+    ]
+  },
+  {
+    "productId": "polytextile",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "cosmetic"
+        },
+        "quantity": 1
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "fiber"
+        },
+        "quantity": 2
+      }
+    ]
+  },
+  {
+    "productId": "positron-battery",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "antimony"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "vanadium"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "tau-grade-rheostat"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "power-circuit",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "palladium"
+        },
+        "quantity": 4
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "polymer"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "paramagnon-conductor"
+        },
+        "quantity": 1
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "positron-battery"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "reactive-gauge",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "aluminium"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "copper"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "rothicite-magnet",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "lithium"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "rothicite"
+        },
+        "quantity": 4
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "semimetal-wafer"
+        },
+        "quantity": 1
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "supercooled-magnet"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "semimetal-wafer",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "antimony"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "gold"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "zero-wire"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "sterile-nanotubes",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "solvent"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "vanadium"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "molecular-sieve"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "substrate-molecular-sieve",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "biosuppressant"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "memory-substrate"
+        },
+        "quantity": 3
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "molecular-sieve"
+        },
+        "quantity": 1
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "sterile-nanotubes"
+        },
+        "quantity": 2
+      }
+    ]
+  },
+  {
+    "productId": "supercooled-magnet",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "neodymium"
+        },
+        "quantity": 3
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "isocentered-magnet"
+        },
+        "quantity": 1
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "isotopic-coolant"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "tasine-superconductor",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "palladium"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "polymer"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "tasine"
+        },
+        "quantity": 4
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "paramagnon-conductor"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "tau-grade-rheostat",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "beryllium"
+        },
+        "quantity": 1
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "copper"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "veryl-treated-manifold",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "lubricant"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "veryl"
+        },
+        "quantity": 4
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "ytterbium"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "austenitic-manifold"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "vytinium-fuel-rod",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "plutonium"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "vytinium"
+        },
+        "quantity": 4
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "indicite-wafer"
+        },
+        "quantity": 1
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "nuclear-fuel-rod"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "zero-wire",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "copper"
+        },
+        "quantity": 1
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "silver"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "productId": "zero-g-gimbal",
+    "ingredients": [
+      {
+        "item": {
+          "type": "resource",
+          "id": "lubricant"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "resource",
+          "id": "tantalum"
+        },
+        "quantity": 2
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "isocentered-magnet"
+        },
+        "quantity": 1
+      }
+    ]
+  }
+]
