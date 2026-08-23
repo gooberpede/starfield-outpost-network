@@ -53,13 +53,20 @@ function validateCargoPadsLinkedMultipleTimes(
     new Map<string, number>()
 
   for (const link of network.cargoLinks) {
-    for (const endpoint of [
-      link.endpointA,
-      link.endpointB,
-    ]) {
-      const key =
-        getEndpointKey(endpoint)
+    const endpointKeys =
+      new Set([
+        getEndpointKey(link.endpointA),
+        getEndpointKey(link.endpointB),
+      ])
 
+    /*
+    * Count each cargo pad at most once per link.
+    *
+    * A self-linked cargo pad is the responsibility of the dedicated
+    * self-link validator and should not also be reported here merely because
+    * the same endpoint appears twice within one link.
+    */
+    for (const key of endpointKeys) {
       endpointCounts.set(
         key,
         (endpointCounts.get(key) ?? 0) + 1,

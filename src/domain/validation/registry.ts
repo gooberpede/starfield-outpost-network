@@ -42,6 +42,10 @@ import {
   invalidSkillLevelRule,
 } from './rules/invalidSkillLevel'
 
+import {
+  selfLinkedCargoPadRule,
+} from './rules/selfLinkedCargoPad'
+
 import type {
   ValidationRule,
 } from './types'
@@ -56,4 +60,5 @@ export const validationRules: ValidationRule[] = [
   cargoPadSkillLimitRule,
   outpostSkillLimitRule,
   invalidSkillLevelRule,
+  selfLinkedCargoPadRule,
 ]
