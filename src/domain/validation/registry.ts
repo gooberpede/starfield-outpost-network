@@ -70,6 +70,10 @@ import {
   unknownReferenceDataIdRule,
 } from './rules/unknownReferenceDataId'
 
+import {
+  manufacturingInputsUnavailableRule,
+} from './rules/manufacturingInputsUnavailable'
+
 import type {
   ValidationRule,
 } from './types'
@@ -91,4 +95,5 @@ export const validationRules: ValidationRule[] = [
   duplicateCollectionEntriesRule,
   activeProductionValidForBodyRule,
   unknownReferenceDataIdRule,
+  manufacturingInputsUnavailableRule,
 ]
