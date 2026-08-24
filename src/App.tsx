@@ -34,6 +34,13 @@ import type {
   ItemProvenance,
 } from './domain/provenance'
 
+import {
+  createNetworkHistory,
+  recordUndoableAction,
+  redoNetworkChange,
+  undoNetworkChange,
+} from './domain/history'
+
 import type {
   CargoItem,
   OutpostNetwork,
@@ -102,6 +109,9 @@ function App() {
   const [network, setNetwork] = useState(() => {
     return loadNetwork() ?? sampleNetwork
   })
+
+  const [history, setHistory] =
+    useState(createNetworkHistory)
 
   const [referenceData, setReferenceData] =
     useState<ReferenceData | null>(null)
@@ -226,7 +236,20 @@ function App() {
     saveNetwork(network)
   }, [network])
 
+  /**
+   * Clears session history before a network change that is not yet undoable.
+   *
+   * This prevents an old Undo/Redo snapshot from later replacing unrelated
+   * edits made after that snapshot. As more user actions gain history support,
+   * they can stop using this reset and record their own history entry instead.
+   */
+  function clearHistory() {
+    setHistory(createNetworkHistory())
+  }
+
   function updateCharacter(character: typeof network.character) {
+    clearHistory()
+
     setNetwork((currentNetwork) => ({
       ...currentNetwork,
       character,
@@ -234,6 +257,8 @@ function App() {
   }
 
   function addOutpost() {
+    clearHistory()
+
     const newOutpost = createDefaultOutpost()
 
     setNetwork((currentNetwork) => ({
@@ -266,6 +291,17 @@ function App() {
     if (deletedIndex === -1) {
       return
     }
+
+    const deletedOutpost =
+      network.outposts[deletedIndex]
+
+    setHistory((currentHistory) =>
+      recordUndoableAction(
+        currentHistory,
+        network,
+        `Delete outpost ${deletedOutpost.name}`,
+      ),
+    )
 
     const remainingOutposts =
       network.outposts.filter(
@@ -310,10 +346,76 @@ function App() {
     }))
   }
 
+  /**
+   * Restores the network snapshot immediately before the most recent
+   * undoable action.
+   */
+  function undo() {
+    const result =
+      undoNetworkChange(
+        history,
+        network,
+      )
+
+    if (!result.network) {
+      return
+    }
+
+    setHistory(result.history)
+    setNetwork(result.network)
+
+    /*
+    * History currently records network state rather than presentation state.
+    * Keep the current outpost selected when it still exists in the restored
+    * snapshot; otherwise fall back to its first outpost.
+    */
+    if (
+      !result.network.outposts.some(
+        (outpost) =>
+          outpost.id === selectedOutpostId,
+      )
+    ) {
+      setSelectedOutpostId(
+        result.network.outposts[0].id,
+      )
+    }
+  }
+
+  /**
+   * Reapplies the most recently undone network change.
+   */
+  function redo() {
+    const result =
+      redoNetworkChange(
+        history,
+        network,
+      )
+
+    if (!result.network) {
+      return
+    }
+
+    setHistory(result.history)
+    setNetwork(result.network)
+
+    if (
+      !result.network.outposts.some(
+        (outpost) =>
+          outpost.id === selectedOutpostId,
+      )
+    ) {
+      setSelectedOutpostId(
+        result.network.outposts[0].id,
+      )
+    }
+  }
+
   function updateSelectedOutpost(
     field: 'name' | 'systemId' | 'bodyId',
     value: string,
   ) {
+    clearHistory()
+
     setNetwork((currentNetwork) => ({
       ...currentNetwork,
       outposts: currentNetwork.outposts.map((outpost) => {
@@ -342,7 +444,10 @@ function App() {
   }
 
   function updateLocalResources(resourceIds: string[]) {
+    clearHistory()
+    
     setNetwork((currentNetwork) => ({
+      
       ...currentNetwork,
       outposts: currentNetwork.outposts.map((outpost) =>
         outpost.id === selectedOutpostId
@@ -359,6 +464,8 @@ function App() {
   }
 
   function updateActiveProduction(resourceIds: string[]) {
+    clearHistory()
+
     setNetwork((currentNetwork) =>
       retireFulfilledPlannedSupply({
         ...currentNetwork,
@@ -377,6 +484,8 @@ function App() {
   function updateManufacturing(
     entries: typeof selectedOutpost.manufacturing,
   ) {
+    clearHistory()
+
     setNetwork((currentNetwork) =>
       retireFulfilledPlannedSupply({
         ...currentNetwork,
@@ -401,6 +510,8 @@ function App() {
   function updatePlannedSupply(
     plannedSupply: typeof selectedOutpost.plannedSupply,
   ) {
+    clearHistory()
+    
     setNetwork((currentNetwork) =>
       retireFulfilledPlannedSupply({
         ...currentNetwork,
@@ -419,6 +530,8 @@ function App() {
   function updateCargoPads(
     cargoPads: typeof selectedOutpost.cargoPads,
   ) {
+    clearHistory()
+
     setNetwork((currentNetwork) =>
       retireFulfilledPlannedSupply({
         ...currentNetwork,
@@ -435,6 +548,8 @@ function App() {
   }
 
   function importNetwork(importedNetwork: OutpostNetwork) {
+    clearHistory()
+
     setNetwork(importedNetwork)
 
     if (importedNetwork.outposts.length > 0) {
@@ -458,6 +573,32 @@ function App() {
         }
         actions={
           <>
+            <button
+              type="button"
+              onClick={undo}
+              disabled={history.past.length === 0}
+              title={
+                history.past.length > 0
+                  ? `Undo: ${history.past.at(-1)?.label}`
+                  : 'Nothing to undo'
+              }
+            >
+              Undo
+            </button>
+
+            <button
+              type="button"
+              onClick={redo}
+              disabled={history.future.length === 0}
+              title={
+                history.future.length > 0
+                  ? `Redo: ${history.future.at(-1)?.label}`
+                  : 'Nothing to redo'
+              }
+            >
+              Redo
+            </button>
+
             <NetworkExportButton network={network} />
             <NetworkImportButton onImport={importNetwork} />
           </>
@@ -539,14 +680,16 @@ function App() {
             availableItems={availableCargoItems}
             getItemProvenance={getSelectedOutpostItemProvenance}
             onChange={updateCargoPads}
-            onCargoLinksChange={(cargoLinks) =>
+            onCargoLinksChange={(cargoLinks) => {
+              clearHistory()
+
               setNetwork((currentNetwork) =>
                 retireFulfilledPlannedSupply({
                   ...currentNetwork,
                   cargoLinks,
                 }),
               )
-            }
+            }}
           />
         }
       />
