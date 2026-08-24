@@ -61,6 +61,7 @@ interface CargoPadsEditorProps {
   cargoLinks: CargoLink[]
   onChange: (cargoPads: CargoPad[]) => void
   onCargoLinksChange: (cargoLinks: CargoLink[]) => void
+  onDeleteCargoPad: (cargoPadId: string) => void
   resources: Resource[]
   products: Product[]
   availableItems: CargoItem[]
@@ -79,6 +80,7 @@ export function CargoPadsEditor({
   getItemProvenance,
   onChange,
   onCargoLinksChange,
+  onDeleteCargoPad,
 }: CargoPadsEditorProps) {
   /*
    * Selecting an outpost does not by itself constitute a cargo link.
@@ -161,45 +163,25 @@ export function CargoPadsEditor({
   }
 
   /**
-   * Removes a cargo pad and any network-level link that refers to it.
+   * Requests deletion of one cargo pad.
    *
-   * Remaining pads are renumbered for presentation, but their stable
-   * internal IDs are left unchanged.
+   * The actual network mutation is owned by the application layer because
+   * deleting a cargo pad may also remove a network-level cargo link. Treating
+   * those related changes as one operation allows them to share one Undo/Redo
+   * history entry.
    */
   function removeCargoPad(padId: string) {
-    const remainingPads = outpost.cargoPads
-      .filter((pad) => pad.id !== padId)
-      .map((pad, index) => ({
-        ...pad,
-        label: `Pad ${index + 1}`,
-      }))
-
-    onChange(remainingPads)
+    onDeleteCargoPad(padId)
 
     /*
-     * Discard obsolete presentation state for the removed pad.
-     */
+    * Collapse state is presentation-only, so it can be discarded locally
+    * when the corresponding persisted cargo pad is removed.
+    */
     setCollapsedPadIds((current) => {
       const updated = { ...current }
       delete updated[padId]
       return updated
     })
-
-    onCargoLinksChange(
-      cargoLinks.filter(
-        (link) =>
-          !(
-            (
-              link.endpointA.outpostId === outpost.id &&
-              link.endpointA.cargoPadId === padId
-            ) ||
-            (
-              link.endpointB.outpostId === outpost.id &&
-              link.endpointB.cargoPadId === padId
-            )
-          ),
-      ),
-    )
   }
 
   /**

@@ -347,6 +347,96 @@ function App() {
   }
 
   /**
+   * Deletes one cargo pad and any network-level cargo link that refers to it.
+   *
+   * The entire operation is recorded as one history entry so Undo restores
+   * both the cargo pad and any collateral cargo-link removal together.
+   *
+   * Remaining cargo pads are renumbered for presentation, while their stable
+   * internal IDs remain unchanged.
+   */
+  function deleteCargoPad(
+    outpostId: string,
+    cargoPadId: string,
+  ) {
+    const outpost =
+      network.outposts.find(
+        (candidate) =>
+          candidate.id === outpostId,
+      )
+
+    if (!outpost) {
+      return
+    }
+
+    const cargoPad =
+      outpost.cargoPads.find(
+        (candidate) =>
+          candidate.id === cargoPadId,
+      )
+
+    if (!cargoPad) {
+      return
+    }
+
+    setHistory((currentHistory) =>
+      recordUndoableAction(
+        currentHistory,
+        network,
+        `Delete ${outpost.name} / ${cargoPad.label}`,
+      ),
+    )
+
+    setNetwork((currentNetwork) =>
+      retireFulfilledPlannedSupply({
+        ...currentNetwork,
+
+        outposts:
+          currentNetwork.outposts.map(
+            (candidateOutpost) => {
+              if (
+                candidateOutpost.id !== outpostId
+              ) {
+                return candidateOutpost
+              }
+
+              const remainingCargoPads =
+                candidateOutpost.cargoPads
+                  .filter(
+                    (pad) =>
+                      pad.id !== cargoPadId,
+                  )
+                  .map((pad, index) => ({
+                    ...pad,
+                    label: `Pad ${index + 1}`,
+                  }))
+
+              return {
+                ...candidateOutpost,
+                cargoPads: remainingCargoPads,
+              }
+            },
+          ),
+
+        cargoLinks:
+          currentNetwork.cargoLinks.filter(
+            (link) =>
+              !(
+                (
+                  link.endpointA.outpostId === outpostId &&
+                  link.endpointA.cargoPadId === cargoPadId
+                ) ||
+                (
+                  link.endpointB.outpostId === outpostId &&
+                  link.endpointB.cargoPadId === cargoPadId
+                )
+              ),
+          ),
+      }),
+    )
+  }
+
+  /**
    * Restores the network snapshot immediately before the most recent
    * undoable action.
    */
@@ -445,7 +535,7 @@ function App() {
 
   function updateLocalResources(resourceIds: string[]) {
     clearHistory()
-    
+
     setNetwork((currentNetwork) => ({
       
       ...currentNetwork,
@@ -680,6 +770,12 @@ function App() {
             availableItems={availableCargoItems}
             getItemProvenance={getSelectedOutpostItemProvenance}
             onChange={updateCargoPads}
+            onDeleteCargoPad={(cargoPadId) =>
+              deleteCargoPad(
+                selectedOutpost.id,
+                cargoPadId,
+              )
+            }
             onCargoLinksChange={(cargoLinks) => {
               clearHistory()
 
