@@ -61,6 +61,7 @@ interface CargoPadsEditorProps {
   cargoLinks: CargoLink[]
   onChange: (cargoPads: CargoPad[]) => void
   onCargoLinksChange: (cargoLinks: CargoLink[]) => void
+  onAddCargoPad: () => void
   onDeleteCargoPad: (cargoPadId: string) => void
   resources: Resource[]
   products: Product[]
@@ -80,6 +81,7 @@ export function CargoPadsEditor({
   getItemProvenance,
   onChange,
   onCargoLinksChange,
+  onAddCargoPad,
   onDeleteCargoPad,
 }: CargoPadsEditorProps) {
   /*
@@ -143,23 +145,14 @@ export function CargoPadsEditor({
   }
 
   /**
-   * Adds a new unlinked cargo pad to the current outpost.
+   * Requests creation of a new unlinked cargo pad for the current outpost.
    *
-   * Cargo pads are created independently of cargo links because a pad
-   * may contain outbound material without being linked anywhere.
+   * The persisted network mutation is owned by the application layer so cargo
+   * pad creation can participate in the same Undo/Redo command architecture as
+   * cargo pad deletion and other semantic network actions.
    */
   function addCargoPad() {
-    const newPad: CargoPad = {
-      id: crypto.randomUUID(),
-      label: `Pad ${outpost.cargoPads.length + 1}`,
-      type: 'regular',
-      outboundItems: [],
-    }
-
-    onChange([
-      ...outpost.cargoPads,
-      newPad,
-    ])
+    onAddCargoPad()
   }
 
   /**

@@ -290,12 +290,20 @@ function App() {
     )
   }
 
+  /**
+   * Adds a new outpost and records the creation as one Undo step.
+   *
+   * Selection moves to the new outpost as presentation state, while the
+   * persisted network addition is handled through the editing-session history.
+   */
   function addOutpost() {
     const newOutpost = createDefaultOutpost()
 
-    applyUntrackedNetworkChange(
+    applyUndoableNetworkChange(
+      'Add outpost',
       (currentNetwork) => ({
         ...currentNetwork,
+
         outposts: [
           ...currentNetwork.outposts,
           newOutpost,
@@ -374,6 +382,56 @@ function App() {
             (link) =>
               link.endpointA.outpostId !== outpostId &&
               link.endpointB.outpostId !== outpostId,
+          ),
+      }),
+    )
+  }
+
+  /**
+   * Adds a new unlinked cargo pad to one outpost and records the creation as
+   * one Undo step.
+   *
+   * Cargo pads are created independently of cargo links. Their persisted
+   * mutation is owned at the application layer so creation and deletion use
+   * the same semantic history architecture.
+   */
+  function addCargoPad(
+    outpostId: string,
+  ) {
+    const outpost =
+      network.outposts.find(
+        (candidate) =>
+          candidate.id === outpostId,
+      )
+
+    if (!outpost) {
+      return
+    }
+
+    const newCargoPad = {
+      id: crypto.randomUUID(),
+      label: `Pad ${outpost.cargoPads.length + 1}`,
+      type: 'regular' as const,
+      outboundItems: [],
+    }
+
+    applyUndoableNetworkChange(
+      `Add ${outpost.name} / ${newCargoPad.label}`,
+      (currentNetwork) => ({
+        ...currentNetwork,
+
+        outposts:
+          currentNetwork.outposts.map(
+            (candidateOutpost) =>
+              candidateOutpost.id === outpostId
+                ? {
+                    ...candidateOutpost,
+                    cargoPads: [
+                      ...candidateOutpost.cargoPads,
+                      newCargoPad,
+                    ],
+                  }
+                : candidateOutpost,
           ),
       }),
     )
@@ -785,6 +843,11 @@ function App() {
             availableItems={availableCargoItems}
             getItemProvenance={getSelectedOutpostItemProvenance}
             onChange={updateCargoPads}
+            onAddCargoPad={() =>
+              addCargoPad(
+                selectedOutpost.id,
+              )
+            }
             onDeleteCargoPad={(cargoPadId) =>
               deleteCargoPad(
                 selectedOutpost.id,
