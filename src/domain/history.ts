@@ -78,11 +78,15 @@ export function createNetworkHistory(): NetworkHistory {
  *
  * A new user action creates a new timeline branch, so any states previously
  * reachable through Redo are discarded.
+ *
+ * The caller supplies the timestamp so this domain helper remains a pure
+ * transformation with no dependency on the current clock.
  */
 export function recordUndoableAction(
   history: NetworkHistory,
   currentNetwork: OutpostNetwork,
   label: string,
+  timestamp: number,
 ): NetworkHistory {
   return {
     past: [
@@ -90,7 +94,7 @@ export function recordUndoableAction(
       {
         network: currentNetwork,
         label,
-        timestamp: Date.now(),
+        timestamp,
       },
     ],
     future: [],

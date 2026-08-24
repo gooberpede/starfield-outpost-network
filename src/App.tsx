@@ -1,4 +1,8 @@
-import { useEffect, useState } from 'react'
+import {
+  useEffect,
+  useReducer,
+  useState,
+} from 'react'
 import type { ReferenceData } from './domain/referenceData'
 import { loadReferenceData } from './data/referenceDataLoader'
 import { sampleNetwork } from './domain/sampleData'
@@ -35,11 +39,13 @@ import type {
 } from './domain/provenance'
 
 import {
-  createNetworkHistory,
-  recordUndoableAction,
-  redoNetworkChange,
-  undoNetworkChange,
-} from './domain/history'
+  createNetworkEditingSession,
+  networkEditingSessionReducer,
+} from './domain/networkEditingSession'
+
+import type {
+  NetworkUpdate,
+} from './domain/networkEditingSession'
 
 import type {
   CargoItem,
@@ -106,12 +112,15 @@ function retireFulfilledPlannedSupply(
 }
 
 function App() {
-  const [network, setNetwork] = useState(() => {
-    return loadNetwork() ?? sampleNetwork
-  })
+  const [session, dispatchEditingSession] =
+    useReducer(
+      networkEditingSessionReducer,
+      loadNetwork() ?? sampleNetwork,
+      createNetworkEditingSession,
+    )
 
-  const [history, setHistory] =
-    useState(createNetworkHistory)
+  const network = session.network
+  const history = session.history
 
   const [referenceData, setReferenceData] =
     useState<ReferenceData | null>(null)
@@ -237,34 +246,62 @@ function App() {
   }, [network])
 
   /**
-   * Clears session history before a network change that is not yet undoable.
+   * Applies one user-visible network change and records it as one Undo step.
    *
-   * This prevents an old Undo/Redo snapshot from later replacing unrelated
-   * edits made after that snapshot. As more user actions gain history support,
-   * they can stop using this reset and record their own history entry instead.
+   * The supplied update may change several related parts of the network.
+   * History sees the complete operation as one semantic action.
    */
-  function clearHistory() {
-    setHistory(createNetworkHistory())
+  function applyUndoableNetworkChange(
+    label: string,
+    update: NetworkUpdate,
+  ) {
+    dispatchEditingSession({
+      type: 'apply',
+      label,
+      timestamp: Date.now(),
+      update,
+    })
   }
 
-  function updateCharacter(character: typeof network.character) {
-    clearHistory()
+  /**
+   * Applies a network change that has not yet been integrated with Undo/Redo.
+   *
+   * Resetting the editing session atomically replaces the network and clears
+   * both history branches. This is temporary infrastructure while remaining
+   * application actions are migrated onto the undoable-change gateway.
+   */
+  function applyUntrackedNetworkChange(
+    update: NetworkUpdate,
+  ) {
+    dispatchEditingSession({
+      type: 'reset',
+      network: update(network),
+    })
+  }
 
-    setNetwork((currentNetwork) => ({
-      ...currentNetwork,
-      character,
-    }))
+  function updateCharacter(
+    character: typeof network.character,
+  ) {
+    applyUntrackedNetworkChange(
+      (currentNetwork) => ({
+        ...currentNetwork,
+        character,
+      }),
+    )
   }
 
   function addOutpost() {
-    clearHistory()
-
     const newOutpost = createDefaultOutpost()
 
-    setNetwork((currentNetwork) => ({
-      ...currentNetwork,
-      outposts: [...currentNetwork.outposts, newOutpost],
-    }))
+    applyUntrackedNetworkChange(
+      (currentNetwork) => ({
+        ...currentNetwork,
+        outposts: [
+          ...currentNetwork.outposts,
+          newOutpost,
+        ],
+      }),
+    )
 
     setSelectedOutpostId(newOutpost.id)
   }
@@ -295,23 +332,15 @@ function App() {
     const deletedOutpost =
       network.outposts[deletedIndex]
 
-    setHistory((currentHistory) =>
-      recordUndoableAction(
-        currentHistory,
-        network,
-        `Delete outpost ${deletedOutpost.name}`,
-      ),
-    )
-
     const remainingOutposts =
       network.outposts.filter(
         (outpost) => outpost.id !== outpostId,
       )
 
     /*
-    * Preserve the current selection when deleting some other outpost.
-    * When deleting the selected outpost, prefer the next item in the
-    * existing ordering and fall back to the previous item at the end.
+    * Selection is presentation state rather than network history. Preserve
+    * the existing navigation behaviour independently of the recorded network
+    * mutation.
     */
     if (selectedOutpostId === outpostId) {
       const replacementIndex =
@@ -325,25 +354,29 @@ function App() {
       )
     }
 
-    setNetwork((currentNetwork) => ({
-      ...currentNetwork,
+    applyUndoableNetworkChange(
+      `Delete outpost ${deletedOutpost.name}`,
+      (currentNetwork) => ({
+        ...currentNetwork,
 
-      outposts:
-        currentNetwork.outposts.filter(
-          (outpost) => outpost.id !== outpostId,
-        ),
+        outposts:
+          currentNetwork.outposts.filter(
+            (outpost) =>
+              outpost.id !== outpostId,
+          ),
 
-      /*
-      * Cargo links cannot survive removal of either endpoint's outpost.
-      * Outbound cargo selections on surviving pads are left untouched.
-      */
-      cargoLinks:
-        currentNetwork.cargoLinks.filter(
-          (link) =>
-            link.endpointA.outpostId !== outpostId &&
-            link.endpointB.outpostId !== outpostId,
-        ),
-    }))
+        /*
+        * Cargo links cannot survive removal of either endpoint's outpost.
+        * Outbound cargo selections on surviving pads remain untouched.
+        */
+        cargoLinks:
+          currentNetwork.cargoLinks.filter(
+            (link) =>
+              link.endpointA.outpostId !== outpostId &&
+              link.endpointB.outpostId !== outpostId,
+          ),
+      }),
+    )
   }
 
   /**
@@ -379,215 +412,187 @@ function App() {
       return
     }
 
-    setHistory((currentHistory) =>
-      recordUndoableAction(
-        currentHistory,
-        network,
-        `Delete ${outpost.name} / ${cargoPad.label}`,
-      ),
-    )
+    applyUndoableNetworkChange(
+      `Delete ${outpost.name} / ${cargoPad.label}`,
+      (currentNetwork) =>
+        retireFulfilledPlannedSupply({
+          ...currentNetwork,
 
-    setNetwork((currentNetwork) =>
-      retireFulfilledPlannedSupply({
-        ...currentNetwork,
+          outposts:
+            currentNetwork.outposts.map(
+              (candidateOutpost) => {
+                if (
+                  candidateOutpost.id !== outpostId
+                ) {
+                  return candidateOutpost
+                }
 
-        outposts:
-          currentNetwork.outposts.map(
-            (candidateOutpost) => {
-              if (
-                candidateOutpost.id !== outpostId
-              ) {
-                return candidateOutpost
-              }
+                const remainingCargoPads =
+                  candidateOutpost.cargoPads
+                    .filter(
+                      (pad) =>
+                        pad.id !== cargoPadId,
+                    )
+                    .map((pad, index) => ({
+                      ...pad,
+                      label: `Pad ${index + 1}`,
+                    }))
 
-              const remainingCargoPads =
-                candidateOutpost.cargoPads
-                  .filter(
-                    (pad) =>
-                      pad.id !== cargoPadId,
+                return {
+                  ...candidateOutpost,
+                  cargoPads: remainingCargoPads,
+                }
+              },
+            ),
+
+          cargoLinks:
+            currentNetwork.cargoLinks.filter(
+              (link) =>
+                !(
+                  (
+                    link.endpointA.outpostId ===
+                      outpostId &&
+                    link.endpointA.cargoPadId ===
+                      cargoPadId
+                  ) ||
+                  (
+                    link.endpointB.outpostId ===
+                      outpostId &&
+                    link.endpointB.cargoPadId ===
+                      cargoPadId
                   )
-                  .map((pad, index) => ({
-                    ...pad,
-                    label: `Pad ${index + 1}`,
-                  }))
-
-              return {
-                ...candidateOutpost,
-                cargoPads: remainingCargoPads,
-              }
-            },
-          ),
-
-        cargoLinks:
-          currentNetwork.cargoLinks.filter(
-            (link) =>
-              !(
-                (
-                  link.endpointA.outpostId === outpostId &&
-                  link.endpointA.cargoPadId === cargoPadId
-                ) ||
-                (
-                  link.endpointB.outpostId === outpostId &&
-                  link.endpointB.cargoPadId === cargoPadId
-                )
-              ),
-          ),
-      }),
+                ),
+            ),
+        }),
     )
   }
 
   /**
-   * Restores the network snapshot immediately before the most recent
-   * undoable action.
+   * Moves the editing session backward by one undoable user action.
    */
   function undo() {
-    const result =
-      undoNetworkChange(
-        history,
-        network,
-      )
-
-    if (!result.network) {
-      return
-    }
-
-    setHistory(result.history)
-    setNetwork(result.network)
-
-    /*
-    * History currently records network state rather than presentation state.
-    * Keep the current outpost selected when it still exists in the restored
-    * snapshot; otherwise fall back to its first outpost.
-    */
-    if (
-      !result.network.outposts.some(
-        (outpost) =>
-          outpost.id === selectedOutpostId,
-      )
-    ) {
-      setSelectedOutpostId(
-        result.network.outposts[0].id,
-      )
-    }
+    dispatchEditingSession({
+      type: 'undo',
+    })
   }
 
   /**
-   * Reapplies the most recently undone network change.
+   * Moves the editing session forward by one previously undone user action.
    */
   function redo() {
-    const result =
-      redoNetworkChange(
-        history,
-        network,
-      )
-
-    if (!result.network) {
-      return
-    }
-
-    setHistory(result.history)
-    setNetwork(result.network)
-
-    if (
-      !result.network.outposts.some(
-        (outpost) =>
-          outpost.id === selectedOutpostId,
-      )
-    ) {
-      setSelectedOutpostId(
-        result.network.outposts[0].id,
-      )
-    }
+    dispatchEditingSession({
+      type: 'redo',
+    })
   }
 
   function updateSelectedOutpost(
     field: 'name' | 'systemId' | 'bodyId',
     value: string,
   ) {
-    clearHistory()
-
-    setNetwork((currentNetwork) => ({
-      ...currentNetwork,
-      outposts: currentNetwork.outposts.map((outpost) => {
-        if (outpost.id !== selectedOutpostId) {
-          return outpost
-        }
-
-        /*
-        * Changing star system invalidates any previously selected body,
-        * because planetary bodies belong to one specific system.
-        */
-        if (field === 'systemId') {
-          return {
-            ...outpost,
-            systemId: value,
-            bodyId: '',
-          }
-        }
-
-        return {
-          ...outpost,
-          [field]: value,
-        }
-      }),
-    }))
-  }
-
-  function updateLocalResources(resourceIds: string[]) {
-    clearHistory()
-
-    setNetwork((currentNetwork) => ({
-      
-      ...currentNetwork,
-      outposts: currentNetwork.outposts.map((outpost) =>
-        outpost.id === selectedOutpostId
-          ? {
-              ...outpost,
-              localResources: resourceIds,
-              activeProduction: outpost.activeProduction.filter(
-                (resourceId) => resourceIds.includes(resourceId),
-              ),
-            }
-          : outpost,
-      ),
-    }))
-  }
-
-  function updateActiveProduction(resourceIds: string[]) {
-    clearHistory()
-
-    setNetwork((currentNetwork) =>
-      retireFulfilledPlannedSupply({
+    applyUntrackedNetworkChange(
+      (currentNetwork) => ({
         ...currentNetwork,
-        outposts: currentNetwork.outposts.map((outpost) =>
-          outpost.id === selectedOutpostId
-            ? {
-                ...outpost,
-                activeProduction: resourceIds,
+
+        outposts:
+          currentNetwork.outposts.map(
+            (outpost) => {
+              if (
+                outpost.id !== selectedOutpostId
+              ) {
+                return outpost
               }
-            : outpost,
-        ),
+
+              /*
+              * Changing star system invalidates any previously selected body,
+              * because planetary bodies belong to one specific system.
+              */
+              if (field === 'systemId') {
+                return {
+                  ...outpost,
+                  systemId: value,
+                  bodyId: '',
+                }
+              }
+
+              return {
+                ...outpost,
+                [field]: value,
+              }
+            },
+          ),
       }),
+    )
+  }
+
+  function updateLocalResources(
+    resourceIds: string[],
+  ) {
+    applyUntrackedNetworkChange(
+      (currentNetwork) => ({
+        ...currentNetwork,
+
+        outposts:
+          currentNetwork.outposts.map(
+            (outpost) =>
+              outpost.id === selectedOutpostId
+                ? {
+                    ...outpost,
+                    localResources: resourceIds,
+                    activeProduction:
+                      outpost.activeProduction.filter(
+                        (resourceId) =>
+                          resourceIds.includes(
+                            resourceId,
+                          ),
+                      ),
+                  }
+                : outpost,
+          ),
+      }),
+    )
+  }
+
+  function updateActiveProduction(
+    resourceIds: string[],
+  ) {
+    applyUntrackedNetworkChange(
+      (currentNetwork) =>
+        retireFulfilledPlannedSupply({
+          ...currentNetwork,
+
+          outposts:
+            currentNetwork.outposts.map(
+              (outpost) =>
+                outpost.id === selectedOutpostId
+                  ? {
+                      ...outpost,
+                      activeProduction: resourceIds,
+                    }
+                  : outpost,
+            ),
+        }),
     )
   }
 
   function updateManufacturing(
     entries: typeof selectedOutpost.manufacturing,
   ) {
-    clearHistory()
+    applyUntrackedNetworkChange(
+      (currentNetwork) =>
+        retireFulfilledPlannedSupply({
+          ...currentNetwork,
 
-    setNetwork((currentNetwork) =>
-      retireFulfilledPlannedSupply({
-        ...currentNetwork,
-        outposts: currentNetwork.outposts.map((outpost) =>
-          outpost.id === selectedOutpostId
-            ? {
-                ...outpost,
-                manufacturing: entries,
-              }
-            : outpost,
-        ),
-      }),
+          outposts:
+            currentNetwork.outposts.map(
+              (outpost) =>
+                outpost.id === selectedOutpostId
+                  ? {
+                      ...outpost,
+                      manufacturing: entries,
+                    }
+                  : outpost,
+            ),
+        }),
     )
   }
 
@@ -598,52 +603,62 @@ function App() {
    * independently of whether a real local or inbound source currently exists.
    */
   function updatePlannedSupply(
-    plannedSupply: typeof selectedOutpost.plannedSupply,
+    plannedSupply:
+      typeof selectedOutpost.plannedSupply,
   ) {
-    clearHistory()
-    
-    setNetwork((currentNetwork) =>
-      retireFulfilledPlannedSupply({
-        ...currentNetwork,
-        outposts: currentNetwork.outposts.map((outpost) =>
-          outpost.id === selectedOutpostId
-            ? {
-                ...outpost,
-                plannedSupply,
-              }
-            : outpost,
-        ),
-      }),
+    applyUntrackedNetworkChange(
+      (currentNetwork) =>
+        retireFulfilledPlannedSupply({
+          ...currentNetwork,
+
+          outposts:
+            currentNetwork.outposts.map(
+              (outpost) =>
+                outpost.id === selectedOutpostId
+                  ? {
+                      ...outpost,
+                      plannedSupply,
+                    }
+                  : outpost,
+            ),
+        }),
     )
   }
 
   function updateCargoPads(
     cargoPads: typeof selectedOutpost.cargoPads,
   ) {
-    clearHistory()
+    applyUntrackedNetworkChange(
+      (currentNetwork) =>
+        retireFulfilledPlannedSupply({
+          ...currentNetwork,
 
-    setNetwork((currentNetwork) =>
-      retireFulfilledPlannedSupply({
-        ...currentNetwork,
-        outposts: currentNetwork.outposts.map((outpost) =>
-          outpost.id === selectedOutpostId
-            ? {
-                ...outpost,
-                cargoPads,
-              }
-            : outpost,
-        ),
-      }),
+          outposts:
+            currentNetwork.outposts.map(
+              (outpost) =>
+                outpost.id === selectedOutpostId
+                  ? {
+                      ...outpost,
+                      cargoPads,
+                    }
+                  : outpost,
+            ),
+        }),
     )
   }
 
-  function importNetwork(importedNetwork: OutpostNetwork) {
-    clearHistory()
-
-    setNetwork(importedNetwork)
+  function importNetwork(
+    importedNetwork: OutpostNetwork,
+  ) {
+    dispatchEditingSession({
+      type: 'reset',
+      network: importedNetwork,
+    })
 
     if (importedNetwork.outposts.length > 0) {
-      setSelectedOutpostId(importedNetwork.outposts[0].id)
+      setSelectedOutpostId(
+        importedNetwork.outposts[0].id,
+      )
     }
   }
 
@@ -777,13 +792,12 @@ function App() {
               )
             }
             onCargoLinksChange={(cargoLinks) => {
-              clearHistory()
-
-              setNetwork((currentNetwork) =>
-                retireFulfilledPlannedSupply({
-                  ...currentNetwork,
-                  cargoLinks,
-                }),
+              applyUntrackedNetworkChange(
+                (currentNetwork) =>
+                  retireFulfilledPlannedSupply({
+                    ...currentNetwork,
+                    cargoLinks,
+                  }),
               )
             }}
           />
