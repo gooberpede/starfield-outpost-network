@@ -15,6 +15,11 @@
  *   - the semantic structure of the details strip changes.
  */
 
+import {
+  useEffect,
+  useState,
+} from 'react'
+
 import type {
   Outpost,
 } from '../../domain/models'
@@ -30,8 +35,8 @@ interface OutpostDetailsProps {
   outpost: Outpost
   systems: StarSystemReference[]
   bodies: PlanetaryBodyReference[]
-  onChange: (
-    value: string,
+  onNameCommit: (
+    name: string,
   ) => void
   onSystemChange: (
     systemId: string,
@@ -47,12 +52,35 @@ export function OutpostDetails({
   outpost,
   systems,
   bodies,
-  onChange,
+  onNameCommit,
   onSystemChange,
   onBodyChange,
   onDelete,
   canDelete,
 }: OutpostDetailsProps) {
+
+  /**
+   * Holds the name currently being typed without immediately changing the
+   * persisted network.
+   *
+   * The completed value is committed when the text field loses focus, allowing
+   * an entire editing session to become one Undo/Redo action rather than one
+   * history entry per keystroke.
+   */
+  const [draftName, setDraftName] =
+    useState(outpost.name)
+
+  /**
+   * Keeps the local text field synchronized when another persisted action
+   * changes the selected outpost or its name, such as navigation or Undo/Redo.
+   */
+  useEffect(() => {
+    setDraftName(outpost.name)
+  }, [
+    outpost.id,
+    outpost.name,
+  ])
+
   const availableBodies =
     bodies.filter(
       (body) =>
@@ -71,12 +99,17 @@ export function OutpostDetails({
 
           <input
             type="text"
-            value={outpost.name}
+            value={draftName}
             onChange={(event) =>
-              onChange(
+              setDraftName(
                 event.target.value,
               )
             }
+            onBlur={() => {
+              if (draftName !== outpost.name) {
+                onNameCommit(draftName)
+              }
+            }}
           />
         </label>
 

@@ -1,3 +1,8 @@
+import {
+  useEffect,
+  useState,
+} from 'react'
+
 import type {
   ManufacturingEntry,
   Product,
@@ -12,7 +17,7 @@ interface ManufacturingEditorProps {
   entries: ManufacturingEntry[]
   onAddProduct: (productId: ProductId) => void
   onRemoveProduct: (productId: ProductId) => void
-  onQuantityChange: (
+  onQuantityCommit: (
     productId: ProductId,
     quantity: number,
   ) => void
@@ -23,8 +28,107 @@ export function ManufacturingEditor({
   entries,
   onAddProduct,
   onRemoveProduct,
-  onQuantityChange,
+  onQuantityCommit,
 }: ManufacturingEditorProps) {
+  /**
+   * Holds fabricator quantities as editable text so temporary states such as an
+   * empty input do not immediately affect persisted manufacturing data.
+   */
+  const [draftQuantities, setDraftQuantities] =
+    useState<Record<string, string>>(
+      Object.fromEntries(
+        entries.map((entry) => [
+          entry.productId,
+          String(entry.quantity),
+        ]),
+      ),
+    )
+
+  /**
+   * Keeps quantity drafts synchronized with persisted manufacturing state,
+   * including product addition/removal and changes caused by Undo/Redo.
+   */
+  useEffect(() => {
+    setDraftQuantities(
+      Object.fromEntries(
+        entries.map((entry) => [
+          entry.productId,
+          String(entry.quantity),
+        ]),
+      ),
+    )
+  }, [
+    entries,
+  ])
+
+  /**
+   * Updates one local fabricator-quantity draft without touching persisted
+   * network state.
+   */
+  function updateQuantityDraft(
+    productId: ProductId,
+    value: string,
+  ) {
+    setDraftQuantities((current) => ({
+      ...current,
+      [productId]: value,
+    }))
+  }
+
+  /**
+   * Commits one valid completed fabricator-quantity edit.
+   *
+   * Fabricator quantities must be whole numbers of at least one. Empty or
+   * otherwise invalid drafts revert to the persisted value on blur.
+   */
+  function commitQuantityDraft(
+    productId: ProductId,
+  ) {
+    const entry =
+      entries.find(
+        (candidate) =>
+          candidate.productId === productId,
+      )
+
+    if (!entry) {
+      return
+    }
+
+    const draftValue =
+      draftQuantities[productId] ?? ''
+
+    if (draftValue.trim() === '') {
+      setDraftQuantities((current) => ({
+        ...current,
+        [productId]: String(entry.quantity),
+      }))
+
+      return
+    }
+
+    const quantity =
+      Number(draftValue)
+
+    if (
+      Number.isInteger(quantity) &&
+      quantity >= 1
+    ) {
+      if (quantity !== entry.quantity) {
+        onQuantityCommit(
+          productId,
+          quantity,
+        )
+      }
+
+      return
+    }
+
+    setDraftQuantities((current) => ({
+      ...current,
+      [productId]: String(entry.quantity),
+    }))
+  }
+
   function addProduct(productId: ProductId) {
     if (!productId) {
       return
@@ -40,16 +144,6 @@ export function ManufacturingEditor({
     }
 
     onAddProduct(productId)
-  }
-
-  function updateQuantity(
-    productId: ProductId,
-    quantity: number,
-  ) {
-    onQuantityChange(
-      productId,
-      quantity,
-    )
   }
 
   function removeProduct(
@@ -83,11 +177,20 @@ export function ManufacturingEditor({
                 <input
                   type="number"
                   min="1"
-                  value={entry.quantity}
+                  value={
+                    draftQuantities[
+                      entry.productId
+                    ] ?? String(entry.quantity)
+                  }
                   onChange={(event) =>
-                    updateQuantity(
+                    updateQuantityDraft(
                       entry.productId,
-                      Number(event.target.value),
+                      event.target.value,
+                    )
+                  }
+                  onBlur={() =>
+                    commitQuantityDraft(
+                      entry.productId,
                     )
                   }
                 />

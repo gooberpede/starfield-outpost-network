@@ -267,28 +267,113 @@ function App() {
   }
 
   /**
-   * Applies a network change that has not yet been integrated with Undo/Redo.
+   * Commits one completed character-name edit as a single Undo step.
    *
-   * Resetting the editing session atomically replaces the network and clears
-   * both history branches. This is temporary infrastructure while remaining
-   * application actions are migrated onto the undoable-change gateway.
+   * CharacterHeader keeps individual keystrokes in local UI state and calls this
+   * function only when editing is complete.
    */
-  function applyUntrackedNetworkChange(
-    update: NetworkUpdate,
+  function commitCharacterName(
+    name: string,
   ) {
-    dispatchEditingSession({
-      type: 'reset',
-      network: update(network),
-    })
-  }
+    if (
+      network.character.name === name
+    ) {
+      return
+    }
 
-  function updateCharacter(
-    character: typeof network.character,
-  ) {
-    applyUntrackedNetworkChange(
+    const previousName =
+      network.character.name
+
+    applyUndoableNetworkChange(
+      `Rename character ${previousName} to ${name}`,
       (currentNetwork) => ({
         ...currentNetwork,
-        character,
+
+        character: {
+          ...currentNetwork.character,
+          name,
+        },
+      }),
+    )
+  }
+
+  /**
+   * Commits one completed character-level edit as a single Undo step.
+   *
+   * CharacterHeader keeps intermediate numeric input in local UI state and calls
+   * this function only when the user leaves the field with a valid final value.
+   */
+  function commitCharacterLevel(
+    level: number,
+  ) {
+    if (
+      network.character.level === level
+    ) {
+      return
+    }
+
+    const previousLevel =
+      network.character.level
+
+    applyUndoableNetworkChange(
+      `Change character level from ${previousLevel} to ${level}`,
+      (currentNetwork) => ({
+        ...currentNetwork,
+
+        character: {
+          ...currentNetwork.character,
+          level,
+        },
+      }),
+    )
+  }
+
+  /**
+   * Commits one completed character skill-rank edit as a single Undo step.
+   *
+   * CharacterHeader keeps intermediate numeric input in local UI state and calls
+   * this function only when the user leaves the field with a valid final rank.
+   */
+  function commitCharacterSkill(
+    skill: keyof typeof network.character.skills,
+    rank: number,
+  ) {
+    const currentRank =
+      network.character.skills[skill]
+
+    if (currentRank === rank) {
+      return
+    }
+
+    const skillLabels: Record<
+      keyof typeof network.character.skills,
+      string
+    > = {
+      outpostManagement:
+        'Outpost Management',
+      outpostEngineering:
+        'Outpost Engineering',
+      planetaryHabitation:
+        'Planetary Habitation',
+      researchMethods:
+        'Research Methods',
+      specialProjects:
+        'Special Projects',
+    }
+
+    applyUndoableNetworkChange(
+      `Change ${skillLabels[skill]} from ${currentRank} to ${rank}`,
+      (currentNetwork) => ({
+        ...currentNetwork,
+
+        character: {
+          ...currentNetwork.character,
+
+          skills: {
+            ...currentNetwork.character.skills,
+            [skill]: rank,
+          },
+        },
       }),
     )
   }
@@ -918,10 +1003,27 @@ function App() {
     })
   }
 
-  function updateSelectedOutpost(
-    value: string,
+  /**
+   * Commits one completed outpost-name edit as a single Undo step.
+   *
+   * The text field keeps keystrokes in local UI state and calls this function
+   * only when editing is complete, so one rename does not generate one history
+   * entry per character.
+   */
+  function commitSelectedOutpostName(
+    name: string,
   ) {
-    applyUntrackedNetworkChange(
+    if (
+      selectedOutpost.name === name
+    ) {
+      return
+    }
+
+    const previousName =
+      selectedOutpost.name
+
+    applyUndoableNetworkChange(
+      `Rename outpost ${previousName} to ${name}`,
       (currentNetwork) => ({
         ...currentNetwork,
 
@@ -931,7 +1033,7 @@ function App() {
               outpost.id === selectedOutpostId
                 ? {
                     ...outpost,
-                    name: value,
+                    name,
                   }
                 : outpost,
           ),
@@ -1252,16 +1354,44 @@ function App() {
   }
 
   /**
-   * Updates the recorded number of fabricators for one manufactured product.
+   * Commits one completed fabricator-quantity edit as a single Undo step.
    *
-   * Numeric editing is intentionally still untracked because it needs
-   * coalescing so a multi-keystroke edit does not create multiple Undo steps.
+   * ManufacturingEditor keeps intermediate numeric input in local UI state and
+   * calls this function only when the user leaves the field with a valid final
+   * quantity.
    */
-  function updateManufacturingQuantity(
+  function commitManufacturingQuantity(
     productId: ProductId,
     quantity: number,
   ) {
-    applyUntrackedNetworkChange(
+    const entry =
+      selectedOutpost.manufacturing.find(
+        (candidate) =>
+          candidate.productId === productId,
+      )
+
+    if (!entry) {
+      return
+    }
+
+    if (entry.quantity === quantity) {
+      return
+    }
+
+    const product =
+      products.find(
+        (candidate) =>
+          candidate.id === productId,
+      )
+
+    const productName =
+      product?.name ?? productId
+
+    const previousQuantity =
+      entry.quantity
+
+    applyUndoableNetworkChange(
+      `Change ${productName} fabricators from ${previousQuantity} to ${quantity}`,
       (currentNetwork) =>
         retireFulfilledPlannedSupply({
           ...currentNetwork,
@@ -1275,13 +1405,14 @@ function App() {
 
                       manufacturing:
                         outpost.manufacturing.map(
-                          (entry) =>
-                            entry.productId === productId
+                          (manufacturingEntry) =>
+                            manufacturingEntry.productId ===
+                            productId
                               ? {
-                                  ...entry,
+                                  ...manufacturingEntry,
                                   quantity,
                                 }
-                              : entry,
+                              : manufacturingEntry,
                         ),
                     }
                   : outpost,
@@ -1389,7 +1520,9 @@ function App() {
         main={
           <CharacterHeader
             character={network.character}
-            onChange={updateCharacter}
+            onNameCommit={commitCharacterName}
+            onLevelCommit={commitCharacterLevel}
+            onSkillCommit={commitCharacterSkill}
           />
         }
         actions={
@@ -1451,7 +1584,7 @@ function App() {
             outpost={selectedOutpost}
             systems={referenceData?.systems ?? []}
             bodies={referenceData?.bodies ?? []}
-            onChange={updateSelectedOutpost}
+            onNameCommit={commitSelectedOutpostName}
             onSystemChange={updateSelectedOutpostSystem}
             onBodyChange={updateSelectedOutpostBody}
             onDelete={() =>
@@ -1482,7 +1615,7 @@ function App() {
               entries={selectedOutpost.manufacturing ?? []}
               onAddProduct={addManufacturingProduct}
               onRemoveProduct={removeManufacturingProduct}
-              onQuantityChange={updateManufacturingQuantity}
+              onQuantityCommit={commitManufacturingQuantity}
             />
 
             <PlannedSupplyEditor

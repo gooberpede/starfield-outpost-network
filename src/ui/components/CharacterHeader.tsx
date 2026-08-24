@@ -18,53 +18,174 @@
  *   - the semantic structure of the character strip changes.
  */
 
+import {
+  useEffect,
+  useState,
+} from 'react'
+
 import type { Character } from '../../domain/models'
 
 import './CharacterHeader.css'
 
 interface CharacterHeaderProps {
   character: Character
-  onChange: (character: Character) => void
+  onNameCommit: (name: string) => void
+  onLevelCommit: (level: number) => void
+  onSkillCommit: (
+    skill: keyof Character['skills'],
+    rank: number,
+  ) => void
 }
 
 export function CharacterHeader({
   character,
-  onChange,
+  onNameCommit,
+  onLevelCommit,
+  onSkillCommit,
 }: CharacterHeaderProps) {
-  /**
-   * Updates the character name while preserving all other character data.
-   */
-  function updateName(name: string) {
-    onChange({
-      ...character,
-      name,
-    })
-  }
 
   /**
-   * Updates the recorded character level.
+   * Holds the character name currently being typed without immediately changing
+   * the persisted network.
+   *
+   * The completed value is committed when the field loses focus so the entire
+   * editing session becomes one Undo/Redo action.
    */
-  function updateLevel(level: number) {
-    onChange({
-      ...character,
-      level,
-    })
-  }
+  const [draftName, setDraftName] =
+    useState(character.name)
 
   /**
-   * Updates one skill rank while preserving the remaining skill values.
+   * Keeps the local draft synchronized with persisted character state, including
+   * changes caused by Undo/Redo.
    */
-  function updateSkill(
+  useEffect(() => {
+    setDraftName(character.name)
+  }, [
+    character.name,
+  ])
+
+  /**
+   * Holds the character level as text while the numeric input is being edited.
+   *
+   * Keeping the draft as a string allows temporary editing states such as an
+   * empty field without immediately writing an invalid number to network state.
+   */
+  const [draftLevel, setDraftLevel] =
+    useState(String(character.level))
+
+  /**
+   * Synchronizes the numeric draft with persisted character state, including
+   * changes caused by Undo/Redo.
+   */
+  useEffect(() => {
+    setDraftLevel(
+      String(character.level),
+    )
+  }, [
+    character.level,
+  ])
+
+  /**
+   * Holds skill ranks as editable text so temporary invalid states do not
+   * immediately affect persisted character data.
+   */
+  const [draftSkills, setDraftSkills] =
+    useState<Record<keyof Character['skills'], string>>({
+      outpostManagement:
+        String(character.skills.outpostManagement),
+      outpostEngineering:
+        String(character.skills.outpostEngineering),
+      planetaryHabitation:
+        String(character.skills.planetaryHabitation),
+      researchMethods:
+        String(character.skills.researchMethods),
+      specialProjects:
+        String(character.skills.specialProjects),
+    })
+
+  /**
+   * Keeps skill drafts synchronized with persisted state, including Undo/Redo.
+   */
+  useEffect(() => {
+    setDraftSkills({
+      outpostManagement:
+        String(character.skills.outpostManagement),
+      outpostEngineering:
+        String(character.skills.outpostEngineering),
+      planetaryHabitation:
+        String(character.skills.planetaryHabitation),
+      researchMethods:
+        String(character.skills.researchMethods),
+      specialProjects:
+        String(character.skills.specialProjects),
+    })
+  }, [
+    character.skills.outpostManagement,
+    character.skills.outpostEngineering,
+    character.skills.planetaryHabitation,
+    character.skills.researchMethods,
+    character.skills.specialProjects,
+  ])
+
+  /**
+   * Updates one local skill-rank draft without touching persisted network state.
+   */
+  function updateSkillDraft(
     skill: keyof Character['skills'],
-    rank: number,
+    value: string,
   ) {
-    onChange({
-      ...character,
-      skills: {
-        ...character.skills,
-        [skill]: rank,
-      },
-    })
+    setDraftSkills((current) => ({
+      ...current,
+      [skill]: value,
+    }))
+  }
+
+  /**
+   * Commits one valid completed skill-rank edit.
+   *
+   * Skill ranks must be whole numbers from 0 through 4. Empty or otherwise
+   * invalid drafts revert to the persisted value when the field loses focus.
+   */
+  function commitSkillDraft(
+    skill: keyof Character['skills'],
+  ) {
+    const draftValue =
+      draftSkills[skill]
+
+    const currentRank =
+      character.skills[skill]
+
+    if (draftValue.trim() === '') {
+      setDraftSkills((current) => ({
+        ...current,
+        [skill]: String(currentRank),
+      }))
+
+      return
+    }
+
+    const rank =
+      Number(draftValue)
+
+    if (
+      Number.isInteger(rank) &&
+      rank >= 0 &&
+      rank <= 4
+    ) {
+      if (rank !== currentRank) {
+        onSkillCommit(
+          skill,
+          rank,
+        )
+      }
+
+      return
+    }
+
+    setDraftSkills((current) => ({
+      ...current,
+      [skill]: String(currentRank),
+    }))
   }
 
   return (
@@ -79,10 +200,19 @@ export function CharacterHeader({
 
           <input
             type="text"
-            value={character.name}
+            value={draftName}
             onChange={(event) =>
-              updateName(event.target.value)
+              setDraftName(
+                event.target.value,
+              )
             }
+            onBlur={() => {
+              if (
+                draftName !== character.name
+              ) {
+                onNameCommit(draftName)
+              }
+            }}
           />
         </label>
 
@@ -93,12 +223,33 @@ export function CharacterHeader({
             className="character-header__number"
             type="number"
             min="1"
-            value={character.level}
+            value={draftLevel}
             onChange={(event) =>
-              updateLevel(
-                Number(event.target.value),
+              setDraftLevel(
+                event.target.value,
               )
             }
+            onBlur={() => {
+              const level =
+                Number(draftLevel)
+
+              if (
+                Number.isInteger(level) &&
+                level >= 1
+              ) {
+                if (
+                  level !== character.level
+                ) {
+                  onLevelCommit(level)
+                }
+
+                return
+              }
+
+              setDraftLevel(
+                String(character.level),
+              )
+            }}
           />
         </label>
 
@@ -111,13 +262,17 @@ export function CharacterHeader({
             min="0"
             max="4"
             value={
-              character.skills
-                .outpostManagement
+              draftSkills.outpostManagement
             }
             onChange={(event) =>
-              updateSkill(
+              updateSkillDraft(
                 'outpostManagement',
-                Number(event.target.value),
+                event.target.value,
+              )
+            }
+            onBlur={() =>
+              commitSkillDraft(
+                'outpostManagement',
               )
             }
           />
@@ -132,13 +287,17 @@ export function CharacterHeader({
             min="0"
             max="4"
             value={
-              character.skills
-                .outpostEngineering
+              draftSkills.outpostEngineering
             }
             onChange={(event) =>
-              updateSkill(
+              updateSkillDraft(
                 'outpostEngineering',
-                Number(event.target.value),
+                event.target.value,
+              )
+            }
+            onBlur={() =>
+              commitSkillDraft(
+                'outpostEngineering',
               )
             }
           />
@@ -153,13 +312,17 @@ export function CharacterHeader({
             min="0"
             max="4"
             value={
-              character.skills
-                .planetaryHabitation
+              draftSkills.planetaryHabitation
             }
             onChange={(event) =>
-              updateSkill(
+              updateSkillDraft(
                 'planetaryHabitation',
-                Number(event.target.value),
+                event.target.value,
+              )
+            }
+            onBlur={() =>
+              commitSkillDraft(
+                'planetaryHabitation',
               )
             }
           />
@@ -174,13 +337,17 @@ export function CharacterHeader({
             min="0"
             max="4"
             value={
-              character.skills
-                .researchMethods
+              draftSkills.researchMethods
             }
             onChange={(event) =>
-              updateSkill(
+              updateSkillDraft(
                 'researchMethods',
-                Number(event.target.value),
+                event.target.value,
+              )
+            }
+            onBlur={() =>
+              commitSkillDraft(
+                'researchMethods',
               )
             }
           />
@@ -195,13 +362,17 @@ export function CharacterHeader({
             min="0"
             max="4"
             value={
-              character.skills
-                .specialProjects
+              draftSkills.specialProjects
             }
             onChange={(event) =>
-              updateSkill(
+              updateSkillDraft(
                 'specialProjects',
-                Number(event.target.value),
+                event.target.value,
+              )
+            }
+            onBlur={() =>
+              commitSkillDraft(
+                'specialProjects',
               )
             }
           />
