@@ -240,9 +240,37 @@ function App() {
    * the catalogue can be refreshed or replaced without modifying their
    * recorded outposts.
    */
+useEffect(() => {
+  void reloadReferenceData()
+}, [])
+
+/**
+ * Keeps outpost selection valid when a whole-network operation replaces the
+ * available outposts, such as Import, Undo, or Redo.
+ *
+ * Selection is presentation state and therefore is not itself recorded in
+ * network history. If the selected ID no longer exists, fall back to the first
+ * outpost in the restored network.
+ */
   useEffect(() => {
-    void reloadReferenceData()
-  }, [])
+    const selectedOutpostStillExists =
+      network.outposts.some(
+        (outpost) =>
+          outpost.id === selectedOutpostId,
+      )
+
+    if (
+      !selectedOutpostStillExists &&
+      network.outposts.length > 0
+    ) {
+      setSelectedOutpostId(
+        network.outposts[0].id,
+      )
+    }
+  }, [
+    network.outposts,
+    selectedOutpostId,
+  ])
 
   useEffect(() => {
     saveNetwork(network)
@@ -1494,13 +1522,20 @@ function App() {
     )
   }
 
+  /**
+   * Replaces the current network with one successfully imported from JSON and
+   * records the complete replacement as one Undo step.
+   *
+   * Import validation/deserialization happens before this function is called, so
+   * failed imports never modify network state or history.
+   */
   function importNetwork(
     importedNetwork: OutpostNetwork,
   ) {
-    dispatchEditingSession({
-      type: 'reset',
-      network: importedNetwork,
-    })
+    applyUndoableNetworkChange(
+      'Import network',
+      () => importedNetwork,
+    )
 
     if (importedNetwork.outposts.length > 0) {
       setSelectedOutpostId(
