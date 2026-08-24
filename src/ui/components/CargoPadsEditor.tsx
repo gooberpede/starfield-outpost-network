@@ -42,7 +42,6 @@ import { useState } from 'react'
 import type {
   CargoItem,
   CargoLink,
-  CargoPad,
   Outpost,
   Product,
   Resource,
@@ -59,8 +58,14 @@ interface CargoPadsEditorProps {
   outpost: Outpost
   allOutposts: Outpost[]
   cargoLinks: CargoLink[]
-  onChange: (cargoPads: CargoPad[]) => void
-  onCargoLinksChange: (cargoLinks: CargoLink[]) => void
+  onUnlinkCargoPad: (
+    cargoPadId: string,
+  ) => void
+  onSetCargoLink: (
+    localCargoPadId: string,
+    remoteOutpostId: string,
+    remoteCargoPadId: string,
+  ) => void
   onAddCargoPad: () => void
   onDeleteCargoPad: (cargoPadId: string) => void
   onToggleExport: (
@@ -86,7 +91,8 @@ export function CargoPadsEditor({
   products,
   availableItems,
   getItemProvenance,
-  onCargoLinksChange,
+  onUnlinkCargoPad,
+  onSetCargoLink,
   onAddCargoPad,
   onDeleteCargoPad,
   onToggleExport,
@@ -335,24 +341,31 @@ export function CargoPadsEditor({
   }
 
   /**
-   * Handles selection of a remote outpost.
+   * Changes the draft remote-outpost selection for one cargo pad.
    *
-   * Choosing an outpost alone is only a UI draft. If the pad already
-   * has a completed link, changing or clearing the outpost removes that
-   * relationship because the user must choose a new remote pad.
+   * Choosing another outpost does not immediately destroy an existing
+   * persisted link. The old relationship remains in the network until the
+   * user selects a specific replacement cargo pad, allowing App to replace
+   * the complete relationship as one undoable action.
+   *
+   * Clearing the outpost selection is an explicit unlink action.
    */
   function changeLinkedOutpost(
     localPadId: string,
     linkedOutpostId: string,
   ) {
-    const existingLink = findCargoLink(localPadId)
+    if (!linkedOutpostId) {
+      if (findCargoLink(localPadId)) {
+        onUnlinkCargoPad(localPadId)
+      }
 
-    if (existingLink) {
-      onCargoLinksChange(
-        cargoLinks.filter(
-          (link) => link.id !== existingLink.id,
-        ),
-      )
+      setDraftLinkedOutpostIds((current) => {
+        const updated = { ...current }
+        delete updated[localPadId]
+        return updated
+      })
+
+      return
     }
 
     setDraftLinkedOutpostIds((current) => ({
@@ -362,11 +375,11 @@ export function CargoPadsEditor({
   }
 
   /**
-   * Completes or changes a cargo link by choosing the specific remote pad.
+   * Completes creation or replacement of one cargo-link relationship.
    *
-   * Both endpoints are stored once at network level. Any prior link
-   * involving either pad is removed first so a pad cannot participate
-   * in more than one cargo relationship.
+   * The application layer owns all persisted mutations because completing this
+   * action may remove an existing link from either endpoint before creating the
+   * new relationship. Those related effects must form one Undo/Redo step.
    */
   function changeLinkedCargoPad(
     localPadId: string,
@@ -377,44 +390,11 @@ export function CargoPadsEditor({
       return
     }
 
-    const remainingLinks = cargoLinks.filter(
-      (link) =>
-        !(
-          (
-            link.endpointA.outpostId === outpost.id &&
-            link.endpointA.cargoPadId === localPadId
-          ) ||
-          (
-            link.endpointB.outpostId === outpost.id &&
-            link.endpointB.cargoPadId === localPadId
-          ) ||
-          (
-            link.endpointA.outpostId === remoteOutpostId &&
-            link.endpointA.cargoPadId === remotePadId
-          ) ||
-          (
-            link.endpointB.outpostId === remoteOutpostId &&
-            link.endpointB.cargoPadId === remotePadId
-          )
-        ),
+    onSetCargoLink(
+      localPadId,
+      remoteOutpostId,
+      remotePadId,
     )
-
-    const newLink: CargoLink = {
-      id: crypto.randomUUID(),
-      endpointA: {
-        outpostId: outpost.id,
-        cargoPadId: localPadId,
-      },
-      endpointB: {
-        outpostId: remoteOutpostId,
-        cargoPadId: remotePadId,
-      },
-    }
-
-    onCargoLinksChange([
-      ...remainingLinks,
-      newLink,
-    ])
 
     setDraftLinkedOutpostIds((current) => {
       const updated = { ...current }
@@ -456,13 +436,21 @@ export function CargoPadsEditor({
          * A completed link determines the selected outpost. Otherwise
          * use any incomplete outpost selection currently held by the UI.
          */
+        const hasDraftLinkedOutpost =
+          Object.prototype.hasOwnProperty.call(
+            draftLinkedOutpostIds,
+            pad.id,
+          )
+
         const linkedOutpostId =
-          remoteEndpoint?.outpostId ??
-          draftLinkedOutpostIds[pad.id] ??
-          ''
+          hasDraftLinkedOutpost
+            ? draftLinkedOutpostIds[pad.id]
+            : remoteEndpoint?.outpostId ?? ''
 
         const linkedCargoPadId =
-          remoteEndpoint?.cargoPadId ?? ''
+          hasDraftLinkedOutpost
+            ? ''
+            : remoteEndpoint?.cargoPadId ?? ''
 
         const isCollapsed =
           collapsedPadIds[pad.id] ?? false

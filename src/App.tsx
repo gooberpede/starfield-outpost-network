@@ -529,6 +529,209 @@ function App() {
   }
 
   /**
+   * Removes the cargo link involving one pad and records the unlink as one
+   * Undo step.
+   *
+   * Unlinking may remove inbound availability, but it must not recreate Planned
+   * Supply automatically. Undo can still restore any earlier planning state
+   * because history retains the complete pre-action network snapshot.
+   */
+  function unlinkCargoPad(
+    outpostId: string,
+    cargoPadId: string,
+  ) {
+    const outpost =
+      network.outposts.find(
+        (candidate) =>
+          candidate.id === outpostId,
+      )
+
+    const cargoPad =
+      outpost?.cargoPads.find(
+        (candidate) =>
+          candidate.id === cargoPadId,
+      )
+
+    if (!outpost || !cargoPad) {
+      return
+    }
+
+    const existingLink =
+      network.cargoLinks.find(
+        (link) =>
+          (
+            link.endpointA.outpostId === outpostId &&
+            link.endpointA.cargoPadId === cargoPadId
+          ) ||
+          (
+            link.endpointB.outpostId === outpostId &&
+            link.endpointB.cargoPadId === cargoPadId
+          ),
+      )
+
+    if (!existingLink) {
+      return
+    }
+
+    applyUndoableNetworkChange(
+      `Unlink ${outpost.name} / ${cargoPad.label}`,
+      (currentNetwork) => ({
+        ...currentNetwork,
+
+        cargoLinks:
+          currentNetwork.cargoLinks.filter(
+            (link) =>
+              link.id !== existingLink.id,
+          ),
+      }),
+    )
+  }
+
+  /**
+   * Creates or replaces one cargo-link relationship and records every related
+   * link mutation as one Undo step.
+   *
+   * Either endpoint may already participate in another link. Those competing
+   * relationships are removed before the new bidirectional link is created.
+   * Newly available inbound cargo may also retire Planned Supply entries.
+   */
+  function setCargoLink(
+    localOutpostId: string,
+    localCargoPadId: string,
+    remoteOutpostId: string,
+    remoteCargoPadId: string,
+  ) {
+    const localOutpost =
+      network.outposts.find(
+        (candidate) =>
+          candidate.id === localOutpostId,
+      )
+
+    const remoteOutpost =
+      network.outposts.find(
+        (candidate) =>
+          candidate.id === remoteOutpostId,
+      )
+
+    const localCargoPad =
+      localOutpost?.cargoPads.find(
+        (candidate) =>
+          candidate.id === localCargoPadId,
+      )
+
+    const remoteCargoPad =
+      remoteOutpost?.cargoPads.find(
+        (candidate) =>
+          candidate.id === remoteCargoPadId,
+      )
+
+    if (
+      !localOutpost ||
+      !remoteOutpost ||
+      !localCargoPad ||
+      !remoteCargoPad
+    ) {
+      return
+    }
+
+    const existingLocalLink =
+      network.cargoLinks.find(
+        (link) =>
+          (
+            link.endpointA.outpostId === localOutpostId &&
+            link.endpointA.cargoPadId === localCargoPadId
+          ) ||
+          (
+            link.endpointB.outpostId === localOutpostId &&
+            link.endpointB.cargoPadId === localCargoPadId
+          ),
+      )
+
+    const alreadyLinkedTogether =
+      existingLocalLink &&
+      (
+        (
+          existingLocalLink.endpointA.outpostId === localOutpostId &&
+          existingLocalLink.endpointA.cargoPadId === localCargoPadId &&
+          existingLocalLink.endpointB.outpostId === remoteOutpostId &&
+          existingLocalLink.endpointB.cargoPadId === remoteCargoPadId
+        ) ||
+        (
+          existingLocalLink.endpointB.outpostId === localOutpostId &&
+          existingLocalLink.endpointB.cargoPadId === localCargoPadId &&
+          existingLocalLink.endpointA.outpostId === remoteOutpostId &&
+          existingLocalLink.endpointA.cargoPadId === remoteCargoPadId
+        )
+      )
+
+    if (alreadyLinkedTogether) {
+      return
+    }
+
+    const label =
+      existingLocalLink
+        ? (
+            `Change link for ${localOutpost.name} / ${localCargoPad.label} ` +
+            `to ${remoteOutpost.name} / ${remoteCargoPad.label}`
+          )
+        : (
+            `Link ${localOutpost.name} / ${localCargoPad.label} ` +
+            `to ${remoteOutpost.name} / ${remoteCargoPad.label}`
+          )
+
+    const newLink = {
+      id: crypto.randomUUID(),
+
+      endpointA: {
+        outpostId: localOutpostId,
+        cargoPadId: localCargoPadId,
+      },
+
+      endpointB: {
+        outpostId: remoteOutpostId,
+        cargoPadId: remoteCargoPadId,
+      },
+    }
+
+    applyUndoableNetworkChange(
+      label,
+      (currentNetwork) => {
+        const remainingLinks =
+          currentNetwork.cargoLinks.filter(
+            (link) =>
+              !(
+                (
+                  link.endpointA.outpostId === localOutpostId &&
+                  link.endpointA.cargoPadId === localCargoPadId
+                ) ||
+                (
+                  link.endpointB.outpostId === localOutpostId &&
+                  link.endpointB.cargoPadId === localCargoPadId
+                ) ||
+                (
+                  link.endpointA.outpostId === remoteOutpostId &&
+                  link.endpointA.cargoPadId === remoteCargoPadId
+                ) ||
+                (
+                  link.endpointB.outpostId === remoteOutpostId &&
+                  link.endpointB.cargoPadId === remoteCargoPadId
+                )
+              ),
+          )
+
+        return retireFulfilledPlannedSupply({
+          ...currentNetwork,
+
+          cargoLinks: [
+            ...remainingLinks,
+            newLink,
+          ],
+        })
+      },
+    )
+  }
+
+  /**
    * Adds or removes one persistent outbound cargo selection from a specific
    * cargo pad and records the toggle as one Undo step.
    */
@@ -716,7 +919,6 @@ function App() {
   }
 
   function updateSelectedOutpost(
-    field: 'name' | 'systemId',
     value: string,
   ) {
     applyUntrackedNetworkChange(
@@ -725,33 +927,60 @@ function App() {
 
         outposts:
           currentNetwork.outposts.map(
-            (outpost) => {
-              if (
-                outpost.id !== selectedOutpostId
-              ) {
-                return outpost
-              }
+            (outpost) =>
+              outpost.id === selectedOutpostId
+                ? {
+                    ...outpost,
+                    name: value,
+                  }
+                : outpost,
+          ),
+      }),
+    )
+  }
 
-              /*
-              * Changing star system invalidates any previously selected body,
-              * because planetary bodies belong to one specific system.
-              *
-              * System changes remain untracked for now because they are a
-              * multi-effect action that will receive their own Undo/Redo pass.
-              */
-              if (field === 'systemId') {
-                return {
-                  ...outpost,
-                  systemId: value,
-                  bodyId: '',
-                }
-              }
+  /**
+   * Changes the selected outpost's star system and clears its selected body as
+   * one undoable action.
+   *
+   * Planetary bodies belong to one specific star system, so an existing body
+   * selection cannot survive a system change.
+   */
+  function updateSelectedOutpostSystem(
+    systemId: string,
+  ) {
+    if (
+      selectedOutpost.systemId === systemId
+    ) {
+      return
+    }
 
-              return {
-                ...outpost,
-                name: value,
-              }
-            },
+    const system =
+      referenceData?.systems.find(
+        (candidate) =>
+          candidate.id === systemId,
+      )
+
+    const label =
+      systemId
+        ? `Change ${selectedOutpost.name} system to ${system?.name ?? systemId}`
+        : `Clear system for ${selectedOutpost.name}`
+
+    applyUndoableNetworkChange(
+      label,
+      (currentNetwork) => ({
+        ...currentNetwork,
+
+        outposts:
+          currentNetwork.outposts.map(
+            (outpost) =>
+              outpost.id === selectedOutpostId
+                ? {
+                    ...outpost,
+                    systemId,
+                    bodyId: '',
+                  }
+                : outpost,
           ),
       }),
     )
@@ -803,40 +1032,110 @@ function App() {
     )
   }
 
-  function updateLocalResources(
-    resourceIds: string[],
+  /**
+   * Adds or removes one local resource and records the complete change as one
+   * Undo step.
+   *
+   * Removing a local resource also removes it from active production because
+   * an outpost cannot continue producing a resource that is no longer recorded
+   * as present at the site.
+   */
+  function toggleLocalResource(
+    resourceId: string,
   ) {
-    applyUntrackedNetworkChange(
+    const isCurrentlyLocal =
+      selectedOutpost.localResources.includes(
+        resourceId,
+      )
+
+    const resource =
+      resources.find(
+        (candidate) =>
+          candidate.id === resourceId,
+      )
+
+    const resourceName =
+      resource?.name ?? resourceId
+
+    applyUndoableNetworkChange(
+      isCurrentlyLocal
+        ? `Remove local resource ${resourceName} from ${selectedOutpost.name}`
+        : `Add local resource ${resourceName} to ${selectedOutpost.name}`,
       (currentNetwork) => ({
         ...currentNetwork,
 
         outposts:
           currentNetwork.outposts.map(
-            (outpost) =>
-              outpost.id === selectedOutpostId
-                ? {
-                    ...outpost,
-                    localResources: resourceIds,
-                    activeProduction:
-                      outpost.activeProduction.filter(
-                        (resourceId) =>
-                          resourceIds.includes(
-                            resourceId,
-                          ),
-                      ),
-                  }
-                : outpost,
+            (outpost) => {
+              if (
+                outpost.id !== selectedOutpostId
+              ) {
+                return outpost
+              }
+
+              if (isCurrentlyLocal) {
+                return {
+                  ...outpost,
+
+                  localResources:
+                    outpost.localResources.filter(
+                      (id) =>
+                        id !== resourceId,
+                    ),
+
+                  activeProduction:
+                    outpost.activeProduction.filter(
+                      (id) =>
+                        id !== resourceId,
+                    ),
+                }
+              }
+
+              return {
+                ...outpost,
+
+                localResources: [
+                  ...outpost.localResources,
+                  resourceId,
+                ],
+              }
+            },
           ),
       }),
     )
   }
 
-  function updateActiveProduction(
-    resourceIds: string[],
+  /**
+   * Activates or deactivates production for one local resource and records the
+   * complete change as one Undo step.
+   *
+   * Enabling production may also retire a matching Planned Supply placeholder.
+   * Because the whole resulting network is recorded as one action, Undo restores
+   * both the production state and any automatically retired planning entry.
+   */
+  function toggleActiveProduction(
+    resourceId: string,
   ) {
-    applyUntrackedNetworkChange(
-      (currentNetwork) =>
-        retireFulfilledPlannedSupply({
+    const isCurrentlyActive =
+      selectedOutpost.activeProduction.includes(
+        resourceId,
+      )
+
+    const resource =
+      resources.find(
+        (candidate) =>
+          candidate.id === resourceId,
+      )
+
+    const resourceName =
+      resource?.name ?? resourceId
+
+    applyUndoableNetworkChange(
+      isCurrentlyActive
+        ? `Stop producing ${resourceName} at ${selectedOutpost.name}`
+        : `Start producing ${resourceName} at ${selectedOutpost.name}`,
+      (currentNetwork) => {
+        const updatedNetwork: OutpostNetwork = {
           ...currentNetwork,
 
           outposts:
@@ -845,11 +1144,28 @@ function App() {
                 outpost.id === selectedOutpostId
                   ? {
                       ...outpost,
-                      activeProduction: resourceIds,
+
+                      activeProduction:
+                        isCurrentlyActive
+                          ? outpost.activeProduction.filter(
+                              (id) =>
+                                id !== resourceId,
+                            )
+                          : [
+                              ...outpost.activeProduction,
+                              resourceId,
+                            ],
                     }
                   : outpost,
             ),
-        }),
+        }
+
+        return isCurrentlyActive
+          ? updatedNetwork
+          : retireFulfilledPlannedSupply(
+              updatedNetwork,
+            )
+      },
     )
   }
 
@@ -1047,28 +1363,6 @@ function App() {
     )
   }
 
-  function updateCargoPads(
-    cargoPads: typeof selectedOutpost.cargoPads,
-  ) {
-    applyUntrackedNetworkChange(
-      (currentNetwork) =>
-        retireFulfilledPlannedSupply({
-          ...currentNetwork,
-
-          outposts:
-            currentNetwork.outposts.map(
-              (outpost) =>
-                outpost.id === selectedOutpostId
-                  ? {
-                      ...outpost,
-                      cargoPads,
-                    }
-                  : outpost,
-            ),
-        }),
-    )
-  }
-
   function importNetwork(
     importedNetwork: OutpostNetwork,
   ) {
@@ -1158,6 +1452,7 @@ function App() {
             systems={referenceData?.systems ?? []}
             bodies={referenceData?.bodies ?? []}
             onChange={updateSelectedOutpost}
+            onSystemChange={updateSelectedOutpostSystem}
             onBodyChange={updateSelectedOutpostBody}
             onDelete={() =>
               deleteOutpost(selectedOutpost.id)
@@ -1178,8 +1473,8 @@ function App() {
               resources={availableLocalResources}
               selectedResourceIds={selectedOutpost.localResources}
               activeProductionIds={selectedOutpost.activeProduction}
-              onChange={updateLocalResources}
-              onActiveProductionChange={updateActiveProduction}
+              onToggleResource={toggleLocalResource}
+              onToggleActiveProduction={toggleActiveProduction}
             />
 
             <ManufacturingEditor
@@ -1209,7 +1504,6 @@ function App() {
             products={products}
             availableItems={availableCargoItems}
             getItemProvenance={getSelectedOutpostItemProvenance}
-            onChange={updateCargoPads}
             onAddCargoPad={() =>
               addCargoPad(
                 selectedOutpost.id,
@@ -1237,15 +1531,24 @@ function App() {
                 cargoPadId,
               )
             }
-            onCargoLinksChange={(cargoLinks) => {
-              applyUntrackedNetworkChange(
-                (currentNetwork) =>
-                  retireFulfilledPlannedSupply({
-                    ...currentNetwork,
-                    cargoLinks,
-                  }),
+            onUnlinkCargoPad={(cargoPadId) =>
+              unlinkCargoPad(
+                selectedOutpost.id,
+                cargoPadId,
               )
-            }}
+            }
+            onSetCargoLink={(
+              localCargoPadId,
+              remoteOutpostId,
+              remoteCargoPadId,
+            ) =>
+              setCargoLink(
+                selectedOutpost.id,
+                localCargoPadId,
+                remoteOutpostId,
+                remoteCargoPadId,
+              )
+            }
           />
         }
       />

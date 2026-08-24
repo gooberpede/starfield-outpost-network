@@ -31,8 +31,10 @@ interface OutpostDetailsProps {
   systems: StarSystemReference[]
   bodies: PlanetaryBodyReference[]
   onChange: (
-    field: 'name' | 'systemId',
     value: string,
+  ) => void
+  onSystemChange: (
+    systemId: string,
   ) => void
   onBodyChange: (
     bodyId: string,
@@ -46,6 +48,7 @@ export function OutpostDetails({
   systems,
   bodies,
   onChange,
+  onSystemChange,
   onBodyChange,
   onDelete,
   canDelete,
@@ -71,7 +74,6 @@ export function OutpostDetails({
             value={outpost.name}
             onChange={(event) =>
               onChange(
-                'name',
                 event.target.value,
               )
             }
@@ -84,8 +86,7 @@ export function OutpostDetails({
           <select
             value={outpost.systemId}
             onChange={(event) =>
-              onChange(
-                'systemId',
+              onSystemChange(
                 event.target.value,
               )
             }

@@ -27,61 +27,40 @@ interface ResourceEditorProps {
   resources: Resource[]
   selectedResourceIds: ResourceId[]
   activeProductionIds: ResourceId[]
-  onChange: (resourceIds: ResourceId[]) => void
-  onActiveProductionChange: (resourceIds: ResourceId[]) => void
+  onToggleResource: (resourceId: ResourceId) => void
+  onToggleActiveProduction: (
+    resourceId: ResourceId,
+  ) => void
 }
 
 export function ResourceEditor({
   resources,
   selectedResourceIds,
   activeProductionIds,
-  onChange,
-  onActiveProductionChange,
-}: ResourceEditorProps) {
+  onToggleResource,
+  onToggleActiveProduction,
+  }: ResourceEditorProps) {
+
   /**
-   * Adds or removes a resource from this outpost site's local resources.
+   * Requests addition or removal of one resource from this outpost site.
    *
-   * Removing a local resource also removes it from active production because
-   * an extractor or farm cannot continue producing something that is no
-   * longer recorded as present at the site.
+   * The application layer owns the complete persisted mutation because
+   * removing a local resource may also remove it from active production.
+   * Treating those effects together allows Undo/Redo to restore them as one
+   * semantic action.
    */
-  function toggleResource(resourceId: ResourceId) {
-    const isSelected =
-      selectedResourceIds.includes(resourceId)
-
-    if (isSelected) {
-      onChange(
-        selectedResourceIds.filter(
-          (selectedId) =>
-            selectedId !== resourceId,
-        ),
-      )
-
-      if (
-        activeProductionIds.includes(
-          resourceId,
-        )
-      ) {
-        onActiveProductionChange(
-          activeProductionIds.filter(
-            (activeId) =>
-              activeId !== resourceId,
-          ),
-        )
-      }
-
-      return
-    }
-
-    onChange([
-      ...selectedResourceIds,
-      resourceId,
-    ])
+  function toggleResource(
+    resourceId: ResourceId,
+  ) {
+    onToggleResource(resourceId)
   }
 
   /**
-   * Toggles extraction/farming for one resource already present at this
-   * outpost site.
+   * Requests activation or deactivation of production for one local resource.
+   *
+   * The application layer owns the persisted mutation because enabling
+   * production may also retire a matching Planned Supply placeholder.
+   * Keeping those effects together allows Undo/Redo to restore them atomically.
    */
   function toggleActiveProduction(
     resourceId: ResourceId,
@@ -94,24 +73,9 @@ export function ResourceEditor({
       return
     }
 
-    const isActive =
-      activeProductionIds.includes(
-        resourceId,
-      )
-
-    if (isActive) {
-      onActiveProductionChange(
-        activeProductionIds.filter(
-          (activeId) =>
-            activeId !== resourceId,
-        ),
-      )
-    } else {
-      onActiveProductionChange([
-        ...activeProductionIds,
-        resourceId,
-      ])
-    }
+    onToggleActiveProduction(
+      resourceId,
+    )
   }
 
   const inorganicResources =
