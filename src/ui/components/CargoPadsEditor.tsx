@@ -63,6 +63,13 @@ interface CargoPadsEditorProps {
   onCargoLinksChange: (cargoLinks: CargoLink[]) => void
   onAddCargoPad: () => void
   onDeleteCargoPad: (cargoPadId: string) => void
+  onToggleExport: (
+    cargoPadId: string,
+    item: CargoItem,
+  ) => void
+  onToggleCargoPadType: (
+    cargoPadId: string,
+  ) => void
   resources: Resource[]
   products: Product[]
   availableItems: CargoItem[]
@@ -79,10 +86,11 @@ export function CargoPadsEditor({
   products,
   availableItems,
   getItemProvenance,
-  onChange,
   onCargoLinksChange,
   onAddCargoPad,
   onDeleteCargoPad,
+  onToggleExport,
+  onToggleCargoPadType,
 }: CargoPadsEditorProps) {
   /*
    * Selecting an outpost does not by itself constitute a cargo link.
@@ -134,14 +142,6 @@ export function CargoPadsEditor({
       shortName: reference?.shortName ?? item.id,
       name: reference?.name ?? item.id,
     }
-  }
-
-  function updatePad(updatedPad: CargoPad) {
-    onChange(
-      outpost.cargoPads.map((pad) =>
-        pad.id === updatedPad.id ? updatedPad : pad,
-      ),
-    )
   }
 
   /**
@@ -563,8 +563,18 @@ export function CargoPadsEditor({
                 products={products}
                 availableItems={availableItems}
                 getItemProvenance={getItemProvenance}
-                onChange={updatePad}
                 onRemove={() => removeCargoPad(pad.id)}
+                onToggleExport={(item) =>
+                  onToggleExport(
+                    pad.id,
+                    item,
+                  )
+                }
+                onToggleType={() =>
+                  onToggleCargoPadType(
+                    pad.id,
+                  )
+                }
                 linkedOutpostId={linkedOutpostId}
                 linkedCargoPadId={linkedCargoPadId}
                 onLinkedOutpostChange={(outpostId) =>

@@ -3,7 +3,10 @@ import {
   useReducer,
   useState,
 } from 'react'
-import type { ReferenceData } from './domain/referenceData'
+import type {
+  ProductId,
+  ReferenceData,
+} from './domain/referenceData'
 import { loadReferenceData } from './data/referenceDataLoader'
 import { sampleNetwork } from './domain/sampleData'
 import { loadNetwork, saveNetwork } from './data/storage'
@@ -526,6 +529,175 @@ function App() {
   }
 
   /**
+   * Adds or removes one persistent outbound cargo selection from a specific
+   * cargo pad and records the toggle as one Undo step.
+   */
+  function toggleCargoExport(
+    outpostId: string,
+    cargoPadId: string,
+    item: CargoItem,
+  ) {
+    const outpost =
+      network.outposts.find(
+        (candidate) =>
+          candidate.id === outpostId,
+      )
+
+    if (!outpost) {
+      return
+    }
+
+    const cargoPad =
+      outpost.cargoPads.find(
+        (candidate) =>
+          candidate.id === cargoPadId,
+      )
+
+    if (!cargoPad) {
+      return
+    }
+
+    const isCurrentlyExported =
+      cargoPad.outboundItems.some(
+        (outboundItem) =>
+          outboundItem.type === item.type &&
+          outboundItem.id === item.id,
+      )
+
+    const reference =
+      item.type === 'resource'
+        ? resources.find(
+            (resource) =>
+              resource.id === item.id,
+          )
+        : products.find(
+            (product) =>
+              product.id === item.id,
+          )
+
+    const itemName =
+      reference?.name ?? item.id
+
+    applyUndoableNetworkChange(
+      isCurrentlyExported
+        ? `Remove export ${itemName} from ${outpost.name} / ${cargoPad.label}`
+        : `Add export ${itemName} to ${outpost.name} / ${cargoPad.label}`,
+      (currentNetwork) =>
+        retireFulfilledPlannedSupply({
+          ...currentNetwork,
+
+          outposts:
+            currentNetwork.outposts.map(
+              (candidateOutpost) => {
+                if (
+                  candidateOutpost.id !== outpostId
+                ) {
+                  return candidateOutpost
+                }
+
+                return {
+                  ...candidateOutpost,
+
+                  cargoPads:
+                    candidateOutpost.cargoPads.map(
+                      (candidatePad) => {
+                        if (
+                          candidatePad.id !== cargoPadId
+                        ) {
+                          return candidatePad
+                        }
+
+                        return {
+                          ...candidatePad,
+
+                          outboundItems:
+                            isCurrentlyExported
+                              ? candidatePad.outboundItems.filter(
+                                  (outboundItem) =>
+                                    !(
+                                      outboundItem.type ===
+                                        item.type &&
+                                      outboundItem.id ===
+                                        item.id
+                                    ),
+                                )
+                              : [
+                                  ...candidatePad.outboundItems,
+                                  item,
+                                ],
+                        }
+                      },
+                    ),
+                }
+              },
+            ),
+        }),
+    )
+  }
+
+  /**
+   * Toggles one cargo pad between regular and interstellar and records the
+   * change as one Undo step.
+   */
+  function toggleCargoPadType(
+    outpostId: string,
+    cargoPadId: string,
+  ) {
+    const outpost =
+      network.outposts.find(
+        (candidate) =>
+          candidate.id === outpostId,
+      )
+
+    if (!outpost) {
+      return
+    }
+
+    const cargoPad =
+      outpost.cargoPads.find(
+        (candidate) =>
+          candidate.id === cargoPadId,
+      )
+
+    if (!cargoPad) {
+      return
+    }
+
+    const nextType =
+      cargoPad.type === 'regular'
+        ? 'interstellar'
+        : 'regular'
+
+    applyUndoableNetworkChange(
+      `Change ${outpost.name} / ${cargoPad.label} to ${nextType}`,
+      (currentNetwork) => ({
+        ...currentNetwork,
+
+        outposts:
+          currentNetwork.outposts.map(
+            (candidateOutpost) =>
+              candidateOutpost.id === outpostId
+                ? {
+                    ...candidateOutpost,
+
+                    cargoPads:
+                      candidateOutpost.cargoPads.map(
+                        (candidatePad) =>
+                          candidatePad.id === cargoPadId
+                            ? {
+                                ...candidatePad,
+                                type: nextType,
+                              }
+                            : candidatePad,
+                      ),
+                  }
+                : candidateOutpost,
+          ),
+      }),
+    )
+  }
+
+  /**
    * Moves the editing session backward by one undoable user action.
    */
   function undo() {
@@ -544,7 +716,7 @@ function App() {
   }
 
   function updateSelectedOutpost(
-    field: 'name' | 'systemId' | 'bodyId',
+    field: 'name' | 'systemId',
     value: string,
   ) {
     applyUntrackedNetworkChange(
@@ -563,6 +735,9 @@ function App() {
               /*
               * Changing star system invalidates any previously selected body,
               * because planetary bodies belong to one specific system.
+              *
+              * System changes remain untracked for now because they are a
+              * multi-effect action that will receive their own Undo/Redo pass.
               */
               if (field === 'systemId') {
                 return {
@@ -574,9 +749,55 @@ function App() {
 
               return {
                 ...outpost,
-                [field]: value,
+                name: value,
               }
             },
+          ),
+      }),
+    )
+  }
+
+  /**
+   * Changes the selected outpost's planetary body and records the selection as
+   * one Undo step.
+   *
+   * Body selection is a discrete action. Changing star system remains a
+   * separate multi-effect action because it also clears the current body.
+   */
+  function updateSelectedOutpostBody(
+    bodyId: string,
+  ) {
+    if (
+      selectedOutpost.bodyId === bodyId
+    ) {
+      return
+    }
+
+    const body =
+      referenceData?.bodies.find(
+        (candidate) =>
+          candidate.id === bodyId,
+      )
+
+    const label =
+      bodyId
+        ? `Change ${selectedOutpost.name} body to ${body?.name ?? bodyId}`
+        : `Clear body for ${selectedOutpost.name}`
+
+    applyUndoableNetworkChange(
+      label,
+      (currentNetwork) => ({
+        ...currentNetwork,
+
+        outposts:
+          currentNetwork.outposts.map(
+            (outpost) =>
+              outpost.id === selectedOutpostId
+                ? {
+                    ...outpost,
+                    bodyId,
+                  }
+                : outpost,
           ),
       }),
     )
@@ -632,10 +853,23 @@ function App() {
     )
   }
 
-  function updateManufacturing(
-    entries: typeof selectedOutpost.manufacturing,
+  /**
+   * Adds one manufactured product to the selected outpost and records the
+   * addition as one Undo step.
+   */
+  function addManufacturingProduct(
+    productId: ProductId,
   ) {
-    applyUntrackedNetworkChange(
+    const product =
+      products.find(
+        (candidate) =>
+          candidate.id === productId,
+      )
+
+    applyUndoableNetworkChange(
+      product
+        ? `Add manufacturing ${product.name}`
+        : `Add manufacturing ${productId}`,
       (currentNetwork) =>
         retireFulfilledPlannedSupply({
           ...currentNetwork,
@@ -646,7 +880,14 @@ function App() {
                 outpost.id === selectedOutpostId
                   ? {
                       ...outpost,
-                      manufacturing: entries,
+
+                      manufacturing: [
+                        ...outpost.manufacturing,
+                        {
+                          productId,
+                          quantity: 1,
+                        },
+                      ],
                     }
                   : outpost,
             ),
@@ -655,14 +896,54 @@ function App() {
   }
 
   /**
-   * Updates the selected outpost's persisted planning assumptions.
-   *
-   * Planned supply records items the player expects this outpost to receive,
-   * independently of whether a real local or inbound source currently exists.
+   * Removes one manufactured product from the selected outpost and records the
+   * removal as one Undo step.
    */
-  function updatePlannedSupply(
-    plannedSupply:
-      typeof selectedOutpost.plannedSupply,
+  function removeManufacturingProduct(
+    productId: ProductId,
+  ) {
+    const product =
+      products.find(
+        (candidate) =>
+          candidate.id === productId,
+      )
+
+    applyUndoableNetworkChange(
+      product
+        ? `Remove manufacturing ${product.name}`
+        : `Remove manufacturing ${productId}`,
+      (currentNetwork) =>
+        retireFulfilledPlannedSupply({
+          ...currentNetwork,
+
+          outposts:
+            currentNetwork.outposts.map(
+              (outpost) =>
+                outpost.id === selectedOutpostId
+                  ? {
+                      ...outpost,
+
+                      manufacturing:
+                        outpost.manufacturing.filter(
+                          (entry) =>
+                            entry.productId !== productId,
+                        ),
+                    }
+                  : outpost,
+            ),
+        }),
+    )
+  }
+
+  /**
+   * Updates the recorded number of fabricators for one manufactured product.
+   *
+   * Numeric editing is intentionally still untracked because it needs
+   * coalescing so a multi-keystroke edit does not create multiple Undo steps.
+   */
+  function updateManufacturingQuantity(
+    productId: ProductId,
+    quantity: number,
   ) {
     applyUntrackedNetworkChange(
       (currentNetwork) =>
@@ -675,11 +956,94 @@ function App() {
                 outpost.id === selectedOutpostId
                   ? {
                       ...outpost,
-                      plannedSupply,
+
+                      manufacturing:
+                        outpost.manufacturing.map(
+                          (entry) =>
+                            entry.productId === productId
+                              ? {
+                                  ...entry,
+                                  quantity,
+                                }
+                              : entry,
+                        ),
                     }
                   : outpost,
             ),
         }),
+    )
+  }
+
+  /**
+   * Adds or removes one Planned Supply item and records the toggle as one
+   * Undo step.
+   *
+   * Planned Supply represents unresolved supply intent only. If a real source
+   * later appears, normal reconciliation may retire the placeholder as part of
+   * that separate user action.
+   */
+  function togglePlannedSupply(
+    item: CargoItem,
+  ) {
+    const isCurrentlyPlanned =
+      selectedOutpost.plannedSupply.some(
+        (plannedItem) =>
+          plannedItem.type === item.type &&
+          plannedItem.id === item.id,
+      )
+
+    const reference =
+      item.type === 'resource'
+        ? resources.find(
+            (resource) =>
+              resource.id === item.id,
+          )
+        : products.find(
+            (product) =>
+              product.id === item.id,
+          )
+
+    const itemName =
+      reference?.name ?? item.id
+
+    applyUndoableNetworkChange(
+      isCurrentlyPlanned
+        ? `Remove Planned Supply ${itemName}`
+        : `Add Planned Supply ${itemName}`,
+      (currentNetwork) => ({
+        ...currentNetwork,
+
+        outposts:
+          currentNetwork.outposts.map(
+            (outpost) => {
+              if (
+                outpost.id !== selectedOutpostId
+              ) {
+                return outpost
+              }
+
+              return {
+                ...outpost,
+
+                plannedSupply:
+                  isCurrentlyPlanned
+                    ? outpost.plannedSupply.filter(
+                        (plannedItem) =>
+                          !(
+                            plannedItem.type ===
+                              item.type &&
+                            plannedItem.id ===
+                              item.id
+                          ),
+                      )
+                    : [
+                        ...outpost.plannedSupply,
+                        item,
+                      ],
+              }
+            },
+          ),
+      }),
     )
   }
 
@@ -794,6 +1158,7 @@ function App() {
             systems={referenceData?.systems ?? []}
             bodies={referenceData?.bodies ?? []}
             onChange={updateSelectedOutpost}
+            onBodyChange={updateSelectedOutpostBody}
             onDelete={() =>
               deleteOutpost(selectedOutpost.id)
             }
@@ -820,7 +1185,9 @@ function App() {
             <ManufacturingEditor
               products={products}
               entries={selectedOutpost.manufacturing ?? []}
-              onChange={updateManufacturing}
+              onAddProduct={addManufacturingProduct}
+              onRemoveProduct={removeManufacturingProduct}
+              onQuantityChange={updateManufacturingQuantity}
             />
 
             <PlannedSupplyEditor
@@ -828,7 +1195,7 @@ function App() {
               products={products}
               plannedSupply={selectedOutpost.plannedSupply ?? []}
               actuallyAvailableItems={actuallyAvailableItems}
-              onChange={updatePlannedSupply}
+              onTogglePlannedSupply={togglePlannedSupply}
             />
           </>
         }
@@ -850,6 +1217,22 @@ function App() {
             }
             onDeleteCargoPad={(cargoPadId) =>
               deleteCargoPad(
+                selectedOutpost.id,
+                cargoPadId,
+              )
+            }
+            onToggleExport={(
+              cargoPadId,
+              item,
+            ) =>
+              toggleCargoExport(
+                selectedOutpost.id,
+                cargoPadId,
+                item,
+              )
+            }
+            onToggleCargoPadType={(cargoPadId) =>
+              toggleCargoPadType(
                 selectedOutpost.id,
                 cargoPadId,
               )

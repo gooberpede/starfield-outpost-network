@@ -36,7 +36,7 @@ interface PlannedSupplyEditorProps {
   products: Product[]
   plannedSupply: CargoItem[]
   actuallyAvailableItems: CargoItem[]
-  onChange: (plannedSupply: CargoItem[]) => void
+  onTogglePlannedSupply: (item: CargoItem) => void
 }
 
 export function PlannedSupplyEditor({
@@ -44,7 +44,7 @@ export function PlannedSupplyEditor({
   products,
   plannedSupply,
   actuallyAvailableItems,
-  onChange,
+  onTogglePlannedSupply,
 }: PlannedSupplyEditorProps) {
   /**
    * Returns whether one catalogue item is already part of the outpost's
@@ -81,28 +81,15 @@ export function PlannedSupplyEditor({
   }
 
   /**
-   * Adds or removes one item without affecting actual production, imports,
-   * manufacturing, or any cargo-pad outbound selections.
+   * Requests addition or removal of one Planned Supply item.
+   *
+   * The application layer owns the persisted network mutation so this
+   * deliberate user action can participate in Undo/Redo history.
    */
-  function togglePlannedSupply(item: CargoItem) {
-    if (isPlanned(item.type, item.id)) {
-      onChange(
-        plannedSupply.filter(
-          (existingItem) =>
-            !(
-              existingItem.type === item.type &&
-              existingItem.id === item.id
-            ),
-        ),
-      )
-
-      return
-    }
-
-    onChange([
-      ...plannedSupply,
-      item,
-    ])
+  function togglePlannedSupply(
+    item: CargoItem,
+  ) {
+    onTogglePlannedSupply(item)
   }
 
   /*

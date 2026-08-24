@@ -38,7 +38,7 @@ interface CargoExportsEditorProps {
   getItemProvenance: (
     item: CargoItem,
   ) => ItemProvenance
-  onChange: (exports: CargoItem[]) => void
+  onToggleExport: (item: CargoItem) => void
 }
 
 export function CargoExportsEditor({
@@ -48,7 +48,7 @@ export function CargoExportsEditor({
   exports,
   availableItems,
   getItemProvenance,
-  onChange,
+  onToggleExport,
 }: CargoExportsEditorProps) {
 
   /**
@@ -116,28 +116,15 @@ export function CargoExportsEditor({
   }
 
   /**
-   * Adds or removes one persistent outbound selection.
+   * Requests addition or removal of one persistent outbound selection.
    *
-   * Availability affects how the selection is displayed, not whether the
-   * user is permitted to keep it.
+   * The application layer owns the persisted cargo-pad mutation so the toggle
+   * can participate in Undo/Redo history as one deliberate user action.
    */
-  function toggleExport(item: CargoItem) {
-    if (isExported(item.type, item.id)) {
-      onChange(
-        exports.filter(
-          (existingItem) =>
-            !(
-              existingItem.type === item.type &&
-              existingItem.id === item.id
-            ),
-        ),
-      )
-    } else {
-      onChange([
-        ...exports,
-        item,
-      ])
-    }
+  function toggleExport(
+    item: CargoItem,
+  ) {
+    onToggleExport(item)
   }
 
 /*

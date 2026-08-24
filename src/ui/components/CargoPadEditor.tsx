@@ -42,8 +42,9 @@ interface CargoPadEditorProps {
   pad: CargoPad
   outposts: Outpost[]
   currentOutpostId: string
-  onChange: (pad: CargoPad) => void
   onRemove: () => void
+  onToggleExport: (item: CargoItem) => void
+  onToggleType: () => void
   resources: Resource[]
   products: Product[]
   availableItems: CargoItem[]
@@ -69,8 +70,9 @@ export function CargoPadEditor({
   products,
   availableItems,
   getItemProvenance,
-  onChange,
   onRemove,
+  onToggleExport,
+  onToggleType,
   linkedOutpostId,
   linkedCargoPadId,
   onLinkedOutpostChange,
@@ -98,13 +100,8 @@ export function CargoPadEditor({
    * The UI therefore exposes only the exceptional property — whether this
    * pad is interstellar — rather than requiring a two-option type selector.
    */
-  function updateInterstellar(interstellar: boolean) {
-    onChange({
-      ...pad,
-      type: interstellar
-        ? 'interstellar'
-        : 'regular',
-    })
+  function updateInterstellar() {
+    onToggleType()
   }
 
   return (
@@ -114,8 +111,8 @@ export function CargoPadEditor({
           <input
             type="checkbox"
             checked={pad.type === 'interstellar'}
-            onChange={(event) =>
-              updateInterstellar(event.target.checked)
+            onChange={() =>
+              updateInterstellar()
             }
           />
           {' '}Interstellar
@@ -190,12 +187,7 @@ export function CargoPadEditor({
         availableItems={availableItems}
         getItemProvenance={getItemProvenance}
         exports={pad.outboundItems}
-        onChange={(outboundItems) =>
-          onChange({
-            ...pad,
-            outboundItems,
-          })
-        }
+        onToggleExport={onToggleExport}
       />
     </div>
   )

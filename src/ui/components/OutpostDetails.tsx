@@ -31,8 +31,11 @@ interface OutpostDetailsProps {
   systems: StarSystemReference[]
   bodies: PlanetaryBodyReference[]
   onChange: (
-    field: 'name' | 'systemId' | 'bodyId',
+    field: 'name' | 'systemId',
     value: string,
+  ) => void
+  onBodyChange: (
+    bodyId: string,
   ) => void
   onDelete: () => void
   canDelete: boolean
@@ -43,6 +46,7 @@ export function OutpostDetails({
   systems,
   bodies,
   onChange,
+  onBodyChange,
   onDelete,
   canDelete,
 }: OutpostDetailsProps) {
@@ -108,8 +112,7 @@ export function OutpostDetails({
             value={outpost.bodyId}
             disabled={!outpost.systemId}
             onChange={(event) =>
-              onChange(
-                'bodyId',
+              onBodyChange(
                 event.target.value,
               )
             }

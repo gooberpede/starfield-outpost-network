@@ -10,13 +10,20 @@ import type {
 interface ManufacturingEditorProps {
   products: Product[]
   entries: ManufacturingEntry[]
-  onChange: (entries: ManufacturingEntry[]) => void
+  onAddProduct: (productId: ProductId) => void
+  onRemoveProduct: (productId: ProductId) => void
+  onQuantityChange: (
+    productId: ProductId,
+    quantity: number,
+  ) => void
 }
 
 export function ManufacturingEditor({
   products,
   entries,
-  onChange,
+  onAddProduct,
+  onRemoveProduct,
+  onQuantityChange,
 }: ManufacturingEditorProps) {
   function addProduct(productId: ProductId) {
     if (!productId) {
@@ -24,42 +31,31 @@ export function ManufacturingEditor({
     }
 
     const alreadyExists = entries.some(
-      (entry) => entry.productId === productId,
+      (entry) =>
+        entry.productId === productId,
     )
 
     if (alreadyExists) {
       return
     }
 
-    onChange([
-      ...entries,
-      {
-        productId,
-        quantity: 1,
-      },
-    ])
+    onAddProduct(productId)
   }
 
   function updateQuantity(
     productId: ProductId,
     quantity: number,
   ) {
-    onChange(
-      entries.map((entry) =>
-        entry.productId === productId
-          ? {
-              ...entry,
-              quantity,
-            }
-          : entry,
-      ),
+    onQuantityChange(
+      productId,
+      quantity,
     )
   }
 
-  function removeProduct(productId: ProductId) {
-    onChange(
-      entries.filter((entry) => entry.productId !== productId),
-    )
+  function removeProduct(
+    productId: ProductId,
+  ) {
+    onRemoveProduct(productId)
   }
 
   return (
