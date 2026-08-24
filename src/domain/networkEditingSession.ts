@@ -11,8 +11,7 @@
  *
  *   - applying one undoable user action;
  *   - moving backward through history;
- *   - moving forward through history;
- *   - replacing the network and starting a fresh editing session.
+ *   - moving forward through history.
  *
  *   React is deliberately not imported here. App.tsx can use this module
  *   through useReducer, while the actual editing/history rules remain
@@ -25,8 +24,7 @@
  * Change this file when:
  *   - editing-session actions change;
  *   - transaction/coalescing behaviour is introduced;
- *   - direct history navigation is added;
- *   - session reset/import behaviour changes.
+ *   - direct history navigation is added.
  */
 
 import {
@@ -80,10 +78,6 @@ export type NetworkEditingAction =
     }
   | {
       type: 'redo'
-    }
-  | {
-      type: 'reset'
-      network: OutpostNetwork
     }
 
 /**
@@ -203,10 +197,5 @@ export function networkEditingSessionReducer(
 
     case 'redo':
       return redoEditingSession(session)
-
-    case 'reset':
-      return createNetworkEditingSession(
-        action.network,
-      )
   }
 }

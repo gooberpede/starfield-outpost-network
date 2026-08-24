@@ -20,8 +20,12 @@
  *   immutable and construct replacement objects and arrays.
  *
  *   History is deliberately not persisted with the player's saved network.
- *   Reloading or importing a network can therefore start a new editing
- *   session with empty Undo/Redo stacks.
+ *   Reloading the application therefore starts a new editing session with
+ *   empty Undo/Redo stacks, while the currently saved network is retained.
+ *
+ *   Importing a network is different: a successful import is an ordinary
+ *   undoable replacement within the current editing session, so the user can
+ *   recover the network that existed immediately before the import.
  *
  * Key rules:
  *   - One deliberate user action should create at most one history entry.
