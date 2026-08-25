@@ -28,9 +28,10 @@ import { PlannedSupplyEditor } from './ui/components/PlannedSupplyEditor'
 import { CargoPadsEditor } from './ui/components/CargoPadsEditor'
 import { NetworkExportButton } from './ui/components/NetworkExportButton'
 import { NetworkImportButton } from './ui/components/NetworkImportButton'
-import { HeaderLayout } from './ui/layout/HeaderLayout'
+import { TitleBar } from './ui/layout/TitleBar'
+import { PageHeader } from './ui/layout/PageHeader'
 import { WorkspaceLayout } from './ui/layout/WorkspaceLayout'
-import { AppFooter } from './ui/layout/AppFooter'
+import { StatusBar } from './ui/layout/StatusBar'
 import { ValidationSummary } from './ui/components/ValidationSummary'
 
 import {
@@ -118,6 +119,22 @@ function retireFulfilledPlannedSupply(
   }
 }
 
+/**
+ * Transient application feedback shown in the fixed status bar.
+ *
+ * Success messages expire automatically. Error messages remain visible until
+ * they are replaced or explicitly dismissed.
+ */
+type StatusMessage =
+  | {
+      kind: 'success'
+      text: string
+    }
+  | {
+      kind: 'error'
+      text: string
+    }
+
 function App() {
   const [session, dispatchEditingSession] =
     useReducer(
@@ -154,6 +171,42 @@ function App() {
 
   const [referenceDataError, setReferenceDataError] =
     useState<string | null>(null)
+
+  /**
+   * Holds short-lived user feedback for completed application actions such as
+   * importing or exporting JSON.
+   *
+   * This is presentation/session state only and is never persisted with the
+   * outpost network.
+   */
+  const [statusMessage, setStatusMessage] =
+    useState<StatusMessage | null>(null)
+
+  /**
+   * Clears successful action feedback automatically after a short display
+   * period. Errors deliberately remain visible until replaced or dismissed.
+   */
+  useEffect(() => {
+    if (
+      !statusMessage ||
+      statusMessage.kind !== 'success'
+    ) {
+      return
+    }
+
+    const timeoutId = window.setTimeout(
+      () => {
+        setStatusMessage(null)
+      },
+      5000,
+    )
+
+    return () => {
+      window.clearTimeout(timeoutId)
+    }
+  }, [
+    statusMessage,
+  ])
 
   const resources = referenceData?.resources ?? []
   const products = referenceData?.products ?? []
@@ -344,41 +397,6 @@ useEffect(() => {
         character: {
           ...currentNetwork.character,
           name,
-        },
-      }),
-    )
-  }
-
-  /**
-   * Commits one completed character-level edit as a single Undo step.
-   *
-   * null means that no character level is currently recorded.
-   */
-  function commitCharacterLevel(
-    level: number | null,
-  ) {
-    const currentLevel =
-      network.character.level
-
-    if (currentLevel === level) {
-      return
-    }
-
-    const label =
-      level === null
-        ? `Clear character level`
-        : currentLevel === null
-          ? `Set character level to ${level}`
-          : `Change character level from ${currentLevel} to ${level}`
-
-    applyUndoableNetworkChange(
-      label,
-      (currentNetwork) => ({
-        ...currentNetwork,
-
-        character: {
-          ...currentNetwork.character,
-          level,
         },
       }),
     )
@@ -1774,14 +1792,30 @@ useEffect(() => {
   }
 
   /**
+   * Reports a completed JSON export in the application's transient status area.
+   *
+   * The browser download is intentionally treated as an export operation rather
+   * than a continuing connection to the generated file.
+   */
+  function reportNetworkExport(
+    fileName: string,
+  ) {
+    setStatusMessage({
+      kind: 'success',
+      text: `Exported ${fileName}.`,
+    })
+  }
+
+  /**
    * Replaces the current network with one successfully imported from JSON and
-   * records the complete replacement as one Undo step.
+   * reports the completed import in the transient status area.
    *
    * Import validation/deserialization happens before this function is called, so
    * failed imports never modify network state or history.
    */
   function importNetwork(
     importedNetwork: OutpostNetwork,
+    fileName: string,
   ) {
     applyUndoableNetworkChange(
       'Import network',
@@ -1793,21 +1827,39 @@ useEffect(() => {
         importedNetwork.outposts[0].id,
       )
     }
+
+    setStatusMessage({
+      kind: 'success',
+      text: `Imported ${fileName}.`,
+    })
   }
+
+  /**
+   * Reports a failed JSON import without modifying network state or history.
+   */
+  function reportNetworkImportError(
+    fileName: string,
+    message: string,
+  ) {
+    setStatusMessage({
+      kind: 'error',
+      text: `Import failed for ${fileName}: ${message}`,
+    })
+  }  
 
   return (
     <main>
-      {/*
-      * Character-level information remains above the workspace and therefore
-      * spans the full application width.
-      */}
+      <TitleBar />
 
-      <HeaderLayout
+      {/*
+      * Network-level working controls remain visible while the user scrolls
+      * through the outpost workspace.
+      */}
+      <PageHeader
         main={
           <CharacterHeader
             character={network.character}
             onNameCommit={commitCharacterName}
-            onLevelCommit={commitCharacterLevel}
             onSkillCommit={commitCharacterSkill}
           />
         }
@@ -1839,13 +1891,17 @@ useEffect(() => {
               Redo
             </button>
 
-            <NetworkExportButton network={network} />
-            <NetworkImportButton onImport={importNetwork} />
+            <NetworkExportButton
+              network={network}
+              onExport={reportNetworkExport}
+            />
+            <NetworkImportButton
+              onImport={importNetwork}
+              onImportError={reportNetworkImportError}
+            />
           </>
         }
       />
-
-      <hr />
 
       {/*
       * The main outpost workspace is divided into three independent regions:
@@ -1986,39 +2042,55 @@ useEffect(() => {
         }
       />
       
-      <AppFooter>
-        <ValidationSummary
-          issues={validationIssues}
-          outposts={network.outposts}
-          resources={resources}
-          products={products}
-        />
+      <StatusBar
+        main={
+          <>
+            <ValidationSummary
+              issues={validationIssues}
+              outposts={network.outposts}
+              resources={resources}
+              products={products}
+            />
 
-        <div>
-          {referenceDataError && (
-            <span>
-              Reference data error: {referenceDataError}
-            </span>
-          )}
+            {referenceData && (
+              <span>
+                Reference data loaded:{' '}
+                {referenceData.systems.length} systems,{' '}
+                {referenceData.bodies.length} bodies,{' '}
+                {referenceData.resources.length} resources,{' '}
+                {referenceData.products.length} products.
+              </span>
+            )}
 
-          {referenceData && (
-            <span>
-              Reference data loaded:{' '}
-              {referenceData.systems.length} systems,{' '}
-              {referenceData.bodies.length} bodies,{' '}
-              {referenceData.resources.length} resources,{' '}
-              {referenceData.products.length} products.
-            </span>
-          )}
-        </div>
+            {' '}
 
-        <button
-          type="button"
-          onClick={() => void reloadReferenceData()}
-        >
-          Reload Reference Data
-        </button>
-      </AppFooter>
+            <button
+              type="button"
+              onClick={() => void reloadReferenceData()}
+            >
+              Reload Reference Data
+            </button>
+          </>
+        }
+        message={
+          statusMessage
+            ? {
+                kind: statusMessage.kind,
+                content: statusMessage.text,
+                onDismiss:
+                  statusMessage.kind === 'error'
+                    ? () => setStatusMessage(null)
+                    : undefined,
+              }
+            : referenceDataError
+              ? {
+                  kind: 'error',
+                  content:
+                    `Reference data error: ${referenceDataError}`,
+                }
+              : undefined
+        }
+      />
 
     </main>
   )

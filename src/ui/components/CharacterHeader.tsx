@@ -2,10 +2,16 @@
  * CharacterHeader.tsx
  *
  * Purpose:
- *   Edits character-level information that applies to the whole outpost
- *   network.
+ *   Edits the character-level information currently relevant to network
+ *   behaviour.
  *
  * Architecture:
+ *   Only operationally useful character fields are currently presented:
+ *   character name, Outpost Management, and Planetary Habitation.
+ *
+ *   Other persisted character data remains in the model and serialization but
+ *   is intentionally hidden until corresponding application features use it.
+ *
  *   Character fields are presented as a compact horizontal strip so they
  *   remain visible without consuming much vertical workspace.
  *
@@ -30,9 +36,6 @@ import './CharacterHeader.css'
 interface CharacterHeaderProps {
   character: Character
   onNameCommit: (name: string) => void
-  onLevelCommit: (
-    level: number | null,
-  ) => void
   onSkillCommit: (
     skill: keyof Character['skills'],
     rank: number | null,
@@ -42,7 +45,6 @@ interface CharacterHeaderProps {
 export function CharacterHeader({
   character,
   onNameCommit,
-  onLevelCommit,
   onSkillCommit,
 }: CharacterHeaderProps) {
 
@@ -64,33 +66,6 @@ export function CharacterHeader({
     setDraftName(character.name)
   }, [
     character.name,
-  ])
-
-  /**
-   * Holds the character level as text while the numeric input is being edited.
-   *
-   * Keeping the draft as a string allows temporary editing states such as an
-   * empty field without immediately writing an invalid number to network state.
-   */
-  const [draftLevel, setDraftLevel] =
-    useState(
-      character.level === null
-        ? ''
-        : String(character.level),
-    )
-
-  /**
-   * Synchronizes the numeric draft with persisted character state, including
-   * changes caused by Undo/Redo.
-   */
-  useEffect(() => {
-    setDraftLevel(
-      character.level === null
-        ? ''
-        : String(character.level),
-    )
-  }, [
-    character.level,
   ])
 
   /**
@@ -233,9 +208,6 @@ export function CharacterHeader({
 
   return (
     <header className="character-header">
-      <h1 className="character-header__title">
-        Starfield Outpost Network
-      </h1>
 
       <div className="character-header__fields">
         <label className="character-header__field">
@@ -255,53 +227,6 @@ export function CharacterHeader({
               ) {
                 onNameCommit(draftName)
               }
-            }}
-          />
-        </label>
-
-        <label className="character-header__field">
-          <span>Level</span>
-
-          <input
-            className="character-header__number"
-            type="text"
-            inputMode="numeric"
-            value={draftLevel}
-            onChange={(event) =>
-              setDraftLevel(
-                event.target.value,
-              )
-            }
-            onBlur={() => {
-              if (draftLevel.trim() === '') {
-                if (character.level !== null) {
-                  onLevelCommit(null)
-                }
-
-                return
-              }
-
-              const level =
-                Number(draftLevel)
-
-              if (
-                Number.isInteger(level) &&
-                level >= 1
-              ) {
-                if (
-                  level !== character.level
-                ) {
-                  onLevelCommit(level)
-                }
-
-                return
-              }
-
-              setDraftLevel(
-                character.level === null
-                  ? ''
-                  : String(character.level),
-              )
             }}
           />
         </label>
@@ -331,30 +256,6 @@ export function CharacterHeader({
         </label>
 
         <label className="character-header__field">
-          <span>Outpost Engineering</span>
-
-          <input
-            className="character-header__number"
-            type="text"
-            inputMode="numeric"
-            value={
-              draftSkills.outpostEngineering
-            }
-            onChange={(event) =>
-              updateSkillDraft(
-                'outpostEngineering',
-                event.target.value,
-              )
-            }
-            onBlur={() =>
-              commitSkillDraft(
-                'outpostEngineering',
-              )
-            }
-          />
-        </label>
-
-        <label className="character-header__field">
           <span>Planetary Habitation</span>
 
           <input
@@ -378,53 +279,6 @@ export function CharacterHeader({
           />
         </label>
 
-        <label className="character-header__field">
-          <span>Research Methods</span>
-
-          <input
-            className="character-header__number"
-            type="text"
-            inputMode="numeric"
-            value={
-              draftSkills.researchMethods
-            }
-            onChange={(event) =>
-              updateSkillDraft(
-                'researchMethods',
-                event.target.value,
-              )
-            }
-            onBlur={() =>
-              commitSkillDraft(
-                'researchMethods',
-              )
-            }
-          />
-        </label>
-
-        <label className="character-header__field">
-          <span>Special Projects</span>
-
-          <input
-            className="character-header__number"
-            type="text"
-            inputMode="numeric"
-            value={
-              draftSkills.specialProjects
-            }
-            onChange={(event) =>
-              updateSkillDraft(
-                'specialProjects',
-                event.target.value,
-              )
-            }
-            onBlur={() =>
-              commitSkillDraft(
-                'specialProjects',
-              )
-            }
-          />
-        </label>
       </div>
     </header>
   )

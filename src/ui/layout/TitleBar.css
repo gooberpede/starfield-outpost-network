@@ -1,0 +1,26 @@
+/**
+ * TitleBar.css
+ *
+ * Purpose:
+ *   Styles the application's non-sticky title bar.
+ *
+ * Architecture:
+ *   The title bar participates in normal page flow and is intentionally not
+ *   sticky. It should provide clear application identity without consuming
+ *   much vertical space once the user begins working further down the page.
+ *
+ * Change this file when:
+ *   - title-bar spacing or typography changes;
+ *   - additional application-identity content is added;
+ *   - the visual relationship between the title bar and page header changes.
+ */
+
+.title-bar {
+  padding: 1rem 1.25rem 0.75rem;
+  border-bottom: 1px solid currentColor;
+}
+
+.title-bar h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}

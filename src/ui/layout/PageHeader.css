@@ -1,0 +1,47 @@
+/**
+ * PageHeader.css
+ *
+ * Purpose:
+ *   Styles the persistent network-level working header.
+ *
+ * Architecture:
+ *   The page header remains in normal document flow until it reaches the top
+ *   of the viewport, then stays visible while the main workspace scrolls.
+ *
+ *   It owns layout and sticky presentation only; individual controls retain
+ *   their own component-level behaviour and styling.
+ *
+ * Change this file when:
+ *   - sticky-header spacing or positioning changes;
+ *   - the main/actions layout changes;
+ *   - responsive behaviour for network-level controls is introduced.
+ */
+
+.page-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid currentColor;
+
+  background: Canvas;
+  color: CanvasText;
+}
+
+.page-header__main {
+  min-width: 0;
+}
+
+.page-header__actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}

@@ -1,0 +1,82 @@
+/**
+ * StatusBar.css
+ *
+ * Purpose:
+ *   Styles the application's bottom status area.
+ *
+ * Architecture:
+ *   The status bar is fixed to the bottom of the viewport and has a deliberate
+ *   fixed height of 3.5rem. The global application root reserves the same
+ *   amount of bottom space so workspace content can scroll fully above it.
+ *
+ *   Persistent session information and transient messages remain visible while
+ *   the workspace scrolls.
+ *
+ * Change this file when:
+ *   - status-bar spacing or hierarchy changes;
+ *   - persistent and transient status need different emphasis;
+ *   - responsive footer behaviour is introduced.
+ */
+
+.status-bar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+
+  height: 3.5rem;
+  padding: 0 1rem;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+
+  box-sizing: border-box;
+
+  border-top: 1px solid currentColor;
+
+  background: Canvas;
+  color: CanvasText;
+
+  font-size: 0.9rem;
+}
+
+.status-bar__main {
+  min-width: 0;
+
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.status-bar__message {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+
+  text-align: right;
+}
+
+.status-bar__message--error {
+  font-weight: 600;
+}
+
+.status-bar__message button {
+  padding: 0;
+  border: 0;
+
+  background: transparent;
+  color: inherit;
+
+  font: inherit;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.status-bar__message button:hover {
+  text-decoration: underline;
+}

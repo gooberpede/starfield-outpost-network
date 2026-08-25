@@ -1,69 +1,97 @@
-import { useState } from 'react'
-
+import { useRef } from 'react'
 import { deserializeNetwork } from '../../data/serialization'
 import type { OutpostNetwork } from '../../domain/models'
 
 interface NetworkImportButtonProps {
-  onImport: (network: OutpostNetwork) => void
+  onImport: (
+    network: OutpostNetwork,
+    fileName: string,
+  ) => void
+
+  onImportError: (
+    fileName: string,
+    message: string,
+  ) => void
 }
 
 export function NetworkImportButton({
   onImport,
+  onImportError,
 }: NetworkImportButtonProps) {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const fileInputRef =
+    useRef<HTMLInputElement>(null)
 
   function importNetwork(file: File) {
     const reader = new FileReader()
 
     reader.onload = () => {
       if (typeof reader.result !== 'string') {
-        setErrorMessage('The selected file could not be read.')
+        onImportError(
+          file.name,
+          'The selected file could not be read.',
+        )
+
         return
       }
 
       try {
         const network = deserializeNetwork(reader.result)
 
-        onImport(network)
-        setErrorMessage(null)
+        onImport(
+          network,
+          file.name,
+        )
       } catch (error) {
-        if (error instanceof Error) {
-          setErrorMessage(error.message)
-        } else {
-          setErrorMessage('The selected file could not be imported.')
-        }
+        onImportError(
+          file.name,
+          error instanceof Error
+            ? error.message
+            : 'The selected file could not be imported.',
+        )
       }
     }
 
     reader.onerror = () => {
-      setErrorMessage('The selected file could not be read.')
+      onImportError(
+        file.name,
+        'The selected file could not be read.',
+      )
     }
 
     reader.readAsText(file)
   }
 
   return (
-    <div>
-      <label>
-        Import JSON
-        <input
-          type="file"
-          accept="application/json,.json"
-          onChange={(event) => {
-            const file = event.target.files?.[0]
+    <>
+      <button
+        type="button"
+        onClick={() =>
+          fileInputRef.current?.click()
+        }
+        title="Import network from JSON"
+      >
+        Import
+      </button>
 
-            if (file) {
-              importNetwork(file)
-            }
-          }}
-        />
-      </label>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="application/json,.json"
+        hidden
+        onChange={(event) => {
+          const file = event.target.files?.[0]
 
-      {errorMessage && (
-        <p>
-          <strong>Import failed:</strong> {errorMessage}
-        </p>
-      )}
-    </div>
+          if (file) {
+            importNetwork(file)
+          }
+
+          /*
+          * Clear the selection so choosing the same file again still produces
+          * a change event.
+          */
+          event.target.value = ''
+        }}
+      />
+    </>
   )
 }
