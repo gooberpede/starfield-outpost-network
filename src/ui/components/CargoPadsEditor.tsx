@@ -128,17 +128,17 @@ export function CargoPadsEditor({
   * Collapse state is presentation-only and deliberately does not belong in
   * the persisted outpost/network model.
   *
-  * Missing entries mean "expanded", which preserves the existing behaviour
-  * and also causes newly created pads to start expanded automatically.
+  * Missing entries mean "collapsed", so pads loaded with a network and pads
+  * created during the current session both begin in the compact state.
   */
-  const [collapsedPadIds, setCollapsedPadIds] =
+  const [expandedPadIds, setExpandedPadIds] =
     useState<Record<string, boolean>>({})
 
   /**
    * Expands or collapses one cargo pad independently of the others.
    */
   function toggleCargoPadCollapsed(padId: string) {
-    setCollapsedPadIds((current) => ({
+    setExpandedPadIds((current) => ({
       ...current,
       [padId]: !current[padId],
     }))
@@ -194,7 +194,7 @@ export function CargoPadsEditor({
     * Collapse state is presentation-only, so it can be discarded locally
     * when the corresponding persisted cargo pad is removed.
     */
-    setCollapsedPadIds((current) => {
+    setExpandedPadIds((current) => {
       const updated = { ...current }
       delete updated[padId]
       return updated
@@ -476,7 +476,7 @@ export function CargoPadsEditor({
             : remoteEndpoint?.cargoPadId ?? ''
 
         const isCollapsed =
-          collapsedPadIds[pad.id] ?? false
+          !(expandedPadIds[pad.id] ?? false)
 
         const outboundSummaryItems =
           pad.outboundItems.map(

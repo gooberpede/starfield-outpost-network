@@ -215,6 +215,17 @@ function App() {
     network.outposts[0].id,
   )
 
+  /**
+   * Identifies the currently loaded network for cargo-pad presentation state.
+   *
+   * A successful import replaces the loaded network and increments this key,
+   * remounting CargoPadsEditor so expansion state cannot leak between networks.
+   * Ordinary edits and Undo/Redo do not change the key because expansion is
+   * independent session state rather than part of network history.
+   */
+  const [cargoPadsPresentationKey, setCargoPadsPresentationKey] =
+    useState(0)
+
   const selectedOutpost =
     network.outposts.find((outpost) => outpost.id === selectedOutpostId) ??
     network.outposts[0]
@@ -1828,6 +1839,10 @@ useEffect(() => {
       )
     }
 
+    setCargoPadsPresentationKey(
+      (currentKey) => currentKey + 1,
+    )
+
     setStatusMessage({
       kind: 'success',
       text: `Imported ${fileName}.`,
@@ -1975,6 +1990,7 @@ useEffect(() => {
 
         right={
           <CargoPadsEditor
+            key={cargoPadsPresentationKey}
             outpost={selectedOutpost}
             maxCargoPads={maxCargoPads}
             allOutposts={network.outposts}
