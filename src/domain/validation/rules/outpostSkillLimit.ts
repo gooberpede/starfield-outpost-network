@@ -27,33 +27,12 @@ import type {
   ValidationRule,
 } from '../types'
 
+import {
+  getOutpostLimit,
+} from '../../capacity'
+
 const RULE_ID =
   'outpost-skill-limit'
-
-/**
- * Returns the maximum number of outposts allowed by the current
- * Planetary Habitation level.
- *
- * Level 0 allows 8 outposts. Each trained level adds 4, up to 24 at level 4.
- *
- * Invalid levels above 4 are capped at the known level-4 maximum here.
- * A separate validator will later report skill values outside the valid
- * 0-4 range.
- */
-function getOutpostLimit(
-  planetaryHabitationLevel: number,
-): number {
-  const validLevel =
-    Math.min(
-      Math.max(
-        planetaryHabitationLevel,
-        0,
-      ),
-      4,
-    )
-
-  return 8 + validLevel * 4
-}
 
 /**
  * Reports a single issue when the recorded network exceeds the character's

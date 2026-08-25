@@ -18,6 +18,10 @@
  *   derives a pad's read-only inbound contents from the outbound contents
  *   of the pad at the opposite end of its cargo link.
  *
+ *   The component also presents the current cargo-pad count for the selected
+ *   outpost and, when the relevant character skill is known, the calculated
+ *   maximum capacity. Capacity calculation itself remains in the domain layer.
+ *
  * Key rules:
  *   - A cargo pad may contain outbound items while unlinked.
  *   - A cargo pad may participate in at most one cargo link.
@@ -56,6 +60,7 @@ import './CargoPadsEditor.css'
 
 interface CargoPadsEditorProps {
   outpost: Outpost
+  maxCargoPads: number | null
   allOutposts: Outpost[]
   cargoLinks: CargoLink[]
   onUnlinkCargoPad: (
@@ -85,6 +90,7 @@ interface CargoPadsEditorProps {
 
 export function CargoPadsEditor({
   outpost,
+  maxCargoPads,
   allOutposts,
   cargoLinks,
   resources,
@@ -405,7 +411,12 @@ export function CargoPadsEditor({
 
   return (
     <section>
-      <h2>Cargo Pads</h2>
+      <h2>
+        Cargo Pads [
+        {outpost.cargoPads.length}
+        {maxCargoPads !== null && `/${maxCargoPads}`}
+        ]
+      </h2>
 
       <button type="button" onClick={addCargoPad}>
         + Add Cargo Pad

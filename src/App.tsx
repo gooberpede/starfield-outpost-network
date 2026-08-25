@@ -15,6 +15,10 @@ import { OutpostDetails } from './ui/components/OutpostDetails'
 import { OutpostList } from './ui/components/OutpostList'
 import { createDefaultOutpost } from './domain/defaults'
 import {
+  getCargoPadLimit,
+  getOutpostLimit,
+} from './domain/capacity'
+import {
   getActuallyAvailableItemsAtOutpost,
   getAvailableItemsAtOutpost,
 } from './domain/availability'
@@ -124,6 +128,26 @@ function App() {
 
   const network = session.network
   const history = session.history
+
+  const planetaryHabitationRank =
+    network.character.skills.planetaryHabitation
+
+  const maxOutposts =
+    planetaryHabitationRank === null
+      ? null
+      : getOutpostLimit(
+          planetaryHabitationRank,
+        )
+
+  const outpostManagementRank =
+    network.character.skills.outpostManagement
+
+  const maxCargoPads =
+    outpostManagementRank === null
+      ? null
+      : getCargoPadLimit(
+          outpostManagementRank,
+        )
 
   const [referenceData, setReferenceData] =
     useState<ReferenceData | null>(null)
@@ -1621,6 +1645,7 @@ useEffect(() => {
         left={
           <OutpostList
             outposts={network.outposts}
+            maxOutposts={maxOutposts}
             selectedOutpostId={selectedOutpostId}
             onSelectOutpost={setSelectedOutpostId}
             onAddOutpost={addOutpost}
@@ -1679,6 +1704,7 @@ useEffect(() => {
         right={
           <CargoPadsEditor
             outpost={selectedOutpost}
+            maxCargoPads={maxCargoPads}
             allOutposts={network.outposts}
             cargoLinks={network.cargoLinks}
             resources={resources}

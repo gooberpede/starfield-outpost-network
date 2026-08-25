@@ -25,25 +25,12 @@ import type {
   ValidationRule,
 } from '../types'
 
+import {
+  getCargoPadLimit,
+} from '../../capacity'
+
 const RULE_ID =
   'cargo-pad-skill-limit'
-
-/**
- * Returns the cargo-pad limit implied by the current Outpost Management level.
- *
- * Level 0 allows three pads per outpost. Any valid trained level allows six.
- *
- * Invalid skill values are deliberately treated conservatively here rather
- * than granting capacity beyond the game's known limits. A separate validator
- * will later report skill levels outside the valid 0-4 range.
- */
-function getCargoPadLimit(
-  outpostManagementLevel: number,
-): number {
-  return outpostManagementLevel >= 1
-    ? 6
-    : 3
-}
 
 /**
  * Reports one issue for each outpost that exceeds its known cargo-pad limit.

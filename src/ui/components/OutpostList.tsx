@@ -9,6 +9,10 @@
  *   This component is intentionally concerned only with outpost navigation.
  *   Actions that modify the currently selected outpost, such as deletion,
  *   belong in the outpost-details area.
+ * 
+ *   The component also presents the network's current outpost count and, when
+ *   the relevant character skill is known, the calculated maximum capacity.
+ *   Capacity calculation itself remains in the domain layer.
  *
  * Change this file when:
  *   - outpost navigation behaviour changes;
@@ -20,6 +24,7 @@ import type { Outpost } from '../../domain/models'
 
 interface OutpostListProps {
   outposts: Outpost[]
+  maxOutposts: number | null
   selectedOutpostId: string
   onSelectOutpost: (outpostId: string) => void
   onAddOutpost: () => void
@@ -27,13 +32,19 @@ interface OutpostListProps {
 
 export function OutpostList({
   outposts,
+  maxOutposts,
   selectedOutpostId,
   onSelectOutpost,
   onAddOutpost,
 }: OutpostListProps) {
   return (
     <section>
-      <h2>Outposts</h2>
+      <h2>
+        Outposts [
+        {outposts.length}
+        {maxOutposts !== null && `/${maxOutposts}`}
+        ]
+      </h2>
 
       <button
         type="button"
