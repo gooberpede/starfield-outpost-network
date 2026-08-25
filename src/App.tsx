@@ -629,6 +629,132 @@ useEffect(() => {
   }
 
   /**
+   * Moves one cargo pad by a single position within its outpost.
+   *
+   * A negative offset moves the pad upward; a positive offset moves it
+   * downward. Invalid IDs and attempts to move beyond either end are ignored.
+   */
+  function moveCargoPad(
+    outpostId: string,
+    cargoPadId: string,
+    offset: -1 | 1,
+  ) {
+    const outpost =
+      network.outposts.find(
+        (candidate) =>
+          candidate.id === outpostId,
+      )
+
+    if (!outpost) {
+      return
+    }
+
+    const currentIndex =
+      outpost.cargoPads.findIndex(
+        (cargoPad) =>
+          cargoPad.id === cargoPadId,
+      )
+
+    if (currentIndex === -1) {
+      return
+    }
+
+    const targetIndex =
+      currentIndex + offset
+
+    if (
+      targetIndex < 0 ||
+      targetIndex >= outpost.cargoPads.length
+    ) {
+      return
+    }
+
+    const movedCargoPad =
+      outpost.cargoPads[currentIndex]
+
+    applyUndoableNetworkChange(
+      `Move ${outpost.name} / ${movedCargoPad.label} ${
+        offset < 0 ? 'up' : 'down'
+      }`,
+      (currentNetwork) => ({
+        ...currentNetwork,
+
+        outposts:
+          currentNetwork.outposts.map(
+            (candidateOutpost) => {
+              if (
+                candidateOutpost.id !== outpostId
+              ) {
+                return candidateOutpost
+              }
+
+              const reorderedCargoPads =
+                [...candidateOutpost.cargoPads]
+
+              const [cargoPad] =
+                reorderedCargoPads.splice(
+                  currentIndex,
+                  1,
+                )
+
+              reorderedCargoPads.splice(
+                targetIndex,
+                0,
+                cargoPad,
+              )
+
+              /*
+              * Cargo-pad labels describe current position rather than stable identity.
+              * Reassign them after reordering while preserving each pad's UUID and all
+              * data associated with that UUID.
+              */
+              const renumberedCargoPads =
+                reorderedCargoPads.map(
+                  (candidateCargoPad, index) => ({
+                    ...candidateCargoPad,
+                    label: `Pad ${index + 1}`,
+                  }),
+                )
+
+              return {
+                ...candidateOutpost,
+                cargoPads: renumberedCargoPads,
+              }
+            },
+          ),
+      }),
+    )
+  }
+
+  /**
+   * Moves one cargo pad upward by one position.
+   */
+  function moveCargoPadUp(
+    outpostId: string,
+    cargoPadId: string,
+  ) {
+    moveCargoPad(
+      outpostId,
+      cargoPadId,
+      -1,
+    )
+  }
+
+  /**
+   * Moves one cargo pad downward by one position.
+   */
+  function moveCargoPadDown(
+    outpostId: string,
+    cargoPadId: string,
+  ) {
+    moveCargoPad(
+      outpostId,
+      cargoPadId,
+      1,
+    )
+  }  
+
+  /**
    * Adds a new unlinked cargo pad to one outpost and records the creation as
    * one Undo step.
    *
@@ -1802,8 +1928,18 @@ useEffect(() => {
             availableItems={availableCargoItems}
             getItemProvenance={getSelectedOutpostItemProvenance}
             onAddCargoPad={() =>
-              addCargoPad(
+              addCargoPad(selectedOutpost.id)
+            }
+            onMoveCargoPadUp={(cargoPadId) =>
+              moveCargoPadUp(
                 selectedOutpost.id,
+                cargoPadId,
+              )
+            }
+            onMoveCargoPadDown={(cargoPadId) =>
+              moveCargoPadDown(
+                selectedOutpost.id,
+                cargoPadId,
               )
             }
             onDeleteCargoPad={(cargoPadId) =>

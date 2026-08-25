@@ -14,6 +14,7 @@
  *   - outbound/inbound summary alignment changes;
  *   - the compact interstellar indicator changes;
  *   - expanded cargo-pad editors need different visual separation.
+ *   - cargo-pad summary control states need clearer visual feedback;
  */
 
 .cargo-pad {
@@ -56,6 +57,15 @@
 
 .cargo-pad__summary button:hover {
   text-decoration: underline;
+}
+
+.cargo-pad__summary button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.cargo-pad__summary button:disabled:hover {
+  text-decoration: none;
 }
 
 .cargo-pad__interstellar {

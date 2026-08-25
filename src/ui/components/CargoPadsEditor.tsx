@@ -22,6 +22,10 @@
  *   outpost and, when the relevant character skill is known, the calculated
  *   maximum capacity. Capacity calculation itself remains in the domain layer.
  *
+ *   Cargo-pad ordering controls are presented here, while the persisted
+ *   reorder operation is delegated to the application layer so each move can
+ *   participate in Undo/Redo history.
+ *
  * Key rules:
  *   - A cargo pad may contain outbound items while unlinked.
  *   - A cargo pad may participate in at most one cargo link.
@@ -72,6 +76,12 @@ interface CargoPadsEditorProps {
     remoteCargoPadId: string,
   ) => void
   onAddCargoPad: () => void
+  onMoveCargoPadUp: (
+    cargoPadId: string,
+  ) => void
+  onMoveCargoPadDown: (
+    cargoPadId: string,
+  ) => void
   onDeleteCargoPad: (cargoPadId: string) => void
   onToggleExport: (
     cargoPadId: string,
@@ -100,6 +110,8 @@ export function CargoPadsEditor({
   onUnlinkCargoPad,
   onSetCargoLink,
   onAddCargoPad,
+  onMoveCargoPadUp,
+  onMoveCargoPadDown,
   onDeleteCargoPad,
   onToggleExport,
   onToggleCargoPadType,
@@ -422,7 +434,7 @@ export function CargoPadsEditor({
         + Add Cargo Pad
       </button>
 
-      {outpost.cargoPads.map((pad) => {
+      {outpost.cargoPads.map((pad, index) => {
         const cargoLink = findCargoLink(pad.id)
 
         const remoteEndpoint = cargoLink
@@ -495,6 +507,36 @@ export function CargoPadsEditor({
                   >
                     {isCollapsed ? '▸' : '▾'}{' '}
                     {pad.label}
+                  </button>
+
+                  {' '}
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      onMoveCargoPadUp(pad.id)
+                    }
+                    disabled={index === 0}
+                    title={`Move ${pad.label} up`}
+                    aria-label={`Move ${pad.label} up`}
+                  >
+                    ↑
+                  </button>
+
+                  {' '}
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      onMoveCargoPadDown(pad.id)
+                    }
+                    disabled={
+                      index === outpost.cargoPads.length - 1
+                    }
+                    title={`Move ${pad.label} down`}
+                    aria-label={`Move ${pad.label} down`}
+                  >
+                    ↓
                   </button>
 
                   {pad.type === 'interstellar' && (
