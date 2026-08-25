@@ -1,75 +1,166 @@
-# React + TypeScript + Vite
+# Starfield Outpost Network
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Starfield Outpost Network** is a local browser-based tracker and planning tool for managing a player's outpost network in *Starfield*.
 
-Currently, two official plugins are available:
+The project is intended to make complex outpost networks easier to record, inspect, validate, and eventually plan. It tracks outposts, character skills, local resources, active production, manufacturing, Planned Supply, cargo pads, and cargo links while preserving the distinction between actual supply and future intent.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The application is under active development.
 
-## React Compiler
+## Current capabilities
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The application currently supports:
 
-## Expanding the ESLint configuration
+- character-level outpost skill tracking;
+- creation, renaming, selection, and manual ordering of outposts;
+- star-system and planetary-body assignment;
+- local resource recording;
+- active production tracking;
+- manufacturing configuration;
+- Planned Supply;
+- regular and interstellar cargo pads;
+- bidirectional cargo links between specific cargo pads;
+- outbound cargo selection;
+- derived inbound availability;
+- supply provenance;
+- character-skill-dependent outpost and cargo-pad capacity;
+- domain validation and advisory warnings;
+- Undo/Redo using whole-network snapshots;
+- automatic browser persistence;
+- JSON import and export;
+- reference-data loading and reload status.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+The project deliberately allows some incomplete or temporarily invalid planning states to remain recorded so they can be diagnosed rather than silently discarded.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Technology
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+The application uses:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- React;
+- TypeScript;
+- Vite;
+- plain CSS;
+- browser `localStorage` for normal persistence;
+- JSON files for import/export.
 
+No separate application state-management framework is currently used.
+
+## Development
+
+Install dependencies:
+
+```sh
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Start the development server:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```sh
+npm run dev
 ```
+
+The application is normally available at:
+
+```text
+http://localhost:5173/
+```
+
+Run the production build and TypeScript whole-project check:
+
+```sh
+npm run build
+```
+
+Run ESLint:
+
+```sh
+npm run lint
+```
+
+Preview the production build:
+
+```sh
+npm run preview
+```
+
+## Project structure
+
+The main source areas are:
+
+```text
+src/
+├── App.tsx
+├── data/
+├── domain/
+└── ui/
+    ├── components/
+    └── layout/
+```
+
+Broadly:
+
+- `src/domain/` contains domain models, derived logic, Undo/Redo logic, capacity rules, and validation;
+- `src/data/` contains persistence, serialization, reference-data loading, and import/export utilities;
+- `src/ui/` contains React presentation and layout components;
+- `src/App.tsx` coordinates application-level state and cross-feature interactions.
+
+Reference-data source material and supporting scripts live outside the main application source tree.
+
+## Documentation
+
+The repository includes documentation intended for both maintainers and coding agents:
+
+- [`AGENTS.md`](AGENTS.md)
+  - repository-wide instructions for coding agents;
+  - scope discipline;
+  - architectural boundaries;
+  - testing and implementation expectations.
+
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
+  - technical architecture;
+  - state ownership;
+  - persistence;
+  - Undo/Redo;
+  - domain/UI boundaries;
+  - known architectural pressure points.
+
+- [`docs/DOMAIN-RULES.md`](docs/DOMAIN-RULES.md)
+  - current domain semantics;
+  - supply and cargo behaviour;
+  - character skill meaning;
+  - capacity rules;
+  - validation versus enforcement;
+  - explicitly deferred or unresolved rules.
+
+When implementing a feature, read `AGENTS.md` first and then consult the relevant deeper documentation.
+
+## Persistence
+
+The application normally saves the current outpost network automatically in browser `localStorage`.
+
+JSON import/export is provided for portable backups and interchange.
+
+Imported/exported files are not treated as live documents attached to the running application.
+
+## Reference data
+
+The application keeps Starfield reference data separate from the player's persisted network.
+
+Persisted network state stores stable IDs for systems, planetary bodies, resources, and products. Human-readable names, recipes, and other metadata are resolved from the reference-data layer.
+
+This separation allows reference data to evolve without duplicating large reference records into each saved network.
+
+## Project status
+
+This project is in active development.
+
+Current work is focused on improving the usability of the tracker and establishing reusable interaction patterns before expanding into more advanced planning features.
+
+Future work may include richer network visualization, more advanced validation, throughput-aware planning, recipe-chain reasoning, biome/resource data, and deeper integration with player-state data.
+
+Deferred ideas should not be treated as implemented requirements unless explicitly included in a current implementation brief.
+
+## Game and project scope
+
+This is an independent fan/project-development tool related to *Starfield*.
+
+It is not affiliated with or endorsed by Bethesda Game Studios or Microsoft.
