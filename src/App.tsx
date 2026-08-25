@@ -444,6 +444,91 @@ useEffect(() => {
   }
 
   /**
+   * Moves one outpost by a single position in the persisted outpost order.
+   *
+   * A negative offset moves the outpost upward; a positive offset moves it
+   * downward. Invalid IDs and attempts to move beyond either end are ignored.
+   */
+  function moveOutpost(
+    outpostId: string,
+    offset: -1 | 1,
+  ) {
+    const currentIndex =
+      network.outposts.findIndex(
+        (outpost) =>
+          outpost.id === outpostId,
+      )
+
+    if (currentIndex === -1) {
+      return
+    }
+
+    const targetIndex =
+      currentIndex + offset
+
+    if (
+      targetIndex < 0 ||
+      targetIndex >= network.outposts.length
+    ) {
+      return
+    }
+
+    const movedOutpost =
+      network.outposts[currentIndex]
+
+    applyUndoableNetworkChange(
+      `Move ${movedOutpost.name} ${
+        offset < 0 ? 'up' : 'down'
+      }`,
+      (currentNetwork) => {
+        const reorderedOutposts =
+          [...currentNetwork.outposts]
+
+        const [outpost] =
+          reorderedOutposts.splice(
+            currentIndex,
+            1,
+          )
+
+        reorderedOutposts.splice(
+          targetIndex,
+          0,
+          outpost,
+        )
+
+        return {
+          ...currentNetwork,
+          outposts: reorderedOutposts,
+        }
+      },
+    )
+  }
+
+  /**
+   * Moves one outpost upward by one position.
+   */
+  function moveOutpostUp(
+    outpostId: string,
+  ) {
+    moveOutpost(
+      outpostId,
+      -1,
+    )
+  }
+
+  /**
+   * Moves one outpost downward by one position.
+   */
+  function moveOutpostDown(
+    outpostId: string,
+  ) {
+    moveOutpost(
+      outpostId,
+      1,
+    )
+  }  
+
+  /**
    * Adds a new outpost and records the creation as one Undo step.
    *
    * Selection moves to the new outpost as presentation state, while the
@@ -1651,6 +1736,8 @@ useEffect(() => {
             maxOutposts={maxOutposts}
             selectedOutpostId={selectedOutpostId}
             onSelectOutpost={setSelectedOutpostId}
+            onMoveOutpostUp={moveOutpostUp}
+            onMoveOutpostDown={moveOutpostDown}
             onAddOutpost={addOutpost}
           />
         }
