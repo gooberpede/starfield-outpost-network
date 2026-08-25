@@ -4,15 +4,15 @@ export const sampleNetwork: OutpostNetwork = {
   schemaVersion: 2,
 
   character: {
-    name: 'Test Character',
-    level: 42,
+    name: '',
+    level: null,
 
     skills: {
-      outpostManagement: 0,
-      outpostEngineering: 0,
-      planetaryHabitation: 0,
-      researchMethods: 0,
-      specialProjects: 0,
+      outpostManagement: null,
+      outpostEngineering: null,
+      planetaryHabitation: null,
+      researchMethods: null,
+      specialProjects: null,
     },
   },
 

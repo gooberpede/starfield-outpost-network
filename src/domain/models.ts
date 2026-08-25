@@ -8,16 +8,16 @@ import type {
 } from './referenceData'
 
 export interface CharacterSkills {
-  outpostManagement: number
-  outpostEngineering: number
-  planetaryHabitation: number
-  researchMethods: number
-  specialProjects: number
+  outpostManagement: number | null
+  outpostEngineering: number | null
+  planetaryHabitation: number | null
+  researchMethods: number | null
+  specialProjects: number | null
 }
 
 export interface Character {
   name: string
-  level: number
+  level: number | null
   skills: CharacterSkills
 }
 

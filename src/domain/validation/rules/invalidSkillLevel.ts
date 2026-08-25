@@ -2,16 +2,18 @@
  * invalidSkillLevel.ts
  *
  * Purpose:
- *   Detects character skill values outside Starfield's valid 0-4 range.
+ *   Detects recorded character skill values outside Starfield's valid 0-4
+ *   range.
  *
  * Architecture:
  *   Character skills are stored as persisted network data and may therefore
  *   become invalid through malformed imports, hand-edited JSON, or future
  *   migration bugs.
  *
- *   This is a structural validator because an out-of-range skill value makes
- *   the stored character record itself invalid, regardless of whether any
- *   gameplay limit is currently exceeded.
+ *   A null skill value is valid and means that no rank is currently recorded.
+ *   This is a structural validator because a recorded out-of-range skill value
+ *   makes the stored character record itself invalid, regardless of whether
+ *   any gameplay limit is currently exceeded.
  *
  * Change this file when:
  *   - the supported skill range changes;
@@ -45,8 +47,8 @@ const skillNames = {
 } as const
 
 /**
- * Reports one issue for each character skill whose stored level falls outside
- * the valid 0-4 range.
+ * Reports one issue for each recorded character skill whose stored level falls
+ * outside the valid 0-4 range. Unrecorded null values are valid and skipped.
  */
 function validateInvalidSkillLevels(
   network: Parameters<ValidationRule['validate']>[0],
@@ -61,6 +63,10 @@ function validateInvalidSkillLevels(
       network.character.skills[
         skillId as keyof typeof network.character.skills
       ]
+
+    if (level === null) {
+      continue
+    }
 
     if (
       level >= MIN_SKILL_LEVEL &&
@@ -86,7 +92,7 @@ export const invalidSkillLevelRule:
     id: RULE_ID,
     name: 'Invalid skill level',
     description:
-      'Flags character skill levels outside the valid 0-4 range.',
+      'Flags recorded character skill levels outside the valid 0-4 range.',
     category: 'structural',
     defaultSeverity: 'error',
     validate: validateInvalidSkillLevels,

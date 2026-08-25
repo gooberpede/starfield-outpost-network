@@ -8,14 +8,14 @@ export const createDefaultNetwork = (): OutpostNetwork => ({
 
   character: {
     name: '',
-    level: 1,
+    level: null,
 
     skills: {
-      outpostManagement: 0,
-      outpostEngineering: 0,
-      planetaryHabitation: 0,
-      researchMethods: 0,
-      specialProjects: 0,
+      outpostManagement: null,
+      outpostEngineering: null,
+      planetaryHabitation: null,
+      researchMethods: null,
+      specialProjects: null,
     },
   },
 

@@ -30,10 +30,12 @@ import './CharacterHeader.css'
 interface CharacterHeaderProps {
   character: Character
   onNameCommit: (name: string) => void
-  onLevelCommit: (level: number) => void
+  onLevelCommit: (
+    level: number | null,
+  ) => void
   onSkillCommit: (
     skill: keyof Character['skills'],
-    rank: number,
+    rank: number | null,
   ) => void
 }
 
@@ -71,7 +73,11 @@ export function CharacterHeader({
    * empty field without immediately writing an invalid number to network state.
    */
   const [draftLevel, setDraftLevel] =
-    useState(String(character.level))
+    useState(
+      character.level === null
+        ? ''
+        : String(character.level),
+    )
 
   /**
    * Synchronizes the numeric draft with persisted character state, including
@@ -79,7 +85,9 @@ export function CharacterHeader({
    */
   useEffect(() => {
     setDraftLevel(
-      String(character.level),
+      character.level === null
+        ? ''
+        : String(character.level),
     )
   }, [
     character.level,
@@ -92,15 +100,29 @@ export function CharacterHeader({
   const [draftSkills, setDraftSkills] =
     useState<Record<keyof Character['skills'], string>>({
       outpostManagement:
-        String(character.skills.outpostManagement),
+        character.skills.outpostManagement === null
+          ? ''
+          : String(character.skills.outpostManagement),
+
       outpostEngineering:
-        String(character.skills.outpostEngineering),
+        character.skills.outpostEngineering === null
+          ? ''
+          : String(character.skills.outpostEngineering),
+
       planetaryHabitation:
-        String(character.skills.planetaryHabitation),
+        character.skills.planetaryHabitation === null
+          ? ''
+          : String(character.skills.planetaryHabitation),
+
       researchMethods:
-        String(character.skills.researchMethods),
+        character.skills.researchMethods === null
+          ? ''
+          : String(character.skills.researchMethods),
+
       specialProjects:
-        String(character.skills.specialProjects),
+        character.skills.specialProjects === null
+          ? ''
+          : String(character.skills.specialProjects),
     })
 
   /**
@@ -109,15 +131,29 @@ export function CharacterHeader({
   useEffect(() => {
     setDraftSkills({
       outpostManagement:
-        String(character.skills.outpostManagement),
+        character.skills.outpostManagement === null
+          ? ''
+          : String(character.skills.outpostManagement),
+
       outpostEngineering:
-        String(character.skills.outpostEngineering),
+        character.skills.outpostEngineering === null
+          ? ''
+          : String(character.skills.outpostEngineering),
+
       planetaryHabitation:
-        String(character.skills.planetaryHabitation),
+        character.skills.planetaryHabitation === null
+          ? ''
+          : String(character.skills.planetaryHabitation),
+
       researchMethods:
-        String(character.skills.researchMethods),
+        character.skills.researchMethods === null
+          ? ''
+          : String(character.skills.researchMethods),
+
       specialProjects:
-        String(character.skills.specialProjects),
+        character.skills.specialProjects === null
+          ? ''
+          : String(character.skills.specialProjects),
     })
   }, [
     character.skills.outpostManagement,
@@ -141,10 +177,11 @@ export function CharacterHeader({
   }
 
   /**
-   * Commits one valid completed skill-rank edit.
+   * Commits one completed skill-rank edit.
    *
-   * Skill ranks must be whole numbers from 0 through 4. Empty or otherwise
-   * invalid drafts revert to the persisted value when the field loses focus.
+   * Blank means that no rank is recorded. Otherwise skill ranks must be whole
+   * numbers from 0 through 4. Invalid nonblank drafts revert to the persisted
+   * value when the field loses focus.
    */
   function commitSkillDraft(
     skill: keyof Character['skills'],
@@ -156,10 +193,12 @@ export function CharacterHeader({
       character.skills[skill]
 
     if (draftValue.trim() === '') {
-      setDraftSkills((current) => ({
-        ...current,
-        [skill]: String(currentRank),
-      }))
+      if (currentRank !== null) {
+        onSkillCommit(
+          skill,
+          null,
+        )
+      }
 
       return
     }
@@ -184,7 +223,11 @@ export function CharacterHeader({
 
     setDraftSkills((current) => ({
       ...current,
-      [skill]: String(currentRank),
+
+      [skill]:
+        currentRank === null
+          ? ''
+          : String(currentRank),
     }))
   }
 
@@ -221,8 +264,8 @@ export function CharacterHeader({
 
           <input
             className="character-header__number"
-            type="number"
-            min="1"
+            type="text"
+            inputMode="numeric"
             value={draftLevel}
             onChange={(event) =>
               setDraftLevel(
@@ -230,6 +273,14 @@ export function CharacterHeader({
               )
             }
             onBlur={() => {
+              if (draftLevel.trim() === '') {
+                if (character.level !== null) {
+                  onLevelCommit(null)
+                }
+
+                return
+              }
+
               const level =
                 Number(draftLevel)
 
@@ -247,7 +298,9 @@ export function CharacterHeader({
               }
 
               setDraftLevel(
-                String(character.level),
+                character.level === null
+                  ? ''
+                  : String(character.level),
               )
             }}
           />
@@ -258,9 +311,8 @@ export function CharacterHeader({
 
           <input
             className="character-header__number"
-            type="number"
-            min="0"
-            max="4"
+            type="text"
+            inputMode="numeric"
             value={
               draftSkills.outpostManagement
             }
@@ -283,9 +335,8 @@ export function CharacterHeader({
 
           <input
             className="character-header__number"
-            type="number"
-            min="0"
-            max="4"
+            type="text"
+            inputMode="numeric"
             value={
               draftSkills.outpostEngineering
             }
@@ -308,9 +359,8 @@ export function CharacterHeader({
 
           <input
             className="character-header__number"
-            type="number"
-            min="0"
-            max="4"
+            type="text"
+            inputMode="numeric"
             value={
               draftSkills.planetaryHabitation
             }
@@ -333,9 +383,8 @@ export function CharacterHeader({
 
           <input
             className="character-header__number"
-            type="number"
-            min="0"
-            max="4"
+            type="text"
+            inputMode="numeric"
             value={
               draftSkills.researchMethods
             }
@@ -358,9 +407,8 @@ export function CharacterHeader({
 
           <input
             className="character-header__number"
-            type="number"
-            min="0"
-            max="4"
+            type="text"
+            inputMode="numeric"
             value={
               draftSkills.specialProjects
             }

@@ -328,23 +328,27 @@ useEffect(() => {
   /**
    * Commits one completed character-level edit as a single Undo step.
    *
-   * CharacterHeader keeps intermediate numeric input in local UI state and calls
-   * this function only when the user leaves the field with a valid final value.
+   * null means that no character level is currently recorded.
    */
   function commitCharacterLevel(
-    level: number,
+    level: number | null,
   ) {
-    if (
-      network.character.level === level
-    ) {
+    const currentLevel =
+      network.character.level
+
+    if (currentLevel === level) {
       return
     }
 
-    const previousLevel =
-      network.character.level
+    const label =
+      level === null
+        ? `Clear character level`
+        : currentLevel === null
+          ? `Set character level to ${level}`
+          : `Change character level from ${currentLevel} to ${level}`
 
     applyUndoableNetworkChange(
-      `Change character level from ${previousLevel} to ${level}`,
+      label,
       (currentNetwork) => ({
         ...currentNetwork,
 
@@ -359,12 +363,11 @@ useEffect(() => {
   /**
    * Commits one completed character skill-rank edit as a single Undo step.
    *
-   * CharacterHeader keeps intermediate numeric input in local UI state and calls
-   * this function only when the user leaves the field with a valid final rank.
+   * null means that no rank is currently recorded for that skill.
    */
   function commitCharacterSkill(
     skill: keyof typeof network.character.skills,
-    rank: number,
+    rank: number | null,
   ) {
     const currentRank =
       network.character.skills[skill]
@@ -389,8 +392,18 @@ useEffect(() => {
         'Special Projects',
     }
 
+    const skillLabel =
+      skillLabels[skill]
+
+    const label =
+      rank === null
+        ? `Clear ${skillLabel}`
+        : currentRank === null
+          ? `Set ${skillLabel} to ${rank}`
+          : `Change ${skillLabel} from ${currentRank} to ${rank}`
+
     applyUndoableNetworkChange(
-      `Change ${skillLabels[skill]} from ${currentRank} to ${rank}`,
+      label,
       (currentNetwork) => ({
         ...currentNetwork,
 
