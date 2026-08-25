@@ -67,6 +67,10 @@ import {
 } from './rules/duplicateCollectionEntries'
 
 import {
+  duplicateOutpostNameRule,
+} from './rules/duplicateOutpostName'
+
+import {
   activeProductionValidForBodyRule,
 } from './rules/activeProductionValidForBody'
 
@@ -98,6 +102,7 @@ export const validationRules: ValidationRule[] = [
   interstellarCargoHelium3Rule,
   bodySystemMismatchRule,
   duplicateCollectionEntriesRule,
+  duplicateOutpostNameRule,
   activeProductionValidForBodyRule,
   unknownReferenceDataIdRule,
   manufacturingInputsUnavailableRule,

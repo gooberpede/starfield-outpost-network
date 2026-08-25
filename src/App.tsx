@@ -450,7 +450,10 @@ useEffect(() => {
    * persisted network addition is handled through the editing-session history.
    */
   function addOutpost() {
-    const newOutpost = createDefaultOutpost()
+    const newOutpost =
+      createDefaultOutpost(
+        network.outposts,
+      )
 
     applyUndoableNetworkChange(
       'Add outpost',
