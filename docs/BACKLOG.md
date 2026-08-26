@@ -1,0 +1,282 @@
+# Starfield Outpost Network — Backlog
+
+## Purpose
+
+This file records deferred work, unresolved decisions, and known future improvements.
+
+It is not an implementation plan and it is not a source of current requirements by itself.
+
+A backlog item becomes active only when a current implementation brief or explicit development decision brings it into scope.
+
+Keep this file focused on work that is genuinely deferred. Current implemented behaviour belongs in the codebase and in the relevant architecture/domain documentation.
+
+---
+
+## Navigation and workspace
+
+### Navigation panel
+
+- Add independent scrolling for the Outpost navigation panel.
+- Revisit drag auto-scroll behaviour only when independent navigation scrolling is implemented.
+- Preserve conservative drag behaviour at the top and bottom of the scrollable region:
+  - no implicit snapping outside valid drop zones;
+  - clear indication of valid insertion targets;
+  - deliberate handling of edge-triggered auto-scroll.
+- Review selected-outpost visual treatment if later layout changes make selection less obvious.
+
+### Workspace layout
+
+- Review the middle workspace as a whole before making major structural changes.
+- Consider independent scrolling for navigation and Outpost Details.
+- Revisit selected-outpost context in sticky/header UI only as part of a broader workspace review.
+- Avoid piecemeal layout changes that pre-empt the Outpost Details redesign.
+
+---
+
+## Outpost Details
+
+The Outpost Details section is intentionally deferred until its control grammar is clearer.
+
+Future work may include:
+
+- general compactness and visual cleanup;
+- more efficient use of horizontal space;
+- consistent control patterns across resource, production, manufacturing, Planned Supply, and cargo-related sections;
+- reducing raw checkbox-heavy presentation where denser controls are more appropriate.
+
+Do not undertake a broad Outpost Details redesign opportunistically while implementing unrelated features.
+
+---
+
+## Planned Supply and selection controls
+
+### Planned Supply redesign
+
+Current product direction:
+
+- items that are already actually available should remain visible in Planned Supply selection;
+- those items should be disabled rather than hidden;
+- this should make the relationship between actual availability and planned intent more legible.
+
+### Selection-grid pattern
+
+Prototype a reusable dense selection-grid control, likely beginning with Planned Supply.
+
+Candidate grouping:
+
+- Inorganic Resources
+- Organic Resources
+- Manufacturing
+
+Potential presentation:
+
+- compact toggle buttons;
+- abbreviations on the button;
+- full names available through tooltip/focus treatment;
+- dense but legible use of horizontal space.
+
+If successful, consider broader adoption elsewhere rather than creating multiple unrelated selection patterns.
+
+---
+
+## Cargo Pads
+
+### Expanded-state cleanup
+
+The collapsed Cargo Pad summary has reached a useful local optimum and should not be casually redesigned.
+
+Future cleanup should focus primarily on the expanded state.
+
+Potential goals:
+
+- reduce raw/form-like presentation;
+- improve grouping and alignment;
+- preserve the useful two-row collapsed summary grammar;
+- keep outbound information visually associated with the left side and inbound/remote information with the right side.
+
+### Cargo Pad Reshuffle mode
+
+Apply the successful navigation-panel ordering pattern to Cargo Pads:
+
+- `Reshuffle` / `Lock order` toggle;
+- move-up / move-down controls visible only in Reshuffle mode;
+- dedicated drag handles;
+- drag-and-drop enabled only in Reshuffle mode;
+- Undo/Redo available in either mode;
+- reshuffle state presentation-only.
+
+### Cargo Pad drag-and-drop
+
+Reuse the navigation drag-and-drop interaction model where appropriate:
+
+- handle-only drag initiation;
+- no live row reshuffling;
+- stationary source row;
+- insertion-marker feedback;
+- clear invalid/outside-list cancellation;
+- `Escape` cancellation;
+- no-op target suppression;
+- one completed reorder = one Undoable action.
+
+### Cargo Pad labels
+
+Revisit whether `CargoPad.label` should remain persisted or be derived from stable array order.
+
+Do not change this until migration and downstream display consequences are considered explicitly.
+
+---
+
+## Validation
+
+### Outpost name length
+
+Starfield limits in-game outpost names to 25 characters.
+
+Add an advisory validation rule for names exceeding 25 characters.
+
+Important distinction:
+
+- validation should report that the name exceeds the in-game limit;
+- presentation may still ellipsize long names defensively;
+- stored/imported names should not be silently truncated merely for display.
+
+### Possible future validation
+
+Consider, when supported by domain evidence:
+
+- circular cargo-flow information;
+- throughput-related warnings;
+- Helium-3 throughput constraints;
+- recursive recipe feasibility;
+- biome plausibility;
+- organic-resource prerequisites;
+- duplicate object-ID checks if stable-ID integrity becomes a practical risk.
+
+---
+
+## Cargo and logistics modelling
+
+### Throughput
+
+Quantitative throughput is not currently modelled.
+
+Future work may consider:
+
+- extractor output rates;
+- storage capacity/flow;
+- cargo-link transfer rate;
+- Helium-3 consumption/availability;
+- manufacturing consumption and output rates.
+
+Do not introduce quantitative throughput piecemeal without a coherent model.
+
+### Local output links
+
+Local output links between extractors, storage containers, manufacturing equipment, and cargo-pad storage are intentionally abstracted away.
+
+Inbound cargo contributes to outpost-level availability.
+
+No explicit local-storage plumbing model is currently planned unless future planner requirements demonstrate a clear need.
+
+---
+
+## Recipes and feasibility
+
+Potential future work:
+
+- recursive manufactured-product feasibility;
+- multi-stage dependency resolution;
+- distinction between currently available ingredients and theoretically satisfiable upstream inputs;
+- planner-facing explanation of why a recipe is or is not feasible.
+
+Keep tracker behaviour tolerant of incomplete networks; do not turn advisory feasibility into hard enforcement without an explicit product decision.
+
+---
+
+## Biomes, resources, and planetary data
+
+Future planner/data work may include:
+
+- biome-level resource plausibility;
+- recommended resource combinations by biome;
+- avoiding finicky biome-boundary sites by default;
+- incorporating extracted Starfield resource-generation data;
+- organic-resource farming prerequisites;
+- better differentiation between canonical source data and player-recorded state.
+
+These are planner/reference-data concerns and should remain separate from the persisted player network model unless a future design explicitly requires otherwise.
+
+---
+
+## History and editing
+
+Future enhancements may include:
+
+- visible history/timeline list;
+- direct jump to an earlier history state;
+- keyboard shortcuts for Undo/Redo;
+- history-size limits if session history becomes large;
+- optional navigation to the outpost affected by an Undo/Redo action.
+
+Current behaviour remains whole-network immutable snapshots with one deliberate operation per history entry.
+
+---
+
+## Status bar
+
+The current status bar supports validation/reference information, transient action feedback, persistent errors, and transient interaction hints.
+
+Future review should consider the overall information hierarchy for:
+
+- validation;
+- reference-data status;
+- application/version information if added;
+- transient interaction hints;
+- action success feedback;
+- persistent errors.
+
+Do not fold this broader status-bar review into unrelated feature work.
+
+---
+
+## Import, export, and storage
+
+Possible future improvements:
+
+- richer import diagnostics;
+- clearer conflict/migration reporting;
+- explicit schema-version migration documentation;
+- optional import preview if the workflow eventually warrants it.
+
+JSON remains a transfer vehicle, not the live/current-document model.
+
+Browser storage remains the default persistence mechanism unless explicitly redesigned.
+
+---
+
+## Planner direction
+
+Longer-term planner goals include:
+
+- accepting both simple and complex production requests;
+- planning multi-outpost manufacturing/logistics networks;
+- prioritising set-and-forget designs;
+- respecting cargo-pad and outpost capacity;
+- avoiding unnecessarily finicky site requirements;
+- recommending resource combinations by biome;
+- later incorporating player state such as existing outposts, surveyed planets, and skills;
+- potentially supporting in-game integration.
+
+Do not let future planner requirements prematurely distort the tracker’s current persisted model.
+
+---
+
+## Backlog maintenance
+
+When adding an item:
+
+- describe the problem or decision, not an assumed implementation;
+- record settled direction separately from unresolved questions;
+- avoid duplicating rules already captured in `docs/DOMAIN-RULES.md`;
+- remove or rewrite entries once a feature is implemented and documented elsewhere.
+
