@@ -2,34 +2,34 @@
  * PlannedSupplyEditor.tsx
  *
  * Purpose:
- *   Lets the user record resources or manufactured products that an outpost
- *   is expected to receive even though no actual supply route currently
- *   provides them.
+ *   Presents the complete resource and manufactured-product catalogues as
+ *   dense controls for recording unresolved supply intent at an outpost.
  *
  * Architecture:
- *   Planned supply belongs to the Outpost rather than to an individual cargo
- *   pad. This component edits only that persisted list and does not determine
- *   whether an item has an actual local or inbound source.
- *
- *   Actual availability and source provenance remain derived domain concerns.
- *   A later availability pass will combine planned supply with active local
- *   production, manufacturing, and inbound cargo.
+ *   The grids derive their positions entirely from runtime reference data.
+ *   This component derives only presentation state; the application layer
+ *   continues to own Planned Supply persistence and Undo/Redo history.
  *
  * Change this file when:
- *   - the Planned Supply editing UI changes;
- *   - resources/products need different grouping or filtering;
- *   - planned items need additional presentation information.
+ *   - Planned Supply catalogue layout or item presentation changes;
+ *   - reference metadata provides a new way to arrange catalogue items.
  *
- * Do not put cargo-pad-specific rules or source-resolution logic here.
+ * Do not put availability, cargo, or source-resolution rules here.
  */
 
-import { useState } from 'react'
+import {
+  useState,
+  type CSSProperties,
+} from 'react'
 
 import type {
   CargoItem,
   Product,
   Resource,
 } from '../../domain/models'
+import type { Rarity } from '../../domain/referenceData'
+
+import './PlannedSupplyEditor.css'
 
 interface PlannedSupplyEditorProps {
   resources: Resource[]
@@ -39,6 +39,139 @@ interface PlannedSupplyEditorProps {
   onTogglePlannedSupply: (item: CargoItem) => void
 }
 
+type CatalogueItem = Resource | Product
+
+interface PositionedResource {
+  resource: Resource
+  columnStart: number
+}
+
+interface InorganicFamilyLayout {
+  root: Resource
+  columnCount: number
+  resources: PositionedResource[]
+}
+
+const rarityOrder: Rarity[] = [
+  'common',
+  'uncommon',
+  'rare',
+  'exotic',
+  'unique',
+]
+
+const rarityPosition = new Map(
+  rarityOrder.map((rarity, index) => [
+    rarity,
+    index + 1,
+  ]),
+)
+
+function compareByName(
+  left: CatalogueItem,
+  right: CatalogueItem,
+) {
+  return left.name.localeCompare(right.name)
+}
+
+/** Explicit sibling order wins; names provide a stable fallback. */
+function compareInorganicSiblings(
+  left: Resource,
+  right: Resource,
+) {
+  if (
+    left.sortOrder !== null &&
+    right.sortOrder !== null &&
+    left.sortOrder !== right.sortOrder
+  ) {
+    return left.sortOrder - right.sortOrder
+  }
+
+  if (left.sortOrder !== null) {
+    return -1
+  }
+
+  if (right.sortOrder !== null) {
+    return 1
+  }
+
+  return compareByName(left, right)
+}
+
+/**
+ * Assigns each branch a compact descendant footprint on a half-step lattice.
+ * Leaves establish the footprint and each ancestor is centered over its
+ * descendants, keeping branching legible without relationship graphics or
+ * hand-authored coordinates.
+ */
+function layoutInorganicFamily(
+  root: Resource,
+  childrenByParent: Map<string, Resource[]>,
+): InorganicFamilyLayout {
+  const resources: PositionedResource[] = []
+  const visited = new Set<string>()
+
+  function placeBranch(
+    resource: Resource,
+    startingLeaf: number,
+  ): number {
+    if (visited.has(resource.id)) {
+      return 0
+    }
+
+    visited.add(resource.id)
+    const positionedResource: PositionedResource = {
+      resource,
+      columnStart: 0,
+    }
+    resources.push(positionedResource)
+
+    const children = [
+      ...(childrenByParent.get(resource.id) ?? []),
+    ].sort(compareInorganicSiblings)
+
+    if (children.length === 0) {
+      positionedResource.columnStart =
+        (startingLeaf * 2) + 1
+
+      return 1
+    }
+
+    let branchWidth = 0
+
+    for (const child of children) {
+      branchWidth += placeBranch(
+        child,
+        startingLeaf + branchWidth,
+      )
+    }
+
+    branchWidth = Math.max(branchWidth, 1)
+    positionedResource.columnStart =
+      (startingLeaf * 2) + branchWidth
+
+    return branchWidth
+  }
+
+  const columnCount = placeBranch(root, 0)
+
+  return {
+    root,
+    columnCount,
+    resources,
+  }
+}
+
+function groupByRarity<T extends CatalogueItem>(
+  items: T[],
+) {
+  return rarityOrder.map((rarity) =>
+    items
+      .filter((item) => item.rarity === rarity)
+      .sort(compareByName),
+  )
+}
+
 export function PlannedSupplyEditor({
   resources,
   products,
@@ -46,166 +179,314 @@ export function PlannedSupplyEditor({
   actuallyAvailableItems,
   onTogglePlannedSupply,
 }: PlannedSupplyEditorProps) {
-  /**
-   * Returns whether one catalogue item is already part of the outpost's
-   * persisted planning assumption.
-   */
-  const [isExpanded, setIsExpanded] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(true)
 
-  function isPlanned(
+  const plannedKeys = new Set(
+    plannedSupply.map(
+      (item) => `${item.type}:${item.id}`,
+    ),
+  )
+
+  const availableKeys = new Set(
+    actuallyAvailableItems.map(
+      (item) => `${item.type}:${item.id}`,
+    ),
+  )
+
+  function renderItemControl(
+    item: CatalogueItem,
     type: CargoItem['type'],
-    id: string,
+    style?: CSSProperties,
   ) {
-    return plannedSupply.some(
-      (item) =>
-        item.type === type &&
-        item.id === id,
+    const cargoItem: CargoItem = {
+      type,
+      id: item.id,
+    }
+    const itemKey = `${type}:${item.id}`
+    const isAvailable = availableKeys.has(itemKey)
+    const isPlanned = plannedKeys.has(itemKey)
+    const state = isAvailable
+      ? 'available'
+      : isPlanned
+        ? 'planned'
+        : 'neither'
+
+    return (
+      <button
+        className="planned-supply__item"
+        data-state={state}
+        key={itemKey}
+        type="button"
+        title={item.name}
+        aria-label={item.name}
+        aria-disabled={isAvailable}
+        aria-pressed={!isAvailable && isPlanned}
+        style={style}
+        onClick={() => {
+          if (!isAvailable) {
+            onTogglePlannedSupply(cargoItem)
+          }
+        }}
+      >
+        {item.shortName}
+      </button>
     )
   }
 
-  /**
-   * Returns whether an item already has a real source at this outpost.
-   *
-   * Planned Supply itself is excluded from this test; this answers only
-   * whether the recorded network currently provides the item.
-   */
-  function isActuallyAvailable(
+  function renderCompactItem(
+    item: CatalogueItem,
     type: CargoItem['type'],
-    id: string,
+    startsGroup: boolean,
   ) {
-    return actuallyAvailableItems.some(
-      (item) =>
-        item.type === type &&
-        item.id === id,
+    const cargoItem: CargoItem = {
+      type,
+      id: item.id,
+    }
+
+    return (
+      <button
+        className={
+          `planned-supply__item planned-supply__compact-item${
+            startsGroup
+              ? ' planned-supply__compact-item--group-start'
+              : ''
+          }`
+        }
+        data-state="planned"
+        key={`${type}:${item.id}`}
+        type="button"
+        title={item.name}
+        aria-label={`Remove ${item.name} from Planned Supply`}
+        aria-pressed="true"
+        onClick={() => onTogglePlannedSupply(cargoItem)}
+      >
+        {item.shortName}
+      </button>
     )
   }
 
-  /**
-   * Requests addition or removal of one Planned Supply item.
-   *
-   * The application layer owns the persisted network mutation so this
-   * deliberate user action can participate in Undo/Redo history.
-   */
-  function togglePlannedSupply(
-    item: CargoItem,
+  function renderFlatRarityGrid(
+    items: CatalogueItem[],
+    type: CargoItem['type'],
+    gridClassName: string,
   ) {
-    onTogglePlannedSupply(item)
+    const rows = groupByRarity(items)
+    const columnCount = Math.max(
+      1,
+      ...rows.map((row) => row.length),
+    )
+
+    return (
+      <div className="planned-supply__overflow">
+        <div
+          className={`planned-supply__flat-grid ${gridClassName}`}
+          style={{
+            gridTemplateColumns:
+              `repeat(${columnCount}, var(--planned-supply-cell-width))`,
+          }}
+        >
+          {rows.flatMap((row, rowIndex) =>
+            row.map((item, columnIndex) =>
+              renderItemControl(
+                item,
+                type,
+                {
+                  gridColumn: columnIndex + 1,
+                  gridRow: rowIndex + 1,
+                },
+              ),
+            ),
+          )}
+        </div>
+      </div>
+    )
   }
+
+  const inorganicResources = resources.filter(
+    (resource) => resource.category === 'inorganic',
+  )
+  const organicResources = resources.filter(
+    (resource) => resource.category === 'organic',
+  )
+  const inorganicIds = new Set(
+    inorganicResources.map((resource) => resource.id),
+  )
+  const childrenByParent = new Map<string, Resource[]>()
+
+  for (const resource of inorganicResources) {
+    if (
+      resource.parentId !== null &&
+      inorganicIds.has(resource.parentId)
+    ) {
+      const siblings = childrenByParent.get(resource.parentId) ?? []
+      childrenByParent.set(
+        resource.parentId,
+        [...siblings, resource],
+      )
+    }
+  }
+
+  const roots = inorganicResources.filter(
+    (resource) =>
+      resource.parentId === null ||
+      !inorganicIds.has(resource.parentId),
+  )
+  const specialInorganic = roots
+    .filter((resource) => resource.sortOrder === null)
+    .sort(compareByName)
+  const inorganicFamilies = roots
+    .filter((resource) => resource.sortOrder !== null)
+    .sort(compareInorganicSiblings)
+    .map((root) =>
+      layoutInorganicFamily(root, childrenByParent),
+    )
 
   /*
-  * Expanded view offers the complete catalogue of currently unsourced items.
-  *
-  * Collapsed view acts as a compact summary and therefore shows only items
-  * already selected as Planned Supply.
-  */
-  const visibleResources =
-    resources.filter(
-      (resource) =>
-        isPlanned(
-          'resource',
-          resource.id,
-        ) ||
-        (
-          isExpanded &&
-          !isActuallyAvailable(
-            'resource',
-            resource.id,
-          )
-        ),
-    )
-
-  const visibleProducts =
-    products.filter(
-      (product) =>
-        isPlanned(
-          'product',
-          product.id,
-        ) ||
-        (
-          isExpanded &&
-          !isActuallyAvailable(
-            'product',
-            product.id,
-          )
-        ),
-    )
+   * Compact mode favors quick scanning over the expanded catalogue's spatial
+   * semantics, so planned items use category order and full-name sorting.
+   */
+  const compactGroups: Array<{
+    items: CatalogueItem[]
+    type: CargoItem['type']
+  }> = [
+    {
+      type: 'resource',
+      items: inorganicResources
+        .filter((resource) =>
+          plannedKeys.has(`resource:${resource.id}`),
+        )
+        .sort(compareByName),
+    },
+    {
+      type: 'resource',
+      items: organicResources
+        .filter((resource) =>
+          plannedKeys.has(`resource:${resource.id}`),
+        )
+        .sort(compareByName),
+    },
+    {
+      type: 'product',
+      items: products
+        .filter((product) =>
+          plannedKeys.has(`product:${product.id}`),
+        )
+        .sort(compareByName),
+    },
+  ]
+  const compactItemCount = compactGroups.reduce(
+    (total, group) => total + group.items.length,
+    0,
+  )
 
   return (
-    <section>
-      <h2>
+    <section className="planned-supply">
+      <h2 className="planned-supply__heading">
         <button
+          className="planned-supply__expand-toggle"
           type="button"
+          title={
+            isExpanded
+              ? 'Collapse Planned Supply'
+              : 'Expand Planned Supply'
+          }
+          aria-label={
+            isExpanded
+              ? 'Collapse Planned Supply'
+              : 'Expand Planned Supply'
+          }
+          aria-expanded={isExpanded}
           onClick={() =>
             setIsExpanded((current) => !current)
           }
-          aria-expanded={isExpanded}
         >
           {isExpanded ? '▼' : '▶'}
         </button>
 
-        {' '}
         Planned Supply
       </h2>
-      {!isExpanded && plannedSupply.length === 0 && (
-          <p>No planned supply.</p>
+
+      {!isExpanded && (
+        compactItemCount === 0
+          ? <p>No planned supply.</p>
+          : (
+              <div className="planned-supply__compact-list">
+                {compactGroups.flatMap((group) =>
+                  group.items.map((item, itemIndex) =>
+                    renderCompactItem(
+                      item,
+                      group.type,
+                      itemIndex === 0,
+                    ),
+                  ),
+                )}
+              </div>
+            )
       )}
 
-      {visibleResources.length > 0 && (
-        <div>
-          <strong>Resources</strong>
+      {isExpanded && (
+        <>
+      <section className="planned-supply__section">
+        <h3>Inorganic Resources</h3>
 
-          {visibleResources.map((resource) => (
-            <p key={`resource-${resource.id}`}>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={isPlanned(
-                    'resource',
-                    resource.id,
+        <div className="planned-supply__overflow">
+          <div className="planned-supply__inorganic">
+            {specialInorganic.length > 0 && (
+              <div className="planned-supply__special-grid">
+                {specialInorganic.map((resource) =>
+                  renderItemControl(resource, 'resource'),
+                )}
+              </div>
+            )}
+
+            <div className="planned-supply__families">
+              {inorganicFamilies.map((family) => (
+                <div
+                  className="planned-supply__family"
+                  key={family.root.id}
+                  style={{
+                    gridTemplateColumns:
+                      `repeat(${family.columnCount * 2}, calc(var(--planned-supply-cell-pitch) / 2))`,
+                  }}
+                >
+                  {family.resources.map(({ resource, columnStart }) =>
+                    renderItemControl(
+                      resource,
+                      'resource',
+                      {
+                        gridColumn: `${columnStart} / span 2`,
+                        gridRow: rarityPosition.get(resource.rarity),
+                      },
+                    ),
                   )}
-                  onChange={() =>
-                    togglePlannedSupply({
-                      type: 'resource',
-                      id: resource.id,
-                    })
-                  }
-                />
-
-                {resource.name}
-              </label>
-            </p>
-          ))}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
+      </section>
+
+      <section className="planned-supply__section">
+        <h3>Organic Resources</h3>
+
+        {renderFlatRarityGrid(
+          organicResources,
+          'resource',
+          'planned-supply__organic-grid',
+        )}
+      </section>
+
+      <section className="planned-supply__section">
+        <h3>Manufactured Products</h3>
+
+        {renderFlatRarityGrid(
+          products,
+          'product',
+          'planned-supply__product-grid',
+        )}
+      </section>
+        </>
       )}
-
-      {visibleProducts.length > 0 && (
-        <div>
-          <strong>Manufactured Products</strong>
-
-          {visibleProducts.map((product) => (
-            <p key={`product-${product.id}`}>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={isPlanned(
-                    'product',
-                    product.id,
-                  )}
-                  onChange={() =>
-                    togglePlannedSupply({
-                      type: 'product',
-                      id: product.id,
-                    })
-                  }
-                />
-
-                {product.name}
-              </label>
-            </p>
-          ))}
-        </div>
-      )}
-
     </section>
   )
 }
