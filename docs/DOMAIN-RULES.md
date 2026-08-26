@@ -586,6 +586,12 @@ For an outpost involved in a cargo link:
 
 Inbound cargo is not persisted as a separate collection.
 
+Inbound availability belongs to the **outpost as a whole**, not only to the local cargo pad that physically receives the shipment.
+
+The game may use local output links to route material between storage containers and cargo pads within the same outpost, but that internal plumbing is intentionally abstracted away by the tracker.
+
+Consequently, an item arriving through one cargo pad may be used as available supply for outbound configuration on another cargo pad at the same outpost.
+
 Do not add redundant inbound state unless a future domain redesign explicitly requires it.
 
 ---
@@ -1063,15 +1069,43 @@ Do not invent feed, greenhouse, zoology, botany, habitat, or skill prerequisites
 
 ---
 
-# 55. Same-outpost cargo links
+# 55. Same-outpost cargo routing
 
-## Unresolved
+Cargo links connect cargo pads at **different outposts**.
 
-The application explicitly forbids a cargo pad linking to itself.
+The in-game cargo-link interface does not use cargo links to move material between two cargo pads at the same outpost.
 
-Whether two **different** cargo pads at the same outpost should be permitted to link to each other has not been confirmed against game behaviour.
+Local material routing within an outpost is handled through **output links** between extractors, storage containers, manufacturing equipment, and the inbound/outbound storage containers attached to cargo pads.
 
-Do not add a rule either allowing or prohibiting this case as a new product requirement without verification and an explicit design decision.
+For example:
+
+```text
+Pad 1 receives Aluminium
+        │
+        ▼
+local output link
+        │
+        ▼
+Pad 2 outbound storage
+        │
+        ▼
+Pad 2 exports Aluminium
+```
+
+The tracker does not model these local output links explicitly.
+
+Instead, inbound cargo contributes to **outpost-level availability**.
+
+Therefore:
+
+- an item arriving through one cargo pad is considered available to the outpost as a whole;
+- that item may be selected for export from another cargo pad at the same outpost;
+- no explicit local pad-to-pad routing record is required;
+- a network-level cargo link should not connect two cargo pads belonging to the same outpost.
+
+This abstraction is intentional.
+
+The tracker models whether an item is available at the outpost, not the internal storage-container plumbing used to move it between local structures.
 
 ---
 
