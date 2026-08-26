@@ -80,3 +80,14 @@
 .status-bar__message button:hover {
   text-decoration: underline;
 }
+
+.status-bar__feedback {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.status-bar__interaction-hint {
+  color: var(--text-h);
+  white-space: nowrap;
+}

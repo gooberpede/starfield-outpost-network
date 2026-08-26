@@ -26,11 +26,39 @@
   list-style: none;
 }
 
+.outpost-list__item,
+.outpost-list__end-marker {
+  position: relative;
+}
+
 .outpost-list__item {
   display: grid;
   grid-template-columns: 1.25rem minmax(0, 1fr) 4.25rem;
   gap: 0.35rem;
   align-items: center;
+}
+
+.outpost-list__item--dragging {
+  opacity: 0.55;
+}
+
+.outpost-list__item--marker-before::before,
+.outpost-list__end-marker::before {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: -0.225rem;
+
+  height: 3px;
+  border-radius: 999px;
+
+  background: var(--accent);
+  content: '';
+  pointer-events: none;
+}
+
+.outpost-list__end-marker {
+  height: 0;
 }
 
 .outpost-list__drag-handle {

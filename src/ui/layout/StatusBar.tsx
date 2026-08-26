@@ -25,6 +25,8 @@ import './StatusBar.css'
 interface StatusBarProps {
   main: ReactNode
 
+  interactionHint?: ReactNode
+
   message?: {
     kind: 'success' | 'error'
     content: ReactNode
@@ -34,6 +36,7 @@ interface StatusBarProps {
 
 export function StatusBar({
   main,
+  interactionHint,
   message,
 }: StatusBarProps) {
   return (
@@ -42,23 +45,31 @@ export function StatusBar({
         {main}
       </div>
 
-      {message && (
-        <div
-          className={`status-bar__message status-bar__message--${message.kind}`}
-        >
-          <span>
-            {message.content}
-          </span>
+      {(interactionHint || message) && (
+        <div className="status-bar__feedback">
+          {interactionHint && (
+            <span className="status-bar__interaction-hint">
+              {interactionHint}
+            </span>
+          )}
 
-          {message.onDismiss && (
-            <button
-              type="button"
-              onClick={message.onDismiss}
-              aria-label="Dismiss status message"
-              title="Dismiss"
+          {message && (
+            <div
+              className={`status-bar__message status-bar__message--${message.kind}`}
             >
-              ×
-            </button>
+              <span>{message.content}</span>
+
+              {message.onDismiss && (
+                <button
+                  type="button"
+                  onClick={message.onDismiss}
+                  aria-label="Dismiss status message"
+                  title="Dismiss"
+                >
+                  ×
+                </button>
+              )}
+            </div>
           )}
         </div>
       )}

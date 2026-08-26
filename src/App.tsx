@@ -182,6 +182,9 @@ function App() {
   const [statusMessage, setStatusMessage] =
     useState<StatusMessage | null>(null)
 
+  const [isOutpostDragging, setIsOutpostDragging] =
+    useState(false)
+
   /**
    * Clears successful action feedback automatically after a short display
    * period. Errors deliberately remain visible until replaced or dismissed.
@@ -473,14 +476,15 @@ useEffect(() => {
   }
 
   /**
-   * Moves one outpost by a single position in the persisted outpost order.
+   * Moves one outpost directly to a final persisted array position.
    *
-   * A negative offset moves the outpost upward; a positive offset moves it
-   * downward. Invalid IDs and attempts to move beyond either end are ignored.
+   * Drag-and-drop and the single-step arrow controls share this path so every
+   * completed reorder retains the same immutable, one-history-entry semantics.
+   * Invalid IDs, positions outside the array, and no-op moves are ignored.
    */
-  function moveOutpost(
+  function moveOutpostToIndex(
     outpostId: string,
-    offset: -1 | 1,
+    finalIndex: number,
   ) {
     const currentIndex =
       network.outposts.findIndex(
@@ -492,12 +496,10 @@ useEffect(() => {
       return
     }
 
-    const targetIndex =
-      currentIndex + offset
-
     if (
-      targetIndex < 0 ||
-      targetIndex >= network.outposts.length
+      finalIndex < 0 ||
+      finalIndex >= network.outposts.length ||
+      finalIndex === currentIndex
     ) {
       return
     }
@@ -506,21 +508,33 @@ useEffect(() => {
       network.outposts[currentIndex]
 
     applyUndoableNetworkChange(
-      `Move ${movedOutpost.name} ${
-        offset < 0 ? 'up' : 'down'
-      }`,
+      `Move ${movedOutpost.name} to position ${finalIndex + 1}`,
       (currentNetwork) => {
+        const liveCurrentIndex =
+          currentNetwork.outposts.findIndex(
+            (outpost) => outpost.id === outpostId,
+          )
+
+        if (
+          liveCurrentIndex === -1 ||
+          finalIndex < 0 ||
+          finalIndex >= currentNetwork.outposts.length ||
+          finalIndex === liveCurrentIndex
+        ) {
+          return currentNetwork
+        }
+
         const reorderedOutposts =
           [...currentNetwork.outposts]
 
         const [outpost] =
           reorderedOutposts.splice(
-            currentIndex,
+            liveCurrentIndex,
             1,
           )
 
         reorderedOutposts.splice(
-          targetIndex,
+          finalIndex,
           0,
           outpost,
         )
@@ -539,10 +553,10 @@ useEffect(() => {
   function moveOutpostUp(
     outpostId: string,
   ) {
-    moveOutpost(
-      outpostId,
-      -1,
+    const currentIndex = network.outposts.findIndex(
+      (outpost) => outpost.id === outpostId,
     )
+    moveOutpostToIndex(outpostId, currentIndex - 1)
   }
 
   /**
@@ -551,10 +565,10 @@ useEffect(() => {
   function moveOutpostDown(
     outpostId: string,
   ) {
-    moveOutpost(
-      outpostId,
-      1,
+    const currentIndex = network.outposts.findIndex(
+      (outpost) => outpost.id === outpostId,
     )
+    moveOutpostToIndex(outpostId, currentIndex + 1)
   }  
 
   /**
@@ -1933,9 +1947,11 @@ useEffect(() => {
             maxOutposts={maxOutposts}
             selectedOutpostId={selectedOutpostId}
             onSelectOutpost={setSelectedOutpostId}
+            onMoveOutpost={moveOutpostToIndex}
             onMoveOutpostUp={moveOutpostUp}
             onMoveOutpostDown={moveOutpostDown}
             onAddOutpost={addOutpost}
+            onDragActiveChange={setIsOutpostDragging}
           />
         }
 
@@ -2059,6 +2075,11 @@ useEffect(() => {
       />
       
       <StatusBar
+        interactionHint={
+          isOutpostDragging
+            ? 'Drop to reorder · Esc to cancel'
+            : undefined
+        }
         main={
           <>
             <ValidationSummary
