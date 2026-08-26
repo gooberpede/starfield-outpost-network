@@ -301,6 +301,7 @@ Use:
 - `docs/DOMAIN-RULES.md` for semantic/domain contracts;
 - `docs/BACKLOG.md` for deferred work and unresolved decisions;
 - `docs/IMPLEMENTATION-WORKFLOW.md` for the development handoff/review process.
+- `docs/UX-DESIGN.md` for settled presentation and interaction conventions;
 
 ---
 

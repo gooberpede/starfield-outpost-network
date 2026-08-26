@@ -26,6 +26,18 @@ When implementing a task, use the following order of authority:
 4. Existing automated validation and type constraints
 5. Existing code behaviour
 
+Within repository documentation, use the document that owns the relevant concern:
+
+- `docs/DOMAIN-RULES.md` for domain semantics and business rules;
+- `docs/ARCHITECTURE.md` for technical structure and state ownership;
+- `docs/UX-DESIGN.md` for settled presentation and interaction conventions;
+- `docs/BACKLOG.md` for deferred or unresolved work, not current requirements;
+- `docs/IMPLEMENTATION-WORKFLOW.md` for the development and review process.
+
+If documents appear to conflict across concerns, do not silently reinterpret them.
+Domain semantics take precedence over UX presentation when the two genuinely conflict.
+Report material ambiguity rather than inventing a new rule.
+
 If these sources materially conflict, do not silently choose one interpretation. Report the conflict and preserve existing behaviour unless the implementation brief clearly supersedes it.
 
 Do not infer new product requirements merely because an adjacent improvement seems useful.
@@ -90,13 +102,17 @@ Before significant implementation work, consult the relevant documentation when 
   - Starfield/outpost rules encoded by the application.
 
 - `docs/UX-DESIGN.md`
-  - interaction and presentation principles.
+  - settled UX, presentation, layout, and interaction conventions.
 
 - `docs/BACKLOG.md`
   - explicitly deferred work and unresolved decisions.
 
 - `docs/IMPLEMENTATION-WORKFLOW.md`
   - expectations for implementation batches.
+
+For user-facing UI, layout, navigation, selection, reordering, compact/expanded
+views, tooltips, overflow, or interaction behavior, read `docs/UX-DESIGN.md`
+before making design decisions.
 
 A backlog item is not an implemented requirement unless the current brief explicitly asks for it.
 
@@ -289,6 +305,13 @@ Important principles already established:
 - avoid destructive automatic cleanup when a warning is sufficient.
 
 Do not introduce a new interaction pattern globally until it has been proven in an appropriate feature unless the brief explicitly calls for a shared abstraction.
+
+Do not opportunistically redesign established interaction or presentation patterns
+while implementing an unrelated feature. Preserve the conventions in
+`docs/UX-DESIGN.md` unless the current brief explicitly changes them.
+
+New UX ideas discovered during implementation belong in `docs/BACKLOG.md` or in
+the completion report for later design review; do not silently implement them.
 
 ---
 
