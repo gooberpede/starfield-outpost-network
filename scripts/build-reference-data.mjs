@@ -58,13 +58,19 @@ const PLANET_DIRECTORY_SOURCE_FILE = resolve(
   'planet-directory.csv',
 )
 
-const INORGANIC_RESOURCES_SOURCE_FILE = resolve(
+const INORGANIC_RESOURCE_DICTIONARY_SOURCE_FILE = resolve(
   PROJECT_ROOT,
   'reference-source',
   'inorganic-resource-dictionary.csv',
 )
 
-const ORGANIC_RESOURCES_SOURCE_FILE = resolve(
+const ORGANIC_RESOURCE_DICTIONARY_SOURCE_FILE = resolve(
+  PROJECT_ROOT,
+  'reference-source',
+  'organic-resource-dictionary.csv',
+)
+
+const ORGANIC_OCCURRENCES_SOURCE_FILE = resolve(
   PROJECT_ROOT,
   'reference-source',
   'organic-resources.csv',
@@ -76,10 +82,10 @@ const INDUSTRIAL_WORKBENCH_SOURCE_FILE = resolve(
   'industrial-workbench.csv',
 )
 
-const ABBREVIATIONS_SOURCE_FILE = resolve(
+const MANUFACTURED_PRODUCT_DICTIONARY_SOURCE_FILE = resolve(
   PROJECT_ROOT,
   'reference-source',
-  'abbreviations.csv',
+  'manufactured-product-dictionary.csv',
 )
 
 const ALL_RESOURCES_SOURCE_FILE = resolve(
@@ -163,6 +169,43 @@ const RESOURCE_NAME_ALIASES = new Map([
     'organic:LuxuryTextile',
     'Luxury Textile',
   ],
+  [
+    'organic:Toxin Agent',
+    'Toxin',
+  ],
+])
+
+/*
+ * These values are artifacts of the current organic occurrence/enrichment
+ * dataset rather than logical catalogue resources.
+ *
+ * "None" represents organisms with no harvestable resource.
+ * "Unique" currently stands in for several unresolved unique-resource fauna.
+ * Those occurrences are intentionally omitted until the upstream xEdit
+ * extraction/cleanup pipeline can resolve canonical resource identity cleanly.
+ *
+ * Do not add species-specific repair mappings here; fix the source dataset
+ * instead when the organic extraction pipeline is revisited.
+ */
+const NON_RESOURCE_ORGANIC_OCCURRENCE_NAMES = new Set([
+  'None',
+  'Unique',
+])
+
+const RARITY_BY_SOURCE_VALUE = new Map([
+  ['Common', 'common'],
+  ['Uncommon', 'uncommon'],
+  ['Rare', 'rare'],
+  ['Exotic', 'exotic'],
+  ['Unique', 'unique'],
+])
+
+const RARITY_ORDER = new Map([
+  ['common', 0],
+  ['uncommon', 1],
+  ['rare', 2],
+  ['exotic', 3],
+  ['unique', 4],
 ])
 
 /**
@@ -182,96 +225,51 @@ async function loadCsvFile(path) {
 }
 
 /**
- * Creates the lookup key used by the curated abbreviation source.
- *
- * Type + player-facing name is intentionally used rather than application ID
- * so abbreviations.csv remains easy to read and edit by hand.
+ * Validates one curated rarity and converts it to the runtime representation.
  */
-function createAbbreviationKey(type, name) {
-  return `${type}:${name.trim()}`
-}
+function parseRarity(value, sourceName, rowNumber) {
+  const rarity = RARITY_BY_SOURCE_VALUE.get(value)
 
-/**
- * Validates abbreviations.csv and builds a Type + Name -> ShortName lookup.
- *
- * Abbreviations are curated source data. Missing or duplicate mappings should
- * therefore fail the build rather than silently falling back to generated
- * abbreviations.
- */
-function buildAbbreviationLookup(rows) {
-  const lookup = new Map()
-
-  for (const [index, row] of rows.entries()) {
-    if (
-      !row.Type ||
-      !row.Name ||
-      !row.ShortName
-    ) {
-      throw new Error(
-        `Abbreviations row ${index + 2} is missing ` +
-          `Type, Name, or ShortName.`,
-      )
-    }
-
-    const type =
-      row.Type.trim().toLowerCase()
-
-    if (
-      type !== 'organic' &&
-      type !== 'product'
-    ) {
-      throw new Error(
-        `Abbreviations row ${index + 2} has unsupported ` +
-          `Type "${row.Type}".`,
-      )
-    }
-
-    const key =
-      createAbbreviationKey(
-        type,
-        row.Name,
-      )
-
-    if (lookup.has(key)) {
-      throw new Error(
-        `Duplicate abbreviation mapping for ` +
-          `"${type}: ${row.Name}".`,
-      )
-    }
-
-    lookup.set(
-      key,
-      row.ShortName.trim(),
-    )
-  }
-
-  return lookup
-}
-
-/**
- * Retrieves one required curated abbreviation.
- *
- * Failing here makes new resources/products visible during development rather
- * than quietly exposing their full names as cargo abbreviations.
- */
-function getRequiredAbbreviation(
-  abbreviationLookup,
-  type,
-  name,
-) {
-  const key =
-    createAbbreviationKey(type, name)
-
-  const shortName =
-    abbreviationLookup.get(key)
-
-  if (!shortName) {
+  if (!rarity) {
     throw new Error(
-      `No abbreviation defined for "${type}: ${name}".`,
+      `${sourceName} row ${rowNumber} has invalid rarity "${value ?? ''}".`,
     )
   }
 
-  return shortName
+  return rarity
+}
+
+/**
+ * Parses an optional positive integer without inventing ordering for blanks.
+ */
+function parseOptionalSortOrder(value, rowNumber) {
+  if (!value) {
+    return null
+  }
+
+  if (!/^\d+$/.test(value)) {
+    throw new Error(
+      `Inorganic resource row ${rowNumber} has invalid SortOrder "${value}".`,
+    )
+  }
+
+  const sortOrder = Number(value)
+
+  if (!Number.isSafeInteger(sortOrder) || sortOrder < 1) {
+    throw new Error(
+      `Inorganic resource row ${rowNumber} has invalid SortOrder "${value}".`,
+    )
+  }
+
+  return sortOrder
+}
+
+function assertUniqueValue(seenValues, value, description) {
+  if (seenValues.has(value)) {
+    throw new Error(`Duplicate ${description} "${value}".`)
+  }
+
+  seenValues.add(value)
 }
 
 /**
@@ -428,131 +426,218 @@ function normalizeResourceName(name) {
 }
 
 /**
- * Builds the complete logical resource catalogue from the curated
- * inorganic dictionary and organic-resource source.
+ * Builds the complete logical resource catalogue from the curated inorganic
+ * and organic dictionaries. Occurrence sources never manufacture catalogue
+ * records.
  */
 function buildResources(
   inorganicRows,
-  organicRows,
-  allResourceRows,
-  abbreviationLookup,
+  organicDictionaryRows,
 ) {
   const resourcesById = new Map()
+  const inorganicByName = new Map()
+  const resourceIds = new Set()
+  const inorganicNames = new Set()
+  const inorganicCodes = new Set()
 
   for (const [index, row] of inorganicRows.entries()) {
-    if (!row.Code || !row.Resource) {
+    const rowNumber = index + 2
+
+    if (!row.Code || !row.Resource || !row.Rarity) {
       throw new Error(
-        `Inorganic resource row ${index + 2} is missing Code or Resource.`,
+        `Inorganic resource row ${rowNumber} is missing ` +
+          'Code, Resource, or Rarity.',
       )
     }
 
     const id = createNameId(row.Resource)
+    const rarity = parseRarity(
+      row.Rarity,
+      'Inorganic resource',
+      rowNumber,
+    )
 
-    resourcesById.set(id, {
+    assertUniqueValue(
+      inorganicNames,
+      row.Resource,
+      'inorganic resource name',
+    )
+    assertUniqueValue(
+      resourceIds,
+      id,
+      'resource ID',
+    )
+    assertUniqueValue(
+      inorganicCodes,
+      row.Code,
+      'inorganic resource abbreviation',
+    )
+
+    const resource = {
       id,
       name: row.Resource,
       shortName: row.Code,
       category: 'inorganic',
-    })
+      rarity,
+      parentName: row.ParentResource || null,
+      parentId: null,
+      sortOrder: parseOptionalSortOrder(
+        row.SortOrder,
+        rowNumber,
+      ),
+    }
+
+    resourcesById.set(id, resource)
+    inorganicByName.set(row.Resource, resource)
   }
 
-  for (const [index, row] of organicRows.entries()) {
-    if (!row.Resource) {
+  for (const resource of inorganicByName.values()) {
+    if (!resource.parentName) {
+      continue
+    }
+
+    if (resource.parentName === resource.name) {
       throw new Error(
-        `Organic resource row ${index + 2} is missing Resource.`,
+        `Inorganic resource "${resource.name}" cannot be its own parent.`,
+      )
+    }
+
+    const parent = inorganicByName.get(resource.parentName)
+
+    if (!parent) {
+      throw new Error(
+        `Inorganic resource "${resource.name}" has unknown parent ` +
+          `"${resource.parentName}".`,
+      )
+    }
+
+    if (
+      RARITY_ORDER.get(parent.rarity) >=
+      RARITY_ORDER.get(resource.rarity)
+    ) {
+      throw new Error(
+        `Inorganic resource "${resource.name}" must be rarer than ` +
+          `its parent "${parent.name}".`,
+      )
+    }
+
+    resource.parentId = parent.id
+  }
+
+  const visitStates = new Map()
+
+  function visitResource(resource) {
+    const state = visitStates.get(resource.id)
+
+    if (state === 'visiting') {
+      throw new Error(
+        `Inorganic resource family contains a cycle at "${resource.name}".`,
+      )
+    }
+
+    if (state === 'visited') {
+      return
+    }
+
+    visitStates.set(resource.id, 'visiting')
+
+    if (resource.parentId) {
+      visitResource(resourcesById.get(resource.parentId))
+    }
+
+    visitStates.set(resource.id, 'visited')
+  }
+
+  for (const resource of inorganicByName.values()) {
+    visitResource(resource)
+  }
+
+  const sortOrdersByParentId = new Map()
+
+  for (const resource of inorganicByName.values()) {
+    if (resource.sortOrder === null) {
+      continue
+    }
+
+    const siblingKey = resource.parentId ?? '__root__'
+    let sortOrders = sortOrdersByParentId.get(siblingKey)
+
+    if (!sortOrders) {
+      sortOrders = new Set()
+      sortOrdersByParentId.set(siblingKey, sortOrders)
+    }
+
+    if (sortOrders.has(resource.sortOrder)) {
+      throw new Error(
+        `Inorganic siblings under "${resource.parentName ?? 'root'}" ` +
+          `reuse SortOrder ${resource.sortOrder}.`,
+      )
+    }
+
+    sortOrders.add(resource.sortOrder)
+  }
+
+  const organicNames = new Set()
+  const organicIds = new Set()
+  const organicShortNames = new Set()
+
+  for (const [index, row] of organicDictionaryRows.entries()) {
+    const rowNumber = index + 2
+
+    if (!row.Resource || !row.ShortName || !row.Rarity) {
+      throw new Error(
+        `Organic resource row ${rowNumber} is missing ` +
+          'Resource, ShortName, or Rarity.',
       )
     }
 
     const id = createNameId(row.Resource)
 
-    const existingResource = resourcesById.get(id)
+    assertUniqueValue(
+      organicNames,
+      row.Resource,
+      'organic resource name',
+    )
+    assertUniqueValue(
+      organicIds,
+      id,
+      'organic resource ID',
+    )
+    assertUniqueValue(
+      organicShortNames,
+      row.ShortName,
+      'organic resource abbreviation',
+    )
+    assertUniqueValue(
+      resourceIds,
+      id,
+      'resource ID',
+    )
 
-    /*
-     * A name collision between organic and inorganic catalogues would be
-     * ambiguous in the current model and should be investigated rather
-     * than silently choosing one category.
-     */
-    if (
-      existingResource &&
-      existingResource.category !== 'organic'
-    ) {
-      throw new Error(
-        `Resource "${row.Resource}" appears in both organic ` +
-          `and inorganic source data.`,
-      )
-    }
-
-    if (!existingResource) {
-      resourcesById.set(id, {
-        id,
-        name: row.Resource,
-        shortName: getRequiredAbbreviation(
-          abbreviationLookup,
-          'organic',
-          row.Resource,
-        ),
-        category: 'organic',
-      })
-    }
+    resourcesById.set(id, {
+      id,
+      name: row.Resource,
+      shortName: row.ShortName,
+      category: 'organic',
+      rarity: parseRarity(
+        row.Rarity,
+        'Organic resource',
+        rowNumber,
+      ),
+      parentId: null,
+      sortOrder: null,
+    })
   }
 
-  /*
-   * The cleaned organic occurrence source does not contain every unique
-   * organic resource in the game. Known canonical/display-name aliases
-   * therefore also act as an explicit source for logical catalogue
-   * resources that are otherwise absent.
-   *
-   * This deliberately uses only RESOURCE_NAME_ALIASES. We do not create
-   * arbitrary catalogue resources from canonical runtime names because
-   * those names are not always player-facing labels.
-   */
-  for (const row of allResourceRows) {
-    if (
-      !row.ResourceName ||
-      !row.ResourceCategory
-    ) {
-      continue
-    }
-
-    const category =
-      row.ResourceCategory.toLowerCase()
-
-    const aliasKey =
-      `${category}:${row.ResourceName}`
-
-    const aliasedName =
-      RESOURCE_NAME_ALIASES.get(aliasKey)
-
-    if (!aliasedName) {
-      continue
-    }
-
-    const id =
-      createNameId(aliasedName)
-
-    const existingResource =
-      resourcesById.get(id)
-
-    /*
-     * Existing records such as Aluminium are expected and need no change.
-     * Missing aliased resources are added using the known player-facing
-     * name supplied by the explicit alias table.
-     */
-    if (!existingResource) {
-      resourcesById.set(id, {
-        id,
-        name: aliasedName,
-        shortName: getRequiredAbbreviation(
-          abbreviationLookup,
-          'organic',
-          aliasedName,
-        ),
-        category,
-      })
-    }
-  }
-
-  return [...resourcesById.values()].sort((left, right) => {
+  return [...resourcesById.values()].map((resource) => ({
+    id: resource.id,
+    name: resource.name,
+    shortName: resource.shortName,
+    category: resource.category,
+    rarity: resource.rarity,
+    parentId: resource.parentId,
+    sortOrder: resource.sortOrder,
+  })).sort((left, right) => {
     const categoryComparison =
       left.category.localeCompare(right.category)
 
@@ -753,12 +838,13 @@ function isFarmableValue(value) {
  * is sufficient for planetary-level availability.
  */
 function buildFarmableOrganicOccurrenceKeys(
-  organicRows,
+  organicOccurrenceRows,
+  resources,
 ) {
   if (
-    organicRows.length > 0 &&
+    organicOccurrenceRows.length > 0 &&
     !Object.prototype.hasOwnProperty.call(
-      organicRows[0],
+      organicOccurrenceRows[0],
       'Farmable',
     )
   ) {
@@ -768,17 +854,37 @@ function buildFarmableOrganicOccurrenceKeys(
   }
 
   const farmableKeys = new Set()
+  const resourceCatalogueLookup =
+    buildResourceCatalogueLookup(resources)
 
-  for (const [index, row] of organicRows.entries()) {
+  for (const [index, row] of organicOccurrenceRows.entries()) {
+    if (
+      row.Resource &&
+      NON_RESOURCE_ORGANIC_OCCURRENCE_NAMES.has(row.Resource)
+    ) {
+      continue
+    }
+
+    if (row.Resource) {
+      const aliasKey = `organic:${row.Resource}`
+      const catalogueName =
+        RESOURCE_NAME_ALIASES.get(aliasKey) ?? row.Resource
+      const lookupKey =
+        `organic:${normalizeResourceName(catalogueName)}`
+
+      if (!resourceCatalogueLookup.has(lookupKey)) {
+        throw new Error(
+          `Organic occurrence row ${index + 2} refers to unknown ` +
+            `resource "${row.Resource}".`,
+        )
+      }
+    }
+
     if (!isFarmableValue(row.Farmable)) {
       continue
     }
 
-    if (
-      !row.System ||
-      !row.Body ||
-      !row.Resource
-    ) {
+    if (!row.System || !row.Body || !row.Resource) {
       throw new Error(
         `Farmable organic resource row ${index + 2} is missing ` +
           'System, Body, or Resource.',
@@ -816,8 +922,9 @@ function buildFarmableOrganicOccurrenceKeys(
  */
 function buildBodyResources(
   allResourceRows,
-  organicRows,
+  organicOccurrenceRows,
   bodies,
+  resources,
   resourceIdsByFormId,
 ) {
   const knownBodyIds =
@@ -825,7 +932,8 @@ function buildBodyResources(
 
   const farmableOrganicKeys =
     buildFarmableOrganicOccurrenceKeys(
-      organicRows,
+      organicOccurrenceRows,
+      resources,
     )
 
   const resourceIdsByBodyId = new Map()
@@ -924,59 +1032,48 @@ function buildBodyResources(
 }
 
 /**
- * Builds the manufactured-product catalogue from Industrial Workbench rows.
- *
- * The source contains one row per product ingredient, so the same product
- * appears repeatedly. At this stage we need only the product catalogue,
- * not recipe composition, so products are deduplicated by generated ID.
+ * Builds the manufactured-product catalogue from its curated dictionary.
+ * Industrial Workbench remains a recipe source only.
  */
-function buildProducts(
-  rows,
-  abbreviationLookup,
-) {
-  const productsById = new Map()
+function buildProducts(rows) {
+  const names = new Set()
+  const ids = new Set()
+  const shortNames = new Set()
+  const products = []
 
   for (const [index, row] of rows.entries()) {
-    if (!row.Product) {
+    const rowNumber = index + 2
+
+    if (!row.Name || !row.ShortName || !row.Rarity) {
       throw new Error(
-        `Industrial Workbench row ${index + 2} is missing Product.`,
+        `Manufactured product row ${rowNumber} is missing ` +
+          'Name, ShortName, or Rarity.',
       )
     }
 
-    const id = createNameId(row.Product)
+    const id = createNameId(row.Name)
 
-    const product = {
+    assertUniqueValue(names, row.Name, 'manufactured product name')
+    assertUniqueValue(ids, id, 'manufactured product ID')
+    assertUniqueValue(
+      shortNames,
+      row.ShortName,
+      'manufactured product abbreviation',
+    )
+
+    products.push({
       id,
-      name: row.Product,
-      shortName: getRequiredAbbreviation(
-        abbreviationLookup,
-        'product',
-        row.Product,
+      name: row.Name,
+      shortName: row.ShortName,
+      rarity: parseRarity(
+        row.Rarity,
+        'Manufactured product',
+        rowNumber,
       ),
-    }
-
-    const existingProduct =
-      productsById.get(id)
-
-    /*
-     * Repeated rows for the same product are expected because each row
-     * represents one ingredient. A conflicting name for one generated ID
-     * would indicate a source naming collision that needs investigation.
-     */
-    if (
-      existingProduct &&
-      existingProduct.name !== product.name
-    ) {
-      throw new Error(
-        `Product ID "${id}" is generated from conflicting names: ` +
-          `"${existingProduct.name}" and "${product.name}".`,
-      )
-    }
-
-    productsById.set(id, product)
+    })
   }
 
-  return [...productsById.values()].sort((left, right) =>
+  return products.sort((left, right) =>
     left.name.localeCompare(right.name),
   )
 }
@@ -1122,6 +1219,21 @@ function buildProductRecipes(
     })
   }
 
+  const productsWithoutRecipes = products.filter(
+    (product) => !recipesByProductId.has(product.id),
+  )
+
+  if (productsWithoutRecipes.length > 0) {
+    throw new Error(
+      'Manufactured product dictionary entries have no Industrial ' +
+        'Workbench recipe: ' +
+        productsWithoutRecipes
+          .map((product) => `"${product.name}"`)
+          .join(', ') +
+        '.',
+    )
+  }
+
   /*
    * Follow product catalogue order so generated output stays deterministic
    * and easy to compare with products.json.
@@ -1172,38 +1284,28 @@ async function main() {
 
   const [
     inorganicRows,
-    organicRows,
+    organicDictionaryRows,
+    organicOccurrenceRows,
     allResourceRows,
   ] = await Promise.all([
     loadCsvFile(
-      INORGANIC_RESOURCES_SOURCE_FILE,
+      INORGANIC_RESOURCE_DICTIONARY_SOURCE_FILE,
     ),
     loadCsvFile(
-      ORGANIC_RESOURCES_SOURCE_FILE,
+      ORGANIC_RESOURCE_DICTIONARY_SOURCE_FILE,
+    ),
+    loadCsvFile(
+      ORGANIC_OCCURRENCES_SOURCE_FILE,
     ),
     loadCsvFile(
       ALL_RESOURCES_SOURCE_FILE,
     ),
   ])
 
-  console.log('Loading abbreviations...')
-
-  const abbreviationRows =
-    await loadCsvFile(
-      ABBREVIATIONS_SOURCE_FILE,
-    )
-
-  const abbreviationLookup =
-    buildAbbreviationLookup(
-      abbreviationRows,
-    )
-
   const resources =
     buildResources(
       inorganicRows,
-      organicRows,
-      allResourceRows,
-      abbreviationLookup,
+      organicDictionaryRows,
     )
 
   console.log('Building resource crosswalk...')
@@ -1224,27 +1326,32 @@ async function main() {
   const bodyResources =
     buildBodyResources(
       allResourceRows,
-      organicRows,
+      organicOccurrenceRows,
       bodies,
+      resources,
       resourceIdsByFormId,
     )
   
   console.log('Loading Industrial Workbench...')
 
-  const productRows =
-    await loadCsvFile(
+  const [
+    productDictionaryRows,
+    productRecipeRows,
+  ] = await Promise.all([
+    loadCsvFile(
+      MANUFACTURED_PRODUCT_DICTIONARY_SOURCE_FILE,
+    ),
+    loadCsvFile(
       INDUSTRIAL_WORKBENCH_SOURCE_FILE,
-    )
+    ),
+  ])
 
   const products =
-    buildProducts(
-      productRows,
-      abbreviationLookup,
-    )
+    buildProducts(productDictionaryRows)
 
   const productRecipes =
     buildProductRecipes(
-      productRows,
+      productRecipeRows,
       resources,
       products,
     )

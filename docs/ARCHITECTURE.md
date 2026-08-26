@@ -432,6 +432,31 @@ This separation allows:
 
 Do not embed complete reference-data records into `OutpostNetwork` unless an explicit requirement changes this design.
 
+Reference catalogues are generated rather than read from CSV by the browser:
+
+```text
+reference-source/*.csv
+        ↓
+scripts/build-reference-data.mjs
+        ↓
+public/reference-data/*.json
+        ↓
+src/data/referenceDataLoader.ts
+```
+
+The curated inorganic and organic resource dictionaries are the master source
+for resource identity, abbreviation, and rarity. The inorganic dictionary also
+defines immediate family parents and optional sibling ordering. The curated
+manufactured-product dictionary is the master source for product identity,
+abbreviation, and rarity, while `industrial-workbench.csv` remains the recipe
+source.
+
+Planetary occurrence sources have a separate responsibility. In particular,
+`organic-resources.csv` determines farmable organic occurrences; it does not
+create logical catalogue resources. The generated `resources.json` therefore
+carries rarity for every resource plus explicit inorganic family metadata, and
+`products.json` carries rarity for every manufactured product.
+
 ---
 
 # 15. Reference-data loading

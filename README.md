@@ -149,6 +149,14 @@ Persisted network state stores stable IDs for systems, planetary bodies, resourc
 
 This separation allows reference data to evolve without duplicating large reference records into each saved network.
 
+Runtime catalogues are generated from curated CSV sources by
+`scripts/build-reference-data.mjs`. Resource and manufactured-product
+dictionaries provide canonical names, abbreviations, and rarity; the inorganic
+dictionary also provides resource-family parents and optional sibling ordering.
+Planetary occurrence files remain separate inputs for body availability and are
+not treated as master catalogues. The browser loads the generated JSON files
+under `public/reference-data/`.
+
 ## Project status
 
 This project is in active development.

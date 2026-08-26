@@ -201,8 +201,15 @@ Future planner/data work may include:
 - recommended resource combinations by biome;
 - avoiding finicky biome-boundary sites by default;
 - incorporating extracted Starfield resource-generation data;
+- review and rebuild the organic xEdit extraction pipeline so canonical resource identity, biome occurrence, fauna/flora identity, farmability/domesticability, and production inputs come from clean authoritative data rather than legacy enrichment; this should also resolve the currently omitted unique-resource fauna occurrences;
 - organic-resource farming prerequisites;
 - better differentiation between canonical source data and player-recorded state.
+
+The immediate resource and product catalogues now have curated dictionary
+inputs, but a broader review of master/reference-data ingestion remains
+deferred. That review should consider how sources are normalized, joined,
+validated, and emitted across all reference datasets without replacing the
+current explicit dictionary/occurrence separation piecemeal.
 
 These are planner/reference-data concerns and should remain separate from the persisted player network model unless a future design explicitly requires otherwise.
 
@@ -279,4 +286,3 @@ When adding an item:
 - record settled direction separately from unresolved questions;
 - avoid duplicating rules already captured in `docs/DOMAIN-RULES.md`;
 - remove or rewrite entries once a feature is implemented and documented elsewhere.
-

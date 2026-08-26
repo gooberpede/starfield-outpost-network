@@ -3,7 +3,7 @@
  *
  * Purpose:
  *   Diagnoses how canonical resource records from planet-all-resources.csv
- *   correspond to the resource names currently used to build resources.json.
+ *   correspond to the curated dictionaries used to build resources.json.
  *
  * Architecture:
  *   This is a development-time diagnostic tool only. It does not write or
@@ -37,16 +37,16 @@ const ALL_RESOURCES_SOURCE_FILE = resolve(
   'planet-all-resources.csv',
 )
 
-const INORGANIC_RESOURCES_SOURCE_FILE = resolve(
+const INORGANIC_RESOURCE_DICTIONARY_SOURCE_FILE = resolve(
   PROJECT_ROOT,
   'reference-source',
   'inorganic-resource-dictionary.csv',
 )
 
-const ORGANIC_RESOURCES_SOURCE_FILE = resolve(
+const ORGANIC_RESOURCE_DICTIONARY_SOURCE_FILE = resolve(
   PROJECT_ROOT,
   'reference-source',
-  'organic-resources.csv',
+  'organic-resource-dictionary.csv',
 )
 
 /**
@@ -201,8 +201,8 @@ async function main() {
     organicRows,
   ] = await Promise.all([
     loadCsvFile(ALL_RESOURCES_SOURCE_FILE),
-    loadCsvFile(INORGANIC_RESOURCES_SOURCE_FILE),
-    loadCsvFile(ORGANIC_RESOURCES_SOURCE_FILE),
+    loadCsvFile(INORGANIC_RESOURCE_DICTIONARY_SOURCE_FILE),
+    loadCsvFile(ORGANIC_RESOURCE_DICTIONARY_SOURCE_FILE),
   ])
 
   const canonicalResources =

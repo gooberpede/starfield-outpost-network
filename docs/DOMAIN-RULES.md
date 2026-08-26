@@ -45,6 +45,23 @@ The domain model should therefore preserve these distinctions:
 
 Do not collapse these categories merely because they refer to the same resource or product.
 
+## 1.1 Resource and product reference metadata
+
+Resource and manufactured-product rarity uses one ordered reference scale:
+
+```text
+common < uncommon < rare < exotic < unique
+```
+
+Inorganic resources may form rarity-progressing families. `parentId` identifies
+the immediate parent resource, while `sortOrder` optionally orders siblings.
+Roots use `parentId: null`; missing explicit order uses `sortOrder: null`.
+Organic resources do not participate in these families and always use null for
+both fields.
+
+This metadata is reference fact, not player-network state. Persisted outposts
+continue to store stable resource and product IDs rather than catalogue records.
+
 ---
 
 # 2. Character values

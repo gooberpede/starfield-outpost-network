@@ -294,6 +294,7 @@
       "argon",
       "fiber",
       "nickel",
+      "toxin",
       "water"
     ]
   },
@@ -2025,6 +2026,7 @@
       "fluorine",
       "nickel",
       "nutrient",
+      "toxin",
       "water"
     ]
   },
@@ -2037,6 +2039,7 @@
       "lithium",
       "plutonium",
       "structural",
+      "toxin",
       "uranium",
       "water"
     ]
@@ -2649,6 +2652,7 @@
       "nutrient",
       "sealant",
       "structural",
+      "toxin",
       "tungsten",
       "water"
     ]
@@ -7066,6 +7070,7 @@
       "nutrient",
       "platinum",
       "structural",
+      "toxin",
       "water",
       "ytterbium"
     ]
@@ -7218,6 +7223,7 @@
       "pigment",
       "sealant",
       "structural",
+      "toxin",
       "water"
     ]
   },
@@ -7806,6 +7812,7 @@
       "sealant",
       "spice",
       "structural",
+      "toxin",
       "water"
     ]
   },
@@ -9213,6 +9220,7 @@
       "lead",
       "nutrient",
       "sealant",
+      "toxin",
       "water"
     ]
   },

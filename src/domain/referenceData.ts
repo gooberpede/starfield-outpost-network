@@ -80,18 +80,28 @@ export type ResourceCategory =
   | 'inorganic'
   | 'organic'
 
+/** Shared rarity scale used by resource and manufactured-product catalogues. */
+export type Rarity =
+  | 'common'
+  | 'uncommon'
+  | 'rare'
+  | 'exotic'
+  | 'unique'
+
 /**
  * Represents an organic or inorganic resource known to the application.
  *
- * The first version stores only identity, display name, abbreviation,
- * and broad category. Later versions may add properties such as storage
- * class, mass, value, rarity, or resource-family information.
+ * Inorganic resources may reference their immediate family parent and an
+ * optional sibling order. Organic resources carry explicit nulls for both.
  */
 export interface ResourceReference {
   id: ResourceId
   name: string
   shortName: string
   category: ResourceCategory
+  rarity: Rarity
+  parentId: ResourceId | null
+  sortOrder: number | null
 }
 
 /**
@@ -109,14 +119,13 @@ export interface BodyResourcesReference {
 /**
  * Represents a manufactured product known to the application.
  *
- * The initial model contains only identity and display name. Recipe
- * inputs, value, mass, fabricator tier, and other manufacturing metadata
- * can be added later.
+ * Recipe inputs remain separate, while rarity is shared with resources.
  */
 export interface ProductReference {
   id: ProductId
   name: string
   shortName: string
+  rarity: Rarity
 }
 
 /**

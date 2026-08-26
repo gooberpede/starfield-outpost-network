@@ -2,151 +2,181 @@
   {
     "id": "adaptive-frame",
     "name": "Adaptive Frame",
-    "shortName": "AFr"
+    "shortName": "AFr",
+    "rarity": "common"
   },
   {
     "id": "aldumite-drilling-rig",
     "name": "Aldumite Drilling Rig",
-    "shortName": "ADR"
+    "shortName": "ADR",
+    "rarity": "unique"
   },
   {
     "id": "austenitic-manifold",
     "name": "Austenitic Manifold",
-    "shortName": "AMn"
+    "shortName": "AMn",
+    "rarity": "uncommon"
   },
   {
     "id": "comm-relay",
     "name": "Comm Relay",
-    "shortName": "CmR"
+    "shortName": "CmR",
+    "rarity": "uncommon"
   },
   {
     "id": "control-rod",
     "name": "Control Rod",
-    "shortName": "CtR"
+    "shortName": "CtR",
+    "rarity": "exotic"
   },
   {
     "id": "drilling-rig",
     "name": "Drilling Rig",
-    "shortName": "DrR"
+    "shortName": "DrR",
+    "rarity": "rare"
   },
   {
     "id": "indicite-wafer",
     "name": "Indicite Wafer",
-    "shortName": "IWf"
+    "shortName": "IWf",
+    "rarity": "unique"
   },
   {
     "id": "isocentered-magnet",
     "name": "Isocentered Magnet",
-    "shortName": "IMg"
+    "shortName": "IMg",
+    "rarity": "common"
   },
   {
     "id": "isotopic-coolant",
     "name": "Isotopic Coolant",
-    "shortName": "ICl"
+    "shortName": "ICl",
+    "rarity": "common"
   },
   {
     "id": "mag-pressure-tank",
     "name": "Mag Pressure Tank",
-    "shortName": "MPT"
+    "shortName": "MPT",
+    "rarity": "uncommon"
   },
   {
     "id": "microsecond-regulator",
     "name": "Microsecond Regulator",
-    "shortName": "MRg"
+    "shortName": "MRg",
+    "rarity": "exotic"
   },
   {
     "id": "molecular-sieve",
     "name": "Molecular Sieve",
-    "shortName": "MSv"
+    "shortName": "MSv",
+    "rarity": "rare"
   },
   {
     "id": "monopropellant",
     "name": "Monopropellant",
-    "shortName": "MPr"
+    "shortName": "MPr",
+    "rarity": "uncommon"
   },
   {
     "id": "nuclear-fuel-rod",
     "name": "Nuclear Fuel Rod",
-    "shortName": "NFR"
+    "shortName": "NFR",
+    "rarity": "exotic"
   },
   {
     "id": "paramagnon-conductor",
     "name": "Paramagnon Conductor",
-    "shortName": "PmC"
+    "shortName": "PmC",
+    "rarity": "rare"
   },
   {
     "id": "polytextile",
     "name": "Polytextile",
-    "shortName": "PTx"
+    "shortName": "PTx",
+    "rarity": "uncommon"
   },
   {
     "id": "positron-battery",
     "name": "Positron Battery",
-    "shortName": "PBt"
+    "shortName": "PBt",
+    "rarity": "rare"
   },
   {
     "id": "power-circuit",
     "name": "Power Circuit",
-    "shortName": "PCt"
+    "shortName": "PCt",
+    "rarity": "exotic"
   },
   {
     "id": "reactive-gauge",
     "name": "Reactive Gauge",
-    "shortName": "RGa"
+    "shortName": "RGa",
+    "rarity": "common"
   },
   {
     "id": "rothicite-magnet",
     "name": "Rothicite Magnet",
-    "shortName": "RMg"
+    "shortName": "RMg",
+    "rarity": "unique"
   },
   {
     "id": "semimetal-wafer",
     "name": "Semimetal Wafer",
-    "shortName": "SWf"
+    "shortName": "SWf",
+    "rarity": "rare"
   },
   {
     "id": "sterile-nanotubes",
     "name": "Sterile Nanotubes",
-    "shortName": "SNt"
+    "shortName": "SNt",
+    "rarity": "exotic"
   },
   {
     "id": "substrate-molecular-sieve",
     "name": "Substrate Molecular Sieve",
-    "shortName": "SMS"
+    "shortName": "SMS",
+    "rarity": "unique"
   },
   {
     "id": "supercooled-magnet",
     "name": "Supercooled Magnet",
-    "shortName": "SMg"
+    "shortName": "SMg",
+    "rarity": "rare"
   },
   {
     "id": "tasine-superconductor",
     "name": "Tasine Superconductor",
-    "shortName": "TSu"
+    "shortName": "TSu",
+    "rarity": "unique"
   },
   {
     "id": "tau-grade-rheostat",
     "name": "Tau Grade Rheostat",
-    "shortName": "TGR"
+    "shortName": "TGR",
+    "rarity": "uncommon"
   },
   {
     "id": "veryl-treated-manifold",
     "name": "Veryl-Treated Manifold",
-    "shortName": "VTM"
+    "shortName": "VTM",
+    "rarity": "unique"
   },
   {
     "id": "vytinium-fuel-rod",
     "name": "Vytinium Fuel Rod",
-    "shortName": "VFR"
+    "shortName": "VFR",
+    "rarity": "unique"
   },
   {
     "id": "zero-wire",
     "name": "Zero Wire",
-    "shortName": "ZWr"
+    "shortName": "ZWr",
+    "rarity": "common"
   },
   {
     "id": "zero-g-gimbal",
     "name": "Zero-G Gimbal",
-    "shortName": "ZGG"
+    "shortName": "ZGG",
+    "rarity": "rare"
   }
 ]

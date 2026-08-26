@@ -3,468 +3,675 @@
     "id": "aldumite",
     "name": "Aldumite",
     "shortName": "Ad",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "unique",
+    "parentId": "xenon",
+    "sortOrder": null
   },
   {
     "id": "alkanes",
     "name": "Alkanes",
     "shortName": "HnCn",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "uncommon",
+    "parentId": "iron",
+    "sortOrder": null
   },
   {
     "id": "aluminium",
     "name": "Aluminium",
     "shortName": "Al",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "common",
+    "parentId": null,
+    "sortOrder": 1
   },
   {
     "id": "antimony",
     "name": "Antimony",
     "shortName": "Sb",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "exotic",
+    "parentId": "gold",
+    "sortOrder": null
   },
   {
     "id": "argon",
     "name": "Argon",
     "shortName": "Ar",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "common",
+    "parentId": null,
+    "sortOrder": 2
   },
   {
     "id": "benzene",
     "name": "Benzene",
     "shortName": "C6Hn",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "uncommon",
+    "parentId": "argon",
+    "sortOrder": null
   },
   {
     "id": "beryllium",
     "name": "Beryllium",
     "shortName": "Be",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "uncommon",
+    "parentId": "aluminium",
+    "sortOrder": null
   },
   {
     "id": "caesium",
     "name": "Caesium",
     "shortName": "Cs",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "exotic",
+    "parentId": "lithium",
+    "sortOrder": 1
   },
   {
     "id": "carboxylic-acids",
     "name": "Carboxylic Acids",
     "shortName": "R-COC",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "rare",
+    "parentId": "benzene",
+    "sortOrder": null
   },
   {
     "id": "chlorine",
     "name": "Chlorine",
     "shortName": "Cl",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "common",
+    "parentId": null,
+    "sortOrder": 3
   },
   {
     "id": "chlorosilanes",
     "name": "Chlorosilanes",
     "shortName": "SiH3Cl",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "uncommon",
+    "parentId": "chlorine",
+    "sortOrder": null
   },
   {
     "id": "cobalt",
     "name": "Cobalt",
     "shortName": "Co",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "uncommon",
+    "parentId": "nickel",
+    "sortOrder": null
   },
   {
     "id": "copper",
     "name": "Copper",
     "shortName": "Cu",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "common",
+    "parentId": null,
+    "sortOrder": 4
   },
   {
     "id": "dysprosium",
     "name": "Dysprosium",
     "shortName": "Dy",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "exotic",
+    "parentId": "titanium",
+    "sortOrder": null
   },
   {
     "id": "europium",
     "name": "Europium",
     "shortName": "Eu",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "exotic",
+    "parentId": "neodymium",
+    "sortOrder": null
   },
   {
     "id": "fluorine",
     "name": "Fluorine",
     "shortName": "F",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "uncommon",
+    "parentId": "copper",
+    "sortOrder": null
   },
   {
     "id": "gold",
     "name": "Gold",
     "shortName": "Au",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "rare",
+    "parentId": "fluorine",
+    "sortOrder": 1
   },
   {
     "id": "helium-3",
     "name": "Helium-3",
     "shortName": "He-3",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "common",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "indicite",
     "name": "Indicite",
     "shortName": "Ie",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "unique",
+    "parentId": "europium",
+    "sortOrder": null
   },
   {
     "id": "ionic-liquids",
     "name": "Ionic Liquids",
     "shortName": "IL",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "exotic",
+    "parentId": "tetrafluorides",
+    "sortOrder": null
   },
   {
     "id": "iridium",
     "name": "Iridium",
     "shortName": "Ir",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "uncommon",
+    "parentId": "uranium",
+    "sortOrder": null
   },
   {
     "id": "iron",
     "name": "Iron",
     "shortName": "Fe",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "common",
+    "parentId": null,
+    "sortOrder": 5
   },
   {
     "id": "lead",
     "name": "Lead",
     "shortName": "Pb",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "common",
+    "parentId": null,
+    "sortOrder": 6
   },
   {
     "id": "lithium",
     "name": "Lithium",
     "shortName": "Li",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "rare",
+    "parentId": "chlorosilanes",
+    "sortOrder": null
   },
   {
     "id": "mercury",
     "name": "Mercury",
     "shortName": "Hg",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "rare",
+    "parentId": "silver",
+    "sortOrder": null
   },
   {
     "id": "neodymium",
     "name": "Neodymium",
     "shortName": "Nd",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "rare",
+    "parentId": "beryllium",
+    "sortOrder": null
   },
   {
     "id": "neon",
     "name": "Neon",
     "shortName": "Ne",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "exotic",
+    "parentId": "carboxylic-acids",
+    "sortOrder": null
   },
   {
     "id": "nickel",
     "name": "Nickel",
     "shortName": "Ni",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "common",
+    "parentId": null,
+    "sortOrder": 7
   },
   {
     "id": "palladium",
     "name": "Palladium",
     "shortName": "Pd",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "exotic",
+    "parentId": "platinum",
+    "sortOrder": null
   },
   {
     "id": "platinum",
     "name": "Platinum",
     "shortName": "Pt",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "rare",
+    "parentId": "cobalt",
+    "sortOrder": null
   },
   {
     "id": "plutonium",
     "name": "Plutonium",
     "shortName": "Pu",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "exotic",
+    "parentId": "vanadium",
+    "sortOrder": null
   },
   {
     "id": "rothicite",
     "name": "Rothicite",
     "shortName": "Rc",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "unique",
+    "parentId": "ytterbium",
+    "sortOrder": null
   },
   {
     "id": "silver",
     "name": "Silver",
     "shortName": "Ag",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "uncommon",
+    "parentId": "lead",
+    "sortOrder": 1
   },
   {
     "id": "tantalum",
     "name": "Tantalum",
     "shortName": "Ta",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "rare",
+    "parentId": "alkanes",
+    "sortOrder": null
   },
   {
     "id": "tasine",
     "name": "Tasine",
     "shortName": "Tsn",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "unique",
+    "parentId": "palladium",
+    "sortOrder": null
   },
   {
     "id": "tetrafluorides",
     "name": "Tetrafluorides",
     "shortName": "xF4",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "rare",
+    "parentId": "fluorine",
+    "sortOrder": 2
   },
   {
     "id": "titanium",
     "name": "Titanium",
     "shortName": "Ti",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "rare",
+    "parentId": "tungsten",
+    "sortOrder": null
   },
   {
     "id": "tungsten",
     "name": "Tungsten",
     "shortName": "W",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "uncommon",
+    "parentId": "lead",
+    "sortOrder": 2
   },
   {
     "id": "uranium",
     "name": "Uranium",
     "shortName": "U",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "common",
+    "parentId": null,
+    "sortOrder": 8
   },
   {
     "id": "vanadium",
     "name": "Vanadium",
     "shortName": "V",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "rare",
+    "parentId": "iridium",
+    "sortOrder": null
   },
   {
     "id": "veryl",
     "name": "Veryl",
     "shortName": "Vr",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "unique",
+    "parentId": "neon",
+    "sortOrder": null
   },
   {
     "id": "vytinium",
     "name": "Vytinium",
     "shortName": "Vy",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "unique",
+    "parentId": "plutonium",
+    "sortOrder": null
   },
   {
     "id": "water",
     "name": "Water",
     "shortName": "H2O",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "common",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "xenon",
     "name": "Xenon",
     "shortName": "Xe",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "exotic",
+    "parentId": "lithium",
+    "sortOrder": 2
   },
   {
     "id": "ytterbium",
     "name": "Ytterbium",
     "shortName": "Yb",
-    "category": "inorganic"
+    "category": "inorganic",
+    "rarity": "exotic",
+    "parentId": "tantalum",
+    "sortOrder": null
   },
   {
     "id": "adhesive",
     "name": "Adhesive",
     "shortName": "Adh",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "rare",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "amino-acids",
     "name": "Amino Acids",
     "shortName": "AAc",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "rare",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "analgesic",
     "name": "Analgesic",
     "shortName": "Ana",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "rare",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "antimicrobial",
     "name": "Antimicrobial",
     "shortName": "AMb",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "uncommon",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "aromatic",
     "name": "Aromatic",
     "shortName": "Aro",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "rare",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "biosuppressant",
     "name": "Biosuppressant",
     "shortName": "Bio",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "exotic",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "cosmetic",
     "name": "Cosmetic",
     "shortName": "Cos",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "uncommon",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "fiber",
     "name": "Fiber",
     "shortName": "Fib",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "common",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "gastronomic-delight",
     "name": "Gastronomic Delight",
     "shortName": "GDl",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "unique",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "hallucinogen",
     "name": "Hallucinogen",
     "shortName": "Hal",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "rare",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "high-tensile-spidroin",
     "name": "High-Tensile Spidroin",
     "shortName": "HTS",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "unique",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "hypercatalyst",
     "name": "Hypercatalyst",
     "shortName": "Hyp",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "exotic",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "immunostimulant",
     "name": "Immunostimulant",
     "shortName": "Imm",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "unique",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "lubricant",
     "name": "Lubricant",
     "shortName": "Lub",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "exotic",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "luxury-textile",
     "name": "Luxury Textile",
     "shortName": "LTx",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "unique",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "membrane",
     "name": "Membrane",
     "shortName": "Mem",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "uncommon",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "memory-substrate",
     "name": "Memory Substrate",
     "shortName": "MSb",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "unique",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "metabolic-agent",
     "name": "Metabolic Agent",
     "shortName": "MAg",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "common",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "neurologic",
     "name": "Neurologic",
     "shortName": "Neu",
-    "category": "organic"
-  },
-  {
-    "id": "none",
-    "name": "None",
-    "shortName": "Non",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "unique",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "nutrient",
     "name": "Nutrient",
     "shortName": "Nut",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "common",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "ornamental",
     "name": "Ornamental",
     "shortName": "Orn",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "uncommon",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "pigment",
     "name": "Pigment",
     "shortName": "Pig",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "uncommon",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "polymer",
     "name": "Polymer",
     "shortName": "Pol",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "exotic",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "sealant",
     "name": "Sealant",
     "shortName": "Sea",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "common",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "sedative",
     "name": "Sedative",
     "shortName": "Sed",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "rare",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "solvent",
     "name": "Solvent",
     "shortName": "Slv",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "exotic",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "spice",
     "name": "Spice",
     "shortName": "Spc",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "uncommon",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "stimulant",
     "name": "Stimulant",
     "shortName": "Stm",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "exotic",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "structural",
     "name": "Structural",
     "shortName": "Str",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "common",
+    "parentId": null,
+    "sortOrder": null
   },
   {
     "id": "toxin",
     "name": "Toxin",
     "shortName": "Txn",
-    "category": "organic"
-  },
-  {
-    "id": "toxin-agent",
-    "name": "Toxin Agent",
-    "shortName": "TxA",
-    "category": "organic"
-  },
-  {
-    "id": "unique",
-    "name": "Unique",
-    "shortName": "Unq",
-    "category": "organic"
+    "category": "organic",
+    "rarity": "common",
+    "parentId": null,
+    "sortOrder": null
   }
 ]
