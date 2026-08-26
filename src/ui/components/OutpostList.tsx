@@ -23,7 +23,11 @@
  *   - controls related to browsing the outpost list are added.
  */
 
+import { useState } from 'react'
+
 import type { Outpost } from '../../domain/models'
+
+import './OutpostList.css'
 
 interface OutpostListProps {
   outposts: Outpost[]
@@ -44,8 +48,11 @@ export function OutpostList({
   onMoveOutpostDown,
   onAddOutpost,
 }: OutpostListProps) {
+  const [isReshuffling, setIsReshuffling] =
+    useState(false)
+
   return (
-    <section>
+    <section className="outpost-list">
       <h2>
         Outposts [
         {outposts.length}
@@ -53,51 +60,103 @@ export function OutpostList({
         ]
       </h2>
 
-      <button
-        type="button"
-        onClick={onAddOutpost}
-      >
-        + Add Outpost
-      </button>
+      <div className="outpost-list__actions">
+        <button
+          type="button"
+          onClick={onAddOutpost}
+        >
+          + Add Outpost
+        </button>
 
-      <ul>
+        <button
+          type="button"
+          onClick={() =>
+            setIsReshuffling(
+              (currentValue) =>
+                !currentValue,
+            )
+          }
+          aria-pressed={isReshuffling}
+        >
+          {isReshuffling
+            ? 'Lock order'
+            : 'Reshuffle'}
+        </button>
+      </div>
+
+      <ul className="outpost-list__items">
         {outposts.map((outpost, index) => (
-          <li key={outpost.id}>
+          <li
+            key={outpost.id}
+            className="outpost-list__item"
+          >
+            <span
+              className={`outpost-list__drag-handle${
+                isReshuffling
+                  ? ' outpost-list__drag-handle--enabled'
+                  : ''
+              }`}
+              aria-disabled={!isReshuffling}
+              aria-label={
+                isReshuffling
+                  ? `Drag handle for ${outpost.name}; drag-and-drop is not yet available`
+                  : 'Reshuffle mode disabled'
+              }
+              title={
+                isReshuffling
+                  ? 'Drag-and-drop reordering coming soon'
+                  : 'Reshuffle mode disabled'
+              }
+              tabIndex={0}
+            >
+              ⠿
+            </span>
+
             <button
               type="button"
+              className="outpost-list__selection"
               onClick={() =>
                 onSelectOutpost(outpost.id)
               }
               disabled={
                 outpost.id === selectedOutpostId
               }
+              title={outpost.name}
             >
               {outpost.name}
             </button>
 
-            <button
-              type="button"
-              onClick={() =>
-                onMoveOutpostUp(outpost.id)
-              }
-              disabled={index === 0}
-              title={`Move ${outpost.name} up`}
-            >
-              ↑
-            </button>
+            <span className="outpost-list__move-controls">
+              {isReshuffling && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      onMoveOutpostUp(outpost.id)
+                    }
+                    disabled={index === 0}
+                    title={`Move ${outpost.name} up`}
+                    aria-label={`Move ${outpost.name} up`}
+                  >
+                    ↑
+                  </button>
 
-            <button
-              type="button"
-              onClick={() =>
-                onMoveOutpostDown(outpost.id)
-              }
-              disabled={
-                index === outposts.length - 1
-              }
-              title={`Move ${outpost.name} down`}
-            >
-              ↓
-            </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      onMoveOutpostDown(outpost.id)
+                    }
+                    disabled={
+                      index === outposts.length - 1
+                    }
+                    title={`Move ${outpost.name} down`}
+                    aria-label={`Move ${outpost.name} down`}
+                  >
+                    ↓
+                  </button>
+                </>
+              )}
+            </span>
           </li>
         ))}
       </ul>
