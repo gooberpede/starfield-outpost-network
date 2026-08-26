@@ -10,12 +10,20 @@
  *   information at a glance without changing any cargo-link/domain data.
  *
  * Change this file when:
+ *   - cargo-pad collection actions need different alignment;
  *   - cargo-pad summary spacing or hierarchy changes;
  *   - outbound/inbound summary alignment changes;
  *   - the compact interstellar indicator changes;
  *   - expanded cargo-pad editors need different visual separation.
  *   - cargo-pad summary control states need clearer visual feedback;
  */
+
+.cargo-pads__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
 
 .cargo-pad {
   margin-top: 0.75rem;

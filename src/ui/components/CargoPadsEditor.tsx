@@ -134,6 +134,12 @@ export function CargoPadsEditor({
   const [expandedPadIds, setExpandedPadIds] =
     useState<Record<string, boolean>>({})
 
+  const areAllCargoPadsExpanded =
+    outpost.cargoPads.length > 0 &&
+    outpost.cargoPads.every(
+      (pad) => expandedPadIds[pad.id] ?? false,
+    )
+
   /**
    * Expands or collapses one cargo pad independently of the others.
    */
@@ -142,6 +148,26 @@ export function CargoPadsEditor({
       ...current,
       [padId]: !current[padId],
     }))
+  }
+
+  /**
+   * Expands or collapses every cargo pad on the selected outpost while
+   * preserving the presentation state of pads belonging to other outposts.
+   */
+  function toggleAllCargoPads() {
+    setExpandedPadIds((current) => {
+      const updated = { ...current }
+
+      for (const pad of outpost.cargoPads) {
+        if (areAllCargoPadsExpanded) {
+          delete updated[pad.id]
+        } else {
+          updated[pad.id] = true
+        }
+      }
+
+      return updated
+    })
   }
 
   /**
@@ -430,9 +456,22 @@ export function CargoPadsEditor({
         ]
       </h2>
 
-      <button type="button" onClick={addCargoPad}>
-        + Add Cargo Pad
-      </button>
+      <div className="cargo-pads__actions">
+        <button type="button" onClick={addCargoPad}>
+          + Add Cargo Pad
+        </button>
+
+        {outpost.cargoPads.length > 0 && (
+          <button
+            type="button"
+            onClick={toggleAllCargoPads}
+          >
+            {areAllCargoPadsExpanded
+              ? 'Collapse All Pads'
+              : 'Expand All Pads'}
+          </button>
+        )}
+      </div>
 
       {outpost.cargoPads.map((pad, index) => {
         const cargoLink = findCargoLink(pad.id)
