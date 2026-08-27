@@ -652,15 +652,16 @@ function App() {
   }
 
   /**
-   * Moves one cargo pad by a single position within its outpost.
+   * Moves one cargo pad directly to a final persisted array position.
    *
-   * A negative offset moves the pad upward; a positive offset moves it
-   * downward. Invalid IDs and attempts to move beyond either end are ignored.
+   * Drag-and-drop and the single-step arrow controls share this path so every
+   * completed reorder preserves pad identity and creates one history entry.
+   * Invalid IDs, positions outside the array, and no-op moves are ignored.
    */
-  function moveCargoPad(
+  function moveCargoPadToIndex(
     outpostId: string,
     cargoPadId: string,
-    offset: -1 | 1,
+    finalIndex: number,
   ) {
     const outpost =
       network.outposts.find(
@@ -682,12 +683,10 @@ function App() {
       return
     }
 
-    const targetIndex =
-      currentIndex + offset
-
     if (
-      targetIndex < 0 ||
-      targetIndex >= outpost.cargoPads.length
+      finalIndex < 0 ||
+      finalIndex >= outpost.cargoPads.length ||
+      finalIndex === currentIndex
     ) {
       return
     }
@@ -696,41 +695,51 @@ function App() {
       outpost.cargoPads[currentIndex]
 
     applyUndoableNetworkChange(
-      `Move ${outpost.name} / ${movedCargoPad.label} ${
-        offset < 0 ? 'up' : 'down'
-      }`,
-      (currentNetwork) => ({
-        ...currentNetwork,
+      `Move ${outpost.name} / ${movedCargoPad.label} to position ${finalIndex + 1}`,
+      (currentNetwork) => {
+        const liveOutpost = currentNetwork.outposts.find(
+          (candidate) => candidate.id === outpostId,
+        )
+        const liveCurrentIndex =
+          liveOutpost?.cargoPads.findIndex(
+            (cargoPad) => cargoPad.id === cargoPadId,
+          ) ?? -1
 
-        outposts:
-          currentNetwork.outposts.map(
+        if (
+          !liveOutpost ||
+          liveCurrentIndex === -1 ||
+          finalIndex < 0 ||
+          finalIndex >= liveOutpost.cargoPads.length ||
+          finalIndex === liveCurrentIndex
+        ) {
+          return currentNetwork
+        }
+
+        return {
+          ...currentNetwork,
+          outposts: currentNetwork.outposts.map(
             (candidateOutpost) => {
-              if (
-                candidateOutpost.id !== outpostId
-              ) {
+              if (candidateOutpost.id !== outpostId) {
                 return candidateOutpost
               }
 
               const reorderedCargoPads =
                 [...candidateOutpost.cargoPads]
-
-              const [cargoPad] =
-                reorderedCargoPads.splice(
-                  currentIndex,
-                  1,
-                )
+              const [cargoPad] = reorderedCargoPads.splice(
+                liveCurrentIndex,
+                1,
+              )
 
               reorderedCargoPads.splice(
-                targetIndex,
+                finalIndex,
                 0,
                 cargoPad,
               )
 
               /*
-              * Cargo-pad labels describe current position rather than stable identity.
-              * Reassign them after reordering while preserving each pad's UUID and all
-              * data associated with that UUID.
-              */
+               * Labels describe current position rather than identity. Reassign
+               * them while retaining each pad ID and its associated data.
+               */
               const renumberedCargoPads =
                 reorderedCargoPads.map(
                   (candidateCargoPad, index) => ({
@@ -745,7 +754,8 @@ function App() {
               }
             },
           ),
-      }),
+        }
+      },
     )
   }
 
@@ -756,11 +766,14 @@ function App() {
     outpostId: string,
     cargoPadId: string,
   ) {
-    moveCargoPad(
-      outpostId,
-      cargoPadId,
-      -1,
+    const outpost = network.outposts.find(
+      (candidate) => candidate.id === outpostId,
     )
+    const currentIndex = outpost?.cargoPads.findIndex(
+      (cargoPad) => cargoPad.id === cargoPadId,
+    ) ?? -1
+
+    moveCargoPadToIndex(outpostId, cargoPadId, currentIndex - 1)
   }
 
   /**
@@ -770,11 +783,14 @@ function App() {
     outpostId: string,
     cargoPadId: string,
   ) {
-    moveCargoPad(
-      outpostId,
-      cargoPadId,
-      1,
+    const outpost = network.outposts.find(
+      (candidate) => candidate.id === outpostId,
     )
+    const currentIndex = outpost?.cargoPads.findIndex(
+      (cargoPad) => cargoPad.id === cargoPadId,
+    ) ?? -1
+
+    moveCargoPadToIndex(outpostId, cargoPadId, currentIndex + 1)
   }  
 
   /**
@@ -1881,6 +1897,13 @@ function App() {
             actuallyAvailableItems={actuallyAvailableItems}
             onAddCargoPad={() =>
               addCargoPad(selectedOutpost.id)
+            }
+            onMoveCargoPad={(cargoPadId, finalIndex) =>
+              moveCargoPadToIndex(
+                selectedOutpost.id,
+                cargoPadId,
+                finalIndex,
+              )
             }
             onMoveCargoPadUp={(cargoPadId) =>
               moveCargoPadUp(

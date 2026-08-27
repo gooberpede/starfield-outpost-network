@@ -830,7 +830,10 @@ In particular:
   column, while Cargo Pads remain in the right column;
 - the matrix uses scoped horizontal overflow and a sticky Item column without
   owning an artificial vertical scrolling region;
-- independently scrolling regions have been discussed but not yet adopted;
+- the Cargo Pads toolbar remains outside a viewport-bounded, independently
+  scrolling card list;
+- broader independent scrolling for Navigation and Outpost Details remains
+  unresolved;
 - selected-outpost information in the sticky page header has been considered but deferred.
 
 Do not redesign workspace scrolling as incidental work.
@@ -1003,9 +1006,8 @@ Cargo-pad reordering preserves:
 
 Visible positional labels are currently renumbered after order changes.
 
-Reordering is one Undoable action per movement.
-
-Future drag-and-drop should reuse the same ordering semantics rather than create a second ordering model.
+Arrow and drag-and-drop reordering share the same final-index operation.
+Each completed reorder is one Undoable action.
 
 ---
 

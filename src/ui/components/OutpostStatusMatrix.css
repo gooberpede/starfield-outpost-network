@@ -11,14 +11,14 @@
 
 .outpost-status-matrix__table {
   --outpost-matrix-columns:
-    minmax(12rem, 1.35fr)
-    minmax(8rem, 0.9fr)
-    5.5rem
-    6.5rem
-    minmax(14rem, 1.35fr)
-    minmax(10rem, 1fr);
+    minmax(9rem, 1.35fr)
+    minmax(6rem, 0.9fr)
+    minmax(4.5rem, 0.55fr)
+    minmax(5rem, 0.65fr)
+    minmax(10rem, 1.35fr)
+    minmax(7rem, 1fr);
 
-  min-width: 68rem;
+  min-width: 49rem;
   width: 100%;
 }
 

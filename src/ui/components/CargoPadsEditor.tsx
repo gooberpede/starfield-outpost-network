@@ -45,7 +45,11 @@
  *     of a cargo link.
  */
 
-import { useState } from 'react'
+import {
+  useEffect,
+  useState,
+} from 'react'
+import type { DragEvent } from 'react'
 
 import type {
   CargoItem,
@@ -72,6 +76,10 @@ interface CargoPadsEditorProps {
     remoteCargoPadId: string,
   ) => void
   onAddCargoPad: () => void
+  onMoveCargoPad: (
+    cargoPadId: string,
+    finalIndex: number,
+  ) => void
   onMoveCargoPadUp: (
     cargoPadId: string,
   ) => void
@@ -92,6 +100,11 @@ interface CargoPadsEditorProps {
   actuallyAvailableItems: CargoItem[]
 }
 
+interface ActiveDrag {
+  cargoPadId: string
+  insertionIndex: number | null
+}
+
 export function CargoPadsEditor({
   outpost,
   maxCargoPads,
@@ -104,6 +117,7 @@ export function CargoPadsEditor({
   onUnlinkCargoPad,
   onSetCargoLink,
   onAddCargoPad,
+  onMoveCargoPad,
   onMoveCargoPadUp,
   onMoveCargoPadDown,
   onDeleteCargoPad,
@@ -127,6 +141,33 @@ export function CargoPadsEditor({
   */
   const [expandedPadIds, setExpandedPadIds] =
     useState<Record<string, boolean>>({})
+  const [isReshuffling, setIsReshuffling] = useState(false)
+  const [activeDrag, setActiveDrag] = useState<ActiveDrag | null>(null)
+
+  const isDragActive = activeDrag !== null
+
+  function clearDrag() {
+    setActiveDrag(null)
+  }
+
+  useEffect(() => {
+    if (!isDragActive) {
+      return
+    }
+
+    function cancelWithEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        clearDrag()
+      }
+    }
+
+    document.addEventListener('keydown', cancelWithEscape)
+
+    return () => {
+      document.removeEventListener('keydown', cancelWithEscape)
+    }
+  }, [isDragActive])
 
   const areAllCargoPadsExpanded =
     outpost.cargoPads.length > 0 &&
@@ -162,6 +203,93 @@ export function CargoPadsEditor({
 
       return updated
     })
+  }
+
+  function startDrag(
+    event: DragEvent<HTMLSpanElement>,
+    cargoPadId: string,
+  ) {
+    if (!isReshuffling) {
+      event.preventDefault()
+      return
+    }
+
+    event.dataTransfer.effectAllowed = 'move'
+    event.dataTransfer.setData('text/plain', cargoPadId)
+    setActiveDrag({ cargoPadId, insertionIndex: null })
+  }
+
+  /** Maps the pointer to gaps between stationary, whole cargo-pad cards. */
+  function updateInsertionPosition(event: DragEvent<HTMLDivElement>) {
+    if (!activeDrag) {
+      return
+    }
+
+    event.preventDefault()
+    event.dataTransfer.dropEffect = 'move'
+
+    const items = Array.from(
+      event.currentTarget.querySelectorAll<HTMLElement>(
+        '.cargo-pads__item',
+      ),
+    )
+    const insertionIndex = items.findIndex((item) => {
+      const bounds = item.getBoundingClientRect()
+      return event.clientY < bounds.top + bounds.height / 2
+    })
+    const candidateInsertionIndex =
+      insertionIndex === -1 ? items.length : insertionIndex
+    const sourceIndex = outpost.cargoPads.findIndex(
+      (pad) => pad.id === activeDrag.cargoPadId,
+    )
+    const candidateFinalIndex =
+      candidateInsertionIndex > sourceIndex
+        ? candidateInsertionIndex - 1
+        : candidateInsertionIndex
+    const nextInsertionIndex =
+      candidateFinalIndex === sourceIndex
+        ? null
+        : candidateInsertionIndex
+
+    if (nextInsertionIndex !== activeDrag.insertionIndex) {
+      setActiveDrag({
+        ...activeDrag,
+        insertionIndex: nextInsertionIndex,
+      })
+    }
+  }
+
+  function leaveList(event: DragEvent<HTMLDivElement>) {
+    const bounds = event.currentTarget.getBoundingClientRect()
+    const isOutside =
+      event.clientX < bounds.left ||
+      event.clientX > bounds.right ||
+      event.clientY < bounds.top ||
+      event.clientY > bounds.bottom
+
+    if (isOutside && activeDrag) {
+      setActiveDrag({ ...activeDrag, insertionIndex: null })
+    }
+  }
+
+  function dropCargoPad(event: DragEvent<HTMLDivElement>) {
+    event.preventDefault()
+
+    if (!activeDrag || activeDrag.insertionIndex === null) {
+      clearDrag()
+      return
+    }
+
+    const sourceIndex = outpost.cargoPads.findIndex(
+      (pad) => pad.id === activeDrag.cargoPadId,
+    )
+    const finalIndex =
+      activeDrag.insertionIndex > sourceIndex
+        ? activeDrag.insertionIndex - 1
+        : activeDrag.insertionIndex
+
+    onMoveCargoPad(activeDrag.cargoPadId, finalIndex)
+    clearDrag()
   }
 
   /**
@@ -456,7 +584,7 @@ export function CargoPadsEditor({
   }
 
   return (
-    <section>
+    <section className="cargo-pads">
       <h2>
         Cargo Pads [
         {outpost.cargoPads.length}
@@ -469,19 +597,40 @@ export function CargoPadsEditor({
           + Add Cargo Pad
         </button>
 
-        {outpost.cargoPads.length > 0 && (
+        <div className="cargo-pads__action-group">
           <button
             type="button"
             onClick={toggleAllCargoPads}
+            disabled={outpost.cargoPads.length === 0}
           >
             {areAllCargoPadsExpanded
-              ? 'Collapse All Pads'
-              : 'Expand All Pads'}
+              ? 'Collapse all'
+              : 'Expand all'}
           </button>
-        )}
+
+          <button
+            type="button"
+            onClick={() => {
+              clearDrag()
+              setIsReshuffling((current) => !current)
+            }}
+            aria-pressed={isReshuffling}
+          >
+            {isReshuffling ? 'Lock order' : 'Reshuffle'}
+          </button>
+        </div>
       </div>
 
-      {outpost.cargoPads.map((pad, index) => {
+      <div
+        className={`cargo-pads__list${
+          isReshuffling ? ' cargo-pads__list--reshuffling' : ''
+        }`}
+        role="list"
+        onDragOver={updateInsertionPosition}
+        onDragLeave={leaveList}
+        onDrop={dropCargoPad}
+      >
+        {outpost.cargoPads.map((pad, index) => {
         const cargoLink = findCargoLink(pad.id)
 
         const remoteEndpoint = cargoLink
@@ -540,92 +689,67 @@ export function CargoPadsEditor({
             : []
 
         return (
-          <section
+          <div
             key={pad.id}
-            className="cargo-pad"
+            className={`cargo-pads__item${
+              activeDrag?.cargoPadId === pad.id
+                ? ' cargo-pads__item--dragging'
+                : ''
+            }${
+              activeDrag?.insertionIndex === index
+                ? ' cargo-pads__item--marker-before'
+                : ''
+            }`}
+            role="listitem"
           >
-            <div className="cargo-pad__summary">
-              <div className="cargo-pad__summary-top">
-                <div>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      toggleCargoPadCollapsed(pad.id)
-                    }
-                    aria-expanded={!isCollapsed}
-                  >
-                    {isCollapsed ? '▸' : '▾'}{' '}
-                    {pad.label}
-                  </button>
+            {isReshuffling && (
+              <span
+                className="cargo-pads__drag-handle"
+                draggable
+                onDragStart={(event) => startDrag(event, pad.id)}
+                onDragEnd={clearDrag}
+                aria-label={`Drag ${pad.label} to reorder`}
+                title={`Drag ${pad.label} to reorder`}
+                tabIndex={0}
+              >
+                ⠿
+              </span>
+            )}
 
-                  {' '}
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      onMoveCargoPadUp(pad.id)
-                    }
-                    disabled={index === 0}
-                    title={`Move ${pad.label} up`}
-                    aria-label={`Move ${pad.label} up`}
-                  >
-                    ↑
-                  </button>
-
-                  {' '}
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      onMoveCargoPadDown(pad.id)
-                    }
-                    disabled={
-                      index === outpost.cargoPads.length - 1
-                    }
-                    title={`Move ${pad.label} down`}
-                    aria-label={`Move ${pad.label} down`}
-                  >
-                    ↓
-                  </button>
-
-                  {pad.type === 'interstellar' && (
-                    <span
-                      className="cargo-pad__interstellar"
-                      title="Interstellar cargo link"
+            <section className="cargo-pad">
+              <div className="cargo-pad__summary">
+                <div className="cargo-pad__summary-top">
+                  <div>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        toggleCargoPadCollapsed(pad.id)
+                      }
+                      aria-expanded={!isCollapsed}
                     >
-                      {' '}[INT]
-                    </span>
-                  )}
+                      {isCollapsed ? '▸' : '▾'}{' '}
+                      {pad.label}
+                    </button>
+
+                    {pad.type === 'interstellar' && (
+                      <span
+                        className="cargo-pad__interstellar"
+                        title="Interstellar cargo link"
+                      >
+                        {' '}[INT]
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="cargo-pad__destination">
+                    {remoteOutpost?.name ?? 'Unlinked'}
+                  </div>
                 </div>
 
-                <div className="cargo-pad__destination">
-                  {remoteOutpost?.name ?? 'Unlinked'}
-                </div>
-              </div>
-
-              <div className="cargo-pad__summary-cargo">
-                <div className="cargo-pad__outbound-summary">
-                  {outboundSummaryItems.length > 0 ? (
-                    outboundSummaryItems.map(
-                      (item, index) => (
-                        <span
-                          key={`${item.name}-${index}`}
-                          title={item.name}
-                        >
-                          {index > 0 && ' '}
-                          {item.shortName}
-                        </span>
-                      ),
-                    )
-                  ) : (
-                    <span>—</span>
-                  )}
-                </div>
-
-                <div className="cargo-pad__inbound-summary">
-                  {remotePad ? (
-                    inboundSummaryItems.length > 0 ? (
-                      inboundSummaryItems.map(
+                <div className="cargo-pad__summary-cargo">
+                  <div className="cargo-pad__outbound-summary">
+                    {outboundSummaryItems.length > 0 ? (
+                      outboundSummaryItems.map(
                         (item, index) => (
                           <span
                             key={`${item.name}-${index}`}
@@ -638,63 +762,114 @@ export function CargoPadsEditor({
                       )
                     ) : (
                       <span>—</span>
-                    )
-                  ) : null}
+                    )}
+                  </div>
+
+                  <div className="cargo-pad__inbound-summary">
+                    {remotePad ? (
+                      inboundSummaryItems.length > 0 ? (
+                        inboundSummaryItems.map(
+                          (item, index) => (
+                            <span
+                              key={`${item.name}-${index}`}
+                              title={item.name}
+                            >
+                              {index > 0 && ' '}
+                              {item.shortName}
+                            </span>
+                          ),
+                        )
+                      ) : (
+                        <span>—</span>
+                      )
+                    ) : null}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {!isCollapsed && (
-              <CargoPadEditor
-                pad={pad}
-                outposts={allOutposts}
-                currentOutpostId={outpost.id}
-                resources={resources}
-                products={products}
-                availableItems={availableItems}
-                actuallyAvailableItems={actuallyAvailableItems}
-                onRemove={() => removeCargoPad(pad.id)}
-                onToggleExport={(item) =>
-                  onToggleExport(
-                    pad.id,
-                    item,
-                  )
-                }
-                onToggleType={() =>
-                  onToggleCargoPadType(
-                    pad.id,
-                  )
-                }
-                linkedOutpostId={linkedOutpostId}
-                linkedCargoPadId={linkedCargoPadId}
-                onLinkedOutpostChange={(outpostId) =>
-                  changeLinkedOutpost(
-                    pad.id,
-                    outpostId,
-                  )
-                }
-                onLinkedCargoPadChange={(cargoPadId) =>
-                  changeLinkedCargoPad(
-                    pad.id,
-                    linkedOutpostId,
-                    cargoPadId,
-                  )
-                }
-                getDestinationPadLabel={(
-                  destinationOutpostId,
-                  destinationPadId,
-                ) =>
-                  getDestinationPadLabel(
-                    pad.id,
-                    destinationOutpostId,
-                    destinationPadId,
-                  )
-                }
-              />
+              {!isCollapsed && (
+                <div className="cargo-pad__body">
+                  <CargoPadEditor
+                    pad={pad}
+                    outposts={allOutposts}
+                    currentOutpostId={outpost.id}
+                    resources={resources}
+                    products={products}
+                    availableItems={availableItems}
+                    actuallyAvailableItems={actuallyAvailableItems}
+                    onRemove={() => removeCargoPad(pad.id)}
+                    onToggleExport={(item) =>
+                      onToggleExport(
+                        pad.id,
+                        item,
+                      )
+                    }
+                    onToggleType={() =>
+                      onToggleCargoPadType(
+                        pad.id,
+                      )
+                    }
+                    linkedOutpostId={linkedOutpostId}
+                    linkedCargoPadId={linkedCargoPadId}
+                    onLinkedOutpostChange={(outpostId) =>
+                      changeLinkedOutpost(
+                        pad.id,
+                        outpostId,
+                      )
+                    }
+                    onLinkedCargoPadChange={(cargoPadId) =>
+                      changeLinkedCargoPad(
+                        pad.id,
+                        linkedOutpostId,
+                        cargoPadId,
+                      )
+                    }
+                    getDestinationPadLabel={(
+                      destinationOutpostId,
+                      destinationPadId,
+                    ) =>
+                      getDestinationPadLabel(
+                        pad.id,
+                        destinationOutpostId,
+                        destinationPadId,
+                      )
+                    }
+                  />
+                </div>
+              )}
+            </section>
+
+            {isReshuffling && (
+              <span className="cargo-pads__move-controls">
+                <button
+                  type="button"
+                  onClick={() => onMoveCargoPadUp(pad.id)}
+                  disabled={index === 0}
+                  title={`Move ${pad.label} up`}
+                  aria-label={`Move ${pad.label} up`}
+                >
+                  ↑
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => onMoveCargoPadDown(pad.id)}
+                  disabled={index === outpost.cargoPads.length - 1}
+                  title={`Move ${pad.label} down`}
+                  aria-label={`Move ${pad.label} down`}
+                >
+                  ↓
+                </button>
+              </span>
             )}
-          </section>
-        )
-      })}
+          </div>
+          )
+        })}
+
+        {activeDrag?.insertionIndex === outpost.cargoPads.length && (
+          <div className="cargo-pads__end-marker" aria-hidden="true" />
+        )}
+      </div>
     </section>
   )
 }

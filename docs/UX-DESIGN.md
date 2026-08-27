@@ -570,7 +570,11 @@ The detailed summary format may evolve, but preserve the general pattern:
 - reorder changes order rather than identity;
 - cargo/link semantics remain domain concerns rather than presentation state.
 
-Future Cargo Pad Reshuffle behavior should mirror established navigation reorder conventions where practical.
+Cargo Pads use the established Navigation reshuffle grammar: presentation-only
+`Reshuffle` / `Lock order` state, handle-only drag, stationary cards with gap
+markers, and alternate move-up/down controls. Reorder gutters appear only while
+unlocked, and the card list scrolls independently beneath its persistent
+toolbar.
 
 ---
 

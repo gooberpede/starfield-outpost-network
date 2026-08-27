@@ -29,12 +29,10 @@ Keep this file focused on work that is genuinely deferred. Current implemented b
 - Review the workspace scrolling model as a whole before making major structural changes.
 - Consider independent scrolling for:
   - Outpost navigation;
-  - Outpost Details;
-  - Cargo Pads.
+  - Outpost Details.
 - Revisit selected-outpost context in sticky/header UI only as part of a broader workspace review.
 - Preserve the middle-column status matrix's scoped horizontal overflow during any broader workspace scrolling review.
 - Restore sticky vertical behaviour for the status-matrix column header when the enclosing Outpost Details scrolling model supports it.
-- Let the status matrix compress/crowd its shared columns further as the middle workspace narrows before falling back to horizontal scrolling.
 - Preserve identical status-matrix column positions across outposts at any given workspace width.
 
 ---
@@ -57,34 +55,8 @@ focused batches and may include:
 
 ## Cargo Pads
 
-- Revisit independent vertical scrolling for the Cargo Pads column as part of the broader workspace scrolling pass.
-
-### Cargo Pad Reshuffle mode
-
-Apply the successful navigation-panel ordering pattern to Cargo Pads:
-
-- `Reshuffle` / `Lock order` toggle;
-- move-up / move-down controls visible only in Reshuffle mode;
-- dedicated drag handles;
-- drag-and-drop enabled only in Reshuffle mode;
-- Undo/Redo available in either mode;
-- reshuffle state presentation-only.
-- preserve stable Cargo Pad IDs while display labels renumber from array order;
-- preserve CargoLinks and outbound cargo through reorder.
-- consider independent Cargo Pads scrolling in the same UX pass so drag auto-scroll behaviour can be designed against the final scroll container.
-
-### Cargo Pad drag-and-drop
-
-Reuse the navigation drag-and-drop interaction model where appropriate:
-
-- handle-only drag initiation;
-- no live row reshuffling;
-- stationary source row;
-- insertion-marker feedback;
-- clear invalid/outside-list cancellation;
-- `Escape` cancellation;
-- no-op target suppression;
-- one completed reorder = one Undoable action.
+- Revisit drag auto-scroll at the top and bottom of the independent Cargo Pads
+  list if the current native scrolling behavior proves insufficient.
 
 ### Cargo Pad labels
 
