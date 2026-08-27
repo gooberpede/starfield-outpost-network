@@ -4,7 +4,6 @@ import {
   useState,
 } from 'react'
 import type {
-  ProductId,
   ReferenceData,
 } from './domain/referenceData'
 import { loadReferenceData } from './data/referenceDataLoader'
@@ -22,8 +21,7 @@ import {
   getActuallyAvailableItemsAtOutpost,
   getAvailableItemsAtOutpost,
 } from './domain/availability'
-import { ResourceEditor } from './ui/components/ResourceEditor'
-import { ManufacturingEditor } from './ui/components/ManufacturingEditor'
+import { OutpostStatusMatrix } from './ui/components/OutpostStatusMatrix'
 import { PlannedSupplyEditor } from './ui/components/PlannedSupplyEditor'
 import { CargoPadsEditor } from './ui/components/CargoPadsEditor'
 import { NetworkExportButton } from './ui/components/NetworkExportButton'
@@ -57,6 +55,7 @@ import type {
 
 import type {
   CargoItem,
+  ManufacturingEntry,
   OutpostNetwork,
 } from './domain/models'
 
@@ -1593,152 +1592,38 @@ useEffect(() => {
     )
   }
 
-  /**
-   * Adds one manufactured product to the selected outpost and records the
-   * addition as one Undo step.
-   */
-  function addManufacturingProduct(
-    productId: ProductId,
+  /** Commits a complete manufacturing draft as at most one Undo step. */
+  function commitManufacturing(
+    entries: ManufacturingEntry[],
   ) {
-    const product =
-      products.find(
-        (candidate) =>
-          candidate.id === productId,
+    const currentEntries = selectedOutpost.manufacturing
+    const isUnchanged =
+      currentEntries.length === entries.length &&
+      currentEntries.every((entry) =>
+        entries.some(
+          (candidate) =>
+            candidate.productId === entry.productId &&
+            candidate.quantity === entry.quantity,
+        ),
       )
 
-    applyUndoableNetworkChange(
-      product
-        ? `Add manufacturing ${product.name}`
-        : `Add manufacturing ${productId}`,
-      (currentNetwork) =>
-        retireFulfilledPlannedSupply({
-          ...currentNetwork,
-
-          outposts:
-            currentNetwork.outposts.map(
-              (outpost) =>
-                outpost.id === selectedOutpostId
-                  ? {
-                      ...outpost,
-
-                      manufacturing: [
-                        ...outpost.manufacturing,
-                        {
-                          productId,
-                          quantity: 1,
-                        },
-                      ],
-                    }
-                  : outpost,
-            ),
-        }),
-    )
-  }
-
-  /**
-   * Removes one manufactured product from the selected outpost and records the
-   * removal as one Undo step.
-   */
-  function removeManufacturingProduct(
-    productId: ProductId,
-  ) {
-    const product =
-      products.find(
-        (candidate) =>
-          candidate.id === productId,
-      )
-
-    applyUndoableNetworkChange(
-      product
-        ? `Remove manufacturing ${product.name}`
-        : `Remove manufacturing ${productId}`,
-      (currentNetwork) =>
-        retireFulfilledPlannedSupply({
-          ...currentNetwork,
-
-          outposts:
-            currentNetwork.outposts.map(
-              (outpost) =>
-                outpost.id === selectedOutpostId
-                  ? {
-                      ...outpost,
-
-                      manufacturing:
-                        outpost.manufacturing.filter(
-                          (entry) =>
-                            entry.productId !== productId,
-                        ),
-                    }
-                  : outpost,
-            ),
-        }),
-    )
-  }
-
-  /**
-   * Commits one completed fabricator-quantity edit as a single Undo step.
-   *
-   * ManufacturingEditor keeps intermediate numeric input in local UI state and
-   * calls this function only when the user leaves the field with a valid final
-   * quantity.
-   */
-  function commitManufacturingQuantity(
-    productId: ProductId,
-    quantity: number,
-  ) {
-    const entry =
-      selectedOutpost.manufacturing.find(
-        (candidate) =>
-          candidate.productId === productId,
-      )
-
-    if (!entry) {
+    if (isUnchanged) {
       return
     }
 
-    if (entry.quantity === quantity) {
-      return
-    }
-
-    const product =
-      products.find(
-        (candidate) =>
-          candidate.id === productId,
-      )
-
-    const productName =
-      product?.name ?? productId
-
-    const previousQuantity =
-      entry.quantity
-
     applyUndoableNetworkChange(
-      `Change ${productName} fabricators from ${previousQuantity} to ${quantity}`,
+      `Edit manufacturing at ${selectedOutpost.name}`,
       (currentNetwork) =>
         retireFulfilledPlannedSupply({
           ...currentNetwork,
-
-          outposts:
-            currentNetwork.outposts.map(
-              (outpost) =>
-                outpost.id === selectedOutpostId
-                  ? {
-                      ...outpost,
-
-                      manufacturing:
-                        outpost.manufacturing.map(
-                          (manufacturingEntry) =>
-                            manufacturingEntry.productId ===
-                            productId
-                              ? {
-                                  ...manufacturingEntry,
-                                  quantity,
-                                }
-                              : manufacturingEntry,
-                        ),
-                    }
-                  : outpost,
-            ),
+          outposts: currentNetwork.outposts.map((outpost) =>
+            outpost.id === selectedOutpostId
+              ? {
+                  ...outpost,
+                  manufacturing: entries.map((entry) => ({ ...entry })),
+                }
+              : outpost,
+          ),
         }),
     )
   }
@@ -1978,20 +1863,18 @@ useEffect(() => {
               </p>
             )}
 
-            <ResourceEditor
-              resources={availableLocalResources}
-              selectedResourceIds={selectedOutpost.localResources}
-              activeProductionIds={selectedOutpost.activeProduction}
+            <OutpostStatusMatrix
+              key={selectedOutpost.id}
+              outpost={selectedOutpost}
+              network={network}
+              resources={resources}
+              bodyResources={availableLocalResources}
+              products={products}
+              productRecipes={referenceData?.productRecipes ?? []}
+              actuallyAvailableItems={actuallyAvailableItems}
               onToggleResource={toggleLocalResource}
               onToggleActiveProduction={toggleActiveProduction}
-            />
-
-            <ManufacturingEditor
-              products={products}
-              entries={selectedOutpost.manufacturing ?? []}
-              onAddProduct={addManufacturingProduct}
-              onRemoveProduct={removeManufacturingProduct}
-              onQuantityCommit={commitManufacturingQuantity}
+              onCommitManufacturing={commitManufacturing}
             />
 
             <PlannedSupplyEditor

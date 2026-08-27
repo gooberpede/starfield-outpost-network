@@ -1,0 +1,189 @@
+/** Stable, shared geometry and state grammar for the Outpost Details matrix. */
+
+.outpost-status-matrix {
+  min-width: 0;
+}
+
+.outpost-status-matrix__scroll {
+  overflow-x: auto;
+  border-block: 1px solid var(--border);
+}
+
+.outpost-status-matrix__table {
+  --outpost-matrix-columns:
+    minmax(12rem, 1.35fr)
+    minmax(8rem, 0.9fr)
+    5.5rem
+    6.5rem
+    minmax(14rem, 1.35fr)
+    minmax(10rem, 1fr);
+
+  min-width: 68rem;
+  width: 100%;
+}
+
+.outpost-status-matrix__header,
+.outpost-status-matrix__row {
+  display: grid;
+  grid-template-columns: var(--outpost-matrix-columns);
+}
+
+.outpost-status-matrix__header {
+  position: sticky;
+  z-index: 3;
+  top: 0;
+  color: var(--text-h);
+  background: var(--code-bg);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.outpost-status-matrix__header > div,
+.outpost-status-matrix__row > div {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 0.35rem 0.5rem;
+}
+
+.outpost-status-matrix__header > div:first-child,
+.outpost-status-matrix__item {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: var(--bg);
+}
+
+.outpost-status-matrix__header > div:first-child {
+  z-index: 4;
+  background: var(--code-bg);
+}
+
+.outpost-status-matrix__section + .outpost-status-matrix__section {
+  margin-top: 0.7rem;
+}
+
+.outpost-status-matrix__section-heading,
+.outpost-status-matrix__section-bar {
+  margin: 0;
+  padding: 0.35rem 0.5rem;
+  color: var(--text-h);
+  font-size: 0.95rem;
+  font-weight: 650;
+}
+
+.outpost-status-matrix__section-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.outpost-status-matrix__section-bar h3 {
+  margin: 0;
+  font: inherit;
+}
+
+.outpost-status-matrix__actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.outpost-status-matrix__actions button,
+.outpost-status-matrix__manufacturing-item button {
+  padding: 0.1rem 0.35rem;
+  font-size: 0.78rem;
+  line-height: 1.2;
+}
+
+.outpost-status-matrix__row {
+  min-height: 2.55rem;
+  align-items: center;
+  border-top: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+}
+
+.outpost-status-matrix__item {
+  overflow: hidden;
+  color: var(--text-h);
+  font-size: 0.88rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.outpost-status-matrix__manufacturing-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.outpost-status-matrix__manufacturing-item span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.outpost-status-matrix__state,
+.outpost-status-matrix__state--editable {
+  display: inline-flex;
+  box-sizing: border-box;
+  width: 3.15rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0.15rem 0.25rem;
+  border: 1px solid var(--border);
+  border-radius: 0.3rem;
+  color: var(--text-h);
+  background: var(--bg);
+  font: 600 0.76rem/1 var(--mono);
+  white-space: nowrap;
+}
+
+.outpost-status-matrix__state[data-state='lit'],
+.outpost-status-matrix__state--editable[aria-pressed='true'] {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.outpost-status-matrix__state[data-state='dimmed'] {
+  color: var(--text);
+  background: var(--code-bg);
+  opacity: 0.48;
+}
+
+.outpost-status-matrix__state--editable:not(:disabled) {
+  cursor: pointer;
+}
+
+.outpost-status-matrix__state--editable:disabled {
+  opacity: 0.28;
+  cursor: not-allowed;
+}
+
+.outpost-status-matrix__state:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.outpost-status-matrix__state-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.outpost-status-matrix__empty {
+  padding: 0.25rem 0.5rem 0.5rem;
+  font-size: 0.85rem;
+}
+
+.outpost-status-matrix__product-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.5rem 0.4rem;
+  font-size: 0.82rem;
+}
+
+.outpost-status-matrix__product-selector select {
+  max-width: 22rem;
+}

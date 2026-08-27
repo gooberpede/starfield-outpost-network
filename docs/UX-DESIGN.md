@@ -304,6 +304,33 @@ Alignment within a component matters more than forcing unrelated sections onto t
 
 ---
 
+## Outpost status matrix
+
+The middle Outpost Details column uses one shared status matrix for body
+resources, local manufacturing, and imports. Planned Supply follows beneath
+the matrix, while Cargo Pads remain in the right workspace column:
+
+```text
+Item | Source | Present | Producing | Inputs | Logistics
+```
+
+All sections share a content-independent responsive column template. Narrow
+middle columns scroll the matrix horizontally instead of reordering or stacking
+semantic columns, and Item remains sticky during horizontal scrolling. The
+matrix grows in normal vertical flow rather than owning an artificial vertical
+scrollbar; vertical scrolling belongs to the enclosing workspace/page context.
+
+Use full names in Item and compact reference-data abbreviations in state cells.
+Derived active/available state is lit; derived inactive/unavailable state is
+dimmed but remains inspectable. Editable resource presence and production use
+the same compact geometry while retaining button semantics.
+
+Manufacturing configuration uses a local edit draft. Save commits the complete
+set as one history action; Cancel and switching outposts discard the draft.
+Fabricator quantity remains persisted but is not part of the current matrix UI.
+
+---
+
 ## Equal-size controls within a grid
 
 Where a grid is intended to behave as a spatial map, all item controls within that grid should use equal dimensions.
@@ -788,7 +815,6 @@ Deferred items remain in `docs/BACKLOG.md`.
 
 Examples currently include:
 
-- broader Outpost Details overhaul;
 - Planned Supply defaulting to compact mode;
 - middle workspace independent scrolling;
 - sticky selected-outpost header;

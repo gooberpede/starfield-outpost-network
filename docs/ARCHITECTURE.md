@@ -822,11 +822,14 @@ The main application workspace currently separates:
 
 `WorkspaceLayout` owns the major positioning.
 
-The exact long-term scrolling behaviour of these regions is intentionally unresolved.
+The exact long-term scrolling behaviour of the major workspace regions is intentionally unresolved.
 
 In particular:
 
-- Outpost Details may eventually require a stronger persistent/visible treatment;
+- the status matrix lives above Planned Supply in the middle Outpost Details
+  column, while Cargo Pads remain in the right column;
+- the matrix uses scoped horizontal overflow and a sticky Item column without
+  owning an artificial vertical scrolling region;
 - independently scrolling regions have been discussed but not yet adopted;
 - selected-outpost information in the sticky page header has been considered but deferred.
 
@@ -1188,9 +1191,14 @@ Future decomposition may be useful, but should be planned around coherent respon
 
 ## Outpost Details
 
-The Outpost Details area contains several related editing concerns and is expected to influence broader UI patterns.
+The Outpost Details area combines spanning identity/location fields with a
+shared status matrix above Planned Supply in the middle workspace column. Cargo
+Pads remain in the right column. The matrix derives resource occurrence, actual
+availability, exports, and imports without adding presentation state to
+`OutpostNetwork`.
 
-Major redesign is currently deferred.
+Manufacturing add/remove work is staged in component-local draft state and
+committed through `App.tsx` as one whole-network history action.
 
 ## Selection controls
 

@@ -29,22 +29,22 @@ Keep this file focused on work that is genuinely deferred. Current implemented b
 - Review the middle workspace as a whole before making major structural changes.
 - Consider independent scrolling for navigation and Outpost Details.
 - Revisit selected-outpost context in sticky/header UI only as part of a broader workspace review.
-- Avoid piecemeal layout changes that pre-empt the Outpost Details redesign.
+- Preserve the middle-column status matrix's scoped horizontal overflow during
+  any broader workspace scrolling review.
 
 ---
 
-## Outpost Details
+## Outpost Details follow-up
 
-The Outpost Details section is intentionally deferred until its control grammar is clearer.
+The shared resource/manufacturing/import status matrix now establishes the
+upper Outpost Details control grammar. Remaining work should be handled in
+focused batches and may include:
 
-Future work may include:
-
-- general compactness and visual cleanup;
-- more efficient use of horizontal space;
-- consistent control patterns across resource, production, manufacturing, Planned Supply, and cargo-related sections;
-- reducing raw checkbox-heavy presentation where denser controls are more appropriate.
-
-Do not undertake a broad Outpost Details redesign opportunistically while implementing unrelated features.
+- organic flora/fauna source names when authoritative reference data exists;
+- organic farming prerequisite derivation and validation;
+- throughput-oriented fabricator quantity UI if quantitative modelling is adopted;
+- coordinated simplification of Cargo Pad export selection;
+- Planned Supply default-state changes described below.
 
 ---
 
