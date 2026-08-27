@@ -19,8 +19,8 @@ import { useMemo, useState } from 'react'
 
 import {
   getCargoItemKey,
-  getExportedItemKeysAtOutpost,
   getImportSummariesAtOutpost,
+  getRoutedExportedItemKeysAtOutpost,
 } from '../../domain/logistics'
 import type {
   CargoItem,
@@ -136,7 +136,10 @@ export function OutpostStatusMatrix({
     () => new Set(actuallyAvailableItems.map(getCargoItemKey)),
     [actuallyAvailableItems],
   )
-  const exportedItemKeys = getExportedItemKeysAtOutpost(outpost.id, network)
+  const exportedItemKeys = getRoutedExportedItemKeysAtOutpost(
+    outpost.id,
+    network,
+  )
   const importSummaries = getImportSummariesAtOutpost(outpost.id, network)
 
   const resolveItem = (item: CargoItem): ItemDisplay => {

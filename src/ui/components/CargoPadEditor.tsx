@@ -31,10 +31,6 @@ import type {
   Resource,
 } from '../../domain/models'
 
-import type {
-  ItemProvenance,
-} from '../../domain/provenance'
-
 import { CargoExportsEditor } from './CargoExportsEditor'
 import './CargoPadEditor.css'
 
@@ -48,9 +44,7 @@ interface CargoPadEditorProps {
   resources: Resource[]
   products: Product[]
   availableItems: CargoItem[]
-  getItemProvenance: (
-    item: CargoItem,
-  ) => ItemProvenance
+  actuallyAvailableItems: CargoItem[]
   linkedOutpostId: string
   linkedCargoPadId: string
   onLinkedOutpostChange: (outpostId: string) => void
@@ -69,7 +63,7 @@ export function CargoPadEditor({
   resources,
   products,
   availableItems,
-  getItemProvenance,
+  actuallyAvailableItems,
   onRemove,
   onToggleExport,
   onToggleType,
@@ -94,98 +88,87 @@ export function CargoPadEditor({
   const availableDestinationPads =
     destinationOutpost?.cargoPads ?? []
 
-  /**
-   * Treats regular cargo pads as the default state.
-   *
-   * The UI therefore exposes only the exceptional property — whether this
-   * pad is interstellar — rather than requiring a two-option type selector.
-   */
-  function updateInterstellar() {
-    onToggleType()
-  }
+  const isInterSystem = pad.type === 'interstellar'
+  const hasActualHelium3 = actuallyAvailableItems.some(
+    (item) => item.type === 'resource' && item.id === 'helium-3',
+  )
 
   return (
     <div className="cargo-pad-editor">
       <div className="cargo-pad-editor__controls">
-        <label>
-          <input
-            type="checkbox"
-            checked={pad.type === 'interstellar'}
-            onChange={() =>
-              updateInterstellar()
-            }
-          />
-          {' '}Interstellar
-        </label>
+        <div className="cargo-pad-editor__action-row">
+          <button
+            className="cargo-pad-editor__inter-system"
+            data-fuelled={isInterSystem && hasActualHelium3}
+            type="button"
+            aria-pressed={isInterSystem}
+            onClick={onToggleType}
+          >
+            Inter-System
+          </button>
 
-        <label>
-          Outpost:
+          <button
+            type="button"
+            onClick={onRemove}
+            className="cargo-pad-editor__remove"
+            aria-label={`Remove ${pad.label}`}
+          >
+            Remove
+          </button>
+        </div>
+
+        <select
+          aria-label="Destination outpost"
+          value={destinationId}
+          onChange={(event) =>
+            onLinkedOutpostChange(event.target.value)
+          }
+        >
+          <option value="">Unlinked</option>
+
+          {availableDestinations.map((outpost) => (
+            <option
+              disabled={outpost.cargoPads.length === 0}
+              key={outpost.id}
+              value={outpost.id}
+            >
+              {outpost.name}
+              {outpost.cargoPads.length === 0 ? ' — no cargo pads' : ''}
+            </option>
+          ))}
+        </select>
+
+        {linkedOutpostId && (
           <select
-            value={destinationId}
+            aria-label="Destination cargo pad"
+            value={destinationPadId}
             onChange={(event) =>
-              onLinkedOutpostChange(event.target.value)
+              onLinkedCargoPadChange(event.target.value)
             }
           >
-            <option value="">Unlinked</option>
+            <option value="">
+              Select cargo pad...
+            </option>
 
-            {availableDestinations.map((outpost) => (
+            {availableDestinationPads.map((destinationPad) => (
               <option
-                key={outpost.id}
-                value={outpost.id}
+                key={destinationPad.id}
+                value={destinationPad.id}
               >
-                {outpost.name}
+                {getDestinationPadLabel(
+                  destinationOutpost!.id,
+                  destinationPad.id,
+                )}
               </option>
             ))}
           </select>
-        </label>
-
-        {linkedOutpostId && (
-          <label>
-            Pad:
-            <select
-              value={destinationPadId}
-              onChange={(event) =>
-                onLinkedCargoPadChange(
-                  event.target.value,
-                )
-              }
-            >
-              <option value="">
-                Select cargo pad...
-              </option>
-
-              {availableDestinationPads.map(
-                (destinationPad) => (
-                  <option
-                    key={destinationPad.id}
-                    value={destinationPad.id}
-                  >
-                    {getDestinationPadLabel(
-                      destinationOutpost!.id,
-                      destinationPad.id,
-                    )}
-                  </option>
-                ),
-              )}
-            </select>
-          </label>
         )}
-
-        <button
-          type="button"
-          onClick={onRemove}
-          className="cargo-pad-editor__remove"
-        >
-          Remove Cargo Pad
-        </button>
       </div>
 
       <CargoExportsEditor
         resources={resources}
         products={products}
-        outposts={outposts}
         availableItems={availableItems}
-        getItemProvenance={getItemProvenance}
         exports={pad.outboundItems}
         onToggleExport={onToggleExport}
       />

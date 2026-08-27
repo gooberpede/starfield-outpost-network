@@ -20,237 +20,115 @@
  */
 import type {
   CargoItem,
-  Outpost,
   Product,
   Resource,
 } from '../../domain/models'
 
-import type {
-  ItemProvenance,
-} from '../../domain/provenance'
-
 interface CargoExportsEditorProps {
   resources: Resource[]
   products: Product[]
-  outposts: Outpost[]
   exports: CargoItem[]
   availableItems: CargoItem[]
-  getItemProvenance: (
-    item: CargoItem,
-  ) => ItemProvenance
   onToggleExport: (item: CargoItem) => void
+}
+
+interface ExportCandidate {
+  item: CargoItem
+  name: string
+  shortName: string
+  group: 'inorganic' | 'organic' | 'manufactured'
 }
 
 export function CargoExportsEditor({
   resources,
   products,
-  outposts,
   exports,
   availableItems,
-  getItemProvenance,
   onToggleExport,
 }: CargoExportsEditorProps) {
+  const getItemKey = (item: CargoItem) =>
+    `${item.type}:${item.id}`
 
-  /**
-   * Tests whether an item is already selected for export by this pad.
-   */
-  function isExported(
-    type: CargoItem['type'],
-    id: string,
-  ) {
-    return exports.some(
-      (item) =>
-        item.type === type &&
-        item.id === id,
-    )
+  const exportedKeys = new Set(exports.map(getItemKey))
+  const availableKeys = new Set(availableItems.map(getItemKey))
+  const candidateItems = new Map<string, CargoItem>()
+
+  for (const item of [...availableItems, ...exports]) {
+    candidateItems.set(getItemKey(item), item)
   }
 
-  /**
-   * Tests whether the network can currently account for this item being
-   * available at the outpost.
-   */
-  function isAvailable(
-    type: CargoItem['type'],
-    id: string,
-  ) {
-    return availableItems.some(
-      (item) =>
-        item.type === type &&
-        item.id === id,
-    )
-  }
-
-  /**
-   * Formats structured provenance for the cargo catalogue.
-   *
-   * Domain provenance contains stable outpost IDs. This presentation helper
-   * resolves those IDs to current outpost names and decides how the source
-   * information should be displayed to the user.
-   */
-  function getSourceLabel(item: CargoItem) {
-    const provenance =
-      getItemProvenance(item)
-
-    const sourceLabels: string[] = []
-
-    if (provenance.local) {
-      sourceLabels.push('local')
-    }
-
-    for (const remoteOutpostId of provenance.remoteOutpostIds) {
-      const remoteOutpost =
-        outposts.find(
-          (candidate) =>
-            candidate.id === remoteOutpostId,
+  const candidates: ExportCandidate[] =
+    [...candidateItems.values()].map((item) => {
+      if (item.type === 'product') {
+        const product = products.find(
+          (candidate) => candidate.id === item.id,
         )
 
-      sourceLabels.push(
-        remoteOutpost?.name ??
-          remoteOutpostId,
+        return {
+          item,
+          name: product?.name ?? item.id,
+          shortName: product?.shortName ?? item.id,
+          group: 'manufactured',
+        }
+      }
+
+      const resource = resources.find(
+        (candidate) => candidate.id === item.id,
       )
-    }
 
-    return sourceLabels.length > 0
-      ? sourceLabels.join(', ')
-      : 'no source'
-  }
+      return {
+        item,
+        name: resource?.name ?? item.id,
+        shortName: resource?.shortName ?? item.id,
+        // Unknown resource IDs stay visible and removable instead of vanishing.
+        group: resource?.category ?? 'inorganic',
+      }
+    })
 
-  /**
-   * Requests addition or removal of one persistent outbound selection.
-   *
-   * The application layer owns the persisted cargo-pad mutation so the toggle
-   * can participate in Undo/Redo history as one deliberate user action.
-   */
-  function toggleExport(
-    item: CargoItem,
-  ) {
-    onToggleExport(item)
-  }
-
-/*
- * Show items supplied or planned at the outpost, plus any persistent
- * outbound selections whose source has subsequently disappeared.
- *
- * Cargo pads no longer expose the full catalogue themselves. Planning
- * assumptions belong to the outpost-level Planned Supply collection.
- */
-const visibleResources =
-  resources.filter(
-    (resource) =>
-      isAvailable(
-        'resource',
-        resource.id,
-      ) ||
-      isExported(
-        'resource',
-        resource.id,
-      ),
-  )
-
-const visibleProducts =
-  products.filter(
-    (product) =>
-      isAvailable(
-        'product',
-        product.id,
-      ) ||
-      isExported(
-        'product',
-        product.id,
-      ),
-  )
+  const groups = (
+    ['inorganic', 'organic', 'manufactured'] as const
+  ).map((group) =>
+    candidates
+      .filter((candidate) => candidate.group === group)
+      .sort((left, right) => left.name.localeCompare(right.name)),
+  ).filter((group) => group.length > 0)
 
   return (
-    <div>
+    <section className="cargo-exports">
       <h4>Exports</h4>
 
-      <div>
-        <strong>Resources</strong>
-
-        {visibleResources.length === 0 ? (
-          <p>None available.</p>
-        ) : (
-          visibleResources.map((resource) => {
-            const exported =
-              isExported(
-                'resource',
-                resource.id,
-              )
-            
-            const item: CargoItem = {
-              type: 'resource',
-              id: resource.id,
-            }
-
-            const sourceLabel =
-              getSourceLabel(item)
+      {groups.length === 0 ? (
+        <p className="cargo-exports__empty">
+          No items available to export.
+        </p>
+      ) : groups.map((group, groupIndex) => (
+        <div
+          className="cargo-exports__group"
+          key={groupIndex}
+        >
+          {group.map((candidate) => {
+            const itemKey = getItemKey(candidate.item)
+            const isExported = exportedKeys.has(itemKey)
+            const isStale =
+              isExported && !availableKeys.has(itemKey)
 
             return (
-              <p key={`resource-${resource.id}`}>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={exported}
-                    onChange={() =>
-                      toggleExport(item)
-                    }
-                  />
-                  {resource.name}
-
-                  {' '}
-                  <small>
-                    — {sourceLabel}
-                  </small>
-                </label>
-              </p>
+              <button
+                className="cargo-exports__item"
+                data-state={isStale ? 'stale' : undefined}
+                key={itemKey}
+                type="button"
+                title={candidate.name}
+                aria-label={`Toggle export for ${candidate.name}`}
+                aria-pressed={isExported}
+                onClick={() => onToggleExport(candidate.item)}
+              >
+                {candidate.shortName}
+              </button>
             )
-          })
-        )}
-      </div>
-
-      <div>
-        <strong>Manufactured Products</strong>
-
-        {visibleProducts.length === 0 ? (
-          <p>None available.</p>
-        ) : (
-          visibleProducts.map((product) => {
-            const exported =
-              isExported(
-                'product',
-                product.id,
-              )
-
-            const item: CargoItem = {
-              type: 'product',
-              id: product.id,
-            }
-
-            const sourceLabel =
-              getSourceLabel(item)
-
-            return (
-              <p key={`product-${product.id}`}>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={exported}
-                    onChange={() =>
-                      toggleExport(item)
-                    }
-                  />
-                  {product.name}
-
-                  {' '}
-                  <small>
-                    — {sourceLabel}
-                  </small>
-                </label>
-              </p>
-            )
-          })
-        )}
-      </div>
-    </div>
+          })}
+        </div>
+      ))}
+    </section>
   )
 }

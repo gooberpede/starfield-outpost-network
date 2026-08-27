@@ -29,8 +29,11 @@ export function getCargoItemKey(item: CargoItem): string {
   return `${item.type}:${item.id}`
 }
 
-/** Returns the distinct items selected for export on any pad at an outpost. */
-export function getExportedItemKeysAtOutpost(
+/**
+ * Returns distinct outbound items whose local pad has a defined, existing
+ * remote cargo-link endpoint. Validator success is deliberately not required.
+ */
+export function getRoutedExportedItemKeysAtOutpost(
   outpostId: string,
   network: OutpostNetwork,
 ): Set<string> {
@@ -38,11 +41,51 @@ export function getExportedItemKeysAtOutpost(
     (candidate) => candidate.id === outpostId,
   )
 
-  return new Set(
-    outpost?.cargoPads.flatMap((pad) =>
-      pad.outboundItems.map(getCargoItemKey),
-    ) ?? [],
-  )
+  if (!outpost) {
+    return new Set()
+  }
+
+  const routedItems = new Set<string>()
+
+  for (const pad of outpost.cargoPads) {
+    const link = network.cargoLinks.find(
+      (candidate) =>
+        (
+          candidate.endpointA.outpostId === outpostId &&
+          candidate.endpointA.cargoPadId === pad.id
+        ) ||
+        (
+          candidate.endpointB.outpostId === outpostId &&
+          candidate.endpointB.cargoPadId === pad.id
+        ),
+    )
+
+    if (!link) {
+      continue
+    }
+
+    const remoteEndpoint =
+      link.endpointA.outpostId === outpostId &&
+      link.endpointA.cargoPadId === pad.id
+        ? link.endpointB
+        : link.endpointA
+    const remoteOutpost = network.outposts.find(
+      (candidate) => candidate.id === remoteEndpoint.outpostId,
+    )
+    const remotePadExists = remoteOutpost?.cargoPads.some(
+      (candidate) => candidate.id === remoteEndpoint.cargoPadId,
+    )
+
+    if (!remotePadExists) {
+      continue
+    }
+
+    for (const item of pad.outboundItems) {
+      routedItems.add(getCargoItemKey(item))
+    }
+  }
+
+  return routedItems
 }
 
 /**

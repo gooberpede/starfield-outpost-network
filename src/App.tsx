@@ -37,14 +37,6 @@ import {
 } from './domain/validation/validateNetwork'
 
 import {
-  getItemProvenanceAtOutpost,
-} from './domain/provenance'
-
-import type {
-  ItemProvenance,
-} from './domain/provenance'
-
-import {
   createNetworkEditingSession,
   networkEditingSessionReducer,
 } from './domain/networkEditingSession'
@@ -267,22 +259,6 @@ function App() {
       network,
       referenceData ?? undefined,
     )
-
-  /**
-   * Returns actual source provenance for one item at the selected outpost.
-   *
-   * The domain function works from the complete network, while downstream
-   * cargo components receive only this narrow lookup capability.
-   */
-  function getSelectedOutpostItemProvenance(
-    item: CargoItem,
-  ): ItemProvenance {
-    return getItemProvenanceAtOutpost(
-      selectedOutpost.id,
-      item,
-      network,
-    )
-  }
 
   const bodyResources = referenceData?.bodyResources ?? []
 
@@ -1897,7 +1873,7 @@ useEffect(() => {
             resources={resources}
             products={products}
             availableItems={availableCargoItems}
-            getItemProvenance={getSelectedOutpostItemProvenance}
+            actuallyAvailableItems={actuallyAvailableItems}
             onAddCargoPad={() =>
               addCargoPad(selectedOutpost.id)
             }

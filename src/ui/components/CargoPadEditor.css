@@ -25,15 +25,11 @@
   gap: 0.5rem;
 }
 
-.cargo-pad-editor__controls label {
-  min-width: 0;
-}
-
-.cargo-pad-editor__controls label:has(select) {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+.cargo-pad-editor__action-row {
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: space-between;
+  gap: 0.75rem;
 }
 
 .cargo-pad-editor__controls select {
@@ -43,5 +39,86 @@
 }
 
 .cargo-pad-editor__remove {
-  align-self: flex-end;
+  color: inherit;
+}
+
+.cargo-pad-editor__inter-system,
+.cargo-pad-editor__remove {
+  padding: 0.2rem 0.5rem;
+  font-size: 0.82rem;
+  line-height: 1.25;
+}
+
+.cargo-pad-editor__inter-system[aria-pressed='true'] {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.cargo-pad-editor__inter-system[data-fuelled='true'] {
+  border-color: #3b9a63;
+  color: #247344;
+  background: color-mix(in srgb, #3b9a63 14%, var(--bg));
+}
+
+.cargo-exports {
+  margin-top: 0.75rem;
+}
+
+.cargo-exports h4 {
+  margin: 0 0 0.4rem;
+  color: var(--text-h);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.cargo-exports__group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+}
+
+.cargo-exports__group + .cargo-exports__group {
+  margin-top: 0.4rem;
+}
+
+.cargo-exports__item {
+  box-sizing: border-box;
+  width: 2.8rem;
+  height: 1.65rem;
+  padding: 0.1rem 0.2rem;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 0.25rem;
+  color: var(--text-h);
+  background: var(--bg);
+  font: 600 0.72rem/1 var(--mono);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.cargo-exports__item:hover {
+  border-color: var(--accent-border);
+}
+
+.cargo-exports__item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.cargo-exports__item[aria-pressed='true'] {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.cargo-exports__item[data-state='stale'] {
+  border-color: color-mix(in srgb, #b87824 65%, var(--border));
+  color: color-mix(in srgb, #b87824 75%, var(--text));
+  background: color-mix(in srgb, #b87824 10%, var(--bg));
+  opacity: 0.72;
+}
+
+.cargo-exports__empty {
+  font-size: 0.82rem;
 }

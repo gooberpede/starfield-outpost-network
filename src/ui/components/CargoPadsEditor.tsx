@@ -55,10 +55,6 @@ import type {
   Resource,
 } from '../../domain/models'
 
-import type {
-  ItemProvenance,
-} from '../../domain/provenance'
-
 import { CargoPadEditor } from './CargoPadEditor'
 import './CargoPadsEditor.css'
 
@@ -93,9 +89,7 @@ interface CargoPadsEditorProps {
   resources: Resource[]
   products: Product[]
   availableItems: CargoItem[]
-  getItemProvenance: (
-    item: CargoItem,
-  ) => ItemProvenance
+  actuallyAvailableItems: CargoItem[]
 }
 
 export function CargoPadsEditor({
@@ -106,7 +100,7 @@ export function CargoPadsEditor({
   resources,
   products,
   availableItems,
-  getItemProvenance,
+  actuallyAvailableItems,
   onUnlinkCargoPad,
   onSetCargoLink,
   onAddCargoPad,
@@ -387,10 +381,8 @@ export function CargoPadsEditor({
   /**
    * Changes the draft remote-outpost selection for one cargo pad.
    *
-   * Choosing another outpost does not immediately destroy an existing
-   * persisted link. The old relationship remains in the network until the
-   * user selects a specific replacement cargo pad, allowing App to replace
-   * the complete relationship as one undoable action.
+   * Choosing another outpost removes an established link as one undoable
+   * network action, then keeps the new incomplete selection in UI state.
    *
    * Clearing the outpost selection is an explicit unlink action.
    */
@@ -398,8 +390,20 @@ export function CargoPadsEditor({
     localPadId: string,
     linkedOutpostId: string,
   ) {
+    const existingLink = findCargoLink(localPadId)
+    const remoteEndpoint = existingLink
+      ? getRemoteEndpoint(existingLink, localPadId)
+      : null
+    const currentSelection = existingLink
+      ? remoteEndpoint?.outpostId ?? ''
+      : draftLinkedOutpostIds[localPadId] ?? ''
+
+    if (linkedOutpostId === currentSelection) {
+      return
+    }
+
     if (!linkedOutpostId) {
-      if (findCargoLink(localPadId)) {
+      if (existingLink) {
         onUnlinkCargoPad(localPadId)
       }
 
@@ -410,6 +414,10 @@ export function CargoPadsEditor({
       })
 
       return
+    }
+
+    if (existingLink) {
+      onUnlinkCargoPad(localPadId)
     }
 
     setDraftLinkedOutpostIds((current) => ({
@@ -504,15 +512,17 @@ export function CargoPadsEditor({
             pad.id,
           )
 
+        /*
+         * Persisted network state wins while a link exists. This makes Undo
+         * restore the complete prior pairing even though the replacement
+         * outpost remains as presentation-only draft state for Redo.
+         */
         const linkedOutpostId =
-          hasDraftLinkedOutpost
-            ? draftLinkedOutpostIds[pad.id]
-            : remoteEndpoint?.outpostId ?? ''
+          remoteEndpoint?.outpostId ??
+          (hasDraftLinkedOutpost ? draftLinkedOutpostIds[pad.id] : '')
 
         const linkedCargoPadId =
-          hasDraftLinkedOutpost
-            ? ''
-            : remoteEndpoint?.cargoPadId ?? ''
+          remoteEndpoint?.cargoPadId ?? ''
 
         const isCollapsed =
           !(expandedPadIds[pad.id] ?? false)
@@ -642,7 +652,7 @@ export function CargoPadsEditor({
                 resources={resources}
                 products={products}
                 availableItems={availableItems}
-                getItemProvenance={getItemProvenance}
+                actuallyAvailableItems={actuallyAvailableItems}
                 onRemove={() => removeCargoPad(pad.id)}
                 onToggleExport={(item) =>
                   onToggleExport(
