@@ -26,11 +26,16 @@ Keep this file focused on work that is genuinely deferred. Current implemented b
 
 ### Workspace layout
 
-- Review the middle workspace as a whole before making major structural changes.
-- Consider independent scrolling for navigation and Outpost Details.
+- Review the workspace scrolling model as a whole before making major structural changes.
+- Consider independent scrolling for:
+  - Outpost navigation;
+  - Outpost Details;
+  - Cargo Pads.
 - Revisit selected-outpost context in sticky/header UI only as part of a broader workspace review.
-- Preserve the middle-column status matrix's scoped horizontal overflow during
-  any broader workspace scrolling review.
+- Preserve the middle-column status matrix's scoped horizontal overflow during any broader workspace scrolling review.
+- Restore sticky vertical behaviour for the status-matrix column header when the enclosing Outpost Details scrolling model supports it.
+- Let the status matrix compress/crowd its shared columns further as the middle workspace narrows before falling back to horizontal scrolling.
+- Preserve identical status-matrix column positions across outposts at any given workspace width.
 
 ---
 
@@ -40,59 +45,19 @@ The shared resource/manufacturing/import status matrix now establishes the
 upper Outpost Details control grammar. Remaining work should be handled in
 focused batches and may include:
 
+- default Planned Supply to collapsed/compact mode while keeping expansion state presentation-only;
+- move the Delete Outpost action into or near the existing Outpost Details header/action area;
+- filter the Body selector so bodies that cannot host outposts, such as gas giants and ice giants, are not normal selectable destinations;
+- general spacing, sizing, and alignment polish after the major information architecture has settled;
 - organic flora/fauna source names when authoritative reference data exists;
 - organic farming prerequisite derivation and validation;
-- throughput-oriented fabricator quantity UI if quantitative modelling is adopted;
-- coordinated simplification of Cargo Pad export selection;
-- Planned Supply default-state changes described below.
-
----
-
-## Planned Supply and selection controls
-
-### Planned Supply redesign
-
-Current product direction:
-
-- items that are already actually available should remain visible in Planned Supply selection;
-- those items should be disabled rather than hidden;
-- this should make the relationship between actual availability and planned intent more legible.
-
-### Selection-grid pattern
-
-Prototype a reusable dense selection-grid control, likely beginning with Planned Supply.
-
-Candidate grouping:
-
-- Inorganic Resources
-- Organic Resources
-- Manufacturing
-
-Potential presentation:
-
-- compact toggle buttons;
-- abbreviations on the button;
-- full names available through tooltip/focus treatment;
-- dense but legible use of horizontal space.
-
-If successful, consider broader adoption elsewhere rather than creating multiple unrelated selection patterns.
+- throughput-oriented fabricator quantity UI if quantitative modelling is adopted.
 
 ---
 
 ## Cargo Pads
 
-### Expanded-state cleanup
-
-The collapsed Cargo Pad summary has reached a useful local optimum and should not be casually redesigned.
-
-Future cleanup should focus primarily on the expanded state.
-
-Potential goals:
-
-- reduce raw/form-like presentation;
-- improve grouping and alignment;
-- preserve the useful two-row collapsed summary grammar;
-- keep outbound information visually associated with the left side and inbound/remote information with the right side.
+- Revisit independent vertical scrolling for the Cargo Pads column as part of the broader workspace scrolling pass.
 
 ### Cargo Pad Reshuffle mode
 
@@ -104,6 +69,9 @@ Apply the successful navigation-panel ordering pattern to Cargo Pads:
 - drag-and-drop enabled only in Reshuffle mode;
 - Undo/Redo available in either mode;
 - reshuffle state presentation-only.
+- preserve stable Cargo Pad IDs while display labels renumber from array order;
+- preserve CargoLinks and outbound cargo through reorder.
+- consider independent Cargo Pads scrolling in the same UX pass so drag auto-scroll behaviour can be designed against the final scroll container.
 
 ### Cargo Pad drag-and-drop
 
@@ -221,7 +189,7 @@ Future enhancements may include:
 
 - visible history/timeline list;
 - direct jump to an earlier history state;
-- keyboard shortcuts for Undo/Redo;
+- conventional keyboard shortcuts for Undo/Redo, with careful handling of text-input native editing so application history does not unexpectedly consume ordinary field-level Undo;
 - history-size limits if session history becomes large;
 - optional navigation to the outpost affected by an Undo/Redo action.
 
