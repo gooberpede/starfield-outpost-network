@@ -225,6 +225,13 @@ function App() {
     network.outposts[0]
 
   /**
+   * Uses the requested selection while it remains valid, otherwise derives a
+   * deterministic fallback without waiting for a repair render.
+   */
+  const effectiveSelectedOutpostId =
+    selectedOutpost.id
+
+  /**
    * Materials currently available at the selected outpost through active
    * production, manufacturing, or inbound cargo.
    *
@@ -306,37 +313,35 @@ function App() {
    * the catalogue can be refreshed or replaced without modifying their
    * recorded outposts.
    */
-useEffect(() => {
-  void reloadReferenceData()
-}, [])
-
-/**
- * Keeps outpost selection valid when a whole-network operation replaces the
- * available outposts, such as Import, Undo, or Redo.
- *
- * Selection is presentation state and therefore is not itself recorded in
- * network history. If the selected ID no longer exists, fall back to the first
- * outpost in the restored network.
- */
   useEffect(() => {
-    const selectedOutpostStillExists =
-      network.outposts.some(
-        (outpost) =>
-          outpost.id === selectedOutpostId,
-      )
+    let cancelled = false
 
-    if (
-      !selectedOutpostStillExists &&
-      network.outposts.length > 0
-    ) {
-      setSelectedOutpostId(
-        network.outposts[0].id,
-      )
+    void loadReferenceData()
+      .then((loadedReferenceData) => {
+        if (cancelled) {
+          return
+        }
+
+        setReferenceData(loadedReferenceData)
+        setReferenceDataError(null)
+      })
+      .catch((error: unknown) => {
+        if (cancelled) {
+          return
+        }
+
+        setReferenceData(null)
+        setReferenceDataError(
+          error instanceof Error
+            ? error.message
+            : 'Failed to load reference data.',
+        )
+      })
+
+    return () => {
+      cancelled = true
     }
-  }, [
-    network.outposts,
-    selectedOutpostId,
-  ])
+  }, [])
 
   useEffect(() => {
     saveNetwork(network)
@@ -609,7 +614,7 @@ useEffect(() => {
     * the existing navigation behaviour independently of the recorded network
     * mutation.
     */
-    if (selectedOutpostId === outpostId) {
+    if (effectiveSelectedOutpostId === outpostId) {
       const replacementIndex =
         Math.min(
           deletedIndex,
@@ -1327,7 +1332,7 @@ useEffect(() => {
         outposts:
           currentNetwork.outposts.map(
             (outpost) =>
-              outpost.id === selectedOutpostId
+              outpost.id === effectiveSelectedOutpostId
                 ? {
                     ...outpost,
                     name,
@@ -1373,7 +1378,7 @@ useEffect(() => {
         outposts:
           currentNetwork.outposts.map(
             (outpost) =>
-              outpost.id === selectedOutpostId
+              outpost.id === effectiveSelectedOutpostId
                 ? {
                     ...outpost,
                     systemId,
@@ -1420,7 +1425,7 @@ useEffect(() => {
         outposts:
           currentNetwork.outposts.map(
             (outpost) =>
-              outpost.id === selectedOutpostId
+              outpost.id === effectiveSelectedOutpostId
                 ? {
                     ...outpost,
                     bodyId,
@@ -1467,7 +1472,7 @@ useEffect(() => {
           currentNetwork.outposts.map(
             (outpost) => {
               if (
-                outpost.id !== selectedOutpostId
+                outpost.id !== effectiveSelectedOutpostId
               ) {
                 return outpost
               }
@@ -1540,7 +1545,7 @@ useEffect(() => {
           outposts:
             currentNetwork.outposts.map(
               (outpost) =>
-                outpost.id === selectedOutpostId
+                outpost.id === effectiveSelectedOutpostId
                   ? {
                       ...outpost,
 
@@ -1593,7 +1598,7 @@ useEffect(() => {
         retireFulfilledPlannedSupply({
           ...currentNetwork,
           outposts: currentNetwork.outposts.map((outpost) =>
-            outpost.id === selectedOutpostId
+            outpost.id === effectiveSelectedOutpostId
               ? {
                   ...outpost,
                   manufacturing: entries.map((entry) => ({ ...entry })),
@@ -1647,7 +1652,7 @@ useEffect(() => {
           currentNetwork.outposts.map(
             (outpost) => {
               if (
-                outpost.id !== selectedOutpostId
+                outpost.id !== effectiveSelectedOutpostId
               ) {
                 return outpost
               }
@@ -1806,7 +1811,7 @@ useEffect(() => {
           <OutpostList
             outposts={network.outposts}
             maxOutposts={maxOutposts}
-            selectedOutpostId={selectedOutpostId}
+            selectedOutpostId={effectiveSelectedOutpostId}
             onSelectOutpost={setSelectedOutpostId}
             onMoveOutpost={moveOutpostToIndex}
             onMoveOutpostUp={moveOutpostUp}

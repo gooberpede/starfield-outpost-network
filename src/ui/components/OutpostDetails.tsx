@@ -16,7 +16,6 @@
  */
 
 import {
-  useEffect,
   useState,
 } from 'react'
 
@@ -48,6 +47,42 @@ interface OutpostDetailsProps {
   canDelete: boolean
 }
 
+interface OutpostNameFieldProps {
+  name: string
+  onCommit: (name: string) => void
+}
+
+/**
+ * Owns one outpost-name editing session. Its parent keys the field by outpost
+ * identity and authoritative name so navigation and Undo/Redo reset the draft.
+ */
+function OutpostNameField({
+  name,
+  onCommit,
+}: OutpostNameFieldProps) {
+  const [draftName, setDraftName] =
+    useState(name)
+
+  return (
+    <label className="outpost-details__field">
+      <span>Name</span>
+
+      <input
+        type="text"
+        value={draftName}
+        onChange={(event) =>
+          setDraftName(event.target.value)
+        }
+        onBlur={() => {
+          if (draftName !== name) {
+            onCommit(draftName)
+          }
+        }}
+      />
+    </label>
+  )
+}
+
 export function OutpostDetails({
   outpost,
   systems,
@@ -58,29 +93,6 @@ export function OutpostDetails({
   onDelete,
   canDelete,
 }: OutpostDetailsProps) {
-
-  /**
-   * Holds the name currently being typed without immediately changing the
-   * persisted network.
-   *
-   * The completed value is committed when the text field loses focus, allowing
-   * an entire editing session to become one Undo/Redo action rather than one
-   * history entry per keystroke.
-   */
-  const [draftName, setDraftName] =
-    useState(outpost.name)
-
-  /**
-   * Keeps the local text field synchronized when another persisted action
-   * changes the selected outpost or its name, such as navigation or Undo/Redo.
-   */
-  useEffect(() => {
-    setDraftName(outpost.name)
-  }, [
-    outpost.id,
-    outpost.name,
-  ])
-
   const availableBodies =
     bodies.filter(
       (body) =>
@@ -94,24 +106,11 @@ export function OutpostDetails({
       </h2>
 
       <div className="outpost-details__fields">
-        <label className="outpost-details__field">
-          <span>Name</span>
-
-          <input
-            type="text"
-            value={draftName}
-            onChange={(event) =>
-              setDraftName(
-                event.target.value,
-              )
-            }
-            onBlur={() => {
-              if (draftName !== outpost.name) {
-                onNameCommit(draftName)
-              }
-            }}
-          />
-        </label>
+        <OutpostNameField
+          key={`${outpost.id}:${outpost.name}`}
+          name={outpost.name}
+          onCommit={onNameCommit}
+        />
 
         <label className="outpost-details__field">
           <span>System</span>

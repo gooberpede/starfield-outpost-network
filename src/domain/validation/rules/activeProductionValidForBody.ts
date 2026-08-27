@@ -23,10 +23,6 @@
  */
 
 import type {
-  ResourceId,
-} from '../../referenceData'
-
-import type {
   ValidationIssue,
   ValidationRule,
 } from '../types'
@@ -41,9 +37,7 @@ const RULE_ID =
  * X-Tech will eventually belong here once it has an authoritative identifier
  * in application reference data.
  */
-function isSpecialProductionResource(
-  _resourceId: ResourceId,
-): boolean {
+function isSpecialProductionResource(): boolean {
   return false
 }
 
@@ -101,9 +95,7 @@ function validateActiveProductionValidForBody(
       }
 
       if (
-        isSpecialProductionResource(
-          resourceId,
-        )
+        isSpecialProductionResource()
       ) {
         continue
       }
