@@ -781,6 +781,20 @@ They are validation problems, not permission to silently delete user data.
 
 Reference data records which resources are valid for planetary bodies.
 
+Each planetary body also has a canonical `bodyType` of `planet`, `moon`, or
+`orbital`, and an `outpostAllowed` domain fact. The current reference-data
+generator derives outpost eligibility as:
+
+```text
+bodyType is not orbital
+AND PlanetNotLandable is false
+AND OceanWorld is false
+```
+
+The last two inputs are xEdit source facts and are not runtime body fields.
+UI and domain consumers should use `outpostAllowed` rather than reproducing
+source-specific eligibility logic.
+
 Active production should be compatible with the selected body.
 
 The application validates incompatible active production.

@@ -45,7 +45,8 @@ focused batches and may include:
 
 - default Planned Supply to collapsed/compact mode while keeping expansion state presentation-only;
 - move the Delete Outpost action into or near the existing Outpost Details header/action area;
-- filter the Body selector so bodies that cannot host outposts, such as gas giants and ice giants, are not normal selectable destinations;
+- make the Body selector consume the now-available `outpostAllowed` reference
+  fact so non-outpost bodies are not normal selectable destinations;
 - general spacing, sizing, and alignment polish after the major information architecture has settled;
 - organic flora/fauna source names when authoritative reference data exists;
 - organic farming prerequisite derivation and validation;

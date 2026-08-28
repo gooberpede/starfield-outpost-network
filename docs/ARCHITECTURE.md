@@ -432,10 +432,11 @@ This separation allows:
 
 Do not embed complete reference-data records into `OutpostNetwork` unless an explicit requirement changes this design.
 
-Reference catalogues are generated rather than read from CSV by the browser:
+Reference catalogues are generated rather than read from delimited source
+files by the browser. Planetary data follows a direct canonical export path:
 
 ```text
-reference-source/*.csv
+xEdit → reference-source/planet-directory.tsv
         ↓
 scripts/build-reference-data.mjs
         ↓
@@ -456,6 +457,20 @@ Planetary occurrence sources have a separate responsibility. In particular,
 create logical catalogue resources. The generated `resources.json` therefore
 carries rarity for every resource plus explicit inorganic family metadata, and
 `products.json` carries rarity for every manufactured product.
+
+The Planet Directory TSV includes base-game and Shattered Space records. Its
+`PlanetFormID` and `StarSystemID` values remain the stable runtime identifiers.
+Generated body records add the narrow `PlanetaryBodyType` classification
+(`planet`, `moon`, or `orbital`) and a build-time-derived `outpostAllowed`
+boolean. Orbitals remain in the body catalogue even though they cannot host
+outposts.
+
+Source provenance fields such as `SourceFile` and `ExtractTimestamp`, plus the
+xEdit-specific eligibility flags, remain in the source layer rather than being
+repeated on runtime body objects. The generator requires one consistent extract
+timestamp across the file. Repeated PlanetFormIDs with identical semantic body
+data produce an informational build diagnostic; conflicting semantic records
+fail generation. Star-system name conflicts likewise remain build failures.
 
 ---
 

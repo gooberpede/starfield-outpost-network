@@ -10,8 +10,12 @@
  *   application. Canonical source data is exported into reference-source/,
  *   while generated runtime JSON is written into public/reference-data/.
  *
- *   The application itself knows nothing about CSV files or this script.
- *   It simply loads the generated JSON files at runtime.
+ *   Planetary data flows directly from the canonical xEdit TSV export into
+ *   generated runtime JSON. Source provenance stays in the TSV; only the
+ *   gameplay fields needed by the application are emitted for each body.
+ *
+ *   The application itself knows nothing about delimited source files or
+ *   this script. It simply loads the generated JSON files at runtime.
  *
  * Current outputs:
  *   - systems.json
@@ -36,7 +40,7 @@
  *   RESOURCE_NAME_ALIASES table below.
  *
  * Change this file when:
- *   - source CSV structures change;
+ *   - source CSV/TSV structures change;
  *   - new reference datasets are added;
  *   - generated JSON fields change;
  *   - known canonical/display-name aliases change;
@@ -55,7 +59,7 @@ const PROJECT_ROOT = resolve(SCRIPT_DIRECTORY, '..')
 const PLANET_DIRECTORY_SOURCE_FILE = resolve(
   PROJECT_ROOT,
   'reference-source',
-  'planet-directory.csv',
+  'planet-directory.tsv',
 )
 
 const INORGANIC_RESOURCE_DICTIONARY_SOURCE_FILE = resolve(
@@ -208,6 +212,44 @@ const RARITY_ORDER = new Map([
   ['unique', 4],
 ])
 
+const PLANETARY_BODY_TYPE_BY_SOURCE_VALUE = new Map([
+  ['Planet', 'planet'],
+  ['Moon', 'moon'],
+  ['Orbital', 'orbital'],
+])
+
+const PLANET_DIRECTORY_REQUIRED_FIELDS = [
+  'SourceFile',
+  'PlanetFormID',
+  'PlanetEditorID',
+  'PlanetName',
+  'BodyType',
+  'StarSystemID',
+  'SystemName',
+  'ParentPlanetID',
+  'PlanetID',
+  'PlanetNotLandable',
+  'OceanWorld',
+  'ExtractTimestamp',
+]
+
+/*
+ * Provenance can differ when two official masters carry the same record.
+ * These fields alone define whether duplicate FormIDs describe one body.
+ */
+const PLANET_DIRECTORY_SEMANTIC_FIELDS = [
+  'PlanetFormID',
+  'PlanetEditorID',
+  'PlanetName',
+  'BodyType',
+  'StarSystemID',
+  'SystemName',
+  'ParentPlanetID',
+  'PlanetID',
+  'PlanetNotLandable',
+  'OceanWorld',
+]
+
 /**
  * Reads and parses one CSV source file into objects keyed by header name.
  *
@@ -219,6 +261,20 @@ async function loadCsvFile(path) {
 
   return parse(csv, {
     columns: true,
+    skip_empty_lines: true,
+    trim: true,
+  })
+}
+
+/**
+ * Reads the canonical xEdit Planet Directory export directly as TSV.
+ */
+async function loadTsvFile(path) {
+  const tsv = await readFile(path, 'utf8')
+
+  return parse(tsv, {
+    columns: true,
+    delimiter: '\t',
     skip_empty_lines: true,
     trim: true,
   })
@@ -276,7 +332,7 @@ function assertUniqueValue(seenValues, value, description) {
  * Loads the canonical Planet Directory source.
  */
 async function loadPlanetDirectory() {
-  return loadCsvFile(PLANET_DIRECTORY_SOURCE_FILE)
+  return loadTsvFile(PLANET_DIRECTORY_SOURCE_FILE)
 }
 
 /**
@@ -284,20 +340,42 @@ async function loadPlanetDirectory() {
  * reference model are present on every source row.
  */
 function validatePlanetDirectory(rows) {
-  const requiredFields = [
-    'SystemName',
-    'PlanetName',
-    'PlanetFormID',
-    'StarSystemID',
-  ]
+  let extractTimestamp = null
 
   for (const [index, row] of rows.entries()) {
-    for (const field of requiredFields) {
-      if (!row[field]) {
+    const rowNumber = index + 2
+
+    for (const field of PLANET_DIRECTORY_REQUIRED_FIELDS) {
+      if (row[field] === undefined || row[field] === null || row[field] === '') {
         throw new Error(
-          `Planet Directory row ${index + 2} is missing ${field}.`,
+          `Planet Directory row ${rowNumber} is missing ${field}.`,
         )
       }
+    }
+
+    if (!PLANETARY_BODY_TYPE_BY_SOURCE_VALUE.has(row.BodyType)) {
+      throw new Error(
+        `Planet Directory row ${rowNumber} has invalid BodyType ` +
+          `"${row.BodyType}".`,
+      )
+    }
+
+    for (const field of ['PlanetNotLandable', 'OceanWorld']) {
+      if (row[field] !== '0' && row[field] !== '1') {
+        throw new Error(
+          `Planet Directory row ${rowNumber} has invalid ${field} ` +
+            `"${row[field]}"; expected "0" or "1".`,
+        )
+      }
+    }
+
+    if (extractTimestamp === null) {
+      extractTimestamp = row.ExtractTimestamp
+    } else if (row.ExtractTimestamp !== extractTimestamp) {
+      throw new Error(
+        `Planet Directory row ${rowNumber} has ExtractTimestamp ` +
+          `"${row.ExtractTimestamp}" instead of "${extractTimestamp}".`,
+      )
     }
   }
 }
@@ -348,39 +426,61 @@ function buildSystems(rows) {
  * establishes the relationship back to the system catalogue.
  */
 function buildBodies(rows) {
-  const bodiesById = new Map()
+  const sourceRowsById = new Map()
 
   for (const row of rows) {
     const id = String(row.PlanetFormID)
-
-    const body = {
-      id,
-      systemId: String(row.StarSystemID),
-      name: row.PlanetName,
-    }
-
-    const existingBody = bodiesById.get(id)
+    const existingRow = sourceRowsById.get(id)
 
     /*
-     * Duplicate source rows are harmless if they describe the same body,
-     * but conflicting records for one FormID should stop generation.
+     * Source master and extraction timestamp are provenance, so they do not
+     * make otherwise identical official records conflicting body data.
      */
-    if (
-      existingBody &&
-      (
-        existingBody.name !== body.name ||
-        existingBody.systemId !== body.systemId
+    if (existingRow) {
+      const conflictingFields = PLANET_DIRECTORY_SEMANTIC_FIELDS.filter(
+        (field) => existingRow[field] !== row[field],
       )
-    ) {
+
+      if (conflictingFields.length === 0) {
+        console.info(
+          `INFO: PlanetFormID ${id} appears in multiple source rows ` +
+            'with identical body data.',
+        )
+
+        continue
+      }
+
       throw new Error(
-        `Planetary body ${id} has conflicting source records.`,
+        `PlanetFormID ${id} has conflicting source rows. Differences: ` +
+          conflictingFields
+            .map(
+              (field) =>
+                `${field}="${existingRow[field]}"/"${row[field]}"`,
+            )
+            .join(', ') +
+          '.',
       )
     }
 
-    bodiesById.set(id, body)
+    sourceRowsById.set(id, row)
   }
 
-  return [...bodiesById.values()].sort((left, right) => {
+  const bodies = [...sourceRowsById.values()].map((row) => {
+    const bodyType = PLANETARY_BODY_TYPE_BY_SOURCE_VALUE.get(row.BodyType)
+
+    return {
+      id: String(row.PlanetFormID),
+      systemId: String(row.StarSystemID),
+      name: row.PlanetName,
+      bodyType,
+      outpostAllowed:
+        bodyType !== 'orbital' &&
+        row.PlanetNotLandable === '0' &&
+        row.OceanWorld === '0',
+    }
+  })
+
+  return bodies.sort((left, right) => {
     const systemComparison =
       left.systemId.localeCompare(right.systemId)
 

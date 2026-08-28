@@ -35,6 +35,12 @@ export type StarSystemId = string
  */
 export type PlanetaryBodyId = string
 
+/** Broad canonical body classification provided by Planet Directory. */
+export type PlanetaryBodyType =
+  | 'planet'
+  | 'moon'
+  | 'orbital'
+
 /**
  * Stable identifier for a resource.
  */
@@ -58,16 +64,22 @@ export interface StarSystemReference {
 }
 
 /**
- * Represents a planet or moon that may host an outpost.
+ * Represents a planet, moon, or orbital in the canonical body catalogue.
  *
  * Each body references its parent star system by ID rather than storing
  * the system name directly. This keeps system identity consistent and
  * allows the UI to filter bodies by the selected system.
+ *
+ * Outpost eligibility is derived during reference-data generation from
+ * source-specific xEdit fields. Runtime consumers should use the resulting
+ * outpostAllowed fact instead of reproducing that derivation.
  */
 export interface PlanetaryBodyReference {
   id: PlanetaryBodyId
   systemId: StarSystemId
   name: string
+  bodyType: PlanetaryBodyType
+  outpostAllowed: boolean
 }
 
 /**
