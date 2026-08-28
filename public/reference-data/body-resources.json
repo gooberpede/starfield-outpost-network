@@ -13797,5 +13797,86 @@
       "vanadium",
       "water"
     ]
+  },
+  {
+    "bodyId": "01000801",
+    "resourceIds": [
+      "chlorine",
+      "cobalt",
+      "iridium",
+      "nickel",
+      "uranium",
+      "water"
+    ]
+  },
+  {
+    "bodyId": "010026BF",
+    "resourceIds": [
+      "chlorine",
+      "chlorosilanes",
+      "water"
+    ]
+  },
+  {
+    "bodyId": "010026C0",
+    "resourceIds": [
+      "copper",
+      "gold",
+      "nickel",
+      "palladium"
+    ]
+  },
+  {
+    "bodyId": "010026C1",
+    "resourceIds": [
+      "chlorine",
+      "lithium",
+      "water"
+    ]
+  },
+  {
+    "bodyId": "010026C2",
+    "resourceIds": [
+      "chlorine",
+      "chlorosilanes",
+      "water"
+    ]
+  },
+  {
+    "bodyId": "010026C3",
+    "resourceIds": [
+      "argon",
+      "benzene",
+      "cobalt",
+      "lead",
+      "nickel",
+      "platinum",
+      "water"
+    ]
+  },
+  {
+    "bodyId": "010026C4",
+    "resourceIds": [
+      "copper",
+      "fluorine",
+      "lead",
+      "nickel",
+      "tetrafluorides",
+      "titanium",
+      "water"
+    ]
+  },
+  {
+    "bodyId": "010026C5",
+    "resourceIds": [
+      "alkanes",
+      "chlorine",
+      "cobalt",
+      "iridium",
+      "iron",
+      "nickel",
+      "tantalum",
+      "uranium"
+    ]
   }
 ]
