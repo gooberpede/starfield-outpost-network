@@ -82,6 +82,14 @@ import {
   manufacturingInputsUnavailableRule,
 } from './rules/manufacturingInputsUnavailable'
 
+import {
+  outpostBodyNotEligibleRule,
+} from './rules/outpostBodyNotEligible'
+
+import {
+  outpostNameLengthRule,
+} from './rules/outpostNameLength'
+
 import type {
   ValidationRule,
 } from './types'
@@ -106,4 +114,6 @@ export const validationRules: ValidationRule[] = [
   activeProductionValidForBodyRule,
   unknownReferenceDataIdRule,
   manufacturingInputsUnavailableRule,
+  outpostBodyNotEligibleRule,
+  outpostNameLengthRule,
 ]

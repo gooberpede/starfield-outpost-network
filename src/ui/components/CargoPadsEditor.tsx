@@ -143,8 +143,24 @@ export function CargoPadsEditor({
     useState<Record<string, boolean>>({})
   const [isReshuffling, setIsReshuffling] = useState(false)
   const [activeDrag, setActiveDrag] = useState<ActiveDrag | null>(null)
+  const [previousCargoPadCount, setPreviousCargoPadCount] =
+    useState(outpost.cargoPads.length)
 
   const isDragActive = activeDrag !== null
+  const canReshuffle = outpost.cargoPads.length >= 2
+
+  /*
+   * Adjust presentation state before committing a render with an invalid
+   * reshuffle mode. This also covers pad-count changes caused by Undo.
+   */
+  if (previousCargoPadCount !== outpost.cargoPads.length) {
+    setPreviousCargoPadCount(outpost.cargoPads.length)
+
+    if (!canReshuffle && isReshuffling) {
+      setActiveDrag(null)
+      setIsReshuffling(false)
+    }
+  }
 
   function clearDrag() {
     setActiveDrag(null)
@@ -611,9 +627,14 @@ export function CargoPadsEditor({
           <button
             type="button"
             onClick={() => {
+              if (!canReshuffle) {
+                return
+              }
+
               clearDrag()
               setIsReshuffling((current) => !current)
             }}
+            disabled={!canReshuffle}
             aria-pressed={isReshuffling}
           >
             {isReshuffling ? 'Lock order' : 'Reshuffle'}

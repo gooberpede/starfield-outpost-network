@@ -1214,6 +1214,13 @@ Pads remain in the right column. The matrix derives resource occurrence, actual
 availability, exports, and imports without adding presentation state to
 `OutpostNetwork`.
 
+The editable outpost name owns a component-local draft and commits through
+`App.tsx`. Location selectors derive normal System and Body choices from the
+runtime body's `outpostAllowed` fact while retaining any current persisted
+non-candidate value as a recovery option. Runtime validation reports known
+ineligible locations and base-game name-length advisories without rewriting
+persisted data.
+
 Manufacturing add/remove work is staged in component-local draft state and
 committed through `App.tsx` as one whole-network history action.
 

@@ -2,8 +2,8 @@
  * OutpostDetails.css
  *
  * Purpose:
- *   Lays out the selected outpost's identity and location fields as a compact
- *   horizontal strip.
+ *   Presents the selected outpost's editable identity as a heading above its
+ *   compact location controls.
  *
  * Architecture:
  *   This stylesheet controls only the presentation of OutpostDetails. The
@@ -12,7 +12,6 @@
  * Change this file when:
  *   - spacing or field widths change;
  *   - the details strip needs to wrap differently;
- *   - the delete action is repositioned;
  *   - responsive behaviour is introduced.
  */
 
@@ -22,8 +21,28 @@
   gap: 0.5rem;
 }
 
-.outpost-details__heading {
-  margin-bottom: 0;
+.outpost-details__name {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 0.2rem 0.35rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  color: var(--text-h);
+  background: transparent;
+  font: 500 24px/118% var(--heading);
+  letter-spacing: -0.24px;
+}
+
+.outpost-details__name:hover {
+  border-color: var(--border);
+  background: var(--code-bg);
+}
+
+.outpost-details__name:focus {
+  border-color: var(--accent);
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
 }
 
 .outpost-details__fields {
@@ -44,6 +63,8 @@
   min-width: 180px;
 }
 
-.outpost-details__delete {
-  margin-left: auto;
+@media (max-width: 1024px) {
+  .outpost-details__name {
+    font-size: 20px;
+  }
 }

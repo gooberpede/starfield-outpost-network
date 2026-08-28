@@ -179,7 +179,7 @@ export function PlannedSupplyEditor({
   actuallyAvailableItems,
   onTogglePlannedSupply,
 }: PlannedSupplyEditorProps) {
-  const [isExpanded, setIsExpanded] = useState(true)
+  const [isExpanded, setIsExpanded] = useState(false)
 
   const plannedKeys = new Set(
     plannedSupply.map(

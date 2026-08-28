@@ -43,10 +43,6 @@ The shared resource/manufacturing/import status matrix now establishes the
 upper Outpost Details control grammar. Remaining work should be handled in
 focused batches and may include:
 
-- default Planned Supply to collapsed/compact mode while keeping expansion state presentation-only;
-- move the Delete Outpost action into or near the existing Outpost Details header/action area;
-- make the Body selector consume the now-available `outpostAllowed` reference
-  fact so non-outpost bodies are not normal selectable destinations;
 - general spacing, sizing, and alignment polish after the major information architecture has settled;
 - organic flora/fauna source names when authoritative reference data exists;
 - organic farming prerequisite derivation and validation;
@@ -68,18 +64,6 @@ Do not change this until migration and downstream display consequences are consi
 ---
 
 ## Validation
-
-### Outpost name length
-
-Starfield limits in-game outpost names to 25 characters.
-
-Add an advisory validation rule for names exceeding 25 characters.
-
-Important distinction:
-
-- validation should report that the name exceeds the in-game limit;
-- presentation may still ellipsize long names defensively;
-- stored/imported names should not be silently truncated merely for display.
 
 ### Possible future validation
 

@@ -1778,6 +1778,16 @@ function App() {
           <>
             <button
               type="button"
+              onClick={() =>
+                deleteOutpost(selectedOutpost.id)
+              }
+              disabled={network.outposts.length <= 1}
+            >
+              Delete Outpost
+            </button>
+
+            <button
+              type="button"
               onClick={undo}
               disabled={history.past.length === 0}
               title={
@@ -1845,10 +1855,6 @@ function App() {
             onNameCommit={commitSelectedOutpostName}
             onSystemChange={updateSelectedOutpostSystem}
             onBodyChange={updateSelectedOutpostBody}
-            onDelete={() =>
-              deleteOutpost(selectedOutpost.id)
-            }
-            canDelete={network.outposts.length > 1}
           />
         }
 

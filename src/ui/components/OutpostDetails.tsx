@@ -5,13 +5,12 @@
  *   Edits the basic identity and location of the currently selected outpost.
  *
  * Architecture:
- *   This component presents outpost-level context as a compact horizontal
- *   strip. Layout-specific styling is delegated to OutpostDetails.css so the
- *   structure can be adjusted later without changing application state logic.
+ *   This component presents the outpost name as an editable heading above a
+ *   compact location strip. Layout-specific styling is delegated to
+ *   OutpostDetails.css, while selection and persistence remain upstream.
  *
  * Change this file when:
  *   - outpost identity/location fields change;
- *   - actions that apply to the selected outpost are added or removed;
  *   - the semantic structure of the details strip changes.
  */
 
@@ -43,8 +42,6 @@ interface OutpostDetailsProps {
   onBodyChange: (
     bodyId: string,
   ) => void
-  onDelete: () => void
-  canDelete: boolean
 }
 
 interface OutpostNameFieldProps {
@@ -64,22 +61,20 @@ function OutpostNameField({
     useState(name)
 
   return (
-    <label className="outpost-details__field">
-      <span>Name</span>
-
-      <input
-        type="text"
-        value={draftName}
-        onChange={(event) =>
-          setDraftName(event.target.value)
+    <input
+      className="outpost-details__name"
+      type="text"
+      aria-label="Outpost name"
+      value={draftName}
+      onChange={(event) =>
+        setDraftName(event.target.value)
+      }
+      onBlur={() => {
+        if (draftName !== name) {
+          onCommit(draftName)
         }
-        onBlur={() => {
-          if (draftName !== name) {
-            onCommit(draftName)
-          }
-        }}
-      />
-    </label>
+      }}
+    />
   )
 }
 
@@ -90,28 +85,44 @@ export function OutpostDetails({
   onNameCommit,
   onSystemChange,
   onBodyChange,
-  onDelete,
-  canDelete,
 }: OutpostDetailsProps) {
-  const availableBodies =
-    bodies.filter(
-      (body) =>
-        body.systemId === outpost.systemId,
-    )
+  const eligibleBodies = bodies.filter(
+    (body) => body.outpostAllowed,
+  )
+  const eligibleSystemIds = new Set(
+    eligibleBodies.map((body) => body.systemId),
+  )
+  const currentSystem = systems.find(
+    (system) => system.id === outpost.systemId,
+  )
+  const availableSystems = systems.filter(
+    (system) =>
+      eligibleSystemIds.has(system.id) ||
+      system.id === outpost.systemId,
+  )
+  const currentBody = bodies.find(
+    (body) => body.id === outpost.bodyId,
+  )
+  const availableBodies = eligibleBodies.filter(
+    (body) => body.systemId === outpost.systemId,
+  )
+
+  if (
+    currentBody &&
+    !availableBodies.some((body) => body.id === currentBody.id)
+  ) {
+    availableBodies.push(currentBody)
+  }
 
   return (
     <section className="outpost-details">
-      <h2 className="outpost-details__heading">
-        Outpost Details
-      </h2>
+      <OutpostNameField
+        key={`${outpost.id}:${outpost.name}`}
+        name={outpost.name}
+        onCommit={onNameCommit}
+      />
 
       <div className="outpost-details__fields">
-        <OutpostNameField
-          key={`${outpost.id}:${outpost.name}`}
-          name={outpost.name}
-          onCommit={onNameCommit}
-        />
-
         <label className="outpost-details__field">
           <span>System</span>
 
@@ -127,7 +138,13 @@ export function OutpostDetails({
               Select system...
             </option>
 
-            {systems.map((system) => (
+            {outpost.systemId && !currentSystem && (
+              <option value={outpost.systemId}>
+                {outpost.systemId}
+              </option>
+            )}
+
+            {availableSystems.map((system) => (
               <option
                 key={system.id}
                 value={system.id}
@@ -154,6 +171,12 @@ export function OutpostDetails({
               Select body...
             </option>
 
+            {outpost.bodyId && !currentBody && (
+              <option value={outpost.bodyId}>
+                {outpost.bodyId}
+              </option>
+            )}
+
             {availableBodies.map((body) => (
               <option
                 key={body.id}
@@ -165,14 +188,6 @@ export function OutpostDetails({
           </select>
         </label>
 
-        <button
-          className="outpost-details__delete"
-          type="button"
-          onClick={onDelete}
-          disabled={!canDelete}
-        >
-          Delete Outpost
-        </button>
       </div>
     </section>
   )

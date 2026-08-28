@@ -204,11 +204,8 @@ Dense secondary editors should generally default to compact/collapsed mode where
 
 Cargo Pads already follow this pattern.
 
-Planned Supply should eventually default to compact mode as part of the broader Outpost Details UX overhaul.
-
-Until that overhaul is implemented, current behavior may differ.
-
-Do not treat this paragraph as authorization to change unrelated screens opportunistically; coordinate such default-state changes with the relevant UX batch.
+Planned Supply defaults to compact mode. Expansion remains local presentation
+state and is not persisted in the network.
 
 ---
 
@@ -552,6 +549,12 @@ Avoid allowing long names to distort the structural columns.
 
 Navigation presentation should not alter persisted domain data except when the user explicitly performs a reorder.
 
+The Outpost Details identity field is a wide, heading-style editable name.
+It keeps a local typing draft and commits on blur, while System and Body remain
+ordinary labelled selectors below it. Normal location choices are derived from
+`body.outpostAllowed`; a currently persisted invalid or unknown value remains
+visible only as the current recovery choice until the user changes away.
+
 ---
 
 # Cargo Pad presentation
@@ -575,6 +578,10 @@ Cargo Pads use the established Navigation reshuffle grammar: presentation-only
 markers, and alternate move-up/down controls. Reorder gutters appear only while
 unlocked, and the card list scrolls independently beneath its persistent
 toolbar.
+
+Cargo Pad reshuffling requires at least two pads. With zero or one pad the
+Reshuffle control remains visible but disabled, and an active reshuffle mode
+exits if the pad count drops below two.
 
 ---
 
@@ -819,11 +826,9 @@ Deferred items remain in `docs/BACKLOG.md`.
 
 Examples currently include:
 
-- Planned Supply defaulting to compact mode;
 - middle workspace independent scrolling;
 - sticky selected-outpost header;
 - broader accessibility pass;
-- Cargo Pad Reshuffle;
 - further validation wording/priority review;
 - other future density and navigation refinements.
 

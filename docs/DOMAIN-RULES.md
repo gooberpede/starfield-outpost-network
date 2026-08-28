@@ -179,6 +179,10 @@ Users may subsequently rename outposts freely.
 
 Duplicate user-entered names are currently allowed but generate an advisory validation issue.
 
+Names longer than Starfield's normal 25-character limit are also allowed and
+preserved. They generate an advisory warning because mods may support longer
+names and the tracker does not impose the base-game limit.
+
 Current duplicate-name comparison is exact and case-sensitive.
 
 Any normalization rule such as trimming, case-folding, or locale-aware comparison is a future product decision.
@@ -203,6 +207,14 @@ If an outpost's recorded `bodyId` does not belong to its recorded `systemId`, th
 That inconsistency is reported by validation.
 
 Application editing may also clear an incompatible body when the user deliberately changes system.
+
+Normal System and Body selection is constrained by the body's canonical
+`outpostAllowed` reference-data fact. Existing persisted selections that no
+longer qualify remain visible for inspection and deliberate correction; the
+application does not silently erase or migrate them.
+
+A known selected body with `outpostAllowed === false` is a validation error.
+An unknown body ID remains an unknown-reference problem instead.
 
 If system and body are changed as part of one deliberate user operation, associated cleanup should remain part of the same Undo action.
 
@@ -883,7 +895,9 @@ The current validation registry contains rules covering:
 13. duplicate outpost names;
 14. active production validity for the selected body;
 15. unknown reference-data IDs;
-16. unavailable manufacturing inputs.
+16. unavailable manufacturing inputs;
+17. outposts on known bodies that cannot host outposts;
+18. outpost names longer than the base game's normal 25-character limit.
 
 This list describes the current validator registry.
 
