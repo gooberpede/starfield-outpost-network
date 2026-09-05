@@ -94,6 +94,8 @@ import type {
   ValidationRule,
 } from './types'
 
+import { planetaryHabitationRequirementRule } from './rules/planetaryHabitationRequirement'
+
 /**
  * Complete set of validators currently known to the application.
  */
@@ -116,4 +118,5 @@ export const validationRules: ValidationRule[] = [
   manufacturingInputsUnavailableRule,
   outpostBodyNotEligibleRule,
   outpostNameLengthRule,
+  planetaryHabitationRequirementRule,
 ]

@@ -86,6 +86,7 @@ export interface PlanetaryBodyReference {
   outpostAllowed: boolean
   solarArrayPower: number | null
   windTurbinePower: number | null
+  /** Minimum rank: 0 requires no training; null supplies no applicable requirement. */
   planetaryHabitationRank: number | null
 }
 

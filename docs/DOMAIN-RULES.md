@@ -408,6 +408,21 @@ The application must not silently treat unknown rank as zero.
 
 Invalid stored ranks are a separate validation concern.
 
+## Planetary Habitation body requirements
+
+`PlanetaryBodyReference.planetaryHabitationRank` is the minimum rank needed to
+establish an outpost on that body. Zero means no trained ranks are required;
+1–4 require at least that rank; null means the source supplies no applicable
+requirement. A character's null rank means unknown capability, never failure.
+
+`planetary-habitation-requirement` reports one operational warning per selected,
+known, outpost-eligible body when its non-null minimum exceeds the character's
+valid recorded integer rank (0–4). Missing bodies, unknown body IDs, ineligible
+bodies, null requirements, unknown skills, and invalid skills are skipped.
+Unknown references, categorical body eligibility, and malformed skills belong
+to their dedicated validators. Body/system mismatch and production validity
+remain independent checks. No warning blocks editing or repairs stored data.
+
 ---
 
 # 15. Cargo links
@@ -897,7 +912,8 @@ The current validation registry contains rules covering:
 15. unknown reference-data IDs;
 16. unavailable manufacturing inputs;
 17. outposts on known bodies that cannot host outposts;
-18. outpost names longer than the base game's normal 25-character limit.
+18. outpost names longer than the base game's normal 25-character limit;
+19. insufficient recorded Planetary Habitation rank for an eligible body.
 
 This list describes the current validator registry.
 
@@ -1109,10 +1125,31 @@ presence does not imply domesticability. Non-domesticable species remain in
 reference data. NoLinkedResource species (including Terrormorph and Chasmbass)
 retain null harvested resource/source class rather than invented facts.
 
-The body-resource compatibility inventory is derived from all biome inorganic,
-atmospheric inorganic, and harvested planet/species resources. It includes wild
-organics; matrix farming choices require a domesticable planet/species source.
-Raw nullable solar/wind power and habitation rank are reference values only.
+The `bodyResources` compatibility inventory represents **body-present** resources:
+all biome inorganic, atmospheric inorganic, and harvested planet/species resources,
+including wild-only organics. **Biome-present** inorganic resources have an
+occurrence linked to a specific body biome. **Atmospheric** inorganics have
+`location.type === 'atmosphere'` and are available body-wide, independently of
+future biome selection. A resource occurring through both paths remains one
+logical resource in the matrix, with its ordinary name and ID; no vapor identity
+or label is created.
+
+**Production-valid** resources are body-present inorganics union organic resources
+with at least one local `PlanetSpeciesReference.domesticable === true` source.
+Wild-only organic presence does not permit local production. Farming inputs do
+not imply domesticability. `getBodyProductionResources()` is authoritative for
+matrix choices and active-production validation. Future special production
+mechanisms must be supported explicitly rather than weakening these rules.
+
+**Active production** remains persisted user state: the player has marked a
+resource as being produced at the outpost. Eligibility alone does not activate
+production or create actual supply. The richer occurrence distinctions remain
+internal; users continue to see simple availability and production state without
+biome, atmosphere, or species explanations.
+
+Nullable solar/wind power values remain raw reference data without efficiency or
+power-planning interpretation. Habitation rank supplies the minimum requirement
+described in section 14.
 
 ## Deferred outpost placement
 

@@ -125,11 +125,12 @@ Future planner/data work may include:
 - biome-level resource plausibility;
 - recommended resource combinations by biome;
 - avoiding finicky biome-boundary sites by default;
-- Batch 2: Planetary Habitation validation and related source semantics;
 - future power-efficiency use of raw solar/wind values;
+- power planning and generator calculations;
 - Batch 3: persisted multi-biome outpost selections and biome-aware UX;
 - species names in the resource matrix;
 - biome-selector disambiguation when display names collide;
+- explanation UX for why a resource is unavailable, including occurrence provenance;
 - eventual retirement of body-resources.json when compatibility consumers are gone;
 - possible replacement of curated dictionaries with game-derived extracts;
 - organic-resource farming prerequisites;

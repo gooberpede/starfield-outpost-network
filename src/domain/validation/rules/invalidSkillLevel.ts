@@ -21,6 +21,8 @@
  *   - skill-level diagnostics need richer context.
  */
 
+import { isValidSkillRank } from '../../skillRanks.ts'
+
 import type {
   ValidationIssue,
   ValidationRule,
@@ -69,8 +71,7 @@ function validateInvalidSkillLevels(
     }
 
     if (
-      level >= MIN_SKILL_LEVEL &&
-      level <= MAX_SKILL_LEVEL
+      isValidSkillRank(level)
     ) {
       continue
     }
@@ -80,7 +81,7 @@ function validateInvalidSkillLevels(
       category: 'structural',
       severity: 'error',
       message:
-        `${skillName} has level ${level}, but valid skill levels are ${MIN_SKILL_LEVEL} through ${MAX_SKILL_LEVEL}.`,
+        `${skillName} has level ${level}, but valid skill levels are integers ${MIN_SKILL_LEVEL} through ${MAX_SKILL_LEVEL}.`,
     })
   }
 

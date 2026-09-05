@@ -491,7 +491,23 @@ in the catalogue, including ineligible bodies; selectors use outpostAllowed.
 
 This migration changes reference truth only. OutpostNetwork, saved IDs, browser
 storage, import/export schema, and Undo/Redo are unchanged. No persisted biome
-selection, habitation validation, or power calculation is introduced.
+selection or power calculation is introduced.
+
+`src/domain/bodyResourceAvailability.ts` owns natural resource availability
+derivation. `getBodyPresentResourceIds()` reads the body-presence compatibility
+index; atmosphere and biome helpers retain distinct inorganic occurrence paths.
+Atmospheric occurrences remain body-level and must survive future biome filters.
+`getBodyDomesticableOrganicResourceIds()` uses planet/species domesticability,
+not farming inputs. `getBodyProductionResources()` is the shared authoritative
+production-eligibility calculation for App/matrix choices and active-production
+validation: body-present inorganics union domesticable organics, with one logical
+resource identity. These derived facts do not assert persisted active production.
+
+The separate `planetary-habitation-requirement` operational validator compares
+an eligible body's known minimum rank to a valid known character rank. Unknown
+references, categorical ineligibility, and invalid skill values retain their
+dedicated validators. `skillRanks.ts` shares canonical integer-rank checking
+between invalid-skill and habitation validation.
 
 ---
 
