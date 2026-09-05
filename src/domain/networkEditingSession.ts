@@ -32,7 +32,7 @@ import {
   recordUndoableAction,
   redoNetworkChange,
   undoNetworkChange,
-} from './history'
+} from './history.ts'
 
 import type {
   NetworkHistory,

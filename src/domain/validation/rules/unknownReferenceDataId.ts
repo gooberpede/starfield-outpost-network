@@ -131,28 +131,40 @@ function validateUnknownReferenceDataIds(
       })
     }
 
-    for (const resourceId of outpost.activeProduction) {
-      if (
-        referenceData.resources.some(
-          (resource) =>
-            resource.id === resourceId,
-        )
-      ) {
-        continue
+    for (const bodyBiomeId of outpost.selectedBiomeIds ?? []) {
+      if (referenceData.bodyBiomes.some((entry) => entry.id === bodyBiomeId)) continue
+      issues.push({
+        ruleId: RULE_ID, category: 'structural', severity: 'error',
+        message: `This outpost refers to unknown body-biome ID "${bodyBiomeId}".`,
+        outpostId: outpost.id, bodyBiomeId,
+      })
+    }
+
+    for (const route of outpost.activeProduction) {
+      const resourceExists = referenceData.resources.some(
+        (resource) => resource.id === route.resourceId,
+      )
+      if (!resourceExists) {
+        issues.push({
+          ruleId: RULE_ID,
+          category: 'structural',
+          severity: 'error',
+          message: `This outpost refers to unknown resource ID "${route.resourceId}" in its active production.`,
+          outpostId: outpost.id,
+          cargoItem: { type: 'resource', id: route.resourceId },
+        })
       }
 
-      issues.push({
-        ruleId: RULE_ID,
-        category: 'structural',
-        severity: 'error',
-        message:
-          `This outpost refers to unknown resource ID "${resourceId}" in its active production.`,
-        outpostId: outpost.id,
-        cargoItem: {
-          type: 'resource',
-          id: resourceId,
-        },
-      })
+      if (route.type === 'organic' && !referenceData.species.some(
+        (species) => species.id === route.speciesId,
+      )) {
+        issues.push({
+          ruleId: RULE_ID, category: 'structural', severity: 'error',
+          message: `This outpost refers to unknown species ID "${route.speciesId}" in its active production.`,
+          outpostId: outpost.id, speciesId: route.speciesId,
+          cargoItem: { type: 'resource', id: route.resourceId },
+        })
+      }
     }
 
     for (const entry of outpost.manufacturing) {

@@ -4,7 +4,7 @@ import type {
 } from './models'
 
 export const createDefaultNetwork = (): OutpostNetwork => ({
-  schemaVersion: 2,
+  schemaVersion: 3,
 
   character: {
     name: '',
@@ -79,6 +79,7 @@ export const createDefaultOutpost = (
   ),
   systemId: '',
   bodyId: '',
+  selectedBiomeIds: [],
   localResources: [],
   activeProduction: [],
   manufacturing: [],

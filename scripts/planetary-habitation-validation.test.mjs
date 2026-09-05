@@ -30,7 +30,7 @@ function fixture(requirement = 4, rank = 3) {
         researchMethods: null, specialProjects: null,
       } },
       outposts: [{ id: 'outpost', name: 'Outpost', systemId: 'system', bodyId: 'body',
-        localResources: [], activeProduction: [], manufacturing: [], plannedSupply: [], cargoPads: [] }],
+        selectedBiomeIds: [], localResources: [], activeProduction: [], manufacturing: [], plannedSupply: [], cargoPads: [] }],
       cargoLinks: [],
     },
     referenceData: {
@@ -108,7 +108,7 @@ test('body/system and production diagnostics stay independent; one habitation is
   network.outposts[0].systemId = 'other'
   referenceData.resources.push({ id: 'iron', category: 'inorganic' })
   referenceData.bodyResources.push({ bodyId: 'body', resourceIds: [] })
-  network.outposts[0].activeProduction = ['iron']
+  network.outposts[0].activeProduction = [{ type: 'inorganic', resourceId: 'iron' }]
   const ids = validateNetwork(network, referenceData).map((issue) => issue.ruleId)
   assert.deepEqual(ids, ['body-system-mismatch', 'active-production-valid-for-body', RULE_ID])
   network.outposts.push({ ...network.outposts[0], id: 'second', name: 'Second' })

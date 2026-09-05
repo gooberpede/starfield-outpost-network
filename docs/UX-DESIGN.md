@@ -326,6 +326,20 @@ Manufacturing configuration uses a local edit draft. Save commits the complete
 set as one history action; Cancel and switching outposts discard the draft.
 Fabricator quantity remains persisted but is not part of the current matrix UI.
 
+Outpost location controls include a flexible Biome toggle region beside stable
+System and Body selectors. Buttons wrap only inside that region. No pressed
+buttons means unrestricted/all body biomes; pressed buttons persist selected
+body-biome occurrence IDs. Equal same-name signatures share one button, while
+different signatures receive numeric suffixes in biome-index order.
+
+Organic rows are source-specific and show canonical species names in Source.
+They sort plant, herbivore, carnivore, then by resource and species name. Inputs
+reuse manufacturing input cells. Input quantities remain in reference data for
+future throughput modelling but are not displayed because the current matrix
+validates resource availability rather than production capacity. Invalid active
+routes remain visible and removable with Present dimmed. Migrated ambiguous
+production appears first with Source `Unspecified` and no inputs.
+
 ---
 
 ## Equal-size controls within a grid

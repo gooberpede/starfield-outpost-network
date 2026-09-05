@@ -22,7 +22,9 @@
 
 import type {
   CargoItem,
+  ResourceProductionRoute,
 } from '../../models'
+import { getProductionRouteKey } from '../../productionRoutes.ts'
 
 import type {
   ValidationIssue,
@@ -93,6 +95,17 @@ function getDuplicateCargoItems(
   return [...duplicates.values()]
 }
 
+function getDuplicateRoutes(routes: ResourceProductionRoute[]): ResourceProductionRoute[] {
+  const seen = new Set<string>()
+  const duplicates = new Map<string, ResourceProductionRoute>()
+  for (const route of routes) {
+    const key = getProductionRouteKey(route)
+    if (seen.has(key)) duplicates.set(key, route)
+    else seen.add(key)
+  }
+  return [...duplicates.values()]
+}
+
 /**
  * Reports duplicate entries in collections whose model semantics require
  * unique resources, products, or cargo items.
@@ -122,8 +135,7 @@ function validateDuplicateCollectionEntries(
     }
 
     for (
-      const resourceId of
-      getDuplicateStrings(outpost.activeProduction)
+      const route of getDuplicateRoutes(outpost.activeProduction)
     ) {
       issues.push({
         ruleId: RULE_ID,
@@ -134,8 +146,16 @@ function validateDuplicateCollectionEntries(
         outpostId: outpost.id,
         cargoItem: {
           type: 'resource',
-          id: resourceId,
+          id: route.resourceId,
         },
+      })
+    }
+
+    for (const bodyBiomeId of getDuplicateStrings(outpost.selectedBiomeIds ?? [])) {
+      issues.push({
+        ruleId: RULE_ID, category: 'structural', severity: 'error',
+        message: 'This biome appears more than once in the outpost biome selection.',
+        outpostId: outpost.id, bodyBiomeId,
       })
     }
 

@@ -165,8 +165,9 @@ interface Outpost {
   name: string
   systemId: StarSystemId
   bodyId: PlanetaryBodyId
+  selectedBiomeIds: BodyBiomeId[]
   localResources: ResourceId[]
-  activeProduction: ResourceId[]
+  activeProduction: ResourceProductionRoute[]
   manufacturing: ManufacturingEntry[]
   plannedSupply: CargoItem[]
   cargoPads: CargoPad[]
@@ -471,9 +472,9 @@ Runtime relationships are deliberately separate:
 - organicOccurrences connect body biomes to species without repeating those facts;
 - organicFarmingProfiles normalize observed inputs by plant/herbivore/carnivore;
 - bodyResources is a derived compatibility index of all inorganic and harvested
-  organic resources, including wild-only organic sources. It may be retired once
-  consumers become biome-aware. The matrix and active-production validator use
-  getBodyProductionResources to share domesticable-only organic eligibility.
+  organic resources, including wild-only organic sources. It remains for
+  compatibility consumers; the matrix and active-production validator derive
+  directly from occurrence-grain biome and species facts.
 
 Each relationship has its own generated JSON file and typed loader property.
 Resource IDs remain stable curated application IDs; exact names and explicit
@@ -489,19 +490,24 @@ Duplicate body IDs and conflicting system, biome, resource crosswalk, or
 planet/species facts fail generation. Base-game and Shattered Space bodies remain
 in the catalogue, including ineligible bodies; selectors use outpostAllowed.
 
-This migration changes reference truth only. OutpostNetwork, saved IDs, browser
-storage, import/export schema, and Undo/Redo are unchanged. No persisted biome
-selection or power calculation is introduced.
+The Batch 1 migration changed reference truth only. Batch 3 advances
+`OutpostNetwork` to schema version 3: outposts persist body-biome occurrence IDs
+and active production uses a discriminated route union. Browser storage and JSON
+import migrate older resource-ID arrays. Known organics become
+`organic-unspecified`, inorganics become inorganic routes, and unknown IDs remain
+recoverable as inorganic routes rather than being discarded.
 
-`src/domain/bodyResourceAvailability.ts` owns natural resource availability
-derivation. `getBodyPresentResourceIds()` reads the body-presence compatibility
-index; atmosphere and biome helpers retain distinct inorganic occurrence paths.
-Atmospheric occurrences remain body-level and must survive future biome filters.
-`getBodyDomesticableOrganicResourceIds()` uses planet/species domesticability,
-not farming inputs. `getBodyProductionResources()` is the shared authoritative
-production-eligibility calculation for App/matrix choices and active-production
-validation: body-present inorganics union domesticable organics, with one logical
-resource identity. These derived facts do not assert persisted active production.
+`src/domain/bodyResourceAvailability.ts` owns effective biome scope, biome-aware
+inorganics, body-wide atmosphere, source-specific domesticable organic routes,
+and duplicate-name button grouping. It never rewrites persisted invalid IDs.
+`src/domain/productionRoutes.ts` owns route keys, farming-profile input
+resolution, and the route-to-distinct-resource aggregation boundary used by
+availability and provenance.
+
+Matrix rows use full route identity and merge persisted organic routes into
+reference-derived rows so invalid active state remains inspectable. Validators
+report unknown, foreign, or duplicate biome IDs; invalid active routes;
+unspecified sources; and missing farming inputs rather than repairing data.
 
 The separate `planetary-habitation-requirement` operational validator compares
 an eligible body's known minimum rank to a valid known character rank. Unknown

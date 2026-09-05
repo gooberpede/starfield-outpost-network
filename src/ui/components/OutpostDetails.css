@@ -46,10 +46,10 @@
 }
 
 .outpost-details__fields {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto minmax(12rem, 1fr);
   align-items: end;
   gap: 1rem;
-  flex-wrap: wrap;
 }
 
 .outpost-details__field {
@@ -63,8 +63,32 @@
   min-width: 180px;
 }
 
+.outpost-details__biomes {
+  min-width: 0;
+}
+
+.outpost-details__biome-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.outpost-details__biome-buttons button {
+  padding: 0.28rem 0.5rem;
+}
+
+.outpost-details__biome-buttons button[aria-pressed='true'] {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-bg);
+}
+
 @media (max-width: 1024px) {
   .outpost-details__name {
     font-size: 20px;
+  }
+
+  .outpost-details__fields {
+    grid-template-columns: auto auto minmax(10rem, 1fr);
   }
 }

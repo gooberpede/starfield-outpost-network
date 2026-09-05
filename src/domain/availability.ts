@@ -32,6 +32,7 @@ import type {
   CargoItem,
   OutpostNetwork,
 } from './models'
+import { getActiveProducedResourceIds } from './productionRoutes.ts'
 
 /**
  * Produces a stable comparison key for a cargo item.
@@ -90,7 +91,7 @@ export function getActuallyAvailableItemsAtOutpost(
    * extracted or farmed. Merely existing naturally on the body is not
    * sufficient.
    */
-  for (const resourceId of outpost.activeProduction) {
+  for (const resourceId of getActiveProducedResourceIds(outpost)) {
     addAvailableItem(
       itemsByKey,
       {

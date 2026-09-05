@@ -24,7 +24,10 @@ function fixture(domesticable = false) {
     bodyResources: [{ bodyId: 'body', resourceIds: ['toxin', 'iron'] }],
     planetSpecies: [{ bodyId: 'body', speciesId: 'species', sourceClass: 'plant', domesticable, resourceId: 'toxin' }],
     species: [{ id: 'species', name: 'Plant', type: 'flora' }],
-    biomes: [], bodyBiomes: [], inorganicOccurrences: [], organicOccurrences: [],
+    biomes: [{ id: 'biome', name: 'Biome' }],
+    bodyBiomes: [{ id: 'body:0', bodyId: 'body', biomeId: 'biome', biomeIndex: 0 }],
+    inorganicOccurrences: [{ bodyId: 'body', resourceId: 'iron', location: { type: 'biome', bodyBiomeId: 'body:0' } }],
+    organicOccurrences: [{ bodyBiomeId: 'body:0', speciesId: 'species' }],
     organicFarmingProfiles: [], products: [], productRecipes: [],
   }
   const network = {
@@ -35,7 +38,9 @@ function fixture(domesticable = false) {
     } },
     outposts: [{
       id: 'outpost', name: 'Outpost', systemId: 'system', bodyId: 'body',
-      localResources: [], activeProduction: ['toxin'], manufacturing: [], plannedSupply: [], cargoPads: [],
+      selectedBiomeIds: [], localResources: [],
+      activeProduction: [{ type: 'organic', resourceId: 'toxin', speciesId: 'species' }],
+      manufacturing: [], plannedSupply: [], cargoPads: [],
     }],
     cargoLinks: [],
   }
@@ -47,8 +52,8 @@ test('wild-only organic presence produces the normal active-production warning',
   const before = structuredClone(network)
   assert.deepEqual(activeProductionValidForBodyRule.validate(network, referenceData), [{
     ruleId: 'active-production-valid-for-body', category: 'operational', severity: 'warning',
-    message: 'This resource is marked as actively produced, but it is not available on the selected planetary body.',
-    outpostId: 'outpost', cargoItem: { type: 'resource', id: 'toxin' },
+    message: 'This organic source is marked as actively producing, but it is not available for the selected body and biomes.',
+    outpostId: 'outpost', speciesId: 'species', cargoItem: { type: 'resource', id: 'toxin' },
   }])
   assert.deepEqual(getBodyProductionResources(referenceData, 'body').map((resource) => resource.id), ['iron'])
   assert.deepEqual(network, before)
@@ -62,7 +67,7 @@ test('organic production with a domesticable source remains valid', () => {
 
 test('inorganic production present on the body remains valid', () => {
   const { network, referenceData } = fixture()
-  network.outposts[0].activeProduction = ['iron']
+  network.outposts[0].activeProduction = [{ type: 'inorganic', resourceId: 'iron' }]
   assert.deepEqual(activeProductionValidForBodyRule.validate(network, referenceData), [])
 })
 
@@ -78,9 +83,9 @@ test('unknown references and missing body inventories retain their existing guar
   network.outposts[0].bodyId = 'unknown'
   assert.deepEqual(activeProductionValidForBodyRule.validate(network, referenceData), [])
   network.outposts[0].bodyId = 'body'
-  network.outposts[0].activeProduction = ['unknown']
+  network.outposts[0].activeProduction = [{ type: 'inorganic', resourceId: 'unknown' }]
   assert.deepEqual(activeProductionValidForBodyRule.validate(network, referenceData), [])
-  network.outposts[0].activeProduction = ['toxin']
+  network.outposts[0].activeProduction = [{ type: 'organic', resourceId: 'toxin', speciesId: 'species' }]
   referenceData.bodyResources = []
-  assert.deepEqual(activeProductionValidForBodyRule.validate(network, referenceData), [])
+  assert.equal(activeProductionValidForBodyRule.validate(network, referenceData).length, 1)
 })

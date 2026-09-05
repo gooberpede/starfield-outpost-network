@@ -28,6 +28,7 @@ import type {
   CargoItem,
   OutpostNetwork,
 } from './models'
+import { getActiveProducedResourceIds } from './productionRoutes.ts'
 
 /**
  * Describes the actual sources currently providing one item to an outpost.
@@ -84,7 +85,7 @@ export function getItemProvenanceAtOutpost(
 
   if (
     item.type === 'resource' &&
-    outpost.activeProduction.includes(item.id)
+    getActiveProducedResourceIds(outpost).includes(item.id)
   ) {
     local = true
   }

@@ -23,6 +23,7 @@ import type {
 } from '../../domain/models'
 
 import type {
+  BodyBiomeId,
   PlanetaryBodyReference,
   StarSystemReference,
 } from '../../domain/referenceData'
@@ -33,6 +34,11 @@ interface OutpostDetailsProps {
   outpost: Outpost
   systems: StarSystemReference[]
   bodies: PlanetaryBodyReference[]
+  biomeGroups: {
+    key: string
+    label: string
+    bodyBiomeIds: BodyBiomeId[]
+  }[]
   onNameCommit: (
     name: string,
   ) => void
@@ -42,6 +48,7 @@ interface OutpostDetailsProps {
   onBodyChange: (
     bodyId: string,
   ) => void
+  onBiomeGroupToggle: (bodyBiomeIds: BodyBiomeId[]) => void
 }
 
 interface OutpostNameFieldProps {
@@ -82,9 +89,11 @@ export function OutpostDetails({
   outpost,
   systems,
   bodies,
+  biomeGroups,
   onNameCommit,
   onSystemChange,
   onBodyChange,
+  onBiomeGroupToggle,
 }: OutpostDetailsProps) {
   const eligibleBodies = bodies.filter(
     (body) => body.outpostAllowed,
@@ -187,6 +196,26 @@ export function OutpostDetails({
             ))}
           </select>
         </label>
+
+        <div className="outpost-details__field outpost-details__biomes">
+          <span>Biome</span>
+          <div className="outpost-details__biome-buttons">
+            {biomeGroups.map((group) => {
+              const pressed = outpost.selectedBiomeIds.length > 0 &&
+                group.bodyBiomeIds.every((id) => outpost.selectedBiomeIds.includes(id))
+              return (
+                <button
+                  key={group.key}
+                  type="button"
+                  aria-pressed={pressed}
+                  onClick={() => onBiomeGroupToggle(group.bodyBiomeIds)}
+                >
+                  {group.label}
+                </button>
+              )
+            })}
+          </div>
+        </div>
 
       </div>
     </section>

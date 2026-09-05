@@ -44,8 +44,6 @@ upper Outpost Details control grammar. Remaining work should be handled in
 focused batches and may include:
 
 - general spacing, sizing, and alignment polish after the major information architecture has settled;
-- organic flora/fauna source names when authoritative reference data exists;
-- organic farming prerequisite derivation and validation;
 - throughput-oriented fabricator quantity UI if quantitative modelling is adopted.
 
 ---
@@ -122,18 +120,15 @@ Keep tracker behaviour tolerant of incomplete networks; do not turn advisory fea
 
 Future planner/data work may include:
 
-- biome-level resource plausibility;
 - recommended resource combinations by biome;
 - avoiding finicky biome-boundary sites by default;
 - future power-efficiency use of raw solar/wind values;
 - power planning and generator calculations;
-- Batch 3: persisted multi-biome outpost selections and biome-aware UX;
-- species names in the resource matrix;
-- biome-selector disambiguation when display names collide;
+- plant/herbivore/carnivore source icons;
+- further biome-selector density or accessibility polish if usage requires it;
 - explanation UX for why a resource is unavailable, including occurrence provenance;
 - eventual retirement of body-resources.json when compatibility consumers are gone;
 - possible replacement of curated dictionaries with game-derived extracts;
-- organic-resource farming prerequisites;
 - better differentiation between canonical source data and player-recorded state.
 
 The immediate resource and product catalogues now have curated dictionary

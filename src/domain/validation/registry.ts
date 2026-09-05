@@ -95,6 +95,9 @@ import type {
 } from './types'
 
 import { planetaryHabitationRequirementRule } from './rules/planetaryHabitationRequirement'
+import { selectedBiomeValidForBodyRule } from './rules/selectedBiomeValidForBody.ts'
+import { unspecifiedOrganicProductionSourceRule } from './rules/unspecifiedOrganicProductionSource.ts'
+import { organicFarmingInputsUnavailableRule } from './rules/organicFarmingInputsUnavailable.ts'
 
 /**
  * Complete set of validators currently known to the application.
@@ -119,4 +122,7 @@ export const validationRules: ValidationRule[] = [
   outpostBodyNotEligibleRule,
   outpostNameLengthRule,
   planetaryHabitationRequirementRule,
+  selectedBiomeValidForBodyRule,
+  unspecifiedOrganicProductionSourceRule,
+  organicFarmingInputsUnavailableRule,
 ]

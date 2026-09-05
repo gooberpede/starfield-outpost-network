@@ -1,9 +1,11 @@
 import type {
+  BodyBiomeId,
   PlanetaryBodyId,
   ProductId,
   ProductReference,
   ResourceId,
   ResourceReference,
+  SpeciesId,
   StarSystemId,
 } from './referenceData'
 
@@ -28,6 +30,12 @@ export interface ManufacturingEntry {
   productId: ProductId
   quantity: number
 }
+
+/** Identifies one persisted local resource-production mechanism. */
+export type ResourceProductionRoute =
+  | { type: 'inorganic'; resourceId: ResourceId }
+  | { type: 'organic'; resourceId: ResourceId; speciesId: SpeciesId }
+  | { type: 'organic-unspecified'; resourceId: ResourceId }
 
 export type CargoPadType = 'regular' | 'interstellar'
 
@@ -95,8 +103,9 @@ export interface Outpost {
   name: string
   systemId: StarSystemId
   bodyId: PlanetaryBodyId
+  selectedBiomeIds: BodyBiomeId[]
   localResources: ResourceId[]
-  activeProduction: ResourceId[]
+  activeProduction: ResourceProductionRoute[]
   manufacturing: ManufacturingEntry[]
   plannedSupply: CargoItem[]
   cargoPads: CargoPad[]

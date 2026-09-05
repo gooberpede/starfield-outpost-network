@@ -1,7 +1,7 @@
 import type { OutpostNetwork } from './models'
 
 export const sampleNetwork: OutpostNetwork = {
-  schemaVersion: 2,
+  schemaVersion: 3,
 
   character: {
     name: '',
@@ -22,15 +22,16 @@ export const sampleNetwork: OutpostNetwork = {
             name: 'Feynman VI-b Al Be He3',
             systemId: 'feynman',
             bodyId: 'feynman-vi-b',
+            selectedBiomeIds: [],
             localResources: [
               'helium-3',
               'aluminium',
               'beryllium',
             ],
             activeProduction: [
-              'helium-3',
-              'aluminium',
-              'beryllium',
+              { type: 'inorganic', resourceId: 'helium-3' },
+              { type: 'inorganic', resourceId: 'aluminium' },
+              { type: 'inorganic', resourceId: 'beryllium' },
             ],
             manufacturing: [
               {
@@ -54,6 +55,7 @@ export const sampleNetwork: OutpostNetwork = {
             name: 'Feynman I Li Cu xF4',
             systemId: 'feynman',
             bodyId: 'feynman-i',
+            selectedBiomeIds: [],
             localResources: [],
             activeProduction: [],
             manufacturing: [],

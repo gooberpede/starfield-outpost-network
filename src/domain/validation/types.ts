@@ -26,6 +26,8 @@ import type {
 
 import type {
   ReferenceData,
+  SpeciesId,
+  BodyBiomeId,
 } from '../referenceData'
 
 /**
@@ -67,6 +69,8 @@ export interface ValidationIssue {
   outpostId?: string
   cargoPadId?: string
   cargoItem?: CargoItem
+  speciesId?: SpeciesId
+  bodyBiomeId?: BodyBiomeId
 }
 
 /**

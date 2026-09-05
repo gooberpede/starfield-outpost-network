@@ -26,13 +26,20 @@ function fixture() {
       ...['air', 'both', 'both'].map((resourceId) => ({ bodyId: 'body', resourceId, location: { type: 'atmosphere' } })),
       { bodyId: 'other', resourceId: 'biome', location: { type: 'atmosphere' } },
     ],
-    planetSpecies: [
-      { bodyId: 'body', resourceId: 'wild', domesticable: false },
-      { bodyId: 'other', resourceId: 'wild', domesticable: true },
-      { bodyId: 'body', resourceId: 'farm', domesticable: true },
-      { bodyId: 'body', resourceId: 'farm', domesticable: true },
-      { bodyId: 'body', resourceId: null, domesticable: true },
+    biomes: [{ id: 'biome-one', name: 'One' }, { id: 'biome-two', name: 'Two' }],
+    bodyBiomes: [
+      { id: 'one', bodyId: 'body', biomeId: 'biome-one', biomeIndex: 0 },
+      { id: 'two', bodyId: 'body', biomeId: 'biome-two', biomeIndex: 1 },
     ],
+    planetSpecies: [
+      { bodyId: 'body', speciesId: 'wild-species', resourceId: 'wild', domesticable: false },
+      { bodyId: 'other', speciesId: 'wild-species', resourceId: 'wild', domesticable: true },
+      { bodyId: 'body', speciesId: 'farm-species', resourceId: 'farm', domesticable: true },
+      { bodyId: 'body', speciesId: 'farm-species', resourceId: 'farm', domesticable: true },
+      { bodyId: 'body', speciesId: 'none', resourceId: null, domesticable: true },
+    ],
+    organicOccurrences: [{ bodyBiomeId: 'one', speciesId: 'wild-species' }, { bodyBiomeId: 'one', speciesId: 'farm-species' }],
+    species: [], products: [], productRecipes: [], systems: [], bodies: [],
     organicFarmingProfiles: [{ sourceClass: 'plant', inputs: [{ resourceId: 'wild', quantity: 1 }] }],
   }
 }
@@ -67,6 +74,7 @@ test('empty and unknown body selections return empty availability', () => {
 const generated = Object.fromEntries(await Promise.all([
   ['bodies', 'bodies'], ['resources', 'resources'], ['bodyResources', 'body-resources'],
   ['planetSpecies', 'planet-species'], ['inorganicOccurrences', 'inorganic-occurrences'],
+  ['bodyBiomes', 'body-biomes'], ['organicOccurrences', 'organic-occurrences'],
 ].map(async ([key, file]) => [key, JSON.parse(await readFile(new URL(`../public/reference-data/${file}.json`, import.meta.url), 'utf8'))])))
 
 test('generated atmospheric resources are present and production-valid without duplicates', (t) => {

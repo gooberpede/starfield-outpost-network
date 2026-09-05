@@ -1,4 +1,4 @@
-import { getBodyProductionResources } from './domain/bodyResourceAvailability'
+import { getBiomeButtonGroups } from './domain/bodyResourceAvailability'
 import {
   useEffect,
   useReducer,
@@ -6,6 +6,7 @@ import {
 } from 'react'
 import type {
   ReferenceData,
+  BodyBiomeId,
 } from './domain/referenceData'
 import { loadReferenceData } from './data/referenceDataLoader'
 import { sampleNetwork } from './domain/sampleData'
@@ -50,7 +51,15 @@ import type {
   CargoItem,
   ManufacturingEntry,
   OutpostNetwork,
+  ResourceProductionRoute,
 } from './domain/models'
+import { getProductionRouteKey } from './domain/productionRoutes'
+import {
+  changeOutpostBody,
+  changeOutpostSystem,
+  toggleOutpostBiomeGroup,
+  toggleOutpostProductionRoute,
+} from './domain/outpostEdits'
 
 /**
  * Removes Planned Supply entries that have acquired a real source.
@@ -272,8 +281,8 @@ function App() {
     (entry) => entry.bodyId === selectedOutpost?.bodyId,
   )
 
-  const availableLocalResources = referenceData
-    ? getBodyProductionResources(referenceData, selectedOutpost?.bodyId ?? null)
+  const biomeGroups = referenceData
+    ? getBiomeButtonGroups(referenceData, selectedOutpost?.bodyId ?? null)
     : []
 
   /**
@@ -1389,11 +1398,7 @@ function App() {
           currentNetwork.outposts.map(
             (outpost) =>
               outpost.id === effectiveSelectedOutpostId
-                ? {
-                    ...outpost,
-                    systemId,
-                    bodyId: '',
-                  }
+                ? changeOutpostSystem(outpost, systemId)
                 : outpost,
           ),
       }),
@@ -1436,12 +1441,27 @@ function App() {
           currentNetwork.outposts.map(
             (outpost) =>
               outpost.id === effectiveSelectedOutpostId
-                ? {
-                    ...outpost,
-                    bodyId,
-                  }
+                ? changeOutpostBody(outpost, bodyId)
                 : outpost,
           ),
+      }),
+    )
+  }
+
+  /** Toggles every ID represented by one biome button as one history action. */
+  function toggleSelectedOutpostBiomeGroup(
+    bodyBiomeIds: BodyBiomeId[],
+  ) {
+    const isSelected = selectedOutpost.selectedBiomeIds.length > 0 &&
+      bodyBiomeIds.every((id) => selectedOutpost.selectedBiomeIds.includes(id))
+    applyUndoableNetworkChange(
+      `${isSelected ? 'Remove' : 'Add'} biome selection for ${selectedOutpost.name}`,
+      (currentNetwork) => ({
+        ...currentNetwork,
+        outposts: currentNetwork.outposts.map((outpost) => {
+          if (outpost.id !== effectiveSelectedOutpostId) return outpost
+          return toggleOutpostBiomeGroup(outpost, bodyBiomeIds)
+        }),
       }),
     )
   }
@@ -1497,11 +1517,9 @@ function App() {
                         id !== resourceId,
                     ),
 
-                  activeProduction:
-                    outpost.activeProduction.filter(
-                      (id) =>
-                        id !== resourceId,
-                    ),
+                  activeProduction: outpost.activeProduction.filter(
+                    (route) => route.resourceId !== resourceId,
+                  ),
                 }
               }
 
@@ -1528,21 +1546,21 @@ function App() {
    * both the production state and any automatically retired planning entry.
    */
   function toggleActiveProduction(
-    resourceId: string,
+    route: ResourceProductionRoute,
   ) {
     const isCurrentlyActive =
-      selectedOutpost.activeProduction.includes(
-        resourceId,
+      selectedOutpost.activeProduction.some(
+        (candidate) => getProductionRouteKey(candidate) === getProductionRouteKey(route),
       )
 
     const resource =
       resources.find(
         (candidate) =>
-          candidate.id === resourceId,
+          candidate.id === route.resourceId,
       )
 
     const resourceName =
-      resource?.name ?? resourceId
+      resource?.name ?? route.resourceId
 
     applyUndoableNetworkChange(
       isCurrentlyActive
@@ -1556,20 +1574,7 @@ function App() {
             currentNetwork.outposts.map(
               (outpost) =>
                 outpost.id === effectiveSelectedOutpostId
-                  ? {
-                      ...outpost,
-
-                      activeProduction:
-                        isCurrentlyActive
-                          ? outpost.activeProduction.filter(
-                              (id) =>
-                                id !== resourceId,
-                            )
-                          : [
-                              ...outpost.activeProduction,
-                              resourceId,
-                            ],
-                    }
+                  ? toggleOutpostProductionRoute(outpost, route)
                   : outpost,
             ),
         }
@@ -1811,6 +1816,7 @@ function App() {
               onExport={reportNetworkExport}
             />
             <NetworkImportButton
+              referenceData={referenceData}
               onImport={importNetwork}
               onImportError={reportNetworkImportError}
             />
@@ -1846,9 +1852,11 @@ function App() {
             outpost={selectedOutpost}
             systems={referenceData?.systems ?? []}
             bodies={referenceData?.bodies ?? []}
+            biomeGroups={biomeGroups}
             onNameCommit={commitSelectedOutpostName}
             onSystemChange={updateSelectedOutpostSystem}
             onBodyChange={updateSelectedOutpostBody}
+            onBiomeGroupToggle={toggleSelectedOutpostBiomeGroup}
           />
         }
 
@@ -1860,19 +1868,18 @@ function App() {
               </p>
             )}
 
-            <OutpostStatusMatrix
+            {referenceData && <OutpostStatusMatrix
               key={selectedOutpost.id}
               outpost={selectedOutpost}
               network={network}
               resources={resources}
-              bodyResources={availableLocalResources}
+              referenceData={referenceData}
               products={products}
-              productRecipes={referenceData?.productRecipes ?? []}
               actuallyAvailableItems={actuallyAvailableItems}
               onToggleResource={toggleLocalResource}
               onToggleActiveProduction={toggleActiveProduction}
               onCommitManufacturing={commitManufacturing}
-            />
+            />}
 
             <PlannedSupplyEditor
               resources={resources}

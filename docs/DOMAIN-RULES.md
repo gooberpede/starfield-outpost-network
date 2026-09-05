@@ -242,9 +242,14 @@ Reference data may constrain which resources are plausible for the selected plan
 
 # 7. Active production
 
-`activeProduction` records resources the outpost is actively extracting, harvesting, or otherwise producing.
+`activeProduction` records explicit production routes. Inorganic routes identify
+a resource. Organic routes identify both resource and producing species. A
+migrated organic entry with no known species uses `organic-unspecified` rather
+than an invented species ID.
 
-An actively produced resource counts as **actually available** at the outpost.
+Every active route asserts its resource is **actually available**. Multiple
+routes for one resource collapse to one resource identity for cargo,
+manufacturing, Planned Supply, and logistics.
 
 A resource should normally be locally valid for the selected body before it can represent active production.
 
@@ -1134,40 +1139,50 @@ future biome selection. A resource occurring through both paths remains one
 logical resource in the matrix, with its ordinary name and ID; no vapor identity
 or label is created.
 
-**Production-valid** resources are body-present inorganics union organic resources
-with at least one local `PlanetSpeciesReference.domesticable === true` source.
+**Production-valid** resources are inorganics in the effective biome scope plus
+body-wide atmospheric inorganics, union domesticable organic species/resource
+routes occurring in that scope.
 Wild-only organic presence does not permit local production. Farming inputs do
-not imply domesticability. `getBodyProductionResources()` is authoritative for
-matrix choices and active-production validation. Future special production
+not imply domesticability. Helpers in `bodyResourceAvailability.ts` are
+authoritative for matrix choices and validation. Future special production
 mechanisms must be supported explicitly rather than weakening these rules.
 
-**Active production** remains persisted user state: the player has marked a
-resource as being produced at the outpost. Eligibility alone does not activate
-production or create actual supply. The richer occurrence distinctions remain
-internal; users continue to see simple availability and production state without
-biome, atmosphere, or species explanations.
+**Active production** remains persisted user state. Invalid active routes remain
+visible and continue to feed resource-level actual availability while validators
+report contradictions; the application does not repair them automatically.
 
 Nullable solar/wind power values remain raw reference data without efficiency or
 power-planning interpretation. Habitation rank supplies the minimum requirement
 described in section 14.
 
-## Deferred outpost placement
+## Outpost biome placement
 
-The current outpost domain model does not yet encode detailed biome placement as a required persisted field.
+Each outpost persists `selectedBiomeIds`. Empty means unrestricted/all valid body
+biomes. A non-empty list restricts occurrence-derived availability to valid IDs
+belonging to the body. Explicitly selecting every biome is functionally equivalent
+to empty but remains persisted. Body changes, and system changes that clear body,
+clear biome selection in the same undoable operation.
 
-Do not infer or impose biome rules unless a future feature explicitly introduces them.
+Atmospheric inorganics remain available in every scope. Equal same-name biome
+occurrences share one button only when their inorganic and domesticable
+resource/species signatures match; otherwise the UI numbers them in `biomeIndex`
+order without changing canonical identity.
 
 ---
 
-# 54. Organic production prerequisites
+# 54. Organic production inputs
 
-## Deferred
+Normal organic rows represent one domesticable species/resource route. Present
+is source-specific; Producing toggles that exact route. Rows order by plant,
+herbivore, carnivore, then resource and species names.
 
-Future reference data may support additional requirements for domesticable fauna/flora production.
-
-These rules are not yet part of the core production model.
-
-Do not invent feed, greenhouse, zoology, botany, habitat, or skill prerequisites unless they are explicitly introduced through agreed reference/domain rules.
+Inputs resolve from `OrganicFarmingProfileReference` and are validated per active
+valid route using manufacturing's supply-availability semantics.
+Quantities remain authoritative reference metadata for possible future throughput
+modelling, but the current qualitative matrix displays only input identity.
+`organic-unspecified` has no source profile or input diagnostics and receives its
+own warning. Activating a valid same-resource route removes the unspecified route
+in the same history action; disabling it later does not recreate ambiguity.
 
 ---
 
