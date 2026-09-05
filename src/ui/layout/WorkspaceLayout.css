@@ -27,6 +27,7 @@
     minmax(0, 1fr);
   gap: 1rem;
   align-items: start;
+  padding-inline: var(--page-gutter);
 }
 
 .workspace-layout__left,

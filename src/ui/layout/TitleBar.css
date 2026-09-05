@@ -16,7 +16,7 @@
  */
 
 .title-bar {
-  padding: 1rem 1.25rem 0.75rem;
+  padding: 1rem var(--page-gutter) 0.75rem;
   border-bottom: 1px solid currentColor;
 }
 
