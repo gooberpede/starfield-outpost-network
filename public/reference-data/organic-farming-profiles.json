@@ -1,0 +1,37 @@
+[
+  {
+    "sourceClass": "carnivore",
+    "inputs": [
+      {
+        "resourceId": "water",
+        "quantity": 1
+      },
+      {
+        "resourceId": "nutrient",
+        "quantity": 2
+      }
+    ]
+  },
+  {
+    "sourceClass": "herbivore",
+    "inputs": [
+      {
+        "resourceId": "water",
+        "quantity": 1
+      },
+      {
+        "resourceId": "fiber",
+        "quantity": 2
+      }
+    ]
+  },
+  {
+    "sourceClass": "plant",
+    "inputs": [
+      {
+        "resourceId": "water",
+        "quantity": 1
+      }
+    ]
+  }
+]

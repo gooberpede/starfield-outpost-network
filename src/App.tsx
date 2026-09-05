@@ -1,3 +1,4 @@
+import { getBodyProductionResources } from './domain/bodyResourceAvailability'
 import {
   useEffect,
   useReducer,
@@ -267,20 +268,13 @@ function App() {
       referenceData ?? undefined,
     )
 
-  const bodyResources = referenceData?.bodyResources ?? []
-
-  const selectedBodyResources =
-    bodyResources.find(
-      (entry) => entry.bodyId === selectedOutpost?.bodyId,
-    )
-
-  const selectedBodyResourceIds =
-    selectedBodyResources?.resourceIds ?? []
-
-  const availableLocalResources =
-    resources.filter((resource) =>
-      selectedBodyResourceIds.includes(resource.id),
+  const selectedBodyResources = referenceData?.bodyResources.find(
+    (entry) => entry.bodyId === selectedOutpost?.bodyId,
   )
+
+  const availableLocalResources = referenceData
+    ? getBodyProductionResources(referenceData, selectedOutpost?.bodyId ?? null)
+    : []
 
   /**
    * Loads the latest reference-data snapshot from the external JSON files.

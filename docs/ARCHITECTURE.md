@@ -436,7 +436,9 @@ Reference catalogues are generated rather than read from delimited source
 files by the browser. Planetary data follows a direct canonical export path:
 
 ```text
-xEdit → reference-source/planet-directory.tsv
+Game extracts → reference-source/planet-directory.csv
+                reference-source/biome-inorganic-resources.csv
+                reference-source/biome-organic-resources.csv
         ↓
 scripts/build-reference-data.mjs
         ↓
@@ -452,25 +454,44 @@ manufactured-product dictionary is the master source for product identity,
 abbreviation, and rarity, while `industrial-workbench.csv` remains the recipe
 source.
 
-Planetary occurrence sources have a separate responsibility. In particular,
-`organic-resources.csv` determines farmable organic occurrences; it does not
-create logical catalogue resources. The generated `resources.json` therefore
-carries rarity for every resource plus explicit inorganic family metadata, and
-`products.json` carries rarity for every manufactured product.
+The three canonical CSVs supply body facts, inorganic biome/atmosphere
+occurrences, and organic species occurrences respectively. The builder delegates
+shared biome joins and organic normalization to scripts/biome-reference-data.mjs.
+No flattened planet/resource source file is maintained.
 
-The Planet Directory TSV includes base-game and Shattered Space records. Its
-`PlanetFormID` and `StarSystemID` values remain the stable runtime identifiers.
-Generated body records add the narrow `PlanetaryBodyType` classification
-(`planet`, `moon`, or `orbital`) and a build-time-derived `outpostAllowed`
-boolean. Orbitals remain in the body catalogue even though they cannot host
-outposts.
+Runtime relationships are deliberately separate:
 
-Source provenance fields such as `SourceFile` and `ExtractTimestamp`, plus the
-xEdit-specific eligibility flags, remain in the source layer rather than being
-repeated on runtime body objects. The generator requires one consistent extract
-timestamp across the file. Repeated PlanetFormIDs with identical semantic body
-data produce an informational build diagnostic; conflicting semantic records
-fail generation. Star-system name conflicts likewise remain build failures.
+- bodies retain FormID/system identity, derived outpostAllowed, and nullable raw
+  solarArrayPower, windTurbinePower, and planetaryHabitationRank values;
+- biomes contain canonical FormID/name definitions; bodyBiomes identify a body
+  occurrence with body FormID plus biome index and retain numeric source order;
+- inorganicOccurrences distinguish biome occurrences from body-level atmosphere;
+- species contain global identity/name/type; planetSpecies contain the harvested
+  resource, domesticability, and source class for each body/species pair;
+- organicOccurrences connect body biomes to species without repeating those facts;
+- organicFarmingProfiles normalize observed inputs by plant/herbivore/carnivore;
+- bodyResources is a derived compatibility index of all inorganic and harvested
+  organic resources, including wild-only organic sources. It may be retired once
+  consumers become biome-aware. The matrix and active-production validator use
+  getBodyProductionResources to share domesticable-only organic eligibility.
+
+Each relationship has its own generated JSON file and typed loader property.
+Resource IDs remain stable curated application IDs; exact names and explicit
+Aluminum/Aluminium and Gastro Delight/Gastronomic Delight aliases crosswalk
+canonical resource FormIDs. Source rarity labels do not replace curated rarity.
+
+Source provenance and extraction-specific fields stay in canonical CSVs. An
+optional biome-inorganic-resources.manifest.json validates declared dataset,
+schema version (currently 1), output filename, and total/location row counts.
+Absent manifests are accepted; upstream hashes/timestamps/counts are provenance,
+not locks against refreshed source files. No manifest data enters runtime JSON.
+Duplicate body IDs and conflicting system, biome, resource crosswalk, or
+planet/species facts fail generation. Base-game and Shattered Space bodies remain
+in the catalogue, including ineligible bodies; selectors use outpostAllowed.
+
+This migration changes reference truth only. OutpostNetwork, saved IDs, browser
+storage, import/export schema, and Undo/Redo are unchanged. No persisted biome
+selection, habitation validation, or power calculation is introduced.
 
 ---
 

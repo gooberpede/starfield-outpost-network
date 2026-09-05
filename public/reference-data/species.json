@@ -1,0 +1,5607 @@
+[
+  {
+    "id": "000065E2",
+    "name": "Carasnail Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "000065E6",
+    "name": "Herding Glowback Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "00023535",
+    "name": "Hornwing Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "00023536",
+    "name": "Pearl Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "0002353B",
+    "name": "Mothwing Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "00025A9D",
+    "name": "Eggsac Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "00025A9E",
+    "name": "Hunting Sharkwhale",
+    "type": "fauna"
+  },
+  {
+    "id": "000285D6",
+    "name": "Herding Glider Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "000285D7",
+    "name": "Carasnail Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "0002B0D3",
+    "name": "Herding Dragonfly Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "0002E342",
+    "name": "Trilobite Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "0002E343",
+    "name": "Pack Vulture",
+    "type": "fauna"
+  },
+  {
+    "id": "0002E344",
+    "name": "Flocking Sporeback Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "0002E345",
+    "name": "Triworm Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "0002E346",
+    "name": "Flamethorn Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "0002E347",
+    "name": "Pack Silverfish",
+    "type": "fauna"
+  },
+  {
+    "id": "0002E348",
+    "name": "Pack Eggtail Stalker",
+    "type": "fauna"
+  },
+  {
+    "id": "0002E349",
+    "name": "Pack Mothwing",
+    "type": "fauna"
+  },
+  {
+    "id": "0002E34A",
+    "name": "Flocking Cranehopper Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "0002E34B",
+    "name": "Flocking Hippodon Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "0002E34C",
+    "name": "Herding Glider Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "0003C4C0",
+    "name": "Morningstar Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "00046C2D",
+    "name": "Fleshleaf Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "00048A34",
+    "name": "Apex Parrothawk",
+    "type": "fauna"
+  },
+  {
+    "id": "0006B55D",
+    "name": "Herding Fluke Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "0008BDB6",
+    "name": "Parrothawk Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "0008BDB7",
+    "name": "Schooling Kronosaurus Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "0008D0D8",
+    "name": "Grylloba Hunter",
+    "type": "fauna"
+  },
+  {
+    "id": "000DD261",
+    "name": "Pack Glowhands",
+    "type": "fauna"
+  },
+  {
+    "id": "000EF9A8",
+    "name": "Hunting Boneglider",
+    "type": "fauna"
+  },
+  {
+    "id": "000EF9A9",
+    "name": "Schooling Sawhead Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00131CD1",
+    "name": "Pack Sharkwhale",
+    "type": "fauna"
+  },
+  {
+    "id": "00131CD2",
+    "name": "Shoaling Sawhead Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "00131CD3",
+    "name": "Cockatrice Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "00131CD4",
+    "name": "Herding Saturnine Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "00131CD5",
+    "name": "Herding Tapeworm Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00131CD6",
+    "name": "Schooling Featherfin Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "00131CD7",
+    "name": "Flocking Saturnine Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00131CD8",
+    "name": "Pack Kronosaurus",
+    "type": "fauna"
+  },
+  {
+    "id": "00131CD9",
+    "name": "Schooling Paddlefish Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "00131CDA",
+    "name": "Pearl Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "00131CDB",
+    "name": "Shoaling Seahag Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "00131CDC",
+    "name": "Pack Kronosaurus",
+    "type": "fauna"
+  },
+  {
+    "id": "00131CDD",
+    "name": "Schooling Bladehead Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00157E3B",
+    "name": "Schooling Skullface Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "00157E3C",
+    "name": "Coralbucket Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "00157E3D",
+    "name": "Pack Twintail",
+    "type": "fauna"
+  },
+  {
+    "id": "00157E3E",
+    "name": "Hunting Brainsprout",
+    "type": "fauna"
+  },
+  {
+    "id": "00157E3F",
+    "name": "Pack Twistfin",
+    "type": "fauna"
+  },
+  {
+    "id": "00157E40",
+    "name": "Toadface Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00157E41",
+    "name": "Flocking Shellephant Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "00157E42",
+    "name": "Flocking Cephalopod Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "00157E43",
+    "name": "Schooling Exowhale Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "00157E44",
+    "name": "Mayfly Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "00157E45",
+    "name": "Schooling Arapaima Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "0015BE25",
+    "name": "Schooling Kronosaurus Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00170A2A",
+    "name": "Hunting Brainsprout",
+    "type": "fauna"
+  },
+  {
+    "id": "00170A2B",
+    "name": "Coralbug Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "00170A43",
+    "name": "Lesser Silverfish",
+    "type": "fauna"
+  },
+  {
+    "id": "001791AE",
+    "name": "Hunting Stonewalker Stalker",
+    "type": "fauna"
+  },
+  {
+    "id": "001791AF",
+    "name": "Spaceroach Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00179DC4",
+    "name": "Centiskull Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00185469",
+    "name": "Mire Root",
+    "type": "flora"
+  },
+  {
+    "id": "0018546A",
+    "name": "Swamp Bottle Root",
+    "type": "flora"
+  },
+  {
+    "id": "0018546B",
+    "name": "Hardy Woundwort",
+    "type": "flora"
+  },
+  {
+    "id": "0018546C",
+    "name": "Hunter's Stalk",
+    "type": "flora"
+  },
+  {
+    "id": "0018546D",
+    "name": "Bog Bloom",
+    "type": "flora"
+  },
+  {
+    "id": "0018546E",
+    "name": "Split Leaf Watercress",
+    "type": "flora"
+  },
+  {
+    "id": "0018546F",
+    "name": "Gnaw Stalk",
+    "type": "flora"
+  },
+  {
+    "id": "00185470",
+    "name": "Rotting Stinkroot",
+    "type": "flora"
+  },
+  {
+    "id": "00185471",
+    "name": "Swamp Weed",
+    "type": "flora"
+  },
+  {
+    "id": "00185472",
+    "name": "Swamp Pedestal",
+    "type": "flora"
+  },
+  {
+    "id": "00185478",
+    "name": "Boreas Root",
+    "type": "flora"
+  },
+  {
+    "id": "00185479",
+    "name": "Tufted Snow Willow",
+    "type": "flora"
+  },
+  {
+    "id": "0018547A",
+    "name": "Frost Reed",
+    "type": "flora"
+  },
+  {
+    "id": "0018547B",
+    "name": "Frigid Palm",
+    "type": "flora"
+  },
+  {
+    "id": "0018547C",
+    "name": "Sub-Zero Silkweed",
+    "type": "flora"
+  },
+  {
+    "id": "0018547D",
+    "name": "Terra Root",
+    "type": "flora"
+  },
+  {
+    "id": "0018547E",
+    "name": "Starburst Silkweed",
+    "type": "flora"
+  },
+  {
+    "id": "0018547F",
+    "name": "Glossy Stickweed",
+    "type": "flora"
+  },
+  {
+    "id": "00185483",
+    "name": "Sweet Canis Vine",
+    "type": "flora"
+  },
+  {
+    "id": "00185484",
+    "name": "Forest Wisp",
+    "type": "flora"
+  },
+  {
+    "id": "00185485",
+    "name": "Christina Bloom",
+    "type": "flora"
+  },
+  {
+    "id": "00185486",
+    "name": "Laga Plant",
+    "type": "flora"
+  },
+  {
+    "id": "00185487",
+    "name": "Golden Creeper",
+    "type": "flora"
+  },
+  {
+    "id": "00185488",
+    "name": "Abyss Pine Seedling",
+    "type": "flora"
+  },
+  {
+    "id": "00185489",
+    "name": "Broadleaf Rose",
+    "type": "flora"
+  },
+  {
+    "id": "0018548A",
+    "name": "Ginger Cage Vine",
+    "type": "flora"
+  },
+  {
+    "id": "0018548B",
+    "name": "Eurymedon Bulb",
+    "type": "flora"
+  },
+  {
+    "id": "0018548C",
+    "name": "Starleaf",
+    "type": "flora"
+  },
+  {
+    "id": "0018548D",
+    "name": "Red Stinging Nettle",
+    "type": "flora"
+  },
+  {
+    "id": "0018548E",
+    "name": "Bitter Orange Root",
+    "type": "flora"
+  },
+  {
+    "id": "0018548F",
+    "name": "Titan Coleus",
+    "type": "flora"
+  },
+  {
+    "id": "00185490",
+    "name": "Arc Root",
+    "type": "flora"
+  },
+  {
+    "id": "00185491",
+    "name": "Rotorstalk",
+    "type": "flora"
+  },
+  {
+    "id": "00185492",
+    "name": "Bright Fire Reed",
+    "type": "flora"
+  },
+  {
+    "id": "00185493",
+    "name": "Canyon Rose",
+    "type": "flora"
+  },
+  {
+    "id": "00185494",
+    "name": "Spike Spit Trap",
+    "type": "flora"
+  },
+  {
+    "id": "00185495",
+    "name": "Caelus Pokeweed",
+    "type": "flora"
+  },
+  {
+    "id": "00185496",
+    "name": "Aruna Goldenglow",
+    "type": "flora"
+  },
+  {
+    "id": "00185497",
+    "name": "Savage Woundwort",
+    "type": "flora"
+  },
+  {
+    "id": "00185498",
+    "name": "Velvet Bloom",
+    "type": "flora"
+  },
+  {
+    "id": "00185499",
+    "name": "Sweeping Silkweed",
+    "type": "flora"
+  },
+  {
+    "id": "0018549A",
+    "name": "Bellona Bush",
+    "type": "flora"
+  },
+  {
+    "id": "0018549B",
+    "name": "Crag Root",
+    "type": "flora"
+  },
+  {
+    "id": "0018549C",
+    "name": "Flame Vine",
+    "type": "flora"
+  },
+  {
+    "id": "0018549D",
+    "name": "Sweet Wallflower",
+    "type": "flora"
+  },
+  {
+    "id": "0018549E",
+    "name": "Aniline Blackweed",
+    "type": "flora"
+  },
+  {
+    "id": "0018549F",
+    "name": "Haviva Vine",
+    "type": "flora"
+  },
+  {
+    "id": "001854A0",
+    "name": "Blistered Hornbulb",
+    "type": "flora"
+  },
+  {
+    "id": "001854A1",
+    "name": "Altar Clusterpod",
+    "type": "flora"
+  },
+  {
+    "id": "001854A2",
+    "name": "Bitter Bramble",
+    "type": "flora"
+  },
+  {
+    "id": "001854A3",
+    "name": "Mimic Pokeweed",
+    "type": "flora"
+  },
+  {
+    "id": "001854A4",
+    "name": "Phoenix Briar",
+    "type": "flora"
+  },
+  {
+    "id": "001854A5",
+    "name": "Dovefoot Pedestal",
+    "type": "flora"
+  },
+  {
+    "id": "001854A6",
+    "name": "Craterhorn Shrub",
+    "type": "flora"
+  },
+  {
+    "id": "001854B1",
+    "name": "Weeping Fireleaf",
+    "type": "flora"
+  },
+  {
+    "id": "001854B7",
+    "name": "Lattice leaf",
+    "type": "flora"
+  },
+  {
+    "id": "001854B8",
+    "name": "Festering Junglecreep",
+    "type": "flora"
+  },
+  {
+    "id": "001854B9",
+    "name": "Sweet Goldenglow",
+    "type": "flora"
+  },
+  {
+    "id": "001854BA",
+    "name": "Apollo Fireleaf",
+    "type": "flora"
+  },
+  {
+    "id": "001854BC",
+    "name": "Spitting Pokeweed",
+    "type": "flora"
+  },
+  {
+    "id": "001854BD",
+    "name": "Nebula weed",
+    "type": "flora"
+  },
+  {
+    "id": "001854BE",
+    "name": "Spirit Laurel",
+    "type": "flora"
+  },
+  {
+    "id": "001854BF",
+    "name": "Explorer's Coleus",
+    "type": "flora"
+  },
+  {
+    "id": "001854C0",
+    "name": "Jagged Heart leaf",
+    "type": "flora"
+  },
+  {
+    "id": "001854C1",
+    "name": "Spiral Creeper",
+    "type": "flora"
+  },
+  {
+    "id": "001854C2",
+    "name": "Atlas Weed",
+    "type": "flora"
+  },
+  {
+    "id": "001854C3",
+    "name": "Leafy Morningstar",
+    "type": "flora"
+  },
+  {
+    "id": "001854C4",
+    "name": "Sweet Root",
+    "type": "flora"
+  },
+  {
+    "id": "001854C5",
+    "name": "Blue Weeping Shrub",
+    "type": "flora"
+  },
+  {
+    "id": "001854CB",
+    "name": "Augustus Creeper",
+    "type": "flora"
+  },
+  {
+    "id": "001854CC",
+    "name": "Tundra Vine",
+    "type": "flora"
+  },
+  {
+    "id": "001854CD",
+    "name": "Blooming Slopefeather",
+    "type": "flora"
+  },
+  {
+    "id": "001854CE",
+    "name": "Aruna Goldenglow",
+    "type": "flora"
+  },
+  {
+    "id": "001854CF",
+    "name": "Bleeding Heart Vine",
+    "type": "flora"
+  },
+  {
+    "id": "001854D5",
+    "name": "Star Bloom Root",
+    "type": "flora"
+  },
+  {
+    "id": "001854D6",
+    "name": "Spiral Bloom",
+    "type": "flora"
+  },
+  {
+    "id": "001854D7",
+    "name": "Enduring Bugleweed",
+    "type": "flora"
+  },
+  {
+    "id": "001854D8",
+    "name": "Cliff Laurel",
+    "type": "flora"
+  },
+  {
+    "id": "001854D9",
+    "name": "Stunted Pine",
+    "type": "flora"
+  },
+  {
+    "id": "001854DA",
+    "name": "Crusher Leaf",
+    "type": "flora"
+  },
+  {
+    "id": "001854DF",
+    "name": "Ash Flower",
+    "type": "flora"
+  },
+  {
+    "id": "001854E0",
+    "name": "Moon Root",
+    "type": "flora"
+  },
+  {
+    "id": "001854E1",
+    "name": "Aries Vine",
+    "type": "flora"
+  },
+  {
+    "id": "001854E2",
+    "name": "Passenger Vine",
+    "type": "flora"
+  },
+  {
+    "id": "001854E3",
+    "name": "Rosy Tendril Weed",
+    "type": "flora"
+  },
+  {
+    "id": "001854E9",
+    "name": "Crimson Courtstalk",
+    "type": "flora"
+  },
+  {
+    "id": "001854EA",
+    "name": "Haven Vine",
+    "type": "flora"
+  },
+  {
+    "id": "001854EB",
+    "name": "Spiny Ghost Cactus",
+    "type": "flora"
+  },
+  {
+    "id": "001854EC",
+    "name": "Ash Sweeper",
+    "type": "flora"
+  },
+  {
+    "id": "001854ED",
+    "name": "Dust Root",
+    "type": "flora"
+  },
+  {
+    "id": "001854F3",
+    "name": "Nova Bloom",
+    "type": "flora"
+  },
+  {
+    "id": "001854F4",
+    "name": "Sage Shrub",
+    "type": "flora"
+  },
+  {
+    "id": "001854F5",
+    "name": "Canary Reed",
+    "type": "flora"
+  },
+  {
+    "id": "001854F6",
+    "name": "Broken Heart Vine",
+    "type": "flora"
+  },
+  {
+    "id": "001854F7",
+    "name": "Savanna Sweetbush",
+    "type": "flora"
+  },
+  {
+    "id": "001854F8",
+    "name": "Burnt Pokeleaf",
+    "type": "flora"
+  },
+  {
+    "id": "001854F9",
+    "name": "Bitter Goldenglow",
+    "type": "flora"
+  },
+  {
+    "id": "001854FA",
+    "name": "Canis Palm",
+    "type": "flora"
+  },
+  {
+    "id": "001854FB",
+    "name": "Gasping Fireleaf",
+    "type": "flora"
+  },
+  {
+    "id": "001854FC",
+    "name": "Sleeping Giant Thorn",
+    "type": "flora"
+  },
+  {
+    "id": "001854FD",
+    "name": "Sweetwater Cactus",
+    "type": "flora"
+  },
+  {
+    "id": "001854FE",
+    "name": "Golden Sand Root",
+    "type": "flora"
+  },
+  {
+    "id": "001854FF",
+    "name": "Barrenbulb",
+    "type": "flora"
+  },
+  {
+    "id": "00185500",
+    "name": "Prickly Awaj",
+    "type": "flora"
+  },
+  {
+    "id": "00185501",
+    "name": "Tremor Root",
+    "type": "flora"
+  },
+  {
+    "id": "00185502",
+    "name": "Sweet Fumewort",
+    "type": "flora"
+  },
+  {
+    "id": "00185503",
+    "name": "Bristle Barrel",
+    "type": "flora"
+  },
+  {
+    "id": "00185504",
+    "name": "Mustard Bugweed",
+    "type": "flora"
+  },
+  {
+    "id": "00185505",
+    "name": "Stinging Flutterleaf",
+    "type": "flora"
+  },
+  {
+    "id": "00185506",
+    "name": "Dunetangle",
+    "type": "flora"
+  },
+  {
+    "id": "00185507",
+    "name": "Wanderer's Husk",
+    "type": "flora"
+  },
+  {
+    "id": "00185508",
+    "name": "Hecate's Fireleaf",
+    "type": "flora"
+  },
+  {
+    "id": "00185509",
+    "name": "Sandclaw",
+    "type": "flora"
+  },
+  {
+    "id": "0018550A",
+    "name": "Sandy Goldenglow",
+    "type": "flora"
+  },
+  {
+    "id": "0018550B",
+    "name": "Spiny Bell Cactus",
+    "type": "flora"
+  },
+  {
+    "id": "00187114",
+    "name": "Eggsac Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "0018711A",
+    "name": "Grylloba",
+    "type": "fauna"
+  },
+  {
+    "id": "00187129",
+    "name": "Cataxi Hunter",
+    "type": "fauna"
+  },
+  {
+    "id": "0018712A",
+    "name": "Cataxi Warrior",
+    "type": "fauna"
+  },
+  {
+    "id": "001933DD",
+    "name": "Tuskfrog Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001933DE",
+    "name": "Herding Monitor Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001933DF",
+    "name": "Hunting Bighorn",
+    "type": "fauna"
+  },
+  {
+    "id": "001933E0",
+    "name": "Hunting Trapmaw",
+    "type": "fauna"
+  },
+  {
+    "id": "001933E1",
+    "name": "Grabber Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001933E2",
+    "name": "Triworm Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001933E3",
+    "name": "Herding Beetlecrab Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001933E4",
+    "name": "Herding Bonefrill Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001933E5",
+    "name": "Hunting Loxodont",
+    "type": "fauna"
+  },
+  {
+    "id": "001933E6",
+    "name": "Hunting Cephalopod",
+    "type": "fauna"
+  },
+  {
+    "id": "001941ED",
+    "name": "Flocking Clawback Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "00194835",
+    "name": "Chasmbass",
+    "type": "fauna"
+  },
+  {
+    "id": "00194837",
+    "name": "Hunting Sharkwhale",
+    "type": "fauna"
+  },
+  {
+    "id": "00194895",
+    "name": "Milliwhale Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00194896",
+    "name": "Schooling Finback Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "00194897",
+    "name": "Herding Cassowary Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "00194898",
+    "name": "Herding Leafbug Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00194899",
+    "name": "Pack Bladehead",
+    "type": "fauna"
+  },
+  {
+    "id": "0019489A",
+    "name": "Pack Seabat",
+    "type": "fauna"
+  },
+  {
+    "id": "00195353",
+    "name": "Grabber Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "00195354",
+    "name": "Herding Trihorn Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00195355",
+    "name": "Herding Bighorn Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "00195356",
+    "name": "Flocking Ankylosaurus Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "00195357",
+    "name": "Hunting Bonemane",
+    "type": "fauna"
+  },
+  {
+    "id": "00195358",
+    "name": "Pack Vulture Stalker",
+    "type": "fauna"
+  },
+  {
+    "id": "00196516",
+    "name": "Flocking Glowhands Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00196517",
+    "name": "Flocking Cutterhead Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00196519",
+    "name": "Stalker",
+    "type": "fauna"
+  },
+  {
+    "id": "00196BAF",
+    "name": "Spaceroach Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "00196BB0",
+    "name": "Herding Beetlecrab Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "00196BB1",
+    "name": "Leafbug Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "00196BB2",
+    "name": "Red Mile Mauler",
+    "type": "fauna"
+  },
+  {
+    "id": "00197D3F",
+    "name": "Centiskull Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00197D40",
+    "name": "Flocking Dodo Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00197D41",
+    "name": "Herding Cockatrice Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "00197D42",
+    "name": "Flocking Horsamander Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00197D43",
+    "name": "Swarming Sunflower",
+    "type": "fauna"
+  },
+  {
+    "id": "00197D44",
+    "name": "Pack Octomaggot",
+    "type": "fauna"
+  },
+  {
+    "id": "0019AA63",
+    "name": "Trilobite Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "0019AA64",
+    "name": "Flocking Shardhopper Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "0019AA65",
+    "name": "Herding Coralbucket Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "0019AA66",
+    "name": "Flocking Coralcrawler Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "0019AA67",
+    "name": "Prong Wing",
+    "type": "fauna"
+  },
+  {
+    "id": "0019AA68",
+    "name": "Dust Devil",
+    "type": "fauna"
+  },
+  {
+    "id": "0019B1FA",
+    "name": "Flamethorn Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "0019B1FB",
+    "name": "Herding Lockjaw Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "0019B1FC",
+    "name": "Flocking Scepter Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "0019B1FD",
+    "name": "Hunting Silverfish",
+    "type": "fauna"
+  },
+  {
+    "id": "0019B1FE",
+    "name": "Hunting Arachnomantis Stalker",
+    "type": "fauna"
+  },
+  {
+    "id": "0019B898",
+    "name": "Beetle Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "0019B899",
+    "name": "Carasnail Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "0019B89A",
+    "name": "Herding Reefwalker Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "0019B89B",
+    "name": "Flocking Seabat Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "0019B89C",
+    "name": "Herding Cutterhead Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "0019B89D",
+    "name": "Apex Crocodaunt",
+    "type": "fauna"
+  },
+  {
+    "id": "0019B89E",
+    "name": "Hunting Tuskfrog",
+    "type": "fauna"
+  },
+  {
+    "id": "0019B89F",
+    "name": "Pack Coralbug",
+    "type": "fauna"
+  },
+  {
+    "id": "0019BD93",
+    "name": "Metropus Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "0019BD94",
+    "name": "Herding Sunflower Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "0019BD95",
+    "name": "Flocking Crab Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "0019BD96",
+    "name": "Herding Dodo Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "0019CDA2",
+    "name": "Centiskull Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "0019CDA3",
+    "name": "Eggback Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "0019CDA4",
+    "name": "Herding Bonemane Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "0019CDA5",
+    "name": "Hunting Ankylosaurus",
+    "type": "fauna"
+  },
+  {
+    "id": "0019E77E",
+    "name": "Sunfish Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "0019E858",
+    "name": "Pack Seahag",
+    "type": "fauna"
+  },
+  {
+    "id": "001A6170",
+    "name": "Carasnail Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001A6171",
+    "name": "Grabber Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A6172",
+    "name": "Flocking Scepter Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A6173",
+    "name": "Herding Blistercrab Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A6174",
+    "name": "Flocking Leafbug Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A6175",
+    "name": "Flocking Eyespine Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001A6176",
+    "name": "Hunting Seabat",
+    "type": "fauna"
+  },
+  {
+    "id": "001A6177",
+    "name": "Pack Crab Stalker",
+    "type": "fauna"
+  },
+  {
+    "id": "001A6178",
+    "name": "Pack Bladeback",
+    "type": "fauna"
+  },
+  {
+    "id": "001A6347",
+    "name": "Triworm Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A6348",
+    "name": "Thorn Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001A6349",
+    "name": "Flocking Nautiloos Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A634B",
+    "name": "Herding Scoopback Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001A634C",
+    "name": "Swarming Noid",
+    "type": "fauna"
+  },
+  {
+    "id": "001A634D",
+    "name": "Swarming Arachnofly Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001A634E",
+    "name": "Swarming Shardhopper Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001A766F",
+    "name": "Milliwhale Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7670",
+    "name": "Carasnail Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7671",
+    "name": "Schooling Bladehead Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7672",
+    "name": "Flocking Scepter Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7673",
+    "name": "Herding Glowhands Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7674",
+    "name": "Flocking Longarm Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7675",
+    "name": "Swarming Sentinel",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7676",
+    "name": "Pack Mossasaur",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7677",
+    "name": "Pack Landshark",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7678",
+    "name": "Pack Stingray",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7EAC",
+    "name": "Grabber Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7EAD",
+    "name": "Carasnail Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7EAE",
+    "name": "Centiskull Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7EAF",
+    "name": "Herding Leafbug Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7EB0",
+    "name": "Flocking Blistercrab Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7EB1",
+    "name": "Herding Crab Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7EB2",
+    "name": "Seahorse Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7EB3",
+    "name": "Herding Cutterhead Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7EB4",
+    "name": "Herding Tuskfrog Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7EB5",
+    "name": "Pack Scorpion",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7EB6",
+    "name": "Hunting Coralcrawler",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7EB7",
+    "name": "Pack Clickbeetle",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7F77",
+    "name": "Carasnail Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7F78",
+    "name": "Centiskull Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7F79",
+    "name": "Herding Longneck Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7F7A",
+    "name": "Herding Eggsac Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7F7B",
+    "name": "Flocking Triantler Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7F7C",
+    "name": "Hunting Dodo",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7F7D",
+    "name": "Pack Tuskfrog",
+    "type": "fauna"
+  },
+  {
+    "id": "001A7F7E",
+    "name": "Pack Caterpillar",
+    "type": "fauna"
+  },
+  {
+    "id": "001A8382",
+    "name": "Beetle Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001A8384",
+    "name": "Flamethorn Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001A8385",
+    "name": "Herding Toadface Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001A838A",
+    "name": "Flocking Exocrawler",
+    "type": "fauna"
+  },
+  {
+    "id": "001A838B",
+    "name": "Herding Loxodont Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A838E",
+    "name": "Swarming Foxbat",
+    "type": "fauna"
+  },
+  {
+    "id": "001A838F",
+    "name": "Pack Scarab",
+    "type": "fauna"
+  },
+  {
+    "id": "001A8392",
+    "name": "Apex Ankylosaurus",
+    "type": "fauna"
+  },
+  {
+    "id": "001A8FC6",
+    "name": "Fleshleaf Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A8FC7",
+    "name": "Flamethorn Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A8FC8",
+    "name": "Milliwhale Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A8FC9",
+    "name": "Flocking Brainsprout Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A8FCA",
+    "name": "Leafstrider Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001A8FCB",
+    "name": "Trihorn Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001A8FCC",
+    "name": "Herding Cagebrain Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A8FCD",
+    "name": "Pack Boneshell",
+    "type": "fauna"
+  },
+  {
+    "id": "001A8FCE",
+    "name": "Pack Scarab",
+    "type": "fauna"
+  },
+  {
+    "id": "001A8FCF",
+    "name": "Hunting Lockjaw",
+    "type": "fauna"
+  },
+  {
+    "id": "001A903A",
+    "name": "Beetle Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A903B",
+    "name": "Herding Shardhopper Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001A903C",
+    "name": "Hunting Coralbug",
+    "type": "fauna"
+  },
+  {
+    "id": "001A903D",
+    "name": "Spore Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A903E",
+    "name": "Flamethorn Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A903F",
+    "name": "Flapwheel Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001A9040",
+    "name": "Herding Vuvuzelisk Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A9041",
+    "name": "Herding Rockhound Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A9042",
+    "name": "Hunting Coralcrab",
+    "type": "fauna"
+  },
+  {
+    "id": "001A9043",
+    "name": "Swarming Landshark",
+    "type": "fauna"
+  },
+  {
+    "id": "001A9044",
+    "name": "Pack Exorunner",
+    "type": "fauna"
+  },
+  {
+    "id": "001A94DA",
+    "name": "Spaceroach Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A94DB",
+    "name": "Beetle Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001A94DC",
+    "name": "Herding Trihorn Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001A94DD",
+    "name": "Herding Vectorback Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A94DE",
+    "name": "Flocking Leafback Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001A94DF",
+    "name": "Pack Clawback Stalker",
+    "type": "fauna"
+  },
+  {
+    "id": "001A94E0",
+    "name": "Pack Lacraia",
+    "type": "fauna"
+  },
+  {
+    "id": "001A94E1",
+    "name": "Swarming Exorunner",
+    "type": "fauna"
+  },
+  {
+    "id": "001A9996",
+    "name": "Artichoke Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A9997",
+    "name": "Flamethorn Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A9998",
+    "name": "Milliwhale Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001A9999",
+    "name": "Herding Mantodea Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A999A",
+    "name": "Glowhands Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A999B",
+    "name": "Herding Octomaggot Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001A999C",
+    "name": "Pack Shardhopper",
+    "type": "fauna"
+  },
+  {
+    "id": "001A999D",
+    "name": "Pack Hammersaur",
+    "type": "fauna"
+  },
+  {
+    "id": "001A999E",
+    "name": "Hunting Tentabeard",
+    "type": "fauna"
+  },
+  {
+    "id": "001A999F",
+    "name": "Beetle Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A99A0",
+    "name": "Coralheart Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001A99A1",
+    "name": "Grabber Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A99A2",
+    "name": "Bonefrill Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001A99A3",
+    "name": "Herding Coralcrawler Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A99A4",
+    "name": "Herding Hornface Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001A99A5",
+    "name": "Hunting Sunflower",
+    "type": "fauna"
+  },
+  {
+    "id": "001A99A6",
+    "name": "Pack Twistfin",
+    "type": "fauna"
+  },
+  {
+    "id": "001A9ACA",
+    "name": "Hunting Cricket",
+    "type": "fauna"
+  },
+  {
+    "id": "001A9C7F",
+    "name": "Trilobite Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A9C80",
+    "name": "Beetle Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001A9C81",
+    "name": "Herding Brainsprout Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A9C82",
+    "name": "Flocking Clickbeetle Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001A9C83",
+    "name": "Herding Twigwalker Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001A9C84",
+    "name": "Swarming Scorpion",
+    "type": "fauna"
+  },
+  {
+    "id": "001A9C85",
+    "name": "Swarming Horsamander",
+    "type": "fauna"
+  },
+  {
+    "id": "001A9C86",
+    "name": "Pack Scarab",
+    "type": "fauna"
+  },
+  {
+    "id": "001AA10E",
+    "name": "Herding Trihorn Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001AA10F",
+    "name": "Flocking Scorpion Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001AA110",
+    "name": "Herding Sailgator Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001AA111",
+    "name": "Hunting Brainsquid",
+    "type": "fauna"
+  },
+  {
+    "id": "001AA112",
+    "name": "Hunting Cagebrain",
+    "type": "fauna"
+  },
+  {
+    "id": "001AA113",
+    "name": "Pack Coralcrawler",
+    "type": "fauna"
+  },
+  {
+    "id": "001AD03D",
+    "name": "Grabber Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001AD03E",
+    "name": "Jackknife Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001AD18C",
+    "name": "Spaceroach Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001AD18D",
+    "name": "Jackknife Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001AD18E",
+    "name": "Flocking Marnokk Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001AD18F",
+    "name": "Hunting Sloth Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001AD190",
+    "name": "Flocking Grub Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001AD191",
+    "name": "Pack Crab",
+    "type": "fauna"
+  },
+  {
+    "id": "001AD192",
+    "name": "Pack Thornmantis",
+    "type": "fauna"
+  },
+  {
+    "id": "001AD193",
+    "name": "Hunting Hammersaur",
+    "type": "fauna"
+  },
+  {
+    "id": "001AE4DF",
+    "name": "Grabber Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001AE4E0",
+    "name": "Coralheart Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001AE4E1",
+    "name": "Herding Rockhound Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001AE4E2",
+    "name": "Herding Beetlecrab Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001AE4E3",
+    "name": "Herding Roundshell Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001AE4E4",
+    "name": "Flocking Leafstrider Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001AE4E5",
+    "name": "Herding Vectorback Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001AE4E6",
+    "name": "Swarming Brightcage",
+    "type": "fauna"
+  },
+  {
+    "id": "001AE4E7",
+    "name": "Swarming Eggback",
+    "type": "fauna"
+  },
+  {
+    "id": "001AE4E8",
+    "name": "Hunting Boneshell",
+    "type": "fauna"
+  },
+  {
+    "id": "001AF63C",
+    "name": "Tubecrawler Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001AF63D",
+    "name": "Grabber Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001AF63E",
+    "name": "Herding Dragon Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001AF63F",
+    "name": "Herding Hornface Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001AF640",
+    "name": "Herding Spiderwasp Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001AF641",
+    "name": "Flocking Roundface Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001AF642",
+    "name": "Pack Horsamander",
+    "type": "fauna"
+  },
+  {
+    "id": "001AF643",
+    "name": "Swarming Clickbeetle",
+    "type": "fauna"
+  },
+  {
+    "id": "001AF644",
+    "name": "Pack Exocrawler",
+    "type": "fauna"
+  },
+  {
+    "id": "001B003A",
+    "name": "Flocking Trident Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B0044",
+    "name": "Noid Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B0045",
+    "name": "Grabber Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B0046",
+    "name": "Herding Lockjaw Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B0047",
+    "name": "Exocrawler Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001B0048",
+    "name": "Pack Ankylosaurus",
+    "type": "fauna"
+  },
+  {
+    "id": "001B0049",
+    "name": "Hunting Bonefrill Stalker",
+    "type": "fauna"
+  },
+  {
+    "id": "001B034D",
+    "name": "Grub Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001B034E",
+    "name": "Flamethorn Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001B034F",
+    "name": "Leafstrider Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001B0350",
+    "name": "Herding Stonewalker Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B0351",
+    "name": "Hunting Nailtail",
+    "type": "fauna"
+  },
+  {
+    "id": "001B0352",
+    "name": "Hunting Thornmantis",
+    "type": "fauna"
+  },
+  {
+    "id": "001B0519",
+    "name": "Thorn Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001B051A",
+    "name": "Herding Octomaggot Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001B051B",
+    "name": "Herding Arachnofly Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B051D",
+    "name": "Pack Spiderwasp",
+    "type": "fauna"
+  },
+  {
+    "id": "001B0637",
+    "name": "Grub Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001B0645",
+    "name": "Centiskull Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B0646",
+    "name": "Herding Horsamander Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001B0647",
+    "name": "Flocking Sloth Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B0648",
+    "name": "Pack Scarab",
+    "type": "fauna"
+  },
+  {
+    "id": "001B0649",
+    "name": "Pack Crocodaunt",
+    "type": "fauna"
+  },
+  {
+    "id": "001B064A",
+    "name": "Thorn Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B064E",
+    "name": "Coralbug Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001B064F",
+    "name": "Herding Coralcrawler Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B0650",
+    "name": "Hunting Shieldshell",
+    "type": "fauna"
+  },
+  {
+    "id": "001B0653",
+    "name": "Herding Brightcage Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001B0677",
+    "name": "Pack Nailtail",
+    "type": "fauna"
+  },
+  {
+    "id": "001B159A",
+    "name": "Herding Wiggler Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001B159B",
+    "name": "Hunting Cricket",
+    "type": "fauna"
+  },
+  {
+    "id": "001B159E",
+    "name": "Thorn Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B159F",
+    "name": "Coralheart Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B15A0",
+    "name": "Herding Crab Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001B15A1",
+    "name": "Herding Lockjaw Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B15A2",
+    "name": "Swarming Dragon",
+    "type": "fauna"
+  },
+  {
+    "id": "001B15A3",
+    "name": "Hunting Sailgator",
+    "type": "fauna"
+  },
+  {
+    "id": "001B15A4",
+    "name": "Spaceroach Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001B15A5",
+    "name": "Flocking Crab Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B15A6",
+    "name": "Herding Blistercrab Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B15A7",
+    "name": "Swarming Crab",
+    "type": "fauna"
+  },
+  {
+    "id": "001B15A8",
+    "name": "Flamethorn Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001B15A9",
+    "name": "Milliwhale Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B15AA",
+    "name": "Herding Vuvuzelisk Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B15AB",
+    "name": "Flocking Toadface Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001B15AC",
+    "name": "Pack Cockroach",
+    "type": "fauna"
+  },
+  {
+    "id": "001B15AD",
+    "name": "Hunting Coralcrab",
+    "type": "fauna"
+  },
+  {
+    "id": "001B1742",
+    "name": "Pearl Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001B1743",
+    "name": "Beetle Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001B1DE1",
+    "name": "Herding Sailgator Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001B1DE5",
+    "name": "Herding Brainsprout Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B1DE7",
+    "name": "Herding Glider Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001B1DE9",
+    "name": "Swarming Crab Stalker",
+    "type": "fauna"
+  },
+  {
+    "id": "001B1DEA",
+    "name": "Pack Bonefrill",
+    "type": "fauna"
+  },
+  {
+    "id": "001B20B6",
+    "name": "Flamethorn Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001B20B7",
+    "name": "Flocking Octomaggot Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B20B8",
+    "name": "Herding Noid Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001B20BA",
+    "name": "Herding Mantodea Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001B218B",
+    "name": "Pack Landshark",
+    "type": "fauna"
+  },
+  {
+    "id": "001B218C",
+    "name": "Swarming Shardhopper",
+    "type": "fauna"
+  },
+  {
+    "id": "001B4C03",
+    "name": "Trilobite Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B4C04",
+    "name": "Beetle Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B4C05",
+    "name": "Herding Cagebrain Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001B4C06",
+    "name": "Flocking Trihorn Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B4C07",
+    "name": "Hunting Cricket",
+    "type": "fauna"
+  },
+  {
+    "id": "001B4C08",
+    "name": "Pack Ankylosaurus",
+    "type": "fauna"
+  },
+  {
+    "id": "001B4E75",
+    "name": "Spaceroach Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B4E76",
+    "name": "Herding Roundshell Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B4E77",
+    "name": "Hunting Hookneck",
+    "type": "fauna"
+  },
+  {
+    "id": "001B70D5",
+    "name": "Fingerface Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001B70D6",
+    "name": "Flocking Clawback Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001B70D7",
+    "name": "Pack Trapmaw",
+    "type": "fauna"
+  },
+  {
+    "id": "001B70D8",
+    "name": "Worm Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001B70D9",
+    "name": "Flocking Earback Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001B70DA",
+    "name": "Hunting Brainblimp",
+    "type": "fauna"
+  },
+  {
+    "id": "001BAC22",
+    "name": "Coralheart Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001BAC23",
+    "name": "Herding Boneback Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001BAC24",
+    "name": "Hunting Crab",
+    "type": "fauna"
+  },
+  {
+    "id": "001BB05F",
+    "name": "Flamethorn Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001BB060",
+    "name": "Tubecrawler Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001BB061",
+    "name": "Pack Cutterhead",
+    "type": "fauna"
+  },
+  {
+    "id": "001BB062",
+    "name": "Pack Exorunner",
+    "type": "fauna"
+  },
+  {
+    "id": "001BB063",
+    "name": "Pack Lionbear",
+    "type": "fauna"
+  },
+  {
+    "id": "001BB064",
+    "name": "Pack Ankylosaurus",
+    "type": "fauna"
+  },
+  {
+    "id": "001BB95C",
+    "name": "Drone Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001BB95D",
+    "name": "Flamethorn Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001BB95E",
+    "name": "Cagebrain Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001BB95F",
+    "name": "Herding Sporeback Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001BB960",
+    "name": "Swarming Spiderwasp",
+    "type": "fauna"
+  },
+  {
+    "id": "001BB961",
+    "name": "Pack Hammersaur",
+    "type": "fauna"
+  },
+  {
+    "id": "001BE894",
+    "name": "Carasnail Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001BEAD2",
+    "name": "Flocking Scarab Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001BEAD3",
+    "name": "Herding Leecher Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001BEAD7",
+    "name": "Swarming Glider",
+    "type": "fauna"
+  },
+  {
+    "id": "001BEE0D",
+    "name": "Shoaling Finback Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001BEE0E",
+    "name": "Shoaling Exowhale Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001BEE0F",
+    "name": "Pack Kronosaurus",
+    "type": "fauna"
+  },
+  {
+    "id": "001BEE10",
+    "name": "Pack Whaleshark",
+    "type": "fauna"
+  },
+  {
+    "id": "001BFE8F",
+    "name": "Spaceroach Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001BFE90",
+    "name": "Pack Cockroach",
+    "type": "fauna"
+  },
+  {
+    "id": "001BFE91",
+    "name": "Herding Clawback Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001BFE92",
+    "name": "Pack Stingback",
+    "type": "fauna"
+  },
+  {
+    "id": "001C067F",
+    "name": "Hunting Bonefrill",
+    "type": "fauna"
+  },
+  {
+    "id": "001C0680",
+    "name": "Pack Trapmaw",
+    "type": "fauna"
+  },
+  {
+    "id": "001C0681",
+    "name": "Pack Hammersaur",
+    "type": "fauna"
+  },
+  {
+    "id": "001C0682",
+    "name": "Flamethorn Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001C0683",
+    "name": "Herding Tongueface Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C0684",
+    "name": "Flocking Tubecrawler Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001C0685",
+    "name": "Flocking Leafstrider Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C0686",
+    "name": "Flocking Lionbear Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001C0F2A",
+    "name": "Pinecone Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001C0F2B",
+    "name": "Flocking Leafbug Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001C0F2C",
+    "name": "Hunting Shieldshell",
+    "type": "fauna"
+  },
+  {
+    "id": "001C0F2D",
+    "name": "Caterpillar Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C0F2E",
+    "name": "Herding Glowhands Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C0F2F",
+    "name": "Hunting Landshark",
+    "type": "fauna"
+  },
+  {
+    "id": "001C15F3",
+    "name": "Swarming Stingback",
+    "type": "fauna"
+  },
+  {
+    "id": "001C15F4",
+    "name": "Herding Leafback Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001C1F6E",
+    "name": "Flocking Jackknife Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001C1F6F",
+    "name": "Pack Beetlecrab",
+    "type": "fauna"
+  },
+  {
+    "id": "001C23F7",
+    "name": "Thorn Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C23F8",
+    "name": "Herding Canard Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001C23F9",
+    "name": "Brainsprout Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001C23FA",
+    "name": "Herding Crab Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C23FB",
+    "name": "Hunting Bonefrill",
+    "type": "fauna"
+  },
+  {
+    "id": "001C23FC",
+    "name": "Spaceroach Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001C23FD",
+    "name": "Herding Blistercrab Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C23FE",
+    "name": "Hunting Dragon",
+    "type": "fauna"
+  },
+  {
+    "id": "001C2AE0",
+    "name": "Thorn Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C2AE1",
+    "name": "Flocking Ankylosaurus Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C2AE2",
+    "name": "Herding Shellephant Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C2AE3",
+    "name": "Hunting Bonecrest",
+    "type": "fauna"
+  },
+  {
+    "id": "001C2AE4",
+    "name": "Apex Dragon",
+    "type": "fauna"
+  },
+  {
+    "id": "001C2FC0",
+    "name": "Gossamer Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001C2FC1",
+    "name": "Coralheart Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001C2FC2",
+    "name": "Herding Crabfly Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C2FC3",
+    "name": "Herding Coralcrawler Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C2FC4",
+    "name": "Flocking Octomaggot Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C2FC5",
+    "name": "Hunting Shieldshell",
+    "type": "fauna"
+  },
+  {
+    "id": "001C2FC6",
+    "name": "Pack Coralbug Stalker",
+    "type": "fauna"
+  },
+  {
+    "id": "001C2FC7",
+    "name": "Pack Coralcrab Stalker",
+    "type": "fauna"
+  },
+  {
+    "id": "001C334A",
+    "name": "Trident Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001C334B",
+    "name": "Herding Tongueface Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001C334C",
+    "name": "Pack Ankylosaurus",
+    "type": "fauna"
+  },
+  {
+    "id": "001C3D04",
+    "name": "Jackknife Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C3D05",
+    "name": "Flocking Beetlecrab Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C43D7",
+    "name": "Hunting Scorpion",
+    "type": "fauna"
+  },
+  {
+    "id": "001C48CA",
+    "name": "Trilobite Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C48CB",
+    "name": "Herding Crabfly Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C48CC",
+    "name": "Hunting Octomaggot",
+    "type": "fauna"
+  },
+  {
+    "id": "001C48CD",
+    "name": "Herding Coralcrawler Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C48CE",
+    "name": "Pack Bearclaw",
+    "type": "fauna"
+  },
+  {
+    "id": "001C48CF",
+    "name": "Hunting Cagebrain",
+    "type": "fauna"
+  },
+  {
+    "id": "001C48D0",
+    "name": "Herding Scepter Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C48D1",
+    "name": "Pack Trapmaw",
+    "type": "fauna"
+  },
+  {
+    "id": "001C48D2",
+    "name": "Hunting Glowhands",
+    "type": "fauna"
+  },
+  {
+    "id": "001C48EA",
+    "name": "Milliwhale Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C48EB",
+    "name": "Gossamer Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C48EC",
+    "name": "Grabber Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001C48ED",
+    "name": "Horsamander Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C48EE",
+    "name": "Flocking Tongueface Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001C48EF",
+    "name": "Leafstrider Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C48F0",
+    "name": "Hunting Glider",
+    "type": "fauna"
+  },
+  {
+    "id": "001C48F1",
+    "name": "Pack Cockroach",
+    "type": "fauna"
+  },
+  {
+    "id": "001C48F2",
+    "name": "Hunting Coralbug Stalker",
+    "type": "fauna"
+  },
+  {
+    "id": "001C50E2",
+    "name": "Coralheart Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C50E3",
+    "name": "Beetle Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001C50E4",
+    "name": "Herding Hornface Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001C50E5",
+    "name": "Flocking Beetlecrab Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001C50E6",
+    "name": "Pack Longhorn",
+    "type": "fauna"
+  },
+  {
+    "id": "001C6940",
+    "name": "Milliwhale Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C6941",
+    "name": "Shoaling Unishark Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001C6942",
+    "name": "Herding Vuvuzelisk Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001C6943",
+    "name": "Hunting Sailgator",
+    "type": "fauna"
+  },
+  {
+    "id": "001C6944",
+    "name": "Coralheart Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C6945",
+    "name": "Herding Blistercrab Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C6946",
+    "name": "Hunting Shieldshell",
+    "type": "fauna"
+  },
+  {
+    "id": "001C6947",
+    "name": "Caterpillar Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C6948",
+    "name": "Spaceroach Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001C6949",
+    "name": "Cagebrain Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001C694A",
+    "name": "Herding Boneback Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C694B",
+    "name": "Flocking Cutterhead Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001C694C",
+    "name": "Pack Windbag",
+    "type": "fauna"
+  },
+  {
+    "id": "001C694D",
+    "name": "Hunting Sunflower",
+    "type": "fauna"
+  },
+  {
+    "id": "001C7188",
+    "name": "Beetle Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001C7189",
+    "name": "Swarming Saturnine",
+    "type": "fauna"
+  },
+  {
+    "id": "001C718A",
+    "name": "Herding Bonemane Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C718B",
+    "name": "Flocking Horsamander Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001C718C",
+    "name": "Pack Exocrawler",
+    "type": "fauna"
+  },
+  {
+    "id": "001C718D",
+    "name": "Hunting Toadface",
+    "type": "fauna"
+  },
+  {
+    "id": "001C7402",
+    "name": "Trilobite Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C7403",
+    "name": "Schooling Sawhead Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001C7404",
+    "name": "Herding Vectorback Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C7405",
+    "name": "Pack Unishark",
+    "type": "fauna"
+  },
+  {
+    "id": "001C7406",
+    "name": "Hunting Sailgator",
+    "type": "fauna"
+  },
+  {
+    "id": "001C7DFE",
+    "name": "Milliwhale Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C7DFF",
+    "name": "Flocking Vuvuzelisk Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C7E00",
+    "name": "Herding Hippodon Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001C7E01",
+    "name": "Herding Geckon Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C7E02",
+    "name": "Hunting Vectorback",
+    "type": "fauna"
+  },
+  {
+    "id": "001C7E03",
+    "name": "Hunting Twistfin",
+    "type": "fauna"
+  },
+  {
+    "id": "001C7E04",
+    "name": "Hunting Triantler",
+    "type": "fauna"
+  },
+  {
+    "id": "001C7E05",
+    "name": "Jellyfin Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001C7E06",
+    "name": "Flocking Brainblimp Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C7E07",
+    "name": "Pack Whaleshark",
+    "type": "fauna"
+  },
+  {
+    "id": "001C801D",
+    "name": "Artichoke Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001C801E",
+    "name": "Hunting Nautiloos Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001C80FC",
+    "name": "Grabber Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C80FD",
+    "name": "Flocking Exorunner Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001C80FE",
+    "name": "Herding Bonefrill Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001C80FF",
+    "name": "Hunting Scorpion",
+    "type": "fauna"
+  },
+  {
+    "id": "001C9AC9",
+    "name": "Puffball Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C9ACA",
+    "name": "Hunting Kronosaurus",
+    "type": "fauna"
+  },
+  {
+    "id": "001C9ACB",
+    "name": "Schooling Featherfin Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C9ACC",
+    "name": "Metropus Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001C9ACD",
+    "name": "Herding Stingray Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001CB790",
+    "name": "Thorn Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001CB791",
+    "name": "Leafbug Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001CB792",
+    "name": "Herding Rockhound Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001CB793",
+    "name": "Hunting Crocalypse",
+    "type": "fauna"
+  },
+  {
+    "id": "001CBC8A",
+    "name": "Trilobite Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001CBC8B",
+    "name": "Herding Longhorn Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001CBC8C",
+    "name": "Pack Shardhopper",
+    "type": "fauna"
+  },
+  {
+    "id": "001CBCAD",
+    "name": "Milliwhale Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001CBCAE",
+    "name": "Coralheart Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001CBCAF",
+    "name": "Flocking Leafback Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001CBCB0",
+    "name": "Schooling Finback Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001CBCB1",
+    "name": "Pack Windbag",
+    "type": "fauna"
+  },
+  {
+    "id": "001CCAEA",
+    "name": "Trident Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001CCAEB",
+    "name": "Shoaling Finback Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001CCAEC",
+    "name": "Herding Canard Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001CF18C",
+    "name": "Snail Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001CF18D",
+    "name": "Herding Stoneback Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001CF18E",
+    "name": "Flocking Horsamander Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001CF18F",
+    "name": "Pack Crocodaunt",
+    "type": "fauna"
+  },
+  {
+    "id": "001CF572",
+    "name": "Trilobite Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001CF573",
+    "name": "Flocking Lockjaw Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001CF574",
+    "name": "Pack Sailgator",
+    "type": "fauna"
+  },
+  {
+    "id": "001CF575",
+    "name": "Pack Crocalypse",
+    "type": "fauna"
+  },
+  {
+    "id": "001D064E",
+    "name": "Twingrub Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001D064F",
+    "name": "Schooling Kronosaurus Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001D0650",
+    "name": "Herding Crab Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D065D",
+    "name": "Hunting Hornface",
+    "type": "fauna"
+  },
+  {
+    "id": "001D065E",
+    "name": "Milliwhale Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001D065F",
+    "name": "Noid Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D06EE",
+    "name": "Shoaling Lurefish Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001D06EF",
+    "name": "Clawback Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001D0708",
+    "name": "Flocking Bonefrill Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D0709",
+    "name": "Pack Scarab",
+    "type": "fauna"
+  },
+  {
+    "id": "001D070A",
+    "name": "Hunting Shieldshell",
+    "type": "fauna"
+  },
+  {
+    "id": "001D070B",
+    "name": "Grabber Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D070C",
+    "name": "Shoaling Finback Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001D0714",
+    "name": "Flocking Cockroach Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001D0719",
+    "name": "Pack Paddlefish",
+    "type": "fauna"
+  },
+  {
+    "id": "001D0732",
+    "name": "Hunting Foxbat",
+    "type": "fauna"
+  },
+  {
+    "id": "001D0734",
+    "name": "Trilobite Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D0735",
+    "name": "Herding Wobbleback Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001D0738",
+    "name": "Hunting Coralcrab",
+    "type": "fauna"
+  },
+  {
+    "id": "001D074F",
+    "name": "Gossamer Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D0758",
+    "name": "Flamethorn Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001D0762",
+    "name": "Herding Boneback Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D0767",
+    "name": "Herding Horsamander Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D076C",
+    "name": "Hunting Coralbug",
+    "type": "fauna"
+  },
+  {
+    "id": "001D0770",
+    "name": "Hunting Nailtail",
+    "type": "fauna"
+  },
+  {
+    "id": "001D0780",
+    "name": "Thorn Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001D0781",
+    "name": "Spaceroach Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D0782",
+    "name": "Puffball Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D0783",
+    "name": "Herding Crab Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D0784",
+    "name": "Beetlecrab Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D0785",
+    "name": "Hunting Nightmare",
+    "type": "fauna"
+  },
+  {
+    "id": "001D07E6",
+    "name": "Milliwhale Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D07E7",
+    "name": "Toadface Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D07E8",
+    "name": "Hunting Trapmaw",
+    "type": "fauna"
+  },
+  {
+    "id": "001D2FA0",
+    "name": "Milliwhale Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D2FA1",
+    "name": "Flamethorn Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D2FA2",
+    "name": "Schooling Paddlefish Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D2FA3",
+    "name": "Schooling Unishark Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001D2FA4",
+    "name": "Flocking Snuffler Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001D2FA5",
+    "name": "Hunting Arapaima",
+    "type": "fauna"
+  },
+  {
+    "id": "001D2FA6",
+    "name": "Pack Scarab",
+    "type": "fauna"
+  },
+  {
+    "id": "001D301F",
+    "name": "Jellyfin Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D3020",
+    "name": "Flocking Orchid Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001D3D1D",
+    "name": "Spikeworm Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D3D1E",
+    "name": "Flocking Shardhopper Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001D3D1F",
+    "name": "Hunting Ikuradon",
+    "type": "fauna"
+  },
+  {
+    "id": "001D50E1",
+    "name": "Puffball Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D50E2",
+    "name": "Swarming Cockroach",
+    "type": "fauna"
+  },
+  {
+    "id": "001D50E3",
+    "name": "Herding Brainsquid Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001D50E4",
+    "name": "Herding Clawback Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001D50E5",
+    "name": "Hunting Cagebrain",
+    "type": "fauna"
+  },
+  {
+    "id": "001D50E6",
+    "name": "Apex Brainsprout",
+    "type": "fauna"
+  },
+  {
+    "id": "001D5137",
+    "name": "Flamethorn Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001D5138",
+    "name": "Herding Clickbeetle Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D5139",
+    "name": "Flocking Boneshell Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D513A",
+    "name": "Hunting Toadface Stalker",
+    "type": "fauna"
+  },
+  {
+    "id": "001D5A2F",
+    "name": "Flocking Rockhound Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001D5A30",
+    "name": "Hunting Stonewalker",
+    "type": "fauna"
+  },
+  {
+    "id": "001D5A9A",
+    "name": "Trilobite Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D5A9B",
+    "name": "Centiskull Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001D5A9C",
+    "name": "Schooling Unishark Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001D5A9D",
+    "name": "Trihorn Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D5A9E",
+    "name": "Flocking Brainblimp Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D5A9F",
+    "name": "Herding Tongueface Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D5AA1",
+    "name": "Hunting Lockjaw",
+    "type": "fauna"
+  },
+  {
+    "id": "001D5AA3",
+    "name": "Hunting Ikuradon",
+    "type": "fauna"
+  },
+  {
+    "id": "001D5F36",
+    "name": "Flocking Eggtail Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D5F37",
+    "name": "Flocking Cyclozard Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001D5F38",
+    "name": "Ankylosaurus Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001D5F39",
+    "name": "Pack Glowhands",
+    "type": "fauna"
+  },
+  {
+    "id": "001D5F3A",
+    "name": "Swarming Eggback",
+    "type": "fauna"
+  },
+  {
+    "id": "001D6B6D",
+    "name": "Jellyfin Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D6B6E",
+    "name": "Herding Tapeworm Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001D6B6F",
+    "name": "Pack Dragonfly",
+    "type": "fauna"
+  },
+  {
+    "id": "001D6B7D",
+    "name": "Milliwhale Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D6B7E",
+    "name": "Schooling Finback Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001D6B7F",
+    "name": "Herding Roundshell Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D6B80",
+    "name": "Swarming Beetlecrab",
+    "type": "fauna"
+  },
+  {
+    "id": "001D7BC0",
+    "name": "Snuffler Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001D7BC1",
+    "name": "Centiskull Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001D7BC2",
+    "name": "Herding Cutterhead Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001D7BC3",
+    "name": "Herding Lacraia Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D7BC4",
+    "name": "Pack Cricket",
+    "type": "fauna"
+  },
+  {
+    "id": "001D7BEB",
+    "name": "Drone Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D7BEC",
+    "name": "Trilobite Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D7BED",
+    "name": "Leafbug Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D7BEE",
+    "name": "Herding Windbag Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D7BEF",
+    "name": "Hunting Scarab",
+    "type": "fauna"
+  },
+  {
+    "id": "001D7BF0",
+    "name": "Hunting Exocrawler",
+    "type": "fauna"
+  },
+  {
+    "id": "001D8423",
+    "name": "Beetle Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D8424",
+    "name": "Herding Boneback Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D8425",
+    "name": "Hunting Shieldshell",
+    "type": "fauna"
+  },
+  {
+    "id": "001D871A",
+    "name": "Triworm Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D871B",
+    "name": "Herding Cutterhead Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D871C",
+    "name": "Swarming Octomaggot",
+    "type": "fauna"
+  },
+  {
+    "id": "001D871D",
+    "name": "Milliwhale Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001D871E",
+    "name": "Grabber Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D871F",
+    "name": "Seahorse Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D8720",
+    "name": "Toadface Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D8721",
+    "name": "Hunting Dragon",
+    "type": "fauna"
+  },
+  {
+    "id": "001D8722",
+    "name": "Hunting Nailtail",
+    "type": "fauna"
+  },
+  {
+    "id": "001D9478",
+    "name": "Snuffler Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D9479",
+    "name": "Flamethorn Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D947A",
+    "name": "Herding Longhorn Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001D947B",
+    "name": "Roundshell Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D947C",
+    "name": "Tongueface Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D947D",
+    "name": "Pack Rockhound",
+    "type": "fauna"
+  },
+  {
+    "id": "001D947E",
+    "name": "Hunting Hammersaur",
+    "type": "fauna"
+  },
+  {
+    "id": "001D9527",
+    "name": "Grub Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001D9528",
+    "name": "Herding Crabfly Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001D9529",
+    "name": "Hunting Glowhands Stalker",
+    "type": "fauna"
+  },
+  {
+    "id": "001D952A",
+    "name": "Flocking Windbag Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001D952B",
+    "name": "Pack Boneback",
+    "type": "fauna"
+  },
+  {
+    "id": "001D952C",
+    "name": "Pack Maggotmaw",
+    "type": "fauna"
+  },
+  {
+    "id": "001D952D",
+    "name": "Hunting Scarab",
+    "type": "fauna"
+  },
+  {
+    "id": "001D9DB2",
+    "name": "Lesser Jaffa Lizard",
+    "type": "fauna"
+  },
+  {
+    "id": "001D9DB3",
+    "name": "Greater Jaffa Lizard",
+    "type": "fauna"
+  },
+  {
+    "id": "001DBAE4",
+    "name": "Thorn Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001DBAE5",
+    "name": "Milliwhale Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001DBAE6",
+    "name": "Cyclozard Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001DBAE7",
+    "name": "Marnokk Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001DBAE8",
+    "name": "Shellephant Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001DBAE9",
+    "name": "Hunting Shieldshell",
+    "type": "fauna"
+  },
+  {
+    "id": "001DBAEA",
+    "name": "Hunting Vectorback",
+    "type": "fauna"
+  },
+  {
+    "id": "001DBAEB",
+    "name": "Pack Trapmaw",
+    "type": "fauna"
+  },
+  {
+    "id": "001DBCE3",
+    "name": "Milliwhale Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001DBCE4",
+    "name": "Shoaling Finback Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001DBCE5",
+    "name": "Herding Tongueface Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001DBCE6",
+    "name": "Hunting Vectorback",
+    "type": "fauna"
+  },
+  {
+    "id": "001DC4A8",
+    "name": "Coralheart Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001DC4A9",
+    "name": "Thorn Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001DC4AA",
+    "name": "Flocking Earback Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001DC4AB",
+    "name": "Herding Morion Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001DC4AC",
+    "name": "Herding Clickbeetle Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001DC4AD",
+    "name": "Hunting Angler Stalker",
+    "type": "fauna"
+  },
+  {
+    "id": "001DC4AE",
+    "name": "Pack Exocrawler",
+    "type": "fauna"
+  },
+  {
+    "id": "001DCAEB",
+    "name": "Twingrub Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001DCAEC",
+    "name": "Maggotmaw Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001DCAED",
+    "name": "Hunting Cockroach",
+    "type": "fauna"
+  },
+  {
+    "id": "001DCAEE",
+    "name": "Centiskull Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001DCAEF",
+    "name": "Herding Brainsprout Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001DCAF0",
+    "name": "Hunting Brainsquid",
+    "type": "fauna"
+  },
+  {
+    "id": "001DDAE8",
+    "name": "Beetle Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001DDAE9",
+    "name": "Spikeworm Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001DDAEA",
+    "name": "Beetlecrab Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001DDAEB",
+    "name": "Flocking Clawback Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001DDAEC",
+    "name": "Hunting Coralbug",
+    "type": "fauna"
+  },
+  {
+    "id": "001DDAED",
+    "name": "Pack Clickbeetle",
+    "type": "fauna"
+  },
+  {
+    "id": "001DE40D",
+    "name": "Beetle Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001DE40E",
+    "name": "Flocking Shroomhead Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001DE40F",
+    "name": "Herding Longneck Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001DE410",
+    "name": "Hunting Brightcage",
+    "type": "fauna"
+  },
+  {
+    "id": "001DE411",
+    "name": "Pack Tentabeard",
+    "type": "fauna"
+  },
+  {
+    "id": "001DF4F6",
+    "name": "Grub Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001DF4F7",
+    "name": "Stonewalker Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001DF4F8",
+    "name": "Crag Sprinter",
+    "type": "fauna"
+  },
+  {
+    "id": "001DF841",
+    "name": "Jellyfin Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001DF842",
+    "name": "Herding Nautiloos Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001DF843",
+    "name": "Pack Sunfish",
+    "type": "fauna"
+  },
+  {
+    "id": "001DF884",
+    "name": "Jackknife Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001DF885",
+    "name": "Herding Olgreg",
+    "type": "fauna"
+  },
+  {
+    "id": "001DF886",
+    "name": "Herding Vuvuzelisk Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001DF887",
+    "name": "Hunting Raptor",
+    "type": "fauna"
+  },
+  {
+    "id": "001E064C",
+    "name": "Fingerface Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001E064F",
+    "name": "Spaceroach Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E069F",
+    "name": "Herding Clawback Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E06E5",
+    "name": "Shardhopper Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001E07A6",
+    "name": "Swarming Cockroach",
+    "type": "fauna"
+  },
+  {
+    "id": "001E07AB",
+    "name": "Hunting Exorunner",
+    "type": "fauna"
+  },
+  {
+    "id": "001E07BD",
+    "name": "Pinecone Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E07BE",
+    "name": "Spaceroach Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E07BF",
+    "name": "Jellyfin Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E07C0",
+    "name": "Herding Vuvuzelisk Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E07C1",
+    "name": "Hunting Leafstrider",
+    "type": "fauna"
+  },
+  {
+    "id": "001E07C2",
+    "name": "Hunting Bighorn",
+    "type": "fauna"
+  },
+  {
+    "id": "001E08F4",
+    "name": "Beetle Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E08F5",
+    "name": "Herding Roundshell Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E08F6",
+    "name": "Hunting Crab",
+    "type": "fauna"
+  },
+  {
+    "id": "001E2614",
+    "name": "Fleshleaf Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E2615",
+    "name": "Trilobite Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E2616",
+    "name": "Hunting Spiderwasp Stalker",
+    "type": "fauna"
+  },
+  {
+    "id": "001E2617",
+    "name": "Pack Cagebrain",
+    "type": "fauna"
+  },
+  {
+    "id": "001E2618",
+    "name": "Windbag Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E2619",
+    "name": "Crabfly Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001E2807",
+    "name": "Coralheart Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E2808",
+    "name": "Herding Stonewalker Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001E2809",
+    "name": "Herding Rockhound Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001E280A",
+    "name": "Swarming Boneback",
+    "type": "fauna"
+  },
+  {
+    "id": "001E2871",
+    "name": "Flocking Crab Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001E292B",
+    "name": "Snail Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001E293B",
+    "name": "Flocking Hippodon Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001E293C",
+    "name": "Pinecone Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001E293D",
+    "name": "Herding Vuvuzelisk Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001E293E",
+    "name": "Pack Cricket",
+    "type": "fauna"
+  },
+  {
+    "id": "001E2948",
+    "name": "Anteater Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001E2949",
+    "name": "Hunting Brainsprout",
+    "type": "fauna"
+  },
+  {
+    "id": "001E2979",
+    "name": "Grabber Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E2996",
+    "name": "Herding Boneback Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E2997",
+    "name": "Pack Crab",
+    "type": "fauna"
+  },
+  {
+    "id": "001E299E",
+    "name": "Caterpillar Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E299F",
+    "name": "Beetle Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E29A0",
+    "name": "Shoaling Exowhale Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E29A1",
+    "name": "Herding Leafstrider Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E29A2",
+    "name": "Flocking Plateskin Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E29A3",
+    "name": "Pack Crabfly",
+    "type": "fauna"
+  },
+  {
+    "id": "001E29A4",
+    "name": "Hunting Brainsquid",
+    "type": "fauna"
+  },
+  {
+    "id": "001E2AC2",
+    "name": "Crab Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E2AC3",
+    "name": "Herding Trihorn Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E2AC4",
+    "name": "Hunting Coralcrab",
+    "type": "fauna"
+  },
+  {
+    "id": "001E2AC5",
+    "name": "Pack Cagebrain",
+    "type": "fauna"
+  },
+  {
+    "id": "001E3F36",
+    "name": "Trident Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001E3F37",
+    "name": "Roundshell Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001E3F38",
+    "name": "Hunting Shieldshell",
+    "type": "fauna"
+  },
+  {
+    "id": "001E468A",
+    "name": "Tubule Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E468B",
+    "name": "Herding Marnokk Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E468C",
+    "name": "Hunting Brainsquid",
+    "type": "fauna"
+  },
+  {
+    "id": "001E46C2",
+    "name": "Swarming Twistfin",
+    "type": "fauna"
+  },
+  {
+    "id": "001E46C3",
+    "name": "Coralheart Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E46C4",
+    "name": "Thorn Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E46C5",
+    "name": "Crocalypse Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E46C6",
+    "name": "Lockjaw Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E46F7",
+    "name": "Flocking Cobalt Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E46F8",
+    "name": "Swarming Whaleshark",
+    "type": "fauna"
+  },
+  {
+    "id": "001E4E95",
+    "name": "Coralheart Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E4E96",
+    "name": "Herding Coralcrawler Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E4E97",
+    "name": "Herding Coralbug Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E4E98",
+    "name": "Swarming Shardhopper",
+    "type": "fauna"
+  },
+  {
+    "id": "001E4F5D",
+    "name": "Worm Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001E4F5E",
+    "name": "Spaceroach Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E4F5F",
+    "name": "Herding Vuvuzelisk Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E4F60",
+    "name": "Hunting Cricket",
+    "type": "fauna"
+  },
+  {
+    "id": "001E6680",
+    "name": "Beetle Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E6681",
+    "name": "Wiggler Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E6682",
+    "name": "Flocking Geckon Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E6683",
+    "name": "Tongueface Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001E6684",
+    "name": "Pack Lionbear",
+    "type": "fauna"
+  },
+  {
+    "id": "001E6685",
+    "name": "Brainsprout Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E6686",
+    "name": "Hunting Landshark",
+    "type": "fauna"
+  },
+  {
+    "id": "001E6687",
+    "name": "Hunting Stonewalker Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E6688",
+    "name": "Jackknife Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E6689",
+    "name": "Herding Brainsprout Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E668A",
+    "name": "Flocking Orchid Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E668B",
+    "name": "Hunting Landshark",
+    "type": "fauna"
+  },
+  {
+    "id": "001E70EF",
+    "name": "Thorn Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E70F0",
+    "name": "Herding Leafback Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E70F1",
+    "name": "Hunting Crab",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7100",
+    "name": "Spaceroach Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7101",
+    "name": "Hunting Cricket",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7102",
+    "name": "Hunting Boneshell",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7103",
+    "name": "Hunting Crocalypse",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7104",
+    "name": "Hunting Glider",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7421",
+    "name": "Noid Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7422",
+    "name": "Flocking Exocrawler Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7423",
+    "name": "Hunting Caterpillar Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E757A",
+    "name": "Herding Lockjaw Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E757B",
+    "name": "Beetle Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E757C",
+    "name": "Grabber Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E757D",
+    "name": "Flocking Clickbeetle Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E757E",
+    "name": "Swarming Maggotmaw",
+    "type": "fauna"
+  },
+  {
+    "id": "001E757F",
+    "name": "Pack Trapmaw",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7580",
+    "name": "Flocking Leafbug Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7581",
+    "name": "Herding Kelpstrider Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001E798C",
+    "name": "Trilobite Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001E798D",
+    "name": "Cockroach Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001E798E",
+    "name": "Hunting Sunflower",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7BA6",
+    "name": "Coralheart Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7BA7",
+    "name": "Lockjaw Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7BA8",
+    "name": "Pack Clickbeetle",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7E6C",
+    "name": "Grabber Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7E6D",
+    "name": "Shroombobber Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7E6E",
+    "name": "Herding Windbag Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7E6F",
+    "name": "Triworm Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7E70",
+    "name": "Hunting Angler",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7E71",
+    "name": "Hunting Cricket Stalker",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7E85",
+    "name": "Tubule Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7E86",
+    "name": "Herding Stonewalker Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7E87",
+    "name": "Pack Ankylosaurus",
+    "type": "fauna"
+  },
+  {
+    "id": "001E7E88",
+    "name": "Apex Exorunner",
+    "type": "fauna"
+  },
+  {
+    "id": "001E81A3",
+    "name": "Carasnail Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E81A4",
+    "name": "Flocking Caterpillar Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001E81A5",
+    "name": "Herding Crabfly Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E81A6",
+    "name": "Hunting Cockroach",
+    "type": "fauna"
+  },
+  {
+    "id": "001E9BFC",
+    "name": "Herding Nautiloos Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E9BFD",
+    "name": "Herding Brainblimp Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001E9BFE",
+    "name": "Coralheart Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EA0D7",
+    "name": "Herding Wobbleback Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001EA0D8",
+    "name": "Hunting Leafstrider",
+    "type": "fauna"
+  },
+  {
+    "id": "001EA2AB",
+    "name": "Canard Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EA2AC",
+    "name": "Herding Snail Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EA2AD",
+    "name": "Pack Brainsprout",
+    "type": "fauna"
+  },
+  {
+    "id": "001EA2AE",
+    "name": "Schooling Seahag Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EA2AF",
+    "name": "Hunting Sharkwhale",
+    "type": "fauna"
+  },
+  {
+    "id": "001EA39D",
+    "name": "Morion Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EA39E",
+    "name": "Fingerface Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001EB5DE",
+    "name": "Scepter Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EB5DF",
+    "name": "Trident Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001EB5E0",
+    "name": "Pack Trapmaw",
+    "type": "fauna"
+  },
+  {
+    "id": "001EB631",
+    "name": "Hunting Coralcrab",
+    "type": "fauna"
+  },
+  {
+    "id": "001EB65C",
+    "name": "Hunting Vuvuzelisk",
+    "type": "fauna"
+  },
+  {
+    "id": "001EB65D",
+    "name": "Flocking Brightcage Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001EB7E2",
+    "name": "Trilobite",
+    "type": "fauna"
+  },
+  {
+    "id": "001EC761",
+    "name": "Beetle Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001EC762",
+    "name": "Flocking Hornface Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EC763",
+    "name": "Hunting Boneshell",
+    "type": "fauna"
+  },
+  {
+    "id": "001EC782",
+    "name": "Grub Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EC783",
+    "name": "Flocking Scorpion Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001EC784",
+    "name": "Swarming Glider",
+    "type": "fauna"
+  },
+  {
+    "id": "001EC785",
+    "name": "Pack Cephalopod",
+    "type": "fauna"
+  },
+  {
+    "id": "001EC786",
+    "name": "Hunting Skullface",
+    "type": "fauna"
+  },
+  {
+    "id": "001EC787",
+    "name": "Spaceroach Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001ECFD8",
+    "name": "Centiskull Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001ECFD9",
+    "name": "Herding Sunflower Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001ECFDA",
+    "name": "Hunting Brightcage",
+    "type": "fauna"
+  },
+  {
+    "id": "001ED081",
+    "name": "Glider Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001ED082",
+    "name": "Parrothawk Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001ED083",
+    "name": "Eggsac Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001ED084",
+    "name": "Ghost Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001ED085",
+    "name": "Herding Lionfish Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001ED086",
+    "name": "Gossamer Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001ED149",
+    "name": "Herding Sentinel Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001ED14A",
+    "name": "Herding Scoopback Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001ED14B",
+    "name": "Flocking Nautiloos Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001ED14C",
+    "name": "Pack Dragondon",
+    "type": "fauna"
+  },
+  {
+    "id": "001ED14D",
+    "name": "Pack Cranehopper",
+    "type": "fauna"
+  },
+  {
+    "id": "001ED14E",
+    "name": "Beetle Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001ED14F",
+    "name": "Spaceroach Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001EDF4B",
+    "name": "Trilobite Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EDF4C",
+    "name": "Centiskull Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EDF4D",
+    "name": "Scorpion Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EDF4E",
+    "name": "Worm Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001EDF4F",
+    "name": "Hunting Exocrawler",
+    "type": "fauna"
+  },
+  {
+    "id": "001EE4D5",
+    "name": "Trident Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EE4DC",
+    "name": "Spikeworm Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001EE5B1",
+    "name": "Thorn Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EE81A",
+    "name": "Longhorn Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EE81B",
+    "name": "Hunting Leafback",
+    "type": "fauna"
+  },
+  {
+    "id": "001EE81C",
+    "name": "Pack Lionbear",
+    "type": "fauna"
+  },
+  {
+    "id": "001EE81D",
+    "name": "Flocking Roundshell Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EE88E",
+    "name": "Thorn Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001EE88F",
+    "name": "Grabber Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EE890",
+    "name": "Herding Blistercrab Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001EE891",
+    "name": "Herding Leecher Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EE892",
+    "name": "Hunting Octomaggot",
+    "type": "fauna"
+  },
+  {
+    "id": "001EE893",
+    "name": "Drone Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EE894",
+    "name": "Grabber Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EE895",
+    "name": "Herding Seabat Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EE896",
+    "name": "Herding Bonemane Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001EE897",
+    "name": "Hunting Trihorn",
+    "type": "fauna"
+  },
+  {
+    "id": "001EEEC0",
+    "name": "Trident Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001EEEC1",
+    "name": "Jackknife Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EEEC2",
+    "name": "Beetle Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001EF053",
+    "name": "Spaceroach Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EF054",
+    "name": "Flamethorn Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EF055",
+    "name": "Gossamer Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EF056",
+    "name": "Herding Horsamander Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001EF057",
+    "name": "Herding Octomaggot Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EF058",
+    "name": "Hunting Crab Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001EF059",
+    "name": "Pack Exocrawler Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001EF5E6",
+    "name": "Pack Trapmaw",
+    "type": "fauna"
+  },
+  {
+    "id": "001EF5E7",
+    "name": "Hunting Clickbeetle Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001EF5E8",
+    "name": "Pack Lionbear",
+    "type": "fauna"
+  },
+  {
+    "id": "001EF5E9",
+    "name": "Herding Trihorn Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EF5EA",
+    "name": "Lockjaw Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EF5EB",
+    "name": "Flocking Leafback Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001EFDAE",
+    "name": "Twintail Herbivore",
+    "type": "fauna"
+  },
+  {
+    "id": "001EFFAA",
+    "name": "Horsamander Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001F0056",
+    "name": "Pack Longhorn",
+    "type": "fauna"
+  },
+  {
+    "id": "001F0057",
+    "name": "Hunting Trapmaw",
+    "type": "fauna"
+  },
+  {
+    "id": "001F3E88",
+    "name": "Kreet Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "001F3E89",
+    "name": "Kreet Stalker",
+    "type": "fauna"
+  },
+  {
+    "id": "001F7668",
+    "name": "Pearl Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001F7669",
+    "name": "Herding Fluke Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001F766A",
+    "name": "Glider Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001F766B",
+    "name": "Schooling Kronosaurus Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001F766C",
+    "name": "Vampire Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "001F766D",
+    "name": "Spore Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001F766E",
+    "name": "Schooling Arapaima Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "001F766F",
+    "name": "Puffball Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001F7670",
+    "name": "Herding Lionfish Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "001F7671",
+    "name": "Schooling Kronosaurus Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "002025D3",
+    "name": "Herding Mayfly Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "002025D5",
+    "name": "Schooling Kronosaurus Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "002025D6",
+    "name": "Schooling Lurefish Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "002025D7",
+    "name": "Flocking Canard Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "002025D8",
+    "name": "Herding Flapwheel Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "002025D9",
+    "name": "Schooling Sawhead Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "002025DA",
+    "name": "Schooling Sharkwhale Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "002025DB",
+    "name": "Saturnine Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "002025DC",
+    "name": "Herding Boneglider Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "002025E1",
+    "name": "Glider Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "0020B7A6",
+    "name": "Siren",
+    "type": "fauna"
+  },
+  {
+    "id": "00221DBD",
+    "name": "Schooling Paddlefish Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00221DBE",
+    "name": "Schooling Sawhead Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00221DBF",
+    "name": "Schooling Lurefish Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "00221DC0",
+    "name": "Pack Skullface",
+    "type": "fauna"
+  },
+  {
+    "id": "00221DC1",
+    "name": "Herding Stingray Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00221DC2",
+    "name": "Mayfly Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "00221DC3",
+    "name": "Mothwing Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00221DC4",
+    "name": "Puffball Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "00221DC6",
+    "name": "Pack Unishark",
+    "type": "fauna"
+  },
+  {
+    "id": "00221DC7",
+    "name": "Nautilus Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "00221DC8",
+    "name": "Herding Lionfish Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "00221DC9",
+    "name": "Gossamer Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "00221DCA",
+    "name": "Pack Paddlefish",
+    "type": "fauna"
+  },
+  {
+    "id": "00221DCB",
+    "name": "Schooling Seahag Filterer",
+    "type": "fauna"
+  },
+  {
+    "id": "00221DCC",
+    "name": "Pack Sharkwhale",
+    "type": "fauna"
+  },
+  {
+    "id": "00221DCD",
+    "name": "Flocking Stingray Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "0023CAE2",
+    "name": "Buzzrunner",
+    "type": "fauna"
+  },
+  {
+    "id": "0023CAE3",
+    "name": "Flying Leech",
+    "type": "fauna"
+  },
+  {
+    "id": "0023CAE5",
+    "name": "Dropsalm",
+    "type": "fauna"
+  },
+  {
+    "id": "0023CAE6",
+    "name": "Grazing Ensifer",
+    "type": "fauna"
+  },
+  {
+    "id": "0023CAE8",
+    "name": "Mossgnath",
+    "type": "fauna"
+  },
+  {
+    "id": "0023CAF1",
+    "name": "Crawling Eurypterid",
+    "type": "fauna"
+  },
+  {
+    "id": "0023CAF9",
+    "name": "Rainbow Agnathan",
+    "type": "fauna"
+  },
+  {
+    "id": "0023CAFD",
+    "name": "Baleen Rotifer",
+    "type": "fauna"
+  },
+  {
+    "id": "0023CB02",
+    "name": "Ashta",
+    "type": "fauna"
+  },
+  {
+    "id": "0023CB03",
+    "name": "Elk Crangon",
+    "type": "fauna"
+  },
+  {
+    "id": "00273718",
+    "name": "Herding Mothwing Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "00287159",
+    "name": "Trident Geophage",
+    "type": "fauna"
+  },
+  {
+    "id": "002B2293",
+    "name": "Terrormorph",
+    "type": "fauna"
+  },
+  {
+    "id": "002E0887",
+    "name": "Cage Brain",
+    "type": "flora"
+  },
+  {
+    "id": "002F808C",
+    "name": "Fire Rose",
+    "type": "flora"
+  },
+  {
+    "id": "002F808E",
+    "name": "Sweet Yellow Creeper",
+    "type": "flora"
+  },
+  {
+    "id": "002F8090",
+    "name": "Tropical Maw Palm",
+    "type": "flora"
+  },
+  {
+    "id": "002F8092",
+    "name": "Autumn Junglebloom",
+    "type": "flora"
+  },
+  {
+    "id": "002F8094",
+    "name": "Moth Vine",
+    "type": "flora"
+  },
+  {
+    "id": "002F8096",
+    "name": "Firecracker Vine",
+    "type": "flora"
+  },
+  {
+    "id": "002F8098",
+    "name": "Chillhook",
+    "type": "flora"
+  },
+  {
+    "id": "002F809A",
+    "name": "Iceblood Vine",
+    "type": "flora"
+  },
+  {
+    "id": "002F809C",
+    "name": "Ice Creeper",
+    "type": "flora"
+  },
+  {
+    "id": "002F809E",
+    "name": "Stinging Ice Stalk",
+    "type": "flora"
+  },
+  {
+    "id": "002F80A0",
+    "name": "Cold Cave Nettle",
+    "type": "flora"
+  },
+  {
+    "id": "002F80A1",
+    "name": "Bowing Shadeleaf",
+    "type": "flora"
+  },
+  {
+    "id": "002F80A4",
+    "name": "Crimson Gibbet",
+    "type": "flora"
+  },
+  {
+    "id": "002F80A6",
+    "name": "Red Latticebulb",
+    "type": "flora"
+  },
+  {
+    "id": "002F80AD",
+    "name": "Duster Shrub",
+    "type": "flora"
+  },
+  {
+    "id": "002F80AF",
+    "name": "Desiccated Yarberry",
+    "type": "flora"
+  },
+  {
+    "id": "002F80B1",
+    "name": "Scarlet Hillfrond",
+    "type": "flora"
+  },
+  {
+    "id": "002F80B3",
+    "name": "Warren Nettle",
+    "type": "flora"
+  },
+  {
+    "id": "002F80B5",
+    "name": "Mountain Silkweed",
+    "type": "flora"
+  },
+  {
+    "id": "002F80B7",
+    "name": "Nebula Vine",
+    "type": "flora"
+  },
+  {
+    "id": "002F80B8",
+    "name": "Cliffberry",
+    "type": "flora"
+  },
+  {
+    "id": "002F80BB",
+    "name": "Aurora Palm",
+    "type": "flora"
+  },
+  {
+    "id": "002F80BC",
+    "name": "Crag Root",
+    "type": "flora"
+  },
+  {
+    "id": "002F80BF",
+    "name": "Blood Palm",
+    "type": "flora"
+  },
+  {
+    "id": "002F80C1",
+    "name": "Leaning Fireleaf",
+    "type": "flora"
+  },
+  {
+    "id": "002F80C3",
+    "name": "Crater Weed",
+    "type": "flora"
+  },
+  {
+    "id": "002F80C5",
+    "name": "Dappled Ash Bloom",
+    "type": "flora"
+  },
+  {
+    "id": "002F80C8",
+    "name": "Kingshead Bugloss",
+    "type": "flora"
+  },
+  {
+    "id": "002F80CA",
+    "name": "Jealous Heart Vine",
+    "type": "flora"
+  },
+  {
+    "id": "002F80CC",
+    "name": "Starpod Silkweed",
+    "type": "flora"
+  },
+  {
+    "id": "002F80CD",
+    "name": "Satellite Ghostvine",
+    "type": "flora"
+  },
+  {
+    "id": "002F80D0",
+    "name": "Spitting Goatweed",
+    "type": "flora"
+  },
+  {
+    "id": "002F80D1",
+    "name": "Fallen Star Palm",
+    "type": "flora"
+  },
+  {
+    "id": "002F80D4",
+    "name": "Twilight Cradleleaf",
+    "type": "flora"
+  },
+  {
+    "id": "0037CEF4",
+    "name": "Hunting Paddlefish",
+    "type": "fauna"
+  },
+  {
+    "id": "00386BE5",
+    "name": "Creeping Twin Shrub",
+    "type": "flora"
+  },
+  {
+    "id": "003AD1F9",
+    "name": "Gossamer Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "003AD1FA",
+    "name": "Pack Cockroach Stalker",
+    "type": "fauna"
+  },
+  {
+    "id": "003CB234",
+    "name": "Cassowary Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "003CB235",
+    "name": "Cassowary Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "003CB236",
+    "name": "Cassowary Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "003CB237",
+    "name": "Nautilus Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "003CB238",
+    "name": "Glowback Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "003CB239",
+    "name": "Nautilus Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "003D23F0",
+    "name": "Herding Cagebrain Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "01039BE3",
+    "name": "Halepod",
+    "type": "flora"
+  },
+  {
+    "id": "01039BE4",
+    "name": "Pendentleaf",
+    "type": "flora"
+  },
+  {
+    "id": "0103AB68",
+    "name": "Sandy",
+    "type": "fauna"
+  },
+  {
+    "id": "0103AB69",
+    "name": "Male Groat",
+    "type": "fauna"
+  },
+  {
+    "id": "0103AB6A",
+    "name": "Sandy",
+    "type": "fauna"
+  },
+  {
+    "id": "0103AB6B",
+    "name": "Sandy",
+    "type": "fauna"
+  },
+  {
+    "id": "0103AB6C",
+    "name": "Sandy",
+    "type": "fauna"
+  },
+  {
+    "id": "0103AB6D",
+    "name": "Sandy",
+    "type": "fauna"
+  },
+  {
+    "id": "0103D5DE",
+    "name": "Tubecrawler Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "0103D5DF",
+    "name": "Hunting Twintail",
+    "type": "fauna"
+  },
+  {
+    "id": "0103D5E0",
+    "name": "Herding Olgreg Scavenger",
+    "type": "fauna"
+  },
+  {
+    "id": "0103D5E1",
+    "name": "Herding Wobbleback Grazer",
+    "type": "fauna"
+  },
+  {
+    "id": "0107BDA9",
+    "name": "Female Groat",
+    "type": "fauna"
+  },
+  {
+    "id": "0107BDAA",
+    "name": "Kid Groat",
+    "type": "fauna"
+  },
+  {
+    "id": "010A82B9",
+    "name": "Frozen",
+    "type": "fauna"
+  },
+  {
+    "id": "010A82BA",
+    "name": "Frozen",
+    "type": "fauna"
+  },
+  {
+    "id": "010A82BB",
+    "name": "Frozen",
+    "type": "fauna"
+  },
+  {
+    "id": "010A82BC",
+    "name": "Frozen",
+    "type": "fauna"
+  },
+  {
+    "id": "010AA1D1",
+    "name": "Rocky",
+    "type": "fauna"
+  },
+  {
+    "id": "010AA1D2",
+    "name": "Rocky",
+    "type": "fauna"
+  },
+  {
+    "id": "010AA1D3",
+    "name": "Rocky",
+    "type": "fauna"
+  },
+  {
+    "id": "010AA1D4",
+    "name": "Rocky",
+    "type": "fauna"
+  },
+  {
+    "id": "010AA1D5",
+    "name": "Rocky",
+    "type": "fauna"
+  },
+  {
+    "id": "010AA1D6",
+    "name": "Frozen",
+    "type": "fauna"
+  }
+]

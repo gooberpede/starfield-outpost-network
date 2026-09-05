@@ -8,6 +8,8 @@
  * Architecture:
  *   Planetary resource occurrence comes from external reference data rather
  *   than from the persisted network itself.
+ *   Production eligibility is shared with the matrix: organic presence alone
+ *   is insufficient without a domesticable source on this body.
  *
  *   Unknown bodies and unknown resource IDs are deliberately ignored here
  *   because they belong to the separate unknown-reference-data validator.
@@ -21,6 +23,8 @@
  *   - special production mechanisms such as X-Tech are represented;
  *   - resource-production diagnostics need richer context.
  */
+
+import { getBodyProductionResources } from '../../bodyResourceAvailability.ts'
 
 import type {
   ValidationIssue,
@@ -80,6 +84,10 @@ function validateActiveProductionValidForBody(
       continue
     }
 
+    const productionResourceIds = new Set(
+      getBodyProductionResources(referenceData, body.id).map((resource) => resource.id),
+    )
+
     for (
       const resourceId of
       outpost.activeProduction
@@ -101,7 +109,7 @@ function validateActiveProductionValidForBody(
       }
 
       if (
-        bodyResources.resourceIds.includes(
+        productionResourceIds.has(
           resourceId,
         )
       ) {

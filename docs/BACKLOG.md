@@ -125,8 +125,13 @@ Future planner/data work may include:
 - biome-level resource plausibility;
 - recommended resource combinations by biome;
 - avoiding finicky biome-boundary sites by default;
-- incorporating extracted Starfield resource-generation data;
-- review and rebuild the organic xEdit extraction pipeline so canonical resource identity, biome occurrence, fauna/flora identity, farmability/domesticability, and production inputs come from clean authoritative data rather than legacy enrichment; this should also resolve the currently omitted unique-resource fauna occurrences;
+- Batch 2: Planetary Habitation validation and related source semantics;
+- future power-efficiency use of raw solar/wind values;
+- Batch 3: persisted multi-biome outpost selections and biome-aware UX;
+- species names in the resource matrix;
+- biome-selector disambiguation when display names collide;
+- eventual retirement of body-resources.json when compatibility consumers are gone;
+- possible replacement of curated dictionaries with game-derived extracts;
 - organic-resource farming prerequisites;
 - better differentiation between canonical source data and player-recorded state.
 

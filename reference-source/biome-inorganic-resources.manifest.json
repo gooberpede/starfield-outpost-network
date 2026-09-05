@@ -1,0 +1,39 @@
+{
+  "dataset": "biome-inorganic-resources",
+  "schema_version": 1,
+  "reproducer_version": "1.0.0",
+  "export_timestamp": "2026-09-03T00:57:11Z",
+  "output_filename": "biome-inorganic-resources.csv",
+  "row_count": 7780,
+  "location_row_counts": {
+    "BIOME": 7445,
+    "ATMOSPHERE": 335
+  },
+  "collapsed_occurrence_count": 0,
+  "input_datasets": [
+    {
+      "filename": "planet-resource-generation.csv",
+      "extract_timestamp": "2026-09-02 21:20:39",
+      "row_count": 7920,
+      "sha256": "22a4335aa5481093845f770efa660356b0d03c023b0efdd4b63d7d816f8207ca"
+    },
+    {
+      "filename": "ires-hierarchy.csv",
+      "extract_timestamp": "2026-09-02 23:25:44",
+      "row_count": 56,
+      "sha256": "5e266537b816c7669ca6bb0a8f3184025023eaab4eab5664734643764acc50ae"
+    },
+    {
+      "filename": "planet-atmospheric-resources.csv",
+      "extract_timestamp": "2026-09-02 23:00:21",
+      "row_count": 335,
+      "sha256": "315a305dbb053d715c158a1f1306e5822826e4b14b979eba7ff9393db0655d4e"
+    },
+    {
+      "filename": "planet-directory.csv",
+      "extract_timestamp": "2026-09-02 22:57:08",
+      "row_count": 1776,
+      "sha256": "fa2bd32ce2d4005fddb2898dd4fb5643fb40362499fcceb66f6b4d6b3df9c15d"
+    }
+  ]
+}

@@ -1092,9 +1092,29 @@ Do not introduce recursive planning semantics into ordinary availability without
 
 # 53. Biome/resource placement
 
-## Deferred
+Reference data now retains biome-level occurrences. Biome FormID is identity;
+biome display names are non-unique, even within one body. A body-local biome index
+provides default numeric ordering. One body/index maps to one biome FormID and
+one body/FormID maps to one index; independently repeated source facts must agree.
+Atmospheric inorganic occurrences belong to the body, never to a synthetic biome.
 
-Reference-data work may eventually support biome-level resource placement and plausibility.
+Global species identity (FormID, display name, flora/fauna type) is separate from
+planet/species facts and biome occurrences. Domesticability, harvested resource,
+and source class belong to the planet/species pair and must agree across biomes.
+Organic occurrences only record where the species occurs.
+
+Resolved input signatures define source classes: plant uses Water × 1; herbivore
+uses Water × 1 and Fiber × 2; carnivore uses Water × 1 and Nutrient × 2. Input
+presence does not imply domesticability. Non-domesticable species remain in
+reference data. NoLinkedResource species (including Terrormorph and Chasmbass)
+retain null harvested resource/source class rather than invented facts.
+
+The body-resource compatibility inventory is derived from all biome inorganic,
+atmospheric inorganic, and harvested planet/species resources. It includes wild
+organics; matrix farming choices require a domesticable planet/species source.
+Raw nullable solar/wind power and habitation rank are reference values only.
+
+## Deferred outpost placement
 
 The current outpost domain model does not yet encode detailed biome placement as a required persisted field.
 

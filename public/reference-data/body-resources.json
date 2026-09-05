@@ -3,12 +3,19 @@
     "bodyId": "0003F598",
     "resourceIds": [
       "adhesive",
+      "aromatic",
       "copper",
       "cosmetic",
       "fiber",
       "iron",
+      "membrane",
+      "metabolic-agent",
       "nickel",
       "nutrient",
+      "pigment",
+      "polymer",
+      "sealant",
+      "structural",
       "toxin",
       "water"
     ]
@@ -39,11 +46,16 @@
       "benzene",
       "fiber",
       "iridium",
+      "membrane",
+      "metabolic-agent",
       "nickel",
       "nutrient",
+      "ornamental",
       "sealant",
+      "solvent",
       "spice",
       "structural",
+      "toxin",
       "uranium",
       "vanadium",
       "water"
@@ -80,6 +92,8 @@
       "alkanes",
       "antimicrobial",
       "argon",
+      "fiber",
+      "helium-3",
       "iron",
       "lead",
       "neon",
@@ -94,10 +108,15 @@
       "argon",
       "chlorine",
       "chlorosilanes",
+      "cosmetic",
       "fiber",
       "lead",
+      "membrane",
       "metabolic-agent",
       "nutrient",
+      "sedative",
+      "spice",
+      "structural",
       "toxin",
       "water"
     ]
@@ -275,15 +294,22 @@
   {
     "bodyId": "0005DE0D",
     "resourceIds": [
+      "alkanes",
       "caesium",
       "chlorine",
       "copper",
+      "cosmetic",
       "fluorine",
       "hallucinogen",
       "lead",
+      "lubricant",
+      "membrane",
       "metabolic-agent",
       "nutrient",
+      "pigment",
       "sealant",
+      "spice",
+      "structural",
       "toxin",
       "water"
     ]
@@ -292,8 +318,11 @@
     "bodyId": "0005DE0E",
     "resourceIds": [
       "argon",
+      "cosmetic",
       "fiber",
       "nickel",
+      "nutrient",
+      "sedative",
       "toxin",
       "water"
     ]
@@ -343,6 +372,10 @@
       "fiber",
       "iridium",
       "metabolic-agent",
+      "nutrient",
+      "sealant",
+      "stimulant",
+      "structural",
       "uranium",
       "water"
     ]
@@ -396,6 +429,7 @@
   {
     "bodyId": "0005DE1D",
     "resourceIds": [
+      "analgesic",
       "argon",
       "chlorine",
       "chlorosilanes",
@@ -403,7 +437,9 @@
       "lead",
       "metabolic-agent",
       "nutrient",
+      "pigment",
       "sealant",
+      "solvent",
       "spice",
       "structural",
       "toxin",
@@ -518,15 +554,21 @@
     "bodyId": "0005DE2D",
     "resourceIds": [
       "alkanes",
+      "amino-acids",
       "argon",
       "benzene",
       "cosmetic",
       "fiber",
+      "hypercatalyst",
       "iridium",
       "iron",
+      "membrane",
+      "metabolic-agent",
       "nutrient",
       "sealant",
+      "spice",
       "structural",
+      "toxin",
       "uranium",
       "vanadium",
       "water"
@@ -635,7 +677,8 @@
       "europium",
       "helium-3",
       "lead",
-      "tungsten"
+      "tungsten",
+      "water"
     ]
   },
   {
@@ -644,9 +687,12 @@
       "cobalt",
       "copper",
       "fluorine",
+      "memory-substrate",
       "nickel",
       "palladium",
       "platinum",
+      "stimulant",
+      "toxin",
       "uranium",
       "water"
     ]
@@ -739,7 +785,8 @@
       "iron",
       "nickel",
       "platinum",
-      "uranium"
+      "uranium",
+      "water"
     ]
   },
   {
@@ -754,9 +801,12 @@
     "bodyId": "0005DE4B",
     "resourceIds": [
       "argon",
+      "aromatic",
       "fiber",
+      "metabolic-agent",
       "sealant",
       "sedative",
+      "structural",
       "uranium",
       "water"
     ]
@@ -765,12 +815,18 @@
     "bodyId": "0005DE4C",
     "resourceIds": [
       "aluminium",
+      "antimicrobial",
+      "aromatic",
       "beryllium",
       "chlorine",
       "copper",
+      "fiber",
       "lead",
       "lubricant",
+      "metabolic-agent",
       "neodymium",
+      "nutrient",
+      "ornamental",
       "pigment",
       "sealant",
       "tungsten",
@@ -809,12 +865,16 @@
   {
     "bodyId": "0005DE51",
     "resourceIds": [
+      "adhesive",
       "chlorine",
       "copper",
       "iron",
       "nickel",
       "palladium",
+      "sealant",
+      "structural",
       "tantalum",
+      "toxin",
       "water",
       "ytterbium"
     ]
@@ -858,6 +918,8 @@
       "carboxylic-acids",
       "chlorine",
       "lithium",
+      "ornamental",
+      "pigment",
       "sealant",
       "structural",
       "water"
@@ -882,6 +944,7 @@
     "bodyId": "0005DE5B",
     "resourceIds": [
       "argon",
+      "helium-3",
       "uranium",
       "water"
     ]
@@ -898,14 +961,19 @@
     "resourceIds": [
       "alkanes",
       "aluminium",
+      "amino-acids",
       "argon",
       "benzene",
       "carboxylic-acids",
       "chlorine",
       "fiber",
       "iron",
+      "lubricant",
+      "membrane",
       "nutrient",
+      "pigment",
       "sealant",
+      "structural",
       "water"
     ]
   },
@@ -966,6 +1034,7 @@
       "lead",
       "mercury",
       "metabolic-agent",
+      "ornamental",
       "sealant",
       "silver",
       "spice",
@@ -982,10 +1051,12 @@
       "chlorine",
       "cobalt",
       "fiber",
+      "hypercatalyst",
       "lead",
       "metabolic-agent",
       "nickel",
       "ornamental",
+      "pigment",
       "sealant",
       "silver",
       "water"
@@ -1044,6 +1115,7 @@
   {
     "bodyId": "0005DE6F",
     "resourceIds": [
+      "chlorine",
       "copper",
       "iridium",
       "iron",
@@ -1080,6 +1152,8 @@
     "bodyId": "0005DE74",
     "resourceIds": [
       "antimony",
+      "biosuppressant",
+      "chlorine",
       "copper",
       "structural",
       "uranium",
@@ -1110,11 +1184,16 @@
       "alkanes",
       "chlorine",
       "chlorosilanes",
+      "cosmetic",
+      "helium-3",
       "iron",
+      "metabolic-agent",
       "nutrient",
       "ornamental",
+      "pigment",
       "sealant",
       "structural",
+      "toxin",
       "uranium",
       "water",
       "ytterbium"
@@ -1155,6 +1234,7 @@
     "bodyId": "0005DE80",
     "resourceIds": [
       "alkanes",
+      "chlorine",
       "iron",
       "tantalum",
       "uranium",
@@ -1165,16 +1245,23 @@
     "bodyId": "0005DE81",
     "resourceIds": [
       "alkanes",
+      "amino-acids",
       "analgesic",
       "chlorine",
       "chlorosilanes",
       "copper",
+      "fiber",
       "gold",
+      "hallucinogen",
       "iron",
+      "lubricant",
       "metabolic-agent",
       "nutrient",
       "ornamental",
       "pigment",
+      "sealant",
+      "sedative",
+      "spice",
       "structural",
       "toxin",
       "water"
@@ -1232,10 +1319,15 @@
     "bodyId": "0005DE8B",
     "resourceIds": [
       "alkanes",
+      "antimicrobial",
+      "fiber",
       "iron",
       "lead",
+      "nutrient",
       "ornamental",
+      "sealant",
       "silver",
+      "spice",
       "toxin",
       "water"
     ]
@@ -1364,6 +1456,7 @@
       "chlorosilanes",
       "copper",
       "iron",
+      "sealant",
       "water",
       "ytterbium"
     ]
@@ -1441,10 +1534,18 @@
   {
     "bodyId": "0005DEA4",
     "resourceIds": [
+      "antimicrobial",
       "aromatic",
+      "fiber",
+      "hallucinogen",
       "iridium",
+      "lubricant",
+      "metabolic-agent",
+      "nutrient",
       "ornamental",
+      "pigment",
       "plutonium",
+      "sealant",
       "toxin",
       "uranium",
       "water"
@@ -1454,14 +1555,19 @@
     "bodyId": "0005DEA5",
     "resourceIds": [
       "alkanes",
+      "antimicrobial",
       "chlorine",
       "chlorosilanes",
       "cobalt",
+      "fiber",
       "iron",
+      "metabolic-agent",
       "nickel",
       "nutrient",
       "pigment",
       "platinum",
+      "structural",
+      "toxin",
       "water"
     ]
   },
@@ -1470,11 +1576,15 @@
     "resourceIds": [
       "alkanes",
       "argon",
+      "aromatic",
       "benzene",
       "chlorine",
       "chlorosilanes",
+      "fiber",
+      "hypercatalyst",
       "iron",
       "lithium",
+      "metabolic-agent",
       "nutrient",
       "ornamental",
       "sealant",
@@ -1515,6 +1625,7 @@
       "chlorine",
       "copper",
       "lead",
+      "lubricant",
       "silver",
       "water"
     ]
@@ -1524,6 +1635,7 @@
     "resourceIds": [
       "alkanes",
       "argon",
+      "chlorine",
       "iron",
       "water",
       "ytterbium"
@@ -1551,7 +1663,8 @@
       "cobalt",
       "dysprosium",
       "lead",
-      "nickel"
+      "nickel",
+      "water"
     ]
   },
   {
@@ -1735,6 +1848,9 @@
       "iridium",
       "lead",
       "nickel",
+      "sedative",
+      "structural",
+      "toxin",
       "uranium"
     ]
   },
@@ -1743,12 +1859,22 @@
     "resourceIds": [
       "alkanes",
       "aluminium",
+      "analgesic",
       "beryllium",
+      "biosuppressant",
       "chlorine",
       "chlorosilanes",
+      "cosmetic",
+      "fiber",
+      "hallucinogen",
       "iron",
+      "metabolic-agent",
       "nutrient",
+      "sedative",
+      "spice",
+      "structural",
       "tantalum",
+      "toxin",
       "water"
     ]
   },
@@ -1856,19 +1982,23 @@
   {
     "bodyId": "0005DEE9",
     "resourceIds": [
+      "antimicrobial",
       "argon",
+      "aromatic",
       "carboxylic-acids",
       "chlorine",
       "fiber",
       "lead",
       "metabolic-agent",
       "nutrient",
+      "ornamental",
       "pigment",
       "polymer",
       "sealant",
       "spice",
       "structural",
       "titanium",
+      "toxin",
       "tungsten",
       "water"
     ]
@@ -2006,6 +2136,7 @@
   {
     "bodyId": "0005DEFD",
     "resourceIds": [
+      "fluorine",
       "lead",
       "silver"
     ]
@@ -2023,9 +2154,15 @@
       "caesium",
       "chlorine",
       "copper",
+      "fiber",
       "fluorine",
+      "metabolic-agent",
       "nickel",
       "nutrient",
+      "ornamental",
+      "sealant",
+      "sedative",
+      "structural",
       "toxin",
       "water"
     ]
@@ -2061,26 +2198,37 @@
       "iron",
       "lithium",
       "metabolic-agent",
+      "nutrient",
       "stimulant",
       "structural",
+      "toxin",
       "water"
     ]
   },
   {
     "bodyId": "0005DF06",
     "resourceIds": [
+      "adhesive",
+      "amino-acids",
+      "analgesic",
       "argon",
+      "biosuppressant",
       "cobalt",
+      "fiber",
       "hallucinogen",
       "iron",
+      "membrane",
       "metabolic-agent",
       "nickel",
+      "nutrient",
       "palladium",
       "pigment",
       "platinum",
       "sealant",
       "spice",
       "stimulant",
+      "structural",
+      "toxin",
       "uranium",
       "water"
     ]
@@ -2092,9 +2240,13 @@
       "argon",
       "benzene",
       "copper",
+      "fiber",
       "lead",
+      "metabolic-agent",
       "nutrient",
+      "ornamental",
       "structural",
+      "toxin",
       "water"
     ]
   },
@@ -2122,6 +2274,7 @@
   {
     "bodyId": "0005DF0C",
     "resourceIds": [
+      "chlorine",
       "iridium",
       "iron",
       "nickel",
@@ -2179,11 +2332,16 @@
       "alkanes",
       "caesium",
       "chlorine",
+      "cosmetic",
       "fiber",
       "iron",
       "lead",
       "mercury",
+      "sealant",
+      "sedative",
       "silver",
+      "structural",
+      "toxin",
       "water"
     ]
   },
@@ -2291,6 +2449,8 @@
       "nickel",
       "nutrient",
       "palladium",
+      "structural",
+      "toxin",
       "water",
       "xenon"
     ]
@@ -2355,11 +2515,15 @@
       "benzene",
       "carboxylic-acids",
       "cobalt",
+      "cosmetic",
+      "fiber",
       "helium-3",
       "metabolic-agent",
       "nickel",
       "nutrient",
+      "sealant",
       "structural",
+      "toxin",
       "water"
     ]
   },
@@ -2367,8 +2531,14 @@
     "bodyId": "0005DF2A",
     "resourceIds": [
       "aluminium",
+      "analgesic",
       "argon",
+      "metabolic-agent",
+      "nutrient",
+      "pigment",
+      "sealant",
       "structural",
+      "toxin",
       "water"
     ]
   },
@@ -2437,10 +2607,14 @@
   {
     "bodyId": "0005DF34",
     "resourceIds": [
+      "amino-acids",
+      "antimicrobial",
       "argon",
       "chlorine",
       "chlorosilanes",
       "cobalt",
+      "cosmetic",
+      "fiber",
       "lithium",
       "metabolic-agent",
       "nickel",
@@ -2478,6 +2652,8 @@
       "benzene",
       "chlorine",
       "cosmetic",
+      "fiber",
+      "hallucinogen",
       "lead",
       "metabolic-agent",
       "nutrient",
@@ -2485,6 +2661,7 @@
       "spice",
       "structural",
       "titanium",
+      "toxin",
       "tungsten",
       "water"
     ]
@@ -2565,6 +2742,7 @@
     "bodyId": "0005DF44",
     "resourceIds": [
       "copper",
+      "fluorine",
       "lead",
       "mercury",
       "nickel",
@@ -2615,7 +2793,9 @@
   {
     "bodyId": "0005DF4C",
     "resourceIds": [
+      "adhesive",
       "argon",
+      "aromatic",
       "chlorine",
       "chlorosilanes",
       "cosmetic",
@@ -2623,10 +2803,12 @@
       "iron",
       "lead",
       "membrane",
+      "metabolic-agent",
       "nutrient",
       "sealant",
       "structural",
       "titanium",
+      "toxin",
       "tungsten",
       "water"
     ]
@@ -2641,9 +2823,11 @@
   {
     "bodyId": "0005DF4E",
     "resourceIds": [
+      "antimicrobial",
       "argon",
       "caesium",
       "chlorine",
+      "fiber",
       "hallucinogen",
       "immunostimulant",
       "lead",
@@ -2894,6 +3078,7 @@
     "resourceIds": [
       "argon",
       "cobalt",
+      "fluorine",
       "iridium",
       "nickel",
       "platinum",
@@ -2933,11 +3118,19 @@
     "bodyId": "0005DF74",
     "resourceIds": [
       "amino-acids",
+      "antimicrobial",
       "argon",
       "benzene",
       "carboxylic-acids",
+      "chlorine",
+      "fiber",
       "iron",
+      "lubricant",
+      "membrane",
+      "metabolic-agent",
+      "nutrient",
       "sealant",
+      "toxin",
       "water"
     ]
   },
@@ -3060,9 +3253,13 @@
       "hallucinogen",
       "helium-3",
       "iron",
+      "membrane",
+      "metabolic-agent",
       "nutrient",
       "ornamental",
+      "sedative",
       "structural",
+      "toxin",
       "uranium",
       "water"
     ]
@@ -3110,7 +3307,9 @@
     "bodyId": "0005DF8C",
     "resourceIds": [
       "aluminium",
+      "analgesic",
       "cobalt",
+      "fiber",
       "helium-3",
       "lead",
       "nickel",
@@ -3134,6 +3333,7 @@
     "resourceIds": [
       "cobalt",
       "copper",
+      "fluorine",
       "gold",
       "lead",
       "mercury",
@@ -3238,15 +3438,21 @@
     "bodyId": "0005DF9D",
     "resourceIds": [
       "aluminium",
+      "amino-acids",
       "antimicrobial",
       "argon",
+      "aromatic",
       "benzene",
       "lead",
       "membrane",
+      "metabolic-agent",
       "nickel",
+      "nutrient",
       "ornamental",
       "pigment",
       "platinum",
+      "sealant",
+      "structural",
       "toxin",
       "tungsten",
       "water"
@@ -3265,6 +3471,7 @@
     "resourceIds": [
       "argon",
       "benzene",
+      "chlorine",
       "hypercatalyst",
       "lead",
       "metabolic-agent",
@@ -3301,7 +3508,11 @@
       "aluminium",
       "antimicrobial",
       "beryllium",
+      "chlorine",
+      "cosmetic",
       "nutrient",
+      "sealant",
+      "toxin",
       "water"
     ]
   },
@@ -3388,14 +3599,23 @@
     "bodyId": "0005DFB1",
     "resourceIds": [
       "adhesive",
+      "amino-acids",
       "analgesic",
+      "antimicrobial",
       "argon",
+      "aromatic",
       "carboxylic-acids",
       "chlorine",
       "chlorosilanes",
+      "fiber",
+      "fluorine",
       "metabolic-agent",
       "nickel",
+      "nutrient",
+      "polymer",
+      "sealant",
       "structural",
+      "toxin",
       "water"
     ]
   },
@@ -3411,10 +3631,19 @@
     "bodyId": "0005DFB3",
     "resourceIds": [
       "aluminium",
+      "antimicrobial",
       "argon",
       "aromatic",
+      "benzene",
       "chlorine",
+      "fiber",
       "lithium",
+      "memory-substrate",
+      "metabolic-agent",
+      "nutrient",
+      "ornamental",
+      "structural",
+      "toxin",
       "water"
     ]
   },
@@ -3473,6 +3702,7 @@
     "bodyId": "0005DFBA",
     "resourceIds": [
       "aluminium",
+      "chlorine",
       "neodymium",
       "nickel",
       "water"
@@ -3544,16 +3774,23 @@
     "bodyId": "0005DFC6",
     "resourceIds": [
       "adhesive",
+      "antimicrobial",
       "argon",
       "chlorine",
       "chlorosilanes",
       "cosmetic",
+      "fiber",
+      "hallucinogen",
       "iridium",
       "lead",
+      "membrane",
       "metabolic-agent",
       "nutrient",
       "ornamental",
       "sealant",
+      "solvent",
+      "spice",
+      "structural",
       "titanium",
       "toxin",
       "uranium",
@@ -3720,6 +3957,7 @@
       "lead",
       "nickel",
       "sealant",
+      "sedative",
       "water"
     ]
   },
@@ -3734,12 +3972,22 @@
   {
     "bodyId": "0005DFDF",
     "resourceIds": [
+      "analgesic",
+      "antimicrobial",
       "argon",
       "chlorine",
       "chlorosilanes",
+      "fiber",
+      "hallucinogen",
       "iridium",
+      "metabolic-agent",
+      "nutrient",
+      "ornamental",
       "plutonium",
+      "polymer",
       "sealant",
+      "spice",
+      "structural",
       "toxin",
       "uranium",
       "water",
@@ -3894,11 +4142,19 @@
     "bodyId": "0005DFF5",
     "resourceIds": [
       "adhesive",
+      "alkanes",
+      "analgesic",
       "copper",
       "dysprosium",
+      "fiber",
+      "hallucinogen",
       "ionic-liquids",
       "lead",
+      "metabolic-agent",
       "nickel",
+      "ornamental",
+      "sealant",
+      "toxin",
       "water"
     ]
   },
@@ -4019,12 +4275,15 @@
       "cosmetic",
       "europium",
       "fiber",
+      "hypercatalyst",
       "membrane",
+      "metabolic-agent",
       "neodymium",
       "nutrient",
       "ornamental",
       "pigment",
       "sealant",
+      "spice",
       "structural",
       "toxin",
       "water"
@@ -4037,7 +4296,17 @@
       "chlorine",
       "chlorosilanes",
       "copper",
+      "cosmetic",
       "fiber",
+      "hallucinogen",
+      "lubricant",
+      "membrane",
+      "nutrient",
+      "ornamental",
+      "sealant",
+      "solvent",
+      "spice",
+      "structural",
       "water"
     ]
   },
@@ -4213,7 +4482,9 @@
     "resourceIds": [
       "fiber",
       "lead",
-      "ornamental"
+      "ornamental",
+      "pigment",
+      "toxin"
     ]
   },
   {
@@ -4255,6 +4526,7 @@
   {
     "bodyId": "0005E029",
     "resourceIds": [
+      "antimicrobial",
       "chlorine",
       "chlorosilanes",
       "copper",
@@ -4262,6 +4534,10 @@
       "nickel",
       "nutrient",
       "palladium",
+      "sealant",
+      "solvent",
+      "structural",
+      "toxin",
       "water",
       "xenon"
     ]
@@ -4387,13 +4663,16 @@
     "resourceIds": [
       "aluminium",
       "argon",
+      "fiber",
       "iridium",
       "membrane",
       "nickel",
+      "nutrient",
       "ornamental",
       "platinum",
       "sealant",
       "structural",
+      "toxin",
       "uranium",
       "vanadium",
       "water"
@@ -4443,9 +4722,11 @@
   {
     "bodyId": "0005E045",
     "resourceIds": [
+      "adhesive",
       "aluminium",
       "argon",
       "beryllium",
+      "biosuppressant",
       "cobalt",
       "cosmetic",
       "fiber",
@@ -4457,6 +4738,7 @@
       "ornamental",
       "sealant",
       "silver",
+      "toxin",
       "water"
     ]
   },
@@ -4604,9 +4886,13 @@
   {
     "bodyId": "0005E05C",
     "resourceIds": [
+      "adhesive",
+      "amino-acids",
       "argon",
       "benzene",
       "membrane",
+      "nutrient",
+      "sealant",
       "structural",
       "uranium",
       "water"
@@ -4707,15 +4993,23 @@
   {
     "bodyId": "0005E06C",
     "resourceIds": [
+      "adhesive",
       "alkanes",
       "aluminium",
+      "antimicrobial",
       "copper",
       "fiber",
+      "hallucinogen",
+      "hypercatalyst",
       "iron",
+      "membrane",
+      "metabolic-agent",
       "nutrient",
       "pigment",
+      "sealant",
       "structural",
       "tetrafluorides",
+      "toxin",
       "uranium",
       "vanadium",
       "water"
@@ -4745,6 +5039,8 @@
       "lead",
       "lithium",
       "nutrient",
+      "sealant",
+      "spice",
       "structural",
       "toxin",
       "tungsten",
@@ -4811,6 +5107,9 @@
       "fiber",
       "high-tensile-spidroin",
       "lead",
+      "nutrient",
+      "ornamental",
+      "pigment",
       "sealant",
       "silver",
       "water"
@@ -4853,7 +5152,8 @@
       "lead",
       "nickel",
       "platinum",
-      "uranium"
+      "uranium",
+      "water"
     ]
   },
   {
@@ -4926,13 +5226,16 @@
   {
     "bodyId": "0005E08C",
     "resourceIds": [
+      "antimicrobial",
       "argon",
       "chlorine",
+      "fiber",
       "hallucinogen",
       "lead",
       "metabolic-agent",
       "nickel",
       "nutrient",
+      "pigment",
       "sealant",
       "structural",
       "toxin",
@@ -5004,9 +5307,14 @@
     "bodyId": "0005E096",
     "resourceIds": [
       "aluminium",
+      "antimicrobial",
+      "chlorine",
       "copper",
+      "fiber",
       "fluorine",
       "iron",
+      "metabolic-agent",
+      "nutrient",
       "sealant",
       "spice",
       "structural",
@@ -5073,6 +5381,7 @@
       "nutrient",
       "sealant",
       "solvent",
+      "structural",
       "toxin",
       "water"
     ]
@@ -5199,12 +5508,20 @@
     "bodyId": "0005E0B0",
     "resourceIds": [
       "aluminium",
+      "analgesic",
       "argon",
       "chlorine",
       "chlorosilanes",
       "cosmetic",
+      "fiber",
+      "hypercatalyst",
       "iron",
+      "membrane",
+      "metabolic-agent",
       "nutrient",
+      "ornamental",
+      "sealant",
+      "structural",
       "tantalum",
       "toxin",
       "water"
@@ -5242,14 +5559,22 @@
     "bodyId": "0005E0B6",
     "resourceIds": [
       "analgesic",
+      "antimicrobial",
       "argon",
       "chlorine",
       "cobalt",
+      "fiber",
       "iron",
+      "luxury-textile",
+      "membrane",
       "metabolic-agent",
       "nickel",
       "nutrient",
+      "pigment",
+      "sealant",
       "sedative",
+      "stimulant",
+      "structural",
       "toxin",
       "water"
     ]
@@ -5267,12 +5592,17 @@
     "bodyId": "0005E0B8",
     "resourceIds": [
       "aluminium",
+      "amino-acids",
+      "benzene",
       "chlorine",
       "chlorosilanes",
       "copper",
       "fiber",
       "fluorine",
+      "metabolic-agent",
       "neodymium",
+      "nutrient",
+      "spice",
       "structural",
       "toxin",
       "water"
@@ -5365,9 +5695,13 @@
       "cobalt",
       "iron",
       "lead",
+      "lubricant",
       "metabolic-agent",
       "nickel",
       "nutrient",
+      "pigment",
+      "sealant",
+      "sedative",
       "structural",
       "uranium",
       "water"
@@ -5403,6 +5737,7 @@
   {
     "bodyId": "0005E0CB",
     "resourceIds": [
+      "helium-3",
       "lead",
       "water"
     ]
@@ -5416,20 +5751,27 @@
       "nickel",
       "uranium",
       "vanadium",
+      "water",
       "xenon"
     ]
   },
   {
     "bodyId": "0005E0CE",
     "resourceIds": [
+      "antimicrobial",
       "argon",
       "carboxylic-acids",
       "chlorine",
       "chlorosilanes",
+      "cosmetic",
       "fiber",
+      "fluorine",
       "hallucinogen",
       "lithium",
+      "metabolic-agent",
       "nickel",
+      "sealant",
+      "toxin",
       "water"
     ]
   },
@@ -5440,8 +5782,11 @@
       "argon",
       "beryllium",
       "europium",
+      "fiber",
+      "hallucinogen",
       "helium-3",
       "neon",
+      "ornamental",
       "sealant",
       "structural",
       "water"
@@ -5502,10 +5847,13 @@
       "chlorine",
       "chlorosilanes",
       "copper",
+      "cosmetic",
       "fluorine",
       "iridium",
       "lithium",
+      "structural",
       "tetrafluorides",
+      "toxin",
       "uranium"
     ]
   },
@@ -5523,12 +5871,17 @@
     "bodyId": "0005E0DC",
     "resourceIds": [
       "alkanes",
+      "aromatic",
+      "biosuppressant",
       "chlorine",
       "fiber",
       "iridium",
       "iron",
+      "metabolic-agent",
       "nutrient",
+      "pigment",
       "sealant",
+      "structural",
       "tantalum",
       "toxin",
       "uranium",
@@ -5544,11 +5897,14 @@
       "benzene",
       "chlorine",
       "chlorosilanes",
+      "cosmetic",
       "fiber",
       "helium-3",
       "iron",
       "metabolic-agent",
+      "nutrient",
       "sealant",
+      "sedative",
       "toxin",
       "water"
     ]
@@ -5715,9 +6071,11 @@
       "cosmetic",
       "fiber",
       "iron",
+      "metabolic-agent",
       "nickel",
       "nutrient",
       "sealant",
+      "structural",
       "water"
     ]
   },
@@ -5748,16 +6106,24 @@
   {
     "bodyId": "0005E10C",
     "resourceIds": [
+      "amino-acids",
       "argon",
       "aromatic",
+      "biosuppressant",
       "chlorine",
       "copper",
       "cosmetic",
+      "fiber",
+      "hallucinogen",
       "lead",
       "lubricant",
+      "membrane",
       "metabolic-agent",
       "nutrient",
+      "pigment",
+      "sealant",
       "sedative",
+      "structural",
       "toxin",
       "uranium",
       "water"
@@ -5904,7 +6270,9 @@
       "cobalt",
       "lead",
       "nickel",
+      "sealant",
       "silver",
+      "toxin",
       "uranium",
       "vanadium"
     ]
@@ -5994,6 +6362,7 @@
       "argon",
       "carboxylic-acids",
       "chlorine",
+      "fiber",
       "lead",
       "nickel",
       "nutrient",
@@ -6006,15 +6375,19 @@
   {
     "bodyId": "0005E136",
     "resourceIds": [
+      "adhesive",
       "argon",
       "benzene",
       "chlorine",
       "fiber",
       "iron",
       "lead",
+      "metabolic-agent",
       "neon",
       "nutrient",
+      "polymer",
       "structural",
+      "toxin",
       "tungsten",
       "water"
     ]
@@ -6031,6 +6404,7 @@
     "bodyId": "0005E138",
     "resourceIds": [
       "alkanes",
+      "chlorine",
       "iron",
       "lead",
       "water"
@@ -6055,14 +6429,21 @@
     "bodyId": "0005E13C",
     "resourceIds": [
       "aluminium",
+      "antimicrobial",
       "antimony",
       "argon",
       "benzene",
       "copper",
+      "fiber",
       "fluorine",
       "lead",
+      "metabolic-agent",
       "nutrient",
+      "ornamental",
       "sealant",
+      "sedative",
+      "structural",
+      "toxin",
       "water"
     ]
   },
@@ -6157,16 +6538,22 @@
     "bodyId": "0005E151",
     "resourceIds": [
       "alkanes",
+      "chlorine",
       "fiber",
       "iron",
       "lead",
       "metabolic-agent",
+      "neurologic",
       "nutrient",
+      "pigment",
       "polymer",
       "sealant",
+      "sedative",
       "silver",
       "spice",
+      "structural",
       "tantalum",
+      "toxin",
       "water",
       "ytterbium"
     ]
@@ -6252,12 +6639,14 @@
   {
     "bodyId": "0005E15F",
     "resourceIds": [
+      "analgesic",
       "antimony",
       "copper",
       "fluorine",
       "gold",
       "iron",
       "lead",
+      "spice",
       "uranium",
       "water"
     ]
@@ -6316,7 +6705,8 @@
       "iron",
       "nickel",
       "uranium",
-      "vanadium"
+      "vanadium",
+      "water"
     ]
   },
   {
@@ -6343,6 +6733,7 @@
     "bodyId": "0005E16A",
     "resourceIds": [
       "chlorine",
+      "fluorine",
       "nickel",
       "water"
     ]
@@ -6394,6 +6785,7 @@
   {
     "bodyId": "0005E171",
     "resourceIds": [
+      "chlorine",
       "dysprosium",
       "iridium",
       "lead",
@@ -6481,9 +6873,13 @@
     "bodyId": "0005E17B",
     "resourceIds": [
       "adhesive",
+      "chlorine",
       "iron",
+      "membrane",
       "metabolic-agent",
       "nickel",
+      "nutrient",
+      "ornamental",
       "sealant",
       "structural",
       "toxin",
@@ -6514,12 +6910,15 @@
       "copper",
       "fiber",
       "gold",
+      "hypercatalyst",
       "membrane",
+      "metabolic-agent",
       "nutrient",
       "ornamental",
       "pigment",
       "sealant",
       "structural",
+      "toxin",
       "water"
     ]
   },
@@ -6596,13 +6995,16 @@
     "bodyId": "0005E192",
     "resourceIds": [
       "aluminium",
+      "analgesic",
       "argon",
       "benzene",
       "beryllium",
       "copper",
       "fluorine",
+      "nutrient",
       "sealant",
       "structural",
+      "toxin",
       "uranium",
       "water"
     ]
@@ -6648,6 +7050,7 @@
     "bodyId": "0005E19A",
     "resourceIds": [
       "antimony",
+      "chlorine",
       "copper",
       "fluorine",
       "gold",
@@ -6717,14 +7120,23 @@
     "resourceIds": [
       "aluminium",
       "antimicrobial",
+      "aromatic",
       "beryllium",
+      "chlorine",
       "copper",
+      "cosmetic",
+      "fiber",
       "fluorine",
       "gold",
       "iron",
+      "membrane",
+      "metabolic-agent",
+      "nutrient",
       "ornamental",
       "sealant",
+      "sedative",
       "spice",
+      "toxin",
       "water"
     ]
   },
@@ -6835,13 +7247,16 @@
   {
     "bodyId": "0005E1BA",
     "resourceIds": [
+      "antimicrobial",
       "cobalt",
       "lead",
       "membrane",
       "mercury",
       "nickel",
       "nutrient",
+      "ornamental",
       "palladium",
+      "structural",
       "water"
     ]
   },
@@ -6864,6 +7279,7 @@
   {
     "bodyId": "0005E1BD",
     "resourceIds": [
+      "alkanes",
       "lead",
       "titanium",
       "water"
@@ -6896,12 +7312,21 @@
   {
     "bodyId": "0005E1C6",
     "resourceIds": [
+      "antimicrobial",
+      "aromatic",
       "copper",
+      "fiber",
       "fluorine",
       "iridium",
       "lead",
+      "metabolic-agent",
+      "nutrient",
+      "pigment",
+      "polymer",
+      "sealant",
       "structural",
       "tetrafluorides",
+      "toxin",
       "tungsten",
       "uranium",
       "water"
@@ -6930,6 +7355,7 @@
   {
     "bodyId": "0005E1C9",
     "resourceIds": [
+      "chlorine",
       "cobalt",
       "iridium",
       "lead",
@@ -6950,6 +7376,7 @@
       "chlorosilanes",
       "fiber",
       "iron",
+      "nutrient",
       "structural",
       "water"
     ]
@@ -7063,12 +7490,18 @@
       "antimicrobial",
       "argon",
       "cobalt",
+      "cosmetic",
+      "fiber",
       "hypercatalyst",
       "iron",
       "membrane",
+      "metabolic-agent",
       "nickel",
       "nutrient",
       "platinum",
+      "sealant",
+      "solvent",
+      "spice",
       "structural",
       "toxin",
       "water",
@@ -7079,6 +7512,7 @@
     "bodyId": "0005E1DD",
     "resourceIds": [
       "cobalt",
+      "fluorine",
       "lead",
       "nickel",
       "tungsten",
@@ -7154,6 +7588,7 @@
   {
     "bodyId": "0005E1ED",
     "resourceIds": [
+      "alkanes",
       "aluminium",
       "analgesic",
       "argon",
@@ -7161,9 +7596,12 @@
       "carboxylic-acids",
       "chlorine",
       "cosmetic",
+      "fiber",
       "hallucinogen",
       "iron",
+      "metabolic-agent",
       "nutrient",
+      "pigment",
       "sealant",
       "spice",
       "structural",
@@ -7220,8 +7658,11 @@
       "fiber",
       "lithium",
       "membrane",
+      "metabolic-agent",
+      "nutrient",
       "pigment",
       "sealant",
+      "solvent",
       "structural",
       "toxin",
       "water"
@@ -7294,13 +7735,18 @@
   {
     "bodyId": "0005E201",
     "resourceIds": [
+      "adhesive",
       "antimicrobial",
       "chlorine",
       "chlorosilanes",
       "cobalt",
+      "cosmetic",
       "lead",
+      "metabolic-agent",
       "nickel",
+      "structural",
       "titanium",
+      "toxin",
       "uranium",
       "water"
     ]
@@ -7308,8 +7754,13 @@
   {
     "bodyId": "0005E202",
     "resourceIds": [
+      "antimicrobial",
       "argon",
       "benzene",
+      "hallucinogen",
+      "nutrient",
+      "ornamental",
+      "sealant",
       "toxin",
       "uranium",
       "water"
@@ -7360,8 +7811,13 @@
       "gold",
       "lead",
       "lithium",
+      "membrane",
       "mercury",
+      "metabolic-agent",
+      "nutrient",
+      "sealant",
       "structural",
+      "toxin",
       "water"
     ]
   },
@@ -7383,11 +7839,17 @@
       "chlorine",
       "chlorosilanes",
       "copper",
+      "fiber",
+      "hallucinogen",
+      "hypercatalyst",
       "iridium",
       "metabolic-agent",
       "nutrient",
+      "pigment",
       "plutonium",
       "sealant",
+      "structural",
+      "toxin",
       "uranium",
       "vanadium",
       "water"
@@ -7400,6 +7862,8 @@
       "carboxylic-acids",
       "copper",
       "lead",
+      "membrane",
+      "sedative",
       "uranium",
       "vanadium",
       "water"
@@ -7424,6 +7888,7 @@
   {
     "bodyId": "0005E212",
     "resourceIds": [
+      "benzene",
       "chlorine",
       "lead",
       "nickel",
@@ -7533,11 +7998,14 @@
       "argon",
       "benzene",
       "copper",
+      "fiber",
       "fluorine",
       "iron",
       "lead",
       "nickel",
+      "pigment",
       "sealant",
+      "structural",
       "toxin",
       "water"
     ]
@@ -7553,14 +8021,20 @@
   {
     "bodyId": "0005E224",
     "resourceIds": [
+      "alkanes",
+      "antimicrobial",
+      "aromatic",
       "chlorine",
       "chlorosilanes",
       "copper",
+      "cosmetic",
       "fiber",
       "fluorine",
       "ionic-liquids",
       "metabolic-agent",
       "nutrient",
+      "sealant",
+      "stimulant",
       "structural",
       "toxin",
       "water"
@@ -7672,8 +8146,12 @@
   {
     "bodyId": "0005E235",
     "resourceIds": [
+      "adhesive",
       "copper",
       "fluorine",
+      "metabolic-agent",
+      "nutrient",
+      "toxin",
       "water"
     ]
   },
@@ -7692,7 +8170,9 @@
       "gold",
       "iron",
       "nickel",
+      "nutrient",
       "plutonium",
+      "sealant",
       "structural",
       "uranium",
       "water"
@@ -7755,11 +8235,14 @@
     "bodyId": "0005E240",
     "resourceIds": [
       "aluminium",
+      "amino-acids",
       "beryllium",
       "chlorine",
       "chlorosilanes",
       "lead",
       "lithium",
+      "nutrient",
+      "sealant",
       "structural",
       "toxin",
       "tungsten",
@@ -7788,7 +8271,11 @@
       "fiber",
       "fluorine",
       "lead",
+      "lubricant",
+      "metabolic-agent",
       "nutrient",
+      "ornamental",
+      "pigment",
       "structural",
       "toxin",
       "water"
@@ -7797,6 +8284,7 @@
   {
     "bodyId": "0005E244",
     "resourceIds": [
+      "amino-acids",
       "analgesic",
       "argon",
       "benzene",
@@ -7809,7 +8297,9 @@
       "membrane",
       "metabolic-agent",
       "nutrient",
+      "ornamental",
       "sealant",
+      "sedative",
       "spice",
       "structural",
       "toxin",
@@ -7893,6 +8383,9 @@
     "resourceIds": [
       "chlorine",
       "lithium",
+      "nutrient",
+      "spice",
+      "toxin",
       "water"
     ]
   },
@@ -7901,23 +8394,30 @@
     "resourceIds": [
       "lead",
       "nickel",
-      "tungsten"
+      "tungsten",
+      "water"
     ]
   },
   {
     "bodyId": "0005E256",
     "resourceIds": [
       "amino-acids",
+      "analgesic",
+      "benzene",
       "copper",
+      "cosmetic",
       "fluorine",
       "iron",
       "lead",
+      "metabolic-agent",
       "nickel",
       "nutrient",
       "pigment",
       "sealant",
+      "solvent",
       "structural",
       "titanium",
+      "toxin",
       "water"
     ]
   },
@@ -7929,7 +8429,9 @@
       "argon",
       "benzene",
       "lead",
+      "nutrient",
       "sealant",
+      "structural",
       "water"
     ]
   },
@@ -7948,8 +8450,10 @@
       "aluminium",
       "argon",
       "beryllium",
+      "fiber",
       "membrane",
       "nickel",
+      "nutrient",
       "sealant",
       "structural",
       "water"
@@ -8075,6 +8579,8 @@
       "copper",
       "helium-3",
       "iron",
+      "nutrient",
+      "sealant",
       "structural",
       "tetrafluorides",
       "uranium",
@@ -8124,14 +8630,20 @@
   {
     "bodyId": "0005E278",
     "resourceIds": [
+      "adhesive",
       "chlorine",
       "chlorosilanes",
       "copper",
+      "fiber",
+      "hallucinogen",
       "lithium",
       "metabolic-agent",
       "nutrient",
       "polymer",
+      "sealant",
+      "spice",
       "structural",
+      "toxin",
       "water"
     ]
   },
@@ -8147,13 +8659,18 @@
     "bodyId": "0005E27B",
     "resourceIds": [
       "argon",
+      "aromatic",
       "cobalt",
       "copper",
       "cosmetic",
+      "fiber",
       "iridium",
       "iron",
+      "membrane",
+      "metabolic-agent",
       "nickel",
       "nutrient",
+      "pigment",
       "sealant",
       "structural",
       "toxin",
@@ -8226,7 +8743,10 @@
     "resourceIds": [
       "aluminium",
       "beryllium",
-      "helium-3"
+      "helium-3",
+      "nutrient",
+      "ornamental",
+      "sealant"
     ]
   },
   {
@@ -8297,12 +8817,21 @@
   {
     "bodyId": "0005E294",
     "resourceIds": [
+      "adhesive",
+      "antimicrobial",
       "argon",
       "benzene",
       "carboxylic-acids",
+      "fiber",
       "iridium",
       "iron",
+      "membrane",
       "metabolic-agent",
+      "nutrient",
+      "ornamental",
+      "pigment",
+      "sealant",
+      "sedative",
       "structural",
       "tantalum",
       "toxin",
@@ -8366,6 +8895,7 @@
     "bodyId": "0005E29D",
     "resourceIds": [
       "alkanes",
+      "benzene",
       "chlorine",
       "iron",
       "lead",
@@ -8404,6 +8934,7 @@
       "benzene",
       "chlorine",
       "cobalt",
+      "fiber",
       "lead",
       "nickel",
       "nutrient",
@@ -8536,19 +9067,27 @@
       "lead",
       "mercury",
       "nickel",
-      "silver"
+      "silver",
+      "water"
     ]
   },
   {
     "bodyId": "0005E2B6",
     "resourceIds": [
       "aluminium",
+      "antimicrobial",
       "argon",
+      "aromatic",
       "benzene",
       "cobalt",
+      "cosmetic",
+      "fiber",
       "hallucinogen",
       "nickel",
       "nutrient",
+      "sealant",
+      "solvent",
+      "structural",
       "toxin",
       "water"
     ]
@@ -8583,7 +9122,12 @@
       "beryllium",
       "carboxylic-acids",
       "chlorine",
+      "cosmetic",
+      "fiber",
       "iron",
+      "membrane",
+      "nutrient",
+      "sealant",
       "solvent",
       "water"
     ]
@@ -8671,13 +9215,16 @@
     "resourceIds": [
       "aluminium",
       "amino-acids",
+      "antimicrobial",
       "argon",
       "benzene",
       "carboxylic-acids",
       "chlorine",
       "cobalt",
       "cosmetic",
+      "fiber",
       "membrane",
+      "metabolic-agent",
       "nickel",
       "nutrient",
       "pigment",
@@ -8839,16 +9386,24 @@
   {
     "bodyId": "0005E2DD",
     "resourceIds": [
+      "analgesic",
       "argon",
       "benzene",
       "chlorine",
       "copper",
+      "fiber",
       "lead",
       "membrane",
       "mercury",
+      "metabolic-agent",
+      "nutrient",
+      "ornamental",
+      "polymer",
       "sealant",
       "sedative",
       "silver",
+      "spice",
+      "toxin",
       "water"
     ]
   },
@@ -8949,11 +9504,14 @@
   {
     "bodyId": "0005E2EB",
     "resourceIds": [
+      "adhesive",
       "cobalt",
       "copper",
       "lead",
       "nickel",
       "platinum",
+      "structural",
+      "toxin",
       "uranium",
       "water"
     ]
@@ -8986,7 +9544,10 @@
     "resourceIds": [
       "chlorine",
       "iridium",
+      "lubricant",
+      "nutrient",
       "plutonium",
+      "toxin",
       "uranium"
     ]
   },
@@ -9214,12 +9775,17 @@
     "bodyId": "0005E311",
     "resourceIds": [
       "adhesive",
+      "antimicrobial",
       "chlorine",
       "chlorosilanes",
+      "cosmetic",
       "fiber",
       "lead",
+      "metabolic-agent",
       "nutrient",
       "sealant",
+      "spice",
+      "structural",
       "toxin",
       "water"
     ]
@@ -9271,7 +9837,8 @@
       "cobalt",
       "lead",
       "nickel",
-      "uranium"
+      "uranium",
+      "water"
     ]
   },
   {
@@ -9293,7 +9860,9 @@
       "mercury",
       "nutrient",
       "sealant",
-      "uranium"
+      "structural",
+      "uranium",
+      "water"
     ]
   },
   {
@@ -9312,12 +9881,19 @@
       "argon",
       "aromatic",
       "beryllium",
+      "biosuppressant",
       "carboxylic-acids",
+      "cosmetic",
       "fiber",
+      "fluorine",
       "lead",
+      "metabolic-agent",
+      "nutrient",
       "sealant",
       "silver",
       "spice",
+      "structural",
+      "toxin",
       "water"
     ]
   },
@@ -9373,6 +9949,7 @@
     "bodyId": "0005E325",
     "resourceIds": [
       "argon",
+      "chlorine",
       "iron",
       "neon",
       "tantalum",
@@ -9463,6 +10040,7 @@
   {
     "bodyId": "0005E336",
     "resourceIds": [
+      "helium-3",
       "iridium",
       "lead",
       "uranium"
@@ -9480,6 +10058,9 @@
       "fiber",
       "iridium",
       "iron",
+      "metabolic-agent",
+      "polymer",
+      "sealant",
       "toxin",
       "uranium",
       "water"
@@ -9520,8 +10101,11 @@
     "resourceIds": [
       "copper",
       "fluorine",
+      "helium-3",
       "iridium",
       "nickel",
+      "sealant",
+      "structural",
       "uranium",
       "vanadium",
       "water"
@@ -9550,7 +10134,9 @@
       "chlorine",
       "helium-3",
       "iron",
+      "metabolic-agent",
       "nutrient",
+      "spice",
       "tantalum"
     ]
   },
@@ -9561,10 +10147,15 @@
       "biosuppressant",
       "chlorine",
       "chlorosilanes",
+      "cosmetic",
       "hallucinogen",
       "lead",
+      "metabolic-agent",
       "sealant",
       "sedative",
+      "spice",
+      "structural",
+      "toxin",
       "water",
       "xenon"
     ]
@@ -9589,7 +10180,8 @@
       "chlorosilanes",
       "iridium",
       "nickel",
-      "uranium"
+      "uranium",
+      "water"
     ]
   },
   {
@@ -9609,7 +10201,8 @@
       "mercury",
       "nickel",
       "uranium",
-      "vanadium"
+      "vanadium",
+      "water"
     ]
   },
   {
@@ -9622,14 +10215,24 @@
   {
     "bodyId": "0005E34D",
     "resourceIds": [
+      "adhesive",
       "aluminium",
+      "analgesic",
+      "antimicrobial",
       "argon",
       "benzene",
       "carboxylic-acids",
       "chlorine",
+      "cosmetic",
+      "fiber",
+      "hallucinogen",
       "iron",
       "lithium",
+      "membrane",
+      "metabolic-agent",
       "nutrient",
+      "sealant",
+      "spice",
       "structural",
       "toxin",
       "water"
@@ -9746,7 +10349,8 @@
     "bodyId": "0005E35E",
     "resourceIds": [
       "copper",
-      "uranium"
+      "uranium",
+      "water"
     ]
   },
   {
@@ -9797,13 +10401,20 @@
       "alkanes",
       "aluminium",
       "argon",
+      "aromatic",
       "chlorine",
       "chlorosilanes",
       "fiber",
       "iron",
       "lithium",
+      "lubricant",
+      "membrane",
+      "metabolic-agent",
       "nutrient",
+      "polymer",
+      "sealant",
       "structural",
+      "toxin",
       "water"
     ]
   },
@@ -9838,11 +10449,16 @@
   {
     "bodyId": "0005E369",
     "resourceIds": [
+      "analgesic",
       "chlorine",
       "chlorosilanes",
       "copper",
+      "fiber",
       "fluorine",
       "lead",
+      "metabolic-agent",
+      "nutrient",
+      "ornamental",
       "sealant",
       "structural",
       "toxin",
@@ -9854,6 +10470,7 @@
   {
     "bodyId": "0005E36B",
     "resourceIds": [
+      "chlorine",
       "iron",
       "lead",
       "mercury"
@@ -9959,7 +10576,8 @@
     "resourceIds": [
       "copper",
       "iridium",
-      "uranium"
+      "uranium",
+      "water"
     ]
   },
   {
@@ -9974,6 +10592,7 @@
     "bodyId": "0005E37C",
     "resourceIds": [
       "analgesic",
+      "biosuppressant",
       "chlorine",
       "cobalt",
       "copper",
@@ -9983,6 +10602,8 @@
       "membrane",
       "metabolic-agent",
       "nickel",
+      "nutrient",
+      "ornamental",
       "sealant",
       "silver",
       "spice",
@@ -10000,7 +10621,8 @@
       "cobalt",
       "helium-3",
       "nickel",
-      "uranium"
+      "uranium",
+      "water"
     ]
   },
   {
@@ -10008,16 +10630,21 @@
     "resourceIds": [
       "adhesive",
       "aluminium",
+      "antimicrobial",
       "aromatic",
       "chlorine",
       "chlorosilanes",
       "copper",
+      "fiber",
       "fluorine",
       "hallucinogen",
       "lead",
       "lithium",
+      "membrane",
       "metabolic-agent",
       "nutrient",
+      "ornamental",
+      "pigment",
       "sealant",
       "structural",
       "toxin",
@@ -10038,12 +10665,15 @@
     "resourceIds": [
       "argon",
       "benzene",
+      "biosuppressant",
       "carboxylic-acids",
       "cobalt",
       "fiber",
       "lead",
+      "metabolic-agent",
       "nickel",
       "nutrient",
+      "ornamental",
       "platinum",
       "structural",
       "toxin",
@@ -10167,6 +10797,7 @@
     "resourceIds": [
       "iridium",
       "iron",
+      "sealant",
       "uranium"
     ]
   },
@@ -10182,14 +10813,20 @@
     "bodyId": "0005E393",
     "resourceIds": [
       "alkanes",
+      "analgesic",
+      "antimicrobial",
       "argon",
       "carboxylic-acids",
       "chlorine",
       "chlorosilanes",
+      "fiber",
       "iron",
       "metabolic-agent",
       "nutrient",
+      "ornamental",
+      "pigment",
       "sealant",
+      "stimulant",
       "toxin",
       "water"
     ]
@@ -10289,6 +10926,14 @@
     ]
   },
   {
+    "bodyId": "0005E3A5",
+    "resourceIds": [
+      "benzene",
+      "toxin",
+      "water"
+    ]
+  },
+  {
     "bodyId": "0005E3A6",
     "resourceIds": [
       "chlorine",
@@ -10370,6 +11015,7 @@
   {
     "bodyId": "0005E3B3",
     "resourceIds": [
+      "chlorine",
       "lead",
       "nickel",
       "platinum"
@@ -10390,14 +11036,18 @@
       "chlorine",
       "chlorosilanes",
       "fiber",
+      "hallucinogen",
       "lead",
       "lithium",
       "membrane",
+      "metabolic-agent",
       "nutrient",
       "ornamental",
       "polymer",
       "sealant",
+      "spice",
       "structural",
+      "toxin",
       "water"
     ]
   },
@@ -10526,13 +11176,20 @@
     "resourceIds": [
       "alkanes",
       "antimony",
+      "aromatic",
       "chlorine",
       "chlorosilanes",
       "copper",
+      "fiber",
       "gold",
+      "hypercatalyst",
       "iron",
+      "membrane",
+      "metabolic-agent",
       "nutrient",
+      "ornamental",
       "sealant",
+      "spice",
       "structural",
       "toxin",
       "water"
@@ -10558,8 +11215,15 @@
       "beryllium",
       "chlorine",
       "chlorosilanes",
+      "cosmetic",
+      "fiber",
       "iron",
+      "membrane",
+      "metabolic-agent",
       "nutrient",
+      "pigment",
+      "sealant",
+      "stimulant",
       "structural",
       "toxin",
       "water"
@@ -10707,7 +11371,8 @@
       "copper",
       "fluorine",
       "uranium",
-      "vanadium"
+      "vanadium",
+      "water"
     ]
   },
   {
@@ -10755,8 +11420,12 @@
       "aromatic",
       "caesium",
       "chlorine",
+      "fiber",
       "lithium",
+      "nutrient",
+      "sealant",
       "spice",
+      "structural",
       "water"
     ]
   },
@@ -10764,7 +11433,8 @@
     "bodyId": "0005E3E7",
     "resourceIds": [
       "chlorine",
-      "lead"
+      "lead",
+      "water"
     ]
   },
   {
@@ -10778,6 +11448,7 @@
     "bodyId": "0005E3EA",
     "resourceIds": [
       "aluminium",
+      "analgesic",
       "chlorine",
       "cosmetic",
       "fiber",
@@ -10820,6 +11491,7 @@
     "bodyId": "0005E3EF",
     "resourceIds": [
       "alkanes",
+      "antimicrobial",
       "argon",
       "carboxylic-acids",
       "chlorine",
@@ -10829,6 +11501,7 @@
       "iron",
       "neon",
       "nutrient",
+      "sealant",
       "water"
     ]
   },
@@ -10904,7 +11577,8 @@
     "bodyId": "0005E3FA",
     "resourceIds": [
       "chlorine",
-      "nickel"
+      "nickel",
+      "water"
     ]
   },
   {
@@ -10932,6 +11606,7 @@
     "resourceIds": [
       "chlorine",
       "chlorosilanes",
+      "cosmetic",
       "iron",
       "lead",
       "structural",
@@ -10950,13 +11625,20 @@
     "bodyId": "0005E3FF",
     "resourceIds": [
       "adhesive",
+      "antimicrobial",
       "argon",
       "biosuppressant",
       "carboxylic-acids",
+      "cosmetic",
       "fiber",
       "lead",
+      "membrane",
       "metabolic-agent",
       "nutrient",
+      "pigment",
+      "sealant",
+      "sedative",
+      "spice",
       "structural",
       "toxin",
       "water"
@@ -11278,13 +11960,19 @@
   {
     "bodyId": "0005E42D",
     "resourceIds": [
+      "amino-acids",
+      "aromatic",
       "copper",
       "cosmetic",
       "fiber",
       "fluorine",
       "ionic-liquids",
       "iron",
+      "metabolic-agent",
       "nutrient",
+      "sealant",
+      "spice",
+      "stimulant",
       "structural",
       "tetrafluorides",
       "toxin",
@@ -11334,6 +12022,8 @@
       "aluminium",
       "beryllium",
       "iron",
+      "sealant",
+      "sedative",
       "uranium",
       "vanadium",
       "water"
@@ -11477,8 +12167,12 @@
       "chlorine",
       "fiber",
       "lead",
+      "metabolic-agent",
+      "nutrient",
       "ornamental",
+      "pigment",
       "sealant",
+      "stimulant",
       "toxin",
       "water"
     ]
@@ -11524,14 +12218,21 @@
   {
     "bodyId": "0005E452",
     "resourceIds": [
+      "analgesic",
       "chlorine",
       "chlorosilanes",
       "copper",
+      "cosmetic",
       "fiber",
       "iron",
       "metabolic-agent",
       "nickel",
       "nutrient",
+      "ornamental",
+      "polymer",
+      "sealant",
+      "spice",
+      "structural",
       "toxin",
       "water"
     ]
@@ -11552,7 +12253,9 @@
       "fluorine",
       "nickel",
       "nutrient",
+      "ornamental",
       "sealant",
+      "structural",
       "toxin",
       "water"
     ]
@@ -11591,6 +12294,7 @@
       "chlorine",
       "copper",
       "gold",
+      "helium-3",
       "lead",
       "silver"
     ]
@@ -11613,6 +12317,7 @@
     "resourceIds": [
       "chlorine",
       "cobalt",
+      "helium-3",
       "nickel",
       "palladium",
       "platinum",
@@ -11636,8 +12341,11 @@
       "lead",
       "nickel",
       "nutrient",
+      "ornamental",
       "platinum",
       "plutonium",
+      "structural",
+      "toxin",
       "uranium",
       "water"
     ]
@@ -11695,10 +12403,16 @@
   {
     "bodyId": "0005E46A",
     "resourceIds": [
+      "aromatic",
       "copper",
+      "fiber",
+      "helium-3",
+      "hypercatalyst",
       "iridium",
       "iron",
       "lead",
+      "membrane",
+      "nutrient",
       "sealant",
       "silver",
       "structural",
@@ -11760,6 +12474,7 @@
   {
     "bodyId": "0005E476",
     "resourceIds": [
+      "adhesive",
       "chlorine",
       "copper",
       "cosmetic",
@@ -11790,6 +12505,7 @@
       "argon",
       "chlorine",
       "cobalt",
+      "fluorine",
       "lead",
       "nickel",
       "silver",
@@ -11928,10 +12644,13 @@
       "lead",
       "lubricant",
       "metabolic-agent",
+      "nutrient",
       "pigment",
       "sealant",
+      "structural",
       "tantalum",
       "titanium",
+      "toxin",
       "tungsten",
       "water"
     ]
@@ -12016,6 +12735,7 @@
       "gold",
       "iron",
       "lead",
+      "sealant",
       "titanium",
       "tungsten",
       "water"
@@ -12024,13 +12744,22 @@
   {
     "bodyId": "0005E496",
     "resourceIds": [
+      "adhesive",
+      "antimicrobial",
       "argon",
       "chlorine",
       "fiber",
       "lead",
+      "membrane",
+      "metabolic-agent",
       "neon",
+      "nutrient",
+      "pigment",
       "sealant",
+      "sedative",
+      "stimulant",
       "structural",
+      "toxin",
       "water"
     ]
   },
@@ -12045,16 +12774,24 @@
   {
     "bodyId": "0005E498",
     "resourceIds": [
+      "amino-acids",
+      "biosuppressant",
       "cobalt",
+      "cosmetic",
+      "fiber",
       "iridium",
+      "membrane",
+      "metabolic-agent",
       "nickel",
       "nutrient",
       "palladium",
+      "pigment",
       "platinum",
       "plutonium",
       "sealant",
       "spice",
       "structural",
+      "toxin",
       "uranium",
       "water"
     ]
@@ -12062,12 +12799,16 @@
   {
     "bodyId": "0005E49A",
     "resourceIds": [
+      "antimicrobial",
       "argon",
       "chlorine",
       "cobalt",
       "fiber",
       "metabolic-agent",
       "nickel",
+      "sealant",
+      "solvent",
+      "spice",
       "toxin",
       "water"
     ]
@@ -12266,9 +13007,11 @@
     "resourceIds": [
       "antimicrobial",
       "argon",
+      "aromatic",
       "carboxylic-acids",
       "copper",
       "fiber",
+      "membrane",
       "metabolic-agent",
       "nutrient",
       "sealant",
@@ -12301,6 +13044,7 @@
     "resourceIds": [
       "copper",
       "fluorine",
+      "metabolic-agent",
       "sealant",
       "structural",
       "toxin",
@@ -12343,8 +13087,11 @@
       "chlorine",
       "chlorosilanes",
       "cosmetic",
+      "fiber",
       "iron",
+      "membrane",
       "metabolic-agent",
+      "nutrient",
       "ornamental",
       "sealant",
       "solvent",
@@ -12396,6 +13143,7 @@
     "bodyId": "0005E4C9",
     "resourceIds": [
       "chlorine",
+      "helium-3",
       "uranium",
       "water"
     ]
@@ -12431,12 +13179,18 @@
     "resourceIds": [
       "alkanes",
       "amino-acids",
+      "antimicrobial",
+      "biosuppressant",
       "chlorine",
       "chlorosilanes",
+      "fiber",
       "iron",
       "lead",
+      "metabolic-agent",
       "nutrient",
       "sealant",
+      "structural",
+      "toxin",
       "uranium",
       "water"
     ]
@@ -12555,13 +13309,16 @@
   {
     "bodyId": "0005E4E6",
     "resourceIds": [
+      "analgesic",
       "chlorine",
       "cobalt",
       "copper",
       "cosmetic",
+      "fiber",
       "fluorine",
       "nickel",
       "sealant",
+      "structural",
       "water"
     ]
   },
@@ -12580,6 +13337,7 @@
     "resourceIds": [
       "chlorine",
       "chlorosilanes",
+      "helium-3",
       "lead",
       "nickel",
       "tungsten",
@@ -12615,11 +13373,16 @@
     "resourceIds": [
       "alkanes",
       "amino-acids",
+      "chlorine",
+      "fiber",
       "iridium",
       "iron",
       "membrane",
+      "metabolic-agent",
       "nickel",
       "nutrient",
+      "pigment",
+      "sealant",
       "structural",
       "tantalum",
       "toxin",
@@ -12659,6 +13422,7 @@
   {
     "bodyId": "0005E4F6",
     "resourceIds": [
+      "adhesive",
       "antimicrobial",
       "argon",
       "copper",
@@ -12671,8 +13435,11 @@
       "ornamental",
       "sealant",
       "sedative",
+      "spice",
+      "stimulant",
       "structural",
       "tetrafluorides",
+      "toxin",
       "water"
     ]
   },
@@ -12758,6 +13525,7 @@
       "alkanes",
       "argon",
       "chlorine",
+      "helium-3",
       "iron",
       "lithium",
       "tantalum",
@@ -12767,6 +13535,7 @@
   {
     "bodyId": "0005E509",
     "resourceIds": [
+      "chlorine",
       "uranium"
     ]
   },
@@ -12776,24 +13545,38 @@
       "chlorine",
       "cobalt",
       "copper",
+      "fiber",
       "fluorine",
       "gold",
       "iron",
       "membrane",
+      "metabolic-agent",
       "nickel",
+      "nutrient",
       "pigment",
+      "sealant",
       "structural",
+      "toxin",
       "water"
     ]
   },
   {
     "bodyId": "0005E50B",
     "resourceIds": [
+      "amino-acids",
       "argon",
+      "aromatic",
       "cosmetic",
+      "fiber",
       "iridium",
+      "metabolic-agent",
+      "nutrient",
+      "pigment",
       "plutonium",
       "sealant",
+      "stimulant",
+      "structural",
+      "toxin",
       "uranium",
       "vanadium",
       "water"
@@ -12831,7 +13614,11 @@
     "bodyId": "0005E50F",
     "resourceIds": [
       "argon",
+      "fluorine",
+      "hallucinogen",
+      "metabolic-agent",
       "nutrient",
+      "pigment",
       "sealant",
       "toxin",
       "water"
@@ -13000,12 +13787,20 @@
       "chlorosilanes",
       "cobalt",
       "cosmetic",
+      "fiber",
+      "gastronomic-delight",
       "iron",
       "lubricant",
+      "membrane",
       "metabolic-agent",
       "nickel",
       "nutrient",
+      "pigment",
+      "polymer",
       "sealant",
+      "sedative",
+      "spice",
+      "structural",
       "toxin",
       "water"
     ]
@@ -13037,6 +13832,7 @@
   {
     "bodyId": "0005E52C",
     "resourceIds": [
+      "chlorine",
       "copper",
       "fluorine",
       "iridium",
@@ -13078,6 +13874,7 @@
   {
     "bodyId": "0005E530",
     "resourceIds": [
+      "antimicrobial",
       "chlorine",
       "chlorosilanes",
       "cobalt",
@@ -13087,7 +13884,9 @@
       "nickel",
       "nutrient",
       "platinum",
+      "sealant",
       "structural",
+      "toxin",
       "water",
       "xenon"
     ]
@@ -13135,6 +13934,7 @@
   {
     "bodyId": "0005E539",
     "resourceIds": [
+      "antimicrobial",
       "argon",
       "aromatic",
       "benzene",
@@ -13147,6 +13947,9 @@
       "ornamental",
       "pigment",
       "platinum",
+      "sealant",
+      "spice",
+      "structural",
       "toxin",
       "uranium",
       "water"
@@ -13234,11 +14037,15 @@
     "resourceIds": [
       "chlorine",
       "copper",
+      "fiber",
+      "hallucinogen",
       "lead",
+      "metabolic-agent",
       "nickel",
       "nutrient",
       "sealant",
       "structural",
+      "toxin",
       "tungsten",
       "water"
     ]
@@ -13312,12 +14119,17 @@
     "resourceIds": [
       "argon",
       "benzene",
+      "chlorine",
       "copper",
       "fluorine",
       "ionic-liquids",
+      "metabolic-agent",
       "nickel",
       "nutrient",
       "sealant",
+      "spice",
+      "structural",
+      "toxin",
       "water"
     ]
   },
@@ -13327,12 +14139,14 @@
       "chlorine",
       "chlorosilanes",
       "copper",
+      "cosmetic",
       "fluorine",
       "hypercatalyst",
       "lead",
       "nutrient",
       "sealant",
       "tetrafluorides",
+      "toxin",
       "water"
     ]
   },
@@ -13436,14 +14250,21 @@
   {
     "bodyId": "0005E568",
     "resourceIds": [
+      "analgesic",
       "argon",
+      "benzene",
       "chlorine",
       "copper",
+      "fiber",
       "fluorine",
       "lead",
       "membrane",
       "mercury",
       "metabolic-agent",
+      "nutrient",
+      "ornamental",
+      "sealant",
+      "structural",
       "toxin",
       "water"
     ]
@@ -13601,12 +14422,19 @@
   {
     "bodyId": "0005E587",
     "resourceIds": [
+      "adhesive",
       "argon",
       "benzene",
+      "hallucinogen",
       "lead",
+      "metabolic-agent",
+      "nutrient",
+      "ornamental",
       "sealant",
       "silver",
       "spice",
+      "structural",
+      "toxin",
       "water"
     ]
   },
@@ -13709,8 +14537,18 @@
   {
     "bodyId": "0005E59B",
     "resourceIds": [
+      "aromatic",
       "copper",
+      "fiber",
+      "membrane",
+      "metabolic-agent",
       "nickel",
+      "nutrient",
+      "pigment",
+      "sealant",
+      "solvent",
+      "structural",
+      "toxin",
       "water"
     ]
   },
@@ -13801,10 +14639,16 @@
   {
     "bodyId": "01000801",
     "resourceIds": [
+      "adhesive",
       "chlorine",
       "cobalt",
       "iridium",
+      "lubricant",
+      "membrane",
+      "metabolic-agent",
       "nickel",
+      "nutrient",
+      "sealant",
       "uranium",
       "water"
     ]
@@ -13845,11 +14689,17 @@
   {
     "bodyId": "010026C3",
     "resourceIds": [
+      "amino-acids",
       "argon",
       "benzene",
       "cobalt",
+      "cosmetic",
       "lead",
+      "lubricant",
+      "membrane",
+      "metabolic-agent",
       "nickel",
+      "nutrient",
       "platinum",
       "water"
     ]
@@ -13860,6 +14710,7 @@
       "copper",
       "fluorine",
       "lead",
+      "lubricant",
       "nickel",
       "tetrafluorides",
       "titanium",

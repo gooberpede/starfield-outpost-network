@@ -21,6 +21,13 @@
  */
 
 import type {
+  BiomeReference,
+  BodyBiomeReference,
+  InorganicResourceOccurrenceReference,
+  SpeciesReference,
+  PlanetSpeciesReference,
+  OrganicSpeciesOccurrenceReference,
+  OrganicFarmingProfileReference,
   PlanetaryBodyReference,
   ProductRecipeReference,
   ProductReference,
@@ -57,6 +64,13 @@ async function loadJsonFile<T>(path: string): Promise<T> {
  */
 export async function loadReferenceData(): Promise<ReferenceData> {
   const [
+    biomes,
+    bodyBiomes,
+    inorganicOccurrences,
+    species,
+    planetSpecies,
+    organicOccurrences,
+    organicFarmingProfiles,
     systems,
     bodies,
     resources,
@@ -64,6 +78,13 @@ export async function loadReferenceData(): Promise<ReferenceData> {
     bodyResources,
     productRecipes,
   ] = await Promise.all([
+    loadJsonFile<BiomeReference[]>('/reference-data/biomes.json'),
+    loadJsonFile<BodyBiomeReference[]>('/reference-data/body-biomes.json'),
+    loadJsonFile<InorganicResourceOccurrenceReference[]>('/reference-data/inorganic-occurrences.json'),
+    loadJsonFile<SpeciesReference[]>('/reference-data/species.json'),
+    loadJsonFile<PlanetSpeciesReference[]>('/reference-data/planet-species.json'),
+    loadJsonFile<OrganicSpeciesOccurrenceReference[]>('/reference-data/organic-occurrences.json'),
+    loadJsonFile<OrganicFarmingProfileReference[]>('/reference-data/organic-farming-profiles.json'),
     loadJsonFile<StarSystemReference[]>(
       '/reference-data/systems.json',
     ),
@@ -85,6 +106,13 @@ export async function loadReferenceData(): Promise<ReferenceData> {
   ])
 
   return {
+    biomes,
+    bodyBiomes,
+    inorganicOccurrences,
+    species,
+    planetSpecies,
+    organicOccurrences,
+    organicFarmingProfiles,
     systems,
     bodies,
     resources,

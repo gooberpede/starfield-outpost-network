@@ -10,8 +10,8 @@
  *   application. Canonical source data is exported into reference-source/,
  *   while generated runtime JSON is written into public/reference-data/.
  *
- *   Planetary data flows directly from the canonical xEdit TSV export into
- *   generated runtime JSON. Source provenance stays in the TSV; only the
+ *   Planetary data flows directly from the canonical game-derived CSV exports into
+ *   generated runtime JSON. Source provenance stays in the CSV; only the
  *   gameplay fields needed by the application are emitted for each body.
  *
  *   The application itself knows nothing about delimited source files or
@@ -24,6 +24,9 @@
  *   - products.json
  *   - body-resources.json
  *   - product-recipes.json
+ *   - biomes.json, body-biomes.json, inorganic-occurrences.json
+ *   - species.json, planet-species.json, organic-occurrences.json
+ *   - organic-farming-profiles.json
  *
  * Resource occurrence architecture:
  *   Planetary resource occurrence data identifies resources with canonical
@@ -35,12 +38,12 @@
  *
  *     ResourceFormID -> application ResourceId
  *
- *   Most mappings are resolved automatically from normalised names.
+ *   Mappings resolve by exact catalogue names.
  *   Known source/display-name differences are handled by the explicit
- *   RESOURCE_NAME_ALIASES table below.
+ *   RESOURCE_NAME_ALIASES table in biome-reference-data.mjs.
  *
  * Change this file when:
- *   - source CSV/TSV structures change;
+ *   - source CSV structures change;
  *   - new reference datasets are added;
  *   - generated JSON fields change;
  *   - known canonical/display-name aliases change;
@@ -51,6 +54,8 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { buildBiomeData, validateInorganicManifest, parseBodyNumber } from './biome-reference-data.mjs'
+
 import { parse } from 'csv-parse/sync'
 
 const SCRIPT_DIRECTORY = dirname(fileURLToPath(import.meta.url))
@@ -59,7 +64,7 @@ const PROJECT_ROOT = resolve(SCRIPT_DIRECTORY, '..')
 const PLANET_DIRECTORY_SOURCE_FILE = resolve(
   PROJECT_ROOT,
   'reference-source',
-  'planet-directory.tsv',
+  'planet-directory.csv',
 )
 
 const INORGANIC_RESOURCE_DICTIONARY_SOURCE_FILE = resolve(
@@ -77,7 +82,7 @@ const ORGANIC_RESOURCE_DICTIONARY_SOURCE_FILE = resolve(
 const ORGANIC_OCCURRENCES_SOURCE_FILE = resolve(
   PROJECT_ROOT,
   'reference-source',
-  'organic-resources.csv',
+  'biome-organic-resources.csv',
 )
 
 const INDUSTRIAL_WORKBENCH_SOURCE_FILE = resolve(
@@ -92,10 +97,10 @@ const MANUFACTURED_PRODUCT_DICTIONARY_SOURCE_FILE = resolve(
   'manufactured-product-dictionary.csv',
 )
 
-const ALL_RESOURCES_SOURCE_FILE = resolve(
+const INORGANIC_OCCURRENCES_SOURCE_FILE = resolve(
   PROJECT_ROOT,
   'reference-source',
-  'planet-all-resources.csv',
+  'biome-inorganic-resources.csv',
 )
 
 const SYSTEMS_OUTPUT_FILE = resolve(
@@ -132,69 +137,6 @@ const PRODUCT_RECIPES_OUTPUT_FILE = resolve(
   'reference-data',
   'product-recipes.json',
 )
-
-const BODY_RESOURCES_OUTPUT_FILE = resolve(
-  PROJECT_ROOT,
-  'public',
-  'reference-data',
-  'body-resources.json',
-)
-
-/**
- * Explicit mappings for canonical runtime names that differ from the
- * player-facing names used by the application catalogue.
- *
- * Keys use:
- *   category:canonical-name
- *
- * Values are the corresponding player-facing catalogue names.
- *
- * These aliases are deliberately visible and explicit rather than hidden
- * behind fuzzy matching, so unexpected source discrepancies fail loudly.
- */
-const RESOURCE_NAME_ALIASES = new Map([
-  [
-    'inorganic:Aluminum',
-    'Aluminium',
-  ],
-  [
-    'organic:Gastronomic',
-    'Gastronomic Delight',
-  ],
-  [
-    'organic:MemorySubstrate',
-    'Memory Substrate',
-  ],
-  [
-    'organic:HighTensileSpidrion',
-    'High-Tensile Spidroin',
-  ],
-  [
-    'organic:LuxuryTextile',
-    'Luxury Textile',
-  ],
-  [
-    'organic:Toxin Agent',
-    'Toxin',
-  ],
-])
-
-/*
- * These values are artifacts of the current organic occurrence/enrichment
- * dataset rather than logical catalogue resources.
- *
- * "None" represents organisms with no harvestable resource.
- * "Unique" currently stands in for several unresolved unique-resource fauna.
- * Those occurrences are intentionally omitted until the upstream xEdit
- * extraction/cleanup pipeline can resolve canonical resource identity cleanly.
- *
- * Do not add species-specific repair mappings here; fix the source dataset
- * instead when the organic extraction pipeline is revisited.
- */
-const NON_RESOURCE_ORGANIC_OCCURRENCE_NAMES = new Set([
-  'None',
-  'Unique',
-])
 
 const RARITY_BY_SOURCE_VALUE = new Map([
   ['Common', 'common'],
@@ -233,23 +175,6 @@ const PLANET_DIRECTORY_REQUIRED_FIELDS = [
   'ExtractTimestamp',
 ]
 
-/*
- * Provenance can differ when two official masters carry the same record.
- * These fields alone define whether duplicate FormIDs describe one body.
- */
-const PLANET_DIRECTORY_SEMANTIC_FIELDS = [
-  'PlanetFormID',
-  'PlanetEditorID',
-  'PlanetName',
-  'BodyType',
-  'StarSystemID',
-  'SystemName',
-  'ParentPlanetID',
-  'PlanetID',
-  'PlanetNotLandable',
-  'OceanWorld',
-]
-
 /**
  * Reads and parses one CSV source file into objects keyed by header name.
  *
@@ -260,21 +185,8 @@ async function loadCsvFile(path) {
   const csv = await readFile(path, 'utf8')
 
   return parse(csv, {
+    bom: true,
     columns: true,
-    skip_empty_lines: true,
-    trim: true,
-  })
-}
-
-/**
- * Reads the canonical xEdit Planet Directory export directly as TSV.
- */
-async function loadTsvFile(path) {
-  const tsv = await readFile(path, 'utf8')
-
-  return parse(tsv, {
-    columns: true,
-    delimiter: '\t',
     skip_empty_lines: true,
     trim: true,
   })
@@ -332,14 +244,14 @@ function assertUniqueValue(seenValues, value, description) {
  * Loads the canonical Planet Directory source.
  */
 async function loadPlanetDirectory() {
-  return loadTsvFile(PLANET_DIRECTORY_SOURCE_FILE)
+  return loadCsvFile(PLANET_DIRECTORY_SOURCE_FILE)
 }
 
 /**
  * Verifies that the minimum fields required by the current planetary
  * reference model are present on every source row.
  */
-function validatePlanetDirectory(rows) {
+export function validatePlanetDirectory(rows) {
   let extractTimestamp = null
 
   for (const [index, row] of rows.entries()) {
@@ -366,6 +278,12 @@ function validatePlanetDirectory(rows) {
           `Planet Directory row ${rowNumber} has invalid ${field} ` +
             `"${row[field]}"; expected "0" or "1".`,
         )
+      }
+    }
+
+    for (const field of ['StarSystemID', 'ParentPlanetID', 'PlanetID']) {
+      if (!/^\d+$/.test(row[field]) || !Number.isSafeInteger(Number(row[field]))) {
+        throw new Error('Planet ' + row.PlanetFormID + ': invalid ' + field + ' "' + row[field] + '".')
       }
     }
 
@@ -425,41 +343,15 @@ function buildSystems(rows) {
  * PlanetFormID provides a stable body identifier, while StarSystemID
  * establishes the relationship back to the system catalogue.
  */
-function buildBodies(rows) {
+export function buildBodies(rows) {
   const sourceRowsById = new Map()
 
   for (const row of rows) {
     const id = String(row.PlanetFormID)
     const existingRow = sourceRowsById.get(id)
 
-    /*
-     * Source master and extraction timestamp are provenance, so they do not
-     * make otherwise identical official records conflicting body data.
-     */
     if (existingRow) {
-      const conflictingFields = PLANET_DIRECTORY_SEMANTIC_FIELDS.filter(
-        (field) => existingRow[field] !== row[field],
-      )
-
-      if (conflictingFields.length === 0) {
-        console.info(
-          `INFO: PlanetFormID ${id} appears in multiple source rows ` +
-            'with identical body data.',
-        )
-
-        continue
-      }
-
-      throw new Error(
-        `PlanetFormID ${id} has conflicting source rows. Differences: ` +
-          conflictingFields
-            .map(
-              (field) =>
-                `${field}="${existingRow[field]}"/"${row[field]}"`,
-            )
-            .join(', ') +
-          '.',
-      )
+      throw new Error(`Duplicate PlanetFormID ${id}.`)
     }
 
     sourceRowsById.set(id, row)
@@ -472,6 +364,9 @@ function buildBodies(rows) {
       id: String(row.PlanetFormID),
       systemId: String(row.StarSystemID),
       name: row.PlanetName,
+      solarArrayPower: parseBodyNumber(row, 'SolarArrayPower'),
+      windTurbinePower: parseBodyNumber(row, 'WindTurbinePower'),
+      planetaryHabitationRank: parseBodyNumber(row, 'PlanetaryHabitationRank'),
       bodyType,
       outpostAllowed:
         bodyType !== 'orbital' &&
@@ -504,25 +399,6 @@ function createNameId(name) {
     .replace(/['’]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
-}
-
-/**
- * Reduces harmless formatting differences between canonical runtime
- * names and player-facing catalogue names.
- *
- * Examples:
- *   "Helium-3"        -> "helium3"
- *   "Helium3"         -> "helium3"
- *   "Ionic Liquids"   -> "ionicliquids"
- *   "IonicLiquids"    -> "ionicliquids"
- *
- * Genuine spelling/name differences are handled by RESOURCE_NAME_ALIASES.
- */
-function normalizeResourceName(name) {
-  return name
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]/g, '')
 }
 
 /**
@@ -745,390 +621,6 @@ function buildResources(
       ? categoryComparison
       : left.name.localeCompare(right.name)
   })
-}
-
-/**
- * Builds a lookup from resource category + normalised display name to
- * the application's logical ResourceId.
- *
- * This lookup is later used to resolve canonical resource FormIDs.
- */
-function buildResourceCatalogueLookup(resources) {
-  const lookup = new Map()
-
-  for (const resource of resources) {
-    const key =
-      `${resource.category}:` +
-      normalizeResourceName(resource.name)
-
-    if (lookup.has(key)) {
-      throw new Error(
-        `Resource catalogue contains an ambiguous normalised key: ${key}.`,
-      )
-    }
-
-    lookup.set(key, resource.id)
-  }
-
-  return lookup
-}
-
-/**
- * Resolves one canonical resource occurrence to its logical application
- * ResourceId.
- *
- * Explicit aliases are applied before normalised-name matching.
- */
-function resolveCanonicalResourceId(
-  row,
-  catalogueLookup,
-) {
-  const category =
-    row.ResourceCategory.toLowerCase()
-
-  const aliasKey =
-    `${category}:${row.ResourceName}`
-
-  const catalogueName =
-    RESOURCE_NAME_ALIASES.get(aliasKey) ??
-    row.ResourceName
-
-  const lookupKey =
-    `${category}:` +
-    normalizeResourceName(catalogueName)
-
-  const resourceId =
-    catalogueLookup.get(lookupKey)
-
-  if (!resourceId) {
-    throw new Error(
-      `Unable to map canonical resource ` +
-        `${row.ResourceFormID} (${row.ResourceCategory}: ` +
-        `${row.ResourceName}) to the application resource catalogue.`,
-    )
-  }
-
-  return resourceId
-}
-
-/**
- * Builds a canonical ResourceFormID -> application ResourceId crosswalk.
- *
- * Repeated occurrence rows for the same FormID are expected. If one
- * FormID ever resolves to different application resources, generation
- * stops because the source data is internally inconsistent.
- */
-function buildResourceFormIdCrosswalk(
-  allResourceRows,
-  resources,
-) {
-  const catalogueLookup =
-    buildResourceCatalogueLookup(resources)
-
-  const resourceIdsByFormId = new Map()
-
-  for (const [index, row] of allResourceRows.entries()) {
-    if (
-      !row.ResourceFormID ||
-      !row.ResourceName ||
-      !row.ResourceCategory
-    ) {
-      throw new Error(
-        `All Resources row ${index + 2} is missing resource identity data.`,
-      )
-    }
-
-    const resourceId =
-      resolveCanonicalResourceId(
-        row,
-        catalogueLookup,
-      )
-
-    const existingResourceId =
-      resourceIdsByFormId.get(row.ResourceFormID)
-
-    if (
-      existingResourceId &&
-      existingResourceId !== resourceId
-    ) {
-      throw new Error(
-        `Resource FormID ${row.ResourceFormID} maps to both ` +
-          `"${existingResourceId}" and "${resourceId}".`,
-      )
-    }
-
-    resourceIdsByFormId.set(
-      row.ResourceFormID,
-      resourceId,
-    )
-  }
-
-  return resourceIdsByFormId
-}
-
-/**
- * Normalises a system or planetary-body display name for matching between
- * independently exported reference datasets.
- *
- * These names are used only as temporary build-time join keys. Canonical
- * FormIDs remain the runtime identifiers written to generated JSON.
- */
-function normalizeLocationName(name) {
-  return name
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, ' ')
-}
-
-/**
- * Creates a build-time key identifying one organic resource occurrence on
- * one planetary body.
- *
- * The cleaned organic source uses player-facing resource names, whereas
- * All Resources may use canonical runtime names. Known aliases are therefore
- * converted to their player-facing equivalents before comparison.
- */
-function createOrganicOccurrenceKey(
-  systemName,
-  bodyName,
-  resourceName,
-) {
-  const aliasKey =
-    `organic:${resourceName}`
-
-  const catalogueName =
-    RESOURCE_NAME_ALIASES.get(aliasKey) ??
-    resourceName
-
-  return [
-    normalizeLocationName(systemName),
-    normalizeLocationName(bodyName),
-    normalizeResourceName(catalogueName),
-  ].join('|')
-}
-
-/**
- * Interprets the Farmable field from the cleaned organic-resource source.
- *
- * Supporting a few common truthy representations makes the build resilient
- * to harmless spreadsheet/export formatting changes without treating an
- * unknown non-empty value as farmable.
- */
-function isFarmableValue(value) {
-  const normalised =
-    String(value ?? '')
-      .trim()
-      .toLowerCase()
-
-  return [
-    'true',
-    'yes',
-    'y',
-    '1',
-    'farmable',
-  ].includes(normalised)
-}
-
-/**
- * Builds the set of body/resource combinations for which at least one
- * farmable flora or fauna source exists.
- *
- * Multiple wild and farmable organisms may produce the same resource on the
- * same body. The Set deliberately collapses those rows: one farmable source
- * is sufficient for planetary-level availability.
- */
-function buildFarmableOrganicOccurrenceKeys(
-  organicOccurrenceRows,
-  resources,
-) {
-  if (
-    organicOccurrenceRows.length > 0 &&
-    !Object.prototype.hasOwnProperty.call(
-      organicOccurrenceRows[0],
-      'Farmable',
-    )
-  ) {
-    throw new Error(
-      'Organic resource source is missing the Farmable column.',
-    )
-  }
-
-  const farmableKeys = new Set()
-  const resourceCatalogueLookup =
-    buildResourceCatalogueLookup(resources)
-
-  for (const [index, row] of organicOccurrenceRows.entries()) {
-    if (
-      row.Resource &&
-      NON_RESOURCE_ORGANIC_OCCURRENCE_NAMES.has(row.Resource)
-    ) {
-      continue
-    }
-
-    if (row.Resource) {
-      const aliasKey = `organic:${row.Resource}`
-      const catalogueName =
-        RESOURCE_NAME_ALIASES.get(aliasKey) ?? row.Resource
-      const lookupKey =
-        `organic:${normalizeResourceName(catalogueName)}`
-
-      if (!resourceCatalogueLookup.has(lookupKey)) {
-        throw new Error(
-          `Organic occurrence row ${index + 2} refers to unknown ` +
-            `resource "${row.Resource}".`,
-        )
-      }
-    }
-
-    if (!isFarmableValue(row.Farmable)) {
-      continue
-    }
-
-    if (!row.System || !row.Body || !row.Resource) {
-      throw new Error(
-        `Farmable organic resource row ${index + 2} is missing ` +
-          'System, Body, or Resource.',
-      )
-    }
-
-    farmableKeys.add(
-      createOrganicOccurrenceKey(
-        row.System,
-        row.Body,
-        row.Resource,
-      ),
-    )
-  }
-
-  return farmableKeys
-}
-
-/**
- * Builds the body -> resources relationship dataset.
- *
- * PlanetFormID is already the application's canonical body ID.
- * ResourceFormID is first resolved through the canonical/logical resource
- * crosswalk, then resources are grouped by body.
- *
- * Inorganic occurrences are included directly from All Resources.
- *
- * Organic occurrences are included only when the cleaned organic source
- * confirms that at least one farmable flora or fauna source produces that
- * resource on the body. A wild source may coexist with a farmable source;
- * one farmable source is sufficient for inclusion.
- *
- * Duplicate occurrences of the same logical resource on one body are
- * collapsed automatically by the Set.
- */
-function buildBodyResources(
-  allResourceRows,
-  organicOccurrenceRows,
-  bodies,
-  resources,
-  resourceIdsByFormId,
-) {
-  const knownBodyIds =
-    new Set(bodies.map((body) => body.id))
-
-  const farmableOrganicKeys =
-    buildFarmableOrganicOccurrenceKeys(
-      organicOccurrenceRows,
-      resources,
-    )
-
-  const resourceIdsByBodyId = new Map()
-
-  for (const [index, row] of allResourceRows.entries()) {
-    if (
-      !row.PlanetFormID ||
-      !row.ResourceFormID
-    ) {
-      throw new Error(
-        `All Resources row ${index + 2} is missing body/resource keys.`,
-      )
-    }
-
-    const bodyId =
-      String(row.PlanetFormID)
-
-    if (!knownBodyIds.has(bodyId)) {
-      throw new Error(
-        `All Resources row ${index + 2} refers to unknown ` +
-          `PlanetFormID ${bodyId}.`,
-      )
-    }
-
-    /*
-     * Organic resources are useful to the outpost model only when at least
-     * one farmable source exists on this body. Wild-only occurrences remain
-     * part of the canonical source data but are omitted from body-resources.
-     */
-    if (
-      row.ResourceCategory.toLowerCase() ===
-      'organic'
-    ) {
-      if (
-        !row.SystemName ||
-        !row.PlanetName ||
-        !row.ResourceName
-      ) {
-        throw new Error(
-          `Organic All Resources row ${index + 2} is missing ` +
-            'SystemName, PlanetName, or ResourceName.',
-        )
-      }
-
-      const occurrenceKey =
-        createOrganicOccurrenceKey(
-          row.SystemName,
-          row.PlanetName,
-          row.ResourceName,
-        )
-
-      if (
-        !farmableOrganicKeys.has(
-          occurrenceKey,
-        )
-      ) {
-        continue
-      }
-    }
-
-    const resourceId =
-      resourceIdsByFormId.get(
-        row.ResourceFormID,
-      )
-
-    if (!resourceId) {
-      throw new Error(
-        `All Resources row ${index + 2} refers to unmapped ` +
-          `ResourceFormID ${row.ResourceFormID}.`,
-      )
-    }
-
-    let resourceIds =
-      resourceIdsByBodyId.get(bodyId)
-
-    if (!resourceIds) {
-      resourceIds = new Set()
-
-      resourceIdsByBodyId.set(
-        bodyId,
-        resourceIds,
-      )
-    }
-
-    resourceIds.add(resourceId)
-  }
-
-  return [...resourceIdsByBodyId.entries()]
-    .map(([bodyId, resourceIds]) => ({
-      bodyId,
-      resourceIds: [...resourceIds].sort(),
-    }))
-    .sort((left, right) =>
-      left.bodyId.localeCompare(right.bodyId),
-    )
 }
 
 /**
@@ -1386,7 +878,7 @@ async function main() {
     inorganicRows,
     organicDictionaryRows,
     organicOccurrenceRows,
-    allResourceRows,
+    inorganicOccurrenceRows,
   ] = await Promise.all([
     loadCsvFile(
       INORGANIC_RESOURCE_DICTIONARY_SOURCE_FILE,
@@ -1398,7 +890,7 @@ async function main() {
       ORGANIC_OCCURRENCES_SOURCE_FILE,
     ),
     loadCsvFile(
-      ALL_RESOURCES_SOURCE_FILE,
+      INORGANIC_OCCURRENCES_SOURCE_FILE,
     ),
   ])
 
@@ -1408,30 +900,18 @@ async function main() {
       organicDictionaryRows,
     )
 
-  console.log('Building resource crosswalk...')
-
-  const resourceIdsByFormId =
-    buildResourceFormIdCrosswalk(
-      allResourceRows,
-      resources,
-    )
-
-  console.log(
-    `Resolved ${resourceIdsByFormId.size} canonical ` +
-      `resource FormIDs to ${resources.length} logical resources.`,
+  await validateInorganicManifest(
+    resolve(PROJECT_ROOT, 'reference-source', 'biome-inorganic-resources.manifest.json'),
+    inorganicOccurrenceRows,
   )
+  const biomeData = buildBiomeData(inorganicOccurrenceRows, organicOccurrenceRows, bodies, resources)
+  const { bodyResources } = biomeData
+  for (const field of ['solarArrayPower', 'windTurbinePower', 'planetaryHabitationRank']) {
+    const nullCount = bodies.filter((body) => body[field] === null).length
+    console.log(field + ': null=' + nullCount + ', non-null=' + (bodies.length - nullCount))
+  }
+  console.log('Planet directory: rows=' + planetRows.length + ', distinct IDs=' + bodies.length)
 
-  console.log('Building body-resource relationships...')
-
-  const bodyResources =
-    buildBodyResources(
-      allResourceRows,
-      organicOccurrenceRows,
-      bodies,
-      resources,
-      resourceIdsByFormId,
-    )
-  
   console.log('Loading Industrial Workbench...')
 
   const [
@@ -1455,6 +935,12 @@ async function main() {
       resources,
       products,
     )
+
+  for (const [key, data] of Object.entries(biomeData)) {
+    const filename = key.replace(/[A-Z]/g, (letter) => '-' + letter.toLowerCase())
+    await writeJson(resolve(PROJECT_ROOT, 'public', 'reference-data', filename + '.json'), data)
+    console.log(filename + '.json: ' + data.length)
+  }
 
   await writeJson(
     SYSTEMS_OUTPUT_FILE,
@@ -1481,11 +967,6 @@ async function main() {
     productRecipes,
   )
 
-  await writeJson(
-    BODY_RESOURCES_OUTPUT_FILE,
-    bodyResources,
-  )
-
   console.log(
     `Generated ${systems.length} star systems, ` +
       `${bodies.length} planetary bodies, ` +
@@ -1496,7 +977,7 @@ async function main() {
   )
 }
 
-main().catch((error) => {
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main().catch((error) => {
   console.error('Reference-data build failed.')
 
   console.error(

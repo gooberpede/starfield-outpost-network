@@ -35,6 +35,10 @@ export type StarSystemId = string
  */
 export type PlanetaryBodyId = string
 
+export type BiomeId = string
+export type BodyBiomeId = string
+export type SpeciesId = string
+
 /** Broad canonical body classification provided by Planet Directory. */
 export type PlanetaryBodyType =
   | 'planet'
@@ -80,6 +84,9 @@ export interface PlanetaryBodyReference {
   name: string
   bodyType: PlanetaryBodyType
   outpostAllowed: boolean
+  solarArrayPower: number | null
+  windTurbinePower: number | null
+  planetaryHabitationRank: number | null
 }
 
 /**
@@ -116,12 +123,70 @@ export interface ResourceReference {
   sortOrder: number | null
 }
 
+/** Canonical FormID identity; display names are deliberately non-unique. */
+export interface BiomeReference {
+  id: BiomeId
+  name: string
+}
+
+/** Stable body FormID + biome index identity, retaining source ordering. */
+export interface BodyBiomeReference {
+  id: BodyBiomeId
+  bodyId: PlanetaryBodyId
+  biomeId: BiomeId
+  biomeIndex: number
+}
+
+export type InorganicOccurrenceLocation =
+  | { type: 'biome'; bodyBiomeId: BodyBiomeId }
+  | { type: 'atmosphere' }
+
+export interface InorganicResourceOccurrenceReference {
+  bodyId: PlanetaryBodyId
+  resourceId: ResourceId
+  location: InorganicOccurrenceLocation
+}
+
+export type SpeciesType = 'flora' | 'fauna'
+export type OrganicSourceClass = 'plant' | 'herbivore' | 'carnivore'
+
+export interface SpeciesReference {
+  id: SpeciesId
+  name: string
+  type: SpeciesType
+}
+
+/** Resource, class, and domesticability must agree across this body's biomes. */
+export interface PlanetSpeciesReference {
+  bodyId: PlanetaryBodyId
+  speciesId: SpeciesId
+  sourceClass: OrganicSourceClass | null
+  domesticable: boolean
+  resourceId: ResourceId | null
+}
+
+export interface OrganicSpeciesOccurrenceReference {
+  bodyBiomeId: BodyBiomeId
+  speciesId: SpeciesId
+}
+
+export interface FarmingIngredientReference {
+  resourceId: ResourceId
+  quantity: number
+}
+
+/** Inputs describe a source class; their presence does not imply farmability. */
+export interface OrganicFarmingProfileReference {
+  sourceClass: OrganicSourceClass
+  inputs: FarmingIngredientReference[]
+}
+
 /**
  * Lists the resources known to occur on one planetary body.
  *
- * This relationship is kept separate from PlanetaryBodyReference so
- * basic body identity/location data remains independent of resource
- * occurrence data.
+ * Derived compatibility index: all biome/atmospheric inorganics plus all
+ * harvested organics, including non-domesticable sources. This is not
+ * canonical source truth and can retire once consumers are biome-aware.
  */
 export interface BodyResourcesReference {
   bodyId: PlanetaryBodyId
@@ -188,6 +253,13 @@ export interface ProductRecipeReference {
  * the user reloads or refreshes the flat files.
  */
 export interface ReferenceData {
+  biomes: BiomeReference[]
+  bodyBiomes: BodyBiomeReference[]
+  inorganicOccurrences: InorganicResourceOccurrenceReference[]
+  species: SpeciesReference[]
+  planetSpecies: PlanetSpeciesReference[]
+  organicOccurrences: OrganicSpeciesOccurrenceReference[]
+  organicFarmingProfiles: OrganicFarmingProfileReference[]
   systems: StarSystemReference[]
   bodies: PlanetaryBodyReference[]
   resources: ResourceReference[]
