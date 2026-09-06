@@ -35,12 +35,12 @@
 
   box-sizing: border-box;
 
-  border-top: 1px solid currentColor;
+  border-top: 1px solid var(--ui-rule);
 
-  background: Canvas;
-  color: CanvasText;
+  background: rgba(217, 226, 221, 0.98);
+  color: var(--ui-text-muted);
 
-  font-size: 0.9rem;
+  font: 400 0.82rem/1.2 var(--ui-font);
 }
 
 .status-bar__main {
@@ -60,7 +60,16 @@
   text-align: right;
 }
 
+.status-bar__message--success {
+  color: var(--ui-text);
+  font-weight: 500;
+}
+
 .status-bar__message--error {
+  padding-left: 0.55rem;
+  border-left: 3px solid var(--ui-critical);
+
+  color: var(--ui-text);
   font-weight: 600;
 }
 
@@ -81,6 +90,35 @@
   text-decoration: underline;
 }
 
+.status-bar button {
+  min-height: 1.75rem;
+  padding: 0.32rem 0.5rem;
+  border: 1px solid var(--ui-rule);
+  border-radius: 1px;
+
+  background: var(--ui-highlight);
+  color: var(--ui-text);
+  font: 500 0.78rem/1 var(--ui-font);
+  cursor: pointer;
+}
+
+.status-bar button:hover:not(:disabled) {
+  border-color: var(--ui-structural-dark);
+}
+
+.status-bar button:focus-visible {
+  outline: 2px solid var(--ui-structural-dark);
+  outline-offset: 2px;
+}
+
+.status-bar__message button {
+  min-height: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 1rem;
+}
+
 .status-bar__feedback {
   display: flex;
   gap: 1rem;
@@ -88,6 +126,8 @@
 }
 
 .status-bar__interaction-hint {
-  color: var(--text-h);
+  color: var(--ui-text);
+  font-family: var(--ui-font-mono);
+  font-size: 0.74rem;
   white-space: nowrap;
 }

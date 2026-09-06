@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -15,6 +17,25 @@
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
+
+  /*
+   * Provisional visual-language tokens are intentionally separate from the
+   * existing raw tokens. This keeps the first shell pass from restyling the
+   * dense operational workspace before its own design pass.
+   */
+  --ui-background: #f1f6f4;
+  --ui-surface: #d9e2dd;
+  --ui-panel: #b8c8c1;
+  --ui-structural-dark: #2a3e3a;
+  --ui-text: #2e4440;
+  --ui-text-muted: #6e7f7a;
+  --ui-rule: #9fafaa;
+  --ui-highlight: #f7faf8;
+  --ui-warning: #d4a23f;
+  --ui-critical: #c75452;
+  --ui-shell-shadow: rgba(42, 62, 58, 0.12);
+  --ui-font: 'Barlow Semi Condensed', 'Arial Narrow', var(--sans);
+  --ui-font-mono: 'IBM Plex Mono', var(--mono);
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
@@ -61,6 +82,11 @@
 
 body {
   margin: 0;
+  min-height: 100svh;
+  background-color: var(--ui-background);
+  background-image:
+    radial-gradient(circle at 72% 8%, rgba(184, 200, 193, 0.14), transparent 38rem),
+    linear-gradient(180deg, rgba(247, 250, 248, 0.42), transparent 18rem);
 }
 
 h1,

@@ -27,11 +27,12 @@
   gap: 1rem;
   align-items: center;
 
-  padding: 0.75rem var(--page-gutter);
-  border-bottom: 1px solid currentColor;
+  padding: 0.65rem var(--page-gutter) 0.7rem;
+  border-bottom: 2px solid var(--ui-structural-dark);
 
-  background: Canvas;
-  color: CanvasText;
+  background: rgba(217, 226, 221, 0.97);
+  color: var(--ui-text);
+  font-family: var(--ui-font);
 }
 
 .page-header__main {
@@ -40,8 +41,58 @@
 
 .page-header__actions {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.4rem;
   align-items: center;
   justify-content: flex-end;
   flex-wrap: wrap;
+}
+
+.page-header button,
+.page-header input {
+  min-height: 1.85rem;
+  box-sizing: border-box;
+  border: 1px solid var(--ui-rule);
+  border-radius: 1px;
+
+  background: var(--ui-highlight);
+  color: var(--ui-text);
+  font: 500 0.84rem/1 var(--ui-font);
+}
+
+.page-header button {
+  padding: 0.42rem 0.62rem;
+  cursor: pointer;
+}
+
+.page-header input {
+  padding: 0.32rem 0.45rem;
+}
+
+.page-header button:hover:not(:disabled),
+.page-header input:hover:not(:disabled) {
+  border-color: var(--ui-structural-dark);
+}
+
+.page-header button:disabled,
+.page-header input:disabled {
+  border-color: color-mix(in srgb, var(--ui-rule) 62%, var(--ui-surface));
+  background: color-mix(in srgb, var(--ui-surface) 68%, var(--ui-highlight));
+  color: var(--ui-text-muted);
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.page-header button:focus-visible,
+.page-header input:focus-visible {
+  outline: 2px solid var(--ui-structural-dark);
+  outline-offset: 2px;
+}
+
+.page-header .character-header__field > span {
+  color: var(--ui-text-muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
 }

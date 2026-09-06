@@ -16,11 +16,35 @@
  */
 
 .title-bar {
-  padding: 1rem var(--page-gutter) 0.75rem;
-  border-bottom: 1px solid currentColor;
+  position: relative;
+
+  padding: 0.9rem var(--page-gutter) 0.75rem;
+  border-bottom: 1px solid var(--ui-rule);
+
+  background: rgba(241, 246, 244, 0.94);
+  color: var(--ui-text);
+  font-family: var(--ui-font);
+}
+
+.title-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: var(--page-gutter);
+
+  width: clamp(5rem, 16vw, 11rem);
+  height: 0.28rem;
+
+  background: var(--ui-structural-dark);
 }
 
 .title-bar h1 {
   margin: 0;
-  font-size: 1.5rem;
+  color: inherit;
+  font-family: inherit;
+  font-size: 1.42rem;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
 }

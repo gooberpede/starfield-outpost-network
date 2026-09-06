@@ -120,7 +120,8 @@ Keep tracker behaviour tolerant of incomplete networks; do not turn advisory fea
 
 Future planner/data work may include:
 
-- Test whether Ocean should remain selectable for coastline/boundary outposts or is operationally redundant.
+- Confirm in-game whether coastal outposts can overlap Ocean biomes. Ocean remains 
+  selectable regardless, because Ocean biomes can contain unique inorganic resources.
 - recommended resource combinations by biome;
 - avoiding finicky biome-boundary sites by default;
 - power planning and generator calculations beyond the implemented qualitative
