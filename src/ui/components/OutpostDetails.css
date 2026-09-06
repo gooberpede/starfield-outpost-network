@@ -2,8 +2,8 @@
  * OutpostDetails.css
  *
  * Purpose:
- *   Presents the selected outpost's editable identity as a heading above its
- *   compact location controls.
+ *   Presents the selected outpost's editable identity and planetary
+ *   constraints as a quiet technical specification strip.
  *
  * Architecture:
  *   This stylesheet controls only the presentation of OutpostDetails. The
@@ -18,49 +18,89 @@
 .outpost-details {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.45rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid var(--ui-rule);
+  color: var(--ui-text);
+  font-family: var(--ui-font);
 }
 
 .outpost-details__name {
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
-  padding: 0.2rem 0.35rem;
+  padding: 0.08rem 0.3rem;
   border: 1px solid transparent;
-  border-radius: 0.25rem;
-  color: var(--text-h);
+  border-radius: 1px;
+  color: var(--ui-text);
   background: transparent;
-  font: 500 24px/118% var(--heading);
-  letter-spacing: -0.24px;
+  font: 600 1.4rem/1.12 var(--ui-font);
+  letter-spacing: 0.01em;
 }
 
 .outpost-details__name:hover {
-  border-color: var(--border);
-  background: var(--code-bg);
+  border-color: var(--ui-rule);
+  background: color-mix(in srgb, var(--ui-highlight) 68%, transparent);
 }
 
-.outpost-details__name:focus {
-  border-color: var(--accent);
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
+.outpost-details__name:focus-visible {
+  border-color: var(--ui-structural-dark);
+  outline: 2px solid var(--ui-structural-dark);
+  outline-offset: 2px;
 }
 
 .outpost-details__fields {
   display: grid;
-  grid-template-columns: auto auto 4.25rem 4.25rem minmax(12rem, 1fr);
+  grid-template-columns:
+    minmax(10rem, 13rem)
+    minmax(10rem, 13rem)
+    4.25rem
+    4.25rem
+    minmax(12rem, 1fr);
   align-items: start;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .outpost-details__field {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  min-width: 0;
+  gap: 0.2rem;
 }
 
-.outpost-details__field input,
+.outpost-details__field > span {
+  color: var(--ui-text-muted);
+  font: 600 0.68rem/1 var(--ui-font);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .outpost-details__field select {
-  min-width: 180px;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 1.8rem;
+  border: 1px solid var(--ui-rule);
+  border-radius: 1px;
+  color: var(--ui-text);
+  background: var(--ui-highlight);
+  font: 500 0.8rem/1 var(--ui-font);
+}
+
+.outpost-details__field select:hover:not(:disabled) {
+  border-color: var(--ui-structural-dark);
+}
+
+.outpost-details__field select:focus-visible,
+.outpost-details__biome-buttons button:focus-visible {
+  outline: 2px solid var(--ui-structural-dark);
+  outline-offset: 2px;
+}
+
+.outpost-details__field select:disabled {
+  border-color: color-mix(in srgb, var(--ui-rule) 62%, var(--ui-surface));
+  color: var(--ui-text-muted);
+  background: color-mix(in srgb, var(--ui-surface) 68%, var(--ui-highlight));
 }
 
 .outpost-details__efficiency {
@@ -72,15 +112,17 @@
 }
 
 .outpost-details__efficiency output {
-  display: block;
+  display: grid;
+  place-items: center;
   box-sizing: border-box;
   width: 4.25rem;
-  padding: 0.28rem 0.5rem;
-  border: 2px solid var(--border);
-  border-radius: 0.25rem;
-  color: var(--text-h);
-  background: var(--code-bg);
-  font: -webkit-small-control;
+  min-height: 1.8rem;
+  padding: 0.38rem 0.35rem;
+  border: 1px solid color-mix(in srgb, var(--ui-rule) 70%, var(--ui-surface));
+  border-radius: 1px;
+  color: var(--ui-text);
+  background: color-mix(in srgb, var(--ui-surface) 52%, var(--ui-background));
+  font: 500 0.72rem/1 var(--ui-font-mono);
   text-align: center;
   white-space: nowrap;
 }
@@ -92,25 +134,41 @@
 .outpost-details__biome-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem;
+  gap: 0.2rem;
 }
 
 .outpost-details__biome-buttons button {
-  padding: 0.28rem 0.5rem;
+  min-height: 1.8rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--ui-rule);
+  border-radius: 1px;
+  color: var(--ui-text);
+  background: var(--ui-highlight);
+  font: 500 0.78rem/1 var(--ui-font);
+}
+
+.outpost-details__biome-buttons button:hover {
+  border-color: var(--ui-structural-dark);
 }
 
 .outpost-details__biome-buttons button[aria-pressed='true'] {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--accent-bg);
+  border-color: var(--ui-structural-dark);
+  color: var(--ui-highlight);
+  background: var(--ui-structural-dark);
 }
 
 @media (max-width: 1024px) {
   .outpost-details__name {
-    font-size: 20px;
+    font-size: 1.25rem;
   }
 
   .outpost-details__fields {
-    grid-template-columns: auto auto 4.25rem 4.25rem minmax(10rem, 1fr);
+    grid-template-columns:
+      minmax(9rem, 1fr)
+      minmax(9rem, 1fr)
+      4.25rem
+      4.25rem
+      minmax(10rem, 1fr);
+    gap: 0.5rem;
   }
 }
