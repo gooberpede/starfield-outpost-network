@@ -18,6 +18,45 @@
  *   - cargo-pad summary control states need clearer visual feedback;
  */
 
+.cargo-pads {
+  min-width: 0;
+  color: var(--ui-text);
+  font-family: var(--ui-font);
+}
+
+.cargo-pads > h2 {
+  position: relative;
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  margin: 0 0 0.45rem;
+  padding: 0.38rem 0 0.32rem 0.65rem;
+  border-bottom: 1px solid var(--ui-rule);
+  color: var(--ui-text);
+  font-family: var(--ui-font);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+}
+
+.cargo-pads > h2::before {
+  position: absolute;
+  top: 0;
+  bottom: -1px;
+  left: 0;
+  width: 0.28rem;
+  background: var(--ui-structural-dark);
+  content: '';
+}
+
+.cargo-pads__count {
+  color: var(--ui-text-muted);
+  font: 500 0.7rem/1 var(--ui-font-mono);
+  letter-spacing: 0;
+}
+
 .cargo-pads__actions {
   display: flex;
   justify-content: space-between;
@@ -30,10 +69,32 @@
   gap: 0.5rem;
 }
 
+.cargo-pads__actions button,
+.cargo-pads__move-controls button {
+  min-height: 1.75rem;
+  padding: 0.32rem 0.5rem;
+  border: 1px solid var(--ui-rule);
+  border-radius: 1px;
+  color: var(--ui-text);
+  background: var(--ui-highlight);
+  font: 500 0.78rem/1 var(--ui-font);
+}
+
+.cargo-pads__actions button:hover:not(:disabled),
+.cargo-pads__move-controls button:hover:not(:disabled) {
+  border-color: var(--ui-structural-dark);
+}
+
+.cargo-pads__actions button:focus-visible,
+.cargo-pads__move-controls button:focus-visible {
+  outline: 2px solid var(--ui-structural-dark);
+  outline-offset: 2px;
+}
+
 .cargo-pads__list {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.4rem;
   max-height: calc(100svh - 12rem);
   margin-top: 0.75rem;
   padding: 0 0 0.25rem;
@@ -111,8 +172,9 @@
 
 .cargo-pad {
   min-width: 0;
-  border: 1px solid currentColor;
-  border-radius: 0.35rem;
+  border-block: 1px solid var(--ui-rule);
+  border-radius: 0;
+  background: color-mix(in srgb, var(--ui-highlight) 78%, var(--ui-surface));
   overflow: hidden;
 }
 
@@ -131,6 +193,12 @@
   align-items: center;
 }
 
+.cargo-pad__identity {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+
 .cargo-pad__summary-cargo {
   margin-top: 0.3rem;
   align-items: start;
@@ -138,17 +206,22 @@
 }
 
 .cargo-pad__summary button {
+  display: inline-flex;
+  width: 1.45rem;
+  height: 1.45rem;
+  align-items: center;
+  justify-content: center;
   padding: 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  font: inherit;
-  font-weight: 600;
+  border: 1px solid var(--ui-rule);
+  border-radius: 1px;
+  background: var(--ui-background);
+  color: var(--ui-text);
+  font: 600 0.86rem/1 var(--ui-font-mono);
   cursor: pointer;
 }
 
 .cargo-pad__summary button:hover {
-  text-decoration: underline;
+  border-color: var(--ui-structural-dark);
 }
 
 .cargo-pad__summary button:disabled {
@@ -157,13 +230,17 @@
 }
 
 .cargo-pad__summary button:disabled:hover {
-  text-decoration: none;
+  border-color: var(--ui-rule);
+}
+
+.cargo-pad__summary button:focus-visible {
+  outline: 2px solid var(--ui-structural-dark);
+  outline-offset: 2px;
 }
 
 .cargo-pad__interstellar {
-  margin-left: 0.35rem;
-  font-size: 0.8rem;
-  font-weight: 600;
+  color: var(--ui-text-muted);
+  font: 500 0.7rem/1 var(--ui-font-mono);
 }
 
 .cargo-pad__destination,
@@ -175,6 +252,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-weight: 600;
 }
 
 .cargo-pad__outbound-summary,
@@ -182,9 +260,12 @@
   min-width: 0;
   line-height: 1.35;
   overflow-wrap: anywhere;
+  font-family: var(--ui-font-mono);
+  font-size: 0.78rem;
 }
 
 .cargo-pad__body {
   padding: 0.6rem;
-  border-top: 1px solid currentColor;
+  border-top: 1px solid var(--ui-rule);
+  background: color-mix(in srgb, var(--ui-surface) 58%, var(--ui-background));
 }

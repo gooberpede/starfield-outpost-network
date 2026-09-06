@@ -48,7 +48,16 @@
   display: grid;
   grid-template-columns:
     minmax(0, 1fr)
-    360px;
+    380px;
   gap: 1rem;
   align-items: start;
+}
+
+/* Back off the Cargo gain before it can create a new Matrix overflow range. */
+@media (max-width: 1500px) {
+  .workspace-layout__content {
+    grid-template-columns:
+      minmax(0, 1fr)
+      360px;
+  }
 }

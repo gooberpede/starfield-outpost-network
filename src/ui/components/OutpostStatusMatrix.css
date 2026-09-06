@@ -2,11 +2,37 @@
 
 .outpost-status-matrix {
   min-width: 0;
+  color: var(--ui-text);
+  font-family: var(--ui-font);
+}
+
+.outpost-status-matrix > h2 {
+  position: relative;
+  margin: 0 0 0.45rem;
+  padding: 0.38rem 0 0.32rem 0.65rem;
+  border-bottom: 1px solid var(--ui-rule);
+  color: var(--ui-text);
+  font-family: var(--ui-font);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+}
+
+.outpost-status-matrix > h2::before {
+  position: absolute;
+  top: 0;
+  bottom: -1px;
+  left: 0;
+  width: 0.28rem;
+  background: var(--ui-structural-dark);
+  content: '';
 }
 
 .outpost-status-matrix__scroll {
   overflow-x: auto;
-  border-block: 1px solid var(--border);
+  border-block: 1px solid var(--ui-rule);
 }
 
 .outpost-status-matrix__table {
@@ -32,11 +58,14 @@
   position: sticky;
   z-index: 3;
   top: 0;
-  color: var(--text-h);
-  background: var(--code-bg);
+  border-bottom: 1px solid var(--ui-structural-dark);
+  color: var(--ui-text);
+  background: color-mix(in srgb, var(--ui-surface) 72%, var(--ui-highlight));
+  font-family: var(--ui-font);
   font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
+  font-weight: 600;
+  letter-spacing: 0.065em;
+  text-transform: uppercase;
 }
 
 .outpost-status-matrix__header > div,
@@ -56,12 +85,12 @@
   position: sticky;
   left: 0;
   z-index: 2;
-  background: var(--bg);
+  background: var(--ui-background);
 }
 
 .outpost-status-matrix__header > div:first-child {
   z-index: 4;
-  background: var(--code-bg);
+  background: color-mix(in srgb, var(--ui-surface) 72%, var(--ui-highlight));
 }
 
 .outpost-status-matrix__section + .outpost-status-matrix__section {
@@ -71,10 +100,14 @@
 .outpost-status-matrix__section-heading,
 .outpost-status-matrix__section-bar {
   margin: 0;
-  padding: 0.1rem 0.5rem;
-  color: var(--text-h);
-  font-size: 0.95rem;
-  font-weight: 650;
+  padding: 0.12rem 0.5rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--ui-rule) 72%, transparent);
+  color: var(--ui-text);
+  background: color-mix(in srgb, var(--ui-panel) 28%, var(--ui-background));
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .outpost-status-matrix__section-bar {
@@ -96,19 +129,31 @@
 .outpost-status-matrix__actions button,
 .outpost-status-matrix__manufacturing-item button {
   padding: 0.1rem 0.35rem;
+  border: 1px solid var(--ui-rule);
+  border-radius: 1px;
+  color: var(--ui-text);
+  background: var(--ui-highlight);
+  font-family: var(--ui-font);
   font-size: 0.78rem;
   line-height: 1.2;
+}
+
+.outpost-status-matrix__actions button:focus-visible,
+.outpost-status-matrix__manufacturing-item button:focus-visible,
+.outpost-status-matrix__product-selector select:focus-visible {
+  outline: 2px solid var(--ui-structural-dark);
+  outline-offset: 2px;
 }
 
 .outpost-status-matrix__row {
   min-height: 1.55rem;
   align-items: center;
-  border-top: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--ui-rule) 58%, transparent);
 }
 
 .outpost-status-matrix__item {
   overflow: hidden;
-  color: var(--text-h);
+  color: var(--ui-text);
   font-size: 0.88rem;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -135,38 +180,58 @@
   justify-content: center;
   overflow: hidden;
   padding: 0.15rem 0.25rem;
-  border: 1px solid var(--border);
-  border-radius: 0.3rem;
-  color: var(--text-h);
-  background: var(--bg);
-  font: 600 0.76rem/1 var(--mono);
+  border-radius: 1px;
+  font: 500 0.74rem/1 var(--ui-font-mono);
   white-space: nowrap;
 }
 
-.outpost-status-matrix__state[data-state='lit'],
+.outpost-status-matrix__state {
+  border: 1px solid transparent;
+  color: var(--ui-text);
+  background: color-mix(in srgb, var(--ui-panel) 38%, var(--ui-background));
+}
+
+.outpost-status-matrix__state--editable {
+  border: 1px solid var(--ui-rule);
+  color: var(--ui-text);
+  background: var(--ui-highlight);
+}
+
 .outpost-status-matrix__state--editable[aria-pressed='true'] {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--accent-bg);
+  border-color: var(--ui-structural-dark);
+  color: var(--ui-highlight);
+  background: var(--ui-structural-dark);
+}
+
+.outpost-status-matrix__state[data-state='lit'] {
+  color: var(--ui-text);
+  background: color-mix(in srgb, var(--ui-panel) 62%, var(--ui-highlight));
 }
 
 .outpost-status-matrix__state[data-state='dimmed'] {
-  color: var(--text);
-  background: var(--code-bg);
-  opacity: 0.48;
+  color: var(--ui-text-muted);
+  background: transparent;
+  opacity: 0.58;
 }
 
 .outpost-status-matrix__state--editable:not(:disabled) {
   cursor: pointer;
 }
 
+.outpost-status-matrix__state--editable:not(:disabled):hover {
+  border-color: var(--ui-structural-dark);
+}
+
 .outpost-status-matrix__state--editable:disabled {
-  opacity: 0.28;
+  border-color: color-mix(in srgb, var(--ui-rule) 50%, var(--ui-background));
+  color: var(--ui-text-muted);
+  background: color-mix(in srgb, var(--ui-surface) 45%, var(--ui-background));
+  opacity: 0.62;
   cursor: not-allowed;
 }
 
 .outpost-status-matrix__state:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--ui-structural-dark);
   outline-offset: 2px;
 }
 
@@ -178,6 +243,7 @@
 
 .outpost-status-matrix__empty {
   padding: 0.25rem 0.5rem 0.5rem;
+  color: var(--ui-text-muted);
   font-size: 0.85rem;
 }
 
@@ -191,4 +257,9 @@
 
 .outpost-status-matrix__product-selector select {
   max-width: 22rem;
+  border: 1px solid var(--ui-rule);
+  border-radius: 1px;
+  color: var(--ui-text);
+  background: var(--ui-highlight);
+  font-family: var(--ui-font);
 }

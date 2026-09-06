@@ -602,10 +602,11 @@ export function CargoPadsEditor({
   return (
     <section className="cargo-pads">
       <h2>
-        Cargo Pads [
-        {outpost.cargoPads.length}
-        {maxCargoPads !== null && `/${maxCargoPads}`}
-        ]
+        Cargo Pads
+        <span className="cargo-pads__count">
+          [{outpost.cargoPads.length}
+          {maxCargoPads !== null && `/${maxCargoPads}`}]
+        </span>
       </h2>
 
       <div className="cargo-pads__actions">
@@ -740,16 +741,17 @@ export function CargoPadsEditor({
             <section className="cargo-pad">
               <div className="cargo-pad__summary">
                 <div className="cargo-pad__summary-top">
-                  <div>
+                  <div className="cargo-pad__identity">
                     <button
                       type="button"
                       onClick={() =>
                         toggleCargoPadCollapsed(pad.id)
                       }
                       aria-expanded={!isCollapsed}
+                      aria-label={`${isCollapsed ? 'Expand' : 'Collapse'} ${pad.label}`}
+                      title={`${isCollapsed ? 'Expand' : 'Collapse'} ${pad.label}`}
                     >
-                      {isCollapsed ? '▸' : '▾'}{' '}
-                      {pad.label}
+                      <span aria-hidden="true">{isCollapsed ? '▸' : '▾'}</span>
                     </button>
 
                     {pad.type === 'interstellar' && (
@@ -757,7 +759,7 @@ export function CargoPadsEditor({
                         className="cargo-pad__interstellar"
                         title="Interstellar cargo link"
                       >
-                        {' '}[INT]
+                        [INT]
                       </span>
                     )}
                   </div>

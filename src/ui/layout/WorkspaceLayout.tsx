@@ -11,8 +11,8 @@
  *   details can span both editing columns, while the main content beneath
  *   those details is divided between a middle region and a right region.
  *
- *   This makes Cargo Pads visually subordinate to the selected outpost rather
- *   than presenting them as a peer of the outpost itself.
+ *   Resource Matrix and Cargo Pads occupy sibling operational columns within
+ *   the selected outpost, without becoming peers of the outpost itself.
  *
  * Change this file when:
  *   - the major workspace regions change;

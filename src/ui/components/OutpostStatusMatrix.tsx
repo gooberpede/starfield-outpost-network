@@ -146,6 +146,7 @@ export function OutpostStatusMatrix({
   }
 
   return <section className="outpost-status-matrix" aria-label="Outpost status matrix">
+    <h2>Resource Matrix</h2>
     <div className="outpost-status-matrix__scroll"><div className="outpost-status-matrix__table" role="table">
       <div className="outpost-status-matrix__header" role="row">
         {['Item', 'Source', 'Present', 'Producing', 'Inputs', 'Logistics'].map((heading) =>

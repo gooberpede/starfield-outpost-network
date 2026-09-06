@@ -36,6 +36,13 @@
   min-width: 0;
   width: 100%;
   max-width: 100%;
+  min-height: 1.8rem;
+  box-sizing: border-box;
+  border: 1px solid var(--ui-rule);
+  border-radius: 1px;
+  color: var(--ui-text);
+  background: var(--ui-highlight);
+  font: 500 0.8rem/1 var(--ui-font);
 }
 
 .cargo-pad-editor__remove {
@@ -45,14 +52,19 @@
 .cargo-pad-editor__inter-system,
 .cargo-pad-editor__remove {
   padding: 0.2rem 0.5rem;
+  border: 1px solid var(--ui-rule);
+  border-radius: 1px;
+  color: var(--ui-text);
+  background: var(--ui-highlight);
+  font-family: var(--ui-font);
   font-size: 0.82rem;
   line-height: 1.25;
 }
 
 .cargo-pad-editor__inter-system[aria-pressed='true'] {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--accent-bg);
+  border-color: var(--ui-structural-dark);
+  color: var(--ui-highlight);
+  background: var(--ui-structural-dark);
 }
 
 .cargo-pad-editor__inter-system[data-fuelled='true'] {
@@ -67,7 +79,8 @@
 
 .cargo-exports h4 {
   margin: 0 0 0.4rem;
-  color: var(--text-h);
+  color: var(--ui-text);
+  font-family: var(--ui-font);
   font-size: 0.95rem;
   font-weight: 600;
 }
@@ -88,34 +101,36 @@
   height: 1.65rem;
   padding: 0.1rem 0.2rem;
   overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: 0.25rem;
-  color: var(--text-h);
-  background: var(--bg);
-  font: 600 0.72rem/1 var(--mono);
+  border: 1px solid var(--ui-rule);
+  border-radius: 1px;
+  color: var(--ui-text);
+  background: var(--ui-highlight);
+  font: 500 0.72rem/1 var(--ui-font-mono);
   white-space: nowrap;
   cursor: pointer;
 }
 
 .cargo-exports__item:hover {
-  border-color: var(--accent-border);
+  border-color: var(--ui-structural-dark);
 }
 
+.cargo-pad-editor button:focus-visible,
+.cargo-pad-editor select:focus-visible,
 .cargo-exports__item:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
+  outline: 2px solid var(--ui-structural-dark);
+  outline-offset: 2px;
 }
 
 .cargo-exports__item[aria-pressed='true'] {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--accent-bg);
+  border-color: var(--ui-structural-dark);
+  color: var(--ui-highlight);
+  background: var(--ui-structural-dark);
 }
 
 .cargo-exports__item[data-state='stale'] {
-  border-color: color-mix(in srgb, #b87824 65%, var(--border));
-  color: color-mix(in srgb, #b87824 75%, var(--text));
-  background: color-mix(in srgb, #b87824 10%, var(--bg));
+  border-color: color-mix(in srgb, var(--ui-warning) 65%, var(--ui-rule));
+  color: color-mix(in srgb, var(--ui-warning) 75%, var(--ui-text));
+  background: color-mix(in srgb, var(--ui-warning) 10%, var(--ui-background));
   opacity: 0.72;
 }
 
