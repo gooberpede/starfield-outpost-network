@@ -36,7 +36,7 @@
   gap: 0.75rem;
   max-height: calc(100svh - 12rem);
   margin-top: 0.75rem;
-  padding: 0 0.25rem 0.25rem 0;
+  padding: 0 0 0.25rem;
   overflow-y: auto;
 }
 

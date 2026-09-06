@@ -33,9 +33,13 @@
 
 .outpost-list__item {
   display: grid;
-  grid-template-columns: 1.25rem minmax(0, 1fr) 4.25rem;
+  grid-template-columns: 1.25rem minmax(0, 1fr);
   gap: 0.35rem;
   align-items: center;
+}
+
+.outpost-list__item--reshuffling {
+  grid-template-columns: 1.25rem minmax(0, 1fr) 4.25rem;
 }
 
 .outpost-list__item--dragging {
@@ -85,6 +89,7 @@
 }
 
 .outpost-list__selection {
+  width: 100%;
   min-width: 0;
   overflow: hidden;
   text-align: left;

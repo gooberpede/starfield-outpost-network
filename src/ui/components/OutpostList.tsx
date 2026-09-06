@@ -216,6 +216,10 @@ export function OutpostList({
           <li
             key={outpost.id}
             className={`outpost-list__item${
+              isReshuffling
+                ? ' outpost-list__item--reshuffling'
+                : ''
+            }${
               activeDrag?.outpostId === outpost.id
                 ? ' outpost-list__item--dragging'
                 : ''
