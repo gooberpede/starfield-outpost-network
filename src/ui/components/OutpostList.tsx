@@ -184,18 +184,26 @@ export function OutpostList({
 
   return (
     <section className="outpost-list">
-      <h2>
-        Outposts [{outposts.length}
-        {maxOutposts !== null && `/${maxOutposts}`}]
+      <h2 className="outpost-list__heading">
+        <span>Outposts</span>
+        <span className="outpost-list__count">
+          {outposts.length}
+          {maxOutposts !== null && ` / ${maxOutposts}`}
+        </span>
       </h2>
 
       <div className="outpost-list__actions">
-        <button type="button" onClick={onAddOutpost}>
+        <button
+          type="button"
+          className="outpost-list__add"
+          onClick={onAddOutpost}
+        >
           + Add Outpost
         </button>
 
         <button
           type="button"
+          className="outpost-list__mode"
           onClick={() => {
             clearDrag()
             setIsReshuffling((currentValue) => !currentValue)
@@ -229,43 +237,39 @@ export function OutpostList({
                 : ''
             }`}
           >
-            <span
-              className={`outpost-list__drag-handle${
-                isReshuffling
-                  ? ' outpost-list__drag-handle--enabled'
-                  : ''
-              }`}
-              draggable={isReshuffling}
-              onDragStart={(event) => startDrag(event, outpost.id)}
-              onDragEnd={clearDrag}
-              aria-disabled={!isReshuffling}
-              aria-label={
-                isReshuffling
-                  ? `Drag ${outpost.name} to reorder`
-                  : 'Reshuffle mode disabled'
-              }
-              title={
-                isReshuffling
-                  ? `Drag ${outpost.name} to reorder`
-                  : 'Reshuffle mode disabled'
-              }
-              tabIndex={0}
-            >
-              ⠿
-            </span>
+            {isReshuffling && (
+              <span
+                className="outpost-list__drag-handle"
+                draggable
+                onDragStart={(event) => startDrag(event, outpost.id)}
+                onDragEnd={clearDrag}
+                aria-label={`Drag ${outpost.name} to reorder`}
+                title={`Drag ${outpost.name} to reorder`}
+                tabIndex={0}
+              >
+                ⠿
+              </span>
+            )}
 
             <button
               type="button"
-              className="outpost-list__selection"
+              className={`outpost-list__selection${
+                outpost.id === selectedOutpostId
+                  ? ' outpost-list__selection--selected'
+                  : ''
+              }`}
               onClick={() => onSelectOutpost(outpost.id)}
               disabled={outpost.id === selectedOutpostId}
+              aria-current={
+                outpost.id === selectedOutpostId ? 'page' : undefined
+              }
               title={outpost.name}
             >
               {outpost.name}
             </button>
 
-            <span className="outpost-list__move-controls">
-              {isReshuffling && (
+            {isReshuffling && (
+              <span className="outpost-list__move-controls">
                 <>
                   <button
                     type="button"
@@ -287,8 +291,8 @@ export function OutpostList({
                     ↓
                   </button>
                 </>
-              )}
-            </span>
+              </span>
+            )}
           </li>
         ))}
 
