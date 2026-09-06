@@ -81,9 +81,29 @@ These principles should be preserved unless a deliberate architectural change is
 
 ---
 
-# 3. Persisted domain model
+# 3. Persisted domain and collection models
 
-The top-level persisted model is `OutpostNetwork`.
+One `OutpostNetwork` is the gameplay document for one Starfield universe.
+Browser storage wraps those documents in a separately versioned ordered
+`NetworkCollection`:
+
+```ts
+interface SavedNetwork {
+  id: string
+  network: OutpostNetwork
+}
+
+interface NetworkCollection {
+  schemaVersion: number
+  networks: SavedNetwork[]
+  activeNetworkId: string
+}
+```
+
+Array order runs from the oldest recorded universe to the newest. Stable
+`SavedNetwork.id` values provide identity, while `activeNetworkId` selects the
+only network currently exposed by the UI. Collection metadata is not part of
+the gameplay document and has its own schema version.
 
 Conceptually:
 
@@ -549,9 +569,10 @@ src/data/storage.ts
 
 The storage layer:
 
-- loads the saved network;
-- migrates older stored formats where necessary;
-- saves the current network in the current representation.
+- loads the saved network collection;
+- wraps legacy single-network storage in a one-entry collection;
+- creates a one-entry blank collection on first run;
+- saves active edits without replacing inactive entries or changing order.
 
 React components should not call `localStorage` directly.
 
@@ -613,6 +634,9 @@ A failed import must not alter network state.
 
 Import/export success and failure messages are presentation/session state.
 
+Import and export remain active-network-only operations; collection transfer is
+not exposed.
+
 ---
 
 # 19. Editing-session architecture
@@ -641,6 +665,13 @@ networkEditingSessionReducer
 ```
 
 This design ensures that network state and history move together atomically.
+
+The session receives `active SavedNetwork.network`; the collection itself and
+inactive networks are not placed in Undo/Redo history. Confirmed Delete Network
+currently replaces that active document with `createDefaultNetwork()` as one
+Undoable edit while retaining its saved ID and collection position.
+
+`sampleNetwork` is an explicit development/test fixture and is not startup data.
 
 The reducer itself does not depend on React.
 
@@ -1359,8 +1390,8 @@ whole-network immutable snapshots
 session-only
 
 PERSISTENCE
-localStorage
-current network only
+localStorage NetworkCollection
+active edits preserve inactive networks
 
 IMPORT/EXPORT
 JSON interchange

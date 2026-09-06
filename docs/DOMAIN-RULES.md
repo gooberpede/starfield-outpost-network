@@ -66,6 +66,11 @@ continue to store stable resource and product IDs rather than catalogue records.
 
 # 2. Character values
 
+Each `OutpostNetwork` records one Starfield universe. Multiple saved networks
+are ordered from older to newer universes. Character data remains inside each
+network so historical universes can retain their own recorded character name,
+level, and skill ranks.
+
 Character data includes:
 
 - name;
@@ -1040,7 +1045,8 @@ The application does not maintain an ongoing relationship to the source JSON fil
 
 Browser storage is the normal working persistence mechanism.
 
-The application saves the current network representation.
+The application saves an ordered collection of universe networks while editing
+one active network at a time.
 
 Undo/Redo history is not domain persistence and is not saved.
 

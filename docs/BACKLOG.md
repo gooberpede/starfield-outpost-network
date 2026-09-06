@@ -120,6 +120,7 @@ Keep tracker behaviour tolerant of incomplete networks; do not turn advisory fea
 
 Future planner/data work may include:
 
+- Test whether Ocean should remain selectable for coastline/boundary outposts or is operationally redundant.
 - recommended resource combinations by biome;
 - avoiding finicky biome-boundary sites by default;
 - future power-efficiency use of raw solar/wind values;
@@ -173,6 +174,17 @@ Do not fold this broader status-bar review into unrelated feature work.
 ---
 
 ## Import, export, and storage
+
+### Network lifecycle
+
+- Expose multiple-network UI and creation through `New Network` / `+ Add Network`.
+- Design Back/Forward, selector, or tab interaction for switching networks.
+- Define Undo-history semantics when switching networks.
+- Implement true deletion of one collection entry.
+- Decide whether networks need names, labels, universe numbers, timestamps, or notes.
+- Revisit the network-operations control cluster when multi-network UI is exposed.
+- Rename `Export` to `Export Current` alongside the visible multi-network feature.
+- Add `Export All` and collection-level import/backup.
 
 Possible future improvements:
 

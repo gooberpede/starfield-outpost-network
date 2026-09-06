@@ -1,19 +1,31 @@
-/** Browser persistence; all schema upgrades are delegated to networkMigration. */
-import type { OutpostNetwork } from '../domain/models'
-import { migrateNetworkData } from './networkMigration.ts'
+/** Browser persistence for the ordered collection of universe networks. */
+import {
+  createDefaultNetworkCollection,
+  migrateStoredNetworkData,
+} from './networkCollection.ts'
+import type { NetworkCollection } from './networkCollection'
 
 const STORAGE_KEY = 'starfield-outpost-network'
 
-export function loadNetwork(): OutpostNetwork | null {
+export function loadNetworkCollection(): NetworkCollection {
   const storedValue = localStorage.getItem(STORAGE_KEY)
-  if (!storedValue) return null
+  if (!storedValue) {
+    const collection = createDefaultNetworkCollection()
+    saveNetworkCollection(collection)
+    return collection
+  }
+
   try {
-    return migrateNetworkData(JSON.parse(storedValue))
+    const collection = migrateStoredNetworkData(JSON.parse(storedValue))
+    saveNetworkCollection(collection)
+    return collection
   } catch {
-    return null
+    const collection = createDefaultNetworkCollection()
+    saveNetworkCollection(collection)
+    return collection
   }
 }
 
-export function saveNetwork(network: OutpostNetwork): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(network))
+export function saveNetworkCollection(collection: NetworkCollection): void {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(collection))
 }

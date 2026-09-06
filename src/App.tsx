@@ -2,6 +2,7 @@ import { getBiomeButtonGroups } from './domain/bodyResourceAvailability'
 import {
   useEffect,
   useReducer,
+  useRef,
   useState,
 } from 'react'
 import type {
@@ -9,12 +10,21 @@ import type {
   BodyBiomeId,
 } from './domain/referenceData'
 import { loadReferenceData } from './data/referenceDataLoader'
-import { sampleNetwork } from './domain/sampleData'
-import { loadNetwork, saveNetwork } from './data/storage'
+import {
+  loadNetworkCollection,
+  saveNetworkCollection,
+} from './data/storage'
+import {
+  getActiveSavedNetwork,
+  updateActiveNetwork,
+} from './data/networkCollection'
 import { CharacterHeader } from './ui/components/CharacterHeader'
 import { OutpostDetails } from './ui/components/OutpostDetails'
 import { OutpostList } from './ui/components/OutpostList'
-import { createDefaultOutpost } from './domain/defaults'
+import {
+  createDefaultNetwork,
+  createDefaultOutpost,
+} from './domain/defaults'
 import {
   getCargoPadLimit,
   getOutpostLimit,
@@ -137,10 +147,13 @@ type StatusMessage =
     }
 
 function App() {
+  const [initialCollection] = useState(loadNetworkCollection)
+  const collectionRef = useRef(initialCollection)
+
   const [session, dispatchEditingSession] =
     useReducer(
       networkEditingSessionReducer,
-      loadNetwork() ?? sampleNetwork,
+      getActiveSavedNetwork(initialCollection).network,
       createNetworkEditingSession,
     )
 
@@ -215,9 +228,11 @@ function App() {
   const resources = referenceData?.resources ?? []
   const products = referenceData?.products ?? []
 
-  const [selectedOutpostId, setSelectedOutpostId] = useState(
-    network.outposts[0].id,
+  const [selectedOutpostId, setSelectedOutpostId] = useState<string | null>(
+    network.outposts[0]?.id ?? null,
   )
+
+  const selectedOutpostBeforeDelete = useRef<string | null>(null)
 
   /**
    * Identifies the currently loaded network for cargo-pad presentation state.
@@ -239,7 +254,7 @@ function App() {
    * deterministic fallback without waiting for a repair render.
    */
   const effectiveSelectedOutpostId =
-    selectedOutpost.id
+    selectedOutpost?.id ?? ''
 
   /**
    * Materials currently available at the selected outpost through active
@@ -248,10 +263,9 @@ function App() {
    * This is derived from network state rather than stored separately.
    */
   const availableCargoItems =
-    getAvailableItemsAtOutpost(
-      selectedOutpost.id,
-      network,
-    )
+    selectedOutpost
+      ? getAvailableItemsAtOutpost(selectedOutpost.id, network)
+      : []
 
   /**
    * Materials that already have a real source at the selected outpost.
@@ -260,10 +274,9 @@ function App() {
    * items that still need a source.
    */
   const actuallyAvailableItems =
-    getActuallyAvailableItemsAtOutpost(
-      selectedOutpost.id,
-      network,
-    )
+    selectedOutpost
+      ? getActuallyAvailableItemsAtOutpost(selectedOutpost.id, network)
+      : []
 
   /**
    * Current validation results for the recorded network.
@@ -347,7 +360,12 @@ function App() {
   }, [])
 
   useEffect(() => {
-    saveNetwork(network)
+    const updatedCollection = updateActiveNetwork(
+      collectionRef.current,
+      network,
+    )
+    collectionRef.current = updatedCollection
+    saveNetworkCollection(updatedCollection)
   }, [network])
 
   /**
@@ -1310,6 +1328,10 @@ function App() {
    * Moves the editing session backward by one undoable user action.
    */
   function undo() {
+    if (history.past.at(-1)?.label === 'Delete network') {
+      setSelectedOutpostId(selectedOutpostBeforeDelete.current)
+    }
+
     dispatchEditingSession({
       type: 'undo',
     })
@@ -1319,9 +1341,28 @@ function App() {
    * Moves the editing session forward by one previously undone user action.
    */
   function redo() {
+    if (history.future.at(-1)?.label === 'Delete network') {
+      setSelectedOutpostId(null)
+    }
+
     dispatchEditingSession({
       type: 'redo',
     })
+  }
+
+  /** Resets the active slot as one undoable operation after explicit consent. */
+  function deleteNetwork() {
+    if (!window.confirm('Delete this network and start again?')) {
+      return
+    }
+
+    selectedOutpostBeforeDelete.current = selectedOutpost?.id ?? null
+    applyUndoableNetworkChange(
+      'Delete network',
+      () => createDefaultNetwork(),
+    )
+    setSelectedOutpostId(null)
+    setCargoPadsPresentationKey((currentKey) => currentKey + 1)
   }
 
   /**
@@ -1732,6 +1773,8 @@ function App() {
       setSelectedOutpostId(
         importedNetwork.outposts[0].id,
       )
+    } else {
+      setSelectedOutpostId(null)
     }
 
     setCargoPadsPresentationKey(
@@ -1777,9 +1820,18 @@ function App() {
           <>
             <button
               type="button"
-              onClick={() =>
-                deleteOutpost(selectedOutpost.id)
-              }
+              onClick={deleteNetwork}
+            >
+              Delete Network
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                if (selectedOutpost) {
+                  deleteOutpost(selectedOutpost.id)
+                }
+              }}
               disabled={network.outposts.length <= 1}
             >
               Delete Outpost
@@ -1848,7 +1900,7 @@ function App() {
         }
 
         top={
-          <OutpostDetails
+          selectedOutpost ? <OutpostDetails
             outpost={selectedOutpost}
             systems={referenceData?.systems ?? []}
             bodies={referenceData?.bodies ?? []}
@@ -1857,18 +1909,18 @@ function App() {
             onSystemChange={updateSelectedOutpostSystem}
             onBodyChange={updateSelectedOutpostBody}
             onBiomeGroupToggle={toggleSelectedOutpostBiomeGroup}
-          />
+          /> : null
         }
 
         middle={
           <>
-            {selectedOutpost.bodyId && !selectedBodyResources && (
+            {selectedOutpost?.bodyId && !selectedBodyResources && (
               <p>
                 No resource reference data found for this body.
               </p>
             )}
 
-            {referenceData && <OutpostStatusMatrix
+            {referenceData && selectedOutpost && <OutpostStatusMatrix
               key={selectedOutpost.id}
               outpost={selectedOutpost}
               network={network}
@@ -1881,18 +1933,18 @@ function App() {
               onCommitManufacturing={commitManufacturing}
             />}
 
-            <PlannedSupplyEditor
+            {selectedOutpost && <PlannedSupplyEditor
               resources={resources}
               products={products}
               plannedSupply={selectedOutpost.plannedSupply ?? []}
               actuallyAvailableItems={actuallyAvailableItems}
               onTogglePlannedSupply={togglePlannedSupply}
-            />
+            />}
           </>
         }
 
         right={
-          <CargoPadsEditor
+          selectedOutpost ? <CargoPadsEditor
             key={cargoPadsPresentationKey}
             outpost={selectedOutpost}
             maxCargoPads={maxCargoPads}
@@ -1964,7 +2016,7 @@ function App() {
                 remoteCargoPadId,
               )
             }
-          />
+          /> : null
         }
       />
       
