@@ -524,6 +524,11 @@ and duplicate-name button grouping. It never rewrites persisted invalid IDs.
 resolution, and the route-to-distinct-resource aggregation boundary used by
 availability and provenance.
 
+`src/domain/powerEfficiency.ts` derives qualitative solar and wind efficiency
+from the selected body's raw base-generator output. The Outpost Details UI maps
+those buckets to compact labels. Efficiency is never copied into `OutpostNetwork`,
+browser storage, or Undo/Redo state; an unresolved body derives unknown values.
+
 Matrix rows use full route identity and merge persisted organic routes into
 reference-derived rows so invalid active state remains inspectable. Validators
 report unknown, foreign, or duplicate biome IDs; invalid active routes;

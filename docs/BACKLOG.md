@@ -123,8 +123,10 @@ Future planner/data work may include:
 - Test whether Ocean should remain selectable for coastline/boundary outposts or is operationally redundant.
 - recommended resource combinations by biome;
 - avoiding finicky biome-boundary sites by default;
-- future power-efficiency use of raw solar/wind values;
-- power planning and generator calculations;
+- power planning and generator calculations beyond the implemented qualitative
+  solar/wind indicators;
+- advanced generator output, generator counts, and planner preference logic;
+- future generator-output multiplier and rounding semantics;
 - plant/herbivore/carnivore source icons;
 - further biome-selector density or accessibility polish if usage requires it;
 - explanation UX for why a resource is unavailable, including occurrence provenance;

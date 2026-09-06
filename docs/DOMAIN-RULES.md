@@ -221,6 +221,20 @@ application does not silently erase or migrate them.
 A known selected body with `outpostAllowed === false` is a validation error.
 An unknown body ID remains an unknown-reference problem instead.
 
+Body reference data records `solarArrayPower` and `windTurbinePower` as the raw
+output of the base Solar Array and base Wind Turbine on that body. Both base
+generators have nominal output 6. The qualitative efficiency buckets are:
+
+```text
+Solar: 2 = very poor, 4 = poor, 6 = normal, 8 = good
+Wind:  0 = none,      3 = poor, 6 = normal, 10 = good
+```
+
+Wind output `0` specifically means no wind power. A null value for either field
+means unknown or not applicable and must not be inferred as a known bucket.
+The current UI exposes qualitative labels only; it does not calculate or show
+generator output, multipliers, percentages, counts, or power balance.
+
 If system and body are changed as part of one deliberate user operation, associated cleanup should remain part of the same Undo action.
 
 ---
@@ -1157,9 +1171,10 @@ mechanisms must be supported explicitly rather than weakening these rules.
 visible and continue to feed resource-level actual availability while validators
 report contradictions; the application does not repair them automatically.
 
-Nullable solar/wind power values remain raw reference data without efficiency or
-power-planning interpretation. Habitation rank supplies the minimum requirement
-described in section 14.
+Nullable solar/wind power values remain raw reference data. Their qualitative
+efficiency interpretation follows section 5 and does not constitute quantitative
+power planning. Habitation rank supplies the minimum requirement described in
+section 14.
 
 ## Outpost biome placement
 

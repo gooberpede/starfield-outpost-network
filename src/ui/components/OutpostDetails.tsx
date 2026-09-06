@@ -22,11 +22,21 @@ import type {
   Outpost,
 } from '../../domain/models'
 
+import {
+  getSolarEfficiency,
+  getWindEfficiency,
+} from '../../domain/powerEfficiency'
+
 import type {
   BodyBiomeId,
   PlanetaryBodyReference,
   StarSystemReference,
 } from '../../domain/referenceData'
+
+import {
+  getSolarEfficiencyLabel,
+  getWindEfficiencyLabel,
+} from '../powerEfficiencyPresentation'
 
 import './OutpostDetails.css'
 
@@ -112,6 +122,12 @@ export function OutpostDetails({
   const currentBody = bodies.find(
     (body) => body.id === outpost.bodyId,
   )
+  const solarEfficiencyLabel = getSolarEfficiencyLabel(
+    getSolarEfficiency(currentBody?.solarArrayPower ?? null),
+  )
+  const windEfficiencyLabel = getWindEfficiencyLabel(
+    getWindEfficiency(currentBody?.windTurbinePower ?? null),
+  )
   const availableBodies = eligibleBodies.filter(
     (body) => body.systemId === outpost.systemId,
   )
@@ -196,6 +212,16 @@ export function OutpostDetails({
             ))}
           </select>
         </label>
+
+        <div className="outpost-details__field outpost-details__efficiency">
+          <span>Solar</span>
+          <output>{solarEfficiencyLabel}</output>
+        </div>
+
+        <div className="outpost-details__field outpost-details__efficiency">
+          <span>Wind</span>
+          <output>{windEfficiencyLabel}</output>
+        </div>
 
         <div className="outpost-details__field outpost-details__biomes">
           <span>Biome</span>
