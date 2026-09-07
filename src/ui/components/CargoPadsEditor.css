@@ -91,6 +91,15 @@
   outline-offset: 2px;
 }
 
+.cargo-pads__actions button:disabled,
+.cargo-pads__move-controls button:disabled {
+  border-color: color-mix(in srgb, var(--ui-rule) 62%, var(--ui-surface));
+  color: var(--ui-text-muted);
+  background: color-mix(in srgb, var(--ui-surface) 68%, var(--ui-highlight));
+  cursor: not-allowed;
+  opacity: 0.68;
+}
+
 .cargo-pads__list {
   display: flex;
   flex-direction: column;
@@ -132,9 +141,9 @@
   right: 0;
   left: 0;
   z-index: 1;
-  height: 3px;
-  border-radius: 999px;
-  background: var(--accent);
+  height: 2px;
+  border-radius: 0;
+  background: var(--ui-structural-dark);
   content: '';
   pointer-events: none;
 }
@@ -160,15 +169,15 @@
 }
 
 .cargo-pads__drag-handle {
-  color: var(--text-h);
+  color: var(--ui-text);
   cursor: grab;
   user-select: none;
 }
 
 .cargo-pads__drag-handle:focus-visible {
-  border-radius: 3px;
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
+  border-radius: 0;
+  outline: 2px solid var(--ui-structural-dark);
+  outline-offset: 2px;
 }
 
 .cargo-pads__move-controls {

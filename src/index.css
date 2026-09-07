@@ -31,6 +31,7 @@
   --ui-text-muted: #6e7f7a;
   --ui-rule: #9fafaa;
   --ui-highlight: #f7faf8;
+  --ui-success: #3b8062;
   --ui-warning: #d4a23f;
   --ui-critical: #c75452;
   --ui-shell-shadow: rgba(42, 62, 58, 0.12);
@@ -140,6 +141,11 @@ h2 {
 }
 p {
   margin: 0;
+}
+
+.reference-data-empty {
+  color: var(--ui-text-muted);
+  font: 400 0.85rem/1.3 var(--ui-font);
 }
 
 code,

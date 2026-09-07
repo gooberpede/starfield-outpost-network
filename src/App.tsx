@@ -1920,7 +1920,7 @@ function App() {
         middle={
           <>
             {selectedOutpost?.bodyId && !selectedBodyResources && (
-              <p>
+              <p className="reference-data-empty">
                 No resource reference data found for this body.
               </p>
             )}

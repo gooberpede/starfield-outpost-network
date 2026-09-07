@@ -61,16 +61,16 @@
   line-height: 1.25;
 }
 
-.cargo-pad-editor__inter-system[aria-pressed='true'] {
-  border-color: var(--ui-structural-dark);
+.cargo-pad-editor__inter-system[aria-pressed='true'][data-fuelled='true'] {
+  border-color: var(--ui-success);
   color: var(--ui-highlight);
   background: var(--ui-structural-dark);
 }
 
-.cargo-pad-editor__inter-system[data-fuelled='true'] {
-  border-color: #3b9a63;
-  color: #247344;
-  background: color-mix(in srgb, #3b9a63 14%, var(--bg));
+.cargo-pad-editor__inter-system[aria-pressed='true'][data-fuelled='false'] {
+  border-color: var(--ui-warning);
+  color: var(--ui-highlight);
+  background: color-mix(in srgb, var(--ui-structural-dark) 84%, var(--ui-warning));
 }
 
 .cargo-exports {
