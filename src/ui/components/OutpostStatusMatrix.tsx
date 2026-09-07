@@ -35,6 +35,7 @@ interface Props {
   resources: Resource[]
   referenceData: ReferenceData
   products: Product[]
+  availableItems: CargoItem[]
   actuallyAvailableItems: CargoItem[]
   onToggleResource: (resourceId: ResourceId) => void
   onToggleActiveProduction: (route: ResourceProductionRoute) => void
@@ -67,6 +68,7 @@ function EditableState({ item, pressed, disabled = false, label, onClick }: {
 
 export function OutpostStatusMatrix({
   outpost, network, resources, referenceData, products, actuallyAvailableItems,
+  availableItems,
   onToggleResource, onToggleActiveProduction, onCommitManufacturing,
 }: Props) {
   const [draftManufacturing, setDraftManufacturing] = useState<ManufacturingEntry[] | null>(null)
@@ -79,6 +81,9 @@ export function OutpostStatusMatrix({
   const actuallyAvailableKeys = useMemo(() => new Set(
     actuallyAvailableItems.map(getCargoItemKey),
   ), [actuallyAvailableItems])
+  const availableKeys = useMemo(() => new Set(
+    availableItems.map(getCargoItemKey),
+  ), [availableItems])
   const exportedItemKeys = getRoutedExportedItemKeysAtOutpost(outpost.id, network)
   const importSummaries = getImportSummariesAtOutpost(outpost.id, network)
   const availableInorganicIds = new Set(getOutpostAvailableInorganicResourceIds(
@@ -232,12 +237,13 @@ export function OutpostStatusMatrix({
                 {draftManufacturing && <button type="button" aria-label={`Remove ${display.name}`}
                   title={`Remove ${display.name}`} onClick={() => removeDraftProduct(entry.productId)}>-</button>}
                 <span>{display.name}</span></div><div role="cell" /><div role="cell" />
-              <div role="cell"><ReadOnlyState item={display} lit /></div>
+              <div role="cell"><ReadOnlyState item={display}
+                lit={actuallyAvailableKeys.has(getCargoItemKey(cargoItem))} /></div>
               <div className="outpost-status-matrix__state-list" role="cell">
                 {recipesByProductId.get(entry.productId)?.ingredients.map((ingredient) => {
                   const item: CargoItem = ingredient.item
                   return <ReadOnlyState key={getCargoItemKey(item)} item={resolveItem(item)}
-                    lit={actuallyAvailableKeys.has(getCargoItemKey(item))} />
+                    lit={availableKeys.has(getCargoItemKey(item))} />
                 })}
               </div><div role="cell"><ReadOnlyState item={display}
                 lit={exportedItemKeys.has(getCargoItemKey(cargoItem))} /></div>

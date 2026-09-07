@@ -37,6 +37,7 @@ const RULE_ID = 'unresolved-cargo-export'
  */
 function validateUnresolvedCargoExports(
   network: Parameters<ValidationRule['validate']>[0],
+  referenceData: Parameters<ValidationRule['validate']>[1],
 ): ValidationIssue[] {
   const issues: ValidationIssue[] = []
 
@@ -48,6 +49,7 @@ function validateUnresolvedCargoExports(
             outpost.id,
             item,
             network,
+            referenceData,
           )
 
         const hasActualSource =

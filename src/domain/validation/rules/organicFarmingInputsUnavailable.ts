@@ -12,7 +12,7 @@ function validate(
   if (!referenceData) return []
   const issues: ValidationIssue[] = []
   for (const outpost of network.outposts) {
-    const available = new Set(getAvailableItemsAtOutpost(outpost.id, network)
+    const available = new Set(getAvailableItemsAtOutpost(outpost.id, network, referenceData)
       .map((item) => `${item.type}:${item.id}`))
     for (const route of outpost.activeProduction) {
       if (route.type !== 'organic' || !isProductionRouteAvailable(

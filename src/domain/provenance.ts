@@ -28,7 +28,9 @@ import type {
   CargoItem,
   OutpostNetwork,
 } from './models'
+import { getFeasibleManufacturedProductIdsAtOutpost } from './availability.ts'
 import { getActiveProducedResourceIds } from './productionRoutes.ts'
+import type { ReferenceData } from './referenceData.ts'
 
 /**
  * Describes the actual sources currently providing one item to an outpost.
@@ -57,9 +59,9 @@ function cargoItemsMatch(
 /**
  * Returns the actual sources currently providing one item to an outpost.
  *
- * Local extraction/farming and local manufacturing are deliberately treated
- * as the same source category because cargo configuration only needs to know
- * whether the item originates at this outpost.
+ * Local extraction/farming and feasible local manufacturing are deliberately
+ * treated as the same source category because cargo configuration only needs
+ * to know whether the item originates at this outpost.
  *
  * Remote suppliers are deduplicated by outpost. Multiple pads or links from
  * the same remote outpost therefore produce one remote source entry.
@@ -68,6 +70,7 @@ export function getItemProvenanceAtOutpost(
   outpostId: string,
   item: CargoItem,
   network: OutpostNetwork,
+  referenceData?: ReferenceData,
 ): ItemProvenance {
   const outpost =
     network.outposts.find(
@@ -92,9 +95,11 @@ export function getItemProvenanceAtOutpost(
 
   if (
     item.type === 'product' &&
-    outpost.manufacturing.some(
-      (entry) => entry.productId === item.id,
-    )
+    getFeasibleManufacturedProductIdsAtOutpost(
+      outpostId,
+      network,
+      referenceData,
+    ).has(item.id)
   ) {
     local = true
   }

@@ -13,9 +13,9 @@
  *   semantics: active local production, local manufacturing, inbound cargo,
  *   and Planned Supply may all satisfy a recipe input.
  *
- *   This rule checks only direct recipe inputs. It deliberately does not
- *   recursively prove that locally manufactured intermediate products are
- *   themselves feasible; each manufacturing entry is validated separately.
+ *   This rule reports only direct missing inputs for each entry. The shared
+ *   availability resolver determines whether locally manufactured
+ *   intermediates are feasible, avoiding recursive duplicate warnings.
  *
  *   Recipe quantities and Research Methods adjustments are outside the
  *   scope of this validator because this rule asks only whether an input
@@ -24,7 +24,7 @@
  * Change this file when:
  *   - manufacturing availability semantics change;
  *   - recipe-reference structure changes;
- *   - recursive recipe feasibility is introduced;
+ *   - recursive recipe feasibility changes;
  *   - quantity/throughput validation is added.
  */
 
@@ -79,6 +79,7 @@ function validateManufacturingInputsUnavailable(
         getAvailableItemsAtOutpost(
           outpost.id,
           network,
+          referenceData,
         ).map(getItemKey),
       )
 
@@ -104,9 +105,8 @@ function validateManufacturingInputsUnavailable(
         )
 
       /*
-       * Missing recipe reference data is not treated as a missing material
-       * source. A separate reference-data integrity check can own that case
-       * later if needed.
+       * Missing recipe reference data is not assumed feasible. The separate
+       * reference-data integrity validator owns reporting that data problem.
        */
       if (!recipe) {
         continue

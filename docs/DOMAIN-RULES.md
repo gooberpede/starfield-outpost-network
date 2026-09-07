@@ -293,7 +293,17 @@ Each manufacturing entry contains:
 }
 ```
 
-A manufacturing entry means the product itself is actually available at that outpost.
+A manufacturing entry records configured local fabrication. Its product is
+actually available only when every direct recipe input is effectively
+available. Effective inputs may come from active local production, inbound
+cargo, Planned Supply, or another feasible local manufacturing entry.
+
+Manufacturing feasibility is resolved across multi-step local chains. Cycles
+without an effective seed remain unavailable, and missing recipe reference
+data never makes a configured product feasible by assumption.
+
+A feasible manufactured output is a real local product even when one or more
+of its inputs are supplied virtually through Planned Supply.
 
 The product recipe is not stored in the outpost.
 
@@ -671,7 +681,7 @@ An item is **actually available** at an outpost when it has a real recorded sour
 Current actual sources are:
 
 1. active local production;
-2. active manufacturing;
+2. feasible local manufacturing whose recipe inputs are effectively available;
 3. inbound cargo from linked remote pads.
 
 In notation:
@@ -742,6 +752,11 @@ A Planned Supply entry should therefore not be used to claim that:
 - the item is physically present.
 
 It simply extends the selectable planning set.
+
+For prerequisite resolution, however, Planned Supply participates fully as
+effective supply. It may satisfy manufacturing inputs and thereby enable
+multi-step local manufacturing chains. This does not make the Planned Supply
+item itself actual: only a feasible manufactured output is a real local source.
 
 ---
 
@@ -1114,20 +1129,14 @@ Do not currently reject a network merely because its topology contains a cycle u
 
 # 52. Recursive manufacturing feasibility
 
-## Deferred
+Manufacturing feasibility uses a fixed-point calculation. It begins with
+active local production, inbound cargo, and Planned Supply, then repeatedly
+adds configured manufactured products whose complete direct recipes are in
+that effective set. Resolution stops when a pass adds no products.
 
-The application currently validates immediate manufacturing input availability.
-
-A more advanced planner may eventually reason recursively through recipe chains.
-
-That future capability may distinguish:
-
-- direct availability;
-- craftable availability;
-- recursively satisfiable networks;
-- impossible recipe chains.
-
-Do not introduce recursive planning semantics into ordinary availability without an explicit design decision.
+This supports local manufacturing chains without making unseeded recipe cycles
+available. The calculation is qualitative and does not imply throughput,
+stock, scheduling, or quantity sufficiency.
 
 ---
 

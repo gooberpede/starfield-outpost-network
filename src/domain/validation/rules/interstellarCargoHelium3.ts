@@ -55,10 +55,12 @@ const HELIUM_3_RESOURCE_ID =
 function hasAvailableHelium3(
   outpostId: string,
   network: Parameters<ValidationRule['validate']>[0],
+  referenceData: Parameters<ValidationRule['validate']>[1],
 ): boolean {
   return getAvailableItemsAtOutpost(
     outpostId,
     network,
+    referenceData,
   ).some(
     (item) =>
       item.type === 'resource' &&
@@ -76,6 +78,7 @@ function validateSendingEndpoint(
   outpost: Outpost,
   cargoLinkId: string,
   network: Parameters<ValidationRule['validate']>[0],
+  referenceData: Parameters<ValidationRule['validate']>[1],
 ): ValidationIssue | null {
   if (cargoPad.outboundItems.length === 0) {
     return null
@@ -85,6 +88,7 @@ function validateSendingEndpoint(
     hasAvailableHelium3(
       outpost.id,
       network,
+      referenceData,
     )
   ) {
     return null
@@ -108,6 +112,7 @@ function validateSendingEndpoint(
  */
 function validateInterstellarCargoHelium3(
   network: Parameters<ValidationRule['validate']>[0],
+  referenceData: Parameters<ValidationRule['validate']>[1],
 ): ValidationIssue[] {
   const issues: ValidationIssue[] = []
 
@@ -169,6 +174,7 @@ function validateInterstellarCargoHelium3(
         outpostA,
         link.id,
         network,
+        referenceData,
       )
 
     if (issueA) {
@@ -182,6 +188,7 @@ function validateInterstellarCargoHelium3(
         outpostB,
         link.id,
         network,
+        referenceData,
       )
 
     if (issueB) {

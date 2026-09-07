@@ -107,9 +107,6 @@ No explicit local-storage plumbing model is currently planned unless future plan
 
 Potential future work:
 
-- recursive manufactured-product feasibility;
-- multi-stage dependency resolution;
-- distinction between currently available ingredients and theoretically satisfiable upstream inputs;
 - planner-facing explanation of why a recipe is or is not feasible.
 
 Keep tracker behaviour tolerant of incomplete networks; do not turn advisory feasibility into hard enforcement without an explicit product decision.

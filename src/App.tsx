@@ -32,6 +32,7 @@ import {
 import {
   getActuallyAvailableItemsAtOutpost,
   getAvailableItemsAtOutpost,
+  retireFulfilledPlannedSupply,
 } from './domain/availability'
 import { OutpostStatusMatrix } from './ui/components/OutpostStatusMatrix'
 import { PlannedSupplyEditor } from './ui/components/PlannedSupplyEditor'
@@ -71,65 +72,6 @@ import {
   toggleOutpostBiomeGroup,
   toggleOutpostProductionRoute,
 } from './domain/outpostEdits'
-
-/**
- * Removes Planned Supply entries that have acquired a real source.
- *
- * Planned Supply represents unresolved supply intent only. Once active local
- * production, manufacturing, or inbound cargo actually provides an item, the
- * planning placeholder has fulfilled its purpose and is retired.
- *
- * Downstream configuration such as cargo-pad exports is deliberately left
- * untouched.
- */
-function retireFulfilledPlannedSupply(
-  network: OutpostNetwork,
-): OutpostNetwork {
-  const outposts = network.outposts.map((outpost) => {
-    const actuallyAvailableItems =
-      getActuallyAvailableItemsAtOutpost(
-        outpost.id,
-        network,
-      )
-
-    const availableItemKeys =
-      new Set(
-        actuallyAvailableItems.map(
-          (item) => `${item.type}:${item.id}`,
-        ),
-      )
-
-    const plannedSupply =
-      outpost.plannedSupply.filter(
-        (item) =>
-          !availableItemKeys.has(
-            `${item.type}:${item.id}`,
-          ),
-      )
-
-    /*
-     * Preserve the original outpost object when nothing changed. Apart from
-     * avoiding unnecessary object creation, this makes it clear that the
-     * reconciliation modifies only fulfilled planning placeholders.
-     */
-    if (
-      plannedSupply.length ===
-      outpost.plannedSupply.length
-    ) {
-      return outpost
-    }
-
-    return {
-      ...outpost,
-      plannedSupply,
-    }
-  })
-
-  return {
-    ...network,
-    outposts,
-  }
-}
 
 /**
  * Transient application feedback shown in the fixed status bar.
@@ -272,7 +214,11 @@ function App() {
    */
   const availableCargoItems =
     selectedOutpost
-      ? getAvailableItemsAtOutpost(selectedOutpost.id, network)
+      ? getAvailableItemsAtOutpost(
+          selectedOutpost.id,
+          network,
+          referenceData ?? undefined,
+        )
       : []
 
   /**
@@ -283,7 +229,11 @@ function App() {
    */
   const actuallyAvailableItems =
     selectedOutpost
-      ? getActuallyAvailableItemsAtOutpost(selectedOutpost.id, network)
+      ? getActuallyAvailableItemsAtOutpost(
+          selectedOutpost.id,
+          network,
+          referenceData ?? undefined,
+        )
       : []
 
   /**
@@ -956,7 +906,7 @@ function App() {
                   )
                 ),
             ),
-        }),
+        }, referenceData ?? undefined),
     )
   }
 
@@ -1158,7 +1108,7 @@ function App() {
             ...remainingLinks,
             newLink,
           ],
-        })
+        }, referenceData ?? undefined)
       },
     )
   }
@@ -1266,7 +1216,7 @@ function App() {
                 }
               },
             ),
-        }),
+        }, referenceData ?? undefined),
     )
   }
 
@@ -1629,6 +1579,7 @@ function App() {
           ? updatedNetwork
           : retireFulfilledPlannedSupply(
               updatedNetwork,
+              referenceData ?? undefined,
             )
       },
     )
@@ -1666,7 +1617,7 @@ function App() {
                 }
               : outpost,
           ),
-        }),
+        }, referenceData ?? undefined),
     )
   }
 
@@ -1706,7 +1657,7 @@ function App() {
       isCurrentlyPlanned
         ? `Remove Planned Supply ${itemName}`
         : `Add Planned Supply ${itemName}`,
-      (currentNetwork) => ({
+      (currentNetwork) => retireFulfilledPlannedSupply({
         ...currentNetwork,
 
         outposts:
@@ -1739,7 +1690,7 @@ function App() {
               }
             },
           ),
-      }),
+      }, referenceData ?? undefined),
     )
   }
 
@@ -1932,6 +1883,7 @@ function App() {
               resources={resources}
               referenceData={referenceData}
               products={products}
+              availableItems={availableCargoItems}
               actuallyAvailableItems={actuallyAvailableItems}
               onToggleResource={toggleLocalResource}
               onToggleActiveProduction={toggleActiveProduction}

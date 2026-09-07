@@ -335,8 +335,15 @@ The application distinguishes between:
 Items which currently have a real source at an outpost, such as:
 
 - active local resource production;
-- manufacturing;
+- feasible local manufacturing;
 - inbound cargo.
+
+Manufacturing feasibility is resolved from recipe reference data with a
+fixed-point pass. The resolver begins with active local production, inbound
+cargo, and Planned Supply as effective prerequisites, then repeatedly adds
+configured products whose inputs are all effective. Manufactured outputs are
+actual local supply even when Planned Supply satisfies an input; the Planned
+Supply placeholder itself remains virtual.
 
 ## Planned availability
 
@@ -390,6 +397,7 @@ plannedSupply: CargoItem[]
 Its current semantics are:
 
 - an item may be added when the user intends the outpost eventually to receive or produce it;
+- it participates fully in downstream prerequisite resolution as virtual supply;
 - once that item acquires an actual source, the corresponding Planned Supply entry may be retired automatically;
 - if the actual source later disappears, the Planned Supply item is **not automatically recreated**;
 - Undo can restore a previously retired Planned Supply item when that retirement occurred as part of the action being undone.
