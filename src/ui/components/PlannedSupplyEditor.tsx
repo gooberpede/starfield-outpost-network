@@ -236,7 +236,6 @@ export function PlannedSupplyEditor({
   function renderCompactItem(
     item: CatalogueItem,
     type: CargoItem['type'],
-    startsGroup: boolean,
   ) {
     const cargoItem: CargoItem = {
       type,
@@ -245,13 +244,7 @@ export function PlannedSupplyEditor({
 
     return (
       <button
-        className={
-          `planned-supply__item planned-supply__compact-item${
-            startsGroup
-              ? ' planned-supply__compact-item--group-start'
-              : ''
-          }`
-        }
+        className="planned-supply__item planned-supply__compact-item"
         data-state="planned"
         key={`${type}:${item.id}`}
         type="button"
@@ -408,84 +401,91 @@ export function PlannedSupplyEditor({
 
       {!isExpanded && (
         compactItemCount === 0
-          ? <p>No planned supply.</p>
+          ? <p className="planned-supply__empty">No planned supply.</p>
           : (
               <div className="planned-supply__compact-list">
-                {compactGroups.flatMap((group) =>
-                  group.items.map((item, itemIndex) =>
-                    renderCompactItem(
-                      item,
-                      group.type,
-                      itemIndex === 0,
-                    ),
-                  ),
-                )}
+                {compactGroups
+                  .filter((group) => group.items.length > 0)
+                  .map((group) => (
+                    <div
+                      className="planned-supply__compact-group"
+                      key={`${group.type}:${group.items[0].id}`}
+                    >
+                      {group.items.map((item) =>
+                        renderCompactItem(item, group.type),
+                      )}
+                    </div>
+                  ))}
               </div>
             )
       )}
 
       {isExpanded && (
-        <>
-      <section className="planned-supply__section">
-        <h3>Inorganic Resources</h3>
+        <div className="planned-supply__catalogue">
+          <section className="planned-supply__section">
+            <h3>Inorganic Resources</h3>
 
-        <div className="planned-supply__overflow">
-          <div className="planned-supply__inorganic">
-            {specialInorganic.length > 0 && (
-              <div className="planned-supply__special-grid">
-                {specialInorganic.map((resource) =>
-                  renderItemControl(resource, 'resource'),
+            <div className="planned-supply__overflow">
+              <div className="planned-supply__inorganic">
+                {specialInorganic.length > 0 && (
+                  <div className="planned-supply__special-strip">
+                    <div className="planned-supply__special-grid">
+                      {specialInorganic.map((resource) =>
+                        renderItemControl(resource, 'resource'),
+                      )}
+                    </div>
+                  </div>
                 )}
-              </div>
-            )}
 
-            <div className="planned-supply__families">
-              {inorganicFamilies.map((family) => (
-                <div
-                  className="planned-supply__family"
-                  key={family.root.id}
-                  style={{
-                    gridTemplateColumns:
-                      `repeat(${family.columnCount * 2}, calc(var(--planned-supply-cell-pitch) / 2))`,
-                  }}
-                >
-                  {family.resources.map(({ resource, columnStart }) =>
-                    renderItemControl(
-                      resource,
-                      'resource',
-                      {
-                        gridColumn: `${columnStart} / span 2`,
-                        gridRow: rarityPosition.get(resource.rarity),
-                      },
-                    ),
-                  )}
+                <div className="planned-supply__families">
+                  {inorganicFamilies.map((family) => (
+                    <div
+                      className="planned-supply__family"
+                      key={family.root.id}
+                      style={{
+                        gridTemplateColumns:
+                          `repeat(${family.columnCount * 2}, calc(var(--planned-supply-cell-pitch) / 2))`,
+                      }}
+                    >
+                      {family.resources.map(({ resource, columnStart }) =>
+                        renderItemControl(
+                          resource,
+                          'resource',
+                          {
+                            gridColumn: `${columnStart} / span 2`,
+                            gridRow: rarityPosition.get(resource.rarity),
+                          },
+                        ),
+                      )}
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
+          </section>
+
+          <div className="planned-supply__catalogue-pair">
+            <section className="planned-supply__section">
+              <h3>Organic Resources</h3>
+
+              {renderFlatRarityGrid(
+                organicResources,
+                'resource',
+                'planned-supply__organic-grid',
+              )}
+            </section>
+
+            <section className="planned-supply__section">
+              <h3>Manufactured Products</h3>
+
+              {renderFlatRarityGrid(
+                products,
+                'product',
+                'planned-supply__product-grid',
+              )}
+            </section>
           </div>
         </div>
-      </section>
-
-      <section className="planned-supply__section">
-        <h3>Organic Resources</h3>
-
-        {renderFlatRarityGrid(
-          organicResources,
-          'resource',
-          'planned-supply__organic-grid',
-        )}
-      </section>
-
-      <section className="planned-supply__section">
-        <h3>Manufactured Products</h3>
-
-        {renderFlatRarityGrid(
-          products,
-          'product',
-          'planned-supply__product-grid',
-        )}
-      </section>
-        </>
       )}
     </section>
   )
