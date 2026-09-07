@@ -30,6 +30,11 @@ Keep this file focused on work that is genuinely deferred. Current implemented b
 - Consider independent scrolling for:
   - Outpost navigation;
   - Outpost Details.
+- Investigate user-controlled width allocation among the Navigation, main
+  outpost/matrix workspace, and Cargo Pads regions. A future design should
+  establish sensible defaults and minimum widths, prevent the Navigation and
+  Cargo Pads panes from becoming unusably narrow, and decide whether widths
+  should persist and whether a reset-to-default action would be useful.
 - Revisit selected-outpost context in sticky/header UI only as part of a broader workspace review.
 - Preserve the middle-column status matrix's scoped horizontal overflow during any broader workspace scrolling review.
 - Restore sticky vertical behaviour for the status-matrix column header when the enclosing Outpost Details scrolling model supports it.
@@ -43,7 +48,6 @@ The shared resource/manufacturing/import status matrix now establishes the
 upper Outpost Details control grammar. Remaining work should be handled in
 focused batches and may include:
 
-- general spacing, sizing, and alignment polish after the major information architecture has settled;
 - throughput-oriented fabricator quantity UI if quantitative modelling is adopted.
 
 ---
@@ -52,16 +56,31 @@ focused batches and may include:
 
 - Revisit drag auto-scroll at the top and bottom of the independent Cargo Pads
   list if the current native scrolling behavior proves insufficient.
+- Improve compact Cargo Pad summary width allocation so remote outpost names
+  can use genuinely available horizontal space before ellipsizing, while
+  preserving the established compact two-row summary semantics.
 
 ### Cargo Pad labels
 
-Revisit whether `CargoPad.label` should remain persisted or be derived from stable array order.
+Revisit whether `CargoPad.label` should remain persisted or be derived. Visible
+Cargo Pad ordinals are now derived from current pad order and are
+presentation-only; stable identity remains `cargoPadId`. The persisted
+`CargoPad.label` is no longer the primary visible locator.
 
-Do not change this until migration and downstream display consequences are considered explicitly.
+Do not persist the ordinal. Do not change the stored label until migration and
+downstream display consequences are considered explicitly.
 
 ---
 
 ## Validation
+
+- Add deliberate interactive issue navigation. Selecting an issue may navigate
+  to its outpost and, where practical, expose or focus relevant local context
+  such as a Cargo Pad, Planned Supply item, manufacturing row, or
+  resource/biome context. Existing issue metadata already carries stable IDs
+  that can support this work. Keep issue rows non-interactive until the
+  behaviour is designed and implemented; exact scrolling and focus mechanics
+  remain open.
 
 ### Possible future validation
 
@@ -70,9 +89,15 @@ Consider, when supported by domain evidence:
 - circular cargo-flow information;
 - throughput-related warnings;
 - Helium-3 throughput constraints;
-- recursive recipe feasibility;
 - biome plausibility;
-- organic-resource prerequisites;
+- unresolved Planned Supply informational issues:
+  - emit one Info-level issue for each unresolved Planned Supply item at an
+    outpost;
+  - provide a quiet checklist of remaining virtual dependencies or loose ends,
+    below warnings and errors in the existing severity ordering;
+  - avoid emitting one issue for every downstream consequence;
+  - `planned-supply-unresolved` is a likely rule name, but the eventual rule may
+    use another stable identifier.
 - duplicate object-ID checks if stable-ID integrity becomes a practical risk.
 
 ---
@@ -158,18 +183,57 @@ Current behaviour remains whole-network immutable snapshots with one deliberate 
 
 ## Status bar
 
-The current status bar supports validation/reference information, transient action feedback, persistent errors, and transient interaction hints.
+The current status bar supports validation, transient action feedback,
+persistent errors, and transient interaction hints. Reference-data diagnostics
+are intentionally hidden during stable operation; the underlying diagnostic
+functionality remains available to restore for maintenance or debugging.
 
 Future review should consider the overall information hierarchy for:
 
 - validation;
-- reference-data status;
 - application/version information if added;
 - transient interaction hints;
 - action success feedback;
-- persistent errors.
+- persistent errors;
+- reference diagnostics when intentionally re-enabled for maintenance or
+  debugging.
 
 Do not fold this broader status-bar review into unrelated feature work.
+
+---
+
+## Help, guidance, and localization
+
+### User guide and concept guidance
+
+- Add deferred user guidance for concepts that are intentionally denser than
+  the interface can fully explain. In particular:
+  - explain that Planned Supply represents virtual supply, allowing users to
+    model the intended completed network while progressively constructing it
+    through incomplete intermediate states;
+  - explain that upstream outposts, resources, or products need not be complete
+    before downstream fabricators and logistics are laid out as though those
+    inputs already exist;
+  - explain that a Planned Supply entry retires automatically when the actual
+    item replaces the virtual item;
+  - document dense Resource Matrix semantics such as `Present`, `Producing`,
+    `Inputs`, and `Logistics`, especially that `Logistics` means actually
+    configured on a routed export rather than merely available to export.
+- At very low priority, consider lightweight explanatory affordances such as
+  tooltips, compact help text, or discoverable definitions for dense Matrix
+  column semantics, and only if real usage shows recurring confusion. Do not
+  assume a heavyweight help system is needed.
+
+### Localization groundwork
+
+- At very low priority / far future, introduce a lightweight user-facing
+  string-resolution layer so additional languages could be added without
+  rewriting components. English should remain the default, fallback, and only
+  initial language. This is infrastructure groundwork, not translation work;
+  it does not currently require a language selector, translation-management
+  UI, runtime translation downloads, non-English translation files, or
+  pluralization and locale-sensitive number/date handling beyond demonstrated
+  need.
 
 ---
 
