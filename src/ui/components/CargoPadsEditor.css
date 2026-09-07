@@ -108,13 +108,13 @@
 
 .cargo-pads__item {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: 1.25rem minmax(0, 1fr);
+  gap: 0.35rem;
   align-items: start;
 }
 
 .cargo-pads__list--reshuffling .cargo-pads__item {
   grid-template-columns: 1.25rem minmax(0, 1fr) 2rem;
-  gap: 0.35rem;
 }
 
 .cargo-pads__list--reshuffling {
@@ -143,12 +143,23 @@
   height: 0;
 }
 
+.cargo-pads__ordinal,
 .cargo-pads__drag-handle {
   display: inline-flex;
   width: 1.25rem;
-  min-height: 2rem;
+  height: 2.35rem;
   align-items: center;
   justify-content: center;
+}
+
+.cargo-pads__ordinal {
+  color: var(--ui-text-muted);
+  font: 400 0.7rem/1 var(--ui-font-mono);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.cargo-pads__drag-handle {
   color: var(--text-h);
   cursor: grab;
   user-select: none;

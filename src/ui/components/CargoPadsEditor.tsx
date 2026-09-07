@@ -724,7 +724,7 @@ export function CargoPadsEditor({
             }`}
             role="listitem"
           >
-            {isReshuffling && (
+            {isReshuffling ? (
               <span
                 className="cargo-pads__drag-handle"
                 draggable
@@ -735,6 +735,13 @@ export function CargoPadsEditor({
                 tabIndex={0}
               >
                 ⠿
+              </span>
+            ) : (
+              <span
+                className="cargo-pads__ordinal"
+                aria-hidden="true"
+              >
+                {index + 1}
               </span>
             )}
 
