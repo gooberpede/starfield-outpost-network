@@ -646,6 +646,11 @@ Do not allow one long label to distort an otherwise structured layout.
 
 ## Preserve semantic layout
 
+Compact technical surfaces with internal overflow should use the reusable thin,
+low-contrast scrollbar treatment where browser CSS supports it. Native fallback
+is acceptable; do not replace native scrolling with JavaScript merely for visual
+consistency.
+
 When a meaningful horizontal layout is too wide, prefer scoped horizontal overflow over destructive wrapping.
 
 Do not:
@@ -782,6 +787,18 @@ Validation wording should help distinguish:
 - invalid or contradictory network state.
 
 Broader wording refinements belong in a dedicated validation/UX review.
+
+The Validation control opens a compact, anchored, non-modal diagnostic panel.
+It remains open during workspace interaction and closes only through the same
+control. Issues are ordered by severity and presented as flat, separated rows
+with a context locator, readable message, and restrained severity rail. The
+internally scrolling issue list keeps its header visible and limits the panel
+to roughly five ordinary rows. Rows are non-interactive until issue navigation
+is implemented deliberately.
+
+Cargo-pad validation context uses `Pad {n}` derived from current outpost pad
+order. The ordinal is presentation-only; the stable cargo-pad ID remains the
+issue locator and raw-ID fallback.
 
 ---
 

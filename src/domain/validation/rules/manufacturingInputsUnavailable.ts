@@ -30,20 +30,20 @@
 
 import {
   getAvailableItemsAtOutpost,
-} from '../../availability'
+} from '../../availability.ts'
 
 import type {
   CargoItem,
-} from '../../models'
+} from '../../models.ts'
 
 import type {
   RecipeIngredientItemReference,
-} from '../../referenceData'
+} from '../../referenceData.ts'
 
 import type {
   ValidationIssue,
   ValidationRule,
-} from '../types'
+} from '../types.ts'
 
 const RULE_ID =
   'manufacturing-inputs-unavailable'
@@ -121,13 +121,23 @@ function validateManufacturingInputsUnavailable(
           continue
         }
 
+        const inputName =
+          ingredient.item.type === 'resource'
+            ? referenceData.resources.find(
+                (entry) => entry.id === ingredient.item.id,
+              )?.name ?? ingredient.item.id
+            : referenceData.products.find(
+                (entry) => entry.id === ingredient.item.id,
+              )?.name ?? ingredient.item.id
+
         issues.push({
           ruleId: RULE_ID,
           category: 'operational',
           severity: 'warning',
           message:
-            `${product.name} requires this recipe input, but it is not available at the outpost.`,
+            `${product.name} requires ${inputName}, but ${inputName} is not available at this outpost.`,
           outpostId: outpost.id,
+          productId: manufacturingEntry.productId,
           cargoItem: {
             type: ingredient.item.type,
             id: ingredient.item.id,

@@ -30,119 +30,28 @@ import type {
 } from '../../domain/models'
 
 import type {
-  ProductReference,
-  ResourceReference,
+  ReferenceData,
 } from '../../domain/referenceData'
 
 import type {
   ValidationIssue,
 } from '../../domain/validation/types'
 
+import {
+  getValidationIssuePresentation,
+  sortValidationIssues,
+} from '../validationPresentation'
+
 interface ValidationSummaryProps {
   issues: ValidationIssue[]
   outposts: Outpost[]
-  resources: ResourceReference[]
-  products: ProductReference[]
-}
-
-/**
- * Resolves the stored CargoItem ID in a validation issue to its current
- * reference-data display name.
- *
- * Broken or stale references fall back to their raw ID so validation itself
- * remains useful even when reference data is incomplete.
- */
-function getItemName(
-  issue: ValidationIssue,
-  resources: ResourceReference[],
-  products: ProductReference[],
-): string | null {
-  if (!issue.cargoItem) {
-    return null
-  }
-
-  if (issue.cargoItem.type === 'resource') {
-    return (
-      resources.find(
-        (resource) =>
-          resource.id === issue.cargoItem?.id,
-      )?.name ??
-      issue.cargoItem.id
-    )
-  }
-
-  return (
-    products.find(
-      (product) =>
-        product.id === issue.cargoItem?.id,
-    )?.name ??
-    issue.cargoItem.id
-  )
-}
-
-/**
- * Builds the human-readable location attached to one validation issue.
- *
- * The domain issue stores stable IDs; display-name resolution belongs here
- * in the presentation layer.
- */
-function getIssueContext(
-  issue: ValidationIssue,
-  outposts: Outpost[],
-  resources: ResourceReference[],
-  products: ProductReference[],
-): string | null {
-  const parts: string[] = []
-
-  const outpost =
-    issue.outpostId
-      ? outposts.find(
-          (candidate) =>
-            candidate.id === issue.outpostId,
-        )
-      : undefined
-
-  if (issue.outpostId) {
-    parts.push(
-      outpost?.name ??
-      issue.outpostId,
-    )
-  }
-
-  if (issue.cargoPadId) {
-    const cargoPad =
-      outpost?.cargoPads.find(
-        (candidate) =>
-          candidate.id === issue.cargoPadId,
-      )
-
-    parts.push(
-      cargoPad?.label ??
-      issue.cargoPadId,
-    )
-  }
-
-  const itemName =
-    getItemName(
-      issue,
-      resources,
-      products,
-    )
-
-  if (itemName) {
-    parts.push(itemName)
-  }
-
-  return parts.length > 0
-    ? parts.join(' · ')
-    : null
+  referenceData: ReferenceData | null
 }
 
 export function ValidationSummary({
   issues,
   outposts,
-  resources,
-  products,
+  referenceData,
 }: ValidationSummaryProps) {
   const [isOpen, setIsOpen] =
     useState(false)
@@ -165,6 +74,8 @@ export function ValidationSummary({
         issue.severity === 'info',
     ).length
 
+  const sortedIssues = sortValidationIssues(issues)
+
   return (
     <div className="validation-summary">
       <button
@@ -182,11 +93,9 @@ export function ValidationSummary({
 
       {isOpen && (
         <div className="validation-summary-panel">
-          <div>
+          <div className="validation-summary-panel__header">
             <strong>Validation</strong>
-
             <span>
-              {' '}
               {errorCount} errors ·{' '}
               {warningCount} warnings ·{' '}
               {infoCount} info
@@ -194,32 +103,34 @@ export function ValidationSummary({
           </div>
 
           {issues.length === 0 ? (
-            <p>No validation issues.</p>
+            <p className="validation-summary-panel__empty">No validation issues.</p>
           ) : (
-            <ul>
-              {issues.map((issue, index) => {
-                const context =
-                  getIssueContext(
-                    issue,
-                    outposts,
-                    resources,
-                    products,
-                  )
+            <ul className="validation-summary-panel__issues technical-scrollbar">
+              {sortedIssues.map((issue, index) => {
+                const presentation = getValidationIssuePresentation(
+                  issue,
+                  outposts,
+                  referenceData,
+                )
 
                 return (
                   <li
                     key={`${issue.ruleId}-${index}`}
+                    className={`validation-summary-panel__issue validation-summary-panel__issue--${issue.severity}`}
+                    aria-label={`${issue.severity} issue`}
                   >
-                    <strong>
-                      {issue.severity}
-                    </strong>
-                    : {issue.message}
-
-                    {context && (
-                      <>
-                        {' '}
-                        — {context}
-                      </>
+                    {presentation.context && (
+                      <div className="validation-summary-panel__context">
+                        {presentation.context}
+                      </div>
+                    )}
+                    <div className="validation-summary-panel__message">
+                      {presentation.message}
+                    </div>
+                    {presentation.remediation && (
+                      <div className="validation-summary-panel__remediation">
+                        {presentation.remediation}
+                      </div>
                     )}
                   </li>
                 )

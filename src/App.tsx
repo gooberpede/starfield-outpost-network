@@ -2032,8 +2032,7 @@ function App() {
             <ValidationSummary
               issues={validationIssues}
               outposts={network.outposts}
-              resources={resources}
-              products={products}
+              referenceData={referenceData}
             />
 
             {referenceData && (

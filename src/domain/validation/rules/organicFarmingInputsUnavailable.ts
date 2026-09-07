@@ -22,9 +22,12 @@ function validate(
         ?? route.speciesId
       for (const input of getOrganicRouteInputs(referenceData, outpost.bodyId, route)) {
         if (available.has(`resource:${input.resourceId}`)) continue
+        const inputName = referenceData.resources.find(
+          (entry) => entry.id === input.resourceId,
+        )?.name ?? input.resourceId
         issues.push({
           ruleId: RULE_ID, category: 'operational', severity: 'warning',
-          message: `${speciesName} requires this farming input, but it is not available at the outpost.`,
+          message: `${speciesName} requires ${inputName}, but ${inputName} is not available at this outpost.`,
           outpostId: outpost.id, speciesId: route.speciesId,
           cargoItem: { type: 'resource', id: input.resourceId },
         })
