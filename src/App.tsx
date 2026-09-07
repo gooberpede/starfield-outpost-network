@@ -147,6 +147,10 @@ type StatusMessage =
       text: string
     }
 
+// Reference-data diagnostics are hidden while the current catalogue is stable.
+// Re-enable when reference-data development or debugging resumes.
+const SHOW_REFERENCE_DATA_STATUS = false
+
 function App() {
   const [initialCollection] = useState(loadNetworkCollection)
   const collectionRef = useRef(initialCollection)
@@ -2035,24 +2039,26 @@ function App() {
               referenceData={referenceData}
             />
 
-            {referenceData && (
-              <span>
-                Reference data loaded:{' '}
-                {referenceData.systems.length} systems,{' '}
-                {referenceData.bodies.length} bodies,{' '}
-                {referenceData.resources.length} resources,{' '}
-                {referenceData.products.length} products.
-              </span>
+            {SHOW_REFERENCE_DATA_STATUS && (
+              <>
+                {referenceData && (
+                  <span>
+                    Reference data loaded:{' '}
+                    {referenceData.systems.length} systems,{' '}
+                    {referenceData.bodies.length} bodies,{' '}
+                    {referenceData.resources.length} resources,{' '}
+                    {referenceData.products.length} products.
+                  </span>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => void reloadReferenceData()}
+                >
+                  Reload Reference Data
+                </button>
+              </>
             )}
-
-            {' '}
-
-            <button
-              type="button"
-              onClick={() => void reloadReferenceData()}
-            >
-              Reload Reference Data
-            </button>
           </>
         }
         message={
