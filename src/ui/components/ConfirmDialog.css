@@ -1,0 +1,108 @@
+/**
+ * ConfirmDialog.css
+ *
+ * Purpose:
+ *   Establishes the flat, restrained visual pattern for simple confirmations.
+ *
+ * Architecture:
+ *   The fixed backdrop blocks the complete application viewport. The dialog
+ *   remains independent of the layout and scroll position beneath it.
+ *
+ * Change this file when:
+ *   - the shared confirmation-dialog visual language changes;
+ *   - dialog sizing, backdrop strength, or action hierarchy changes.
+ */
+
+.confirm-dialog__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  box-sizing: border-box;
+
+  background: color-mix(in srgb, var(--ui-structural-dark) 22%, transparent);
+}
+
+.confirm-dialog {
+  width: min(25rem, 100%);
+  box-sizing: border-box;
+  padding: 1.15rem 1.2rem 1.2rem;
+  border: 1px solid var(--ui-rule);
+  border-radius: 1px;
+
+  background: var(--ui-highlight);
+  color: var(--ui-text);
+  font-family: var(--ui-font);
+}
+
+.confirm-dialog__title {
+  margin: 0;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid var(--ui-rule);
+
+  color: var(--ui-structural-dark);
+  font: 600 1.05rem/1.1 var(--ui-font);
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+}
+
+.confirm-dialog__message {
+  display: grid;
+  gap: 0.65rem;
+  padding-block: 1rem 1.15rem;
+
+  color: var(--ui-text);
+  font: 400 0.92rem/1.35 var(--ui-font);
+}
+
+.confirm-dialog__message p {
+  margin: 0;
+}
+
+.confirm-dialog__message p:last-child {
+  color: var(--ui-text-muted);
+}
+
+.confirm-dialog__actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.confirm-dialog__actions button {
+  min-height: 1.95rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--ui-rule);
+  border-radius: 1px;
+
+  background: var(--ui-highlight);
+  color: var(--ui-text);
+  font: 500 0.86rem/1 var(--ui-font);
+  cursor: pointer;
+}
+
+.confirm-dialog__actions button:hover {
+  border-color: var(--ui-structural-dark);
+}
+
+.confirm-dialog__actions button:focus-visible {
+  outline: 2px solid var(--ui-structural-dark);
+  outline-offset: 2px;
+}
+
+.confirm-dialog__actions .confirm-dialog__confirm {
+  border-color: var(--ui-critical);
+  background: color-mix(
+    in srgb,
+    var(--ui-critical) 88%,
+    var(--ui-structural-dark)
+  );
+  color: var(--ui-highlight);
+}
+
+.confirm-dialog__actions .confirm-dialog__confirm:hover {
+  border-color: var(--ui-structural-dark);
+}

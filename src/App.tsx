@@ -43,6 +43,7 @@ import { PageHeader } from './ui/layout/PageHeader'
 import { WorkspaceLayout } from './ui/layout/WorkspaceLayout'
 import { StatusBar } from './ui/layout/StatusBar'
 import { ValidationSummary } from './ui/components/ValidationSummary'
+import { ConfirmDialog } from './ui/components/ConfirmDialog'
 
 import {
   validateNetwork,
@@ -197,6 +198,9 @@ function App() {
     useState<StatusMessage | null>(null)
 
   const [isOutpostDragging, setIsOutpostDragging] =
+    useState(false)
+
+  const [isDeleteNetworkDialogOpen, setIsDeleteNetworkDialogOpen] =
     useState(false)
 
   /**
@@ -1350,12 +1354,8 @@ function App() {
     })
   }
 
-  /** Resets the active slot as one undoable operation after explicit consent. */
+  /** Resets the active slot as one undoable operation after dialog consent. */
   function deleteNetwork() {
-    if (!window.confirm('Delete this network and start again?')) {
-      return
-    }
-
     selectedOutpostBeforeDelete.current = selectedOutpost?.id ?? null
     applyUndoableNetworkChange(
       'Delete network',
@@ -1363,6 +1363,7 @@ function App() {
     )
     setSelectedOutpostId(null)
     setCargoPadsPresentationKey((currentKey) => currentKey + 1)
+    setIsDeleteNetworkDialogOpen(false)
   }
 
   /**
@@ -1820,7 +1821,7 @@ function App() {
           <>
             <button
               type="button"
-              onClick={deleteNetwork}
+              onClick={() => setIsDeleteNetworkDialogOpen(true)}
             >
               Delete Network
             </button>
@@ -2074,6 +2075,21 @@ function App() {
               : undefined
         }
       />
+
+      {isDeleteNetworkDialogOpen && (
+        <ConfirmDialog
+          title="RESET NETWORK"
+          confirmLabel="Reset Network"
+          onCancel={() => setIsDeleteNetworkDialogOpen(false)}
+          onConfirm={deleteNetwork}
+        >
+          <p>Reset the current network?</p>
+          <p>
+            This will clear the character and all outposts in the current network.
+          </p>
+          <p>You can undo this action during the current session.</p>
+        </ConfirmDialog>
+      )}
 
     </main>
   )

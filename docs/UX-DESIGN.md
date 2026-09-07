@@ -701,6 +701,29 @@ Broader accessibility work should be planned deliberately rather than introduced
 
 ---
 
+# Simple confirmation dialogs
+
+Use a compact application-owned modal when a deliberate destructive action
+needs explicit consent. Keep the surface pale, flat, thin-bordered, nearly
+square, shadowless, and centered in the viewport behind a restrained backdrop.
+
+Confirmation dialogs should:
+
+- state the action and consequence explicitly;
+- place the safe Cancel action before the destructive action;
+- focus Cancel initially;
+- cancel on Escape;
+- trap Tab and Shift+Tab within the dialog;
+- restore focus to the trigger when they close where practical;
+- keep backdrop clicks from dismissing the dialog or moving focus outside it;
+- block background interaction and preserve the underlying scroll position.
+
+Use the existing Critical token to distinguish the destructive action without
+turning the dialog into a large alert treatment. Do not use a browser-native
+confirmation when this established application pattern is appropriate.
+
+---
+
 # Visual hierarchy
 
 Prefer hierarchy through:
