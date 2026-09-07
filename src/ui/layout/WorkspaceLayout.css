@@ -23,11 +23,17 @@
 .workspace-layout {
   display: grid;
   grid-template-columns:
-    240px
-    minmax(0, 1fr);
+    minmax(10rem, 3fr)
+    minmax(0, 22fr);
   gap: 1rem;
   align-items: stretch;
   padding-inline: var(--page-gutter);
+}
+
+.workspace-layout:has(.outpost-list--reshuffling) {
+  grid-template-columns:
+    minmax(13rem, 3fr)
+    minmax(0, 22fr);
 }
 
 .workspace-layout__left,
@@ -55,17 +61,8 @@
 .workspace-layout__content {
   display: grid;
   grid-template-columns:
-    minmax(0, 1fr)
-    380px;
+    minmax(0, 3fr)
+    minmax(18rem, 1fr);
   gap: 1rem;
   align-items: start;
-}
-
-/* Back off the Cargo gain before it can create a new Matrix overflow range. */
-@media (max-width: 1500px) {
-  .workspace-layout__content {
-    grid-template-columns:
-      minmax(0, 1fr)
-      360px;
-  }
 }

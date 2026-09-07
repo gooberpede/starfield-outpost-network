@@ -644,7 +644,7 @@ export function CargoPadsEditor({
       </div>
 
       <div
-        className={`cargo-pads__list${
+        className={`cargo-pads__list technical-scrollbar${
           isReshuffling ? ' cargo-pads__list--reshuffling' : ''
         }`}
         role="list"

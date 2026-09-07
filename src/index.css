@@ -97,6 +97,7 @@ body {
 
 .technical-scrollbar::-webkit-scrollbar {
   width: 0.38rem;
+  height: 0.38rem;
 }
 
 .technical-scrollbar::-webkit-scrollbar-track {

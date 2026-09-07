@@ -183,7 +183,11 @@ export function OutpostList({
   const markerIndex = activeDrag?.insertionIndex ?? null
 
   return (
-    <section className="outpost-list">
+    <section
+      className={`outpost-list${
+        isReshuffling ? ' outpost-list--reshuffling' : ''
+      }`}
+    >
       <h2 className="outpost-list__heading">
         <span>Outposts</span>
         <span className="outpost-list__count">
