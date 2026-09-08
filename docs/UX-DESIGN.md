@@ -87,6 +87,25 @@ Avoid solving density problems by hiding useful information unnecessarily.
 
 ---
 
+### Adapt before overflowing
+
+Prefer layouts that use available space progressively before introducing scrollbars, clipping, or other overflow behavior.
+
+When defining minimum widths or other hard layout constraints:
+
+* distinguish comfortable dimensions from genuine usability minimums;
+* derive hard floors from real content and control geometry rather than arbitrary buffers;
+* allow appropriate text to ellipsize and flexible groups to wrap where this preserves meaning;
+* reduce non-essential padding or spacing at constrained widths before forcing overflow;
+* preserve fixed dimensions only where interaction, accessibility, or semantic alignment genuinely requires them;
+* keep equivalent views spatially stable, but do not confuse stability with rigidity.
+
+A hard `min-width` is a usability claim: it should correspond to the point below which further compression is demonstrably worse than scrolling.
+
+Before introducing a hard minimum or overflow threshold, test the component near its compression limit with representative worst-case content.
+
+---
+
 ## Stable spatial position
 
 When possible, an item's meaning should remain tied to a stable visual location.
@@ -579,6 +598,10 @@ visible only as the current recovery choice until the user changes away.
 Cargo Pads are secondary detail editors and default collapsed.
 
 The compact summary should expose enough information to recognize the pad and its current logistics role without opening the full editor.
+
+Remote outpost identity receives the flexible width in the compact header.
+Normal 25-character outpost names are the design envelope; longer names
+ellipsis cleanly while the full name remains available through a title.
 
 Expanded state exposes editing controls.
 

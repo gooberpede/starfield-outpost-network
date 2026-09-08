@@ -205,24 +205,26 @@
 .cargo-pad__summary-top,
 .cargo-pad__summary-cargo {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 0.75rem;
 }
 
 .cargo-pad__summary-top {
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.5rem;
   align-items: center;
+}
+
+.cargo-pad__summary-cargo {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0.75rem;
+  margin-top: 0.3rem;
+  align-items: start;
+  font-size: 0.9rem;
 }
 
 .cargo-pad__identity {
   display: flex;
   gap: 0.35rem;
   align-items: center;
-}
-
-.cargo-pad__summary-cargo {
-  margin-top: 0.3rem;
-  align-items: start;
-  font-size: 0.9rem;
 }
 
 .cargo-pad__summary button {

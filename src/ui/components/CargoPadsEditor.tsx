@@ -771,7 +771,10 @@ export function CargoPadsEditor({
                     )}
                   </div>
 
-                  <div className="cargo-pad__destination">
+                  <div
+                    className="cargo-pad__destination"
+                    title={remoteOutpost?.name}
+                  >
                     {remoteOutpost?.name ?? 'Unlinked'}
                   </div>
                 </div>
