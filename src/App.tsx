@@ -1,6 +1,7 @@
 import { getBiomeButtonGroups } from './domain/bodyResourceAvailability'
 import {
   useEffect,
+  useLayoutEffect,
   useReducer,
   useRef,
   useState,
@@ -45,6 +46,10 @@ import { WorkspaceLayout } from './ui/layout/WorkspaceLayout'
 import { StatusBar } from './ui/layout/StatusBar'
 import { ValidationSummary } from './ui/components/ValidationSummary'
 import { ConfirmDialog } from './ui/components/ConfirmDialog'
+import {
+  getAdjacentOutpostId,
+  handleOutpostShortcut,
+} from './ui/keyboardShortcuts'
 
 import {
   validateNetwork,
@@ -146,6 +151,13 @@ function App() {
   const [isOutpostDragging, setIsOutpostDragging] =
     useState(false)
 
+  const [isNavigationOpen, setIsNavigationOpen] =
+    useState(true)
+
+  const hideNavigationControlRef = useRef<HTMLButtonElement>(null)
+  const showNavigationControlRef = useRef<HTMLButtonElement>(null)
+  const navigationFocusTargetRef = useRef<'hide' | 'show' | null>(null)
+
   const [isDeleteNetworkDialogOpen, setIsDeleteNetworkDialogOpen] =
     useState(false)
 
@@ -181,6 +193,15 @@ function App() {
   const [selectedOutpostId, setSelectedOutpostId] = useState<string | null>(
     network.outposts[0]?.id ?? null,
   )
+
+  useLayoutEffect(() => {
+    const focusTarget = navigationFocusTargetRef.current
+    if (!focusTarget) return
+
+    navigationFocusTargetRef.current = null
+    if (focusTarget === 'hide') hideNavigationControlRef.current?.focus()
+    else showNavigationControlRef.current?.focus()
+  }, [isNavigationOpen])
 
   const selectedOutpostBeforeDelete = useRef<string | null>(null)
 
@@ -556,6 +577,32 @@ function App() {
 
     setSelectedOutpostId(newOutpost.id)
   }
+
+  useEffect(() => {
+    function handleGlobalOutpostShortcut(event: KeyboardEvent) {
+      handleOutpostShortcut(event, (shortcut) => {
+        if (shortcut === 'add') {
+          addOutpost()
+          return true
+        }
+
+        const adjacentOutpostId = getAdjacentOutpostId(
+          network.outposts.map((outpost) => outpost.id),
+          effectiveSelectedOutpostId,
+          shortcut,
+        )
+        if (!adjacentOutpostId) return false
+
+        setSelectedOutpostId(adjacentOutpostId)
+        return true
+      })
+    }
+
+    document.addEventListener('keydown', handleGlobalOutpostShortcut)
+    return () => {
+      document.removeEventListener('keydown', handleGlobalOutpostShortcut)
+    }
+  })
 
   /**
    * Deletes an outpost and removes cargo links that refer to it.
@@ -1841,6 +1888,12 @@ function App() {
       * themselves remain unaware of which column they occupy.
       */}
       <WorkspaceLayout
+        isNavigationOpen={isNavigationOpen}
+        onShowNavigation={() => {
+          navigationFocusTargetRef.current = 'hide'
+          setIsNavigationOpen(true)
+        }}
+        showNavigationControlRef={showNavigationControlRef}
         left={
           <OutpostList
             outposts={network.outposts}
@@ -1852,6 +1905,11 @@ function App() {
             onMoveOutpostDown={moveOutpostDown}
             onAddOutpost={addOutpost}
             onDragActiveChange={setIsOutpostDragging}
+            onHideNavigation={() => {
+              navigationFocusTargetRef.current = 'show'
+              setIsNavigationOpen(false)
+            }}
+            hideNavigationControlRef={hideNavigationControlRef}
           />
         }
 

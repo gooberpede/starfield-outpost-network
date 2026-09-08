@@ -7,6 +7,11 @@
  */
 
 import type { ValidationIssue } from '../domain/validation/types'
+import { isEditableShortcutTarget } from './keyboardShortcuts.ts'
+
+export {
+  isEditableShortcutTarget as isEditableValidationTarget,
+} from './keyboardShortcuts.ts'
 
 export type ValidationRovingKey =
   | 'ArrowDown'
@@ -71,22 +76,6 @@ export function isValidationActivationKey(key: string): boolean {
   return key === 'Enter' || key === ' '
 }
 
-/** A deliberately small editable-target guard for the global shortcut. */
-export function isEditableValidationTarget(target: EventTarget | null): boolean {
-  const candidate = target as {
-    tagName?: unknown
-    isContentEditable?: unknown
-  } | null
-  const tagName = typeof candidate?.tagName === 'string'
-    ? candidate.tagName.toLowerCase()
-    : ''
-
-  return tagName === 'input' ||
-    tagName === 'textarea' ||
-    tagName === 'select' ||
-    candidate?.isContentEditable === true
-}
-
 export function shouldHandleValidationShortcut(event: Pick<
   KeyboardEvent,
   'altKey' | 'ctrlKey' | 'key' | 'metaKey' | 'repeat' | 'shiftKey' | 'target'
@@ -97,7 +86,7 @@ export function shouldHandleValidationShortcut(event: Pick<
     !event.shiftKey &&
     event.key.toLowerCase() === 'v' &&
     !event.repeat &&
-    !isEditableValidationTarget(event.target)
+    !isEditableShortcutTarget(event.target)
 }
 
 export function handleValidationShortcut(

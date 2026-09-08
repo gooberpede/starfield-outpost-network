@@ -24,6 +24,7 @@ import {
   useState,
 } from 'react'
 import type { DragEvent } from 'react'
+import type { Ref } from 'react'
 
 import type { Outpost } from '../../domain/models'
 
@@ -39,6 +40,8 @@ interface OutpostListProps {
   onMoveOutpostDown: (outpostId: string) => void
   onAddOutpost: () => void
   onDragActiveChange: (isActive: boolean) => void
+  onHideNavigation: () => void
+  hideNavigationControlRef: Ref<HTMLButtonElement>
 }
 
 interface ActiveDrag {
@@ -56,6 +59,8 @@ export function OutpostList({
   onMoveOutpostDown,
   onAddOutpost,
   onDragActiveChange,
+  onHideNavigation,
+  hideNavigationControlRef,
 }: OutpostListProps) {
   const [isReshuffling, setIsReshuffling] = useState(false)
   const [activeDrag, setActiveDrag] = useState<ActiveDrag | null>(null)
@@ -69,6 +74,10 @@ export function OutpostList({
   useEffect(() => {
     onDragActiveChange(isDragActive)
   }, [isDragActive, onDragActiveChange])
+
+  useEffect(() => () => {
+    onDragActiveChange(false)
+  }, [onDragActiveChange])
 
   useEffect(() => {
     if (!isDragActive) {
@@ -194,6 +203,16 @@ export function OutpostList({
           {outposts.length}
           {maxOutposts !== null && ` / ${maxOutposts}`}
         </span>
+        <button
+          ref={hideNavigationControlRef}
+          type="button"
+          className="outpost-list__collapse"
+          onClick={onHideNavigation}
+          aria-label="Hide outpost navigation"
+          title="Hide outpost navigation"
+        >
+          ‹
+        </button>
       </h2>
 
       <div className="outpost-list__actions">

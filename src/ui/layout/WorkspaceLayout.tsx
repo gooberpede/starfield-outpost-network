@@ -20,7 +20,7 @@
  *   - the hierarchy of navigation versus selected-outpost content changes.
  */
 
-import type { ReactNode } from 'react'
+import type { ReactNode, Ref } from 'react'
 
 import './WorkspaceLayout.css'
 
@@ -28,6 +28,9 @@ interface WorkspaceLayoutProps {
   left: ReactNode
   middle: ReactNode
   right: ReactNode
+  isNavigationOpen: boolean
+  onShowNavigation: () => void
+  showNavigationControlRef: Ref<HTMLButtonElement>
 
   /**
    * Optional selected-outpost content that spans both editing columns.
@@ -43,12 +46,31 @@ export function WorkspaceLayout({
   middle,
   right,
   top,
+  isNavigationOpen,
+  onShowNavigation,
+  showNavigationControlRef,
 }: WorkspaceLayoutProps) {
   return (
-    <div className="workspace-layout">
-      <aside className="workspace-layout__left">
-        {left}
-      </aside>
+    <div className={`workspace-layout${
+      isNavigationOpen ? '' : ' workspace-layout--navigation-collapsed'
+    }`}>
+      {isNavigationOpen ? (
+        <aside className="workspace-layout__left">
+          {left}
+        </aside>
+      ) : (
+        <div className="workspace-layout__reopen">
+          <button
+            ref={showNavigationControlRef}
+            type="button"
+            onClick={onShowNavigation}
+            aria-label="Show outpost navigation"
+            title="Show outpost navigation"
+          >
+            ›
+          </button>
+        </div>
+      )}
 
       <div className="workspace-layout__outpost">
         {top && (

@@ -585,6 +585,21 @@ Avoid allowing long names to distort the structural columns.
 
 Navigation presentation should not alter persisted domain data except when the user explicitly performs a reorder.
 
+The visible Navigation pane has one stable, deliberately generous width in
+both Lock and Reshuffle modes so normal 25-character outpost names remain
+readable without compressing row controls. It may be fully collapsed to reclaim
+workspace width, leaving only a narrow, keyboard-reachable reopen control.
+Collapse state is session-only presentation state, and collapsing exits
+Reshuffle so reopening always restores ordinary Lock mode.
+
+Global outpost shortcuts remain available whether Navigation is visible or
+collapsed: `Ctrl+Alt+N` adds an outpost through the normal creation path,
+`Ctrl+Alt+Up` selects the previous outpost, and `Ctrl+Alt+Down` selects the next
+outpost. Previous/Next cycle through the current Navigation order, wrapping
+from first to last and last to first without changing that order or creating
+Undo/Redo history. These shortcuts do not activate from inputs, textareas,
+selects, or editable content.
+
 The Outpost Details identity field is a wide, heading-style editable name.
 It keeps a local typing draft and commits on blur, while System and Body remain
 ordinary labelled selectors below it. Normal location choices are derived from
