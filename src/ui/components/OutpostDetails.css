@@ -69,10 +69,17 @@
 }
 
 .outpost-details__field > span {
+  display: flex;
+  min-height: 1rem;
+  align-items: center;
   color: var(--ui-text-muted);
   font: 600 0.68rem/1 var(--ui-font);
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.outpost-details__field > .outpost-details__field-label {
+  gap: 0.3rem;
 }
 
 .outpost-details__field select {
@@ -108,7 +115,7 @@
 }
 
 .outpost-details__efficiency > span {
-  text-align: center;
+  justify-content: center;
 }
 
 .outpost-details__efficiency output {
@@ -125,6 +132,11 @@
   font: 500 0.72rem/1 var(--ui-font-mono);
   text-align: center;
   white-space: nowrap;
+}
+
+.outpost-details__efficiency output:focus-visible {
+  outline: 2px solid var(--ui-structural-dark);
+  outline-offset: 2px;
 }
 
 .outpost-details__biomes {

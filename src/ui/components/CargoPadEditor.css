@@ -32,6 +32,12 @@
   gap: 0.75rem;
 }
 
+.cargo-pad-editor__inter-system-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
 .cargo-pad-editor__controls select {
   min-width: 0;
   width: 100%;

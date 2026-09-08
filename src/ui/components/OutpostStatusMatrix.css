@@ -75,6 +75,12 @@
   padding: 0.1rem 0.5rem;
 }
 
+.outpost-status-matrix__header > .outpost-status-matrix__help-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.28rem;
+}
+
 .outpost-status-matrix__row > div {
   display: flex;
   align-items: center;

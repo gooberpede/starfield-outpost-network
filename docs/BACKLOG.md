@@ -195,8 +195,11 @@ Do not fold this broader status-bar review into unrelated feature work.
 
 ### User guide and concept guidance
 
-- Add deferred user guidance for concepts that are intentionally denser than
-  the interface can fully explain. In particular:
+- Contextual micro-help and state-specific tooltips now cover selected dense
+  concepts and indicators in the working interface. Keep this local assistance
+  concise rather than expanding it into a tutorial or help center by default.
+- A formal V1 user guide remains deferred. It should provide deeper guidance
+  for concepts that the interface cannot fully explain, including:
   - explain that Planned Supply represents virtual supply, allowing users to
     model the intended completed network while progressively constructing it
     through incomplete intermediate states;
@@ -208,10 +211,6 @@ Do not fold this broader status-bar review into unrelated feature work.
   - document dense Resource Matrix semantics such as `Present`, `Producing`,
     `Inputs`, and `Logistics`, especially that `Logistics` means actually
     configured on a routed export rather than merely available to export.
-- At very low priority, consider lightweight explanatory affordances such as
-  tooltips, compact help text, or discoverable definitions for dense Matrix
-  column semantics, and only if real usage shows recurring confusion. Do not
-  assume a heavyweight help system is needed.
 
 ### Localization groundwork
 

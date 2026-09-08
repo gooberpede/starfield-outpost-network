@@ -37,6 +37,9 @@ import {
   getSolarEfficiencyLabel,
   getWindEfficiencyLabel,
 } from '../powerEfficiencyPresentation'
+import { contextHelpText } from '../contextHelpText'
+import { getPowerEfficiencyTooltip } from '../statusTooltips'
+import { ContextHelp } from './ContextHelp'
 
 import './OutpostDetails.css'
 
@@ -122,12 +125,12 @@ export function OutpostDetails({
   const currentBody = bodies.find(
     (body) => body.id === outpost.bodyId,
   )
-  const solarEfficiencyLabel = getSolarEfficiencyLabel(
-    getSolarEfficiency(currentBody?.solarArrayPower ?? null),
-  )
-  const windEfficiencyLabel = getWindEfficiencyLabel(
-    getWindEfficiency(currentBody?.windTurbinePower ?? null),
-  )
+  const solarOutput = currentBody?.solarArrayPower ?? null
+  const windOutput = currentBody?.windTurbinePower ?? null
+  const solarEfficiency = getSolarEfficiency(solarOutput)
+  const windEfficiency = getWindEfficiency(windOutput)
+  const solarEfficiencyLabel = getSolarEfficiencyLabel(solarEfficiency)
+  const windEfficiencyLabel = getWindEfficiencyLabel(windEfficiency)
   const availableBodies = eligibleBodies.filter(
     (body) => body.systemId === outpost.systemId,
   )
@@ -215,16 +218,27 @@ export function OutpostDetails({
 
         <div className="outpost-details__field outpost-details__efficiency">
           <span>Solar</span>
-          <output>{solarEfficiencyLabel}</output>
+          <output
+            tabIndex={0}
+            title={getPowerEfficiencyTooltip('Solar', solarEfficiency, solarOutput)}
+            aria-label={getPowerEfficiencyTooltip('Solar', solarEfficiency, solarOutput)}
+          >{solarEfficiencyLabel}</output>
         </div>
 
         <div className="outpost-details__field outpost-details__efficiency">
           <span>Wind</span>
-          <output>{windEfficiencyLabel}</output>
+          <output
+            tabIndex={0}
+            title={getPowerEfficiencyTooltip('Wind', windEfficiency, windOutput)}
+            aria-label={getPowerEfficiencyTooltip('Wind', windEfficiency, windOutput)}
+          >{windEfficiencyLabel}</output>
         </div>
 
         <div className="outpost-details__field outpost-details__biomes">
-          <span>Biome</span>
+          <span className="outpost-details__field-label">
+            Biomes
+            <ContextHelp context="Biomes" text={contextHelpText.biomes} />
+          </span>
           <div className="outpost-details__biome-buttons">
             {biomeGroups.map((group) => {
               const pressed = outpost.selectedBiomeIds.length > 0 &&

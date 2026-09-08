@@ -13,6 +13,7 @@ import type {
 } from '../domain/models.ts'
 import type { ReferenceData } from '../domain/referenceData.ts'
 import type { ValidationIssue } from '../domain/validation/types.ts'
+import { getDomesticableSourceNames } from './statusTooltips.ts'
 
 export interface ValidationIssuePresentation {
   context: string | null
@@ -80,6 +81,29 @@ function getActiveProductionRemediation(
   }`
 }
 
+function getUnspecifiedOrganicSourceRemediation(
+  issue: ValidationIssue,
+  outpost: Outpost | undefined,
+  referenceData: ReferenceData | null,
+): string | null {
+  if (
+    issue.ruleId !== 'unspecified-organic-production-source' ||
+    issue.cargoItem?.type !== 'resource' ||
+    !outpost ||
+    !referenceData
+  ) {
+    return null
+  }
+
+  const names = getDomesticableSourceNames(
+    referenceData,
+    outpost.bodyId,
+    outpost.selectedBiomeIds,
+    issue.cargoItem.id,
+  )
+  return names.length > 0 ? `Available from: ${names.join(', ')}` : null
+}
+
 export function getValidationIssuePresentation(
   issue: ValidationIssue,
   outposts: Outpost[],
@@ -102,7 +126,8 @@ export function getValidationIssuePresentation(
   return {
     context: contextParts.length > 0 ? contextParts.join(' · ') : null,
     message: issue.message,
-    remediation: getActiveProductionRemediation(issue, outpost, referenceData),
+    remediation: getActiveProductionRemediation(issue, outpost, referenceData) ??
+      getUnspecifiedOrganicSourceRemediation(issue, outpost, referenceData),
   }
 }
 

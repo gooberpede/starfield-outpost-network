@@ -28,6 +28,8 @@ import type {
   Resource,
 } from '../../domain/models'
 import type { Rarity } from '../../domain/referenceData'
+import { contextHelpText } from '../contextHelpText'
+import { ContextHelp } from './ContextHelp'
 
 import './PlannedSupplyEditor.css'
 
@@ -396,7 +398,11 @@ export function PlannedSupplyEditor({
           {isExpanded ? '▼' : '▶'}
         </button>
 
-        Planned Supply
+        <span>Planned Supply</span>
+        <ContextHelp
+          context="Planned Supply"
+          text={contextHelpText.plannedSupply}
+        />
       </h2>
 
       {!isExpanded && (

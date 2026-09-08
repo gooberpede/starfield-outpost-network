@@ -622,6 +622,22 @@ A simple `title` tooltip is acceptable when it fits current project conventions.
 
 Do not add a heavyweight tooltip dependency unless there is a broader need.
 
+### Contextual help and state tooltips
+
+Contextual help explains semantics; tooltips explain the state of a particular
+item or indicator.
+
+Use a quiet circled `?` immediately beside an app-specific or non-obvious
+concept that benefits from a concise definition. Its compact anchored help box
+is non-modal, overlays rather than reflows the workspace, and uses the existing
+flat application surfaces and rules. Only one help box may be open at a time.
+Click and standard button keyboard activation open or toggle it; outside click
+and Escape close it, with Escape returning focus to the trigger.
+
+Do not decorate ordinary familiar controls with help icons unnecessarily. Use
+state tooltips on hover- and keyboard-focusable values when the explanation is
+specific to the currently displayed item, availability state, or indicator.
+
 Tooltips should remain available for:
 
 - selectable items;

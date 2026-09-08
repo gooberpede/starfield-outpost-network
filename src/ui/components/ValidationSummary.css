@@ -19,6 +19,12 @@
   position: relative;
 }
 
+.validation-summary__controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
 .validation-summary-panel {
   position: absolute;
 

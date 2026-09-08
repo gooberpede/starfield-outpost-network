@@ -30,8 +30,10 @@ import type {
   Product,
   Resource,
 } from '../../domain/models'
+import { contextHelpText } from '../contextHelpText'
 
 import { CargoExportsEditor } from './CargoExportsEditor'
+import { ContextHelp } from './ContextHelp'
 import './CargoPadEditor.css'
 
 interface CargoPadEditorProps {
@@ -97,15 +99,21 @@ export function CargoPadEditor({
     <div className="cargo-pad-editor">
       <div className="cargo-pad-editor__controls">
         <div className="cargo-pad-editor__action-row">
-          <button
-            className="cargo-pad-editor__inter-system"
-            data-fuelled={isInterSystem && hasActualHelium3}
-            type="button"
-            aria-pressed={isInterSystem}
-            onClick={onToggleType}
-          >
-            Inter-System
-          </button>
+          <span className="cargo-pad-editor__inter-system-group">
+            <button
+              className="cargo-pad-editor__inter-system"
+              data-fuelled={isInterSystem && hasActualHelium3}
+              type="button"
+              aria-pressed={isInterSystem}
+              onClick={onToggleType}
+            >
+              Inter-System
+            </button>
+            <ContextHelp
+              context="Inter-System cargo pads"
+              text={contextHelpText.interSystem}
+            />
+          </span>
 
           <button
             type="button"

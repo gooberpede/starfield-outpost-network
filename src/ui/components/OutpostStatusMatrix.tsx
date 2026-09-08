@@ -27,6 +27,12 @@ import {
   getProductionRouteKey,
 } from '../../domain/productionRoutes'
 import type { ProductId, ReferenceData, ResourceId } from '../../domain/referenceData'
+import { contextHelpText } from '../contextHelpText'
+import {
+  getInorganicPresentTooltip,
+  getOrganicPresentTooltip,
+} from '../statusTooltips'
+import { ContextHelp } from './ContextHelp'
 import './OutpostStatusMatrix.css'
 
 interface Props {
@@ -44,25 +50,25 @@ interface Props {
 
 interface ItemDisplay { name: string; shortName: string }
 
-function ReadOnlyState({ item, lit }: {
-  item: ItemDisplay; lit: boolean
+function ReadOnlyState({ item, lit, title = item.name }: {
+  item: ItemDisplay; lit: boolean; title?: string
 }) {
   return <span
     className="outpost-status-matrix__state"
     data-state={lit ? 'lit' : 'dimmed'}
-    title={item.name}
+    title={title}
     aria-label={`${item.name}: ${lit ? 'active' : 'inactive'}`}
     tabIndex={0}
   >{item.shortName}</span>
 }
 
-function EditableState({ item, pressed, disabled = false, label, onClick }: {
-  item: ItemDisplay; pressed: boolean; disabled?: boolean; label: string; onClick: () => void
+function EditableState({ item, pressed, disabled = false, label, title = item.name, onClick }: {
+  item: ItemDisplay; pressed: boolean; disabled?: boolean; label: string; title?: string; onClick: () => void
 }) {
   return <button
     className="outpost-status-matrix__state outpost-status-matrix__state--editable"
     type="button" aria-pressed={pressed} aria-label={`${label} ${item.name}`}
-    title={item.name} disabled={disabled} onClick={onClick}
+    title={title} disabled={disabled} onClick={onClick}
   >{item.shortName}</button>
 }
 
@@ -154,8 +160,21 @@ export function OutpostStatusMatrix({
     <h2>Resource Matrix</h2>
     <div className="outpost-status-matrix__scroll technical-scrollbar"><div className="outpost-status-matrix__table" role="table">
       <div className="outpost-status-matrix__header" role="row">
-        {['Item', 'Source', 'Present', 'Producing', 'Inputs', 'Logistics'].map((heading) =>
-          <div role="columnheader" key={heading}>{heading}</div>)}
+        <div role="columnheader">Item</div>
+        <div role="columnheader">Source</div>
+        <div role="columnheader" className="outpost-status-matrix__help-heading">
+          Present
+          <ContextHelp context="Present column" text={contextHelpText.present} />
+        </div>
+        <div role="columnheader" className="outpost-status-matrix__help-heading">
+          Producing
+          <ContextHelp context="Producing column" text={contextHelpText.producing} />
+        </div>
+        <div role="columnheader">Inputs</div>
+        <div role="columnheader" className="outpost-status-matrix__help-heading">
+          Logistics
+          <ContextHelp context="Logistics column" text={contextHelpText.logistics} />
+        </div>
       </div>
 
       {inorganicRows.length > 0 && <section className="outpost-status-matrix__section" aria-labelledby="matrix-inorganic">
@@ -171,6 +190,11 @@ export function OutpostStatusMatrix({
             <div className="outpost-status-matrix__item" role="rowheader" title={display.name}>{display.name}</div>
             <div role="cell" />
             <div role="cell"><EditableState item={display} pressed={present} label="Toggle Present for"
+              title={getInorganicPresentTooltip(
+                display.name,
+                present,
+                availableInorganicIds.has(resourceId),
+              )}
               onClick={() => onToggleResource(resourceId)} /></div>
             <div role="cell"><EditableState item={display} pressed={producing}
               disabled={!present && !producing} label="Toggle Producing for"
@@ -197,7 +221,18 @@ export function OutpostStatusMatrix({
           return <div className="outpost-status-matrix__row" role="row" key={getProductionRouteKey(route)}>
             <div className="outpost-status-matrix__item" role="rowheader" title={display.name}>{display.name}</div>
             <div className="outpost-status-matrix__item" role="cell" title={source}>{source}</div>
-            <div role="cell"><ReadOnlyState item={display} lit={present} /></div>
+            <div role="cell"><ReadOnlyState
+              item={display}
+              lit={present}
+              title={getOrganicPresentTooltip(
+                display.name,
+                route,
+                present,
+                referenceData,
+                outpost.bodyId,
+                outpost.selectedBiomeIds,
+              )}
+            /></div>
             <div role="cell"><EditableState item={display} pressed={producing}
               disabled={!present && !producing} label={`Toggle Producing from ${source} for`}
               onClick={() => onToggleActiveProduction(route)} /></div>

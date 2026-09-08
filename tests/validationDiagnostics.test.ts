@@ -9,6 +9,7 @@ import { duplicateCollectionEntriesRule } from '../src/domain/validation/rules/d
 import { manufacturingInputsUnavailableRule } from '../src/domain/validation/rules/manufacturingInputsUnavailable.ts'
 import { organicFarmingInputsUnavailableRule } from '../src/domain/validation/rules/organicFarmingInputsUnavailable.ts'
 import { plannedSupplyUnresolvedRule } from '../src/domain/validation/rules/plannedSupplyUnresolved.ts'
+import { unspecifiedOrganicProductionSourceRule } from '../src/domain/validation/rules/unspecifiedOrganicProductionSource.ts'
 import type { ValidationIssue } from '../src/domain/validation/types.ts'
 import {
   getValidationIssuePresentation,
@@ -241,5 +242,50 @@ test('Planned Supply emits one alphabetical Info summary per affected outpost', 
   assert.equal(
     pluralIssue.message,
     '3 items in Planned Supply: Adaptive Frame, Iron, Water.',
+  )
+})
+
+test('unspecified organic production names the resource and valid sources', () => {
+  const organicOutpost = makeOutpost({
+    selectedBiomeIds: ['body-mountain'],
+    activeProduction: [{ type: 'organic-unspecified', resourceId: 'fiber' }],
+  })
+  const expandedReferenceData: ReferenceData = {
+    ...referenceData,
+    species: [
+      ...referenceData.species,
+      { id: 'crawler', name: 'Armoured Crawler', type: 'fauna' },
+    ],
+    planetSpecies: [
+      ...referenceData.planetSpecies,
+      {
+        bodyId: 'body-1', speciesId: 'crawler', sourceClass: 'herbivore',
+        domesticable: true, resourceId: 'fiber',
+      },
+    ],
+    organicOccurrences: [
+      ...referenceData.organicOccurrences,
+      { bodyBiomeId: 'body-mountain', speciesId: 'crawler' },
+    ],
+  }
+  const issue = unspecifiedOrganicProductionSourceRule.validate(
+    makeNetwork(organicOutpost),
+    expandedReferenceData,
+  )[0]
+  assert.equal(
+    issue.message,
+    'Fiber is recorded as produced, but no flora or fauna source has been specified.',
+  )
+  assert.equal(issue.severity, 'warning')
+  assert.equal(issue.category, 'operational')
+  assert.equal(
+    getValidationIssuePresentation(issue, [organicOutpost], expandedReferenceData).remediation,
+    'Available from: Armoured Crawler, Grazing Beetle',
+  )
+
+  const unavailableOutpost = { ...organicOutpost, selectedBiomeIds: ['body-forest'] }
+  assert.equal(
+    getValidationIssuePresentation(issue, [unavailableOutpost], expandedReferenceData).remediation,
+    null,
   )
 })

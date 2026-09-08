@@ -58,6 +58,8 @@ import {
   isValidationActivationKey,
   isValidationIssueActionable,
 } from '../validationInteraction'
+import { contextHelpText } from '../contextHelpText'
+import { ContextHelp } from './ContextHelp'
 
 interface ValidationSummaryProps {
   issues: ValidationIssue[]
@@ -233,19 +235,22 @@ export function ValidationSummary({
 
   return (
     <div className="validation-summary">
-      <button
-        ref={triggerRef}
-        type="button"
-        onClick={() =>
-          setIsOpen((current) => !current)
-        }
-        aria-expanded={isOpen}
-      >
-        Validation: {issues.length}{' '}
-        {issues.length === 1
-          ? 'issue'
-          : 'issues'}
-      </button>
+      <div className="validation-summary__controls">
+        <button
+          ref={triggerRef}
+          type="button"
+          onClick={() =>
+            setIsOpen((current) => !current)
+          }
+          aria-expanded={isOpen}
+        >
+          Validation: {issues.length}{' '}
+          {issues.length === 1
+            ? 'issue'
+            : 'issues'}
+        </button>
+        <ContextHelp context="Validation" text={contextHelpText.validation} />
+      </div>
 
       {isOpen && (
         <div

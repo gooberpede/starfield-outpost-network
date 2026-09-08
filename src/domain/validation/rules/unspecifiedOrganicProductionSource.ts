@@ -2,14 +2,20 @@ import type { ValidationIssue, ValidationRule } from '../types'
 
 const RULE_ID = 'unspecified-organic-production-source'
 
-function validate(network: Parameters<ValidationRule['validate']>[0]): ValidationIssue[] {
+function validate(
+  network: Parameters<ValidationRule['validate']>[0],
+  referenceData?: Parameters<ValidationRule['validate']>[1],
+): ValidationIssue[] {
   const issues: ValidationIssue[] = []
   for (const outpost of network.outposts) {
     for (const route of outpost.activeProduction) {
       if (route.type !== 'organic-unspecified') continue
+      const resourceName = referenceData?.resources.find(
+        (resource) => resource.id === route.resourceId,
+      )?.name ?? route.resourceId
       issues.push({
         ruleId: RULE_ID, category: 'operational', severity: 'warning',
-        message: 'This organic resource is recorded as produced, but no valid flora or fauna source has been specified.',
+        message: `${resourceName} is recorded as produced, but no flora or fauna source has been specified.`,
         outpostId: outpost.id,
         cargoItem: { type: 'resource', id: route.resourceId },
       })
