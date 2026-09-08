@@ -8,6 +8,7 @@ import { activeProductionValidForBodyRule } from '../src/domain/validation/rules
 import { duplicateCollectionEntriesRule } from '../src/domain/validation/rules/duplicateCollectionEntries.ts'
 import { manufacturingInputsUnavailableRule } from '../src/domain/validation/rules/manufacturingInputsUnavailable.ts'
 import { organicFarmingInputsUnavailableRule } from '../src/domain/validation/rules/organicFarmingInputsUnavailable.ts'
+import { plannedSupplyUnresolvedRule } from '../src/domain/validation/rules/plannedSupplyUnresolved.ts'
 import type { ValidationIssue } from '../src/domain/validation/types.ts'
 import {
   getValidationIssuePresentation,
@@ -210,4 +211,35 @@ test('diagnostic presentation sorts stably and derives current pad ordinals', ()
   assert.deepEqual(sorted.map((issue) => issue.message), [
     'error', 'warning one', 'warning two', 'info',
   ])
+})
+
+test('Planned Supply emits one alphabetical Info summary per affected outpost', () => {
+  assert.deepEqual(
+    plannedSupplyUnresolvedRule.validate(makeNetwork(makeOutpost()), referenceData),
+    [],
+  )
+
+  const singularIssue = plannedSupplyUnresolvedRule.validate(
+    makeNetwork(makeOutpost({ plannedSupply: [{ type: 'resource', id: 'water' }] })),
+    referenceData,
+  )[0]
+  assert.equal(singularIssue.message, '1 item in Planned Supply: Water.')
+  assert.equal(singularIssue.severity, 'info')
+  assert.equal(singularIssue.category, 'supply')
+  assert.equal(singularIssue.outpostId, 'outpost-1')
+
+  const pluralIssue = plannedSupplyUnresolvedRule.validate(
+    makeNetwork(makeOutpost({
+      plannedSupply: [
+        { type: 'resource', id: 'water' },
+        { type: 'resource', id: 'iron' },
+        { type: 'product', id: 'frame' },
+      ],
+    })),
+    referenceData,
+  )[0]
+  assert.equal(
+    pluralIssue.message,
+    '3 items in Planned Supply: Adaptive Frame, Iron, Water.',
+  )
 })

@@ -1989,6 +1989,14 @@ function App() {
               issues={validationIssues}
               outposts={network.outposts}
               referenceData={referenceData}
+              onNavigateToIssue={(issue) => {
+                if (
+                  issue.outpostId &&
+                  network.outposts.some((outpost) => outpost.id === issue.outpostId)
+                ) {
+                  setSelectedOutpostId(issue.outpostId)
+                }
+              }}
             />
 
             {SHOW_REFERENCE_DATA_STATUS && (

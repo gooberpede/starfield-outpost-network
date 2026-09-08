@@ -73,9 +73,42 @@
 
 .validation-summary-panel__issue {
   position: relative;
-  padding: 0.5rem 0.7rem 0.55rem 0.9rem;
   border-bottom: 1px solid color-mix(in srgb, var(--ui-rule) 58%, transparent);
   background: color-mix(in srgb, var(--ui-highlight) 45%, var(--ui-surface));
+}
+
+.validation-summary-panel__issue-content,
+.status-bar .validation-summary-panel__issue-action {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem 0.7rem 0.55rem 0.9rem;
+  text-align: left;
+}
+
+.status-bar .validation-summary-panel__issue-action {
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.status-bar .validation-summary-panel__issue-action:hover {
+  background: color-mix(in srgb, var(--ui-highlight) 78%, var(--ui-surface));
+}
+
+.status-bar .validation-summary-panel__issue-action:focus {
+  background: color-mix(in srgb, var(--ui-highlight) 78%, var(--ui-surface));
+}
+
+.status-bar .validation-summary-panel__issue-action:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 2px solid var(--ui-structural-dark);
+  outline-offset: -2px;
 }
 
 .validation-summary-panel__issue:last-child {

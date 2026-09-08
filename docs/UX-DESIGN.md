@@ -789,12 +789,18 @@ Validation wording should help distinguish:
 Broader wording refinements belong in a dedicated validation/UX review.
 
 The Validation control opens a compact, anchored, non-modal diagnostic panel.
-It remains open during workspace interaction and closes only through the same
-control. Issues are ordered by severity and presented as flat, separated rows
-with a context locator, readable message, and restrained severity rail. The
-internally scrolling issue list keeps its header visible and limits the panel
-to roughly five ordinary rows. Rows are non-interactive until issue navigation
-is implemented deliberately.
+It remains open during workspace interaction and closes through the same
+control or the global `Ctrl+Alt+V` toggle. Issues are ordered by severity and
+presented as flat, separated rows with a context locator, readable message,
+and restrained severity rail. The internally scrolling issue list keeps its
+header visible and limits the panel to roughly five ordinary rows.
+
+Outpost-scoped issue rows are actionable and navigate to their outpost while
+keeping the panel open. They use roving focus: Arrow keys move between
+actionable issues, Home/End reach the boundaries, and Enter/Space activate the
+focused issue. Escape returns focus to the Validation control without closing
+the panel. Exact control highlighting, expansion, and scrolling remain future
+enhancements rather than part of this navigation pattern.
 
 Cargo-pad validation context uses `Pad {n}` derived from current outpost pad
 order. The ordinal is presentation-only; the stable cargo-pad ID remains the

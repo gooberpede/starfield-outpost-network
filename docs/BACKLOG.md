@@ -74,13 +74,10 @@ downstream display consequences are considered explicitly.
 
 ## Validation
 
-- Add deliberate interactive issue navigation. Selecting an issue may navigate
-  to its outpost and, where practical, expose or focus relevant local context
-  such as a Cargo Pad, Planned Supply item, manufacturing row, or
+- Extend issue navigation beyond its outpost to expose or focus relevant local
+  context such as a Cargo Pad, Planned Supply item, manufacturing row, or
   resource/biome context. Existing issue metadata already carries stable IDs
-  that can support this work. Keep issue rows non-interactive until the
-  behaviour is designed and implemented; exact scrolling and focus mechanics
-  remain open.
+  that can support this work; exact scrolling and focus mechanics remain open.
 
 ### Possible future validation
 
@@ -90,14 +87,6 @@ Consider, when supported by domain evidence:
 - throughput-related warnings;
 - Helium-3 throughput constraints;
 - biome plausibility;
-- unresolved Planned Supply informational issues:
-  - emit one Info-level issue for each unresolved Planned Supply item at an
-    outpost;
-  - provide a quiet checklist of remaining virtual dependencies or loose ends,
-    below warnings and errors in the existing severity ordering;
-  - avoid emitting one issue for every downstream consequence;
-  - `planned-supply-unresolved` is a likely rule name, but the eventual rule may
-    use another stable identifier.
 - duplicate object-ID checks if stable-ID integrity becomes a practical risk.
 
 ---

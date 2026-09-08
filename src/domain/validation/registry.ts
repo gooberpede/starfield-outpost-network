@@ -90,6 +90,10 @@ import {
   outpostNameLengthRule,
 } from './rules/outpostNameLength'
 
+import {
+  plannedSupplyUnresolvedRule,
+} from './rules/plannedSupplyUnresolved'
+
 import type {
   ValidationRule,
 } from './types'
@@ -125,4 +129,5 @@ export const validationRules: ValidationRule[] = [
   selectedBiomeValidForBodyRule,
   unspecifiedOrganicProductionSourceRule,
   organicFarmingInputsUnavailableRule,
+  plannedSupplyUnresolvedRule,
 ]
