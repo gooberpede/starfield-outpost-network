@@ -46,6 +46,7 @@ import { WorkspaceLayout } from './ui/layout/WorkspaceLayout'
 import { StatusBar } from './ui/layout/StatusBar'
 import { ValidationSummary } from './ui/components/ValidationSummary'
 import { ConfirmDialog } from './ui/components/ConfirmDialog'
+import { AboutDialog } from './ui/components/AboutDialog'
 import {
   getAdjacentOutpostId,
   handleOutpostShortcut,
@@ -159,6 +160,9 @@ function App() {
   const navigationFocusTargetRef = useRef<'hide' | 'show' | null>(null)
 
   const [isDeleteNetworkDialogOpen, setIsDeleteNetworkDialogOpen] =
+    useState(false)
+
+  const [isAboutDialogOpen, setIsAboutDialogOpen] =
     useState(false)
 
   /**
@@ -1805,7 +1809,7 @@ function App() {
 
   return (
     <main>
-      <TitleBar />
+      <TitleBar onAbout={() => setIsAboutDialogOpen(true)} />
 
       {/*
       * Network-level working controls remain visible while the user scrolls
@@ -2112,6 +2116,10 @@ function App() {
           </p>
           <p>You can undo this action during the current session.</p>
         </ConfirmDialog>
+      )}
+
+      {isAboutDialogOpen && (
+        <AboutDialog onClose={() => setIsAboutDialogOpen(false)} />
       )}
 
     </main>

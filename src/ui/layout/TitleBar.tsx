@@ -20,10 +20,21 @@
 
 import './TitleBar.css'
 
-export function TitleBar() {
+interface TitleBarProps {
+  onAbout: () => void
+}
+
+export function TitleBar({ onAbout }: TitleBarProps) {
   return (
     <header className="title-bar">
       <h1>Starfield Outpost Network</h1>
+      <button
+        type="button"
+        className="title-bar__about"
+        onClick={onAbout}
+      >
+        About
+      </button>
     </header>
   )
 }

@@ -16,17 +16,16 @@
  */
 
 import {
-  useEffect,
   useId,
   useRef,
 } from 'react'
 import type {
-  KeyboardEvent,
   MouseEvent,
   ReactNode,
 } from 'react'
 
 import './ConfirmDialog.css'
+import { useModalDialog } from './useModalDialog'
 
 interface ConfirmDialogProps {
   title: string
@@ -45,73 +44,11 @@ export function ConfirmDialog({
 }: ConfirmDialogProps) {
   const titleId = useId()
   const descriptionId = useId()
-  const dialogRef = useRef<HTMLDivElement>(null)
   const cancelButtonRef = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    const previouslyFocusedElement =
-      document.activeElement instanceof HTMLElement
-        ? document.activeElement
-        : null
-    const previousBodyOverflow = document.body.style.overflow
-    const previousBodyPaddingRight = document.body.style.paddingRight
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
-
-    document.body.style.overflow = 'hidden'
-
-    if (scrollbarWidth > 0) {
-      document.body.style.paddingRight = `${scrollbarWidth}px`
-    }
-
-    cancelButtonRef.current?.focus({ preventScroll: true })
-
-    return () => {
-      document.body.style.overflow = previousBodyOverflow
-      document.body.style.paddingRight = previousBodyPaddingRight
-      previouslyFocusedElement?.focus({ preventScroll: true })
-    }
-  }, [])
-
-  function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
-    if (event.key === 'Escape') {
-      event.preventDefault()
-      event.stopPropagation()
-      onCancel()
-      return
-    }
-
-    if (event.key !== 'Tab') {
-      return
-    }
-
-    const focusableElements = Array.from(
-      dialogRef.current?.querySelectorAll<HTMLElement>(
-        'button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])',
-      ) ?? [],
-    )
-
-    if (focusableElements.length === 0) {
-      event.preventDefault()
-      return
-    }
-
-    const firstElement = focusableElements[0]
-    const lastElement = focusableElements.at(-1)
-
-    if (
-      event.shiftKey &&
-      document.activeElement === firstElement
-    ) {
-      event.preventDefault()
-      lastElement?.focus()
-    } else if (
-      !event.shiftKey &&
-      document.activeElement === lastElement
-    ) {
-      event.preventDefault()
-      firstElement.focus()
-    }
-  }
+  const { dialogRef, handleKeyDown } = useModalDialog({
+    initialFocusRef: cancelButtonRef,
+    onClose: onCancel,
+  })
 
   function handleBackdropMouseDown(event: MouseEvent<HTMLDivElement>) {
     if (event.target === event.currentTarget) {
