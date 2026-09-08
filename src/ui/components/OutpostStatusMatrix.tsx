@@ -268,19 +268,20 @@ export function OutpostStatusMatrix({
             const display = { name: product?.name ?? entry.productId, shortName: product?.shortName ?? entry.productId }
             const cargoItem: CargoItem = { type: 'product', id: entry.productId }
             return <div className="outpost-status-matrix__row" role="row" key={entry.productId}>
-              <div className="outpost-status-matrix__item outpost-status-matrix__manufacturing-item" role="rowheader" title={display.name}>
+              <div className="outpost-status-matrix__item outpost-status-matrix__item--span-source outpost-status-matrix__manufacturing-item" role="rowheader" title={display.name}>
                 {draftManufacturing && <button type="button" aria-label={`Remove ${display.name}`}
                   title={`Remove ${display.name}`} onClick={() => removeDraftProduct(entry.productId)}>-</button>}
-                <span>{display.name}</span></div><div role="cell" /><div role="cell" />
-              <div role="cell"><ReadOnlyState item={display}
+                <span>{display.name}</span></div>
+              <div className="outpost-status-matrix__cell--present" role="cell" />
+              <div className="outpost-status-matrix__cell--producing" role="cell"><ReadOnlyState item={display}
                 lit={actuallyAvailableKeys.has(getCargoItemKey(cargoItem))} /></div>
-              <div className="outpost-status-matrix__state-list" role="cell">
+              <div className="outpost-status-matrix__cell--inputs outpost-status-matrix__state-list" role="cell">
                 {recipesByProductId.get(entry.productId)?.ingredients.map((ingredient) => {
                   const item: CargoItem = ingredient.item
                   return <ReadOnlyState key={getCargoItemKey(item)} item={resolveItem(item)}
                     lit={availableKeys.has(getCargoItemKey(item))} />
                 })}
-              </div><div role="cell"><ReadOnlyState item={display}
+              </div><div className="outpost-status-matrix__cell--logistics" role="cell"><ReadOnlyState item={display}
                 lit={exportedItemKeys.has(getCargoItemKey(cargoItem))} /></div>
             </div>
           })}
@@ -290,9 +291,11 @@ export function OutpostStatusMatrix({
         <h3 id="matrix-imports" className="outpost-status-matrix__section-heading">Imports</h3>
         {importSummaries.length === 0 ? <p className="outpost-status-matrix__empty">No imports.</p>
           : importSummaries.map((summary) => <div className="outpost-status-matrix__row" role="row" key={summary.sourceOutpostId}>
-            <div className="outpost-status-matrix__item" role="rowheader" title={summary.sourceOutpostName}>{summary.sourceOutpostName}</div>
-            <div role="cell" /><div role="cell" /><div role="cell" /><div role="cell" />
-            <div className="outpost-status-matrix__state-list" role="cell">{[...summary.items]
+            <div className="outpost-status-matrix__item outpost-status-matrix__item--span-source" role="rowheader" title={summary.sourceOutpostName}>{summary.sourceOutpostName}</div>
+            <div className="outpost-status-matrix__cell--present" role="cell" />
+            <div className="outpost-status-matrix__cell--producing" role="cell" />
+            <div className="outpost-status-matrix__cell--inputs" role="cell" />
+            <div className="outpost-status-matrix__cell--logistics outpost-status-matrix__state-list" role="cell">{[...summary.items]
               .sort((left, right) => resolveItem(left).name.localeCompare(resolveItem(right).name))
               .map((item) => <ReadOnlyState key={getCargoItemKey(item)} item={resolveItem(item)} lit />)}</div>
           </div>)}

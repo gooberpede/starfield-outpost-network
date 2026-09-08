@@ -31,20 +31,21 @@
 }
 
 .outpost-status-matrix__scroll {
+  container-type: inline-size;
   overflow-x: auto;
   border-block: 1px solid var(--ui-rule);
 }
 
 .outpost-status-matrix__table {
   --outpost-matrix-columns:
-    minmax(9rem, 1.35fr)
+    minmax(7.5rem, 1.35fr)
     minmax(6rem, 0.9fr)
-    minmax(4.5rem, 0.55fr)
-    minmax(5rem, 0.65fr)
-    minmax(10rem, 1.35fr)
-    minmax(7rem, 1fr);
+    minmax(6rem, 0.55fr)
+    minmax(7rem, 0.65fr)
+    minmax(4.25rem, 1.35fr)
+    minmax(7.25rem, 1fr);
 
-  min-width: 49rem;
+  min-width: 38rem;
   width: 100%;
 }
 
@@ -73,6 +74,13 @@
   box-sizing: border-box;
   min-width: 0;
   padding: 0.1rem 0.5rem;
+}
+
+@container (max-width: 41rem) {
+  .outpost-status-matrix__header > div,
+  .outpost-status-matrix__row > div {
+    padding-inline: 0.3rem;
+  }
 }
 
 .outpost-status-matrix__header > .outpost-status-matrix__help-heading {
@@ -163,6 +171,26 @@
   font-size: 0.88rem;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.outpost-status-matrix__item--span-source {
+  grid-column: 1 / span 2;
+}
+
+.outpost-status-matrix__cell--present {
+  grid-column: 3;
+}
+
+.outpost-status-matrix__cell--producing {
+  grid-column: 4;
+}
+
+.outpost-status-matrix__cell--inputs {
+  grid-column: 5;
+}
+
+.outpost-status-matrix__cell--logistics {
+  grid-column: 6;
 }
 
 .outpost-status-matrix__manufacturing-item {

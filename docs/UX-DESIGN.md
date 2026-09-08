@@ -311,9 +311,12 @@ the matrix, while Cargo Pads remain in the right workspace column:
 Item | Source | Present | Producing | Inputs | Logistics
 ```
 
-All sections share a content-independent responsive column template. Narrow
-middle columns scroll the matrix horizontally instead of reordering or stacking
-semantic columns, and Item remains sticky during horizontal scrolling. The
+All sections share a content-independent responsive column template, so column
+positions remain stable across outposts at a given width. The matrix compresses
+before scrolling; scarce width may use tighter cell padding and additional
+control wrapping. Horizontal scrolling begins only at the practical hard floor
+instead of preserving comfortable-width spacing. Semantic columns are never
+reordered or stacked, and Item remains sticky during horizontal scrolling. The
 matrix grows in normal vertical flow rather than owning an artificial vertical
 scrollbar; vertical scrolling belongs to the enclosing workspace/page context.
 
