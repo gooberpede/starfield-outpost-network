@@ -203,17 +203,6 @@ Do not fold this broader status-bar review into unrelated feature work.
     `Inputs`, and `Logistics`, especially that `Logistics` means actually
     configured on a routed export rather than merely available to export.
 
-### Localization groundwork
-
-- At very low priority / far future, introduce a lightweight user-facing
-  string-resolution layer so additional languages could be added without
-  rewriting components. English should remain the default, fallback, and only
-  initial language. This is infrastructure groundwork, not translation work;
-  it does not currently require a language selector, translation-management
-  UI, runtime translation downloads, non-English translation files, or
-  pluralization and locale-sensitive number/date handling beyond demonstrated
-  need.
-
 ---
 
 ## Import, export, and storage
@@ -228,6 +217,142 @@ Possible future improvements:
 JSON remains a transfer vehicle, not the live/current-document model.
 
 Browser storage remains the default persistence mechanism unless explicitly redesigned.
+
+---
+
+## Public release readiness
+
+Public release is now an intended product milestone.
+
+This does not imply a fixed release date or that every deferred feature must be
+completed first. It means that work affecting distribution, usability, safety,
+and maintainability should increasingly be evaluated against the needs of a
+public-facing application rather than only the developer's own use.
+
+### Localization framework
+
+Promote localization from a distant future concern to pre-release
+infrastructure.
+
+Initial goals:
+
+- introduce a lightweight string-resolution/localization layer rather than
+  special-casing individual terms;
+- support at least English (UK) and English (US);
+- use the localization framework to resolve known terminology differences such
+  as `Aluminium` / `Aluminum`;
+- determine how localized reference-data display names should relate to ordinary
+  localized UI strings;
+- keep English as the initial language family without implying that a full
+  translation effort is currently required;
+- design the framework so additional languages can be added later without
+  rewriting components.
+
+Avoid introducing one-off spelling substitutions in presentation code when the
+underlying problem belongs to localization.
+
+### Accessibility audit
+
+Perform a systematic accessibility audit before public release.
+
+The audit should review at least:
+
+- keyboard-only navigation;
+- logical focus order;
+- visible focus treatment;
+- semantic controls and labels;
+- dialog focus trapping and focus restoration;
+- screen-reader naming and control descriptions;
+- colour contrast;
+- state communication that does not rely on colour alone;
+- zoom and text-scaling behaviour;
+- dense-grid usability;
+- keyboard alternatives for drag-and-drop interactions;
+- accessibility of compact/icon-only controls;
+- form validation and error communication.
+
+The application already contains several accessibility-conscious patterns, but
+public release should not rely on those individual decisions adding up to a
+complete accessibility review.
+
+### Security audit
+
+Perform a security-focused review before public release.
+
+The application is currently a local browser application without a backend, so
+its attack surface is comparatively limited, but imported/user-provided data
+and eventual public hosting still justify a deliberate audit.
+
+Review at least:
+
+- JSON import parsing and malformed-file handling;
+- pathological or excessively large imported collections;
+- browser-storage assumptions and failure modes;
+- user-entered/imported text rendering and XSS exposure;
+- unsafe URL/link handling;
+- dependency vulnerabilities;
+- static asset and reference-data trust boundaries;
+- large-session/history memory or denial-of-service-style failure cases;
+- deployment and Content Security Policy considerations once hosting is chosen.
+
+Do not introduce speculative security infrastructure before the audit identifies
+a concrete need.
+
+---
+
+## History and editing
+
+Future enhancements may include:
+
+- visible history/timeline list;
+- direct jump to an earlier history state;
+- conventional keyboard shortcuts for Undo/Redo, with careful handling of text-input native editing so application history does not unexpectedly consume ordinary field-level Undo;
+- history-size limits if session history becomes large.
+
+### Undo/Redo keyboard shortcuts
+
+Consider adding conventional application-level Undo/Redo shortcuts now that the
+global contextual history model is settled.
+
+Likely mappings include:
+
+```text
+Ctrl+Z
+Ctrl+Y
+Ctrl+Shift+Z
+```
+
+Requirements:
+
+- preserve native field-level Undo/Redo inside text inputs, textareas, selects, and editable content where appropriate;
+- do not allow application history shortcuts to unexpectedly consume ordinary text editing;
+- use the existing contextual Undo/Redo path so Network + Outpost restoration remains unchanged;
+- verify browser/OS conflicts before implementation.
+
+### History-size investigation
+
+Do not choose an arbitrary history-entry limit without measuring actual browser
+memory behaviour.
+
+Investigate:
+
+- representative NetworkCollection sizes;
+- deliberately large collections;
+- long edit histories;
+- structural sharing across immutable before/after snapshots;
+- browser memory growth during extended sessions;
+- practical behavior near likely stress limits.
+
+Use the results to decide whether V1 needs:
+
+- a simple entry-count cap;
+- an approximate memory-based cap;
+- another bounded retention strategy;
+- or no explicit cap yet.
+
+Prefer a simple policy if measurements show it is sufficient.
+
+Current behavior remains whole-collection immutable before/after snapshots with one deliberate operation per history entry.
 
 ---
 
