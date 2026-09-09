@@ -248,6 +248,18 @@
   opacity: 0.58;
 }
 
+.outpost-status-matrix__state[data-state='producing'] {
+  border-color: var(--ui-structural-dark);
+  color: var(--ui-highlight);
+  background: var(--ui-structural-dark);
+}
+
+.outpost-status-matrix__state[data-state='not-producing'] {
+  border-color: var(--ui-rule);
+  color: var(--ui-text);
+  background: var(--ui-highlight);
+}
+
 .outpost-status-matrix__state--editable:not(:disabled) {
   cursor: pointer;
 }

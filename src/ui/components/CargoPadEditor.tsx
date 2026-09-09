@@ -31,6 +31,7 @@ import type {
   Resource,
 } from '../../domain/models'
 import { contextHelpText } from '../contextHelpText'
+import { getInterstellarFuelState } from '../statusStates.ts'
 
 import { CargoExportsEditor } from './CargoExportsEditor'
 import { ContextHelp } from './ContextHelp'
@@ -94,6 +95,7 @@ export function CargoPadEditor({
   const hasActualHelium3 = actuallyAvailableItems.some(
     (item) => item.type === 'resource' && item.id === 'helium-3',
   )
+  const fuelState = getInterstellarFuelState(isInterSystem, hasActualHelium3)
 
   return (
     <div className="cargo-pad-editor">
@@ -103,6 +105,7 @@ export function CargoPadEditor({
             <button
               className="cargo-pad-editor__inter-system"
               data-fuelled={isInterSystem && hasActualHelium3}
+              data-fuel-state={fuelState}
               type="button"
               aria-pressed={isInterSystem}
               onClick={onToggleType}

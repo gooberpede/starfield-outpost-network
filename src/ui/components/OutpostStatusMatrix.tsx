@@ -36,6 +36,10 @@ import { ContextHelp } from './ContextHelp'
 import './OutpostStatusMatrix.css'
 import { useLocalization } from '../../localization/LocalizationContext.ts'
 import { getReferenceDisplayName } from '../../localization/referenceNames.ts'
+import {
+  getManufacturingProducingState,
+  type ManufacturingProducingState,
+} from '../statusStates.ts'
 
 interface Props {
   outpost: Outpost
@@ -52,12 +56,15 @@ interface Props {
 
 interface ItemDisplay { name: string; shortName: string }
 
-function ReadOnlyState({ item, lit, title = item.name }: {
-  item: ItemDisplay; lit: boolean; title?: string
+function ReadOnlyState({ item, lit, state, title = item.name }: {
+  item: ItemDisplay
+  lit: boolean
+  state?: ManufacturingProducingState
+  title?: string
 }) {
   return <span
     className="outpost-status-matrix__state"
-    data-state={lit ? 'lit' : 'dimmed'}
+    data-state={state ?? (lit ? 'lit' : 'dimmed')}
     title={title}
     aria-label={`${item.name}: ${lit ? 'active' : 'inactive'}`}
     tabIndex={0}
@@ -287,7 +294,11 @@ export function OutpostStatusMatrix({
                 <span>{display.name}</span></div>
               <div className="outpost-status-matrix__cell--present" role="cell" />
               <div className="outpost-status-matrix__cell--producing" role="cell"><ReadOnlyState item={display}
-                lit={actuallyAvailableKeys.has(getCargoItemKey(cargoItem))} /></div>
+                lit={actuallyAvailableKeys.has(getCargoItemKey(cargoItem))}
+                state={getManufacturingProducingState(
+                  entry.productId,
+                  actuallyAvailableItems,
+                )} /></div>
               <div className="outpost-status-matrix__cell--inputs outpost-status-matrix__state-list" role="cell">
                 {recipesByProductId.get(entry.productId)?.ingredients.map((ingredient) => {
                   const item: CargoItem = ingredient.item

@@ -67,16 +67,32 @@
   line-height: 1.25;
 }
 
-.cargo-pad-editor__inter-system[aria-pressed='true'][data-fuelled='true'] {
+.cargo-pad-editor__inter-system[data-fuel-state='fuelled'] {
   border-color: var(--ui-success);
   color: var(--ui-highlight);
-  background: var(--ui-structural-dark);
+  background-color: var(--ui-structural-dark);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    color-mix(in srgb, var(--ui-success) 42%, transparent) 0 2px,
+    transparent 2px 8px
+  );
 }
 
-.cargo-pad-editor__inter-system[aria-pressed='true'][data-fuelled='false'] {
+.cargo-pad-editor__inter-system[data-fuel-state='unfuelled'] {
   border-color: var(--ui-warning);
   color: var(--ui-highlight);
-  background: color-mix(in srgb, var(--ui-structural-dark) 84%, var(--ui-warning));
+  background-color: color-mix(in srgb, var(--ui-structural-dark) 84%, var(--ui-warning));
+  background-image:
+    repeating-linear-gradient(
+      -45deg,
+      color-mix(in srgb, var(--ui-warning) 58%, transparent) 0 2px,
+      transparent 2px 5px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      color-mix(in srgb, var(--ui-warning) 36%, transparent) 0 1px,
+      transparent 1px 5px
+    );
 }
 
 .cargo-exports {

@@ -879,7 +879,7 @@ The UI should allow incomplete networks to be represented where that supports pl
 
 Example:
 
-- Planned Supply can make an intended cargo export selectable even though validation still reports that the export has no actual source.
+- Planned Supply is a valid virtual source for an intended cargo export while its separate informational issue continues to identify unresolved planned supply.
 
 Do not silently convert advisory validation into disabled interaction without an explicit product decision.
 

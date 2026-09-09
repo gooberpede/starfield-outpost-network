@@ -10,9 +10,8 @@
  *   It uses shared provenance logic to determine whether an exported item
  *   is supplied locally or by one or more inbound cargo links.
  *
- *   Planned Supply does not count as an actual source. Therefore an item
- *   may remain selectable for planning purposes while still producing this
- *   validation issue.
+ *   Planned Supply counts as a valid virtual source for this rule while
+ *   remaining distinct from actual provenance elsewhere in the domain.
  *
  * Change this file when:
  *   - the unresolved-export rule itself changes;
@@ -22,18 +21,18 @@
 
 import {
   getItemProvenanceAtOutpost,
-} from '../../provenance'
+} from '../../provenance.ts'
 
 import type {
   ValidationIssue,
   ValidationRule,
-} from '../types'
+} from '../types.ts'
 
 const RULE_ID = 'unresolved-cargo-export'
 
 /**
- * Finds cargo-pad exports whose outpost has neither a local source nor
- * an inbound remote source for the exported item.
+ * Finds cargo-pad exports whose outpost has neither an actual source nor
+ * an exact matching Planned Supply placeholder for the exported item.
  */
 function validateUnresolvedCargoExports(
   network: Parameters<ValidationRule['validate']>[0],
@@ -55,8 +54,13 @@ function validateUnresolvedCargoExports(
         const hasActualSource =
           provenance.local ||
           provenance.remoteOutpostIds.length > 0
+        const hasPlannedSource = outpost.plannedSupply.some(
+          (plannedItem) =>
+            plannedItem.type === item.type &&
+            plannedItem.id === item.id,
+        )
 
-        if (hasActualSource) {
+        if (hasActualSource || hasPlannedSource) {
           continue
         }
 
@@ -84,7 +88,7 @@ export const unresolvedCargoExportRule: ValidationRule = {
   id: RULE_ID,
   name: 'Unresolved cargo export',
   description:
-    'Flags cargo-pad exports that have no actual local or inbound source.',
+    'Flags cargo-pad exports that have no actual or Planned Supply source.',
   category: 'supply',
   defaultSeverity: 'warning',
   validate: validateUnresolvedCargoExports,
