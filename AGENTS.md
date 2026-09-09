@@ -157,7 +157,23 @@ UI components may derive presentation-specific values, but rules governing wheth
 
 ## Persisted state versus presentation state
 
-`OutpostNetwork` represents persisted network data.
+The persisted hierarchy is:
+
+```text
+NetworkCollection
+    SavedNetwork[]
+    activeNetworkId
+        ↓
+    OutpostNetwork documents
+```
+
+Persisted state includes the collection, stable saved-network IDs, network
+order, `activeNetworkId`, and nested `OutpostNetwork` data.
+
+Session/history context includes the current `networkId` and `outpostId`,
+per-network selected-outpost memory, and Undo/Redo history. Presentation-only
+state includes collapse/expand state, reshuffle modes, transient drafts,
+validation visibility, and other UI chrome.
 
 Do not add UI-only state to `OutpostNetwork` unless persistence is explicitly required.
 
@@ -167,7 +183,6 @@ Examples of presentation/session state that should normally remain outside the p
 - selected tabs or UI sections;
 - temporary form drafts;
 - transient success/error messages;
-- currently selected outpost;
 - file-import/export feedback;
 - other viewport or interaction-only state.
 
@@ -177,7 +192,10 @@ If unsure whether something belongs in the persisted model, preserve the existin
 
 ## Undo/Redo semantics
 
-The application uses whole-network immutable snapshots for Undo/Redo.
+The application uses one global, session-only Undo/Redo timeline with
+whole-collection immutable before/after snapshots. History also records the
+Network + Outpost working context for each action. Manual network/outpost
+navigation updates working context without creating history.
 
 A deliberate user operation should normally correspond to **one history entry**.
 
@@ -187,7 +205,7 @@ Examples:
 - deleting a cargo pad and its associated cargo link;
 - changing a star system and clearing an incompatible body selection;
 - enabling a real supply source and retiring fulfilled Planned Supply;
-- importing a complete network.
+- importing a complete collection.
 
 Do not create one history entry per low-level mutation when the user perceives them as one action.
 
@@ -199,14 +217,15 @@ Presentation-only state is not part of Undo/Redo unless explicitly requested.
 
 ## Immutability and identity
 
-Treat persisted network state as immutable.
+Treat persisted collection and nested network state as immutable.
 
 Prefer:
 - object/array copies;
 - pure transformations;
 - stable IDs for domain identity.
 
-Do not mutate existing `OutpostNetwork`, outpost, cargo-pad, or cargo-link objects in place.
+Do not mutate existing `NetworkCollection`, `SavedNetwork`, `OutpostNetwork`,
+outpost, cargo-pad, or cargo-link objects in place.
 
 Array position may control presentation order, but stable UUIDs/IDs remain the identity of domain objects.
 
@@ -280,11 +299,11 @@ Do not model an imported filename as persistent network state.
 Import/export filenames and success/failure messages are session/presentation concerns.
 
 A failed import must not modify:
-- the current network;
+- the current collection;
 - Undo/Redo history;
 - the current selected outpost.
 
-A successful full-network import should be treated as one deliberate Undoable action unless a future brief specifies otherwise.
+A successful whole-collection import should be treated as one deliberate Undoable action unless a future brief specifies otherwise.
 
 ---
 
@@ -373,6 +392,7 @@ The repository currently provides these npm scripts:
 
 ```sh
 npm run dev
+npm test
 npm run build
 npm run lint
 npm run preview
@@ -381,9 +401,10 @@ npm run preview
 For any coherent implementation batch:
 
 1. Run the relevant local/manual checks for the changed feature.
-2. Run:
+2. Run the automated test suite and whole-project build:
 
 ```sh
+npm test
 npm run build
 ```
 
@@ -398,6 +419,8 @@ npm run lint
 ```
 
 when the change is broad, when lint-sensitive code has been modified, or when requested by the implementation brief.
+
+Run `git diff --check` before handoff to catch whitespace errors.
 
 Do not claim a check passed unless it was actually run.
 
@@ -518,7 +541,6 @@ The repository contains deliberate backlog items and unresolved design questions
 Do not implement deferred items simply because the code being edited is adjacent to them.
 
 Examples may include:
-- drag-and-drop ordering;
 - additional Undo/Redo history UI;
 - throughput modelling;
 - more advanced cargo-flow validation;

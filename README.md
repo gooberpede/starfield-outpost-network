@@ -132,6 +132,18 @@ The repository includes documentation intended for both maintainers and coding a
   - validation versus enforcement;
   - explicitly deferred or unresolved rules.
 
+- [`docs/UX-DESIGN.md`](docs/UX-DESIGN.md)
+  - settled presentation and interaction conventions;
+  - layout, navigation, reordering, density, and accessibility guidance.
+
+- [`docs/BACKLOG.md`](docs/BACKLOG.md)
+  - genuinely deferred work;
+  - unresolved product and technical decisions.
+
+- [`docs/IMPLEMENTATION-WORKFLOW.md`](docs/IMPLEMENTATION-WORKFLOW.md)
+  - implementation handoff and review process;
+  - architecture audits, verification, and documentation maintenance.
+
 When implementing a feature, read `AGENTS.md` first and then consult the relevant deeper documentation.
 
 ## Persistence

@@ -72,7 +72,17 @@ Before implementation:
 
 If the design is still materially ambiguous, continue the design discussion before implementation.
 
-### 2. Produce an implementation brief
+### 2. Audit architecture for cross-cutting work when needed
+
+For changes that cross major state ownership, persistence, history, migration,
+import/export, or several feature boundaries, perform an architecture audit
+before implementation. The audit should map current collision points, identify
+the affected architectural boundaries, and recommend a target structure
+without making implementation changes.
+
+Small and local changes do not require an architecture audit.
+
+### 3. Produce an implementation brief
 
 ChatGPT prepares a focused implementation brief, normally as a downloadable Markdown file.
 
@@ -90,7 +100,14 @@ A good brief should contain:
 
 The brief is authoritative for that implementation batch.
 
-### 3. Start a fresh Codex chat for a coherent batch
+Implementation briefs must be self-contained across Codex chats. A fresh chat
+should not be expected to recover artifacts or reasoning from an earlier chat.
+If a prior audit or specification is required, attach or provide it with the
+current task; otherwise restate every implementation-relevant conclusion in
+the brief. Mark unavailable prior artifacts as optional when they are only
+background.
+
+### 4. Start a fresh Codex chat for a coherent batch
 
 Prefer a new Codex conversation for each distinct feature batch.
 
@@ -102,7 +119,7 @@ Reuse the same Codex chat when:
 
 A fresh chat improves navigability and reduces accidental scope carry-over.
 
-### 4. Codex inspects before editing
+### 5. Codex inspects before editing
 
 Codex should inspect:
 
@@ -115,7 +132,7 @@ Codex should not assume that a named file exists merely because it would be usef
 
 If repository documentation conflicts materially with the implementation brief, Codex should report the conflict instead of silently choosing one.
 
-### 5. Implement narrowly
+### 6. Implement narrowly
 
 Codex should:
 
@@ -129,21 +146,26 @@ Codex should:
 
 Existing comments should remain useful and new non-obvious logic should follow the repository’s comment conventions.
 
-### 6. Run automated verification
+### 7. Run automated verification
 
 For a typical batch:
 
+- run `npm test`;
 - run `npm run build`;
-- run targeted lint/checks on changed files where practical;
+- run `npm run lint` or relevant targeted lint/checks;
 - run `git diff --check`;
 - run focused browser checks where practical.
+
+Run the relevant checks the repository actually supports and report anything
+not run. Manual/browser checks remain important for interaction-heavy
+behaviour.
 
 If full `npm run lint` fails only because of known pre-existing unrelated errors:
 
 - report them;
 - do not broaden scope merely to make the entire repository lint-clean.
 
-### 7. Codex reports results
+### 8. Codex reports results
 
 The completion report should identify:
 
@@ -300,8 +322,12 @@ Use:
 - `docs/ARCHITECTURE.md` for current technical structure;
 - `docs/DOMAIN-RULES.md` for semantic/domain contracts;
 - `docs/BACKLOG.md` for deferred work and unresolved decisions;
-- `docs/IMPLEMENTATION-WORKFLOW.md` for the development handoff/review process.
+- `docs/IMPLEMENTATION-WORKFLOW.md` for the development handoff/review process;
 - `docs/UX-DESIGN.md` for settled presentation and interaction conventions;
+
+At the end of a substantial sprint or architectural parcel, review durable
+documentation and backlog state before grooming the next sprint. This is a
+periodic maintenance step, not a requirement after every small patch.
 
 ---
 
@@ -325,4 +351,3 @@ When a new idea emerges during implementation:
 
 - record it in the backlog if useful;
 - do not silently include it in the current batch.
-

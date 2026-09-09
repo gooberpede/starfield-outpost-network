@@ -156,9 +156,17 @@ Examples include:
 
 Presentation-state changes:
 
-- should not mutate the persisted Outpost Network;
+- should not mutate persisted domain/collection state;
 - should not create Undo/Redo history entries unless they represent a real domain edit;
 - should not require schema changes.
+
+**Reset presentation state at the narrowest ownership boundary that has
+actually changed.** App-global state should not reset for an outpost-local
+change, network-wide presentation should not reset merely because the selected
+outpost changes, and outpost-local editor state should not leak to another
+outpost. When a context or document transition makes local presentation state
+unsafe, reset only the state owned by that boundary. Ordinary same-context
+Undo/Redo should preserve unrelated presentation state.
 
 The Page Header places a distinct far-right network cluster after ordinary
 actions. Its muted uppercase `NETWORK` label sits above Previous, ordinal
@@ -168,8 +176,15 @@ Symbol buttons remain keyboard-focusable and expose full action names through
 accessible labels and titles. Previous/Next wrap and may be disabled when only
 one network exists.
 
+Compact symbolic controls are appropriate for secondary or infrequent actions
+when their grouping provides clear context and accessible labels/titles expose
+the full action. The Network cluster is one such contextual group; this is not
+a blanket preference for icon-only controls.
+
 Undo/Redo restores both data and the Network + Outpost working context of the
-traversed action. Ordinary navigation is not history and returns to the
+traversed action. Restoring that context ensures Undo/Redo produces a visible,
+understandable result instead of silently changing data on another network or
+outpost. Ordinary navigation is not history and returns to the
 session-only remembered outpost for each network.
 
 ---

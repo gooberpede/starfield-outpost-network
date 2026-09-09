@@ -585,7 +585,10 @@ The storage layer:
 - loads the saved network collection;
 - wraps legacy single-network storage in a one-entry collection;
 - creates a one-entry blank collection on first run;
-- saves active edits without replacing inactive entries or changing order.
+- saves the whole current `NetworkCollection` from `session.collection`.
+
+`session.collection` is the authoritative persisted collection. Active and
+inactive networks are not maintained through a separate mirrored state.
 
 React components should not call `localStorage` directly.
 
@@ -644,7 +647,7 @@ Import:
 - replaces the complete collection only after successful parsing;
 - records the replacement as one Undoable action.
 
-A failed import must not alter network state.
+A failed import must not alter collection state.
 
 Import/export success and failure messages are presentation/session state.
 
@@ -750,13 +753,13 @@ It is not persisted to browser storage or JSON.
 
 # 22. No-op editing operations
 
-Editing-session updates may return the existing network object.
+Editing-session updates may return the existing collection object.
 
-Returning the exact same network object is treated as a no-op.
+Returning the exact same collection object is treated as a no-op.
 
 A no-op:
 
-- does not replace the current network;
+- does not replace the current collection;
 - does not create an unnecessary Undo entry.
 
 This allows application handlers to safely avoid recording edits that do not actually change persisted state.
@@ -765,7 +768,7 @@ This allows application handlers to safely avoid recording edits that do not act
 
 # 23. Immutable update pattern
 
-Persisted network state should be treated as immutable.
+Persisted collection and nested network state should be treated as immutable.
 
 Typical updates use:
 
@@ -789,10 +792,9 @@ In-place mutation would undermine that assumption.
 
 Its responsibilities include:
 
-- creating the editing session;
-- owning the current `OutpostNetwork`;
+- coordinating the collection editing session and its reducer;
 - dispatching Undo/Redo;
-- owning selected-outpost UI state;
+- deriving the active network and outpost for presentation from session state;
 - owning reference-data state;
 - owning transient status messages;
 - deriving data needed across multiple features;
@@ -837,7 +839,7 @@ Feature components should receive:
 - callbacks;
 - derived presentation information.
 
-They should not independently mutate persisted network state.
+They should not independently mutate persisted domain/collection state.
 
 ## Layout components
 
@@ -957,9 +959,12 @@ Do not redesign workspace scrolling as incidental work.
 
 # 28. Selected outpost
 
-The currently selected outpost is presentation/session state owned by `App.tsx`.
+The active selected outpost is working context owned by the collection editing
+session. Per-network remembered outpost selection is also session-only.
 
-It is not persisted in `OutpostNetwork`.
+Neither value is persisted in `OutpostNetwork`; `activeNetworkId`, by contrast,
+is persisted collection state. Manual network/outpost navigation updates this
+context without creating history.
 
 The selected ID is used to derive:
 
@@ -969,7 +974,10 @@ The selected ID is used to derive:
 - provenance;
 - cargo editing context.
 
-Network replacement operations such as import must ensure the selected-outpost state still refers to a valid outpost.
+Presentation-only sub-outpost state remains separate and should reset only at
+its relevant ownership boundary. Collection replacement operations such as
+import must ensure the selected-outpost context still refers to a valid
+outpost.
 
 ---
 
@@ -1109,6 +1117,11 @@ unless explicitly required.
 
 # 35. Reordering
 
+**Stable identity/membership determines structural continuity; array
+reordering alone is not object replacement.** This applies to networks,
+outposts, cargo pads, and other ordered stable-ID collections: order may affect
+presentation, while stable IDs determine identity.
+
 Outpost and cargo-pad ordering is currently stored through array position.
 
 Manual up/down movement changes the persisted array order.
@@ -1237,13 +1250,13 @@ App.tsx
    ↓
 editing-session reducer
    ↓
-immutable OutpostNetwork replacement
+immutable NetworkCollection before/after state
    ↓
-Undo history records previous snapshot
+history records collection + Network/Outpost context
    ↓
-React re-renders
+React derives active network/outpost and re-renders
    ↓
-browser storage saves current network
+browser storage saves session.collection
 ```
 
 ## Deriving inbound cargo
@@ -1277,20 +1290,20 @@ FileReader
    ↓
 deserialize
    ↓
-successful OutpostNetwork
+successful NetworkCollection
    ↓
 App import handler
    ↓
-one Undoable network replacement
+one Undoable collection replacement
    ↓
-selected outpost made valid
+Network/Outpost context made valid
    ↓
-browser storage updates
+browser storage saves session.collection
    ↓
 status-bar success message
 ```
 
-A parsing/deserialization failure stops before network mutation.
+A parsing/deserialization failure stops before collection mutation.
 
 ---
 
@@ -1425,6 +1438,10 @@ not a live-file relationship
 
 The central architectural idea is:
 
-> `OutpostNetwork` records the player's network; domain functions interpret it; `App.tsx` coordinates edits; UI components present and collect interaction; session-only presentation state remains outside the persisted model.
+> `NetworkCollection` is the persisted root containing ordered
+> `OutpostNetwork` documents; the collection editing session coordinates
+> authoritative state, history, and working context; `App.tsx` coordinates the
+> reducer and presentation; session-only UI state remains outside the persisted
+> model.
 
 Preserve that separation unless a future design decision explicitly changes it.

@@ -108,7 +108,8 @@ number | null
 Semantics:
 
 - `null` = no level has been recorded;
-- a number = a level has been explicitly recorded.
+- an integer from `1` through `999` = a valid recorded level;
+- anything else = invalid.
 
 A blank UI field commits to `null`.
 
@@ -1061,7 +1062,9 @@ identity. Add appends a clean network with one default outpost and copies only
 character name, level, and persisted skill values from the last network in
 collection order. Delete removes the active network when others survive and
 selects its previous neighbour; with one network, the same control resets that
-stable slot instead. The collection never becomes empty.
+stable slot instead. Reset preserves that stable network slot/ID but replaces
+its contents with a fresh network containing one default empty outpost. The
+collection never becomes empty.
 
 A successful imported collection becomes the current collection as one deliberate operation.
 

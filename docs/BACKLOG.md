@@ -51,9 +51,6 @@ focused batches and may include:
 
 - Revisit drag auto-scroll at the top and bottom of the independent Cargo Pads
   list if the current native scrolling behavior proves insufficient.
-- Improve compact Cargo Pad summary width allocation so remote outpost names
-  can use genuinely available horizontal space before ellipsizing, while
-  preserving the established compact two-row summary semantics.
 
 ### Cargo Pad labels
 
