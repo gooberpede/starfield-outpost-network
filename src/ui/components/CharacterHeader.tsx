@@ -6,8 +6,8 @@
  *   behaviour.
  *
  * Architecture:
- *   Only operationally useful character fields are currently presented:
- *   character name, Outpost Management, and Planetary Habitation.
+ *   Operationally useful fields presented here are character name and level,
+ *   Outpost Management, and Planetary Habitation.
  *
  *   Other persisted character data remains in the model and serialization but
  *   is intentionally hidden until corresponding application features use it.
@@ -27,6 +27,7 @@
 import { useState } from 'react'
 
 import type { Character } from '../../domain/models'
+import { parseCharacterLevelDraft } from '../../domain/characterLevel'
 
 import './CharacterHeader.css'
 
@@ -35,10 +36,41 @@ type CharacterSkill = keyof Character['skills']
 interface CharacterHeaderProps {
   character: Character
   onNameCommit: (name: string) => void
+  onLevelCommit: (level: number | null) => void
   onSkillCommit: (
     skill: CharacterSkill,
     rank: number | null,
   ) => void
+}
+
+interface CharacterLevelFieldProps {
+  level: number | null
+  onCommit: (level: number | null) => void
+}
+
+function CharacterLevelField({ level, onCommit }: CharacterLevelFieldProps) {
+  const [draftLevel, setDraftLevel] = useState(level === null ? '' : String(level))
+  function commitDraft() {
+    const parsed = parseCharacterLevelDraft(draftLevel)
+    if (parsed === undefined) {
+      setDraftLevel(level === null ? '' : String(level))
+    } else if (parsed !== level) {
+      onCommit(parsed)
+    }
+  }
+  return (
+    <label className="character-header__field">
+      <span>Level</span>
+      <input
+        className="character-header__level"
+        type="text"
+        inputMode="numeric"
+        value={draftLevel}
+        onChange={(event) => setDraftLevel(event.target.value)}
+        onBlur={commitDraft}
+      />
+    </label>
+  )
 }
 
 interface CharacterNameFieldProps {
@@ -155,6 +187,7 @@ function SkillRankField({
 export function CharacterHeader({
   character,
   onNameCommit,
+  onLevelCommit,
   onSkillCommit,
 }: CharacterHeaderProps) {
   return (
@@ -165,6 +198,12 @@ export function CharacterHeader({
           key={character.name}
           name={character.name}
           onCommit={onNameCommit}
+        />
+
+        <CharacterLevelField
+          key={`level:${character.level ?? 'unknown'}`}
+          level={character.level}
+          onCommit={onLevelCommit}
         />
 
         <SkillRankField

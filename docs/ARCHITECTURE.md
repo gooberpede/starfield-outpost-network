@@ -100,9 +100,9 @@ interface NetworkCollection {
 }
 ```
 
-Array order runs from the oldest recorded universe to the newest. Stable
-`SavedNetwork.id` values provide identity, while `activeNetworkId` selects the
-only network currently exposed by the UI. Collection metadata is not part of
+Array order is the user-facing network order. Stable hidden `SavedNetwork.id`
+values provide identity, while `activeNetworkId` selects the current network.
+The UI exposes compact ordinal navigation and lifecycle controls. Collection metadata is not part of
 the gameplay document and has its own schema version.
 
 Conceptually:
@@ -614,7 +614,7 @@ Migration should favour preservation over speculation.
 
 # 18. JSON import/export
 
-JSON files are portable representations of `OutpostNetwork`.
+JSON files are portable representations of the complete `NetworkCollection`.
 
 They are not treated as live documents attached to the running application.
 
@@ -622,14 +622,14 @@ They are not treated as live documents attached to the running application.
 
 Export:
 
-- serializes the current network;
+- serializes every ordered saved network, its stable ID, and `activeNetworkId`;
 - generates a useful filename;
 - downloads a JSON file.
 
 The current filename convention includes:
 
 - application/network identifier;
-- character name when available;
+- the active character name and level when available;
 - local timestamp.
 
 The filename is not persisted as network state.
@@ -640,28 +640,32 @@ Import:
 
 - reads a selected JSON file;
 - deserializes and validates its structure;
-- replaces the current network only after successful parsing;
+- requires a collection envelope and rejects malformed or duplicate stable IDs;
+- replaces the complete collection only after successful parsing;
 - records the replacement as one Undoable action.
 
 A failed import must not alter network state.
 
 Import/export success and failure messages are presentation/session state.
 
-Import and export remain active-network-only operations; collection transfer is
-not exposed.
+Legacy bare-network files may be rejected externally. Browser-local migration
+continues to recover the earlier bare-network storage representation.
 
 ---
 
 # 19. Editing-session architecture
 
-The current network and its Undo/Redo history are coordinated as one `NetworkEditingSession`.
+The collection, working context, selected-outpost memory, and Undo/Redo history
+are coordinated as one `CollectionEditingSession`.
 
 Conceptually:
 
 ```ts
-interface NetworkEditingSession {
-  network: OutpostNetwork
-  history: NetworkHistory
+interface CollectionEditingSession {
+  collection: NetworkCollection
+  context: { networkId: string; outpostId: string | null }
+  selectedOutpostByNetworkId: Record<string, string | null>
+  history: CollectionHistory
 }
 ```
 
@@ -674,15 +678,12 @@ useReducer(...)
 with the pure domain reducer:
 
 ```text
-networkEditingSessionReducer
+collectionEditingSessionReducer
 ```
 
-This design ensures that network state and history move together atomically.
-
-The session receives `active SavedNetwork.network`; the collection itself and
-inactive networks are not placed in Undo/Redo history. Confirmed Delete Network
-currently replaces that active document with `createDefaultNetwork()` as one
-Undoable edit while retaining its saved ID and collection position.
+This design ensures collection state, active network, selected outpost, and
+history move atomically. Manual network/outpost navigation updates persisted
+`activeNetworkId` and session-only selection memory without creating history.
 
 `sampleNetwork` is an explicit development/test fixture and is not startup data.
 
@@ -692,11 +693,12 @@ The reducer itself does not depend on React.
 
 # 20. Undo/Redo history model
 
-Undo/Redo uses whole-network immutable snapshots.
+Undo/Redo uses whole-collection immutable before/after snapshots.
 
 A history entry contains:
 
-- the previous network snapshot;
+- the before and after collection snapshots;
+- the before and after Network + Outpost working context;
 - an action label;
 - a timestamp.
 
@@ -711,9 +713,20 @@ Examples include:
 - deleting a cargo pad and removing its cargo link;
 - changing star system and clearing an incompatible body;
 - enabling production and automatically retiring fulfilled Planned Supply;
-- importing an entire network.
+- importing an entire collection.
 
 Those related effects should remain one history action.
+
+Undo and Redo normalize restored context centrally: a missing network falls
+back through valid active ID to first network, while a missing outpost falls
+back to first outpost or `null`. Traversal always restores the context recorded
+for the action, even after unrelated manual navigation.
+
+Navigation and Cargo presentation use separate reset boundaries. Both reset
+across active-network or lifecycle/import replacement boundaries. Outpost
+membership changes reset Navigation; selected-outpost or cargo-pad membership
+changes reset Cargo. Stable-ID reorder alone resets neither. Ordinary
+same-outpost value edits preserve both through Undo/Redo.
 
 ---
 
@@ -1309,7 +1322,8 @@ ineligible locations and base-game name-length advisories without rewriting
 persisted data.
 
 Manufacturing add/remove work is staged in component-local draft state and
-committed through `App.tsx` as one whole-network history action.
+committed through `App.tsx` as one collection-history action affecting the
+active network.
 
 ## Selection controls
 
@@ -1331,14 +1345,14 @@ Independent scrolling/sticky workspace regions have been discussed but remain un
 
 ## Undo/Redo navigation
 
-The current model supports basic Undo/Redo.
+Undo/Redo restores the Network + Outpost working context recorded for each
+action. Manual navigation remains outside history.
 
 Potential future features include:
 
 - history list;
 - direct history navigation;
 - keyboard shortcuts;
-- automatic navigation to affected outposts.
 
 These are deferred.
 
@@ -1376,11 +1390,9 @@ systems / bodies / resources / products / recipes
            domain lookups
                  │
 
-PERSISTED NETWORK
-character
-outposts
-cargo pads
-cargo links
+PERSISTED COLLECTION
+ordered saved networks + active ID
+each containing character / outposts / cargo
                  │
                  ▼
         domain derived logic
@@ -1393,21 +1405,21 @@ availability / provenance / validation / capacity
        ┌─────────┴─────────┐
        ▼                   ▼
  UI components        session UI state
-                       selection
+                       per-network selection memory
                        drafts
                        status
                        expansion
 
 UNDO/REDO
-whole-network immutable snapshots
+whole-collection before/after snapshots + working context
 session-only
 
 PERSISTENCE
 localStorage NetworkCollection
-active edits preserve inactive networks
+session.collection saved directly
 
 IMPORT/EXPORT
-JSON interchange
+whole-collection JSON interchange
 not a live-file relationship
 ```
 

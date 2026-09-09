@@ -160,6 +160,18 @@ Presentation-state changes:
 - should not create Undo/Redo history entries unless they represent a real domain edit;
 - should not require schema changes.
 
+The Page Header places a distinct far-right network cluster after ordinary
+actions. Its muted uppercase `NETWORK` label sits above Previous, ordinal
+(`1 / 3`), Next, Add, and Delete/Reset controls. Ordinary action buttons align
+with the Character Header input row.
+Symbol buttons remain keyboard-focusable and expose full action names through
+accessible labels and titles. Previous/Next wrap and may be disabled when only
+one network exists.
+
+Undo/Redo restores both data and the Network + Outpost working context of the
+traversed action. Ordinary navigation is not history and returns to the
+session-only remembered outpost for each network.
+
 ---
 
 ## One deliberate action, one understandable result

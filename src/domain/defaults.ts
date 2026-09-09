@@ -72,8 +72,9 @@ function getDefaultOutpostName(
  */
 export const createDefaultOutpost = (
   existingOutposts: Outpost[] = [],
+  id: string = crypto.randomUUID(),
 ): Outpost => ({
-  id: crypto.randomUUID(),
+  id,
   name: getDefaultOutpostName(
     existingOutposts,
   ),

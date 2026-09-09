@@ -28,6 +28,7 @@ const RULE_ID =
   'invalid-character-level'
 
 const MIN_CHARACTER_LEVEL = 1
+const MAX_CHARACTER_LEVEL = 999
 
 /**
  * Reports an issue when a recorded character level is not a positive whole
@@ -45,7 +46,8 @@ function validateInvalidCharacterLevel(
 
   if (
     Number.isInteger(level) &&
-    level >= MIN_CHARACTER_LEVEL
+    level >= MIN_CHARACTER_LEVEL &&
+    level <= MAX_CHARACTER_LEVEL
   ) {
     return []
   }
@@ -56,7 +58,7 @@ function validateInvalidCharacterLevel(
       category: 'structural',
       severity: 'error',
       message:
-        `Character level is ${level}, but a recorded character level must be a whole number of at least ${MIN_CHARACTER_LEVEL}.`,
+        `Character level is ${level}, but a recorded character level must be a whole number from ${MIN_CHARACTER_LEVEL} to ${MAX_CHARACTER_LEVEL}.`,
     },
   ]
 }
@@ -66,7 +68,7 @@ export const invalidCharacterLevelRule:
     id: RULE_ID,
     name: 'Invalid character level',
     description:
-      'Flags recorded character levels that are not positive whole numbers.',
+      'Flags recorded character levels outside the whole-number range 1–999.',
     category: 'structural',
     defaultSeverity: 'error',
     validate: validateInvalidCharacterLevel,

@@ -458,6 +458,26 @@ After implementation:
 
 ---
 
+## Missing referenced inputs
+
+If a task or brief refers to an audit, design note, specification, attachment,
+prior report, or other input that is absent from the repository and current
+task context, do not invent its contents or assume it can be recovered from a
+separate chat.
+
+If the current brief fully restates everything needed, note the unavailable
+reference and continue with the current brief as authoritative. If the missing
+input could materially affect scope, architecture, domain semantics, UX,
+acceptance criteria, migration behavior, data safety, or implementation choice,
+stop before dependent changes and ask the user to provide it or clarify the
+requirement. Repository files and explicitly supplied current-task materials
+are the reliable sources across separate tasks.
+
+This guidance complements the existing instruction precedence and conflict
+rules; it does not replace them.
+
+---
+
 ## Git behaviour
 
 Do not commit, push, create branches, rewrite history, or modify remote repository state unless explicitly asked.

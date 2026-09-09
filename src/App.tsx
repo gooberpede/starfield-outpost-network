@@ -17,13 +17,14 @@ import {
 } from './data/storage'
 import {
   getActiveSavedNetwork,
-  updateActiveNetwork,
+  getNextNetworkId,
+  getPreviousNetworkId,
 } from './data/networkCollection'
+import type { NetworkCollection } from './data/networkCollection'
 import { CharacterHeader } from './ui/components/CharacterHeader'
 import { OutpostDetails } from './ui/components/OutpostDetails'
 import { OutpostList } from './ui/components/OutpostList'
 import {
-  createDefaultNetwork,
   createDefaultOutpost,
 } from './domain/defaults'
 import {
@@ -57,13 +58,14 @@ import {
 } from './domain/validation/validateNetwork'
 
 import {
-  createNetworkEditingSession,
-  networkEditingSessionReducer,
-} from './domain/networkEditingSession'
+  collectionEditingSessionReducer,
+  createCollectionEditingSession,
+  getHistoryPresentationReset,
+} from './domain/collectionEditingSession'
 
 import type {
   NetworkUpdate,
-} from './domain/networkEditingSession'
+} from './domain/collectionEditingSession'
 
 import type {
   CargoItem,
@@ -101,16 +103,17 @@ const SHOW_REFERENCE_DATA_STATUS = false
 
 function App() {
   const [initialCollection] = useState(loadNetworkCollection)
-  const collectionRef = useRef(initialCollection)
 
   const [session, dispatchEditingSession] =
     useReducer(
-      networkEditingSessionReducer,
-      getActiveSavedNetwork(initialCollection).network,
-      createNetworkEditingSession,
+      collectionEditingSessionReducer,
+      initialCollection,
+      createCollectionEditingSession,
     )
 
-  const network = session.network
+  const collection = session.collection
+  const activeSavedNetwork = getActiveSavedNetwork(collection)
+  const network = activeSavedNetwork.network
   const history = session.history
 
   const planetaryHabitationRank =
@@ -194,10 +197,6 @@ function App() {
   const resources = referenceData?.resources ?? []
   const products = referenceData?.products ?? []
 
-  const [selectedOutpostId, setSelectedOutpostId] = useState<string | null>(
-    network.outposts[0]?.id ?? null,
-  )
-
   useLayoutEffect(() => {
     const focusTarget = navigationFocusTargetRef.current
     if (!focusTarget) return
@@ -207,21 +206,18 @@ function App() {
     else showNavigationControlRef.current?.focus()
   }, [isNavigationOpen])
 
-  const selectedOutpostBeforeDelete = useRef<string | null>(null)
-
   /**
-   * Identifies the currently loaded network for cargo-pad presentation state.
-   *
-   * A successful import replaces the loaded network and increments this key,
-   * remounting CargoPadsEditor so expansion state cannot leak between networks.
-   * Ordinary edits and Undo/Redo do not change the key because expansion is
-   * independent session state rather than part of network history.
+   * Navigation and Cargo use separate remount epochs because outpost-local
+   * Cargo drafts must reset when context changes without disturbing Navigation.
+   * Ordinary same-outpost value traversal leaves both epochs unchanged.
    */
-  const [cargoPadsPresentationKey, setCargoPadsPresentationKey] =
+  const [navigationPresentationEpoch, setNavigationPresentationEpoch] =
+    useState(0)
+  const [cargoPresentationEpoch, setCargoPresentationEpoch] =
     useState(0)
 
   const selectedOutpost =
-    network.outposts.find((outpost) => outpost.id === selectedOutpostId) ??
+    network.outposts.find((outpost) => outpost.id === session.context.outpostId) ??
     network.outposts[0]
 
   /**
@@ -343,13 +339,12 @@ function App() {
   }, [])
 
   useEffect(() => {
-    const updatedCollection = updateActiveNetwork(
-      collectionRef.current,
-      network,
-    )
-    collectionRef.current = updatedCollection
-    saveNetworkCollection(updatedCollection)
-  }, [network])
+    saveNetworkCollection(collection)
+  }, [collection])
+
+  function selectOutpost(outpostId: string | null) {
+    dispatchEditingSession({ type: 'select-outpost', outpostId })
+  }
 
   /**
    * Applies one user-visible network change and records it as one Undo step.
@@ -360,12 +355,14 @@ function App() {
   function applyUndoableNetworkChange(
     label: string,
     update: NetworkUpdate,
+    outpostId?: string | null,
   ) {
     dispatchEditingSession({
-      type: 'apply',
+      type: 'apply-active-network',
       label,
       timestamp: Date.now(),
       update,
+      outpostId,
     })
   }
 
@@ -398,6 +395,20 @@ function App() {
         },
       }),
     )
+  }
+
+  function commitCharacterLevel(level: number | null) {
+    const currentLevel = network.character.level
+    if (currentLevel === level) return
+    const label = level === null
+      ? 'Clear character level'
+      : currentLevel === null
+        ? `Set character level to ${level}`
+        : `Change character level from ${currentLevel} to ${level}`
+    applyUndoableNetworkChange(label, (currentNetwork) => ({
+      ...currentNetwork,
+      character: { ...currentNetwork.character, level },
+    }))
   }
 
   /**
@@ -577,9 +588,8 @@ function App() {
           newOutpost,
         ],
       }),
+      newOutpost.id,
     )
-
-    setSelectedOutpostId(newOutpost.id)
   }
 
   useEffect(() => {
@@ -597,7 +607,7 @@ function App() {
         )
         if (!adjacentOutpostId) return false
 
-        setSelectedOutpostId(adjacentOutpostId)
+        selectOutpost(adjacentOutpostId)
         return true
       })
     }
@@ -644,17 +654,9 @@ function App() {
     * the existing navigation behaviour independently of the recorded network
     * mutation.
     */
-    if (effectiveSelectedOutpostId === outpostId) {
-      const replacementIndex =
-        Math.min(
-          deletedIndex,
-          remainingOutposts.length - 1,
-        )
-
-      setSelectedOutpostId(
-        remainingOutposts[replacementIndex].id,
-      )
-    }
+    const nextSelectedOutpostId = effectiveSelectedOutpostId === outpostId
+      ? remainingOutposts[Math.min(deletedIndex, remainingOutposts.length - 1)].id
+      : effectiveSelectedOutpostId
 
     applyUndoableNetworkChange(
       `Delete outpost ${deletedOutpost.name}`,
@@ -678,6 +680,7 @@ function App() {
               link.endpointB.outpostId !== outpostId,
           ),
       }),
+      nextSelectedOutpostId,
     )
   }
 
@@ -1337,37 +1340,66 @@ function App() {
    * Moves the editing session backward by one undoable user action.
    */
   function undo() {
-    if (history.past.at(-1)?.label === 'Delete network') {
-      setSelectedOutpostId(selectedOutpostBeforeDelete.current)
-    }
-
+    const presentationReset = getHistoryPresentationReset(session, 'undo')
     dispatchEditingSession({
       type: 'undo',
     })
+    resetNetworkPresentationState(presentationReset)
   }
 
   /**
    * Moves the editing session forward by one previously undone user action.
    */
   function redo() {
-    if (history.future.at(-1)?.label === 'Delete network') {
-      setSelectedOutpostId(null)
-    }
-
+    const presentationReset = getHistoryPresentationReset(session, 'redo')
     dispatchEditingSession({
       type: 'redo',
     })
+    resetNetworkPresentationState(presentationReset)
   }
 
-  /** Resets the active slot as one undoable operation after dialog consent. */
-  function deleteNetwork() {
-    selectedOutpostBeforeDelete.current = selectedOutpost?.id ?? null
-    applyUndoableNetworkChange(
-      'Delete network',
-      () => createDefaultNetwork(),
-    )
-    setSelectedOutpostId(null)
-    setCargoPadsPresentationKey((currentKey) => currentKey + 1)
+  function resetNetworkPresentationState(
+    reset: { navigation: boolean; cargo: boolean } = {
+      navigation: true,
+      cargo: true,
+    },
+  ) {
+    if (reset.navigation) {
+      setIsOutpostDragging(false)
+      setNavigationPresentationEpoch((currentEpoch) => currentEpoch + 1)
+    }
+    if (reset.cargo) {
+      setCargoPresentationEpoch((currentEpoch) => currentEpoch + 1)
+    }
+  }
+
+  function switchNetwork(networkId: string) {
+    dispatchEditingSession({ type: 'switch-network', networkId })
+    resetNetworkPresentationState()
+  }
+
+  function addNetwork() {
+    dispatchEditingSession({
+      type: 'add-network',
+      networkId: crypto.randomUUID(),
+      outpostId: crypto.randomUUID(),
+      timestamp: Date.now(),
+    })
+    resetNetworkPresentationState()
+  }
+
+  /** Deletes the active slot or resets the sole slot after dialog consent. */
+  function deleteOrResetNetwork() {
+    if (collection.networks.length === 1) {
+      dispatchEditingSession({
+        type: 'reset-network',
+        outpostId: crypto.randomUUID(),
+        timestamp: Date.now(),
+      })
+    } else {
+      dispatchEditingSession({ type: 'delete-network', timestamp: Date.now() })
+    }
+    resetNetworkPresentationState()
     setIsDeleteNetworkDialogOpen(false)
   }
 
@@ -1768,25 +1800,15 @@ function App() {
    * failed imports never modify network state or history.
    */
   function importNetwork(
-    importedNetwork: OutpostNetwork,
+    importedCollection: NetworkCollection,
     fileName: string,
   ) {
-    applyUndoableNetworkChange(
-      'Import network',
-      () => importedNetwork,
-    )
-
-    if (importedNetwork.outposts.length > 0) {
-      setSelectedOutpostId(
-        importedNetwork.outposts[0].id,
-      )
-    } else {
-      setSelectedOutpostId(null)
-    }
-
-    setCargoPadsPresentationKey(
-      (currentKey) => currentKey + 1,
-    )
+    dispatchEditingSession({
+      type: 'replace-collection',
+      collection: importedCollection,
+      timestamp: Date.now(),
+    })
+    resetNetworkPresentationState()
 
     setStatusMessage({
       kind: 'success',
@@ -1820,18 +1842,12 @@ function App() {
           <CharacterHeader
             character={network.character}
             onNameCommit={commitCharacterName}
+            onLevelCommit={commitCharacterLevel}
             onSkillCommit={commitCharacterSkill}
           />
         }
         actions={
           <>
-            <button
-              type="button"
-              onClick={() => setIsDeleteNetworkDialogOpen(true)}
-            >
-              Delete Network
-            </button>
-
             <button
               type="button"
               onClick={() => {
@@ -1871,14 +1887,62 @@ function App() {
             </button>
 
             <NetworkExportButton
-              network={network}
+              collection={collection}
               onExport={reportNetworkExport}
             />
             <NetworkImportButton
-              referenceData={referenceData}
               onImport={importNetwork}
               onImportError={reportNetworkImportError}
             />
+          </>
+        }
+        networkActions={
+          <>
+            <span className="page-header__network-label">NETWORK</span>
+            <div className="page-header__network-controls">
+              <button
+                type="button"
+                className="page-header__network-button"
+                aria-label="Previous Network"
+                title="Previous Network"
+                disabled={collection.networks.length === 1}
+                onClick={() => switchNetwork(getPreviousNetworkId(collection))}
+              >
+                &lt;
+              </button>
+              <span className="page-header__network-ordinal" aria-label="Active network">
+                {collection.networks.findIndex(({ id }) => id === collection.activeNetworkId) + 1}
+                {' / '}{collection.networks.length}
+              </span>
+              <button
+                type="button"
+                className="page-header__network-button"
+                aria-label="Next Network"
+                title="Next Network"
+                disabled={collection.networks.length === 1}
+                onClick={() => switchNetwork(getNextNetworkId(collection))}
+              >
+                &gt;
+              </button>
+              <button
+                type="button"
+                className="page-header__network-button"
+                aria-label="Add Network"
+                title="Add Network"
+                onClick={addNetwork}
+              >
+                +
+              </button>
+              <button
+                type="button"
+                className="page-header__network-button"
+                aria-label={collection.networks.length === 1 ? 'Reset Network' : 'Delete Network'}
+                title={collection.networks.length === 1 ? 'Reset Network' : 'Delete Network'}
+                onClick={() => setIsDeleteNetworkDialogOpen(true)}
+              >
+                -
+              </button>
+            </div>
           </>
         }
       />
@@ -1900,10 +1964,11 @@ function App() {
         showNavigationControlRef={showNavigationControlRef}
         left={
           <OutpostList
+            key={`${activeSavedNetwork.id}:${navigationPresentationEpoch}`}
             outposts={network.outposts}
             maxOutposts={maxOutposts}
             selectedOutpostId={effectiveSelectedOutpostId}
-            onSelectOutpost={setSelectedOutpostId}
+            onSelectOutpost={selectOutpost}
             onMoveOutpost={moveOutpostToIndex}
             onMoveOutpostUp={moveOutpostUp}
             onMoveOutpostDown={moveOutpostDown}
@@ -1964,7 +2029,7 @@ function App() {
 
         right={
           selectedOutpost ? <CargoPadsEditor
-            key={cargoPadsPresentationKey}
+            key={`${activeSavedNetwork.id}:${effectiveSelectedOutpostId}:${cargoPresentationEpoch}`}
             outpost={selectedOutpost}
             maxCargoPads={maxCargoPads}
             allOutposts={network.outposts}
@@ -2056,7 +2121,7 @@ function App() {
                   issue.outpostId &&
                   network.outposts.some((outpost) => outpost.id === issue.outpostId)
                 ) {
-                  setSelectedOutpostId(issue.outpostId)
+                  selectOutpost(issue.outpostId)
                 }
               }}
             />
@@ -2105,15 +2170,14 @@ function App() {
 
       {isDeleteNetworkDialogOpen && (
         <ConfirmDialog
-          title="RESET NETWORK"
-          confirmLabel="Reset Network"
+          title={collection.networks.length === 1 ? 'RESET NETWORK' : 'DELETE NETWORK'}
+          confirmLabel={collection.networks.length === 1 ? 'Reset Network' : 'Delete Network'}
           onCancel={() => setIsDeleteNetworkDialogOpen(false)}
-          onConfirm={deleteNetwork}
+          onConfirm={deleteOrResetNetwork}
         >
-          <p>Reset the current network?</p>
-          <p>
-            This will clear the character and all outposts in the current network.
-          </p>
+          <p>{collection.networks.length === 1
+            ? 'Reset the current network to a fresh default state?'
+            : 'Remove the current network from this collection?'}</p>
           <p>You can undo this action during the current session.</p>
         </ConfirmDialog>
       )}

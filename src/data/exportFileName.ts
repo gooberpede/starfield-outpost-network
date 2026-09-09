@@ -51,6 +51,7 @@ function twoDigits(
  */
 export function createNetworkExportFileName(
   characterName: string,
+  characterLevel: number | null = null,
   now: Date = new Date(),
 ): string {
   const characterSegment =
@@ -73,6 +74,7 @@ export function createNetworkExportFileName(
   const parts = [
     'starfield-outposts',
     characterSegment,
+    characterLevel === null ? '' : String(characterLevel),
     `${date}-${time}`,
   ].filter(Boolean)
 

@@ -1,18 +1,20 @@
-import type { OutpostNetwork } from '../../domain/models'
-import { serializeNetwork } from '../../data/serialization'
+import type { NetworkCollection } from '../../data/networkCollection'
+import { getActiveSavedNetwork } from '../../data/networkCollection'
+import { serializeNetworkCollection } from '../../data/serialization'
 import { createNetworkExportFileName } from '../../data/exportFileName'
 
 interface NetworkExportButtonProps {
-  network: OutpostNetwork
+  collection: NetworkCollection
   onExport: (fileName: string) => void
 }
 
 export function NetworkExportButton({
-  network,
+  collection,
   onExport,
 }: NetworkExportButtonProps) {
   function exportNetwork() {
-    const json = serializeNetwork(network)
+    const json = serializeNetworkCollection(collection)
+    const activeCharacter = getActiveSavedNetwork(collection).network.character
 
     const blob = new Blob([json], {
       type: 'application/json',
@@ -22,7 +24,8 @@ export function NetworkExportButton({
 
     const fileName =
       createNetworkExportFileName(
-        network.character.name,
+        activeCharacter.name,
+        activeCharacter.level,
       )
 
     const link = document.createElement('a')
@@ -39,7 +42,7 @@ export function NetworkExportButton({
     <button
       type="button"
       onClick={exportNetwork}
-      title="Export network to JSON"
+      title="Export all networks to JSON"
     >
       Export
     </button>

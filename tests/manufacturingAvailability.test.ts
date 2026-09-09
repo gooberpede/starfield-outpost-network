@@ -10,9 +10,9 @@ import {
 import { createDefaultNetwork } from '../src/domain/defaults.ts'
 import type { CargoItem, Outpost, OutpostNetwork } from '../src/domain/models.ts'
 import {
-  createNetworkEditingSession,
-  networkEditingSessionReducer,
-} from '../src/domain/networkEditingSession.ts'
+  createCollectionEditingSession,
+  collectionEditingSessionReducer,
+} from '../src/domain/collectionEditingSession.ts'
 import { getItemProvenanceAtOutpost } from '../src/domain/provenance.ts'
 import type { ReferenceData } from '../src/domain/referenceData.ts'
 import { manufacturingInputsUnavailableRule } from '../src/domain/validation/rules/manufacturingInputsUnavailable.ts'
@@ -190,9 +190,11 @@ test('fulfilling a fabricator retires its product placeholder in the same undo s
     manufacturing: [{ productId: 'mrg', quantity: 1 }],
     plannedSupply: [{ type: 'product', id: 'mrg' }],
   })])
-  let session = createNetworkEditingSession(initial)
-  session = networkEditingSessionReducer(session, {
-    type: 'apply', label: 'Supply fabricator', timestamp: 1,
+  let session = createCollectionEditingSession({
+    schemaVersion: 1, networks: [{ id: 'only', network: initial }], activeNetworkId: 'only',
+  })
+  session = collectionEditingSessionReducer(session, {
+    type: 'apply-active-network', label: 'Supply fabricator', timestamp: 1,
     update: (network) => retireFulfilledPlannedSupply({
       ...network,
       outposts: network.outposts.map((outpost) => ({
@@ -206,12 +208,12 @@ test('fulfilling a fabricator retires its product placeholder in the same undo s
     }, referenceData),
   })
 
-  assert.deepEqual(session.network.outposts[0].plannedSupply, [
+  assert.deepEqual(session.collection.networks[0].network.outposts[0].plannedSupply, [
     { type: 'resource', id: 'c' },
     { type: 'resource', id: 'x' },
   ])
-  session = networkEditingSessionReducer(session, { type: 'undo' })
-  assert.deepEqual(session.network.outposts[0].plannedSupply, [
+  session = collectionEditingSessionReducer(session, { type: 'undo' })
+  assert.deepEqual(session.collection.networks[0].network.outposts[0].plannedSupply, [
     { type: 'product', id: 'mrg' },
   ])
 })

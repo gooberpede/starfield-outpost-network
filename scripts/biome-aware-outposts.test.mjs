@@ -23,9 +23,9 @@ import {
   toggleOutpostProductionRoute,
 } from '../src/domain/outpostEdits.ts'
 import {
-  createNetworkEditingSession,
-  networkEditingSessionReducer,
-} from '../src/domain/networkEditingSession.ts'
+  createCollectionEditingSession,
+  collectionEditingSessionReducer,
+} from '../src/domain/collectionEditingSession.ts'
 
 function referenceFixture() {
   return {
@@ -172,14 +172,16 @@ test('location changes clear biomes and one Undo restores a grouped selection', 
   assert.deepEqual(changeOutpostBody(network.outposts[0], 'other').selectedBiomeIds, [])
   assert.deepEqual(changeOutpostSystem(network.outposts[0], 'other-system').selectedBiomeIds, [])
 
-  let session = createNetworkEditingSession(network)
-  session = networkEditingSessionReducer(session, {
-    type: 'apply', label: 'Toggle grouped biome', timestamp: 1,
+  let session = createCollectionEditingSession({
+    schemaVersion: 1, networks: [{ id: 'only', network }], activeNetworkId: 'only',
+  })
+  session = collectionEditingSessionReducer(session, {
+    type: 'apply-active-network', label: 'Toggle grouped biome', timestamp: 1,
     update: (current) => ({ ...current, outposts: [toggleOutpostBiomeGroup(current.outposts[0], ['b0', 'b1'])] }),
   })
-  assert.deepEqual(session.network.outposts[0].selectedBiomeIds, [])
-  session = networkEditingSessionReducer(session, { type: 'undo' })
-  assert.deepEqual(session.network.outposts[0].selectedBiomeIds, ['b0', 'b1'])
+  assert.deepEqual(session.collection.networks[0].network.outposts[0].selectedBiomeIds, [])
+  session = collectionEditingSessionReducer(session, { type: 'undo' })
+  assert.deepEqual(session.collection.networks[0].network.outposts[0].selectedBiomeIds, ['b0', 'b1'])
 })
 
 test('choosing a specific organic source retires unspecified without recreating it later', () => {

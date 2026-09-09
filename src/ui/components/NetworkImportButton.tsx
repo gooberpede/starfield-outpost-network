@@ -1,12 +1,10 @@
 import { useRef } from 'react'
-import { deserializeNetwork } from '../../data/serialization'
-import type { OutpostNetwork } from '../../domain/models'
-import type { ReferenceData } from '../../domain/referenceData'
+import { deserializeNetworkCollection } from '../../data/serialization'
+import type { NetworkCollection } from '../../data/networkCollection'
 
 interface NetworkImportButtonProps {
-  referenceData: ReferenceData | null
   onImport: (
-    network: OutpostNetwork,
+    collection: NetworkCollection,
     fileName: string,
   ) => void
 
@@ -17,7 +15,6 @@ interface NetworkImportButtonProps {
 }
 
 export function NetworkImportButton({
-  referenceData,
   onImport,
   onImportError,
 }: NetworkImportButtonProps) {
@@ -38,10 +35,10 @@ export function NetworkImportButton({
       }
 
       try {
-        const network = deserializeNetwork(reader.result, referenceData ?? undefined)
+        const collection = deserializeNetworkCollection(reader.result)
 
         onImport(
-          network,
+          collection,
           file.name,
         )
       } catch (error) {
@@ -71,7 +68,7 @@ export function NetworkImportButton({
         onClick={() =>
           fileInputRef.current?.click()
         }
-        title="Import network from JSON"
+        title="Import all networks from JSON"
       >
         Import
       </button>

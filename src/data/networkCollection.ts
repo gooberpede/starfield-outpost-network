@@ -3,7 +3,7 @@
  * Architecture: Collection identity/order stay outside each gameplay document.
  * Change this file when: collection schema or active-network rules change.
  */
-import { createDefaultNetwork } from '../domain/defaults.ts'
+import { createDefaultNetwork, createDefaultOutpost } from '../domain/defaults.ts'
 import type { OutpostNetwork } from '../domain/models'
 import { migrateNetworkData } from './networkMigration.ts'
 
@@ -102,8 +102,94 @@ export function getActiveSavedNetwork(collection: NetworkCollection): SavedNetwo
     collection.networks[0]
 }
 
-/** Replaces only the active gameplay document, preserving slot identity and order. */
-export function updateActiveNetwork(
+export function setActiveNetwork(
+  collection: NetworkCollection,
+  networkId: string,
+): NetworkCollection {
+  if (networkId === collection.activeNetworkId ||
+    !collection.networks.some(({ id }) => id === networkId)) return collection
+  return { ...collection, activeNetworkId: networkId }
+}
+
+function getAdjacentNetworkId(
+  collection: NetworkCollection,
+  offset: -1 | 1,
+): string {
+  const currentIndex = Math.max(0, collection.networks.findIndex(
+    ({ id }) => id === collection.activeNetworkId,
+  ))
+  const nextIndex = (currentIndex + offset + collection.networks.length) %
+    collection.networks.length
+  return collection.networks[nextIndex].id
+}
+
+export function getPreviousNetworkId(collection: NetworkCollection): string {
+  return getAdjacentNetworkId(collection, -1)
+}
+
+export function getNextNetworkId(collection: NetworkCollection): string {
+  return getAdjacentNetworkId(collection, 1)
+}
+
+/** Appends a clean universe while carrying forward only character data. */
+export function appendNetworkFromLatestCharacter(
+  collection: NetworkCollection,
+  networkId: string,
+  outpostId: string,
+): NetworkCollection {
+  const sourceCharacter = collection.networks.at(-1)?.network.character
+  const blankNetwork = createDefaultNetwork()
+  const network: OutpostNetwork = {
+    ...blankNetwork,
+    character: sourceCharacter ? {
+      name: sourceCharacter.name,
+      level: sourceCharacter.level,
+      skills: { ...sourceCharacter.skills },
+    } : blankNetwork.character,
+    outposts: [createDefaultOutpost([], outpostId)],
+  }
+  return {
+    ...collection,
+    networks: [...collection.networks, { id: networkId, network }],
+    activeNetworkId: networkId,
+  }
+}
+
+/** Removes the active slot and activates its previous neighbour. */
+export function deleteNetwork(collection: NetworkCollection): NetworkCollection {
+  if (collection.networks.length <= 1) return collection
+  const deletedIndex = collection.networks.findIndex(
+    ({ id }) => id === collection.activeNetworkId,
+  )
+  if (deletedIndex < 0) return collection
+  const networks = collection.networks.filter(
+    ({ id }) => id !== collection.activeNetworkId,
+  )
+  const activeNetworkId = networks[Math.max(0, deletedIndex - 1)].id
+  return { ...collection, networks, activeNetworkId }
+}
+
+/** Resets the sole slot without changing its stable collection identity. */
+export function resetOnlyNetwork(
+  collection: NetworkCollection,
+  outpostId: string,
+): NetworkCollection {
+  if (collection.networks.length !== 1) return collection
+  const savedNetwork = collection.networks[0]
+  return {
+    ...collection,
+    activeNetworkId: savedNetwork.id,
+    networks: [{
+      id: savedNetwork.id,
+      network: {
+        ...createDefaultNetwork(),
+        outposts: [createDefaultOutpost([], outpostId)],
+      },
+    }],
+  }
+}
+
+export function replaceActiveNetwork(
   collection: NetworkCollection,
   network: OutpostNetwork,
 ): NetworkCollection {
@@ -115,4 +201,12 @@ export function updateActiveNetwork(
         : savedNetwork,
     ),
   }
+}
+
+/** Replaces only the active gameplay document, preserving slot identity and order. */
+export function updateActiveNetwork(
+  collection: NetworkCollection,
+  network: OutpostNetwork,
+): NetworkCollection {
+  return replaceActiveNetwork(collection, network)
 }

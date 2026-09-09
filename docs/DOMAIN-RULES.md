@@ -1054,13 +1054,20 @@ One move operation is one Undoable user action.
 
 ---
 
-# 47. Import semantics
+# 47. Network collection lifecycle and import semantics
 
-A successful imported network becomes the current network as one deliberate operation.
+Networks have hidden stable IDs and use collection array order for ordinal
+identity. Add appends a clean network with one default outpost and copies only
+character name, level, and persisted skill values from the last network in
+collection order. Delete removes the active network when others survive and
+selects its previous neighbour; with one network, the same control resets that
+stable slot instead. The collection never becomes empty.
+
+A successful imported collection becomes the current collection as one deliberate operation.
 
 A failed import must not change:
 
-- network data;
+- collection data;
 - history;
 - selected outpost.
 
@@ -1074,8 +1081,8 @@ The application does not maintain an ongoing relationship to the source JSON fil
 
 Browser storage is the normal working persistence mechanism.
 
-The application saves an ordered collection of universe networks while editing
-one active network at a time.
+The application saves the ordered collection and active network ID. Last-selected
+outpost memory and global contextual history remain session-only.
 
 Undo/Redo history is not domain persistence and is not saved.
 

@@ -25,11 +25,13 @@ import './PageHeader.css'
 interface PageHeaderProps {
   main: ReactNode
   actions: ReactNode
+  networkActions: ReactNode
 }
 
 export function PageHeader({
   main,
   actions,
+  networkActions,
 }: PageHeaderProps) {
   return (
     <header className="page-header">
@@ -39,6 +41,10 @@ export function PageHeader({
 
       <div className="page-header__actions">
         {actions}
+      </div>
+
+      <div className="page-header__network-actions">
+        {networkActions}
       </div>
     </header>
   )

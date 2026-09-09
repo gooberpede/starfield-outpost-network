@@ -30,11 +30,6 @@ Keep this file focused on work that is genuinely deferred. Current implemented b
 - Consider independent scrolling for:
   - Outpost navigation;
   - Outpost Details.
-- Investigate user-controlled width allocation among the Navigation, main
-  outpost/matrix workspace, and Cargo Pads regions. A future design should
-  establish sensible defaults and minimum widths, prevent the Navigation and
-  Cargo Pads panes from becoming unusably narrow, and decide whether widths
-  should persist and whether a reset-to-default action would be useful.
 - Revisit selected-outpost context in sticky/header UI only as part of a broader workspace review.
 - Preserve the middle-column status matrix's scoped horizontal overflow during any broader workspace scrolling review.
 - Restore sticky vertical behaviour for the status-matrix column header when the enclosing Outpost Details scrolling model supports it.
@@ -164,9 +159,8 @@ Future enhancements may include:
 - direct jump to an earlier history state;
 - conventional keyboard shortcuts for Undo/Redo, with careful handling of text-input native editing so application history does not unexpectedly consume ordinary field-level Undo;
 - history-size limits if session history becomes large;
-- optional navigation to the outpost affected by an Undo/Redo action.
 
-Current behaviour remains whole-network immutable snapshots with one deliberate operation per history entry.
+Current behaviour remains whole-collection immutable snapshots with one deliberate operation per history entry.
 
 ---
 
@@ -226,17 +220,6 @@ Do not fold this broader status-bar review into unrelated feature work.
 ---
 
 ## Import, export, and storage
-
-### Network lifecycle
-
-- Expose multiple-network UI and creation through `New Network` / `+ Add Network`.
-- Design Back/Forward, selector, or tab interaction for switching networks.
-- Define Undo-history semantics when switching networks.
-- Implement true deletion of one collection entry.
-- Decide whether networks need names, labels, universe numbers, timestamps, or notes.
-- Revisit the network-operations control cluster when multi-network UI is exposed.
-- Rename `Export` to `Export Current` alongside the visible multi-network feature.
-- Add `Export All` and collection-level import/backup.
 
 Possible future improvements:
 

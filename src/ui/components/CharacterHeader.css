@@ -47,3 +47,8 @@
   width: 4rem;
   min-width: 4rem;
 }
+
+.character-header__level {
+  width: 3.5rem;
+  min-width: 3.5rem !important;
+}

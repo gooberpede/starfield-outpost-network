@@ -11,6 +11,7 @@ The application is under active development.
 The application currently supports:
 
 - character-level outpost skill tracking;
+- ordered multiple-network creation, navigation, deletion, and reset;
 - creation, renaming, selection, and manual ordering of outposts;
 - star-system and planetary-body assignment;
 - local resource recording;
@@ -24,9 +25,9 @@ The application currently supports:
 - supply provenance;
 - character-skill-dependent outpost and cargo-pad capacity;
 - domain validation and advisory warnings;
-- Undo/Redo using whole-network snapshots;
+- global contextual Undo/Redo across all networks;
 - automatic browser persistence;
-- JSON import and export;
+- whole-collection JSON import and export;
 - reference-data loading and reload status.
 
 The project deliberately allows some incomplete or temporarily invalid planning states to remain recorded so they can be diagnosed rather than silently discarded.
@@ -135,7 +136,7 @@ When implementing a feature, read `AGENTS.md` first and then consult the relevan
 
 ## Persistence
 
-The application normally saves the current outpost network automatically in browser `localStorage`.
+The application normally saves the ordered network collection and active network automatically in browser `localStorage`.
 
 JSON import/export is provided for portable backups and interchange.
 
