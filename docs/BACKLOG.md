@@ -303,6 +303,10 @@ Future enhancements may include:
 
 ### History-size investigation
 
+A development-only deterministic benchmark harness now exists; see
+`docs/HISTORY-BENCHMARK.md`. Its Node results and manual browser heap snapshots
+still require review before choosing any retention policy.
+
 Do not choose an arbitrary history-entry limit without measuring actual browser
 memory behaviour.
 

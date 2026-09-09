@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "benchmark:history": "node --expose-gc --experimental-strip-types scripts/history-benchmark.ts",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
