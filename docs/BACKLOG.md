@@ -153,10 +153,10 @@ These are planner/reference-data concerns and should remain separate from the pe
 Future enhancements may include:
 
 - visible history/timeline list;
-- direct jump to an earlier history state;
-- history-size limits if session history becomes large;
+- direct jump to an earlier history state.
 
-Current behaviour remains whole-collection immutable snapshots with one deliberate operation per history entry.
+Current behaviour remains whole-collection immutable snapshots with one deliberate
+operation per history entry and a 1,000-entry collection-global session cap.
 
 ---
 
@@ -298,37 +298,12 @@ a concrete need.
 Future enhancements may include:
 
 - visible history/timeline list;
-- direct jump to an earlier history state;
-- history-size limits if session history becomes large.
+- direct jump to an earlier history state.
 
-### History-size investigation
-
-A development-only deterministic benchmark harness now exists; see
-`docs/HISTORY-BENCHMARK.md`. Its Node results and manual browser heap snapshots
-still require review before choosing any retention policy.
-
-Do not choose an arbitrary history-entry limit without measuring actual browser
-memory behaviour.
-
-Investigate:
-
-- representative NetworkCollection sizes;
-- deliberately large collections;
-- long edit histories;
-- structural sharing across immutable before/after snapshots;
-- browser memory growth during extended sessions;
-- practical behavior near likely stress limits.
-
-Use the results to decide whether V1 needs:
-
-- a simple entry-count cap;
-- an approximate memory-based cap;
-- another bounded retention strategy;
-- or no explicit cap yet.
-
-Prefer a simple policy if measurements show it is sufficient.
-
-Current behavior remains whole-collection immutable before/after snapshots with one deliberate operation per history entry.
+The completed benchmark investigation is recorded in `docs/HISTORY-BENCHMARK.md`.
+Current behavior remains whole-collection immutable before/after snapshots with
+one deliberate operation per history entry and a 1,000-entry collection-global
+session cap.
 
 ---
 

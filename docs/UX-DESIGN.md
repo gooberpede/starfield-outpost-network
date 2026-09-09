@@ -184,7 +184,9 @@ a blanket preference for icon-only controls.
 Undo/Redo restores both data and the Network + Outpost working context of the
 traversed action. Restoring that context ensures Undo/Redo produces a visible,
 understandable result instead of silently changing data on another network or
-outpost. Ordinary navigation is not history and returns to the
+outpost. The collection-global session history retains the newest 1,000
+entries; older entries are discarded as that bound is exceeded. Ordinary
+navigation is not history and returns to the
 session-only remembered outpost for each network.
 
 Application Undo/Redo uses `Ctrl+Z`, `Ctrl+Y`, and `Ctrl+Shift+Z`. Native

@@ -15,6 +15,8 @@ import {
 import type { NetworkCollection } from '../data/networkCollection'
 import type { OutpostNetwork } from './models'
 
+export const MAX_HISTORY_ENTRIES = 1_000
+
 export interface WorkingContext {
   networkId: string
   outpostId: string | null
@@ -121,13 +123,17 @@ function record(
   if (normalizedAfter.collection === before.collection &&
     normalizedAfter.context.networkId === before.context.networkId &&
     normalizedAfter.context.outpostId === before.context.outpostId) return session
+  const entry: CollectionHistoryEntry = {
+    label, timestamp, before, after: normalizedAfter,
+    resetsNetworkPresentation,
+  }
+  const past = [...session.history.past, entry]
   return remember({
     ...session,
     history: {
-      past: [...session.history.past, {
-        label, timestamp, before, after: normalizedAfter,
-        resetsNetworkPresentation,
-      }],
+      past: past.length > MAX_HISTORY_ENTRIES
+        ? past.slice(-MAX_HISTORY_ENTRIES)
+        : past,
       future: [],
     },
   }, normalizedAfter)

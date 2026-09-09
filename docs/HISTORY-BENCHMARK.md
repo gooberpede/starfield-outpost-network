@@ -2,7 +2,8 @@
 
 The development-only history harness measures how the existing whole-collection
 Undo/Redo implementation behaves as legitimate editing transactions accumulate.
-It does not impose or recommend a production history limit.
+The completed investigation supports the production policy of retaining the
+newest 1,000 collection-global session history entries.
 
 ## Node benchmark
 
@@ -62,3 +63,31 @@ heap snapshots remain the browser measurement source. Use
 Checkpoint sampling traverses real Undo/Redo entries and verifies that the saved
 Network + Outpost context is restored at every step and that traversal returns to
 the exact checkpoint collection.
+
+## Browser measurements and retention decision
+
+Representative Chrome heap snapshots measured:
+
+| History entries | Heap snapshot total |
+| ---: | ---: |
+| 500 | 20.7 MB |
+| 1,000 | 21.0 MB |
+| 2,000 | 21.4 MB |
+| 5,000 | 22.8 MB |
+
+Distinct whole-collection replacement Chrome heap snapshots measured:
+
+| History entries | Heap snapshot total |
+| ---: | ---: |
+| 250 | 32.8 MB |
+| 500 | 37.4 MB |
+| 1,000 | 47.0 MB |
+
+These are Chrome heap-snapshot totals taken after snapshot-triggered garbage
+collection. Representative history demonstrates very strong structural sharing.
+Distinct replacement history is substantially heavier and grows roughly
+linearly, but even that stress case remains modest at 1,000 entries.
+
+The application therefore retains the newest 1,000 collection-global session
+history entries and discards older entries as the bound is exceeded. This is a
+generous defensive session bound, not an indication that entry 1,001 is unsafe.

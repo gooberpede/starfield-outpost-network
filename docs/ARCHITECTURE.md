@@ -770,6 +770,9 @@ History is session-only.
 
 It is not persisted to browser storage or JSON.
 
+The collection-global session history retains at most the newest 1,000 entries.
+When a new entry exceeds that bound, the oldest retained entry is discarded.
+
 ---
 
 # 22. No-op editing operations

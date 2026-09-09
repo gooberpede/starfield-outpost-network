@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import type { NetworkCollection } from '../src/data/networkCollection'
-import { collectionEditingSessionReducer as reduce, createCollectionEditingSession, formatNetworkHistoryLabel, getHistoryPresentationReset, normalizeHistoryState } from '../src/domain/collectionEditingSession.ts'
+import { collectionEditingSessionReducer as reduce, createCollectionEditingSession, formatNetworkHistoryLabel, getHistoryPresentationReset, MAX_HISTORY_ENTRIES, normalizeHistoryState } from '../src/domain/collectionEditingSession.ts'
 import { createDefaultNetwork } from '../src/domain/defaults.ts'
 import type { OutpostNetwork } from '../src/domain/models'
 
@@ -11,6 +11,26 @@ function network(name: string, ...ids: string[]): OutpostNetwork {
 }
 function collection(): NetworkCollection {
   return { schemaVersion: 1, networks: [{ id: 'a', network: network('A', 'a1', 'a2') }, { id: 'b', network: network('B', 'b1', 'b2') }], activeNetworkId: 'a' }
+}
+
+function editCharacterName(name: string, timestamp: number) {
+  return {
+    type: 'apply-active-network' as const,
+    label: name,
+    timestamp,
+    update: (value: OutpostNetwork) => ({
+      ...value,
+      character: { ...value.character, name },
+    }),
+  }
+}
+
+function createNamedEditHistory(count: number) {
+  let session = createCollectionEditingSession(collection())
+  for (let index = 1; index <= count; index += 1) {
+    session = reduce(session, editCharacterName(`Edit ${index}`, index))
+  }
+  return session
 }
 
 test('working-context normalization repairs missing IDs and active/context invariant', () => {
@@ -54,6 +74,112 @@ test('new action after Undo clears Redo', () => {
   session = reduce(session, { type: 'undo' })
   session = reduce(session, edit('Branched', 2))
   assert.equal(session.history.future.length, 0)
+})
+
+test('history retains every entry below and exactly at the cap', () => {
+  const belowCap = createNamedEditHistory(MAX_HISTORY_ENTRIES - 1)
+  assert.equal(belowCap.history.past.length, 999)
+  assert.equal(belowCap.history.past[0].timestamp, 1)
+
+  let atCap = createNamedEditHistory(MAX_HISTORY_ENTRIES)
+  assert.equal(atCap.history.past.length, 1_000)
+  assert.equal(atCap.history.past[0].timestamp, 1)
+  for (let index = 0; index < MAX_HISTORY_ENTRIES; index += 1) {
+    atCap = reduce(atCap, { type: 'undo' })
+  }
+  assert.equal(atCap.collection.networks[0].network.character.name, 'A')
+  assert.equal(atCap.history.past.length, 0)
+  assert.equal(atCap.history.future.length, 1_000)
+})
+
+test('first history overflow retains the newest 1000 entries for full Undo and Redo', () => {
+  let session = createNamedEditHistory(MAX_HISTORY_ENTRIES + 1)
+  const finalCollection = session.collection
+  assert.equal(session.history.past.length, 1_000)
+  assert.deepEqual(session.history.past.map(({ timestamp }) => timestamp),
+    Array.from({ length: MAX_HISTORY_ENTRIES }, (_, index) => index + 2))
+
+  for (let index = 0; index < MAX_HISTORY_ENTRIES; index += 1) {
+    session = reduce(session, { type: 'undo' })
+  }
+  assert.equal(session.collection.networks[0].network.character.name, 'Edit 1')
+  assert.equal(session.history.past.length, 0)
+  assert.equal(session.history.future.length, 1_000)
+  const fullyUndone = session
+  session = reduce(session, { type: 'undo' })
+  assert.equal(session, fullyUndone)
+
+  for (let index = 0; index < MAX_HISTORY_ENTRIES; index += 1) {
+    session = reduce(session, { type: 'redo' })
+  }
+  assert.deepEqual(session.collection, finalCollection)
+  assert.equal(session.history.past.length, 1_000)
+  assert.equal(session.history.future.length, 0)
+})
+
+test('larger history overflow retains the correct chronological window', () => {
+  const session = createNamedEditHistory(1_250)
+  assert.equal(session.history.past.length, 1_000)
+  assert.equal(session.history.past[0].timestamp, 251)
+  assert.equal(session.history.past.at(-1)?.timestamp, 1_250)
+})
+
+test('divergent edit near the cap clears Redo without exceeding retention', () => {
+  let session = createNamedEditHistory(MAX_HISTORY_ENTRIES)
+  for (let index = 0; index < 10; index += 1) {
+    session = reduce(session, { type: 'undo' })
+  }
+  assert.equal(session.history.past.length, 990)
+  assert.equal(session.history.future.length, 10)
+
+  session = reduce(session, editCharacterName('Branched', 1_001))
+  assert.equal(session.history.past.length, 991)
+  assert.equal(session.history.future.length, 0)
+  assert.equal(session.history.past[0].timestamp, 1)
+  assert.equal(session.history.past.at(-1)?.label, 'Network 1: Branched')
+})
+
+test('mixed edits and collection replacement share the cap and preserve context', () => {
+  let session = createCollectionEditingSession(collection())
+  session = reduce(session, { type: 'select-outpost', outpostId: 'a2' })
+  session = reduce(session, editCharacterName('Discarded boundary edit', 1))
+
+  const imported = collection()
+  imported.activeNetworkId = 'b'
+  session = reduce(session, {
+    type: 'replace-collection', collection: imported, timestamp: 2,
+  })
+  for (let timestamp = 3; timestamp <= MAX_HISTORY_ENTRIES + 1; timestamp += 1) {
+    const networkId = timestamp % 2 === 0 ? 'a' : 'b'
+    const outpostId = `${networkId}${timestamp % 4 < 2 ? '1' : '2'}`
+    session = reduce(session, { type: 'switch-network', networkId })
+    session = reduce(session, { type: 'select-outpost', outpostId })
+    session = reduce(session, editCharacterName(`Mixed edit ${timestamp}`, timestamp))
+  }
+
+  assert.equal(session.history.past.length, MAX_HISTORY_ENTRIES)
+  assert.equal(session.history.past[0].label, 'Import networks')
+  assert.equal(session.history.past[0].timestamp, 2)
+  const finalCollection = session.collection
+  const finalContext = session.context
+  const retainedEntries = [...session.history.past]
+
+  for (let index = retainedEntries.length - 1; index >= 0; index -= 1) {
+    const entry = retainedEntries[index]
+    session = reduce(session, { type: 'undo' })
+    assert.deepEqual(session.context, entry.before.context)
+  }
+  assert.equal(session.collection.networks[0].network.character.name,
+    'Discarded boundary edit')
+  assert.deepEqual(session.context, { networkId: 'a', outpostId: 'a2' })
+
+  for (let index = 0; index < retainedEntries.length; index += 1) {
+    const entry = retainedEntries[index]
+    session = reduce(session, { type: 'redo' })
+    assert.deepEqual(session.context, entry.after.context)
+  }
+  assert.deepEqual(session.collection, finalCollection)
+  assert.deepEqual(session.context, finalContext)
 })
 
 test('Add/Delete Outpost Undo/Redo restores before and after selections', () => {
