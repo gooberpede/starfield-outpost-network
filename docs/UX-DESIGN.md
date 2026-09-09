@@ -187,6 +187,10 @@ understandable result instead of silently changing data on another network or
 outpost. Ordinary navigation is not history and returns to the
 session-only remembered outpost for each network.
 
+Application Undo/Redo uses `Ctrl+Z`, `Ctrl+Y`, and `Ctrl+Shift+Z`. Native
+text-editing Undo/Redo takes precedence in editable controls, and application
+history shortcuts are suppressed while a modal dialog is open.
+
 ---
 
 ## One deliberate action, one understandable result

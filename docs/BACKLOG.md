@@ -154,7 +154,6 @@ Future enhancements may include:
 
 - visible history/timeline list;
 - direct jump to an earlier history state;
-- conventional keyboard shortcuts for Undo/Redo, with careful handling of text-input native editing so application history does not unexpectedly consume ordinary field-level Undo;
 - history-size limits if session history becomes large;
 
 Current behaviour remains whole-collection immutable snapshots with one deliberate operation per history entry.
@@ -300,28 +299,7 @@ Future enhancements may include:
 
 - visible history/timeline list;
 - direct jump to an earlier history state;
-- conventional keyboard shortcuts for Undo/Redo, with careful handling of text-input native editing so application history does not unexpectedly consume ordinary field-level Undo;
 - history-size limits if session history becomes large.
-
-### Undo/Redo keyboard shortcuts
-
-Consider adding conventional application-level Undo/Redo shortcuts now that the
-global contextual history model is settled.
-
-Likely mappings include:
-
-```text
-Ctrl+Z
-Ctrl+Y
-Ctrl+Shift+Z
-```
-
-Requirements:
-
-- preserve native field-level Undo/Redo inside text inputs, textareas, selects, and editable content where appropriate;
-- do not allow application history shortcuts to unexpectedly consume ordinary text editing;
-- use the existing contextual Undo/Redo path so Network + Outpost restoration remains unchanged;
-- verify browser/OS conflicts before implementation.
 
 ### History-size investigation
 

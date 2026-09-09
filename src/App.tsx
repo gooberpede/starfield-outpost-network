@@ -50,6 +50,7 @@ import { ConfirmDialog } from './ui/components/ConfirmDialog'
 import { AboutDialog } from './ui/components/AboutDialog'
 import {
   getAdjacentOutpostId,
+  handleHistoryShortcut,
   handleOutpostShortcut,
 } from './ui/keyboardShortcuts'
 
@@ -601,7 +602,16 @@ function App() {
   }
 
   useEffect(() => {
-    function handleGlobalOutpostShortcut(event: KeyboardEvent) {
+    function handleGlobalAppShortcut(event: KeyboardEvent) {
+      const handledHistoryShortcut = handleHistoryShortcut(event, {
+        isModalOpen: isDeleteNetworkDialogOpen || isAboutDialogOpen,
+        canUndo: history.past.length > 0,
+        canRedo: history.future.length > 0,
+        onUndo: undo,
+        onRedo: redo,
+      })
+      if (handledHistoryShortcut) return
+
       handleOutpostShortcut(event, (shortcut) => {
         if (shortcut === 'add') {
           addOutpost()
@@ -620,9 +630,9 @@ function App() {
       })
     }
 
-    document.addEventListener('keydown', handleGlobalOutpostShortcut)
+    document.addEventListener('keydown', handleGlobalAppShortcut)
     return () => {
-      document.removeEventListener('keydown', handleGlobalOutpostShortcut)
+      document.removeEventListener('keydown', handleGlobalAppShortcut)
     }
   })
 

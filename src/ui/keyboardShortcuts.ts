@@ -6,6 +6,7 @@
  */
 
 export type OutpostShortcut = 'add' | 'previous' | 'next'
+export type HistoryShortcut = 'undo' | 'redo'
 
 type ShortcutEvent = Pick<
   KeyboardEvent,
@@ -17,6 +18,46 @@ type ShortcutEvent = Pick<
   | 'shiftKey'
   | 'target'
 >
+
+const textEditingInputTypes = new Set([
+  '',
+  'email',
+  'number',
+  'password',
+  'search',
+  'tel',
+  'text',
+  'url',
+])
+
+/**
+ * Identifies controls whose native editing history must take precedence over
+ * the application's collection history.
+ */
+export function isTextEditingShortcutTarget(
+  target: EventTarget | null,
+): boolean {
+  const candidate = target as {
+    tagName?: unknown
+    type?: unknown
+    isContentEditable?: unknown
+  } | null
+  const tagName = typeof candidate?.tagName === 'string'
+    ? candidate.tagName.toLowerCase()
+    : ''
+
+  if (tagName === 'textarea') return true
+  if (tagName === 'input') {
+    const inputType = typeof candidate?.type === 'string'
+      ? candidate.type.toLowerCase()
+      : ''
+    return textEditingInputTypes.has(inputType)
+  }
+
+  // HTMLElement.isContentEditable includes inherited contenteditable state,
+  // so descendants of an editable host are protected as well as the host.
+  return candidate?.isContentEditable === true
+}
 
 export function isEditableShortcutTarget(target: EventTarget | null): boolean {
   const candidate = target as {
@@ -76,6 +117,50 @@ export function handleOutpostShortcut(
 ): boolean {
   const shortcut = getOutpostShortcut(event)
   if (!shortcut || !onShortcut(shortcut)) return false
+
+  event.preventDefault()
+  return true
+}
+
+export function getHistoryShortcut(
+  event: ShortcutEvent,
+): HistoryShortcut | null {
+  if (
+    !event.ctrlKey ||
+    event.altKey ||
+    event.metaKey ||
+    event.repeat ||
+    isTextEditingShortcutTarget(event.target)
+  ) {
+    return null
+  }
+
+  const key = event.key.toLowerCase()
+  if (key === 'z') return event.shiftKey ? 'redo' : 'undo'
+  if (key === 'y' && !event.shiftKey) return 'redo'
+  return null
+}
+
+export function handleHistoryShortcut(
+  event: ShortcutEvent & Pick<KeyboardEvent, 'preventDefault'>,
+  options: {
+    isModalOpen: boolean
+    canUndo: boolean
+    canRedo: boolean
+    onUndo: () => void
+    onRedo: () => void
+  },
+): boolean {
+  const shortcut = getHistoryShortcut(event)
+  if (!shortcut || options.isModalOpen) return false
+
+  if (shortcut === 'undo') {
+    if (!options.canUndo) return false
+    options.onUndo()
+  } else {
+    if (!options.canRedo) return false
+    options.onRedo()
+  }
 
   event.preventDefault()
   return true

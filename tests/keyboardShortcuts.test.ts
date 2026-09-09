@@ -3,10 +3,20 @@ import test from 'node:test'
 
 import {
   getAdjacentOutpostId,
+  getHistoryShortcut,
   getOutpostShortcut,
+  handleHistoryShortcut,
   handleOutpostShortcut,
   isEditableShortcutTarget,
+  isTextEditingShortcutTarget,
 } from '../src/ui/keyboardShortcuts.ts'
+import type { NetworkCollection } from '../src/data/networkCollection.ts'
+import {
+  collectionEditingSessionReducer,
+  createCollectionEditingSession,
+} from '../src/domain/collectionEditingSession.ts'
+import { createDefaultNetwork } from '../src/domain/defaults.ts'
+import type { OutpostNetwork } from '../src/domain/models.ts'
 
 const shortcut = {
   ctrlKey: true,
@@ -86,4 +96,207 @@ test('default is prevented only when the application performs an action', () => 
     false,
   )
   assert.equal(preventedCount, 1)
+})
+
+const historyShortcut = {
+  ctrlKey: true,
+  altKey: false,
+  shiftKey: false,
+  metaKey: false,
+  key: 'z',
+  repeat: false,
+  target: null,
+}
+
+test('history shortcuts recognize only the requested Undo and Redo chords', () => {
+  assert.equal(getHistoryShortcut(historyShortcut), 'undo')
+  assert.equal(
+    getHistoryShortcut({ ...historyShortcut, key: 'Z', shiftKey: true }),
+    'redo',
+  )
+  assert.equal(getHistoryShortcut({ ...historyShortcut, key: 'y' }), 'redo')
+  assert.equal(getHistoryShortcut({ ...historyShortcut, key: 'Y' }), 'redo')
+  assert.equal(getHistoryShortcut({ ...historyShortcut, key: 'y', shiftKey: true }), null)
+  assert.equal(getHistoryShortcut({ ...historyShortcut, altKey: true }), null)
+  assert.equal(getHistoryShortcut({ ...historyShortcut, metaKey: true }), null)
+  assert.equal(getHistoryShortcut({ ...historyShortcut, repeat: true }), null)
+})
+
+test('history shortcuts preserve native editing in text-editable targets', () => {
+  for (const type of [
+    'text', 'search', 'email', 'url', 'tel', 'password', 'number',
+  ]) {
+    const target = { tagName: 'INPUT', type } as unknown as EventTarget
+    assert.equal(isTextEditingShortcutTarget(target), true)
+    assert.equal(getHistoryShortcut({ ...historyShortcut, target }), null)
+  }
+
+  const textarea = { tagName: 'TEXTAREA' } as unknown as EventTarget
+  const editable = {
+    tagName: 'DIV', isContentEditable: true,
+  } as unknown as EventTarget
+  const editableDescendant = {
+    tagName: 'SPAN', isContentEditable: true,
+  } as unknown as EventTarget
+
+  for (const target of [textarea, editable, editableDescendant]) {
+    assert.equal(isTextEditingShortcutTarget(target), true)
+    assert.equal(getHistoryShortcut({ ...historyShortcut, target }), null)
+  }
+})
+
+test('history shortcuts remain available on ordinary non-text controls', () => {
+  for (const target of [
+    { tagName: 'BUTTON' },
+    { tagName: 'SELECT' },
+    { tagName: 'INPUT', type: 'checkbox' },
+    { tagName: 'INPUT', type: 'radio' },
+  ]) {
+    assert.equal(
+      isTextEditingShortcutTarget(target as unknown as EventTarget),
+      false,
+    )
+    assert.equal(
+      getHistoryShortcut({
+        ...historyShortcut,
+        target: target as unknown as EventTarget,
+      }),
+      'undo',
+    )
+  }
+})
+
+function dispatchHistoryShortcut(options: {
+  key?: string
+  shiftKey?: boolean
+  target?: EventTarget | null
+  isModalOpen?: boolean
+  canUndo?: boolean
+  canRedo?: boolean
+}) {
+  let undoCount = 0
+  let redoCount = 0
+  let preventedCount = 0
+  const handled = handleHistoryShortcut({
+    ...historyShortcut,
+    key: options.key ?? 'z',
+    shiftKey: options.shiftKey ?? false,
+    target: options.target ?? null,
+    preventDefault: () => { preventedCount += 1 },
+  }, {
+    isModalOpen: options.isModalOpen ?? false,
+    canUndo: options.canUndo ?? true,
+    canRedo: options.canRedo ?? true,
+    onUndo: () => { undoCount += 1 },
+    onRedo: () => { redoCount += 1 },
+  })
+  return { handled, undoCount, redoCount, preventedCount }
+}
+
+test('modal suppression leaves all history chords unhandled', () => {
+  for (const chord of [
+    { key: 'z', shiftKey: false },
+    { key: 'y', shiftKey: false },
+    { key: 'z', shiftKey: true },
+  ]) {
+    assert.deepEqual(
+      dispatchHistoryShortcut({ ...chord, isModalOpen: true }),
+      { handled: false, undoCount: 0, redoCount: 0, preventedCount: 0 },
+    )
+  }
+})
+
+test('unavailable and editable history shortcuts do not prevent default', () => {
+  assert.deepEqual(
+    dispatchHistoryShortcut({ canUndo: false }),
+    { handled: false, undoCount: 0, redoCount: 0, preventedCount: 0 },
+  )
+  assert.deepEqual(
+    dispatchHistoryShortcut({ key: 'y', canRedo: false }),
+    { handled: false, undoCount: 0, redoCount: 0, preventedCount: 0 },
+  )
+  assert.deepEqual(
+    dispatchHistoryShortcut({
+      target: { tagName: 'INPUT', type: 'text' } as unknown as EventTarget,
+    }),
+    { handled: false, undoCount: 0, redoCount: 0, preventedCount: 0 },
+  )
+})
+
+function namedNetwork(name: string, ...outpostIds: string[]): OutpostNetwork {
+  const blank = createDefaultNetwork()
+  return {
+    ...blank,
+    character: { ...blank.character, name },
+    outposts: outpostIds.map((id) => ({
+      id, name: id, systemId: '', bodyId: '', selectedBiomeIds: [],
+      localResources: [], activeProduction: [], manufacturing: [],
+      plannedSupply: [], cargoPads: [],
+    })),
+  }
+}
+
+test('keyboard traversal uses the contextual history commands', () => {
+  const collection: NetworkCollection = {
+    schemaVersion: 1,
+    networks: [
+      { id: 'a', network: namedNetwork('Before', 'a1', 'a2') },
+      { id: 'b', network: namedNetwork('Other', 'b1') },
+    ],
+    activeNetworkId: 'a',
+  }
+  let session = createCollectionEditingSession(collection)
+  session = collectionEditingSessionReducer(session, {
+    type: 'select-outpost', outpostId: 'a2',
+  })
+  session = collectionEditingSessionReducer(session, {
+    type: 'apply-active-network', label: 'Rename', timestamp: 1,
+    update: (network) => ({
+      ...network,
+      character: { ...network.character, name: 'After' },
+    }),
+  })
+  session = collectionEditingSessionReducer(session, {
+    type: 'switch-network', networkId: 'b',
+  })
+
+  const expectedAfterUndo = collectionEditingSessionReducer(session, { type: 'undo' })
+  let preventedCount = 0
+  assert.equal(handleHistoryShortcut({
+    ...historyShortcut,
+    preventDefault: () => { preventedCount += 1 },
+  }, {
+    isModalOpen: false,
+    canUndo: session.history.past.length > 0,
+    canRedo: session.history.future.length > 0,
+    onUndo: () => { session = collectionEditingSessionReducer(session, { type: 'undo' }) },
+    onRedo: () => { session = collectionEditingSessionReducer(session, { type: 'redo' }) },
+  }), true)
+  assert.deepEqual(session, expectedAfterUndo)
+  assert.deepEqual(session.context, { networkId: 'a', outpostId: 'a2' })
+  assert.equal(session.collection.networks[0].network.character.name, 'Before')
+
+  for (const chord of [
+    { key: 'y', shiftKey: false },
+    { key: 'z', shiftKey: true },
+  ]) {
+    const expectedAfterRedo = collectionEditingSessionReducer(session, { type: 'redo' })
+    assert.equal(handleHistoryShortcut({
+      ...historyShortcut,
+      ...chord,
+      preventDefault: () => { preventedCount += 1 },
+    }, {
+      isModalOpen: false,
+      canUndo: session.history.past.length > 0,
+      canRedo: session.history.future.length > 0,
+      onUndo: () => { session = collectionEditingSessionReducer(session, { type: 'undo' }) },
+      onRedo: () => { session = collectionEditingSessionReducer(session, { type: 'redo' }) },
+    }), true)
+    assert.deepEqual(session, expectedAfterRedo)
+    assert.deepEqual(session.context, { networkId: 'a', outpostId: 'a2' })
+    assert.equal(session.collection.networks[0].network.character.name, 'After')
+
+    session = collectionEditingSessionReducer(session, { type: 'undo' })
+  }
+  assert.equal(preventedCount, 3)
 })
