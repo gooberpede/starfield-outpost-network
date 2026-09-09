@@ -550,6 +550,27 @@ between invalid-skill and habitation validation.
 
 ---
 
+# 14.1 Localization boundary
+
+Localization is application presentation infrastructure under
+`src/localization/`. `en-US` is the complete baseline and fallback catalogue;
+other registered locales may supply sparse overrides. The registry owns locale
+metadata and catalogue registration so feature components do not contain
+per-locale branching.
+
+The localization provider resolves the effective locale from an explicit
+supported override, then the browser language list, then `en-US`. Application
+preferences use a dedicated localStorage key and are not part of
+`NetworkCollection`, `OutpostNetwork`, import/export, or Undo/Redo history.
+
+Reference display names use a separate sparse overlay keyed by stable reference
+kind and ID. Resolution is locale override, canonical runtime name, then raw ID.
+The overlay never changes reference identity or generated reference datasets.
+
+Validation remains backward compatible with final `message` strings. Migrated
+rules may additionally expose a semantic message key and structured stable IDs;
+the presentation layer resolves localized names and the final localized phrase.
+
 # 15. Reference-data loading
 
 Reference data is loaded through the data layer and then supplied to the application.

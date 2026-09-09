@@ -136,6 +136,7 @@ function validateManufacturingInputsUnavailable(
           severity: 'warning',
           message:
             `${product.name} requires ${inputName}, but ${inputName} is not available at this outpost.`,
+          messageKey: 'validation.manufacturingInputUnavailable',
           outpostId: outpost.id,
           productId: manufacturingEntry.productId,
           cargoItem: {

@@ -33,6 +33,7 @@ const referenceData: ReferenceData = {
   ],
   resources: [
     { id: 'iron', name: 'Iron', shortName: 'Fe', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null },
+    { id: 'aluminium', name: 'Aluminium', shortName: 'Al', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null },
     { id: 'fiber', name: 'Fiber', shortName: 'Fb', category: 'organic', rarity: 'common', parentId: null, sortOrder: null },
     { id: 'water', name: 'Water', shortName: 'H2O', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null },
   ],
@@ -145,6 +146,38 @@ test('manufacturing and organic farming diagnostics name both structured facts',
   )
 })
 
+test('manufacturing diagnostic presentation localizes names from stable IDs', () => {
+  const localizedReferenceData: ReferenceData = {
+    ...referenceData,
+    resources: [
+      ...referenceData.resources,
+      { id: 'aluminium', name: 'Aluminum', shortName: 'Al', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null },
+    ],
+    products: [
+      ...referenceData.products,
+      { id: 'plate', name: 'Test Plate', shortName: 'TP', rarity: 'common' },
+    ],
+    productRecipes: [
+      ...referenceData.productRecipes,
+      { productId: 'plate', ingredients: [{ item: { type: 'resource', id: 'aluminium' }, quantity: 1 }] },
+    ],
+  }
+  const outpost = makeOutpost({ manufacturing: [{ productId: 'plate', quantity: 1 }] })
+  const issue = manufacturingInputsUnavailableRule.validate(
+    makeNetwork(outpost), localizedReferenceData,
+  )[0]
+
+  assert.equal(issue.cargoItem?.id, 'aluminium')
+  assert.equal(
+    getValidationIssuePresentation(issue, [outpost], localizedReferenceData, 'en-US').message,
+    'Test Plate requires Aluminum, but Aluminum is not available at this outpost.',
+  )
+  assert.equal(
+    getValidationIssuePresentation(issue, [outpost], localizedReferenceData, 'en-GB').message,
+    'Test Plate requires Aluminium, but Aluminium is not available at this outpost.',
+  )
+})
+
 test('duplicate diagnostics resolve names and retain raw-ID fallbacks', () => {
   const outpost = makeOutpost({
     localResources: ['iron', 'iron'],
@@ -228,6 +261,8 @@ test('Planned Supply emits one alphabetical Info summary per affected outpost', 
   assert.equal(singularIssue.severity, 'info')
   assert.equal(singularIssue.category, 'supply')
   assert.equal(singularIssue.outpostId, 'outpost-1')
+  assert.equal(singularIssue.messageKey, 'validation.plannedSupplyUnresolved')
+  assert.deepEqual(singularIssue.cargoItems, [{ type: 'resource', id: 'water' }])
 
   const pluralIssue = plannedSupplyUnresolvedRule.validate(
     makeNetwork(makeOutpost({
@@ -242,6 +277,69 @@ test('Planned Supply emits one alphabetical Info summary per affected outpost', 
   assert.equal(
     pluralIssue.message,
     '3 items in Planned Supply: Adaptive Frame, Iron, Water.',
+  )
+})
+
+test('Planned Supply presentation localizes stable item IDs and list grammar', () => {
+  const outpost = makeOutpost({
+    plannedSupply: [
+      { type: 'resource', id: 'iron' },
+      { type: 'resource', id: 'aluminium' },
+    ],
+  })
+  const issue = plannedSupplyUnresolvedRule.validate(
+    makeNetwork(outpost), referenceData,
+  )[0]
+
+  assert.deepEqual(issue.cargoItems, [
+    { type: 'resource', id: 'aluminium' },
+    { type: 'resource', id: 'iron' },
+  ])
+
+  const usMessage = getValidationIssuePresentation(
+    issue, [outpost], referenceData, 'en-US',
+  ).message
+  assert.match(usMessage, /^2 items in Planned Supply:/)
+  assert.match(usMessage, /Aluminum and Iron/)
+  assert.doesNotMatch(usMessage, /Aluminium/)
+
+  const gbMessage = getValidationIssuePresentation(
+    issue, [outpost], referenceData, 'en-GB',
+  ).message
+  assert.match(gbMessage, /^2 items in Planned Supply:/)
+  assert.match(gbMessage, /Aluminium and Iron/)
+
+  const futureCanonicalReferenceData = {
+    ...referenceData,
+    resources: referenceData.resources.map((resource) =>
+      resource.id === 'aluminium' ? { ...resource, name: 'Aluminum' } : resource),
+  }
+  assert.match(
+    getValidationIssuePresentation(
+      issue, [outpost], futureCanonicalReferenceData, 'en-GB',
+    ).message,
+    /Aluminium and Iron/,
+  )
+
+  const singular = plannedSupplyUnresolvedRule.validate(
+    makeNetwork(makeOutpost({
+      plannedSupply: [{ type: 'resource', id: 'aluminium' }],
+    })),
+    referenceData,
+  )[0]
+  assert.equal(
+    getValidationIssuePresentation(singular, [outpost], referenceData, 'en-US').message,
+    '1 item in Planned Supply: Aluminum.',
+  )
+
+  const unknownIssue = plannedSupplyUnresolvedRule.validate(
+    makeNetwork(makeOutpost({
+      plannedSupply: [{ type: 'resource', id: 'unknown-id' }],
+    })),
+  )[0]
+  assert.equal(
+    getValidationIssuePresentation(unknownIssue, [outpost], null, 'en-US').message,
+    '1 item in Planned Supply: unknown-id.',
   )
 })
 

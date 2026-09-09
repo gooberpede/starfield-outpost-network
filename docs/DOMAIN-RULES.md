@@ -195,6 +195,17 @@ Any normalization rule such as trimming, case-folding, or locale-aware compariso
 
 ---
 
+# 4.1 Locale and generated names
+
+Locale is an application preference, not gameplay or network state. It must not
+enter `OutpostNetwork`, `NetworkCollection`, history snapshots, or portable JSON.
+
+Automatic names are localized when the object is created and then persisted as
+ordinary user-editable data. Changing locale does not rename existing outposts
+or add metadata that attempts to distinguish automatic names from user names.
+Reference IDs remain opaque stable identity regardless of their localized
+display names.
+
 # 5. Star system and planetary body
 
 An outpost stores:

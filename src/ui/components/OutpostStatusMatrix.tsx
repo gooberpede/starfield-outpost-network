@@ -34,6 +34,8 @@ import {
 } from '../statusTooltips'
 import { ContextHelp } from './ContextHelp'
 import './OutpostStatusMatrix.css'
+import { useLocalization } from '../../localization/LocalizationContext.ts'
+import { getReferenceDisplayName } from '../../localization/referenceNames.ts'
 
 interface Props {
   outpost: Outpost
@@ -77,6 +79,7 @@ export function OutpostStatusMatrix({
   availableItems,
   onToggleResource, onToggleActiveProduction, onCommitManufacturing,
 }: Props) {
+  const { locale } = useLocalization()
   const [draftManufacturing, setDraftManufacturing] = useState<ManufacturingEntry[] | null>(null)
   const [isAddingProduct, setIsAddingProduct] = useState(false)
   const resourcesById = useMemo(() => new Map(resources.map((item) => [item.id, item])), [resources])
@@ -101,7 +104,10 @@ export function OutpostStatusMatrix({
       .map((route) => route.resourceId),
   ])
   const inorganicRows = [...inorganicIds].sort((left, right) =>
-    (resourcesById.get(left)?.name ?? left).localeCompare(resourcesById.get(right)?.name ?? right))
+    getReferenceDisplayName('resource', left, resourcesById.get(left)?.name, locale)
+      .localeCompare(getReferenceDisplayName(
+        'resource', right, resourcesById.get(right)?.name, locale,
+      )))
 
   const availableOrganicRoutes = getAvailableOrganicProductionRoutes(
     referenceData, outpost.bodyId, outpost.selectedBiomeIds,
@@ -132,7 +138,10 @@ export function OutpostStatusMatrix({
 
   const resolveItem = (item: CargoItem): ItemDisplay => {
     const reference = item.type === 'resource' ? resourcesById.get(item.id) : productsById.get(item.id)
-    return { name: reference?.name ?? item.id, shortName: reference?.shortName ?? item.id }
+    return {
+      name: getReferenceDisplayName(item.type, item.id, reference?.name, locale),
+      shortName: reference?.shortName ?? item.id,
+    }
   }
   const routeIsActive = (route: ResourceProductionRoute) =>
     outpost.activeProduction.some((candidate) => getProductionRouteKey(candidate) === getProductionRouteKey(route))
@@ -181,7 +190,10 @@ export function OutpostStatusMatrix({
         <h3 id="matrix-inorganic" className="outpost-status-matrix__section-heading">Inorganic</h3>
         {inorganicRows.map((resourceId) => {
           const resource = resourcesById.get(resourceId)
-          const display = { name: resource?.name ?? resourceId, shortName: resource?.shortName ?? resourceId }
+          const display = {
+            name: getReferenceDisplayName('resource', resourceId, resource?.name, locale),
+            shortName: resource?.shortName ?? resourceId,
+          }
           const route: ResourceProductionRoute = { type: 'inorganic', resourceId }
           const producing = routeIsActive(route)
           const present = outpost.localResources.includes(resourceId)
@@ -194,6 +206,7 @@ export function OutpostStatusMatrix({
                 display.name,
                 present,
                 availableInorganicIds.has(resourceId),
+                locale,
               )}
               onClick={() => onToggleResource(resourceId)} /></div>
             <div role="cell"><EditableState item={display} pressed={producing}

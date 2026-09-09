@@ -136,6 +136,7 @@ export function appendNetworkFromLatestCharacter(
   collection: NetworkCollection,
   networkId: string,
   outpostId: string,
+  outpostBaseName = 'New Outpost',
 ): NetworkCollection {
   const sourceCharacter = collection.networks.at(-1)?.network.character
   const blankNetwork = createDefaultNetwork()
@@ -146,7 +147,7 @@ export function appendNetworkFromLatestCharacter(
       level: sourceCharacter.level,
       skills: { ...sourceCharacter.skills },
     } : blankNetwork.character,
-    outposts: [createDefaultOutpost([], outpostId)],
+    outposts: [createDefaultOutpost([], outpostId, outpostBaseName)],
   }
   return {
     ...collection,
@@ -173,6 +174,7 @@ export function deleteNetwork(collection: NetworkCollection): NetworkCollection 
 export function resetOnlyNetwork(
   collection: NetworkCollection,
   outpostId: string,
+  outpostBaseName = 'New Outpost',
 ): NetworkCollection {
   if (collection.networks.length !== 1) return collection
   const savedNetwork = collection.networks[0]
@@ -183,7 +185,7 @@ export function resetOnlyNetwork(
       id: savedNetwork.id,
       network: {
         ...createDefaultNetwork(),
-        outposts: [createDefaultOutpost([], outpostId)],
+        outposts: [createDefaultOutpost([], outpostId, outpostBaseName)],
       },
     }],
   }

@@ -37,6 +37,7 @@ export const createDefaultNetwork = (): OutpostNetwork => ({
  */
 function getDefaultOutpostName(
   existingOutposts: Outpost[],
+  baseName = 'New Outpost',
 ): string {
   const existingNames =
     new Set(
@@ -44,8 +45,6 @@ function getDefaultOutpostName(
         (outpost) => outpost.name,
       ),
     )
-
-  const baseName = 'New Outpost'
 
   if (!existingNames.has(baseName)) {
     return baseName
@@ -73,10 +72,12 @@ function getDefaultOutpostName(
 export const createDefaultOutpost = (
   existingOutposts: Outpost[] = [],
   id: string = crypto.randomUUID(),
+  baseName = 'New Outpost',
 ): Outpost => ({
   id,
   name: getDefaultOutpostName(
     existingOutposts,
+    baseName,
   ),
   systemId: '',
   bodyId: '',

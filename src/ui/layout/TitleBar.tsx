@@ -19,15 +19,52 @@
  */
 
 import './TitleBar.css'
+import { useLocalization } from '../../localization/LocalizationContext.ts'
+import {
+  getLocaleSelectorOptions,
+  supportedLocales,
+} from '../../localization/locale.ts'
+import type { SupportedLocale } from '../../localization/types.ts'
 
 interface TitleBarProps {
   onAbout: () => void
 }
 
 export function TitleBar({ onAbout }: TitleBarProps) {
+  const {
+    automaticLocale,
+    locale,
+    localeOverride,
+    setLocaleOverride,
+    t,
+  } = useLocalization()
+  const closedLabel = supportedLocales.find(({ id }) => id === locale)?.shortLabel ??
+    locale.toUpperCase()
+  const automaticLabel = supportedLocales.find(({ id }) => id === automaticLocale)?.shortLabel ??
+    automaticLocale.toUpperCase()
+
   return (
     <header className="title-bar">
       <h1>Starfield Outpost Network</h1>
+      <label className="title-bar__locale">
+        <select
+          aria-label={t('locale.selector.label')}
+          title={`${t('locale.selector.label')}: ${closedLabel}`}
+          value={localeOverride ?? 'automatic'}
+          onChange={(event) => {
+            const value = event.target.value
+            setLocaleOverride(value === 'automatic' ? null : value as SupportedLocale)
+          }}
+        >
+          {getLocaleSelectorOptions(
+            automaticLocale,
+            t('locale.selector.automatic', { locale: automaticLabel }),
+          ).map((option) => (
+            <option key={option.value} value={option.value}>{option.label}</option>
+          ))}
+        </select>
+        <span aria-hidden="true" className="title-bar__locale-label">{closedLabel}</span>
+      </label>
       <button
         type="button"
         className="title-bar__about"

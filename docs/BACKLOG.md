@@ -229,27 +229,21 @@ completed first. It means that work affecting distribution, usability, safety,
 and maintainability should increasingly be evaluated against the needs of a
 public-facing application rather than only the developer's own use.
 
-### Localization framework
+### Further localization coverage
 
-Promote localization from a distant future concern to pre-release
-infrastructure.
+The first localization foundation now supports Automatic/explicit `en-US` and
+`en-GB`, semantic message catalogues, sparse reference-name overlays, and a
+representative vertical slice. Deferred localization work includes:
 
-Initial goals:
+- migrating the remaining UI, accessible, help, status, and transient strings;
+- migrating remaining validators to semantic keys and structured parameters;
+- deciding when history labels should move from final strings to action keys;
+- adding non-English locale content when translation scope is defined;
+- applying locale-aware number, date, and list formatting where future migrated
+  display cases require it.
 
-- introduce a lightweight string-resolution/localization layer rather than
-  special-casing individual terms;
-- support at least English (UK) and English (US);
-- use the localization framework to resolve known terminology differences such
-  as `Aluminium` / `Aluminum`;
-- determine how localized reference-data display names should relate to ordinary
-  localized UI strings;
-- keep English as the initial language family without implying that a full
-  translation effort is currently required;
-- design the framework so additional languages can be added later without
-  rewriting components.
-
-Avoid introducing one-off spelling substitutions in presentation code when the
-underlying problem belongs to localization.
+Export filename timestamps and persisted/schema formats remain invariant unless
+a separate design explicitly changes them.
 
 ### Accessibility audit
 

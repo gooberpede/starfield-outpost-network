@@ -770,6 +770,18 @@ Refer to `docs/BACKLOG.md`.
 
 ---
 
+# Locale selection
+
+The main title bar permanently presents a compact locale selector beside About.
+Its closed state shows the effective locale tag (`EN-US` or `EN-GB`), including
+when Automatic mode is selected. The Automatic option names its current result;
+explicit locale options use self-identifying labels. The control uses no flags
+and does not require a Settings or About dialog.
+
+Locale changes take effect immediately and persist as an application preference
+without creating gameplay history. The selector remains a semantic,
+keyboard-operable form control with a visible focus treatment.
+
 # Accessibility baseline
 
 Accessibility should be addressed locally and consistently without allowing a narrow UI task to expand into an unrelated full-application redesign.

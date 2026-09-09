@@ -60,6 +60,7 @@ import {
 } from '../validationInteraction'
 import { contextHelpText } from '../contextHelpText'
 import { ContextHelp } from './ContextHelp'
+import { useLocalization } from '../../localization/LocalizationContext.ts'
 
 interface ValidationSummaryProps {
   issues: ValidationIssue[]
@@ -74,6 +75,7 @@ export function ValidationSummary({
   referenceData,
   onNavigateToIssue,
 }: ValidationSummaryProps) {
+  const { locale, t } = useLocalization()
   const [isOpen, setIsOpen] =
     useState(false)
   const [activeIssueKey, setActiveIssueKey] =
@@ -244,10 +246,7 @@ export function ValidationSummary({
           }
           aria-expanded={isOpen}
         >
-          Validation: {issues.length}{' '}
-          {issues.length === 1
-            ? 'issue'
-            : 'issues'}
+          {t('validation.issueCount', { count: issues.length })}
         </button>
         <ContextHelp context="Validation" text={contextHelpText.validation} />
       </div>
@@ -283,6 +282,7 @@ export function ValidationSummary({
                   issue,
                   outposts,
                   referenceData,
+                  locale,
                 )
 
                 return (

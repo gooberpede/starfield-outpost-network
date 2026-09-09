@@ -65,11 +65,16 @@ export interface ValidationIssue {
   category: ValidationCategory
   severity: ValidationSeverity
   message: string
+  /** Optional semantic presentation key for incrementally localized rules. */
+  messageKey?:
+    | 'validation.manufacturingInputUnavailable'
+    | 'validation.plannedSupplyUnresolved'
   
   cargoLinkId?: string
   outpostId?: string
   cargoPadId?: string
   cargoItem?: CargoItem
+  cargoItems?: CargoItem[]
   productId?: ProductId
   speciesId?: SpeciesId
   bodyBiomeId?: BodyBiomeId

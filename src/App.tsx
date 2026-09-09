@@ -80,6 +80,8 @@ import {
   toggleOutpostBiomeGroup,
   toggleOutpostProductionRoute,
 } from './domain/outpostEdits'
+import { useLocalization } from './localization/LocalizationContext.ts'
+import { getReferenceDisplayName } from './localization/referenceNames.ts'
 
 /**
  * Transient application feedback shown in the fixed status bar.
@@ -102,6 +104,7 @@ type StatusMessage =
 const SHOW_REFERENCE_DATA_STATUS = false
 
 function App() {
+  const { locale, t } = useLocalization()
   const [initialCollection] = useState(loadNetworkCollection)
 
   const [session, dispatchEditingSession] =
@@ -194,7 +197,10 @@ function App() {
     statusMessage,
   ])
 
-  const resources = referenceData?.resources ?? []
+  const resources = (referenceData?.resources ?? []).map((resource) => ({
+    ...resource,
+    name: getReferenceDisplayName('resource', resource.id, resource.name, locale),
+  }))
   const products = referenceData?.products ?? []
 
   useLayoutEffect(() => {
@@ -576,6 +582,8 @@ function App() {
     const newOutpost =
       createDefaultOutpost(
         network.outposts,
+        crypto.randomUUID(),
+        t('outpost.defaultName'),
       )
 
     applyUndoableNetworkChange(
@@ -1383,6 +1391,7 @@ function App() {
       type: 'add-network',
       networkId: crypto.randomUUID(),
       outpostId: crypto.randomUUID(),
+      outpostBaseName: t('outpost.defaultName'),
       timestamp: Date.now(),
     })
     resetNetworkPresentationState()
@@ -1394,6 +1403,7 @@ function App() {
       dispatchEditingSession({
         type: 'reset-network',
         outpostId: crypto.randomUUID(),
+        outpostBaseName: t('outpost.defaultName'),
         timestamp: Date.now(),
       })
     } else {
@@ -1936,8 +1946,12 @@ function App() {
               <button
                 type="button"
                 className="page-header__network-button"
-                aria-label={collection.networks.length === 1 ? 'Reset Network' : 'Delete Network'}
-                title={collection.networks.length === 1 ? 'Reset Network' : 'Delete Network'}
+                aria-label={collection.networks.length === 1
+                  ? 'Reset Network'
+                  : t('network.delete.button')}
+                title={collection.networks.length === 1
+                  ? 'Reset Network'
+                  : t('network.delete.button')}
                 onClick={() => setIsDeleteNetworkDialogOpen(true)}
               >
                 -
@@ -2170,15 +2184,19 @@ function App() {
 
       {isDeleteNetworkDialogOpen && (
         <ConfirmDialog
-          title={collection.networks.length === 1 ? 'RESET NETWORK' : 'DELETE NETWORK'}
-          confirmLabel={collection.networks.length === 1 ? 'Reset Network' : 'Delete Network'}
+          title={collection.networks.length === 1
+            ? 'RESET NETWORK'
+            : t('network.delete.confirmTitle')}
+          confirmLabel={collection.networks.length === 1
+            ? 'Reset Network'
+            : t('network.delete.button')}
           onCancel={() => setIsDeleteNetworkDialogOpen(false)}
           onConfirm={deleteOrResetNetwork}
         >
           <p>{collection.networks.length === 1
             ? 'Reset the current network to a fresh default state?'
-            : 'Remove the current network from this collection?'}</p>
-          <p>You can undo this action during the current session.</p>
+            : t('network.delete.explanation')}</p>
+          <p>{t('network.delete.undoHint')}</p>
         </ConfirmDialog>
       )}
 

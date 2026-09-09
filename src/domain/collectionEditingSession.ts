@@ -50,9 +50,10 @@ export type CollectionEditingAction =
       update: NetworkUpdate; outpostId?: string | null }
   | { type: 'select-outpost'; outpostId: string | null }
   | { type: 'switch-network'; networkId: string }
-  | { type: 'add-network'; networkId: string; outpostId: string; timestamp: number }
+  | { type: 'add-network'; networkId: string; outpostId: string;
+      outpostBaseName?: string; timestamp: number }
   | { type: 'delete-network'; timestamp: number }
-  | { type: 'reset-network'; outpostId: string; timestamp: number }
+  | { type: 'reset-network'; outpostId: string; outpostBaseName?: string; timestamp: number }
   | { type: 'replace-collection'; collection: NetworkCollection; timestamp: number }
   | { type: 'undo' }
   | { type: 'redo' }
@@ -193,7 +194,7 @@ export function collectionEditingSessionReducer(
     }
     case 'add-network': {
       const collection = appendNetworkFromLatestCharacter(
-        session.collection, action.networkId, action.outpostId,
+        session.collection, action.networkId, action.outpostId, action.outpostBaseName,
       )
       return record(session, formatNetworkHistoryLabel(
         collection, action.networkId, 'Add network',
@@ -217,7 +218,9 @@ export function collectionEditingSessionReducer(
       }, true)
     }
     case 'reset-network': {
-      const collection = resetOnlyNetwork(session.collection, action.outpostId)
+      const collection = resetOnlyNetwork(
+        session.collection, action.outpostId, action.outpostBaseName,
+      )
       return record(session, 'Reset network', action.timestamp, {
         collection,
         context: { networkId: collection.activeNetworkId, outpostId: action.outpostId },

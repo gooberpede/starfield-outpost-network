@@ -27,6 +27,7 @@ The application currently supports:
 - domain validation and advisory warnings;
 - global contextual Undo/Redo across all networks;
 - automatic browser persistence;
+- browser-derived or explicitly selected US/UK English presentation;
 - whole-collection JSON import and export;
 - reference-data loading and reload status.
 
@@ -151,6 +152,10 @@ When implementing a feature, read `AGENTS.md` first and then consult the relevan
 The application normally saves the ordered network collection and active network automatically in browser `localStorage`.
 
 JSON import/export is provided for portable backups and interchange.
+
+Application preferences, including the Automatic/explicit locale selection,
+use a separate browser-storage record. They are not part of network data,
+Undo/Redo, or JSON import/export.
 
 Imported/exported files are not treated as live documents attached to the running application.
 

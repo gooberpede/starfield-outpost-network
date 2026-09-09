@@ -40,9 +40,10 @@ export const plannedSupplyUnresolvedRule: ValidationRule = {
     return network.outposts.flatMap((outpost) => {
       if (outpost.plannedSupply.length === 0) return []
 
-      const itemNames = outpost.plannedSupply
-        .map((item) => getCargoItemName(item, referenceData))
-        .sort((left, right) => left.localeCompare(right, 'en'))
+      const sortedItems = [...outpost.plannedSupply]
+        .sort((left, right) => getCargoItemName(left, referenceData)
+          .localeCompare(getCargoItemName(right, referenceData), 'en'))
+      const itemNames = sortedItems.map((item) => getCargoItemName(item, referenceData))
       const itemCount = itemNames.length
 
       return [{
@@ -52,6 +53,8 @@ export const plannedSupplyUnresolvedRule: ValidationRule = {
         message: itemCount === 1
           ? `1 item in Planned Supply: ${itemNames[0]}.`
           : `${itemCount} items in Planned Supply: ${itemNames.join(', ')}.`,
+        messageKey: 'validation.plannedSupplyUnresolved',
+        cargoItems: sortedItems.map((item) => ({ ...item })),
         outpostId: outpost.id,
       }]
     })

@@ -11,6 +11,8 @@ import type {
   SolarEfficiency,
   WindEfficiency,
 } from '../domain/powerEfficiency.ts'
+import { translate } from '../localization/catalog.ts'
+import type { SupportedLocale } from '../localization/types.ts'
 
 const qualitativePowerLabels = {
   'very-poor': 'Very Poor',
@@ -41,9 +43,14 @@ export function getInorganicPresentTooltip(
   resourceName: string,
   recordedPresent: boolean,
   potentiallyPresent: boolean,
+  locale: SupportedLocale = 'en-US',
 ): string {
-  if (recordedPresent) return `${resourceName} is recorded as present at this outpost.`
-  if (potentiallyPresent) return `${resourceName} may be present at this outpost.`
+  if (recordedPresent) {
+    return translate(locale, 'help.inorganicPresentRecorded', { resource: resourceName })
+  }
+  if (potentiallyPresent) {
+    return translate(locale, 'help.inorganicPresentPossible', { resource: resourceName })
+  }
   return resourceName
 }
 
