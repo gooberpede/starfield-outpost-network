@@ -13,9 +13,10 @@ const references: ReferenceData = {
   species: [], planetSpecies: [], organicOccurrences: [], organicFarmingProfiles: [],
   bodyResources: [], productRecipes: [],
   resources: [
-    { id: 'aluminium', name: 'Aluminium', shortName: 'Al', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null },
-    { id: 'iron', name: 'Iron', shortName: 'Fe', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null },
-    { id: 'wire-resource', name: 'Wire Fibre', shortName: 'WF', category: 'organic', rarity: 'common', parentId: null, sortOrder: null },
+    { id: 'aluminium', name: 'Aluminum', shortName: 'Al', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
+    { id: 'iron', name: 'Iron', shortName: 'Fe', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
+    { id: 'carboxylic-acids', name: 'Carboxylic Acids', shortName: 'R-COOH', category: 'inorganic', rarity: 'rare', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
+    { id: 'wire-resource', name: 'Wire Fibre', shortName: 'WF', category: 'organic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: null },
   ],
   products: [
     { id: 'zero-wire', name: 'Zero Wire', shortName: 'ZW', rarity: 'common' },
@@ -49,6 +50,9 @@ test('localized names rebuild between US and UK English without changing identit
   assert.equal(gb.find(({ key }) => key === 'resource:aluminium')?.displayName, 'Aluminium')
   assert.equal(getItemSearchMatches(us, 'aluminum', 'en-US')[0].item.id, 'aluminium')
   assert.equal(getItemSearchMatches(gb, 'aluminium', 'en-GB')[0].item.id, 'aluminium')
+  assert.equal(getItemSearchMatches(us, 'Al', 'en-US')[0].item.id, 'aluminium')
+  assert.equal(getItemSearchMatches(us, 'R-COOH', 'en-US')[0].item.id, 'carboxylic-acids')
+  assert.deepEqual(getItemSearchMatches(us, 'R-COC', 'en-US'), [])
 })
 
 test('ordering and collision disambiguation remain deterministic', () => {

@@ -1,46 +1,49 @@
-Code,Resource,Rarity,ParentResource,SortOrder
-Al,Aluminium,Common,,1
-Ar,Argon,Common,,2
-Cl,Chlorine,Common,,3
-Cu,Copper,Common,,4
-Fe,Iron,Common,,5
-Ni,Nickel,Common,,7
-Pb,Lead,Common,,6
-U,Uranium,Common,,8
-Cs,Caesium,Exotic,Lithium,1
-Dy,Dysprosium,Exotic,Titanium,
-Eu,Europium,Exotic,Neodymium,
-IL,Ionic Liquids,Exotic,Tetrafluorides,
-Ne,Neon,Exotic,Carboxylic Acids,
-Pd,Palladium,Exotic,Platinum,
-Pu,Plutonium,Exotic,Vanadium,
-Sb,Antimony,Exotic,Gold,
-Xe,Xenon,Exotic,Lithium,2
-Yb,Ytterbium,Exotic,Tantalum,
-Au,Gold,Rare,Fluorine,1
-Hg,Mercury,Rare,Silver,
-Li,Lithium,Rare,Chlorosilanes,
-Nd,Neodymium,Rare,Beryllium,
-Pt,Platinum,Rare,Cobalt,
-R-COC,Carboxylic Acids,Rare,Benzene,
-Ta,Tantalum,Rare,Alkanes,
-Ti,Titanium,Rare,Tungsten,
-V,Vanadium,Rare,Iridium,
-xF4,Tetrafluorides,Rare,Fluorine,2
-H2O,Water,Common,,
-Ag,Silver,Uncommon,Lead,1
-Be,Beryllium,Uncommon,Aluminium,
-C6Hn,Benzene,Uncommon,Argon,
-Co,Cobalt,Uncommon,Nickel,
-F,Fluorine,Uncommon,Copper,
-HnCn,Alkanes,Uncommon,Iron,
-Ir,Iridium,Uncommon,Uranium,
-SiH3Cl,Chlorosilanes,Uncommon,Chlorine,
-W,Tungsten,Uncommon,Lead,2
-Ad,Aldumite,Unique,Xenon,
-Ie,Indicite,Unique,Europium,
-Rc,Rothicite,Unique,Ytterbium,
-Tsn,Tasine,Unique,Palladium,
-Vr,Veryl,Unique,Neon,
-Vy,Vytinium,Unique,Plutonium,
-He-3,Helium-3,Common,,
+SourceFile,ExtractTimestamp,ResourceFormID,ResourceEditorID,ResourceName,ResourceShortName,SNAMRarity,ClassificationKeyword,EffectiveParentSourceFile,EffectiveParentFormID,EffectiveParentEditorID,EffectiveParentName
+"SFBGS00D.esm","2026-09-10 20:37:10","01033E3F","Y2_Res_X-Tech","X-Tech","XT","Unique","Y2_X-Tech_Resource_Keyword","","","",""
+"Starfield.esm","2026-09-10 20:37:10","0027C499","ResInorgRareMercury_L","Mercury","Hg","Rare","ResourceTypeCraftingInorganicRare","Starfield.esm","000057C3","ResInorgUncommonSilver","Silver"
+"Starfield.esm","2026-09-10 20:37:10","00252074","ResInorgUniqueCaelumite","Caelumite","Ct","Exotic","ResourceTypeCraftingInorganicUnique","","","",""
+"Starfield.esm","2026-09-10 20:37:10","0004BA38","ResInorgUniqueIndicite","Indicite","Ie","Unique","ResourceTypeCraftingInorganicUnique","Starfield.esm","000057E2","ResInorgExoticEuropium","Europium"
+"Starfield.esm","2026-09-10 20:37:10","000083EC","ResInorgCommonWater_L","Water","H2O","Everywhere","ResourceTypeCraftingInorganicCommon","","","",""
+"Starfield.esm","2026-09-10 20:37:10","00006529","ResInorgUniqueAqueousHematite","Aqueous Hematite","Aq","Unique","ResourceTypeCraftingInorganicUnique","","","",""
+"Starfield.esm","2026-09-10 20:37:10","00005DF8","ResInorgUniqueVytinium","Vytinium","Vy","Unique","ResourceTypeCraftingInorganicUnique","Starfield.esm","000057EE","ResInorgExoticPlutonium","Plutonium"
+"Starfield.esm","2026-09-10 20:37:10","00005DF7","ResInorgUniqueVeryl_G","Veryl","Vr","Unique","ResourceTypeCraftingInorganicUnique","Starfield.esm","000057E9","ResInorgExoticNeon_G","Neon"
+"Starfield.esm","2026-09-10 20:37:10","00005DF6","ResInorgUniqueTasine_L","Tasine","Tsn","Unique","ResourceTypeCraftingInorganicUnique","Starfield.esm","000057CD","ResInorgExoticPalladium","Palladium"
+"Starfield.esm","2026-09-10 20:37:10","00005DF5","ResInorgUniqueAldumite","Aldumite","Ad","Unique","ResourceTypeCraftingInorganicUnique","Starfield.esm","000057E0","ResInorgExoticCaesium_L","Caesium"
+"Starfield.esm","2026-09-10 20:37:10","00005DF1","ResInorgUniqueRothicite","Rothicite","Rc","Unique","ResourceTypeCraftingInorganicUnique","Starfield.esm","000057CA","ResInorgExoticYtterbium","Ytterbium"
+"Starfield.esm","2026-09-10 20:37:10","000057F5","ResInorgCommonHelium3_G","Helium-3","He-3","Special","ResourceTypeCraftingInorganicCommon","","","",""
+"Starfield.esm","2026-09-10 20:37:10","000057EE","ResInorgExoticPlutonium","Plutonium","Pu","Exotic","ResourceTypeCraftingInorganicExotic","Starfield.esm","000057ED","ResInorgRareVanadium","Vanadium"
+"Starfield.esm","2026-09-10 20:37:10","000057ED","ResInorgRareVanadium","Vanadium","V","Rare","ResourceTypeCraftingInorganicRare","Starfield.esm","000057EC","ResInorgUncommonIridium","Iridium"
+"Starfield.esm","2026-09-10 20:37:10","000057EC","ResInorgUncommonIridium","Iridium","Ir","Uncommon","ResourceTypeCraftingInorganicUncommon","Starfield.esm","000057EB","ResInorgCommonUranium","Uranium"
+"Starfield.esm","2026-09-10 20:37:10","000057EB","ResInorgCommonUranium","Uranium","U","Common","ResourceTypeCraftingInorganicCommon","","","",""
+"Starfield.esm","2026-09-10 20:37:10","000057EA","ResInorgCommonArgon_G","Argon","Ar","Common","ResourceTypeCraftingInorganicCommon","","","",""
+"Starfield.esm","2026-09-10 20:37:10","000057E9","ResInorgExoticNeon_G","Neon","Ne","Exotic","ResourceTypeCraftingInorganicExotic","Starfield.esm","000057E8","ResInorgRareCarboxylicAcids_L","Carboxylic Acids"
+"Starfield.esm","2026-09-10 20:37:10","000057E8","ResInorgRareCarboxylicAcids_L","Carboxylic Acids","R-COOH","Rare","ResourceTypeCraftingInorganicRare","Starfield.esm","000057E7","ResInorgUncommonBenzene_G","Benzene"
+"Starfield.esm","2026-09-10 20:37:10","000057E7","ResInorgUncommonBenzene_G","Benzene","C6Hn","Uncommon","ResourceTypeCraftingInorganicUncommon","Starfield.esm","000057EA","ResInorgCommonArgon_G","Argon"
+"Starfield.esm","2026-09-10 20:37:10","000057E2","ResInorgExoticEuropium","Europium","Eu","Exotic","ResourceTypeCraftingInorganicExotic","Starfield.esm","000057DB","ResInorgRareNeodymium","Neodymium"
+"Starfield.esm","2026-09-10 20:37:10","000057E0","ResInorgExoticCaesium_L","Caesium","Cs","Exotic","ResourceTypeCraftingInorganicExotic","Starfield.esm","000057DA","ResInorgRareLithium","Lithium"
+"Starfield.esm","2026-09-10 20:37:10","000057DC","ResInorgExoticXenon_G","Xenon","Xe","Exotic","ResourceTypeCraftingInorganicExotic","Starfield.esm","000057DA","ResInorgRareLithium","Lithium"
+"Starfield.esm","2026-09-10 20:37:10","000057DB","ResInorgRareNeodymium","Neodymium","Nd","Rare","ResourceTypeCraftingInorganicRare","Starfield.esm","000057D8","ResInorgUncommonBeryllium","Beryllium"
+"Starfield.esm","2026-09-10 20:37:10","000057DA","ResInorgRareLithium","Lithium","Li","Rare","ResourceTypeCraftingInorganicRare","Starfield.esm","000057D7","ResInorgUncommonChlorosilanes_L","Chlorosilanes"
+"Starfield.esm","2026-09-10 20:37:10","000057D8","ResInorgUncommonBeryllium","Beryllium","Be","Uncommon","ResourceTypeCraftingInorganicUncommon","Starfield.esm","000057D6","ResInorgCommonAluminum","Aluminum"
+"Starfield.esm","2026-09-10 20:37:10","000057D7","ResInorgUncommonChlorosilanes_L","Chlorosilanes","SiH3Cl","Uncommon","ResourceTypeCraftingInorganicUncommon","Starfield.esm","000057D5","ResInorgCommonChlorine_G","Chlorine"
+"Starfield.esm","2026-09-10 20:37:10","000057D6","ResInorgCommonAluminum","Aluminum","Al","Common","ResourceTypeCraftingInorganicCommon","","","",""
+"Starfield.esm","2026-09-10 20:37:10","000057D5","ResInorgCommonChlorine_G","Chlorine","Cl","Common","ResourceTypeCraftingInorganicCommon","","","",""
+"Starfield.esm","2026-09-10 20:37:10","000057D4","ResInorgExoticIonicLiquids_L","Ionic Liquids","IL","Exotic","ResourceTypeCraftingInorganicExotic","Starfield.esm","000057D1","ResInorgRareTetrafluorides_G","Tetrafluorides"
+"Starfield.esm","2026-09-10 20:37:10","000057D3","ResInorgExoticAntimony","Antimony","Sb","Exotic","ResourceTypeCraftingInorganicExotic","Starfield.esm","000057D2","ResInorgRareGold","Gold"
+"Starfield.esm","2026-09-10 20:37:10","000057D2","ResInorgRareGold","Gold","Au","Rare","ResourceTypeCraftingInorganicRare","Starfield.esm","000057D0","ResInorgUncommonFluorine_G","Fluorine"
+"Starfield.esm","2026-09-10 20:37:10","000057D1","ResInorgRareTetrafluorides_G","Tetrafluorides","xF4","Rare","ResourceTypeCraftingInorganicRare","Starfield.esm","000057D0","ResInorgUncommonFluorine_G","Fluorine"
+"Starfield.esm","2026-09-10 20:37:10","000057D0","ResInorgUncommonFluorine_G","Fluorine","F","Uncommon","ResourceTypeCraftingInorganicUncommon","Starfield.esm","000057CF","ResInorgCommonCopper","Copper"
+"Starfield.esm","2026-09-10 20:37:10","000057CF","ResInorgCommonCopper","Copper","Cu","Common","ResourceTypeCraftingInorganicCommon","","","",""
+"Starfield.esm","2026-09-10 20:37:10","000057CE","ResInorgUncommonCobalt","Cobalt","Co","Uncommon","ResourceTypeCraftingInorganicUncommon","Starfield.esm","000057CB","ResInorgCommonNickel","Nickel"
+"Starfield.esm","2026-09-10 20:37:10","000057CD","ResInorgExoticPalladium","Palladium","Pd","Exotic","ResourceTypeCraftingInorganicExotic","Starfield.esm","000057CC","ResInorgRarePlatinum","Platinum"
+"Starfield.esm","2026-09-10 20:37:10","000057CC","ResInorgRarePlatinum","Platinum","Pt","Rare","ResourceTypeCraftingInorganicRare","Starfield.esm","000057CE","ResInorgUncommonCobalt","Cobalt"
+"Starfield.esm","2026-09-10 20:37:10","000057CB","ResInorgCommonNickel","Nickel","Ni","Common","ResourceTypeCraftingInorganicCommon","","","",""
+"Starfield.esm","2026-09-10 20:37:10","000057CA","ResInorgExoticYtterbium","Ytterbium","Yb","Exotic","ResourceTypeCraftingInorganicExotic","Starfield.esm","000057C8","ResInorgRareTantalum","Tantalum"
+"Starfield.esm","2026-09-10 20:37:10","000057C9","ResInorgUncommonAlkanes_G","Alkanes","HnCn","Uncommon","ResourceTypeCraftingInorganicUncommon","Starfield.esm","000057C7","ResInorgCommonIron","Iron"
+"Starfield.esm","2026-09-10 20:37:10","000057C8","ResInorgRareTantalum","Tantalum","Ta","Rare","ResourceTypeCraftingInorganicRare","Starfield.esm","000057C9","ResInorgUncommonAlkanes_G","Alkanes"
+"Starfield.esm","2026-09-10 20:37:10","000057C7","ResInorgCommonIron","Iron","Fe","Common","ResourceTypeCraftingInorganicCommon","","","",""
+"Starfield.esm","2026-09-10 20:37:10","000057C6","ResInorgRareTitanium","Titanium","Ti","Rare","ResourceTypeCraftingInorganicRare","Starfield.esm","000057C4","ResInorgUncommonTungsten","Tungsten"
+"Starfield.esm","2026-09-10 20:37:10","000057C4","ResInorgUncommonTungsten","Tungsten","W","Uncommon","ResourceTypeCraftingInorganicUncommon","Starfield.esm","000057C1","ResInorgCommonLead","Lead"
+"Starfield.esm","2026-09-10 20:37:10","000057C3","ResInorgUncommonSilver","Silver","Ag","Uncommon","ResourceTypeCraftingInorganicUncommon","Starfield.esm","000057C1","ResInorgCommonLead","Lead"
+"Starfield.esm","2026-09-10 20:37:10","000057C2","ResInorgExoticDysprosium","Dysprosium","Dy","Exotic","ResourceTypeCraftingInorganicExotic","Starfield.esm","000057C6","ResInorgRareTitanium","Titanium"
+"Starfield.esm","2026-09-10 20:37:10","000057C1","ResInorgCommonLead","Lead","Pb","Common","ResourceTypeCraftingInorganicCommon","","","",""

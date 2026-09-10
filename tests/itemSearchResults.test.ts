@@ -9,8 +9,8 @@ import type { ReferenceData } from '../src/domain/referenceData.ts'
 const referenceData: ReferenceData = {
   systems: [], bodies: [], bodyResources: [], organicFarmingProfiles: [],
   resources: [
-    { id: 'iron', name: 'Iron', shortName: 'Fe', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null },
-    { id: 'fiber', name: 'Fiber', shortName: 'Fb', category: 'organic', rarity: 'common', parentId: null, sortOrder: null },
+    { id: 'iron', name: 'Iron', shortName: 'Fe', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
+    { id: 'fiber', name: 'Fiber', shortName: 'Fb', category: 'organic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: null },
   ],
   products: [
     { id: 'wire', name: 'Zero Wire', shortName: 'ZW', rarity: 'common' },

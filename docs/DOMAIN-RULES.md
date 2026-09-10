@@ -53,11 +53,20 @@ Resource and manufactured-product rarity uses one ordered reference scale:
 common < uncommon < rare < exotic < unique
 ```
 
-Inorganic resources may form rarity-progressing families. `parentId` identifies
-the immediate parent resource, while `sortOrder` optionally orders siblings.
-Roots use `parentId: null`; missing explicit order uses `sortOrder: null`.
-Organic resources do not participate in these families and always use null for
-both fields.
+Inorganic resources may form rarity-progressing families. Canonical FormID owns
+source identity and parent relationships; stable application `ResourceId` owns
+persisted tracker identity. The tracker policy owns ordinary/deferred/excluded
+disposition, five-tier presentation rarity, and explicit Planned Supply
+placement/order. `parentId` is the policy-crosswalked immediate parent ID.
+`sortOrder` remains the compatible numeric order field, but special-strip
+membership is determined by `plannedSupplyPlacement`, never by a null order.
+Organic resources do not participate in these families and use null placement.
+
+Canonical SNAM rarity is preserved independently of the tracker tier: Water is
+`Everywhere` and Helium-3 is `Special` in source truth while both present as
+`common`. Aqueous Hematite and Caelumite are canonical-known but excluded;
+X-Tech is canonical-known and special-deferred. None is an ordinary selectable
+resource until a separate feature decision changes policy and runtime behavior.
 
 This metadata is reference fact, not player-network state. Persisted outposts
 continue to store stable resource and product IDs rather than catalogue records.

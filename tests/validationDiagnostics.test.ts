@@ -32,10 +32,10 @@ const referenceData: ReferenceData = {
     { id: 'body-mountain', bodyId: 'body-1', biomeId: 'mountain', biomeIndex: 1 },
   ],
   resources: [
-    { id: 'iron', name: 'Iron', shortName: 'Fe', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null },
-    { id: 'aluminium', name: 'Aluminium', shortName: 'Al', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null },
-    { id: 'fiber', name: 'Fiber', shortName: 'Fb', category: 'organic', rarity: 'common', parentId: null, sortOrder: null },
-    { id: 'water', name: 'Water', shortName: 'H2O', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null },
+    { id: 'iron', name: 'Iron', shortName: 'Fe', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
+    { id: 'aluminium', name: 'Aluminum', shortName: 'Al', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
+    { id: 'fiber', name: 'Fiber', shortName: 'Fb', category: 'organic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: null },
+    { id: 'water', name: 'Water', shortName: 'H2O', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'special' },
   ],
   products: [{ id: 'frame', name: 'Adaptive Frame', shortName: 'AF', rarity: 'common' }],
   inorganicOccurrences: [{
@@ -151,7 +151,7 @@ test('manufacturing diagnostic presentation localizes names from stable IDs', ()
     ...referenceData,
     resources: [
       ...referenceData.resources,
-      { id: 'aluminium', name: 'Aluminum', shortName: 'Al', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null },
+      { id: 'aluminium', name: 'Aluminum', shortName: 'Al', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
     ],
     products: [
       ...referenceData.products,

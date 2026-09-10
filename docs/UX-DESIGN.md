@@ -481,8 +481,11 @@ Use:
 - no connector lines.
 
 Water and Helium-3 occupy a separate singleton block above the main family grid.
+That membership and its Helium-3-then-Water order come from explicit tracker
+Planned Supply policy, not null sort order or canonical source row order.
 
-Eventually X-Tech may join that conceptual area if and when it becomes valid reference data.
+X-Tech is canonical-known but special-deferred. A future feature may deliberately
+admit it to this conceptual area; it is not currently visible here or in Search.
 
 Do not force singleton resources into fake families.
 

@@ -5,8 +5,9 @@
     "shortName": "Ad",
     "category": "inorganic",
     "rarity": "unique",
-    "parentId": "xenon",
-    "sortOrder": null
+    "parentId": "caesium",
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "alkanes",
@@ -15,16 +16,18 @@
     "category": "inorganic",
     "rarity": "uncommon",
     "parentId": "iron",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "aluminium",
-    "name": "Aluminium",
+    "name": "Aluminum",
     "shortName": "Al",
     "category": "inorganic",
     "rarity": "common",
     "parentId": null,
-    "sortOrder": 1
+    "sortOrder": 1,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "antimony",
@@ -33,7 +36,8 @@
     "category": "inorganic",
     "rarity": "exotic",
     "parentId": "gold",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "argon",
@@ -42,7 +46,8 @@
     "category": "inorganic",
     "rarity": "common",
     "parentId": null,
-    "sortOrder": 2
+    "sortOrder": 2,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "benzene",
@@ -51,7 +56,8 @@
     "category": "inorganic",
     "rarity": "uncommon",
     "parentId": "argon",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "beryllium",
@@ -60,7 +66,8 @@
     "category": "inorganic",
     "rarity": "uncommon",
     "parentId": "aluminium",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "caesium",
@@ -69,16 +76,18 @@
     "category": "inorganic",
     "rarity": "exotic",
     "parentId": "lithium",
-    "sortOrder": 1
+    "sortOrder": 1,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "carboxylic-acids",
     "name": "Carboxylic Acids",
-    "shortName": "R-COC",
+    "shortName": "R-COOH",
     "category": "inorganic",
     "rarity": "rare",
     "parentId": "benzene",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "chlorine",
@@ -87,7 +96,8 @@
     "category": "inorganic",
     "rarity": "common",
     "parentId": null,
-    "sortOrder": 3
+    "sortOrder": 3,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "chlorosilanes",
@@ -96,7 +106,8 @@
     "category": "inorganic",
     "rarity": "uncommon",
     "parentId": "chlorine",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "cobalt",
@@ -105,7 +116,8 @@
     "category": "inorganic",
     "rarity": "uncommon",
     "parentId": "nickel",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "copper",
@@ -114,7 +126,8 @@
     "category": "inorganic",
     "rarity": "common",
     "parentId": null,
-    "sortOrder": 4
+    "sortOrder": 4,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "dysprosium",
@@ -123,7 +136,8 @@
     "category": "inorganic",
     "rarity": "exotic",
     "parentId": "titanium",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "europium",
@@ -132,7 +146,8 @@
     "category": "inorganic",
     "rarity": "exotic",
     "parentId": "neodymium",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "fluorine",
@@ -141,7 +156,8 @@
     "category": "inorganic",
     "rarity": "uncommon",
     "parentId": "copper",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "gold",
@@ -150,7 +166,8 @@
     "category": "inorganic",
     "rarity": "rare",
     "parentId": "fluorine",
-    "sortOrder": 1
+    "sortOrder": 1,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "helium-3",
@@ -159,7 +176,8 @@
     "category": "inorganic",
     "rarity": "common",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": 1,
+    "plannedSupplyPlacement": "special"
   },
   {
     "id": "indicite",
@@ -168,7 +186,8 @@
     "category": "inorganic",
     "rarity": "unique",
     "parentId": "europium",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "ionic-liquids",
@@ -177,7 +196,8 @@
     "category": "inorganic",
     "rarity": "exotic",
     "parentId": "tetrafluorides",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "iridium",
@@ -186,7 +206,8 @@
     "category": "inorganic",
     "rarity": "uncommon",
     "parentId": "uranium",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "iron",
@@ -195,7 +216,8 @@
     "category": "inorganic",
     "rarity": "common",
     "parentId": null,
-    "sortOrder": 5
+    "sortOrder": 5,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "lead",
@@ -204,7 +226,8 @@
     "category": "inorganic",
     "rarity": "common",
     "parentId": null,
-    "sortOrder": 6
+    "sortOrder": 6,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "lithium",
@@ -213,7 +236,8 @@
     "category": "inorganic",
     "rarity": "rare",
     "parentId": "chlorosilanes",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "mercury",
@@ -222,7 +246,8 @@
     "category": "inorganic",
     "rarity": "rare",
     "parentId": "silver",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "neodymium",
@@ -231,7 +256,8 @@
     "category": "inorganic",
     "rarity": "rare",
     "parentId": "beryllium",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "neon",
@@ -240,7 +266,8 @@
     "category": "inorganic",
     "rarity": "exotic",
     "parentId": "carboxylic-acids",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "nickel",
@@ -249,7 +276,8 @@
     "category": "inorganic",
     "rarity": "common",
     "parentId": null,
-    "sortOrder": 7
+    "sortOrder": 7,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "palladium",
@@ -258,7 +286,8 @@
     "category": "inorganic",
     "rarity": "exotic",
     "parentId": "platinum",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "platinum",
@@ -267,7 +296,8 @@
     "category": "inorganic",
     "rarity": "rare",
     "parentId": "cobalt",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "plutonium",
@@ -276,7 +306,8 @@
     "category": "inorganic",
     "rarity": "exotic",
     "parentId": "vanadium",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "rothicite",
@@ -285,7 +316,8 @@
     "category": "inorganic",
     "rarity": "unique",
     "parentId": "ytterbium",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "silver",
@@ -294,7 +326,8 @@
     "category": "inorganic",
     "rarity": "uncommon",
     "parentId": "lead",
-    "sortOrder": 1
+    "sortOrder": 1,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "tantalum",
@@ -303,7 +336,8 @@
     "category": "inorganic",
     "rarity": "rare",
     "parentId": "alkanes",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "tasine",
@@ -312,7 +346,8 @@
     "category": "inorganic",
     "rarity": "unique",
     "parentId": "palladium",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "tetrafluorides",
@@ -321,7 +356,8 @@
     "category": "inorganic",
     "rarity": "rare",
     "parentId": "fluorine",
-    "sortOrder": 2
+    "sortOrder": 2,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "titanium",
@@ -330,7 +366,8 @@
     "category": "inorganic",
     "rarity": "rare",
     "parentId": "tungsten",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "tungsten",
@@ -339,7 +376,8 @@
     "category": "inorganic",
     "rarity": "uncommon",
     "parentId": "lead",
-    "sortOrder": 2
+    "sortOrder": 2,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "uranium",
@@ -348,7 +386,8 @@
     "category": "inorganic",
     "rarity": "common",
     "parentId": null,
-    "sortOrder": 8
+    "sortOrder": 8,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "vanadium",
@@ -357,7 +396,8 @@
     "category": "inorganic",
     "rarity": "rare",
     "parentId": "iridium",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "veryl",
@@ -366,7 +406,8 @@
     "category": "inorganic",
     "rarity": "unique",
     "parentId": "neon",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "vytinium",
@@ -375,7 +416,8 @@
     "category": "inorganic",
     "rarity": "unique",
     "parentId": "plutonium",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "water",
@@ -384,7 +426,8 @@
     "category": "inorganic",
     "rarity": "common",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": 2,
+    "plannedSupplyPlacement": "special"
   },
   {
     "id": "xenon",
@@ -393,7 +436,8 @@
     "category": "inorganic",
     "rarity": "exotic",
     "parentId": "lithium",
-    "sortOrder": 2
+    "sortOrder": 2,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "ytterbium",
@@ -402,7 +446,8 @@
     "category": "inorganic",
     "rarity": "exotic",
     "parentId": "tantalum",
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": "family"
   },
   {
     "id": "adhesive",
@@ -411,7 +456,8 @@
     "category": "organic",
     "rarity": "rare",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "amino-acids",
@@ -420,7 +466,8 @@
     "category": "organic",
     "rarity": "rare",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "analgesic",
@@ -429,7 +476,8 @@
     "category": "organic",
     "rarity": "rare",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "antimicrobial",
@@ -438,7 +486,8 @@
     "category": "organic",
     "rarity": "uncommon",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "aromatic",
@@ -447,7 +496,8 @@
     "category": "organic",
     "rarity": "rare",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "biosuppressant",
@@ -456,7 +506,8 @@
     "category": "organic",
     "rarity": "exotic",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "cosmetic",
@@ -465,7 +516,8 @@
     "category": "organic",
     "rarity": "uncommon",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "fiber",
@@ -474,7 +526,8 @@
     "category": "organic",
     "rarity": "common",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "gastronomic-delight",
@@ -483,7 +536,8 @@
     "category": "organic",
     "rarity": "unique",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "hallucinogen",
@@ -492,7 +546,8 @@
     "category": "organic",
     "rarity": "rare",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "high-tensile-spidroin",
@@ -501,7 +556,8 @@
     "category": "organic",
     "rarity": "unique",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "hypercatalyst",
@@ -510,7 +566,8 @@
     "category": "organic",
     "rarity": "exotic",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "immunostimulant",
@@ -519,7 +576,8 @@
     "category": "organic",
     "rarity": "unique",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "lubricant",
@@ -528,7 +586,8 @@
     "category": "organic",
     "rarity": "exotic",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "luxury-textile",
@@ -537,7 +596,8 @@
     "category": "organic",
     "rarity": "unique",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "membrane",
@@ -546,7 +606,8 @@
     "category": "organic",
     "rarity": "uncommon",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "memory-substrate",
@@ -555,7 +616,8 @@
     "category": "organic",
     "rarity": "unique",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "metabolic-agent",
@@ -564,7 +626,8 @@
     "category": "organic",
     "rarity": "common",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "neurologic",
@@ -573,7 +636,8 @@
     "category": "organic",
     "rarity": "unique",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "nutrient",
@@ -582,7 +646,8 @@
     "category": "organic",
     "rarity": "common",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "ornamental",
@@ -591,7 +656,8 @@
     "category": "organic",
     "rarity": "uncommon",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "pigment",
@@ -600,7 +666,8 @@
     "category": "organic",
     "rarity": "uncommon",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "polymer",
@@ -609,7 +676,8 @@
     "category": "organic",
     "rarity": "exotic",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "sealant",
@@ -618,7 +686,8 @@
     "category": "organic",
     "rarity": "common",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "sedative",
@@ -627,7 +696,8 @@
     "category": "organic",
     "rarity": "rare",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "solvent",
@@ -636,7 +706,8 @@
     "category": "organic",
     "rarity": "exotic",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "spice",
@@ -645,7 +716,8 @@
     "category": "organic",
     "rarity": "uncommon",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "stimulant",
@@ -654,7 +726,8 @@
     "category": "organic",
     "rarity": "exotic",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "structural",
@@ -663,7 +736,8 @@
     "category": "organic",
     "rarity": "common",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   },
   {
     "id": "toxin",
@@ -672,6 +746,7 @@
     "category": "organic",
     "rarity": "common",
     "parentId": null,
-    "sortOrder": null
+    "sortOrder": null,
+    "plannedSupplyPlacement": null
   }
 ]

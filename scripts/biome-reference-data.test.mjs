@@ -11,6 +11,11 @@ import test from 'node:test'
 import { parse } from 'csv-parse/sync'
 import { buildBiomeData, parseBodyNumber, validateInorganicManifest } from './biome-reference-data.mjs'
 import { buildBodies, validatePlanetDirectory } from './build-reference-data.mjs'
+import {
+  buildInorganicResources,
+  parseCanonicalInorganicCsv,
+  parseInorganicTrackerPolicyCsv,
+} from './inorganic-resource-data.mjs'
 
 const csv = async (name) => parse(await readFile(new URL(`../reference-source/${name}.csv`, import.meta.url), 'utf8'), { columns: true, trim: true, bom: true })
 const planets = await csv('planet-directory')
@@ -18,7 +23,15 @@ const inorganic = await csv('biome-inorganic-resources')
 const organic = await csv('biome-organic-resources')
 const bodies = buildBodies(planets)
 const resources = JSON.parse(await readFile(new URL('../public/reference-data/resources.json', import.meta.url), 'utf8'))
-const build = (i = inorganic, o = organic) => buildBiomeData(i, o, bodies, resources)
+const canonicalInorganicRows = parseCanonicalInorganicCsv(
+  await readFile(new URL('../reference-source/inorganic-resource-dictionary.csv', import.meta.url), 'utf8'),
+)
+const inorganicPolicyRows = parseInorganicTrackerPolicyCsv(
+  await readFile(new URL('../reference-source/inorganic-resource-tracker-policy.csv', import.meta.url), 'utf8'),
+)
+const { resourceByFormId } = buildInorganicResources(canonicalInorganicRows, inorganicPolicyRows)
+const build = (i = inorganic, o = organic) =>
+  buildBiomeData(i, o, bodies, resources, resourceByFormId)
 
 test('canonical data retains all occurrence grains and wild-only presence', () => {
   validatePlanetDirectory(planets)
@@ -41,7 +54,9 @@ for (const [field, value, diagnostic] of [
   ['LocationType', 'OCEAN', /LocationType/],
   ['BiomeFormID', '', /BiomeFormID/],
   ['BiomeIndex', '-1', /BiomeIndex/],
-  ['ResourceName', 'unmapped', /crosswalk/],
+  ['ResourceFormID', 'FFFFFFFF', /cannot crosswalk inorganic FormID/],
+  ['ResourceName', 'unmapped', /contradictory inorganic name/],
+  ['ResourceEditorID', 'WrongEditorId', /contradictory ResourceEditorID/],
   ['StarSystemID', 'bad', /contradictory system/],
 ]) {
   test(`inorganic rejects ${field}=${value}`, () => {
@@ -65,7 +80,7 @@ for (const [field, value, diagnostic] of [
   ['Domesticable', 'Maybe', /Domesticable/],
   ['ResourceFormID', '', /FormID/],
   ['ResourceName', 'missing', /crosswalk/],
-  ['ResourceInput1Name', 'missing', /crosswalk/],
+  ['ResourceInput1Name', 'missing', /contradictory inorganic name/],
   ['ResourceInput1Qty', '3', /signature/],
   ['ResourceResolutionStatus', 'Unknown', /ResourceResolutionStatus/],
 ]) {

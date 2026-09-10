@@ -466,8 +466,10 @@ files by the browser. Planetary data follows a direct canonical export path:
 
 ```text
 Game extracts → reference-source/planet-directory.csv
+                reference-source/inorganic-resource-dictionary.csv
                 reference-source/biome-inorganic-resources.csv
                 reference-source/biome-organic-resources.csv
+Tracker policy → reference-source/inorganic-resource-tracker-policy.csv
         ↓
 scripts/build-reference-data.mjs
         ↓
@@ -476,12 +478,14 @@ public/reference-data/*.json
 src/data/referenceDataLoader.ts
 ```
 
-The curated inorganic and organic resource dictionaries are the master source
-for resource identity, abbreviation, and rarity. The inorganic dictionary also
-defines immediate family parents and optional sibling ordering. The curated
-manufactured-product dictionary is the master source for product identity,
-abbreviation, and rarity, while `industrial-workbench.csv` remains the recipe
-source.
+The canonical inorganic ESM extract is source truth for FormID identity,
+canonical fallback name, abbreviation, SNAM rarity, source classification, and
+immediate parent FormID. The tracker policy joins by FormID and separately owns
+stable application `ResourceId`, runtime disposition, five-tier presentation
+rarity, and Planned Supply placement/order. Application IDs are opaque persisted
+identities and are never regenerated from canonical or localized names. The
+curated organic and manufactured-product dictionaries retain their existing
+roles, while `industrial-workbench.csv` remains the name-based recipe source.
 
 The three canonical CSVs supply body facts, inorganic biome/atmosphere
 occurrences, and organic species occurrences respectively. The builder delegates
@@ -505,9 +509,17 @@ Runtime relationships are deliberately separate:
   directly from occurrence-grain biome and species facts.
 
 Each relationship has its own generated JSON file and typed loader property.
-Resource IDs remain stable curated application IDs; exact names and explicit
-Aluminum/Aluminium and Gastro Delight/Gastronomic Delight aliases crosswalk
-canonical resource FormIDs. Source rarity labels do not replace curated rarity.
+Resource IDs remain stable application IDs. Inorganic occurrences join canonical
+FormID to tracker policy to application ID; their names and EditorIDs are
+consistency assertions rather than identity. The obsolete inorganic Aluminum
+name alias is gone. The unrelated organic Gastro Delight/Gastronomic Delight
+compatibility alias remains. Legacy recipe spelling `Aluminium` resolves
+explicitly to app ID `aluminium`.
+
+The canonical dataset retains Aqueous Hematite and Caelumite with tracker
+disposition `excluded`, and X-Tech with `special-deferred`. These records are not
+emitted into ordinary runtime resources, Search, Planned Supply, or availability.
+Unknown/deferred IDs in user data remain preserved and are diagnosed normally.
 
 Source provenance and extraction-specific fields stay in canonical CSVs. An
 optional biome-inorganic-resources.manifest.json validates declared dataset,

@@ -56,7 +56,7 @@ test('application preferences persist separately and recover invalid values as A
 
 test('stable reference identity receives sparse locale display overlays', () => {
   const id = 'aluminium'
-  assert.equal(getReferenceDisplayName('resource', id, 'Aluminium', 'en-US'), 'Aluminum')
+  assert.equal(getReferenceDisplayName('resource', id, 'Aluminum', 'en-US'), 'Aluminum')
   assert.equal(getReferenceDisplayName('resource', id, 'Aluminum', 'en-GB'), 'Aluminium')
   assert.equal(id, 'aluminium')
   assert.equal(getReferenceDisplayName('resource', 'iron', 'Iron', 'en-GB'), 'Iron')
@@ -104,7 +104,7 @@ test('locale-aware list formatting owns conjunction and punctuation', () => {
 })
 
 test('matrix export tooltip combines localized names with localized list formatting', () => {
-  const resourceName = getReferenceDisplayName('resource', 'aluminium', 'Aluminium', 'en-US')
+  const resourceName = getReferenceDisplayName('resource', 'aluminium', 'Aluminum', 'en-US')
   assert.equal(
     getExportTooltip(resourceName, ['Alpha', 'Beta', 'Gamma'], 'en-US'),
     'Aluminum is being exported to Alpha, Beta, and Gamma.',

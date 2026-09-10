@@ -20,8 +20,8 @@ const referenceData: ReferenceData = {
   species: [], planetSpecies: [], organicOccurrences: [], organicFarmingProfiles: [],
   bodyResources: [],
   resources: [
-    { id: 'shared-id', name: 'Iron', shortName: 'Fe', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null },
-    { id: 'input', name: 'Aluminum', shortName: 'Al', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null },
+    { id: 'shared-id', name: 'Iron', shortName: 'Fe', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
+    { id: 'input', name: 'Aluminum', shortName: 'Al', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
   ],
   products: [
     { id: 'shared-id', name: 'Adaptive Frame', shortName: 'AFr', rarity: 'common' },

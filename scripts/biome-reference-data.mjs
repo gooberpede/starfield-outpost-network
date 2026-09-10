@@ -6,8 +6,7 @@
  */
 import { readFile } from 'node:fs/promises'
 
-const RESOURCE_NAME_ALIASES = new Map([
-  ['Aluminum', 'Aluminium'],
+const ORGANIC_RESOURCE_NAME_ALIASES = new Map([
   ['Gastro Delight', 'Gastronomic Delight'],
 ])
 
@@ -78,7 +77,13 @@ function agree(map, key, value, context) {
   map.set(key, value)
 }
 
-export function buildBiomeData(inorganicRows, organicRows, bodies, resources) {
+export function buildBiomeData(
+  inorganicRows,
+  organicRows,
+  bodies,
+  resources,
+  inorganicResourceByFormId,
+) {
   const bodiesById = new Map(bodies.map((body) => [body.id, body]))
   const resourcesByName = new Map(resources.map((resource) => [resource.name, resource]))
   const resourceCrosswalk = new Map()
@@ -96,7 +101,20 @@ export function buildBiomeData(inorganicRows, organicRows, bodies, resources) {
   function resolveResource(formId, name, category, context) {
     requireValue(formId, `${context} resource FormID`)
     requireValue(name, `${context} resource name`)
-    const resource = resourcesByName.get(RESOURCE_NAME_ALIASES.get(name) ?? name)
+    const canonicalEntry = category === 'inorganic'
+      ? inorganicResourceByFormId.get(formId)
+      : null
+    if (category === 'inorganic' && !canonicalEntry) {
+      throw new Error(`${context}: cannot crosswalk inorganic FormID ${formId}.`)
+    }
+    if (canonicalEntry && canonicalEntry.canonical.ResourceName !== name) {
+      throw new Error(
+        `${context}: contradictory inorganic name "${name}"; ` +
+        `expected "${canonicalEntry.canonical.ResourceName}".`,
+      )
+    }
+    const resource = canonicalEntry?.resource ??
+      resourcesByName.get(ORGANIC_RESOURCE_NAME_ALIASES.get(name) ?? name)
     if (!resource || resource.category !== category) {
       throw new Error(`${context}: cannot crosswalk ${formId} (${category}: ${name}).`)
     }
@@ -133,6 +151,10 @@ export function buildBiomeData(inorganicRows, organicRows, bodies, resources) {
     }
     if (row.ResourceCategory !== 'Inorganic') throw new Error(`${context}: invalid ResourceCategory.`)
     const resource = resolveResource(row.ResourceFormID, row.ResourceName, 'inorganic', context)
+    const canonicalEntry = inorganicResourceByFormId.get(row.ResourceFormID)
+    if (row.ResourceEditorID !== canonicalEntry.canonical.ResourceEditorID) {
+      throw new Error(`${context}: contradictory ResourceEditorID "${row.ResourceEditorID}".`)
+    }
     const rarity = requireValue(row.Rarity, `${context} Rarity`).toLowerCase()
     // Source rarity labels (including Special/Everywhere) are audit metadata;
     // the curated dictionary owns the runtime rarity scale.

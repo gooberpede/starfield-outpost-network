@@ -43,7 +43,7 @@ const referenceData: ReferenceData = {
   organicFarmingProfiles: [],
   resources: [{
     id: 'lubricant', name: 'Lubricant', shortName: 'Lub', category: 'organic',
-    rarity: 'common', parentId: null, sortOrder: null,
+    rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: null,
   }],
   products: [], bodyResources: [], productRecipes: [],
 }

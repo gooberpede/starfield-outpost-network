@@ -327,10 +327,10 @@ export function PlannedSupplyEditor({
       !inorganicIds.has(resource.parentId),
   )
   const specialInorganic = roots
-    .filter((resource) => resource.sortOrder === null)
-    .sort(compareByName)
+    .filter((resource) => resource.plannedSupplyPlacement === 'special')
+    .sort(compareInorganicSiblings)
   const inorganicFamilies = roots
-    .filter((resource) => resource.sortOrder !== null)
+    .filter((resource) => resource.plannedSupplyPlacement === 'family')
     .sort(compareInorganicSiblings)
     .map((root) =>
       layoutInorganicFamily(root, childrenByParent),

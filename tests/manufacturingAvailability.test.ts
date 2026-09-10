@@ -22,8 +22,8 @@ const referenceData: ReferenceData = {
   species: [], planetSpecies: [], organicOccurrences: [], organicFarmingProfiles: [],
   bodyResources: [],
   resources: [
-    { id: 'c', name: 'Resource C', shortName: 'C', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null },
-    { id: 'x', name: 'Resource X', shortName: 'X', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null },
+    { id: 'c', name: 'Resource C', shortName: 'C', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
+    { id: 'x', name: 'Resource X', shortName: 'X', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
   ],
   products: [
     { id: 'a', name: 'Product A', shortName: 'A', rarity: 'common' },

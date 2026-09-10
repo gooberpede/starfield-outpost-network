@@ -31,16 +31,13 @@
  * Resource occurrence architecture:
  *   Planetary resource occurrence data identifies resources with canonical
  *   ResourceFormID values. The application catalogue uses stable logical
- *   ResourceId values derived from player-facing resource names.
+ *   ResourceId values pinned by tracker policy.
  *
- *   Because several canonical FormIDs may represent the same logical
- *   player-facing resource, this script builds a crosswalk:
+ *   Canonical dictionary and tracker policy build the crosswalk:
  *
  *     ResourceFormID -> application ResourceId
  *
- *   Mappings resolve by exact catalogue names.
- *   Known source/display-name differences are handled by the explicit
- *   RESOURCE_NAME_ALIASES table in biome-reference-data.mjs.
+ *   Occurrence names and EditorIDs are consistency assertions, not keys.
  *
  * Change this file when:
  *   - source CSV structures change;
@@ -55,6 +52,11 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { buildBiomeData, validateInorganicManifest, parseBodyNumber } from './biome-reference-data.mjs'
+import {
+  buildInorganicResources,
+  parseCanonicalInorganicCsv,
+  parseInorganicTrackerPolicyCsv,
+} from './inorganic-resource-data.mjs'
 
 import { parse } from 'csv-parse/sync'
 
@@ -71,6 +73,12 @@ const INORGANIC_RESOURCE_DICTIONARY_SOURCE_FILE = resolve(
   PROJECT_ROOT,
   'reference-source',
   'inorganic-resource-dictionary.csv',
+)
+
+const INORGANIC_RESOURCE_TRACKER_POLICY_SOURCE_FILE = resolve(
+  PROJECT_ROOT,
+  'reference-source',
+  'inorganic-resource-tracker-policy.csv',
 )
 
 const ORGANIC_RESOURCE_DICTIONARY_SOURCE_FILE = resolve(
@@ -146,14 +154,6 @@ const RARITY_BY_SOURCE_VALUE = new Map([
   ['Unique', 'unique'],
 ])
 
-const RARITY_ORDER = new Map([
-  ['common', 0],
-  ['uncommon', 1],
-  ['rare', 2],
-  ['exotic', 3],
-  ['unique', 4],
-])
-
 const PLANETARY_BODY_TYPE_BY_SOURCE_VALUE = new Map([
   ['Planet', 'planet'],
   ['Moon', 'moon'],
@@ -205,31 +205,6 @@ function parseRarity(value, sourceName, rowNumber) {
   }
 
   return rarity
-}
-
-/**
- * Parses an optional positive integer without inventing ordering for blanks.
- */
-function parseOptionalSortOrder(value, rowNumber) {
-  if (!value) {
-    return null
-  }
-
-  if (!/^\d+$/.test(value)) {
-    throw new Error(
-      `Inorganic resource row ${rowNumber} has invalid SortOrder "${value}".`,
-    )
-  }
-
-  const sortOrder = Number(value)
-
-  if (!Number.isSafeInteger(sortOrder) || sortOrder < 1) {
-    throw new Error(
-      `Inorganic resource row ${rowNumber} has invalid SortOrder "${value}".`,
-    )
-  }
-
-  return sortOrder
 }
 
 function assertUniqueValue(seenValues, value, description) {
@@ -402,156 +377,18 @@ function createNameId(name) {
 }
 
 /**
- * Builds the complete logical resource catalogue from the curated inorganic
- * and organic dictionaries. Occurrence sources never manufacture catalogue
- * records.
+ * Builds the complete logical resource catalogue from policy-joined canonical
+ * inorganics and the curated organic dictionary. Occurrence sources never
+ * manufacture catalogue records.
  */
 function buildResources(
-  inorganicRows,
+  inorganicResources,
   organicDictionaryRows,
 ) {
-  const resourcesById = new Map()
-  const inorganicByName = new Map()
-  const resourceIds = new Set()
-  const inorganicNames = new Set()
-  const inorganicCodes = new Set()
-
-  for (const [index, row] of inorganicRows.entries()) {
-    const rowNumber = index + 2
-
-    if (!row.Code || !row.Resource || !row.Rarity) {
-      throw new Error(
-        `Inorganic resource row ${rowNumber} is missing ` +
-          'Code, Resource, or Rarity.',
-      )
-    }
-
-    const id = createNameId(row.Resource)
-    const rarity = parseRarity(
-      row.Rarity,
-      'Inorganic resource',
-      rowNumber,
-    )
-
-    assertUniqueValue(
-      inorganicNames,
-      row.Resource,
-      'inorganic resource name',
-    )
-    assertUniqueValue(
-      resourceIds,
-      id,
-      'resource ID',
-    )
-    assertUniqueValue(
-      inorganicCodes,
-      row.Code,
-      'inorganic resource abbreviation',
-    )
-
-    const resource = {
-      id,
-      name: row.Resource,
-      shortName: row.Code,
-      category: 'inorganic',
-      rarity,
-      parentName: row.ParentResource || null,
-      parentId: null,
-      sortOrder: parseOptionalSortOrder(
-        row.SortOrder,
-        rowNumber,
-      ),
-    }
-
-    resourcesById.set(id, resource)
-    inorganicByName.set(row.Resource, resource)
-  }
-
-  for (const resource of inorganicByName.values()) {
-    if (!resource.parentName) {
-      continue
-    }
-
-    if (resource.parentName === resource.name) {
-      throw new Error(
-        `Inorganic resource "${resource.name}" cannot be its own parent.`,
-      )
-    }
-
-    const parent = inorganicByName.get(resource.parentName)
-
-    if (!parent) {
-      throw new Error(
-        `Inorganic resource "${resource.name}" has unknown parent ` +
-          `"${resource.parentName}".`,
-      )
-    }
-
-    if (
-      RARITY_ORDER.get(parent.rarity) >=
-      RARITY_ORDER.get(resource.rarity)
-    ) {
-      throw new Error(
-        `Inorganic resource "${resource.name}" must be rarer than ` +
-          `its parent "${parent.name}".`,
-      )
-    }
-
-    resource.parentId = parent.id
-  }
-
-  const visitStates = new Map()
-
-  function visitResource(resource) {
-    const state = visitStates.get(resource.id)
-
-    if (state === 'visiting') {
-      throw new Error(
-        `Inorganic resource family contains a cycle at "${resource.name}".`,
-      )
-    }
-
-    if (state === 'visited') {
-      return
-    }
-
-    visitStates.set(resource.id, 'visiting')
-
-    if (resource.parentId) {
-      visitResource(resourcesById.get(resource.parentId))
-    }
-
-    visitStates.set(resource.id, 'visited')
-  }
-
-  for (const resource of inorganicByName.values()) {
-    visitResource(resource)
-  }
-
-  const sortOrdersByParentId = new Map()
-
-  for (const resource of inorganicByName.values()) {
-    if (resource.sortOrder === null) {
-      continue
-    }
-
-    const siblingKey = resource.parentId ?? '__root__'
-    let sortOrders = sortOrdersByParentId.get(siblingKey)
-
-    if (!sortOrders) {
-      sortOrders = new Set()
-      sortOrdersByParentId.set(siblingKey, sortOrders)
-    }
-
-    if (sortOrders.has(resource.sortOrder)) {
-      throw new Error(
-        `Inorganic siblings under "${resource.parentName ?? 'root'}" ` +
-          `reuse SortOrder ${resource.sortOrder}.`,
-      )
-    }
-
-    sortOrders.add(resource.sortOrder)
-  }
+  const resourcesById = new Map(
+    inorganicResources.map((resource) => [resource.id, resource]),
+  )
+  const resourceIds = new Set(resourcesById.keys())
 
   const organicNames = new Set()
   const organicIds = new Set()
@@ -602,6 +439,7 @@ function buildResources(
       ),
       parentId: null,
       sortOrder: null,
+      plannedSupplyPlacement: null,
     })
   }
 
@@ -613,6 +451,7 @@ function buildResources(
     rarity: resource.rarity,
     parentId: resource.parentId,
     sortOrder: resource.sortOrder,
+    plannedSupplyPlacement: resource.plannedSupplyPlacement,
   })).sort((left, right) => {
     const categoryComparison =
       left.category.localeCompare(right.category)
@@ -680,7 +519,7 @@ function buildProducts(rows) {
  * Recipe quantities remain the unmodified base-game values. Character
  * modifiers such as Research Methods belong to later domain logic.
  */
-function buildProductRecipes(
+export function buildProductRecipes(
   rows,
   resources,
   products,
@@ -692,6 +531,16 @@ function buildProductRecipes(
         resource,
       ]),
     )
+
+  const resourcesById = new Map(
+    resources.map((resource) => [resource.id, resource]),
+  )
+
+  // Industrial Workbench remains legacy name-based; pin known spellings to
+  // stable app identity instead of coupling recipes to canonical/localized text.
+  const recipeResourceCompatibility = new Map([
+    ['Aluminium', 'aluminium'],
+  ])
 
   const productsByName =
     new Map(
@@ -725,8 +574,10 @@ function buildProductRecipes(
       )
     }
 
-    const resourceIngredient =
-      resourcesByName.get(row.Ingredient)
+    const compatibleResourceId = recipeResourceCompatibility.get(row.Ingredient)
+    const resourceIngredient = compatibleResourceId
+      ? resourcesById.get(compatibleResourceId)
+      : resourcesByName.get(row.Ingredient)
 
     const productIngredient =
       productsByName.get(row.Ingredient)
@@ -875,13 +726,19 @@ async function main() {
   console.log('Loading resource sources...')
 
   const [
-    inorganicRows,
+    inorganicCsv,
+    inorganicPolicyCsv,
     organicDictionaryRows,
     organicOccurrenceRows,
     inorganicOccurrenceRows,
   ] = await Promise.all([
-    loadCsvFile(
+    readFile(
       INORGANIC_RESOURCE_DICTIONARY_SOURCE_FILE,
+      'utf8',
+    ),
+    readFile(
+      INORGANIC_RESOURCE_TRACKER_POLICY_SOURCE_FILE,
+      'utf8',
     ),
     loadCsvFile(
       ORGANIC_RESOURCE_DICTIONARY_SOURCE_FILE,
@@ -894,9 +751,16 @@ async function main() {
     ),
   ])
 
+  const canonicalInorganicRows = parseCanonicalInorganicCsv(inorganicCsv)
+  const inorganicPolicyRows = parseInorganicTrackerPolicyCsv(inorganicPolicyCsv)
+  const inorganicBuild = buildInorganicResources(
+    canonicalInorganicRows,
+    inorganicPolicyRows,
+  )
+
   const resources =
     buildResources(
-      inorganicRows,
+      inorganicBuild.resources,
       organicDictionaryRows,
     )
 
@@ -904,7 +768,13 @@ async function main() {
     resolve(PROJECT_ROOT, 'reference-source', 'biome-inorganic-resources.manifest.json'),
     inorganicOccurrenceRows,
   )
-  const biomeData = buildBiomeData(inorganicOccurrenceRows, organicOccurrenceRows, bodies, resources)
+  const biomeData = buildBiomeData(
+    inorganicOccurrenceRows,
+    organicOccurrenceRows,
+    bodies,
+    resources,
+    inorganicBuild.resourceByFormId,
+  )
   const { bodyResources } = biomeData
   for (const field of ['solarArrayPower', 'windTurbinePower', 'planetaryHabitationRank']) {
     const nullCount = bodies.filter((body) => body[field] === null).length

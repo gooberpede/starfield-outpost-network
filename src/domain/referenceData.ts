@@ -108,6 +108,11 @@ export type Rarity =
   | 'exotic'
   | 'unique'
 
+export type PlannedSupplyPlacement =
+  | 'family'
+  | 'special'
+  | null
+
 /**
  * Represents an organic or inorganic resource known to the application.
  *
@@ -122,6 +127,7 @@ export interface ResourceReference {
   rarity: Rarity
   parentId: ResourceId | null
   sortOrder: number | null
+  plannedSupplyPlacement: PlannedSupplyPlacement
 }
 
 /** Canonical FormID identity; display names are deliberately non-unique. */
