@@ -17,7 +17,7 @@ import { getReferenceDisplayName } from '../src/localization/referenceNames.ts'
 import { createDefaultOutpost } from '../src/domain/defaults.ts'
 import { createCollectionEditingSession } from '../src/domain/collectionEditingSession.ts'
 import { createDefaultNetworkCollection } from '../src/data/networkCollection.ts'
-import { getInorganicPresentTooltip } from '../src/ui/statusTooltips.ts'
+import { getExportTooltip, getInorganicPresentTooltip } from '../src/ui/statusTooltips.ts'
 import { formatList } from '../src/localization/formatters.ts'
 
 class MemoryStorage {
@@ -101,6 +101,22 @@ test('proof messages cover static, parameterized, tooltip, and plural paths', ()
 test('locale-aware list formatting owns conjunction and punctuation', () => {
   assert.equal(formatList('en-US', ['Aluminum', 'Iron']), 'Aluminum and Iron')
   assert.equal(formatList('en-GB', ['Aluminium', 'Iron']), 'Aluminium and Iron')
+})
+
+test('matrix export tooltip combines localized names with localized list formatting', () => {
+  const resourceName = getReferenceDisplayName('resource', 'aluminium', 'Aluminium', 'en-US')
+  assert.equal(
+    getExportTooltip(resourceName, ['Alpha', 'Beta', 'Gamma'], 'en-US'),
+    'Aluminum is being exported to Alpha, Beta, and Gamma.',
+  )
+
+  const britishResourceName = getReferenceDisplayName(
+    'resource', 'aluminium', 'Aluminum', 'en-GB',
+  )
+  assert.equal(
+    getExportTooltip(britishResourceName, ['Alpha', 'Beta'], 'en-GB'),
+    'Aluminium is being exported to Alpha and Beta.',
+  )
 })
 
 test('localized generated outpost defaults are persisted ordinary names', () => {

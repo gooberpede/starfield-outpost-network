@@ -11,6 +11,7 @@ import {
 import {
   getCargoItemKey,
   getImportSummariesAtOutpost,
+  getRoutedExportDestinationNamesAtOutpost,
   getRoutedExportedItemKeysAtOutpost,
 } from '../../domain/logistics'
 import type {
@@ -29,8 +30,13 @@ import {
 import type { ProductId, ReferenceData, ResourceId } from '../../domain/referenceData'
 import { contextHelpText } from '../contextHelpText'
 import {
+  getExportTooltip,
+  getImportTooltip,
   getInorganicPresentTooltip,
+  getInputTooltip,
+  getManufacturingProducingTooltip,
   getOrganicPresentTooltip,
+  getProducingTooltip,
 } from '../statusTooltips'
 import { ContextHelp } from './ContextHelp'
 import './OutpostStatusMatrix.css'
@@ -101,6 +107,7 @@ export function OutpostStatusMatrix({
     availableItems.map(getCargoItemKey),
   ), [availableItems])
   const exportedItemKeys = getRoutedExportedItemKeysAtOutpost(outpost.id, network)
+  const exportDestinationNames = getRoutedExportDestinationNamesAtOutpost(outpost.id, network)
   const importSummaries = getImportSummariesAtOutpost(outpost.id, network)
   const availableInorganicIds = new Set(getOutpostAvailableInorganicResourceIds(
     referenceData, outpost.bodyId, outpost.selectedBiomeIds,
@@ -218,10 +225,16 @@ export function OutpostStatusMatrix({
               onClick={() => onToggleResource(resourceId)} /></div>
             <div role="cell"><EditableState item={display} pressed={producing}
               disabled={!present && !producing} label="Toggle Producing for"
+              title={getProducingTooltip(display.name, producing, locale)}
               onClick={() => onToggleActiveProduction(route)} /></div>
             <div role="cell" />
             <div role="cell"><ReadOnlyState item={display}
-              lit={exportedItemKeys.has(getCargoItemKey(cargoItem))} /></div>
+              lit={exportedItemKeys.has(getCargoItemKey(cargoItem))}
+              title={getExportTooltip(
+                display.name,
+                exportDestinationNames.get(getCargoItemKey(cargoItem)) ?? [],
+                locale,
+              )} /></div>
           </div>
         })}
       </section>}
@@ -230,7 +243,10 @@ export function OutpostStatusMatrix({
         <h3 id="matrix-organic" className="outpost-status-matrix__section-heading">Organic</h3>
         {organicRows.map((route) => {
           const resource = resourcesById.get(route.resourceId)
-          const display = { name: resource?.name ?? route.resourceId, shortName: resource?.shortName ?? route.resourceId }
+          const display = {
+            name: getReferenceDisplayName('resource', route.resourceId, resource?.name, locale),
+            shortName: resource?.shortName ?? route.resourceId,
+          }
           const source = route.type === 'organic'
             ? referenceData.species.find((entry) => entry.id === route.speciesId)?.name ?? route.speciesId
             : 'Unspecified'
@@ -255,16 +271,25 @@ export function OutpostStatusMatrix({
             /></div>
             <div role="cell"><EditableState item={display} pressed={producing}
               disabled={!present && !producing} label={`Toggle Producing from ${source} for`}
+              title={getProducingTooltip(display.name, producing, locale)}
               onClick={() => onToggleActiveProduction(route)} /></div>
             <div className="outpost-status-matrix__state-list" role="cell">
               {inputs.map((input) => {
                 const item: CargoItem = { type: 'resource', id: input.resourceId }
-                return <ReadOnlyState key={input.resourceId} item={resolveItem(item)}
-                  lit={actuallyAvailableKeys.has(getCargoItemKey(item))} />
+                const inputDisplay = resolveItem(item)
+                const available = actuallyAvailableKeys.has(getCargoItemKey(item))
+                return <ReadOnlyState key={input.resourceId} item={inputDisplay}
+                  lit={available}
+                  title={getInputTooltip(inputDisplay.name, available, locale)} />
               })}
             </div>
             <div role="cell"><ReadOnlyState item={display}
-              lit={exportedItemKeys.has(getCargoItemKey(cargoItem))} /></div>
+              lit={exportedItemKeys.has(getCargoItemKey(cargoItem))}
+              title={getExportTooltip(
+                display.name,
+                exportDestinationNames.get(getCargoItemKey(cargoItem)) ?? [],
+                locale,
+              )} /></div>
           </div>
         })}
       </section>}
@@ -285,8 +310,15 @@ export function OutpostStatusMatrix({
         {sortedManufacturing.length === 0 ? <p className="outpost-status-matrix__empty">No manufacturing recorded.</p>
           : sortedManufacturing.map((entry) => {
             const product = productsById.get(entry.productId)
-            const display = { name: product?.name ?? entry.productId, shortName: product?.shortName ?? entry.productId }
+            const display = {
+              name: getReferenceDisplayName('product', entry.productId, product?.name, locale),
+              shortName: product?.shortName ?? entry.productId,
+            }
             const cargoItem: CargoItem = { type: 'product', id: entry.productId }
+            const producingState = getManufacturingProducingState(
+              entry.productId,
+              actuallyAvailableItems,
+            )
             return <div className="outpost-status-matrix__row" role="row" key={entry.productId}>
               <div className="outpost-status-matrix__item outpost-status-matrix__item--span-source outpost-status-matrix__manufacturing-item" role="rowheader" title={display.name}>
                 {draftManufacturing && <button type="button" aria-label={`Remove ${display.name}`}
@@ -294,19 +326,25 @@ export function OutpostStatusMatrix({
                 <span>{display.name}</span></div>
               <div className="outpost-status-matrix__cell--present" role="cell" />
               <div className="outpost-status-matrix__cell--producing" role="cell"><ReadOnlyState item={display}
-                lit={actuallyAvailableKeys.has(getCargoItemKey(cargoItem))}
-                state={getManufacturingProducingState(
-                  entry.productId,
-                  actuallyAvailableItems,
-                )} /></div>
+                lit={producingState === 'producing'}
+                state={producingState}
+                title={getManufacturingProducingTooltip(display.name, producingState, locale)} /></div>
               <div className="outpost-status-matrix__cell--inputs outpost-status-matrix__state-list" role="cell">
                 {recipesByProductId.get(entry.productId)?.ingredients.map((ingredient) => {
                   const item: CargoItem = ingredient.item
-                  return <ReadOnlyState key={getCargoItemKey(item)} item={resolveItem(item)}
-                    lit={availableKeys.has(getCargoItemKey(item))} />
+                  const inputDisplay = resolveItem(item)
+                  const available = availableKeys.has(getCargoItemKey(item))
+                  return <ReadOnlyState key={getCargoItemKey(item)} item={inputDisplay}
+                    lit={available}
+                    title={getInputTooltip(inputDisplay.name, available, locale)} />
                 })}
               </div><div className="outpost-status-matrix__cell--logistics" role="cell"><ReadOnlyState item={display}
-                lit={exportedItemKeys.has(getCargoItemKey(cargoItem))} /></div>
+                lit={exportedItemKeys.has(getCargoItemKey(cargoItem))}
+                title={getExportTooltip(
+                  display.name,
+                  exportDestinationNames.get(getCargoItemKey(cargoItem)) ?? [],
+                  locale,
+                )} /></div>
             </div>
           })}
       </section>
@@ -321,7 +359,11 @@ export function OutpostStatusMatrix({
             <div className="outpost-status-matrix__cell--inputs" role="cell" />
             <div className="outpost-status-matrix__cell--logistics outpost-status-matrix__state-list" role="cell">{[...summary.items]
               .sort((left, right) => resolveItem(left).name.localeCompare(resolveItem(right).name))
-              .map((item) => <ReadOnlyState key={getCargoItemKey(item)} item={resolveItem(item)} lit />)}</div>
+              .map((item) => {
+                const display = resolveItem(item)
+                return <ReadOnlyState key={getCargoItemKey(item)} item={display} lit
+                  title={getImportTooltip(display.name, locale)} />
+              })}</div>
           </div>)}
       </section>
     </div></div>

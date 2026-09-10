@@ -13,6 +13,7 @@ import {
   getInterstellarFuelState,
   getManufacturingProducingState,
 } from '../src/ui/statusStates.ts'
+import { getRoutedExportDestinationNamesAtOutpost } from '../src/domain/logistics.ts'
 
 const referenceData: ReferenceData = {
   systems: [], bodies: [], biomes: [], bodyBiomes: [], inorganicOccurrences: [],
@@ -141,4 +142,46 @@ test('interstellar fuel state distinguishes fuelled, unfuelled, and regular pads
   assert.equal(getInterstellarFuelState(true, true), 'fuelled')
   assert.equal(getInterstellarFuelState(true, false), 'unfuelled')
   assert.equal(getInterstellarFuelState(false, true), 'regular')
+})
+
+test('routed export destinations preserve pad order and collapse duplicate names', () => {
+  const outboundItem = { type: 'resource' as const, id: 'shared-id' }
+  const source = makeOutpost({
+    id: 'source',
+    cargoPads: ['a', 'b', 'c', 'd'].map((id) => ({
+      id, label: `Pad ${id}`, type: 'regular' as const, outboundItems: [outboundItem],
+    })),
+  })
+  const destinations = [
+    makeOutpost({ id: 'one', name: 'Feynman I', cargoPads: [{
+      id: 'one-pad', label: 'Pad 1', type: 'regular', outboundItems: [],
+    }] }),
+    makeOutpost({ id: 'two', name: 'Feynman V', cargoPads: [{
+      id: 'two-pad', label: 'Pad 1', type: 'regular', outboundItems: [],
+    }] }),
+    makeOutpost({ id: 'three', name: 'Arch III', cargoPads: [{
+      id: 'three-pad', label: 'Pad 1', type: 'regular', outboundItems: [],
+    }] }),
+    makeOutpost({ id: 'duplicate-name', name: 'Feynman I', cargoPads: [{
+      id: 'duplicate-pad', label: 'Pad 1', type: 'regular', outboundItems: [],
+    }] }),
+  ]
+  const network = {
+    ...makeNetwork([source, ...destinations]),
+    cargoLinks: [
+      ['a', 'one', 'one-pad'],
+      ['b', 'two', 'two-pad'],
+      ['c', 'three', 'three-pad'],
+      ['d', 'duplicate-name', 'duplicate-pad'],
+    ].map(([sourcePadId, outpostId, cargoPadId], index) => ({
+      id: `link-${index}`,
+      endpointA: { outpostId: 'source', cargoPadId: sourcePadId },
+      endpointB: { outpostId, cargoPadId },
+    })),
+  }
+
+  assert.deepEqual(
+    getRoutedExportDestinationNamesAtOutpost('source', network).get('resource:shared-id'),
+    ['Feynman I', 'Feynman V', 'Arch III'],
+  )
 })

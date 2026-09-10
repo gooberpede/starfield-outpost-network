@@ -712,6 +712,9 @@ Do not decorate ordinary familiar controls with help icons unnecessarily. Use
 state tooltips on hover- and keyboard-focusable values when the explanation is
 specific to the currently displayed item, availability state, or indicator.
 
+State-bearing Resource Matrix tooltips identify the abbreviated item and explain
+the current state represented by that control.
+
 Tooltips should remain available for:
 
 - selectable items;

@@ -37,36 +37,35 @@ export function getRoutedExportedItemKeysAtOutpost(
   outpostId: string,
   network: OutpostNetwork,
 ): Set<string> {
-  const outpost = network.outposts.find(
-    (candidate) => candidate.id === outpostId,
-  )
+  return new Set(getRoutedExportDestinationNamesAtOutpost(outpostId, network).keys())
+}
 
-  if (!outpost) {
-    return new Set()
-  }
-
-  const routedItems = new Set<string>()
+/**
+ * Groups each routed outbound item by destination outpost name. Cargo-pad order
+ * provides deterministic presentation order; repeated destination names collapse.
+ */
+export function getRoutedExportDestinationNamesAtOutpost(
+  outpostId: string,
+  network: OutpostNetwork,
+): Map<string, string[]> {
+  const destinationsByItem = new Map<string, string[]>()
+  const outpost = network.outposts.find((candidate) => candidate.id === outpostId)
+  if (!outpost) return destinationsByItem
 
   for (const pad of outpost.cargoPads) {
-    const link = network.cargoLinks.find(
-      (candidate) =>
-        (
-          candidate.endpointA.outpostId === outpostId &&
-          candidate.endpointA.cargoPadId === pad.id
-        ) ||
-        (
-          candidate.endpointB.outpostId === outpostId &&
-          candidate.endpointB.cargoPadId === pad.id
-        ),
+    const link = network.cargoLinks.find((candidate) =>
+      (
+        candidate.endpointA.outpostId === outpostId &&
+        candidate.endpointA.cargoPadId === pad.id
+      ) || (
+        candidate.endpointB.outpostId === outpostId &&
+        candidate.endpointB.cargoPadId === pad.id
+      ),
     )
-
-    if (!link) {
-      continue
-    }
+    if (!link) continue
 
     const remoteEndpoint =
-      link.endpointA.outpostId === outpostId &&
-      link.endpointA.cargoPadId === pad.id
+      link.endpointA.outpostId === outpostId && link.endpointA.cargoPadId === pad.id
         ? link.endpointB
         : link.endpointA
     const remoteOutpost = network.outposts.find(
@@ -75,17 +74,19 @@ export function getRoutedExportedItemKeysAtOutpost(
     const remotePadExists = remoteOutpost?.cargoPads.some(
       (candidate) => candidate.id === remoteEndpoint.cargoPadId,
     )
-
-    if (!remotePadExists) {
-      continue
-    }
+    if (!remoteOutpost || !remotePadExists) continue
 
     for (const item of pad.outboundItems) {
-      routedItems.add(getCargoItemKey(item))
+      const itemKey = getCargoItemKey(item)
+      const destinationNames = destinationsByItem.get(itemKey) ?? []
+      if (!destinationNames.includes(remoteOutpost.name)) {
+        destinationNames.push(remoteOutpost.name)
+      }
+      destinationsByItem.set(itemKey, destinationNames)
     }
   }
 
-  return routedItems
+  return destinationsByItem
 }
 
 /**

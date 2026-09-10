@@ -24,6 +24,14 @@ export type MessageKey =
   | 'validation.plannedSupplyUnresolved'
   | 'help.inorganicPresentRecorded'
   | 'help.inorganicPresentPossible'
+  | 'matrix.tooltip.producing.active'
+  | 'matrix.tooltip.producing.inactive'
+  | 'matrix.tooltip.manufacturing.blocked'
+  | 'matrix.tooltip.input.available'
+  | 'matrix.tooltip.input.unavailable'
+  | 'matrix.tooltip.export.active'
+  | 'matrix.tooltip.export.inactive'
+  | 'matrix.tooltip.import.active'
 
 export type MessageParameters = Record<string, string | number>
 export type MessageCatalogue = Record<MessageKey, string>

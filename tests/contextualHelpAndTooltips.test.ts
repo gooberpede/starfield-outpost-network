@@ -5,9 +5,14 @@ import type { ReferenceData } from '../src/domain/referenceData.ts'
 import { contextHelpText } from '../src/ui/contextHelpText.ts'
 import { getContextHelpPosition } from '../src/ui/contextHelpPosition.ts'
 import {
+  getExportTooltip,
+  getImportTooltip,
   getInorganicPresentTooltip,
+  getInputTooltip,
+  getManufacturingProducingTooltip,
   getOrganicPresentTooltip,
   getPowerEfficiencyTooltip,
+  getProducingTooltip,
 } from '../src/ui/statusTooltips.ts'
 
 const referenceData: ReferenceData = {
@@ -130,4 +135,56 @@ test('Solar and Wind tooltips expose canonical multiplier detail', () => {
     getPowerEfficiencyTooltip('Solar', 'normal', 6),
     'Solar: Normal · 1.00× output (no modifier)',
   )
+})
+
+test('Producing tooltips describe resource and manufacturing readiness state', () => {
+  assert.equal(
+    getProducingTooltip('Iron', true, 'en-US'),
+    'Iron is being produced at this outpost.',
+  )
+  assert.equal(
+    getProducingTooltip('Iron', false, 'en-US'),
+    'Iron is not being produced at this outpost.',
+  )
+  assert.equal(
+    getManufacturingProducingTooltip('Adaptive Frame', 'producing', 'en-US'),
+    'Adaptive Frame is being produced at this outpost.',
+  )
+  assert.equal(
+    getManufacturingProducingTooltip('Adaptive Frame', 'not-producing', 'en-US'),
+    'Adaptive Frame is not being produced at this outpost due to missing inputs.',
+  )
+})
+
+test('Inputs tooltips describe available and unavailable state', () => {
+  assert.equal(
+    getInputTooltip('Iron', true, 'en-US'),
+    'Iron is available at this outpost.',
+  )
+  assert.equal(
+    getInputTooltip('Iron', false, 'en-US'),
+    'Iron is not available at this outpost.',
+  )
+})
+
+test('Logistics tooltips use localized one, two, and three-destination lists', () => {
+  assert.equal(getExportTooltip('Iron', [], 'en-US'), 'Iron is not being exported.')
+  assert.equal(
+    getExportTooltip('Iron', ['Feynman I'], 'en-US'),
+    'Iron is being exported to Feynman I.',
+  )
+  assert.equal(
+    getExportTooltip('Iron', ['Feynman I', 'Feynman V'], 'en-US'),
+    'Iron is being exported to Feynman I and Feynman V.',
+  )
+  assert.equal(
+    getExportTooltip('Iron', ['Feynman I', 'Feynman V', 'Arch III'], 'en-US'),
+    'Iron is being exported to Feynman I, Feynman V, and Arch III.',
+  )
+})
+
+test('Imports tooltip identifies only the imported item state', () => {
+  const tooltip = getImportTooltip('Iron', 'en-US')
+  assert.equal(tooltip, 'Iron is being imported.')
+  assert.doesNotMatch(tooltip, /Source Outpost/)
 })

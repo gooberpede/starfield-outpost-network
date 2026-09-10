@@ -12,7 +12,9 @@ import type {
   WindEfficiency,
 } from '../domain/powerEfficiency.ts'
 import { translate } from '../localization/catalog.ts'
+import { formatList } from '../localization/formatters.ts'
 import type { SupportedLocale } from '../localization/types.ts'
+import type { ManufacturingProducingState } from './statusStates.ts'
 
 const qualitativePowerLabels = {
   'very-poor': 'Very Poor',
@@ -135,4 +137,55 @@ export function getDomesticableSourceNames(
     .filter((name): name is string => Boolean(name))
 
   return [...new Set(names)].sort((left, right) => left.localeCompare(right))
+}
+
+export function getProducingTooltip(
+  itemName: string,
+  producing: boolean,
+  locale: SupportedLocale,
+): string {
+  return translate(locale, producing
+    ? 'matrix.tooltip.producing.active'
+    : 'matrix.tooltip.producing.inactive', { item: itemName })
+}
+
+export function getManufacturingProducingTooltip(
+  productName: string,
+  state: ManufacturingProducingState,
+  locale: SupportedLocale,
+): string {
+  return translate(locale, state === 'producing'
+    ? 'matrix.tooltip.producing.active'
+    : 'matrix.tooltip.manufacturing.blocked', { item: productName })
+}
+
+export function getInputTooltip(
+  itemName: string,
+  available: boolean,
+  locale: SupportedLocale,
+): string {
+  return translate(locale, available
+    ? 'matrix.tooltip.input.available'
+    : 'matrix.tooltip.input.unavailable', { item: itemName })
+}
+
+export function getExportTooltip(
+  itemName: string,
+  destinationNames: readonly string[],
+  locale: SupportedLocale,
+): string {
+  if (destinationNames.length === 0) {
+    return translate(locale, 'matrix.tooltip.export.inactive', { item: itemName })
+  }
+  return translate(locale, 'matrix.tooltip.export.active', {
+    item: itemName,
+    destinations: formatList(locale, destinationNames),
+  })
+}
+
+export function getImportTooltip(
+  itemName: string,
+  locale: SupportedLocale,
+): string {
+  return translate(locale, 'matrix.tooltip.import.active', { item: itemName })
 }

@@ -16,4 +16,13 @@ export const enUSMessages = {
     '{count} {count, plural, one {item} other {items}} in Planned Supply: {itemList}.',
   'help.inorganicPresentRecorded': '{resource} is recorded as present at this outpost.',
   'help.inorganicPresentPossible': '{resource} may be present at this outpost.',
+  'matrix.tooltip.producing.active': '{item} is being produced at this outpost.',
+  'matrix.tooltip.producing.inactive': '{item} is not being produced at this outpost.',
+  'matrix.tooltip.manufacturing.blocked':
+    '{item} is not being produced at this outpost due to missing inputs.',
+  'matrix.tooltip.input.available': '{item} is available at this outpost.',
+  'matrix.tooltip.input.unavailable': '{item} is not available at this outpost.',
+  'matrix.tooltip.export.active': '{item} is being exported to {destinations}.',
+  'matrix.tooltip.export.inactive': '{item} is not being exported.',
+  'matrix.tooltip.import.active': '{item} is being imported.',
 } satisfies MessageCatalogue
