@@ -45,6 +45,14 @@ focused batches and may include:
 
 - throughput-oriented fabricator quantity UI if quantitative modelling is adopted.
 
+### Verify duplicate outpost-name rules in Starfield
+
+Determine whether the game permits two or more player outposts to share the 
+same name. If duplicate names are disallowed in-game, continue permitting 
+them in the tracker but add a specific validation warning identifying the 
+conflicting outposts. If duplicates are allowed in-game, no validation rule 
+is needed.
+
 ---
 
 ## Cargo Pads
