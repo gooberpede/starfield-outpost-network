@@ -193,6 +193,10 @@ Application Undo/Redo uses `Ctrl+Z`, `Ctrl+Y`, and `Ctrl+Shift+Z`. Native
 text-editing Undo/Redo takes precedence in editable controls, and application
 history shortcuts are suppressed while a modal dialog is open.
 
+Plain `/` focuses and selects the Resource Matrix Search for Items query from
+normal workspace contexts. It remains native text input inside genuine text
+editors and is suppressed while a modal owns the interface.
+
 ---
 
 ## One deliberate action, one understandable result
@@ -632,6 +636,26 @@ outpost. Previous/Next cycle through the current Navigation order, wrapping
 from first to last and last to first without changing that order or creating
 Undo/Redo history. These shortcuts do not activate from inputs, textareas,
 selects, or editable content.
+
+The Resource Matrix heading strip keeps its title opposite a localized Search
+for Items combobox, wrapping the search control below the title before either
+can widen the Matrix scroller. Matching covers the complete active-locale
+resource/product catalogue using exact name, exact abbreviation, name prefix,
+abbreviation prefix, then name substring order. A unique remaining match still
+requires Enter, the search button, or an option click; ambiguous visible labels
+receive a quiet Resource/Product disambiguator.
+
+Submitted Search Results remain separate from the typing draft and appear in a
+flat, visually subordinate non-modal viewport palette. The palette opens beneath
+the field, stays open across outpost navigation, and refreshes semantic flags
+live as the active network changes. Pointer dragging moves a lightweight
+transient outline and commits the palette position only on release; arrow-key
+movement remains immediate (Shift for larger steps). Viewport/zoom changes
+reclamp it above the fixed Status Bar. Closing Search Results does not discard
+its network-local committed position, so a later search in the same network
+reopens there; network and lifecycle boundaries reset the complete Search
+presentation session. Result outpost names are ordinary navigation buttons.
+Search remains visually subordinate to the Resource Matrix heading.
 
 The Outpost Details identity field is a wide, heading-style editable name.
 It keeps a local typing draft and commits on blur, while System and Body remain

@@ -6,11 +6,20 @@
   font-family: var(--ui-font);
 }
 
-.outpost-status-matrix > h2 {
+.outpost-status-matrix__heading-strip {
   position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.45rem 1rem;
   margin: 0 0 0.45rem;
   padding: 0.38rem 0 0.32rem 0.65rem;
   border-bottom: 1px solid var(--ui-rule);
+}
+
+.outpost-status-matrix__heading-strip > h2 {
+  margin: 0;
   color: var(--ui-text);
   font-family: var(--ui-font);
   font-size: 1rem;
@@ -20,7 +29,13 @@
   text-transform: uppercase;
 }
 
-.outpost-status-matrix > h2::before {
+.outpost-status-matrix__heading-strip > .item-search {
+  top: 0.32rem;
+  align-self: flex-end;
+  margin-top: -0.25rem;
+}
+
+.outpost-status-matrix__heading-strip::before {
   position: absolute;
   top: 0;
   bottom: -1px;

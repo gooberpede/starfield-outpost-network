@@ -165,3 +165,21 @@ export function handleHistoryShortcut(
   event.preventDefault()
   return true
 }
+
+export function isSearchFocusShortcut(event: ShortcutEvent): boolean {
+  return event.key === '/' &&
+    !event.ctrlKey &&
+    !event.altKey &&
+    !event.metaKey &&
+    !event.repeat &&
+    !isTextEditingShortcutTarget(event.target)
+}
+
+export function handleSearchFocusShortcut(
+  event: ShortcutEvent & Pick<KeyboardEvent, 'preventDefault'>,
+  options: { isModalOpen: boolean; focusSearch: () => boolean },
+): boolean {
+  if (!isSearchFocusShortcut(event) || options.isModalOpen || !options.focusSearch()) return false
+  event.preventDefault()
+  return true
+}

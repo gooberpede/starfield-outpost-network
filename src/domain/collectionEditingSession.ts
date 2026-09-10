@@ -274,6 +274,7 @@ export function collectionEditingSessionReducer(
 export interface HistoryPresentationReset {
   navigation: boolean
   cargo: boolean
+  search: boolean
 }
 
 export function getHistoryPresentationReset(
@@ -283,7 +284,7 @@ export function getHistoryPresentationReset(
   const entry = direction === 'undo'
     ? session.history.past.at(-1)
     : session.history.future.at(-1)
-  if (!entry) return { navigation: false, cargo: false }
+  if (!entry) return { navigation: false, cargo: false, search: false }
   const target = direction === 'undo' ? entry.before : entry.after
   const normalizedTarget = normalizeHistoryState(target)
   const networkChanged = normalizedTarget.context.networkId !== session.context.networkId
@@ -292,6 +293,7 @@ export function getHistoryPresentationReset(
   return {
     navigation: entry.resetsNetworkPresentation || networkChanged || membership.outposts,
     cargo: entry.resetsNetworkPresentation || networkChanged || outpostChanged || membership.cargoPads,
+    search: entry.resetsNetworkPresentation || networkChanged,
   }
 }
 

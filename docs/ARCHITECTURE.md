@@ -542,6 +542,20 @@ reference-derived rows so invalid active state remains inspectable. Validators
 report unknown, foreign, or duplicate biome IDs; invalid active routes;
 unspecified sources; and missing farming inputs rather than repairing data.
 
+Search for Items builds a localized presentation index over the complete
+resource/product reference catalogue and submits only stable `{ type, id }`
+identity. `App.tsx` owns its draft, submitted item, open state, and floating
+palette position above the outpost-keyed Matrix. Results are derived live from
+the active network by `src/domain/itemSearchResults.ts`: resource `PRESENT`
+mirrors the Matrix's recorded inorganic or source-specific biome-scoped organic
+state; the remaining ordered flags use production/manufacturing feasibility,
+routed imports and exports, and exact Planned Supply identity.
+
+Outpost navigation and ordinary same-network Undo/Redo preserve Search while
+network switches, lifecycle/import replacements, and history traversal across
+a network boundary reset it. No Search state enters collection history,
+browser persistence, or portable JSON.
+
 The separate `planetary-habitation-requirement` operational validator compares
 an eligible body's known minimum rank to a valid known character rank. Unknown
 references, categorical ineligibility, and invalid skill values retain their
@@ -1126,6 +1140,7 @@ Examples of state that should remain outside `OutpostNetwork` include:
 - transient status messages;
 - file-input state;
 - validation panel open/closed state;
+- Search for Items draft, submitted identity, open state, and palette position;
 - future Expand All / Collapse All state;
 - viewport-specific layout state.
 

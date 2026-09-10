@@ -2,6 +2,7 @@ import { getBiomeButtonGroups } from './domain/bodyResourceAvailability'
 import {
   useEffect,
   useLayoutEffect,
+  useMemo,
   useReducer,
   useRef,
   useState,
@@ -37,6 +38,7 @@ import {
   retireFulfilledPlannedSupply,
 } from './domain/availability'
 import { OutpostStatusMatrix } from './ui/components/OutpostStatusMatrix'
+import { SearchForItems } from './ui/components/SearchForItems'
 import { PlannedSupplyEditor } from './ui/components/PlannedSupplyEditor'
 import { CargoPadsEditor } from './ui/components/CargoPadsEditor'
 import { NetworkExportButton } from './ui/components/NetworkExportButton'
@@ -52,6 +54,7 @@ import {
   getAdjacentOutpostId,
   handleHistoryShortcut,
   handleOutpostShortcut,
+  handleSearchFocusShortcut,
 } from './ui/keyboardShortcuts'
 
 import {
@@ -83,6 +86,15 @@ import {
 } from './domain/outpostEdits'
 import { useLocalization } from './localization/LocalizationContext.ts'
 import { getReferenceDisplayName } from './localization/referenceNames.ts'
+import {
+  buildItemSearchCatalogue,
+  getItemSearchMatches,
+} from './ui/itemSearch.ts'
+import { getItemSearchResults } from './domain/itemSearchResults.ts'
+import {
+  resolveSearchPalettePositionOnOpen,
+  type PalettePosition,
+} from './ui/itemSearchPosition.ts'
 
 /**
  * Transient application feedback shown in the fixed status bar.
@@ -172,6 +184,18 @@ function App() {
   const [isAboutDialogOpen, setIsAboutDialogOpen] =
     useState(false)
 
+  // Search is current-network presentation state and deliberately sits above
+  // the outpost-keyed Matrix so ordinary navigation cannot remount it away.
+  const [searchDraftQuery, setSearchDraftQuery] = useState('')
+  const [highlightedSearchMatchKey, setHighlightedSearchMatchKey] =
+    useState<string | null>(null)
+  const [isSearchAutocompleteOpen, setIsSearchAutocompleteOpen] = useState(false)
+  const [submittedSearchItem, setSubmittedSearchItem] = useState<CargoItem | null>(null)
+  const [isSearchResultsOpen, setIsSearchResultsOpen] = useState(false)
+  const [searchPalettePosition, setSearchPalettePosition] =
+    useState<PalettePosition | null>(null)
+  const searchInputRef = useRef<HTMLInputElement>(null)
+
   /**
    * Clears successful action feedback automatically after a short display
    * period. Errors deliberately remain visible until replaced or dismissed.
@@ -203,6 +227,29 @@ function App() {
     name: getReferenceDisplayName('resource', resource.id, resource.name, locale),
   }))
   const products = referenceData?.products ?? []
+  const searchCatalogue = useMemo(
+    () => referenceData ? buildItemSearchCatalogue(referenceData, locale) : [],
+    [referenceData, locale],
+  )
+  const searchMatches = useMemo(
+    () => getItemSearchMatches(searchCatalogue, searchDraftQuery, locale),
+    [searchCatalogue, searchDraftQuery, locale],
+  )
+  const searchResults = useMemo(
+    () => submittedSearchItem && referenceData
+      ? getItemSearchResults(submittedSearchItem, network, referenceData)
+      : [],
+    [submittedSearchItem, network, referenceData],
+  )
+  const submittedSearchItemName = submittedSearchItem
+    ? searchCatalogue.find((entry) => entry.key ===
+      `${submittedSearchItem.type}:${submittedSearchItem.id}`)?.displayName ?? submittedSearchItem.id
+    : null
+
+  const effectiveHighlightedSearchMatchKey = highlightedSearchMatchKey &&
+    searchMatches.some((match) => match.key === highlightedSearchMatchKey)
+    ? highlightedSearchMatchKey
+    : null
 
   useLayoutEffect(() => {
     const focusTarget = navigationFocusTargetRef.current
@@ -603,14 +650,41 @@ function App() {
 
   useEffect(() => {
     function handleGlobalAppShortcut(event: KeyboardEvent) {
+      const isModalOpen = isDeleteNetworkDialogOpen || isAboutDialogOpen
       const handledHistoryShortcut = handleHistoryShortcut(event, {
-        isModalOpen: isDeleteNetworkDialogOpen || isAboutDialogOpen,
+        isModalOpen,
         canUndo: history.past.length > 0,
         canRedo: history.future.length > 0,
         onUndo: undo,
         onRedo: redo,
       })
       if (handledHistoryShortcut) return
+
+      const handledSearchFocus = handleSearchFocusShortcut(event, {
+        isModalOpen,
+        focusSearch: () => {
+          const input = searchInputRef.current
+          if (!input) return false
+          input.focus()
+          if (input.value) input.select()
+          return true
+        },
+      })
+      if (handledSearchFocus) return
+
+      if (!event.defaultPrevented && !isModalOpen && event.key === 'Escape') {
+        if (isSearchAutocompleteOpen) {
+          setIsSearchAutocompleteOpen(false)
+          setHighlightedSearchMatchKey(null)
+          event.preventDefault()
+          return
+        }
+        if (isSearchResultsOpen) {
+          setIsSearchResultsOpen(false)
+          event.preventDefault()
+          return
+        }
+      }
 
       handleOutpostShortcut(event, (shortcut) => {
         if (shortcut === 'add') {
@@ -1377,9 +1451,10 @@ function App() {
   }
 
   function resetNetworkPresentationState(
-    reset: { navigation: boolean; cargo: boolean } = {
+    reset: { navigation: boolean; cargo: boolean; search: boolean } = {
       navigation: true,
       cargo: true,
+      search: true,
     },
   ) {
     if (reset.navigation) {
@@ -1389,6 +1464,25 @@ function App() {
     if (reset.cargo) {
       setCargoPresentationEpoch((currentEpoch) => currentEpoch + 1)
     }
+    if (reset.search) {
+      setSearchDraftQuery('')
+      setHighlightedSearchMatchKey(null)
+      setIsSearchAutocompleteOpen(false)
+      setSubmittedSearchItem(null)
+      setIsSearchResultsOpen(false)
+      setSearchPalettePosition(null)
+    }
+  }
+
+  function submitItemSearch(item: CargoItem) {
+    setSubmittedSearchItem({ ...item })
+    setIsSearchResultsOpen(true)
+    setSearchPalettePosition((current) => resolveSearchPalettePositionOnOpen(
+      current,
+      searchInputRef.current?.getBoundingClientRect() ?? { left: 12, bottom: 60 },
+      { width: 420, height: 260 },
+      { width: window.innerWidth, height: window.innerHeight },
+    ))
   }
 
   function switchNetwork(networkId: string) {
@@ -2036,6 +2130,25 @@ function App() {
               products={products}
               availableItems={availableCargoItems}
               actuallyAvailableItems={actuallyAvailableItems}
+              headingControl={<SearchForItems
+                inputRef={searchInputRef}
+                draftQuery={searchDraftQuery}
+                matches={searchMatches}
+                highlightedMatchKey={effectiveHighlightedSearchMatchKey}
+                isAutocompleteOpen={isSearchAutocompleteOpen}
+                submittedItemName={submittedSearchItemName}
+                results={searchResults}
+                isResultsOpen={isSearchResultsOpen}
+                palettePosition={searchPalettePosition}
+                onDraftQueryChange={setSearchDraftQuery}
+                onHighlightChange={setHighlightedSearchMatchKey}
+                onAutocompleteOpenChange={setIsSearchAutocompleteOpen}
+                onSubmit={submitItemSearch}
+                onResultsOpenChange={setIsSearchResultsOpen}
+                onPalettePositionChange={(position) => setSearchPalettePosition((current) =>
+                  current?.left === position.left && current.top === position.top ? current : position)}
+                onSelectOutpost={selectOutpost}
+              />}
               onToggleResource={toggleLocalResource}
               onToggleActiveProduction={toggleActiveProduction}
               onCommitManufacturing={commitManufacturing}

@@ -245,15 +245,15 @@ test('presentation reset detection distinguishes ordinary traversal from boundar
     update: (value) => ({ ...value, character: { ...value.character, level: 10 } }),
   })
   assert.deepEqual(getHistoryPresentationReset(session, 'undo'), {
-    navigation: false, cargo: false,
+    navigation: false, cargo: false, search: false,
   })
   session = reduce(session, { type: 'undo' })
   assert.deepEqual(getHistoryPresentationReset(session, 'redo'), {
-    navigation: false, cargo: false,
+    navigation: false, cargo: false, search: false,
   })
   session = reduce(session, { type: 'switch-network', networkId: 'b' })
   assert.deepEqual(getHistoryPresentationReset(session, 'redo'), {
-    navigation: true, cargo: true,
+    navigation: true, cargo: true, search: true,
   })
 
   let topologySession = createCollectionEditingSession(collection())
@@ -266,7 +266,7 @@ test('presentation reset detection distinguishes ordinary traversal from boundar
     }),
   })
   assert.deepEqual(getHistoryPresentationReset(topologySession, 'undo'), {
-    navigation: true, cargo: true,
+    navigation: true, cargo: true, search: false,
   })
 
   const only: NetworkCollection = {
@@ -279,7 +279,7 @@ test('presentation reset detection distinguishes ordinary traversal from boundar
     type: 'reset-network', outpostId: 'fresh', timestamp: 3,
   })
   assert.deepEqual(getHistoryPresentationReset(resetSession, 'undo'), {
-    navigation: true, cargo: true,
+    navigation: true, cargo: true, search: true,
   })
 })
 
@@ -293,6 +293,7 @@ test('outpost context changes reset Cargo without remounting Navigation', () => 
   assert.deepEqual(getHistoryPresentationReset(session, 'undo'), {
     navigation: false,
     cargo: true,
+    search: false,
   })
 })
 
@@ -305,6 +306,7 @@ test('membership detection ignores reorder but distinguishes outposts and cargo 
   assert.deepEqual(getHistoryPresentationReset(reorderSession, 'undo'), {
     navigation: false,
     cargo: false,
+    search: false,
   })
 
   const padReorderCollection = collection()
@@ -326,6 +328,7 @@ test('membership detection ignores reorder but distinguishes outposts and cargo 
   assert.deepEqual(getHistoryPresentationReset(padReorderSession, 'undo'), {
     navigation: false,
     cargo: false,
+    search: false,
   })
 
   let padSession = createCollectionEditingSession(collection())
@@ -344,6 +347,7 @@ test('membership detection ignores reorder but distinguishes outposts and cargo 
   assert.deepEqual(getHistoryPresentationReset(padSession, 'undo'), {
     navigation: false,
     cargo: true,
+    search: false,
   })
 
   const imported = collection()
@@ -358,5 +362,6 @@ test('membership detection ignores reorder but distinguishes outposts and cargo 
   assert.deepEqual(getHistoryPresentationReset(importSession, 'undo'), {
     navigation: true,
     cargo: true,
+    search: true,
   })
 })

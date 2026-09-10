@@ -7,8 +7,10 @@ import {
   getOutpostShortcut,
   handleHistoryShortcut,
   handleOutpostShortcut,
+  handleSearchFocusShortcut,
   isEditableShortcutTarget,
   isTextEditingShortcutTarget,
+  isSearchFocusShortcut,
 } from '../src/ui/keyboardShortcuts.ts'
 import type { NetworkCollection } from '../src/data/networkCollection.ts'
 import {
@@ -221,6 +223,48 @@ test('unavailable and editable history shortcuts do not prevent default', () => 
     }),
     { handled: false, undoCount: 0, redoCount: 0, preventedCount: 0 },
   )
+})
+
+const searchShortcut = {
+  ctrlKey: false, altKey: false, shiftKey: false, metaKey: false,
+  key: '/', repeat: false, target: null,
+}
+
+test('plain slash focuses Search from normal workspace controls', () => {
+  for (const target of [
+    null,
+    { tagName: 'BUTTON' },
+    { tagName: 'SELECT' },
+    { tagName: 'INPUT', type: 'checkbox' },
+    { tagName: 'INPUT', type: 'radio' },
+  ]) {
+    assert.equal(isSearchFocusShortcut({
+      ...searchShortcut, target: target as EventTarget | null,
+    }), true)
+  }
+})
+
+test('slash focus respects modifiers, repeats, text editors, and modals', () => {
+  assert.equal(isSearchFocusShortcut({ ...searchShortcut, ctrlKey: true }), false)
+  assert.equal(isSearchFocusShortcut({ ...searchShortcut, altKey: true }), false)
+  assert.equal(isSearchFocusShortcut({ ...searchShortcut, metaKey: true }), false)
+  assert.equal(isSearchFocusShortcut({ ...searchShortcut, repeat: true }), false)
+  assert.equal(isSearchFocusShortcut({
+    ...searchShortcut,
+    target: { tagName: 'INPUT', type: 'text' } as unknown as EventTarget,
+  }), false)
+
+  let focused = 0
+  let prevented = 0
+  const event = { ...searchShortcut, preventDefault: () => { prevented += 1 } }
+  assert.equal(handleSearchFocusShortcut(event, {
+    isModalOpen: true, focusSearch: () => { focused += 1; return true },
+  }), false)
+  assert.deepEqual({ focused, prevented }, { focused: 0, prevented: 0 })
+  assert.equal(handleSearchFocusShortcut(event, {
+    isModalOpen: false, focusSearch: () => { focused += 1; return true },
+  }), true)
+  assert.deepEqual({ focused, prevented }, { focused: 1, prevented: 1 })
 })
 
 function namedNetwork(name: string, ...outpostIds: string[]): OutpostNetwork {

@@ -3,7 +3,7 @@
  * Architecture: Route rows are derived from reference data plus persisted recovery state.
  * Change this file when: matrix row or input presentation semantics change.
  */
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type ReactNode } from 'react'
 import {
   getAvailableOrganicProductionRoutes,
   getOutpostAvailableInorganicResourceIds,
@@ -48,6 +48,7 @@ import {
 } from '../statusStates.ts'
 
 interface Props {
+  headingControl?: ReactNode
   outpost: Outpost
   network: OutpostNetwork
   resources: Resource[]
@@ -88,6 +89,7 @@ function EditableState({ item, pressed, disabled = false, label, title = item.na
 }
 
 export function OutpostStatusMatrix({
+  headingControl,
   outpost, network, resources, referenceData, products, actuallyAvailableItems,
   availableItems,
   onToggleResource, onToggleActiveProduction, onCommitManufacturing,
@@ -180,7 +182,10 @@ export function OutpostStatusMatrix({
   }
 
   return <section className="outpost-status-matrix" aria-label="Outpost status matrix">
-    <h2>Resource Matrix</h2>
+    <div className="outpost-status-matrix__heading-strip">
+      <h2>Resource Matrix</h2>
+      {headingControl}
+    </div>
     <div className="outpost-status-matrix__scroll technical-scrollbar"><div className="outpost-status-matrix__table" role="table">
       <div className="outpost-status-matrix__header" role="row">
         <div role="columnheader">Item</div>
