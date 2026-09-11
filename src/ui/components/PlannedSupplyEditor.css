@@ -154,7 +154,7 @@
 }
 
 .planned-supply__special-grid {
-  grid-template-columns: repeat(2, var(--planned-supply-cell-width));
+  grid-template-columns: repeat(3, var(--planned-supply-cell-width));
 }
 
 .planned-supply__special-strip {

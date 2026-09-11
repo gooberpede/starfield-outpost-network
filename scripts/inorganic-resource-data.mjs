@@ -45,7 +45,7 @@ const CANONICAL_RARITIES = new Set([
   'Common', 'Uncommon', 'Rare', 'Exotic', 'Unique', 'Everywhere', 'Special',
 ])
 const TRACKER_RARITIES = new Set(['common', 'uncommon', 'rare', 'exotic', 'unique'])
-const DISPOSITIONS = new Set(['ordinary', 'special-deferred', 'excluded'])
+const DISPOSITIONS = new Set(['ordinary', 'special-enabled', 'special-deferred', 'excluded'])
 const PLACEMENTS = new Set(['family', 'special', 'hidden'])
 const CLASSIFICATION_KEYWORDS = new Set([
   'ResourceTypeCraftingInorganicCommon',
@@ -187,18 +187,25 @@ export function buildInorganicResources(canonicalRows, policyRows) {
       [...LEGACY_INORGANIC_RESOURCE_IDS].some((id) => !ordinaryIds.has(id))) {
     throw new Error('Tracker policy does not preserve the complete 45-resource legacy application-ID set.')
   }
+  const enabledSpecialIds = policyRows.filter((row) => row.Disposition === 'special-enabled')
+    .map((row) => row.ResourceId)
+  if (JSON.stringify(enabledSpecialIds) !== JSON.stringify(['x-tech']) ||
+      policyByFormId.get('00006529')?.Disposition !== 'excluded' ||
+      policyByFormId.get('00252074')?.Disposition !== 'excluded') {
+    throw new Error('Tracker policy must enable only x-tech and keep Aqueous Hematite and Caelumite excluded.')
+  }
 
   const resourceByFormId = new Map()
   const resources = []
   for (const canonical of canonicalRows) {
     const policy = policyByFormId.get(canonical.ResourceFormID)
-    if (policy.Disposition !== 'ordinary') {
+    if (policy.Disposition !== 'ordinary' && policy.Disposition !== 'special-enabled') {
       if (policy.PlannedSupplyPlacement !== 'hidden' || policy.plannedSupplyOrder !== null) {
         throw new Error(`Non-ordinary resource ${canonical.ResourceName} must use hidden placement without an order.`)
       }
       continue
     }
-    if (policy.PlannedSupplyPlacement === 'hidden') throw new Error(`Ordinary resource ${canonical.ResourceName} cannot use hidden placement.`)
+    if (policy.PlannedSupplyPlacement === 'hidden') throw new Error(`Runtime resource ${canonical.ResourceName} cannot use hidden placement.`)
     const resource = {
       id: policy.ResourceId,
       name: canonical.ResourceName,
@@ -241,10 +248,10 @@ export function buildInorganicResources(canonicalRows, policyRows) {
     ordersByScope.set(scope, orders)
   }
 
-  const specialIds = resources.filter((resource) => resource.plannedSupplyPlacement === 'special').map((resource) => resource.id).sort()
-  if (JSON.stringify(specialIds) !== JSON.stringify(['helium-3', 'water'])) {
-    throw new Error('The ordinary special strip must contain exactly helium-3 and water.')
+  const specialIds = resources.filter((resource) => resource.plannedSupplyPlacement === 'special')
+    .sort((left, right) => left.sortOrder - right.sortOrder).map((resource) => resource.id)
+  if (JSON.stringify(specialIds) !== JSON.stringify(['helium-3', 'water', 'x-tech'])) {
+    throw new Error('The special strip must contain helium-3, water, and x-tech in that order.')
   }
   return { resources, resourceByFormId, policyByFormId }
 }
-

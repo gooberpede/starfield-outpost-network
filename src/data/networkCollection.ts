@@ -146,6 +146,7 @@ export function appendNetworkFromLatestCharacter(
       name: sourceCharacter.name,
       level: sourceCharacter.level,
       skills: { ...sourceCharacter.skills },
+      capabilities: { ...sourceCharacter.capabilities },
     } : blankNetwork.character,
     outposts: [createDefaultOutpost([], outpostId, outpostBaseName)],
   }

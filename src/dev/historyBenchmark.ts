@@ -75,6 +75,7 @@ function makeOutpost(networkOrdinal: number, outpostOrdinal: number, padCount: n
     bodyId: `body-${(outpostOrdinal % 8) + 1}`,
     selectedBiomeIds: [],
     localResources: [RESOURCE_IDS[outpostOrdinal % RESOURCE_IDS.length]],
+    explicitResourcePresence: [],
     activeProduction: [],
     manufacturing: [],
     plannedSupply: [],
@@ -110,7 +111,7 @@ function makeNetwork(networkOrdinal: number, outpostCount: number, padCount: num
     })
   }
   return {
-    schemaVersion: 3,
+    schemaVersion: 4,
     character: {
       name: `Benchmark Character ${networkOrdinal}-${variant}`,
       level: 50 + (variant % 950),
@@ -119,8 +120,9 @@ function makeNetwork(networkOrdinal: number, outpostCount: number, padCount: num
         outpostEngineering: 4,
         planetaryHabitation: 4,
         researchMethods: 4,
-        specialProjects: 4,
-      },
+      specialProjects: 4,
+    },
+    capabilities: { xTechExtraction: true },
     },
     outposts,
     cargoLinks,

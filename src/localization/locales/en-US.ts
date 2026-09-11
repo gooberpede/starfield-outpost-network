@@ -16,6 +16,11 @@ export const enUSMessages = {
     '{count} {count, plural, one {item} other {items}} in Planned Supply: {itemList}.',
   'help.inorganicPresentRecorded': '{resource} is recorded as present at this outpost.',
   'help.inorganicPresentPossible': '{resource} may be present at this outpost.',
+  'matrix.action.xTech.add': 'Add {resource} as present',
+  'matrix.tooltip.xTech.add':
+    'Add {resource} as present. It can be extracted at any outpost if X-Tech Power Cores are available.',
+  'matrix.tooltip.xTech.present':
+    '{resource} has been explicitly recorded as present at this outpost.',
   'matrix.tooltip.producing.active': '{item} is being produced at this outpost.',
   'matrix.tooltip.producing.inactive': '{item} is not being produced at this outpost.',
   'matrix.tooltip.manufacturing.blocked':

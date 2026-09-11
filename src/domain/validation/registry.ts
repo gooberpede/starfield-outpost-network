@@ -102,6 +102,8 @@ import { planetaryHabitationRequirementRule } from './rules/planetaryHabitationR
 import { selectedBiomeValidForBodyRule } from './rules/selectedBiomeValidForBody.ts'
 import { unspecifiedOrganicProductionSourceRule } from './rules/unspecifiedOrganicProductionSource.ts'
 import { organicFarmingInputsUnavailableRule } from './rules/organicFarmingInputsUnavailable.ts'
+import { xTechCapabilityMismatchRule } from './rules/xTechCapabilityMismatch.ts'
+import { xTechProductionRequiresPresenceRule } from './rules/xTechProductionRequiresPresence.ts'
 
 /**
  * Complete set of validators currently known to the application.
@@ -130,4 +132,6 @@ export const validationRules: ValidationRule[] = [
   unspecifiedOrganicProductionSourceRule,
   organicFarmingInputsUnavailableRule,
   plannedSupplyUnresolvedRule,
+  xTechCapabilityMismatchRule,
+  xTechProductionRequiresPresenceRule,
 ]

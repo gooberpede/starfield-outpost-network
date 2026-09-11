@@ -79,11 +79,18 @@ import type {
 } from './domain/models'
 import { getProductionRouteKey } from './domain/productionRoutes'
 import {
+  addExplicitResourcePresence,
   changeOutpostBody,
   changeOutpostSystem,
+  removeExplicitResourcePresence,
   toggleOutpostBiomeGroup,
   toggleOutpostProductionRoute,
 } from './domain/outpostEdits'
+import {
+  canActivateProductionRoute,
+  canAddExplicitResourcePresence,
+  hasExplicitResourcePresence,
+} from './domain/resourcePresence.ts'
 import { useLocalization } from './localization/LocalizationContext.ts'
 import { getReferenceDisplayName } from './localization/referenceNames.ts'
 import {
@@ -1730,6 +1737,25 @@ function App() {
     )
   }
 
+  /** Adds/removes explicit presence and dependent production as one history action. */
+  function toggleExplicitResourcePresence(resourceId: string) {
+    const isPresent = hasExplicitResourcePresence(selectedOutpost, resourceId)
+    if (!isPresent && !canAddExplicitResourcePresence(network.character, resourceId)) return
+    const resourceName = resources.find((candidate) => candidate.id === resourceId)?.name ?? resourceId
+    applyUndoableNetworkChange(
+      `${isPresent ? 'Remove' : 'Add'} explicit resource ${resourceName} ${isPresent ? 'from' : 'to'} ${selectedOutpost.name}`,
+      (currentNetwork) => ({
+        ...currentNetwork,
+        outposts: currentNetwork.outposts.map((outpost) =>
+          outpost.id !== effectiveSelectedOutpostId
+            ? outpost
+            : isPresent
+              ? removeExplicitResourcePresence(outpost, resourceId)
+              : addExplicitResourcePresence(outpost, resourceId)),
+      }),
+    )
+  }
+
   /**
    * Activates or deactivates production for one local resource and records the
    * complete change as one Undo step.
@@ -1754,6 +1780,10 @@ function App() {
 
     const resourceName =
       resource?.name ?? route.resourceId
+
+    if (!isCurrentlyActive && (!referenceData || !canActivateProductionRoute(
+      network.character, selectedOutpost, route, referenceData,
+    ))) return
 
     applyUndoableNetworkChange(
       isCurrentlyActive
@@ -2150,6 +2180,7 @@ function App() {
                 onSelectOutpost={selectOutpost}
               />}
               onToggleResource={toggleLocalResource}
+              onToggleExplicitResourcePresence={toggleExplicitResourcePresence}
               onToggleActiveProduction={toggleActiveProduction}
               onCommitManufacturing={commitManufacturing}
             />}

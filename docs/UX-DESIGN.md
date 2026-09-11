@@ -381,6 +381,13 @@ Derived active/available state is lit; derived inactive/unavailable state is
 dimmed but remains inspectable. Editable resource presence and production use
 the same compact geometry while retaining button semantics.
 
+When the hidden character capability permits it and X-Tech is absent, the
+Inorganic section places `[+ X-Tech]` in the Present column. Adding it creates an
+explicit-Present row at the bottom of the section without enabling production.
+X-Tech remains last in every locale. An imported production-only state retains
+that recovery row with Present off and Producing on, and the active Producing
+control remains available for correction.
+
 Manufacturing configuration uses a local edit draft. Save commits the complete
 set as one history action; Cancel and switching outposts discard the draft.
 Fabricator quantity remains persisted but is not part of the current matrix UI.
@@ -480,12 +487,9 @@ Use:
 - no visible rarity labels;
 - no connector lines.
 
-Water and Helium-3 occupy a separate singleton block above the main family grid.
-That membership and its Helium-3-then-Water order come from explicit tracker
+Water, Helium-3, and X-Tech occupy a separate singleton block above the main family grid.
+That membership and its Helium-3-then-Water-then-X-Tech order come from explicit tracker
 Planned Supply policy, not null sort order or canonical source row order.
-
-X-Tech is canonical-known but special-deferred. A future feature may deliberately
-admit it to this conceptual area; it is not currently visible here or in Search.
 
 Do not force singleton resources into fake families.
 
@@ -659,6 +663,10 @@ its network-local committed position, so a later search in the same network
 reopens there; network and lifecycle boundaries reset the complete Search
 presentation session. Result outpost names are ordinary navigation buttons.
 Search remains visually subordinate to the Resource Matrix heading.
+
+X-Tech is searchable by its name and `XT`. Its `PRESENT` flag reflects explicit
+outpost presence rather than character capability; the other flags reuse the
+same production, logistics, and Planned Supply derivations as other resources.
 
 The Outpost Details identity field is a wide, heading-style editable name.
 It keeps a local typing draft and commits on blur, while System and Body remain

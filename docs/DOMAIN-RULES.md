@@ -64,9 +64,9 @@ Organic resources do not participate in these families and use null placement.
 
 Canonical SNAM rarity is preserved independently of the tracker tier: Water is
 `Everywhere` and Helium-3 is `Special` in source truth while both present as
-`common`. Aqueous Hematite and Caelumite are canonical-known but excluded;
-X-Tech is canonical-known and special-deferred. None is an ordinary selectable
-resource until a separate feature decision changes policy and runtime behavior.
+`common`. Aqueous Hematite and Caelumite are canonical-known but excluded.
+X-Tech is canonical-known and special-enabled, but is not an ordinary
+occurrence-backed resource.
 
 This metadata is reference fact, not player-network state. Persisted outposts
 continue to store stable resource and product IDs rather than catalogue records.
@@ -89,8 +89,11 @@ Character data includes:
 - Planetary Habitation;
 - Research Methods;
 - Special Projects.
+- `capabilities.xTechExtraction`, a required boolean that defaults to `true`.
 
 Some of these fields are currently hidden from the UI but remain valid persisted domain data.
+The X-Tech extraction capability is currently hidden and is copied between new
+universes as character data.
 
 ## 2.1 Character name
 
@@ -278,6 +281,11 @@ Active production
 
 Reference data may constrain which resources are plausible for the selected planetary body.
 
+`explicitResourcePresence` records resource presence established by a deliberate
+exception rather than ordinary canonical occurrence. Its only recognized current
+member is X-Tech. Capability alone never implies presence, and unknown or
+duplicate imported entries remain stored for structural validation.
+
 ---
 
 # 7. Active production
@@ -294,6 +302,11 @@ manufacturing, Planned Supply, and logistics.
 A resource should normally be locally valid for the selected body before it can represent active production.
 
 Validation reports active-production resources that are incompatible with known body reference data.
+
+X-Tech reuses an inorganic production route. Starting it requires both explicit
+presence and the extraction capability. Imported production that lacks either is
+preserved as asserted actual supply and receives focused warnings; it does not
+also receive a misleading biome-occurrence warning.
 
 Active production is a source of supply.
 

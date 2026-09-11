@@ -140,6 +140,7 @@ Character data currently contains:
 - name;
 - level;
 - Starfield skill ranks relevant or potentially relevant to outpost behaviour.
+- typed character capabilities, currently `xTechExtraction`.
 
 Skill values use:
 
@@ -159,6 +160,9 @@ Not every persisted character field is currently exposed in the UI.
 
 At present, some fields remain in the model for future use even when the interface does not display them.
 
+`character.capabilities.xTechExtraction` is required, defaults to `true`, and
+is intentionally not exposed in the current UI.
+
 This is intentional: hiding a field from the UI does not imply removing it from the persisted schema.
 
 ---
@@ -172,6 +176,7 @@ Each `Outpost` has:
 - `systemId`;
 - `bodyId`;
 - local resources;
+- explicit resource presence;
 - active production;
 - manufacturing entries;
 - Planned Supply entries;
@@ -187,6 +192,7 @@ interface Outpost {
   bodyId: PlanetaryBodyId
   selectedBiomeIds: BodyBiomeId[]
   localResources: ResourceId[]
+  explicitResourcePresence: ResourceId[]
   activeProduction: ResourceProductionRoute[]
   manufacturing: ManufacturingEntry[]
   plannedSupply: CargoItem[]
@@ -517,9 +523,9 @@ compatibility alias remains. Legacy recipe spelling `Aluminium` resolves
 explicitly to app ID `aluminium`.
 
 The canonical dataset retains Aqueous Hematite and Caelumite with tracker
-disposition `excluded`, and X-Tech with `special-deferred`. These records are not
-emitted into ordinary runtime resources, Search, Planned Supply, or availability.
-Unknown/deferred IDs in user data remain preserved and are diagnosed normally.
+disposition `excluded`. X-Tech is `special-enabled`, emitted as a runtime
+inorganic, and remains outside canonical occurrence data. Unknown IDs in user
+data remain preserved and are diagnosed normally.
 
 Source provenance and extraction-specific fields stay in canonical CSVs. An
 optional biome-inorganic-resources.manifest.json validates declared dataset,
@@ -536,6 +542,18 @@ and active production uses a discriminated route union. Browser storage and JSON
 import migrate older resource-ID arrays. Known organics become
 `organic-unspecified`, inorganics become inorganic routes, and unknown IDs remain
 recoverable as inorganic routes rather than being discarded.
+
+Schema version 4 adds required `CharacterCapabilities` and per-outpost
+`explicitResourcePresence`. Schemas 1–3 migrate to X-Tech extraction enabled and
+empty explicit presence. Schema-4 readers preserve explicit `false`, unknown
+resource IDs, duplicates, and invalid-but-recoverable production state.
+
+`src/domain/resourcePresence.ts` centralizes the narrow explicit-presence policy.
+Ordinary inorganic rows remain occurrence-backed and their recorded Present state
+remains `localResources`; X-Tech Present comes only from
+`explicitResourcePresence`. Production continues to use the ordinary inorganic
+route and therefore existing availability, provenance, cargo, and Planned Supply
+retirement paths.
 
 `src/domain/bodyResourceAvailability.ts` owns effective biome scope, biome-aware
 inorganics, body-wide atmosphere, source-specific domesticable organic routes,
@@ -562,6 +580,9 @@ the active network by `src/domain/itemSearchResults.ts`: resource `PRESENT`
 mirrors the Matrix's recorded inorganic or source-specific biome-scoped organic
 state; the remaining ordered flags use production/manufacturing feasibility,
 routed imports and exports, and exact Planned Supply identity.
+
+For X-Tech, Search reports `PRESENT` only for explicit presence and `PRODUCING`
+for the persisted route, including a recovery-only route without presence.
 
 Outpost navigation and ordinary same-network Undo/Redo preserve Search while
 network switches, lifecycle/import replacements, and history traversal across

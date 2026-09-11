@@ -1,7 +1,7 @@
 import type { OutpostNetwork } from './models'
 
 export const sampleNetwork: OutpostNetwork = {
-  schemaVersion: 3,
+  schemaVersion: 4,
 
   character: {
     name: '',
@@ -14,6 +14,7 @@ export const sampleNetwork: OutpostNetwork = {
       researchMethods: null,
       specialProjects: null,
     },
+    capabilities: { xTechExtraction: true },
   },
 
   outposts: [
@@ -28,6 +29,7 @@ export const sampleNetwork: OutpostNetwork = {
         'aluminium',
         'beryllium',
       ],
+      explicitResourcePresence: [],
       activeProduction: [
         { type: 'inorganic', resourceId: 'helium-3' },
         { type: 'inorganic', resourceId: 'aluminium' },
@@ -66,6 +68,7 @@ export const sampleNetwork: OutpostNetwork = {
       bodyId: '0005E0DA',
       selectedBiomeIds: [],
       localResources: [],
+      explicitResourcePresence: [],
       activeProduction: [],
       manufacturing: [],
       plannedSupply: [

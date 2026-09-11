@@ -56,6 +56,20 @@ export function getInorganicPresentTooltip(
   return resourceName
 }
 
+export function getExplicitResourceAddTooltip(
+  resourceName: string,
+  locale: SupportedLocale,
+): string {
+  return translate(locale, 'matrix.tooltip.xTech.add', { resource: resourceName })
+}
+
+export function getExplicitResourcePresentTooltip(
+  resourceName: string,
+  locale: SupportedLocale,
+): string {
+  return translate(locale, 'matrix.tooltip.xTech.present', { resource: resourceName })
+}
+
 function getSupportingSelectedBiomeNames(
   referenceData: ReferenceData,
   bodyId: string | null,

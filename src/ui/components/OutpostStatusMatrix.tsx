@@ -9,6 +9,14 @@ import {
   getOutpostAvailableInorganicResourceIds,
 } from '../../domain/bodyResourceAvailability'
 import {
+  canActivateProductionRoute,
+  canAddExplicitResourcePresence,
+  getInorganicMatrixResourceIds,
+  isResourcePresentAtOutpost,
+  usesExplicitPresence,
+  X_TECH_RESOURCE_ID,
+} from '../../domain/resourcePresence.ts'
+import {
   getCargoItemKey,
   getImportSummariesAtOutpost,
   getRoutedExportDestinationNamesAtOutpost,
@@ -31,6 +39,8 @@ import type { ProductId, ReferenceData, ResourceId } from '../../domain/referenc
 import { contextHelpText } from '../contextHelpText'
 import {
   getExportTooltip,
+  getExplicitResourceAddTooltip,
+  getExplicitResourcePresentTooltip,
   getImportTooltip,
   getInorganicPresentTooltip,
   getInputTooltip,
@@ -57,6 +67,7 @@ interface Props {
   availableItems: CargoItem[]
   actuallyAvailableItems: CargoItem[]
   onToggleResource: (resourceId: ResourceId) => void
+  onToggleExplicitResourcePresence: (resourceId: ResourceId) => void
   onToggleActiveProduction: (route: ResourceProductionRoute) => void
   onCommitManufacturing: (entries: ManufacturingEntry[]) => void
 }
@@ -92,9 +103,9 @@ export function OutpostStatusMatrix({
   headingControl,
   outpost, network, resources, referenceData, products, actuallyAvailableItems,
   availableItems,
-  onToggleResource, onToggleActiveProduction, onCommitManufacturing,
+  onToggleResource, onToggleExplicitResourcePresence, onToggleActiveProduction, onCommitManufacturing,
 }: Props) {
-  const { locale } = useLocalization()
+  const { locale, t } = useLocalization()
   const [draftManufacturing, setDraftManufacturing] = useState<ManufacturingEntry[] | null>(null)
   const [isAddingProduct, setIsAddingProduct] = useState(false)
   const resourcesById = useMemo(() => new Map(resources.map((item) => [item.id, item])), [resources])
@@ -114,16 +125,23 @@ export function OutpostStatusMatrix({
   const availableInorganicIds = new Set(getOutpostAvailableInorganicResourceIds(
     referenceData, outpost.bodyId, outpost.selectedBiomeIds,
   ))
-  const inorganicIds = new Set([
-    ...availableInorganicIds,
-    ...outpost.activeProduction.filter((route) => route.type === 'inorganic')
-      .map((route) => route.resourceId),
-  ])
-  const inorganicRows = [...inorganicIds].sort((left, right) =>
+  const inorganicIds = getInorganicMatrixResourceIds(outpost, referenceData)
+  const ordinaryInorganicRows = inorganicIds.filter((id) => !usesExplicitPresence(id)).sort((left, right) =>
     getReferenceDisplayName('resource', left, resourcesById.get(left)?.name, locale)
       .localeCompare(getReferenceDisplayName(
         'resource', right, resourcesById.get(right)?.name, locale,
       )))
+  const inorganicRows = [
+    ...ordinaryInorganicRows,
+    ...inorganicIds.filter((id) => usesExplicitPresence(id)),
+  ]
+  const canAddXTech = canAddExplicitResourcePresence(network.character, X_TECH_RESOURCE_ID) &&
+    !(outpost.explicitResourcePresence ?? []).includes(X_TECH_RESOURCE_ID) &&
+    !inorganicRows.includes(X_TECH_RESOURCE_ID)
+  const xTech = resourcesById.get(X_TECH_RESOURCE_ID)
+  const xTechDisplayName = getReferenceDisplayName(
+    'resource', X_TECH_RESOURCE_ID, xTech?.name, locale,
+  )
 
   const availableOrganicRoutes = getAvailableOrganicProductionRoutes(
     referenceData, outpost.bodyId, outpost.selectedBiomeIds,
@@ -205,8 +223,16 @@ export function OutpostStatusMatrix({
         </div>
       </div>
 
-      {inorganicRows.length > 0 && <section className="outpost-status-matrix__section" aria-labelledby="matrix-inorganic">
-        <h3 id="matrix-inorganic" className="outpost-status-matrix__section-heading">Inorganic</h3>
+      {(inorganicRows.length > 0 || canAddXTech) && <section className="outpost-status-matrix__section" aria-labelledby="matrix-inorganic">
+        <div className="outpost-status-matrix__section-bar outpost-status-matrix__section-bar--matrix">
+          <h3 id="matrix-inorganic">Inorganic</h3>
+          {canAddXTech && <button type="button" className="outpost-status-matrix__add-explicit"
+            title={getExplicitResourceAddTooltip(xTechDisplayName, locale)}
+            aria-label={t('matrix.action.xTech.add', { resource: xTechDisplayName })}
+            onClick={() => onToggleExplicitResourcePresence(X_TECH_RESOURCE_ID)}>
+            + {xTechDisplayName}
+          </button>}
+        </div>
         {inorganicRows.map((resourceId) => {
           const resource = resourcesById.get(resourceId)
           const display = {
@@ -215,21 +241,32 @@ export function OutpostStatusMatrix({
           }
           const route: ResourceProductionRoute = { type: 'inorganic', resourceId }
           const producing = routeIsActive(route)
-          const present = outpost.localResources.includes(resourceId)
+          const explicit = usesExplicitPresence(resourceId)
+          const present = isResourcePresentAtOutpost(resourceId, outpost, referenceData)
+          const canAddExplicit = canAddExplicitResourcePresence(network.character, resourceId)
           const cargoItem: CargoItem = { type: 'resource', id: resourceId }
           return <div className="outpost-status-matrix__row" role="row" key={getProductionRouteKey(route)}>
             <div className="outpost-status-matrix__item" role="rowheader" title={display.name}>{display.name}</div>
             <div role="cell" />
-            <div role="cell"><EditableState item={display} pressed={present} label="Toggle Present for"
-              title={getInorganicPresentTooltip(
-                display.name,
-                present,
-                availableInorganicIds.has(resourceId),
-                locale,
-              )}
-              onClick={() => onToggleResource(resourceId)} /></div>
+            <div role="cell"><EditableState item={display} pressed={present}
+              disabled={explicit && !present && !canAddExplicit} label="Toggle Present for"
+              title={explicit
+                ? present
+                  ? getExplicitResourcePresentTooltip(display.name, locale)
+                  : getExplicitResourceAddTooltip(display.name, locale)
+                : getInorganicPresentTooltip(
+                    display.name,
+                    present,
+                    availableInorganicIds.has(resourceId),
+                    locale,
+                  )}
+              onClick={() => explicit
+                ? onToggleExplicitResourcePresence(resourceId)
+                : onToggleResource(resourceId)} /></div>
             <div role="cell"><EditableState item={display} pressed={producing}
-              disabled={!present && !producing} label="Toggle Producing for"
+              disabled={!producing && !canActivateProductionRoute(
+                network.character, outpost, route, referenceData,
+              )} label="Toggle Producing for"
               title={getProducingTooltip(display.name, producing, locale)}
               onClick={() => onToggleActiveProduction(route)} /></div>
             <div role="cell" />

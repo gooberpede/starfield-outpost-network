@@ -2,10 +2,13 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 
 import type { ReferenceData } from '../src/domain/referenceData.ts'
+import { translate } from '../src/localization/catalog.ts'
 import { contextHelpText } from '../src/ui/contextHelpText.ts'
 import { getContextHelpPosition } from '../src/ui/contextHelpPosition.ts'
 import {
   getExportTooltip,
+  getExplicitResourceAddTooltip,
+  getExplicitResourcePresentTooltip,
   getImportTooltip,
   getInorganicPresentTooltip,
   getInputTooltip,
@@ -93,6 +96,21 @@ test('Present tooltips distinguish inorganic recorded and potential state', () =
   assert.equal(
     getInorganicPresentTooltip('Aluminium', true, true),
     'Aluminium is recorded as present at this outpost.',
+  )
+})
+
+test('X-Tech add and explicit Present tooltips use localized messages', () => {
+  assert.equal(
+    translate('en-GB', 'matrix.action.xTech.add', { resource: 'X-Tech' }),
+    'Add X-Tech as present',
+  )
+  assert.equal(
+    getExplicitResourceAddTooltip('X-Tech', 'en-US'),
+    'Add X-Tech as present. It can be extracted at any outpost if X-Tech Power Cores are available.',
+  )
+  assert.equal(
+    getExplicitResourcePresentTooltip('X-Tech', 'en-GB'),
+    'X-Tech has been explicitly recorded as present at this outpost.',
   )
 })
 

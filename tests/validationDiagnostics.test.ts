@@ -60,7 +60,7 @@ const referenceData: ReferenceData = {
 function makeOutpost(overrides: Partial<Outpost> = {}): Outpost {
   return {
     id: 'outpost-1', name: 'Frontier', systemId: 'system-1', bodyId: 'body-1',
-    selectedBiomeIds: [], localResources: [], activeProduction: [], manufacturing: [],
+    selectedBiomeIds: [], localResources: [], explicitResourcePresence: [], activeProduction: [], manufacturing: [],
     plannedSupply: [], cargoPads: [], ...overrides,
   }
 }

@@ -23,8 +23,8 @@ function network(name: string, outpostId = `${name}-outpost`): OutpostNetwork {
   const blank = createDefaultNetwork()
   return {
     ...blank,
-    character: { name, level: 42, skills: { outpostManagement: 1, outpostEngineering: 2, planetaryHabitation: 3, researchMethods: 4, specialProjects: 0 } },
-    outposts: [{ id: outpostId, name: `${name} Outpost`, systemId: 'system', bodyId: 'body', selectedBiomeIds: ['biome'], localResources: ['iron'], activeProduction: [{ type: 'inorganic', resourceId: 'iron' }], manufacturing: [{ productId: 'frame', quantity: 2 }], plannedSupply: [{ type: 'resource', id: 'copper' }], cargoPads: [{ id: 'pad', label: 'Pad 1', type: 'regular', outboundItems: [] }] }],
+    character: { ...blank.character, name, level: 42, skills: { outpostManagement: 1, outpostEngineering: 2, planetaryHabitation: 3, researchMethods: 4, specialProjects: 0 } },
+    outposts: [{ id: outpostId, name: `${name} Outpost`, systemId: 'system', bodyId: 'body', selectedBiomeIds: ['biome'], localResources: ['iron'], explicitResourcePresence: [], activeProduction: [{ type: 'inorganic', resourceId: 'iron' }], manufacturing: [{ productId: 'frame', quantity: 2 }], plannedSupply: [{ type: 'resource', id: 'copper' }], cargoPads: [{ id: 'pad', label: 'Pad 1', type: 'regular', outboundItems: [] }] }],
     cargoLinks: [{ id: 'link', endpointA: { outpostId, cargoPadId: 'pad' }, endpointB: { outpostId: 'remote', cargoPadId: 'remote-pad' } }],
   }
 }
@@ -34,10 +34,13 @@ function collection(activeNetworkId = 'a') {
 }
 
 test('browser storage retains bare-network migration and default recovery', () => {
-  installStorage(network('Legacy'))
+  const legacy = network('Legacy')
+  legacy.character.capabilities.xTechExtraction = false
+  installStorage(legacy)
   const migrated = loadNetworkCollection()
   assert.equal(migrated.networks.length, 1)
   assert.equal(getActiveSavedNetwork(migrated).network.character.name, 'Legacy')
+  assert.equal(getActiveSavedNetwork(migrated).network.character.capabilities.xTechExtraction, false)
   installStorage({ schemaVersion: 1, networks: [], activeNetworkId: '' })
   assert.equal(loadNetworkCollection().networks.length, 1)
 })
@@ -57,16 +60,20 @@ test('previous and next navigation wrap in collection order', () => {
 
 test('add appends clean gameplay state and copies every character field from the last slot', () => {
   const source = collection('a')
+  source.networks.at(-1)!.network.character.capabilities.xTechExtraction = false
   const added = appendNetworkFromLatestCharacter(source, 'fresh', 'fresh-outpost')
   const saved = getActiveSavedNetwork(added)
   assert.deepEqual(added.networks.map(({ id }) => id), ['a', 'b', 'c', 'fresh'])
   assert.deepEqual(saved.network.character, source.networks.at(-1)?.network.character)
   assert.notStrictEqual(saved.network.character.skills, source.networks.at(-1)?.network.character.skills)
+  assert.notStrictEqual(saved.network.character.capabilities, source.networks.at(-1)?.network.character.capabilities)
+  assert.equal(saved.network.character.capabilities.xTechExtraction, false)
   assert.equal(saved.network.outposts.length, 1)
   assert.equal(saved.network.outposts[0].id, 'fresh-outpost')
   assert.equal(saved.network.outposts[0].name, 'New Outpost')
   assert.deepEqual(saved.network.outposts[0].cargoPads, [])
   assert.deepEqual(saved.network.outposts[0].localResources, [])
+  assert.deepEqual(saved.network.outposts[0].explicitResourcePresence, [])
   assert.deepEqual(saved.network.outposts[0].manufacturing, [])
   assert.deepEqual(saved.network.cargoLinks, [])
 })
@@ -94,6 +101,7 @@ test('single-network reset preserves stable ID and non-empty invariants', () => 
 
 test('whole collection serialization preserves order, IDs, and active ID', () => {
   const original = collection('b')
+  original.networks[1].network.character.capabilities.xTechExtraction = false
   assert.deepEqual(deserializeNetworkCollection(serializeNetworkCollection(original)), original)
 })
 
@@ -123,4 +131,6 @@ test('new collection starts with one stable active slot', () => {
   const fresh = createDefaultNetworkCollection()
   assert.equal(fresh.networks.length, 1)
   assert.equal(fresh.activeNetworkId, fresh.networks[0].id)
+  assert.equal(fresh.networks[0].network.schemaVersion, 4)
+  assert.equal(fresh.networks[0].network.character.capabilities.xTechExtraction, true)
 })

@@ -15,6 +15,7 @@ The application currently supports:
 - creation, renaming, selection, and manual ordering of outposts;
 - star-system and planetary-body assignment;
 - local resource recording;
+- explicit X-Tech presence and production tracking;
 - active production tracking;
 - manufacturing configuration;
 - Planned Supply;
@@ -189,8 +190,9 @@ The browser loads the generated JSON files
 under `public/reference-data/`.
 
 Aqueous Hematite and Caelumite are canonical-known but tracker-excluded. X-Tech
-is canonical-known and `special-deferred`; none of the three is emitted into the
-ordinary runtime catalogue yet. Localized names are presentation-only and never
+is runtime-enabled as a special resource and appears after Helium-3 and Water in
+Planned Supply. Its recorded presence is an explicit outpost fact rather than a
+canonical biome occurrence. Localized names are presentation-only and never
 determine persisted identity.
 
 ## Project status

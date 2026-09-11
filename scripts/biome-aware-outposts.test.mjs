@@ -78,7 +78,7 @@ function networkFixture() {
     character: { name: '', level: null, skills: { outpostManagement: null, outpostEngineering: null,
       planetaryHabitation: null, researchMethods: null, specialProjects: null } },
     outposts: [{ id: 'outpost', name: 'Outpost', systemId: 'system', bodyId: 'body',
-      selectedBiomeIds: [], localResources: [], activeProduction: [], manufacturing: [],
+      selectedBiomeIds: [], localResources: [], explicitResourcePresence: [], activeProduction: [], manufacturing: [],
       plannedSupply: [], cargoPads: [] }],
     cargoLinks: [],
   }
@@ -121,7 +121,9 @@ test('schema migration preserves biomes and maps legacy organic production to un
   delete legacy.outposts[0].selectedBiomeIds
   legacy.outposts[0].activeProduction = ['iron', 'sealant', 'mangled']
   const migrated = migrateNetworkData(legacy, (id) => id === 'sealant' ? 'organic' : id === 'iron' ? 'inorganic' : undefined)
-  assert.equal(migrated.schemaVersion, 3)
+  assert.equal(migrated.schemaVersion, 4)
+  assert.equal(migrated.character.capabilities.xTechExtraction, true)
+  assert.deepEqual(migrated.outposts[0].explicitResourcePresence, [])
   assert.deepEqual(migrated.outposts[0].selectedBiomeIds, [])
   assert.deepEqual(migrated.outposts[0].activeProduction, [
     { type: 'inorganic', resourceId: 'iron' },
@@ -134,11 +136,14 @@ test('schema migration preserves biomes and maps legacy organic production to un
   )
 })
 
-test('schema-3 export/import round-trip preserves biome IDs and routes', () => {
+test('schema-3 export/import migrates while preserving biome IDs and routes', () => {
   const network = networkFixture()
   network.outposts[0].selectedBiomeIds = ['b0', 'b1']
   network.outposts[0].activeProduction = [{ type: 'organic', resourceId: 'sealant', speciesId: 'plant-a' }]
-  assert.deepEqual(deserializeNetwork(serializeNetwork(network), referenceFixture()), network)
+  const migrated = deserializeNetwork(serializeNetwork(network), referenceFixture())
+  assert.equal(migrated.schemaVersion, 4)
+  assert.deepEqual(migrated.outposts[0].selectedBiomeIds, network.outposts[0].selectedBiomeIds)
+  assert.deepEqual(migrated.outposts[0].activeProduction, network.outposts[0].activeProduction)
 })
 
 test('biome, unspecified-source, and farming-input validators have separate ownership', () => {

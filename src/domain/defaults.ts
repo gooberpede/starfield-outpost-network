@@ -4,7 +4,7 @@ import type {
 } from './models'
 
 export const createDefaultNetwork = (): OutpostNetwork => ({
-  schemaVersion: 3,
+  schemaVersion: 4,
 
   character: {
     name: '',
@@ -16,6 +16,9 @@ export const createDefaultNetwork = (): OutpostNetwork => ({
       planetaryHabitation: null,
       researchMethods: null,
       specialProjects: null,
+    },
+    capabilities: {
+      xTechExtraction: true,
     },
   },
 
@@ -83,6 +86,7 @@ export const createDefaultOutpost = (
   bodyId: '',
   selectedBiomeIds: [],
   localResources: [],
+  explicitResourcePresence: [],
   activeProduction: [],
   manufacturing: [],
   plannedSupply: [],

@@ -1,5 +1,5 @@
 /**
- * Purpose: Upgrade persisted/imported network shapes to schema version 3.
+ * Purpose: Upgrade persisted/imported network shapes to schema version 4.
  * Architecture: Migration preserves recoverable IDs; validation owns contradictions.
  * Change this file when: the persisted network schema changes.
  */
@@ -12,7 +12,7 @@ import type {
 } from '../domain/models'
 import type { ResourceCategory, ResourceId } from '../domain/referenceData'
 
-export const CURRENT_SCHEMA_VERSION = 3
+export const CURRENT_SCHEMA_VERSION = 4
 
 type ResourceCategoryResolver = (resourceId: ResourceId) => ResourceCategory | undefined
 
@@ -35,13 +35,18 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null
 }
 
-function migrateCharacter(value: Record<string, unknown>): Character {
+function migrateCharacter(value: Record<string, unknown>, sourceSchemaVersion: number): Character {
   if (typeof value.name !== 'string' ||
     (value.level !== null && typeof value.level !== 'number') ||
     !isRecord(value.skills)) {
     throw new Error('The selected file contains invalid character data.')
   }
   const skills = value.skills
+  const capabilities = value.capabilities
+  if (sourceSchemaVersion >= 4 &&
+    (!isRecord(capabilities) || typeof capabilities.xTechExtraction !== 'boolean')) {
+    throw new Error('The selected file contains invalid character capability data.')
+  }
   const readRank = (key: string): number | null => {
     const rank = skills[key]
     if (rank === null || typeof rank === 'number') return rank
@@ -56,6 +61,11 @@ function migrateCharacter(value: Record<string, unknown>): Character {
       planetaryHabitation: readRank('planetaryHabitation'),
       researchMethods: readRank('researchMethods'),
       specialProjects: readRank('specialProjects'),
+    },
+    capabilities: {
+      xTechExtraction: sourceSchemaVersion >= 4
+        ? (capabilities as Record<string, unknown>).xTechExtraction as boolean
+        : true,
     },
   }
 }
@@ -93,6 +103,10 @@ export function migrateNetworkData(
   if (!isRecord(value) || !isRecord(value.character) || !Array.isArray(value.outposts)) {
     throw new Error('The selected file is not a valid outpost network.')
   }
+  const sourceSchemaVersion = typeof value.schemaVersion === 'number' ? value.schemaVersion : 1
+  if (sourceSchemaVersion > CURRENT_SCHEMA_VERSION) {
+    throw new Error(`Unsupported network schema version: ${sourceSchemaVersion}`)
+  }
 
   const migratedLinks: CargoLink[] = []
   const linkKeys = new Set<string>()
@@ -100,6 +114,9 @@ export function migrateNetworkData(
     if (!isRecord(rawOutpost) || typeof rawOutpost.id !== 'string' ||
       typeof rawOutpost.name !== 'string') {
       throw new Error('The selected file contains an invalid outpost.')
+    }
+    if (sourceSchemaVersion >= 4 && !Array.isArray(rawOutpost.explicitResourcePresence)) {
+      throw new Error('The selected file contains invalid explicit resource presence data.')
     }
     const rawPads = Array.isArray(rawOutpost.cargoPads) ? rawOutpost.cargoPads : []
     const cargoPads = rawPads.map((rawPad) => {
@@ -144,6 +161,8 @@ export function migrateNetworkData(
         ? rawOutpost.selectedBiomeIds.filter((id): id is string => typeof id === 'string') : [],
       localResources: Array.isArray(rawOutpost.localResources)
         ? rawOutpost.localResources.filter((id): id is string => typeof id === 'string') : [],
+      explicitResourcePresence: sourceSchemaVersion >= 4 && Array.isArray(rawOutpost.explicitResourcePresence)
+        ? rawOutpost.explicitResourcePresence.filter((id): id is string => typeof id === 'string') : [],
       activeProduction: (Array.isArray(rawOutpost.activeProduction) ? rawOutpost.activeProduction : [])
         .map((route) => migrateRoute(route, resolveCategory))
         .filter((route): route is ResourceProductionRoute => route !== null),
@@ -179,7 +198,7 @@ export function migrateNetworkData(
 
   return {
     schemaVersion: CURRENT_SCHEMA_VERSION,
-    character: migrateCharacter(value.character),
+    character: migrateCharacter(value.character, sourceSchemaVersion),
     outposts,
     cargoLinks: migratedLinks,
   }

@@ -17,10 +17,15 @@ export interface CharacterSkills {
   specialProjects: number | null
 }
 
+export interface CharacterCapabilities {
+  xTechExtraction: boolean
+}
+
 export interface Character {
   name: string
   level: number | null
   skills: CharacterSkills
+  capabilities: CharacterCapabilities
 }
 
 export type Resource = ResourceReference
@@ -105,6 +110,7 @@ export interface Outpost {
   bodyId: PlanetaryBodyId
   selectedBiomeIds: BodyBiomeId[]
   localResources: ResourceId[]
+  explicitResourcePresence: ResourceId[]
   activeProduction: ResourceProductionRoute[]
   manufacturing: ManufacturingEntry[]
   plannedSupply: CargoItem[]

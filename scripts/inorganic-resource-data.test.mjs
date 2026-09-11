@@ -24,8 +24,11 @@ test('canonical extract and policy preserve the complete explicit inventory', ()
   assert.equal(policyRows.length, 48)
   assert.equal(canonicalRows.filter((row) => row.SourceFile === 'Starfield.esm').length, 47)
   assert.equal(canonicalRows.filter((row) => row.SourceFile === 'SFBGS00D.esm').length, 1)
-  assert.equal(built.resources.length, 45)
-  assert.deepEqual(new Set(built.resources.map((resource) => resource.id)), LEGACY_INORGANIC_RESOURCE_IDS)
+  assert.equal(built.resources.length, 46)
+  assert.deepEqual(
+    new Set(built.resources.filter((resource) => resource.id !== 'x-tech').map((resource) => resource.id)),
+    LEGACY_INORGANIC_RESOURCE_IDS,
+  )
 })
 
 test('golden canonical facts crosswalk to stable tracker identity and presentation', () => {
@@ -37,7 +40,7 @@ test('golden canonical facts crosswalk to stable tracker identity and presentati
   assert.equal(entry('00005DF5').resource.parentId, 'caesium')
   assert.equal(entry('000057E8').resource.shortName, 'R-COOH')
   assert.deepEqual(
-    [entry('000057F5'), entry('000083EC')].map(({ canonical, resource }) => ({
+    [entry('000057F5'), entry('000083EC'), entry('01033E3F')].map(({ canonical, resource }) => ({
       id: resource.id,
       sourceRarity: canonical.SNAMRarity,
       trackerRarity: resource.rarity,
@@ -47,20 +50,30 @@ test('golden canonical facts crosswalk to stable tracker identity and presentati
     [
       { id: 'helium-3', sourceRarity: 'Special', trackerRarity: 'common', placement: 'special', order: 1 },
       { id: 'water', sourceRarity: 'Everywhere', trackerRarity: 'common', placement: 'special', order: 2 },
+      { id: 'x-tech', sourceRarity: 'Unique', trackerRarity: 'unique', placement: 'special', order: 3 },
     ],
   )
-  assert.equal(built.policyByFormId.get('01033E3F').Disposition, 'special-deferred')
+  assert.equal(built.policyByFormId.get('01033E3F').Disposition, 'special-enabled')
+  assert.deepEqual(entry('01033E3F').resource, {
+    id: 'x-tech', name: 'X-Tech', shortName: 'XT', category: 'inorganic',
+    rarity: 'unique', parentId: null, sortOrder: 3, plannedSupplyPlacement: 'special',
+  })
   assert.equal(built.policyByFormId.get('00006529').Disposition, 'excluded')
   assert.equal(built.policyByFormId.get('00252074').Disposition, 'excluded')
 })
 
-test('deferred and excluded canonical rows do not leak into runtime resources', async () => {
+test('X-Tech is enabled while excluded canonical rows do not leak into runtime resources', async () => {
   const runtimeResources = JSON.parse(
     await readFile(new URL('../public/reference-data/resources.json', import.meta.url), 'utf8'),
   )
   const ids = new Set(runtimeResources.map((resource) => resource.id))
-  for (const id of ['x-tech', 'aqueous-hematite', 'caelumite']) assert.equal(ids.has(id), false)
-  assert.equal(runtimeResources.filter((resource) => resource.category === 'inorganic').length, 45)
+  assert.equal(ids.has('x-tech'), true)
+  for (const id of ['aqueous-hematite', 'caelumite']) assert.equal(ids.has(id), false)
+  assert.equal(runtimeResources.filter((resource) => resource.category === 'inorganic').length, 46)
+  const occurrences = JSON.parse(
+    await readFile(new URL('../public/reference-data/inorganic-occurrences.json', import.meta.url), 'utf8'),
+  )
+  assert.equal(occurrences.some((occurrence) => occurrence.resourceId === 'x-tech'), false)
 })
 
 test('canonical parser rejects contract, identity, parent, and classification faults', () => {

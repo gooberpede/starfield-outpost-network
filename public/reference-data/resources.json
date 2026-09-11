@@ -430,6 +430,16 @@
     "plannedSupplyPlacement": "special"
   },
   {
+    "id": "x-tech",
+    "name": "X-Tech",
+    "shortName": "XT",
+    "category": "inorganic",
+    "rarity": "unique",
+    "parentId": null,
+    "sortOrder": 3,
+    "plannedSupplyPlacement": "special"
+  },
+  {
     "id": "xenon",
     "name": "Xenon",
     "shortName": "Xe",

@@ -156,6 +156,20 @@ function validateDuplicateCollectionEntries(
       })
     }
 
+    for (const resourceId of getDuplicateStrings(outpost.explicitResourcePresence ?? [])) {
+      const resourceName = referenceData?.resources.find(
+        (entry) => entry.id === resourceId,
+      )?.name ?? resourceId
+      issues.push({
+        ruleId: RULE_ID,
+        category: 'structural',
+        severity: 'error',
+        message: `${resourceName} appears more than once in this outpost's explicit resource presence.`,
+        outpostId: outpost.id,
+        cargoItem: { type: 'resource', id: resourceId },
+      })
+    }
+
     for (const bodyBiomeId of getDuplicateStrings(outpost.selectedBiomeIds ?? [])) {
       const biomeId = referenceData?.bodyBiomes.find(
         (entry) => entry.id === bodyBiomeId,

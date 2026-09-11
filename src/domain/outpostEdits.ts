@@ -1,7 +1,7 @@
 /** Pure, immutable outpost edits shared by application history and regression tests. */
 import type { Outpost, ResourceProductionRoute } from './models'
 import { getProductionRouteKey } from './productionRoutes.ts'
-import type { BodyBiomeId, PlanetaryBodyId, StarSystemId } from './referenceData'
+import type { BodyBiomeId, PlanetaryBodyId, ResourceId, StarSystemId } from './referenceData'
 
 export function changeOutpostSystem(outpost: Outpost, systemId: StarSystemId): Outpost {
   return { ...outpost, systemId, bodyId: '', selectedBiomeIds: [] }
@@ -45,5 +45,21 @@ export function toggleOutpostProductionRoute(
           )),
           route,
         ],
+  }
+}
+
+export function addExplicitResourcePresence(outpost: Outpost, resourceId: ResourceId): Outpost {
+  if (outpost.explicitResourcePresence.includes(resourceId)) return outpost
+  return { ...outpost, explicitResourcePresence: [...outpost.explicitResourcePresence, resourceId] }
+}
+
+/** Removing explicit presence also clears its exact inorganic route atomically. */
+export function removeExplicitResourcePresence(outpost: Outpost, resourceId: ResourceId): Outpost {
+  return {
+    ...outpost,
+    explicitResourcePresence: outpost.explicitResourcePresence.filter((id) => id !== resourceId),
+    activeProduction: outpost.activeProduction.filter((route) => !(
+      route.type === 'inorganic' && route.resourceId === resourceId
+    )),
   }
 }

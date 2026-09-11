@@ -17,6 +17,7 @@ const references: ReferenceData = {
     { id: 'iron', name: 'Iron', shortName: 'Fe', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
     { id: 'carboxylic-acids', name: 'Carboxylic Acids', shortName: 'R-COOH', category: 'inorganic', rarity: 'rare', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
     { id: 'wire-resource', name: 'Wire Fibre', shortName: 'WF', category: 'organic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: null },
+    { id: 'x-tech', name: 'X-Tech', shortName: 'XT', category: 'inorganic', rarity: 'unique', parentId: null, sortOrder: 3, plannedSupplyPlacement: 'special' },
   ],
   products: [
     { id: 'zero-wire', name: 'Zero Wire', shortName: 'ZW', rarity: 'common' },
@@ -41,6 +42,8 @@ test('matching uses the required tiers, normalization, and stable identities', (
   assert.deepEqual(getUniquelyResolvedSearchItem(
     getItemSearchMatches(catalogue, 'zero w', 'en-US'),
   ), { type: 'product', id: 'zero-wire' })
+  assert.equal(getItemSearchMatches(catalogue, 'X-Tech', 'en-US')[0].item.id, 'x-tech')
+  assert.equal(getItemSearchMatches(catalogue, 'XT', 'en-US')[0].item.id, 'x-tech')
 })
 
 test('localized names rebuild between US and UK English without changing identity', () => {

@@ -4,6 +4,7 @@ import {
   isProductionRouteAvailable,
 } from '../../bodyResourceAvailability.ts'
 import type { ValidationIssue, ValidationRule } from '../types'
+import { usesExplicitPresence } from '../../resourcePresence.ts'
 
 const RULE_ID = 'active-production-valid-for-body'
 
@@ -34,6 +35,7 @@ function validate(
     const biomeNoun = selectedBiomeNames.length === 1 ? 'biome' : 'biomes'
     for (const route of outpost.activeProduction) {
       if (route.type === 'organic-unspecified') continue
+      if (usesExplicitPresence(route.resourceId)) continue
       const resource = referenceData.resources.find((entry) => entry.id === route.resourceId)
       if (!resource || (route.type === 'organic' &&
         !referenceData.species.some((entry) => entry.id === route.speciesId))) continue

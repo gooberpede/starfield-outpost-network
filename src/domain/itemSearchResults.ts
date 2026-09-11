@@ -1,14 +1,14 @@
 /** Live, presentation-independent semantic results for one stable cargo item. */
 import { getFeasibleManufacturedProductIdsAtOutpost } from './availability.ts'
-import { getAvailableOrganicProductionRoutes } from './bodyResourceAvailability.ts'
 import {
   getCargoItemKey,
   getRoutedExportedItemKeysAtOutpost,
 } from './logistics.ts'
-import type { CargoItem, Outpost, OutpostNetwork } from './models.ts'
+import type { CargoItem, OutpostNetwork } from './models.ts'
 import { getActiveProducedResourceIds } from './productionRoutes.ts'
 import { getItemProvenanceAtOutpost } from './provenance.ts'
 import type { ReferenceData } from './referenceData.ts'
+import { isResourcePresentAtOutpost } from './resourcePresence.ts'
 
 export const itemSearchResultFlagOrder = [
   'present',
@@ -25,21 +25,6 @@ export interface ItemSearchResult {
   outpostId: string
   outpostName: string
   flags: ItemSearchResultFlag[]
-}
-
-export function isResourcePresentAtOutpost(
-  resourceId: string,
-  outpost: Outpost,
-  referenceData: ReferenceData,
-): boolean {
-  const resource = referenceData.resources.find((candidate) => candidate.id === resourceId)
-  if (resource?.category === 'inorganic') return outpost.localResources.includes(resourceId)
-  if (resource?.category !== 'organic') return false
-  return getAvailableOrganicProductionRoutes(
-    referenceData,
-    outpost.bodyId,
-    outpost.selectedBiomeIds,
-  ).some((route) => route.resourceId === resourceId)
 }
 
 export function getItemSearchResults(

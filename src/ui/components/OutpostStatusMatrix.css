@@ -150,6 +150,53 @@
   font: inherit;
 }
 
+.outpost-status-matrix__section-bar--matrix {
+  display: grid;
+  grid-template-columns: var(--outpost-matrix-columns);
+  padding-inline: 0;
+}
+
+.outpost-status-matrix__section-bar--matrix h3 {
+  grid-column: 1 / span 2;
+  padding-inline: 0.5rem;
+}
+
+.outpost-status-matrix__add-explicit {
+  grid-column: 3;
+  justify-self: start;
+  align-self: center;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 3.2rem;
+  height: 1.15rem;
+  margin-left: calc(0.5rem + 4px);
+  padding: 0;
+
+  border: 1px solid color-mix(in srgb, var(--ui-rule) 55%, transparent);
+  border-radius: 1px;
+  color: var(--ui-text-muted);
+  background: transparent;
+  box-shadow: none;
+
+  font: 500 0.7rem/1 var(--ui-font);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.outpost-status-matrix__add-explicit:hover {
+  border-color: var(--ui-structural-dark);
+  color: var(--ui-text);
+  background: color-mix(in srgb, var(--ui-highlight) 55%, transparent);
+}
+
+.outpost-status-matrix__add-explicit:focus-visible {
+  outline: 2px solid var(--ui-structural-dark);
+  outline-offset: 2px;
+}
+
 .outpost-status-matrix__actions {
   display: flex;
   gap: 0.25rem;

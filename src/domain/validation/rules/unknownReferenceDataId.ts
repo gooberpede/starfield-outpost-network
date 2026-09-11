@@ -140,6 +140,18 @@ function validateUnknownReferenceDataIds(
       })
     }
 
+    for (const resourceId of outpost.explicitResourcePresence ?? []) {
+      if (referenceData.resources.some((resource) => resource.id === resourceId)) continue
+      issues.push({
+        ruleId: RULE_ID,
+        category: 'structural',
+        severity: 'error',
+        message: `This outpost refers to unknown resource ID "${resourceId}" in its explicit resource presence.`,
+        outpostId: outpost.id,
+        cargoItem: { type: 'resource', id: resourceId },
+      })
+    }
+
     for (const route of outpost.activeProduction) {
       const resourceExists = referenceData.resources.some(
         (resource) => resource.id === route.resourceId,

@@ -1,5 +1,5 @@
 ResourceFormID,ResourceId,Disposition,TrackerRarity,PlannedSupplyPlacement,PlannedSupplyOrder
-01033E3F,x-tech,special-deferred,unique,hidden,
+01033E3F,x-tech,special-enabled,unique,special,3
 0027C499,mercury,ordinary,rare,family,
 00252074,caelumite,excluded,exotic,hidden,
 0004BA38,indicite,ordinary,unique,family,
