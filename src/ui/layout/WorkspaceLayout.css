@@ -34,7 +34,8 @@
   grid-template-columns:
     1.75rem
     minmax(0, 1fr);
-  gap: 0.35rem;
+  column-gap: calc(0.35rem + var(--page-gutter));
+  padding-left: 0;
 }
 
 .workspace-layout__left,
