@@ -7,7 +7,7 @@
     "dev": "vite",
     "test": "node --experimental-strip-types --test tests/*.test.ts",
     "reference:build": "node scripts/build-reference-data.mjs",
-    "reference:test": "node --test scripts/biome-aware-outposts.test.mjs scripts/biome-reference-data.test.mjs scripts/body-resource-availability.test.mjs scripts/inorganic-resource-data.test.mjs",
+    "reference:test": "node --test scripts/biome-aware-outposts.test.mjs scripts/biome-reference-data.test.mjs scripts/body-resource-availability.test.mjs scripts/inorganic-resource-data.test.mjs scripts/item-reference-data.test.mjs",
     "benchmark:history": "node --expose-gc --experimental-strip-types scripts/history-benchmark.ts",
     "build": "tsc -b && vite build",
     "lint": "eslint .",

@@ -1,14 +1,10 @@
 /**
  * Purpose: Validate canonical biome extracts and build lean runtime relations.
- * Architecture: Build-time only; curated resource IDs remain authoritative.
- *   Provenance stays in CSV/manifest files, never in runtime objects.
+ * Architecture: Build-time only; canonical FormIDs crosswalk to stable tracker
+ *   resource IDs. Provenance stays in source files, never in runtime objects.
  * Change this file when: source schemas, identity invariants, or runtime grains change.
  */
 import { readFile } from 'node:fs/promises'
-
-const ORGANIC_RESOURCE_NAME_ALIASES = new Map([
-  ['Gastro Delight', 'Gastronomic Delight'],
-])
 
 function requireValue(value, context) {
   if (typeof value !== 'string' || value === '') {
@@ -81,11 +77,10 @@ export function buildBiomeData(
   inorganicRows,
   organicRows,
   bodies,
-  resources,
   inorganicResourceByFormId,
+  organicResourceByFormId,
 ) {
   const bodiesById = new Map(bodies.map((body) => [body.id, body]))
-  const resourcesByName = new Map(resources.map((resource) => [resource.name, resource]))
   const resourceCrosswalk = new Map()
   const biomes = new Map()
   const biomeEditorIds = new Map()
@@ -98,23 +93,36 @@ export function buildBiomeData(
   const inorganicFacts = new Map()
   const organicFarmingProfiles = new Map()
 
-  function resolveResource(formId, name, category, context) {
+  function resolveResource(formId, editorId, name, sourceFile, category, context) {
     requireValue(formId, `${context} resource FormID`)
+    requireValue(editorId, `${context} resource EditorID`)
     requireValue(name, `${context} resource name`)
+    requireValue(sourceFile, `${context} resource source file`)
     const canonicalEntry = category === 'inorganic'
       ? inorganicResourceByFormId.get(formId)
-      : null
-    if (category === 'inorganic' && !canonicalEntry) {
-      throw new Error(`${context}: cannot crosswalk inorganic FormID ${formId}.`)
+      : organicResourceByFormId.get(formId)
+    if (!canonicalEntry) {
+      throw new Error(`${context}: cannot crosswalk ${category} FormID ${formId}.`)
     }
-    if (canonicalEntry && canonicalEntry.canonical.ResourceName !== name) {
+    const expected = category === 'inorganic'
+      ? {
+          sourceFile: canonicalEntry.canonical.SourceFile,
+          editorId: canonicalEntry.canonical.ResourceEditorID,
+          name: canonicalEntry.canonical.ResourceName,
+        }
+      : {
+          sourceFile: canonicalEntry.canonical.sourceFile,
+          editorId: canonicalEntry.canonical.editorId,
+          name: canonicalEntry.canonical.canonicalName,
+        }
+    if (expected.sourceFile !== sourceFile || expected.editorId !== editorId ||
+        expected.name !== name) {
       throw new Error(
-        `${context}: contradictory inorganic name "${name}"; ` +
-        `expected "${canonicalEntry.canonical.ResourceName}".`,
+        `${context}: contradictory ${category} identity for ${formId}; ` +
+        `expected ${expected.sourceFile}/${expected.editorId}/${expected.name}.`,
       )
     }
-    const resource = canonicalEntry?.resource ??
-      resourcesByName.get(ORGANIC_RESOURCE_NAME_ALIASES.get(name) ?? name)
+    const resource = canonicalEntry.resource
     if (!resource || resource.category !== category) {
       throw new Error(`${context}: cannot crosswalk ${formId} (${category}: ${name}).`)
     }
@@ -150,14 +158,18 @@ export function buildBiomeData(
       throw new Error(`${context}: unsupported LocationType "${row.LocationType}".`)
     }
     if (row.ResourceCategory !== 'Inorganic') throw new Error(`${context}: invalid ResourceCategory.`)
-    const resource = resolveResource(row.ResourceFormID, row.ResourceName, 'inorganic', context)
+    const resource = resolveResource(
+      row.ResourceFormID,
+      row.ResourceEditorID,
+      row.ResourceName,
+      row.ResourceSourceFile,
+      'inorganic',
+      context,
+    )
     const canonicalEntry = inorganicResourceByFormId.get(row.ResourceFormID)
-    if (row.ResourceEditorID !== canonicalEntry.canonical.ResourceEditorID) {
-      throw new Error(`${context}: contradictory ResourceEditorID "${row.ResourceEditorID}".`)
-    }
     const rarity = requireValue(row.Rarity, `${context} Rarity`).toLowerCase()
     // Source rarity labels (including Special/Everywhere) are audit metadata;
-    // the curated dictionary owns the runtime rarity scale.
+    // tracker policy owns the runtime rarity scale.
     const location = row.LocationType === 'BIOME'
       ? { type: 'biome', bodyBiomeId: joinBiome(row, bodyId, context) }
       : { type: 'atmosphere' }
@@ -185,11 +197,25 @@ export function buildBiomeData(
     for (const slot of [1, 2]) {
       const prefix = `ResourceInput${slot}`
       if (![row[`${prefix}FormID`], row[`${prefix}Name`], row[`${prefix}Qty`]].some(Boolean)) continue
-      const input = resolveResource(row[`${prefix}FormID`], row[`${prefix}Name`], slot === 1 ? 'inorganic' : 'organic', context)
+      const input = resolveResource(
+        row[`${prefix}FormID`],
+        row[`${prefix}EditorID`],
+        row[`${prefix}Name`],
+        row[`${prefix}SourceFile`],
+        slot === 1 ? 'inorganic' : 'organic',
+        context,
+      )
       inputs.push({ resourceId: input.id, quantity: nonnegativeNumber(row[`${prefix}Qty`], `${context} input ${slot} quantity`, true) })
     }
     if (row.ResourceResolutionStatus === 'Resolved') {
-      resourceId = resolveResource(row.ResourceFormID, row.ResourceName, 'organic', context).id
+      resourceId = resolveResource(
+        row.ResourceFormID,
+        row.ResourceEditorID,
+        row.ResourceName,
+        row.ResourceSourceFile,
+        'organic',
+        context,
+      ).id
       const signature = JSON.stringify(inputs)
       const water = { resourceId: 'water', quantity: 1 }
       if (type === 'flora' && signature === JSON.stringify([water])) sourceClass = 'plant'

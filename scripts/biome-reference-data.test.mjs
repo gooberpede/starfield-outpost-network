@@ -16,13 +16,17 @@ import {
   parseCanonicalInorganicCsv,
   parseInorganicTrackerPolicyCsv,
 } from './inorganic-resource-data.mjs'
+import {
+  buildItemReferenceData,
+  parseIndustrialWorkbenchCsv,
+  parseItemTrackerMetadataCsv,
+} from './item-reference-data.mjs'
 
 const csv = async (name) => parse(await readFile(new URL(`../reference-source/${name}.csv`, import.meta.url), 'utf8'), { columns: true, trim: true, bom: true })
 const planets = await csv('planet-directory')
 const inorganic = await csv('biome-inorganic-resources')
 const organic = await csv('biome-organic-resources')
 const bodies = buildBodies(planets)
-const resources = JSON.parse(await readFile(new URL('../public/reference-data/resources.json', import.meta.url), 'utf8'))
 const canonicalInorganicRows = parseCanonicalInorganicCsv(
   await readFile(new URL('../reference-source/inorganic-resource-dictionary.csv', import.meta.url), 'utf8'),
 )
@@ -30,8 +34,20 @@ const inorganicPolicyRows = parseInorganicTrackerPolicyCsv(
   await readFile(new URL('../reference-source/inorganic-resource-tracker-policy.csv', import.meta.url), 'utf8'),
 )
 const { resourceByFormId } = buildInorganicResources(canonicalInorganicRows, inorganicPolicyRows)
+const recipeRows = parseIndustrialWorkbenchCsv(
+  await readFile(new URL('../reference-source/industrial-workbench.csv', import.meta.url), 'utf8'),
+)
+const metadataRows = parseItemTrackerMetadataCsv(
+  await readFile(new URL('../reference-source/item-tracker-metadata.csv', import.meta.url), 'utf8'),
+)
+const { organicResourceByFormId } = buildItemReferenceData(
+  recipeRows,
+  organic,
+  metadataRows,
+  resourceByFormId,
+)
 const build = (i = inorganic, o = organic) =>
-  buildBiomeData(i, o, bodies, resources, resourceByFormId)
+  buildBiomeData(i, o, bodies, resourceByFormId, organicResourceByFormId)
 
 test('canonical data retains all occurrence grains and wild-only presence', () => {
   validatePlanetDirectory(planets)
@@ -55,8 +71,8 @@ for (const [field, value, diagnostic] of [
   ['BiomeFormID', '', /BiomeFormID/],
   ['BiomeIndex', '-1', /BiomeIndex/],
   ['ResourceFormID', 'FFFFFFFF', /cannot crosswalk inorganic FormID/],
-  ['ResourceName', 'unmapped', /contradictory inorganic name/],
-  ['ResourceEditorID', 'WrongEditorId', /contradictory ResourceEditorID/],
+  ['ResourceName', 'unmapped', /contradictory inorganic identity/],
+  ['ResourceEditorID', 'WrongEditorId', /contradictory inorganic identity/],
   ['StarSystemID', 'bad', /contradictory system/],
 ]) {
   test(`inorganic rejects ${field}=${value}`, () => {
@@ -79,8 +95,8 @@ test('biome identity conflicts fail while exact repetitions deduplicate', () => 
 for (const [field, value, diagnostic] of [
   ['Domesticable', 'Maybe', /Domesticable/],
   ['ResourceFormID', '', /FormID/],
-  ['ResourceName', 'missing', /crosswalk/],
-  ['ResourceInput1Name', 'missing', /contradictory inorganic name/],
+  ['ResourceName', 'missing', /contradictory organic identity/],
+  ['ResourceInput1Name', 'missing', /contradictory inorganic identity/],
   ['ResourceInput1Qty', '3', /signature/],
   ['ResourceResolutionStatus', 'Unknown', /ResourceResolutionStatus/],
 ]) {
@@ -96,7 +112,7 @@ test('planet/species facts and global species metadata must agree', () => {
     { SpeciesDisplayName: 'different' },
     { ResourceFormID: '0007782D', ResourceName: 'Sealant' },
     { ResourceInput2FormID: '000777E6', ResourceInput2Name: 'Nutrient' },
-  ]) assert.throws(() => build([], [row, { ...row, ...change }]), /conflicting/)
+  ]) assert.throws(() => build([], [row, { ...row, ...change }]), /conflicting|contradictory/)
 })
 
 test('directory duplicates and unsupported numeric/body values fail', () => {

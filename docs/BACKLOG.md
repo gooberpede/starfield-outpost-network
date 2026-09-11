@@ -143,14 +143,11 @@ Future planner/data work may include:
 - further biome-selector density or accessibility polish if usage requires it;
 - explanation UX for why a resource is unavailable, including occurrence provenance;
 - eventual retirement of body-resources.json when compatibility consumers are gone;
-- possible replacement of curated dictionaries with game-derived extracts;
 - better differentiation between canonical source data and player-recorded state.
 
-The immediate resource and product catalogues now have curated dictionary
-inputs, but a broader review of master/reference-data ingestion remains
-deferred. That review should consider how sources are normalized, joined,
-validated, and emitted across all reference datasets without replacing the
-current explicit dictionary/occurrence separation piecemeal.
+Future reference-data work should preserve the current canonical-source,
+FormID-crosswalk, and explicit tracker-policy boundaries when adding new source
+populations or provenance capabilities.
 
 These are planner/reference-data concerns and should remain separate from the persisted player network model unless a future design explicitly requires otherwise.
 

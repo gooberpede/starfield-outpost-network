@@ -914,9 +914,14 @@ Validation still matters because inconsistent data can arrive from:
 
 Product recipes are canonical reference data.
 
-Recipes define required input quantities.
+Recipes define canonical base-game required input quantities. Build-time source
+joins use canonical FormIDs; persisted and runtime network references continue
+to use stable application ResourceIds and ProductIds.
 
 The recipe itself is not copied into outpost state.
+
+Recipe COBJ identity and source provenance are build-time assertions and are not
+part of the runtime recipe contract.
 
 If a recipe changes in reference data, validation/derived behaviour may change without rewriting every saved outpost.
 

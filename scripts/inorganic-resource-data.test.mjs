@@ -3,7 +3,6 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import test from 'node:test'
 
-import { buildProductRecipes } from './build-reference-data.mjs'
 import {
   LEGACY_INORGANIC_RESOURCE_IDS,
   buildInorganicResources,
@@ -95,19 +94,13 @@ test('policy completeness is exact and independent of source row order', () => {
   assert.deepEqual(reversed.resources, built.resources)
 })
 
-test('legacy Aluminium recipe spelling resolves explicitly to app ID aluminium', () => {
-  const products = [{ id: 'frame', name: 'Frame', shortName: 'Fr', rarity: 'common' }]
-  const recipes = buildProductRecipes(
-    [{ Product: 'Frame', Ingredient: 'Aluminium', Quantity: '1' }],
-    built.resources,
-    products,
-  )
-  assert.deepEqual(recipes[0].ingredients[0], {
-    item: { type: 'resource', id: 'aluminium' },
-    quantity: 1,
-  })
-  assert.throws(
-    () => buildProductRecipes([{ Product: 'Frame', Ingredient: 'Unknown', Quantity: '1' }], built.resources, products),
-    /unknown ingredient/,
+test('canonical Aluminum FormID preserves stable app ID aluminium', () => {
+  assert.deepEqual(
+    {
+      formId: built.resourceByFormId.get('000057D6').canonical.ResourceFormID,
+      canonicalName: built.resourceByFormId.get('000057D6').canonical.ResourceName,
+      id: built.resourceByFormId.get('000057D6').resource.id,
+    },
+    { formId: '000057D6', canonicalName: 'Aluminum', id: 'aluminium' },
   )
 })

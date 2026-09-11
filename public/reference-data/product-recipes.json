@@ -67,6 +67,13 @@
           "id": "nickel"
         },
         "quantity": 2
+      },
+      {
+        "item": {
+          "type": "product",
+          "id": "reactive-gauge"
+        },
+        "quantity": 1
       }
     ]
   },
@@ -220,7 +227,7 @@
           "type": "resource",
           "id": "aluminium"
         },
-        "quantity": 1
+        "quantity": 2
       },
       {
         "item": {

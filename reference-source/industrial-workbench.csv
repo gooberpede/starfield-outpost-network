@@ -1,90 +1,91 @@
-Product,Ingredient,Quantity
-Adaptive Frame,Aluminium,1
-Adaptive Frame,Iron,1
-Aldumite Drilling Rig,Aldumite,4
-Aldumite Drilling Rig,Caesium,2
-Aldumite Drilling Rig,Drilling Rig,1
-Aldumite Drilling Rig,Microsecond Regulator,1
-Austenitic Manifold,Iron,2
-Austenitic Manifold,Nickel,2
-Comm Relay,Isocentered Magnet,1
-Comm Relay,Tau Grade Rheostat,1
-Control Rod,Dysprosium,3
-Control Rod,Austenitic Manifold,1
-Control Rod,Isotopic Coolant,1
-Drilling Rig,Lubricant,2
-Drilling Rig,Tungsten,3
-Drilling Rig,Reactive Gauge,1
-Indicite Wafer,Caesium,2
-Indicite Wafer,Indicite,4
-Indicite Wafer,Solvent,2
-Indicite Wafer,Semimetal Wafer,1
-Isocentered Magnet,Cobalt,1
-Isocentered Magnet,Nickel,1
-Isotopic Coolant,Ionic Liquids,1
-Isotopic Coolant,Tetrafluorides,1
-Mag Pressure Tank,Aluminium,1
-Mag Pressure Tank,Nickel,1
-Microsecond Regulator,Europium,4
-Microsecond Regulator,Lithium,2
-Microsecond Regulator,Supercooled Magnet,1
-Microsecond Regulator,Tau Grade Rheostat,1
-Molecular Sieve,Ionic Liquids,2
-Molecular Sieve,Membrane,2
-Molecular Sieve,Mag Pressure Tank,1
-Monopropellant,Alkanes,2
-Monopropellant,Mag Pressure Tank,1
-Monopropellant,Reactive Gauge,1
-Nuclear Fuel Rod,Solvent,2
-Nuclear Fuel Rod,Uranium,3
-Nuclear Fuel Rod,Semimetal Wafer,1
-Paramagnon Conductor,Gold,1
-Paramagnon Conductor,Neodymium,1
-Paramagnon Conductor,Zero Wire,3
-Polytextile,Cosmetic,1
-Polytextile,Fiber,2
-Positron Battery,Antimony,2
-Positron Battery,Vanadium,2
-Positron Battery,Tau Grade Rheostat,1
-Power Circuit,Palladium,4
-Power Circuit,Polymer,2
-Power Circuit,Paramagnon Conductor,1
-Power Circuit,Positron Battery,1
-Reactive Gauge,Aluminium,2
-Reactive Gauge,Copper,1
-Rothicite Magnet,Lithium,2
-Rothicite Magnet,Rothicite,4
-Rothicite Magnet,Semimetal Wafer,1
-Rothicite Magnet,Supercooled Magnet,1
-Semimetal Wafer,Antimony,2
-Semimetal Wafer,Gold,2
-Semimetal Wafer,Zero Wire,1
-Sterile Nanotubes,Solvent,2
-Sterile Nanotubes,Vanadium,2
-Sterile Nanotubes,Molecular Sieve,1
-Substrate Molecular Sieve,Biosuppressant,2
-Substrate Molecular Sieve,Memory Substrate,3
-Substrate Molecular Sieve,Molecular Sieve,1
-Substrate Molecular Sieve,Sterile Nanotubes,2
-Supercooled Magnet,Neodymium,3
-Supercooled Magnet,Isocentered Magnet,1
-Supercooled Magnet,Isotopic Coolant,1
-Tasine Superconductor,Palladium,2
-Tasine Superconductor,Polymer,2
-Tasine Superconductor,Tasine,4
-Tasine Superconductor,Paramagnon Conductor,1
-Tau Grade Rheostat,Beryllium,1
-Tau Grade Rheostat,Copper,1
-Veryl-Treated Manifold,Lubricant,2
-Veryl-Treated Manifold,Veryl,4
-Veryl-Treated Manifold,Ytterbium,2
-Veryl-Treated Manifold,Austenitic Manifold,1
-Vytinium Fuel Rod,Plutonium,2
-Vytinium Fuel Rod,Vytinium,4
-Vytinium Fuel Rod,Indicite Wafer,1
-Vytinium Fuel Rod,Nuclear Fuel Rod,1
-Zero Wire,Copper,1
-Zero Wire,Silver,1
-Zero-G Gimbal,Lubricant,2
-Zero-G Gimbal,Tantalum,2
-Zero-G Gimbal,Isocentered Magnet,1
+SourceFile,ExtractTimestamp,ProductFormID,ProductEditorID,ProductName,RecipeSourceFile,RecipeFormID,RecipeEditorID,IngredientSourceFile,IngredientFormID,IngredientEditorID,IngredientName,Quantity
+"Starfield.esm","2026-09-11 13:11:31","0029C460","ResMfg_Tier02_ControlRod","Control Rod","Starfield.esm","002457D2","co_mfg_Tier02_ControlRod","Starfield.esm","000057C2","ResInorgExoticDysprosium","Dysprosium","3"
+"Starfield.esm","2026-09-11 13:11:31","0029C460","ResMfg_Tier02_ControlRod","Control Rod","Starfield.esm","002457D2","co_mfg_Tier02_ControlRod","Starfield.esm","00245789","ResMfg_Tier01_IsotopicCoolant","Isotopic Coolant","1"
+"Starfield.esm","2026-09-11 13:11:31","0029C460","ResMfg_Tier02_ControlRod","Control Rod","Starfield.esm","002457D2","co_mfg_Tier02_ControlRod","Starfield.esm","0027319D","ResMfg_Tier01_AusteniticManifold","Austenitic Manifold","1"
+"Starfield.esm","2026-09-11 13:11:31","00299544","ResMfg_Tier01_CommRelay","Comm Relay","Starfield.esm","002457BC","co_mfg_Tier01_CommRelay","Starfield.esm","00245772","ResMfg_Tier01_TauGradeRheostat","Tau Grade Rheostat","1"
+"Starfield.esm","2026-09-11 13:11:31","00299544","ResMfg_Tier01_CommRelay","Comm Relay","Starfield.esm","002457BC","co_mfg_Tier01_CommRelay","Starfield.esm","0024578A","ResMfg_Tier01_IsocenteredMagnet","Isocentered Magnet","1"
+"Starfield.esm","2026-09-11 13:11:31","0027319D","ResMfg_Tier01_AusteniticManifold","Austenitic Manifold","Starfield.esm","002457D3","co_mfg_Tier01_AusteniticManifold","Starfield.esm","000057C7","ResInorgCommonIron","Iron","2"
+"Starfield.esm","2026-09-11 13:11:31","0027319D","ResMfg_Tier01_AusteniticManifold","Austenitic Manifold","Starfield.esm","002457D3","co_mfg_Tier01_AusteniticManifold","Starfield.esm","000057CB","ResInorgCommonNickel","Nickel","2"
+"Starfield.esm","2026-09-11 13:11:31","0027319D","ResMfg_Tier01_AusteniticManifold","Austenitic Manifold","Starfield.esm","002457D3","co_mfg_Tier01_AusteniticManifold","Starfield.esm","0024577B","ResMfg_Tier01_ReactiveGauge","Reactive Gauge","1"
+"Starfield.esm","2026-09-11 13:11:31","0024578A","ResMfg_Tier01_IsocenteredMagnet","Isocentered Magnet","Starfield.esm","002457CE","co_mfg_Tier01_IsocenteredMagnet","Starfield.esm","000057CB","ResInorgCommonNickel","Nickel","1"
+"Starfield.esm","2026-09-11 13:11:31","0024578A","ResMfg_Tier01_IsocenteredMagnet","Isocentered Magnet","Starfield.esm","002457CE","co_mfg_Tier01_IsocenteredMagnet","Starfield.esm","000057CE","ResInorgUncommonCobalt","Cobalt","1"
+"Starfield.esm","2026-09-11 13:11:31","00245789","ResMfg_Tier01_IsotopicCoolant","Isotopic Coolant","Starfield.esm","002457CD","co_mfg_Tier01_IsotopicCoolant","Starfield.esm","000057D1","ResInorgRareTetrafluorides_G","Tetrafluorides","1"
+"Starfield.esm","2026-09-11 13:11:31","00245789","ResMfg_Tier01_IsotopicCoolant","Isotopic Coolant","Starfield.esm","002457CD","co_mfg_Tier01_IsotopicCoolant","Starfield.esm","000057D4","ResInorgExoticIonicLiquids_L","Ionic Liquids","1"
+"Starfield.esm","2026-09-11 13:11:31","00245788","ResMfg_Tier01_MagPressureTank","Mag Pressure Tank","Starfield.esm","002457C7","co_mfg_Tier01_MagPressureTank","Starfield.esm","000057CB","ResInorgCommonNickel","Nickel","1"
+"Starfield.esm","2026-09-11 13:11:31","00245788","ResMfg_Tier01_MagPressureTank","Mag Pressure Tank","Starfield.esm","002457C7","co_mfg_Tier01_MagPressureTank","Starfield.esm","000057D6","ResInorgCommonAluminum","Aluminum","2"
+"Starfield.esm","2026-09-11 13:11:31","00245787","ResMfg_Tier03_MicrosecondRegulator","Microsecond Regulator","Starfield.esm","002457B7","co_mfg_Tier03_MicrosecondRegulator","Starfield.esm","000057DA","ResInorgRareLithium","Lithium","2"
+"Starfield.esm","2026-09-11 13:11:31","00245787","ResMfg_Tier03_MicrosecondRegulator","Microsecond Regulator","Starfield.esm","002457B7","co_mfg_Tier03_MicrosecondRegulator","Starfield.esm","000057E2","ResInorgExoticEuropium","Europium","4"
+"Starfield.esm","2026-09-11 13:11:31","00245787","ResMfg_Tier03_MicrosecondRegulator","Microsecond Regulator","Starfield.esm","002457B7","co_mfg_Tier03_MicrosecondRegulator","Starfield.esm","00245772","ResMfg_Tier01_TauGradeRheostat","Tau Grade Rheostat","1"
+"Starfield.esm","2026-09-11 13:11:31","00245787","ResMfg_Tier03_MicrosecondRegulator","Microsecond Regulator","Starfield.esm","002457B7","co_mfg_Tier03_MicrosecondRegulator","Starfield.esm","00245774","ResMfg_Tier02_SupercooledMagnet","Supercooled Magnet","1"
+"Starfield.esm","2026-09-11 13:11:31","00245786","ResMfg_Tier02_MolecularSieve","Molecular Sieve","Starfield.esm","002457CC","co_mfg_Tier02_MolecularSieve","Starfield.esm","000057D4","ResInorgExoticIonicLiquids_L","Ionic Liquids","2"
+"Starfield.esm","2026-09-11 13:11:31","00245786","ResMfg_Tier02_MolecularSieve","Molecular Sieve","Starfield.esm","002457CC","co_mfg_Tier02_MolecularSieve","Starfield.esm","0007782C","ResOrgUncommonMembrane","Membrane","2"
+"Starfield.esm","2026-09-11 13:11:31","00245786","ResMfg_Tier02_MolecularSieve","Molecular Sieve","Starfield.esm","002457CC","co_mfg_Tier02_MolecularSieve","Starfield.esm","00245788","ResMfg_Tier01_MagPressureTank","Mag Pressure Tank","1"
+"Starfield.esm","2026-09-11 13:11:31","00245785","ResMfg_Tier01_Monopropellant","Monopropellant","Starfield.esm","002457CB","co_mfg_Tier01_Monopropellant","Starfield.esm","000057C9","ResInorgUncommonAlkanes_G","Alkanes","2"
+"Starfield.esm","2026-09-11 13:11:31","00245785","ResMfg_Tier01_Monopropellant","Monopropellant","Starfield.esm","002457CB","co_mfg_Tier01_Monopropellant","Starfield.esm","0024577B","ResMfg_Tier01_ReactiveGauge","Reactive Gauge","1"
+"Starfield.esm","2026-09-11 13:11:31","00245785","ResMfg_Tier01_Monopropellant","Monopropellant","Starfield.esm","002457CB","co_mfg_Tier01_Monopropellant","Starfield.esm","00245788","ResMfg_Tier01_MagPressureTank","Mag Pressure Tank","1"
+"Starfield.esm","2026-09-11 13:11:31","00245783","ResMfg_Tier02_NuclearFuelRod","Nuclear Fuel Rod","Starfield.esm","002457D1","co_mfg_Tier02_NuclearFuelRod","Starfield.esm","000057EB","ResInorgCommonUranium","Uranium","3"
+"Starfield.esm","2026-09-11 13:11:31","00245783","ResMfg_Tier02_NuclearFuelRod","Nuclear Fuel Rod","Starfield.esm","002457D1","co_mfg_Tier02_NuclearFuelRod","Starfield.esm","00077827","ResOrgExoticSolvent","Solvent","2"
+"Starfield.esm","2026-09-11 13:11:31","00245783","ResMfg_Tier02_NuclearFuelRod","Nuclear Fuel Rod","Starfield.esm","002457D1","co_mfg_Tier02_NuclearFuelRod","Starfield.esm","00245779","ResMfg_Tier02_SemimetalWafer","Semimetal Wafer","1"
+"Starfield.esm","2026-09-11 13:11:31","00245782","ResMfg_Tier02_ParamagnonSuperconductor","Paramagnon Conductor","Starfield.esm","002457CA","co_mfg_Tier02_ParamagnonSuperconductor","Starfield.esm","000057D2","ResInorgRareGold","Gold","1"
+"Starfield.esm","2026-09-11 13:11:31","00245782","ResMfg_Tier02_ParamagnonSuperconductor","Paramagnon Conductor","Starfield.esm","002457CA","co_mfg_Tier02_ParamagnonSuperconductor","Starfield.esm","000057DB","ResInorgRareNeodymium","Neodymium","1"
+"Starfield.esm","2026-09-11 13:11:31","00245782","ResMfg_Tier02_ParamagnonSuperconductor","Paramagnon Conductor","Starfield.esm","002457CA","co_mfg_Tier02_ParamagnonSuperconductor","Starfield.esm","0024576E","ResMfg_Tier01_ZeroWire","Zero Wire","3"
+"Starfield.esm","2026-09-11 13:11:31","0024577F","ResMfg_Tier01_Polytextile","Polytextile","Starfield.esm","002457C9","co_mfg_Tier01_Polytextile","Starfield.esm","000777F8","ResOrgUncommonCosmetic","Cosmetic","1"
+"Starfield.esm","2026-09-11 13:11:31","0024577F","ResMfg_Tier01_Polytextile","Polytextile","Starfield.esm","002457C9","co_mfg_Tier01_Polytextile","Starfield.esm","00077821","ResOrgCommonFiber","Fiber","2"
+"Starfield.esm","2026-09-11 13:11:31","0024577E","ResMfg_Tier02_PositronBattery","Positron Battery","Starfield.esm","002457C8","co_mfg_Tier02_PositronBattery","Starfield.esm","000057D3","ResInorgExoticAntimony","Antimony","2"
+"Starfield.esm","2026-09-11 13:11:31","0024577E","ResMfg_Tier02_PositronBattery","Positron Battery","Starfield.esm","002457C8","co_mfg_Tier02_PositronBattery","Starfield.esm","000057ED","ResInorgRareVanadium","Vanadium","2"
+"Starfield.esm","2026-09-11 13:11:31","0024577E","ResMfg_Tier02_PositronBattery","Positron Battery","Starfield.esm","002457C8","co_mfg_Tier02_PositronBattery","Starfield.esm","00245772","ResMfg_Tier01_TauGradeRheostat","Tau Grade Rheostat","1"
+"Starfield.esm","2026-09-11 13:11:31","0024577D","ResMfg_Tier03_PowerCircuit","Power Circuit","Starfield.esm","002457B5","co_mfg_Tier03_PowerCircuit","Starfield.esm","000057CD","ResInorgExoticPalladium","Palladium","4"
+"Starfield.esm","2026-09-11 13:11:31","0024577D","ResMfg_Tier03_PowerCircuit","Power Circuit","Starfield.esm","002457B5","co_mfg_Tier03_PowerCircuit","Starfield.esm","00077826","ResOrgExoticPolymer","Polymer","2"
+"Starfield.esm","2026-09-11 13:11:31","0024577D","ResMfg_Tier03_PowerCircuit","Power Circuit","Starfield.esm","002457B5","co_mfg_Tier03_PowerCircuit","Starfield.esm","0024577E","ResMfg_Tier02_PositronBattery","Positron Battery","1"
+"Starfield.esm","2026-09-11 13:11:31","0024577D","ResMfg_Tier03_PowerCircuit","Power Circuit","Starfield.esm","002457B5","co_mfg_Tier03_PowerCircuit","Starfield.esm","00245782","ResMfg_Tier02_ParamagnonSuperconductor","Paramagnon Conductor","1"
+"Starfield.esm","2026-09-11 13:11:31","0024577B","ResMfg_Tier01_ReactiveGauge","Reactive Gauge","Starfield.esm","002457C6","co_mfg_Tier01_ReactiveGauge","Starfield.esm","000057CF","ResInorgCommonCopper","Copper","1"
+"Starfield.esm","2026-09-11 13:11:31","0024577B","ResMfg_Tier01_ReactiveGauge","Reactive Gauge","Starfield.esm","002457C6","co_mfg_Tier01_ReactiveGauge","Starfield.esm","000057D6","ResInorgCommonAluminum","Aluminum","2"
+"Starfield.esm","2026-09-11 13:11:31","00245779","ResMfg_Tier02_SemimetalWafer","Semimetal Wafer","Starfield.esm","002457C4","co_mfg_Tier02_SemimetalWafer","Starfield.esm","000057D2","ResInorgRareGold","Gold","2"
+"Starfield.esm","2026-09-11 13:11:31","00245779","ResMfg_Tier02_SemimetalWafer","Semimetal Wafer","Starfield.esm","002457C4","co_mfg_Tier02_SemimetalWafer","Starfield.esm","000057D3","ResInorgExoticAntimony","Antimony","2"
+"Starfield.esm","2026-09-11 13:11:31","00245779","ResMfg_Tier02_SemimetalWafer","Semimetal Wafer","Starfield.esm","002457C4","co_mfg_Tier02_SemimetalWafer","Starfield.esm","0024576E","ResMfg_Tier01_ZeroWire","Zero Wire","1"
+"Starfield.esm","2026-09-11 13:11:31","00245778","ResMfg_Tier02_SterileNanotubes","Sterile Nanotubes","Starfield.esm","002457C3","co_mfg_Tier02_SterileNanotubes","Starfield.esm","000057ED","ResInorgRareVanadium","Vanadium","2"
+"Starfield.esm","2026-09-11 13:11:31","00245778","ResMfg_Tier02_SterileNanotubes","Sterile Nanotubes","Starfield.esm","002457C3","co_mfg_Tier02_SterileNanotubes","Starfield.esm","00077827","ResOrgExoticSolvent","Solvent","2"
+"Starfield.esm","2026-09-11 13:11:31","00245778","ResMfg_Tier02_SterileNanotubes","Sterile Nanotubes","Starfield.esm","002457C3","co_mfg_Tier02_SterileNanotubes","Starfield.esm","00245786","ResMfg_Tier02_MolecularSieve","Molecular Sieve","1"
+"Starfield.esm","2026-09-11 13:11:31","00245775","ResMfg_Tier01_AdaptiveFrame","Adaptive Frame","Starfield.esm","002457C1","co_mfg_Tier01_AdaptiveFrame","Starfield.esm","000057C7","ResInorgCommonIron","Iron","1"
+"Starfield.esm","2026-09-11 13:11:31","00245775","ResMfg_Tier01_AdaptiveFrame","Adaptive Frame","Starfield.esm","002457C1","co_mfg_Tier01_AdaptiveFrame","Starfield.esm","000057D6","ResInorgCommonAluminum","Aluminum","1"
+"Starfield.esm","2026-09-11 13:11:31","00245774","ResMfg_Tier02_SupercooledMagnet","Supercooled Magnet","Starfield.esm","002457C0","co_mfg_Tier02_SupercooledMagnet","Starfield.esm","000057DB","ResInorgRareNeodymium","Neodymium","3"
+"Starfield.esm","2026-09-11 13:11:31","00245774","ResMfg_Tier02_SupercooledMagnet","Supercooled Magnet","Starfield.esm","002457C0","co_mfg_Tier02_SupercooledMagnet","Starfield.esm","00245789","ResMfg_Tier01_IsotopicCoolant","Isotopic Coolant","1"
+"Starfield.esm","2026-09-11 13:11:31","00245774","ResMfg_Tier02_SupercooledMagnet","Supercooled Magnet","Starfield.esm","002457C0","co_mfg_Tier02_SupercooledMagnet","Starfield.esm","0024578A","ResMfg_Tier01_IsocenteredMagnet","Isocentered Magnet","1"
+"Starfield.esm","2026-09-11 13:11:31","00245772","ResMfg_Tier01_TauGradeRheostat","Tau Grade Rheostat","Starfield.esm","00245773","co_mfg_Tier01_TauGradeRheostat","Starfield.esm","000057CF","ResInorgCommonCopper","Copper","1"
+"Starfield.esm","2026-09-11 13:11:31","00245772","ResMfg_Tier01_TauGradeRheostat","Tau Grade Rheostat","Starfield.esm","00245773","co_mfg_Tier01_TauGradeRheostat","Starfield.esm","000057D8","ResInorgUncommonBeryllium","Beryllium","1"
+"Starfield.esm","2026-09-11 13:11:31","0024576F","ResMfg_Tier02_ZeroGGimbal","Zero-G Gimbal","Starfield.esm","002457BE","co_mfg_Tier02_ZeroGGimbal","Starfield.esm","000057C8","ResInorgRareTantalum","Tantalum","2"
+"Starfield.esm","2026-09-11 13:11:31","0024576F","ResMfg_Tier02_ZeroGGimbal","Zero-G Gimbal","Starfield.esm","002457BE","co_mfg_Tier02_ZeroGGimbal","Starfield.esm","000777F9","ResOrgExoticLubricant","Lubricant","2"
+"Starfield.esm","2026-09-11 13:11:31","0024576F","ResMfg_Tier02_ZeroGGimbal","Zero-G Gimbal","Starfield.esm","002457BE","co_mfg_Tier02_ZeroGGimbal","Starfield.esm","0024578A","ResMfg_Tier01_IsocenteredMagnet","Isocentered Magnet","1"
+"Starfield.esm","2026-09-11 13:11:31","0024576E","ResMfg_Tier01_ZeroWire","Zero Wire","Starfield.esm","002457BD","co_mfg_Tier01_ZeroWire","Starfield.esm","000057C3","ResInorgUncommonSilver","Silver","1"
+"Starfield.esm","2026-09-11 13:11:31","0024576E","ResMfg_Tier01_ZeroWire","Zero Wire","Starfield.esm","002457BD","co_mfg_Tier01_ZeroWire","Starfield.esm","000057CF","ResInorgCommonCopper","Copper","1"
+"Starfield.esm","2026-09-11 13:11:31","00208E99","ResMfg_Tier02_DrillingRig","Drilling Rig","Starfield.esm","0020A02E","co_mfg_Tier02_DrillingRig","Starfield.esm","000057C4","ResInorgUncommonTungsten","Tungsten","3"
+"Starfield.esm","2026-09-11 13:11:31","00208E99","ResMfg_Tier02_DrillingRig","Drilling Rig","Starfield.esm","0020A02E","co_mfg_Tier02_DrillingRig","Starfield.esm","000777F9","ResOrgExoticLubricant","Lubricant","2"
+"Starfield.esm","2026-09-11 13:11:31","00208E99","ResMfg_Tier02_DrillingRig","Drilling Rig","Starfield.esm","0020A02E","co_mfg_Tier02_DrillingRig","Starfield.esm","0024577B","ResMfg_Tier01_ReactiveGauge","Reactive Gauge","1"
+"Starfield.esm","2026-09-11 13:11:31","00203EA8","ResMfg_Tier03_VerylManifold","Veryl-Treated Manifold","Starfield.esm","00203EA9","co_mfg_Tier03_VerylManifold","Starfield.esm","000057CA","ResInorgExoticYtterbium","Ytterbium","2"
+"Starfield.esm","2026-09-11 13:11:31","00203EA8","ResMfg_Tier03_VerylManifold","Veryl-Treated Manifold","Starfield.esm","00203EA9","co_mfg_Tier03_VerylManifold","Starfield.esm","00005DF7","ResInorgUniqueVeryl_G","Veryl","4"
+"Starfield.esm","2026-09-11 13:11:31","00203EA8","ResMfg_Tier03_VerylManifold","Veryl-Treated Manifold","Starfield.esm","00203EA9","co_mfg_Tier03_VerylManifold","Starfield.esm","000777F9","ResOrgExoticLubricant","Lubricant","2"
+"Starfield.esm","2026-09-11 13:11:31","00203EA8","ResMfg_Tier03_VerylManifold","Veryl-Treated Manifold","Starfield.esm","00203EA9","co_mfg_Tier03_VerylManifold","Starfield.esm","0027319D","ResMfg_Tier01_AusteniticManifold","Austenitic Manifold","1"
+"Starfield.esm","2026-09-11 13:11:31","00203EA6","ResMfg_Tier03_TasineSuperconductor","Tasine Superconductor","Starfield.esm","00203EA7","co_mfg_Tier03_TasineSuperconductor","Starfield.esm","000057CD","ResInorgExoticPalladium","Palladium","2"
+"Starfield.esm","2026-09-11 13:11:31","00203EA6","ResMfg_Tier03_TasineSuperconductor","Tasine Superconductor","Starfield.esm","00203EA7","co_mfg_Tier03_TasineSuperconductor","Starfield.esm","00005DF6","ResInorgUniqueTasine_L","Tasine","4"
+"Starfield.esm","2026-09-11 13:11:31","00203EA6","ResMfg_Tier03_TasineSuperconductor","Tasine Superconductor","Starfield.esm","00203EA7","co_mfg_Tier03_TasineSuperconductor","Starfield.esm","00077826","ResOrgExoticPolymer","Polymer","2"
+"Starfield.esm","2026-09-11 13:11:31","00203EA6","ResMfg_Tier03_TasineSuperconductor","Tasine Superconductor","Starfield.esm","00203EA7","co_mfg_Tier03_TasineSuperconductor","Starfield.esm","00245782","ResMfg_Tier02_ParamagnonSuperconductor","Paramagnon Conductor","1"
+"Starfield.esm","2026-09-11 13:11:31","00203EA4","ResMfg_Tier03_RothiciteMagnet","Rothicite Magnet","Starfield.esm","00203EAB","co_mfg_Tier03_RothiciteMagnet","Starfield.esm","000057DA","ResInorgRareLithium","Lithium","2"
+"Starfield.esm","2026-09-11 13:11:31","00203EA4","ResMfg_Tier03_RothiciteMagnet","Rothicite Magnet","Starfield.esm","00203EAB","co_mfg_Tier03_RothiciteMagnet","Starfield.esm","00005DF1","ResInorgUniqueRothicite","Rothicite","4"
+"Starfield.esm","2026-09-11 13:11:31","00203EA4","ResMfg_Tier03_RothiciteMagnet","Rothicite Magnet","Starfield.esm","00203EAB","co_mfg_Tier03_RothiciteMagnet","Starfield.esm","00245774","ResMfg_Tier02_SupercooledMagnet","Supercooled Magnet","1"
+"Starfield.esm","2026-09-11 13:11:31","00203EA4","ResMfg_Tier03_RothiciteMagnet","Rothicite Magnet","Starfield.esm","00203EAB","co_mfg_Tier03_RothiciteMagnet","Starfield.esm","00245779","ResMfg_Tier02_SemimetalWafer","Semimetal Wafer","1"
+"Starfield.esm","2026-09-11 13:11:31","00203EA3","ResMfg_Tier03_VytiniumFuelRod","Vytinium Fuel Rod","Starfield.esm","00203EAC","co_mfg_Tier03_VytiniumFuelRod","Starfield.esm","000057EE","ResInorgExoticPlutonium","Plutonium","2"
+"Starfield.esm","2026-09-11 13:11:31","00203EA3","ResMfg_Tier03_VytiniumFuelRod","Vytinium Fuel Rod","Starfield.esm","00203EAC","co_mfg_Tier03_VytiniumFuelRod","Starfield.esm","00005DF8","ResInorgUniqueVytinium","Vytinium","4"
+"Starfield.esm","2026-09-11 13:11:31","00203EA3","ResMfg_Tier03_VytiniumFuelRod","Vytinium Fuel Rod","Starfield.esm","00203EAC","co_mfg_Tier03_VytiniumFuelRod","Starfield.esm","00203EA2","ResMfg_Tier03_IndiciteWafer","Indicite Wafer","1"
+"Starfield.esm","2026-09-11 13:11:31","00203EA3","ResMfg_Tier03_VytiniumFuelRod","Vytinium Fuel Rod","Starfield.esm","00203EAC","co_mfg_Tier03_VytiniumFuelRod","Starfield.esm","00245783","ResMfg_Tier02_NuclearFuelRod","Nuclear Fuel Rod","1"
+"Starfield.esm","2026-09-11 13:11:31","00203EA2","ResMfg_Tier03_IndiciteWafer","Indicite Wafer","Starfield.esm","00203EAD","co_mfg_Tier03_IndiciteWafer","Starfield.esm","000057E0","ResInorgExoticCaesium_L","Caesium","2"
+"Starfield.esm","2026-09-11 13:11:31","00203EA2","ResMfg_Tier03_IndiciteWafer","Indicite Wafer","Starfield.esm","00203EAD","co_mfg_Tier03_IndiciteWafer","Starfield.esm","0004BA38","ResInorgUniqueIndicite","Indicite","4"
+"Starfield.esm","2026-09-11 13:11:31","00203EA2","ResMfg_Tier03_IndiciteWafer","Indicite Wafer","Starfield.esm","00203EAD","co_mfg_Tier03_IndiciteWafer","Starfield.esm","00077827","ResOrgExoticSolvent","Solvent","2"
+"Starfield.esm","2026-09-11 13:11:31","00203EA2","ResMfg_Tier03_IndiciteWafer","Indicite Wafer","Starfield.esm","00203EAD","co_mfg_Tier03_IndiciteWafer","Starfield.esm","00245779","ResMfg_Tier02_SemimetalWafer","Semimetal Wafer","1"
+"Starfield.esm","2026-09-11 13:11:31","00202F59","ResMfg_Tier03_AldumiteDrillingRig","Aldumite Drilling Rig","Starfield.esm","00202F58","co_mfg_Tier03_AldumiteDrillingRig","Starfield.esm","000057E0","ResInorgExoticCaesium_L","Caesium","2"
+"Starfield.esm","2026-09-11 13:11:31","00202F59","ResMfg_Tier03_AldumiteDrillingRig","Aldumite Drilling Rig","Starfield.esm","00202F58","co_mfg_Tier03_AldumiteDrillingRig","Starfield.esm","00005DF5","ResInorgUniqueAldumite","Aldumite","4"
+"Starfield.esm","2026-09-11 13:11:31","00202F59","ResMfg_Tier03_AldumiteDrillingRig","Aldumite Drilling Rig","Starfield.esm","00202F58","co_mfg_Tier03_AldumiteDrillingRig","Starfield.esm","00208E99","ResMfg_Tier02_DrillingRig","Drilling Rig","1"
+"Starfield.esm","2026-09-11 13:11:31","00202F59","ResMfg_Tier03_AldumiteDrillingRig","Aldumite Drilling Rig","Starfield.esm","00202F58","co_mfg_Tier03_AldumiteDrillingRig","Starfield.esm","00245787","ResMfg_Tier03_MicrosecondRegulator","Microsecond Regulator","1"
+"Starfield.esm","2026-09-11 13:11:31","00202781","ResMfg_Tier03_SubstrateMolecularSieve","Substrate Molecule Sieve","Starfield.esm","0020277F","co_mfg_Tier03_SubstrateMolecularSieve","Starfield.esm","00077824","ResOrgExoticBiosuppressant","Biosuppressant","2"
+"Starfield.esm","2026-09-11 13:11:31","00202781","ResMfg_Tier03_SubstrateMolecularSieve","Substrate Molecule Sieve","Starfield.esm","0020277F","co_mfg_Tier03_SubstrateMolecularSieve","Starfield.esm","00077832","ResOrgUniqueMemorySubstrate","Memory Substrate","3"
+"Starfield.esm","2026-09-11 13:11:31","00202781","ResMfg_Tier03_SubstrateMolecularSieve","Substrate Molecule Sieve","Starfield.esm","0020277F","co_mfg_Tier03_SubstrateMolecularSieve","Starfield.esm","00245778","ResMfg_Tier02_SterileNanotubes","Sterile Nanotubes","2"
+"Starfield.esm","2026-09-11 13:11:31","00202781","ResMfg_Tier03_SubstrateMolecularSieve","Substrate Molecule Sieve","Starfield.esm","0020277F","co_mfg_Tier03_SubstrateMolecularSieve","Starfield.esm","00245786","ResMfg_Tier02_MolecularSieve","Molecular Sieve","1"

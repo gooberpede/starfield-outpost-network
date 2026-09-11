@@ -473,9 +473,11 @@ files by the browser. Planetary data follows a direct canonical export path:
 ```text
 Game extracts → reference-source/planet-directory.csv
                 reference-source/inorganic-resource-dictionary.csv
+                reference-source/industrial-workbench.csv
                 reference-source/biome-inorganic-resources.csv
                 reference-source/biome-organic-resources.csv
 Tracker policy → reference-source/inorganic-resource-tracker-policy.csv
+                 reference-source/item-tracker-metadata.csv
         ↓
 scripts/build-reference-data.mjs
         ↓
@@ -490,8 +492,18 @@ immediate parent FormID. The tracker policy joins by FormID and separately owns
 stable application `ResourceId`, runtime disposition, five-tier presentation
 rarity, and Planned Supply placement/order. Application IDs are opaque persisted
 identities and are never regenerated from canonical or localized names. The
-curated organic and manufactured-product dictionaries retain their existing
-roles, while `industrial-workbench.csv` remains the name-based recipe source.
+canonical Industrial Workbench extract is the identity backbone for manufactured
+products and the source of recipe facts. Its product, ingredient, and COBJ
+identities are validated at build time; products and ingredients join by FormID,
+while COBJ identity remains source-only. Organic identities are reduced by
+FormID from the occurrence-grain organic extract.
+
+`item-tracker-metadata.csv` is the single handmade metadata source for the 30
+tracked products and 30 tracked organics. It explicitly pins stable app IDs,
+abbreviations, five-tier tracker rarity, and sparse display overrides. Its
+canonical identity columns are checked assertions rather than a competing
+authority. Every tracker-authored row uses `BESPOKE - NO SOURCE FILE` and
+`9999-12-31 00:00:00` to distinguish bespoke metadata from extracted facts.
 
 The three canonical CSVs supply body facts, inorganic biome/atmosphere
 occurrences, and organic species occurrences respectively. The builder delegates
@@ -518,9 +530,10 @@ Each relationship has its own generated JSON file and typed loader property.
 Resource IDs remain stable application IDs. Inorganic occurrences join canonical
 FormID to tracker policy to application ID; their names and EditorIDs are
 consistency assertions rather than identity. The obsolete inorganic Aluminum
-name alias is gone. The unrelated organic Gastro Delight/Gastronomic Delight
-compatibility alias remains. Legacy recipe spelling `Aluminium` resolves
-explicitly to app ID `aluminium`.
+name alias is gone. Canonical `Gastro Delight` crosswalks by FormID to stable ID
+`gastronomic-delight`, with `Gastronomic Delight` supplied as explicit tracker
+display metadata. Canonical `Aluminum` likewise crosswalks by FormID to stable
+app ID `aluminium`; recipes contain no name-compatibility branch.
 
 The canonical dataset retains Aqueous Hematite and Caelumite with tracker
 disposition `excluded`. X-Tech is `special-enabled`, emitted as a runtime
@@ -531,7 +544,8 @@ Source provenance and extraction-specific fields stay in canonical CSVs. An
 optional biome-inorganic-resources.manifest.json validates declared dataset,
 schema version (currently 1), output filename, and total/location row counts.
 Absent manifests are accepted; upstream hashes/timestamps/counts are provenance,
-not locks against refreshed source files. No manifest data enters runtime JSON.
+not locks against refreshed source files. The bespoke tracker timestamp is a
+sentinel, not an extraction event. No provenance or COBJ data enters runtime JSON.
 Duplicate body IDs and conflicting system, biome, resource crosswalk, or
 planet/species facts fail generation. Base-game and Shattered Space bodies remain
 in the catalogue, including ineligible bodies; selectors use outpostAllowed.

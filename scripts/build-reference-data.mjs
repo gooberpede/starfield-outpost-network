@@ -2,7 +2,7 @@
  * build-reference-data.mjs
  *
  * Purpose:
- *   Converts curated Starfield source datasets into the JSON reference
+ *   Converts canonical Starfield sources and tracker policy into JSON reference
  *   files consumed by the web application at runtime.
  *
  * Architecture:
@@ -43,7 +43,7 @@
  *   - source CSV structures change;
  *   - new reference datasets are added;
  *   - generated JSON fields change;
- *   - known canonical/display-name aliases change;
+ *   - item crosswalk or tracker-metadata rules change;
  *   - validation or duplicate handling needs to become stricter.
  */
 
@@ -57,6 +57,12 @@ import {
   parseCanonicalInorganicCsv,
   parseInorganicTrackerPolicyCsv,
 } from './inorganic-resource-data.mjs'
+import {
+  buildItemReferenceData,
+  parseIndustrialWorkbenchCsv,
+  parseItemTrackerMetadataCsv,
+  validateCurrentItemPopulation,
+} from './item-reference-data.mjs'
 
 import { parse } from 'csv-parse/sync'
 
@@ -81,10 +87,10 @@ const INORGANIC_RESOURCE_TRACKER_POLICY_SOURCE_FILE = resolve(
   'inorganic-resource-tracker-policy.csv',
 )
 
-const ORGANIC_RESOURCE_DICTIONARY_SOURCE_FILE = resolve(
+const ITEM_TRACKER_METADATA_SOURCE_FILE = resolve(
   PROJECT_ROOT,
   'reference-source',
-  'organic-resource-dictionary.csv',
+  'item-tracker-metadata.csv',
 )
 
 const ORGANIC_OCCURRENCES_SOURCE_FILE = resolve(
@@ -97,12 +103,6 @@ const INDUSTRIAL_WORKBENCH_SOURCE_FILE = resolve(
   PROJECT_ROOT,
   'reference-source',
   'industrial-workbench.csv',
-)
-
-const MANUFACTURED_PRODUCT_DICTIONARY_SOURCE_FILE = resolve(
-  PROJECT_ROOT,
-  'reference-source',
-  'manufactured-product-dictionary.csv',
 )
 
 const INORGANIC_OCCURRENCES_SOURCE_FILE = resolve(
@@ -146,14 +146,6 @@ const PRODUCT_RECIPES_OUTPUT_FILE = resolve(
   'product-recipes.json',
 )
 
-const RARITY_BY_SOURCE_VALUE = new Map([
-  ['Common', 'common'],
-  ['Uncommon', 'uncommon'],
-  ['Rare', 'rare'],
-  ['Exotic', 'exotic'],
-  ['Unique', 'unique'],
-])
-
 const PLANETARY_BODY_TYPE_BY_SOURCE_VALUE = new Map([
   ['Planet', 'planet'],
   ['Moon', 'moon'],
@@ -190,29 +182,6 @@ async function loadCsvFile(path) {
     skip_empty_lines: true,
     trim: true,
   })
-}
-
-/**
- * Validates one curated rarity and converts it to the runtime representation.
- */
-function parseRarity(value, sourceName, rowNumber) {
-  const rarity = RARITY_BY_SOURCE_VALUE.get(value)
-
-  if (!rarity) {
-    throw new Error(
-      `${sourceName} row ${rowNumber} has invalid rarity "${value ?? ''}".`,
-    )
-  }
-
-  return rarity
-}
-
-function assertUniqueValue(seenValues, value, description) {
-  if (seenValues.has(value)) {
-    throw new Error(`Duplicate ${description} "${value}".`)
-  }
-
-  seenValues.add(value)
 }
 
 /**
@@ -361,89 +330,17 @@ export function buildBodies(rows) {
 }
 
 /**
- * Creates a stable application ID from a player-facing name.
- *
- * Resource and product IDs remain logical application identifiers rather
- * than canonical FormIDs. Canonical FormIDs are resolved to these IDs by
- * the resource crosswalk during reference-data generation.
- */
-function createNameId(name) {
-  return name
-    .trim()
-    .toLowerCase()
-    .replace(/['’]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-}
-
-/**
- * Builds the complete logical resource catalogue from policy-joined canonical
- * inorganics and the curated organic dictionary. Occurrence sources never
- * manufacture catalogue records.
+ * Combines policy-joined canonical inorganics with FormID-crosswalked organics.
  */
 function buildResources(
   inorganicResources,
-  organicDictionaryRows,
+  organicResources,
 ) {
-  const resourcesById = new Map(
-    inorganicResources.map((resource) => [resource.id, resource]),
-  )
-  const resourceIds = new Set(resourcesById.keys())
-
-  const organicNames = new Set()
-  const organicIds = new Set()
-  const organicShortNames = new Set()
-
-  for (const [index, row] of organicDictionaryRows.entries()) {
-    const rowNumber = index + 2
-
-    if (!row.Resource || !row.ShortName || !row.Rarity) {
-      throw new Error(
-        `Organic resource row ${rowNumber} is missing ` +
-          'Resource, ShortName, or Rarity.',
-      )
-    }
-
-    const id = createNameId(row.Resource)
-
-    assertUniqueValue(
-      organicNames,
-      row.Resource,
-      'organic resource name',
-    )
-    assertUniqueValue(
-      organicIds,
-      id,
-      'organic resource ID',
-    )
-    assertUniqueValue(
-      organicShortNames,
-      row.ShortName,
-      'organic resource abbreviation',
-    )
-    assertUniqueValue(
-      resourceIds,
-      id,
-      'resource ID',
-    )
-
-    resourcesById.set(id, {
-      id,
-      name: row.Resource,
-      shortName: row.ShortName,
-      category: 'organic',
-      rarity: parseRarity(
-        row.Rarity,
-        'Organic resource',
-        rowNumber,
-      ),
-      parentId: null,
-      sortOrder: null,
-      plannedSupplyPlacement: null,
-    })
+  const resources = [...inorganicResources, ...organicResources]
+  if (new Set(resources.map((resource) => resource.id)).size !== resources.length) {
+    throw new Error('Inorganic and organic catalogues contain a duplicate stable ResourceId.')
   }
-
-  return [...resourcesById.values()].map((resource) => ({
+  return resources.map((resource) => ({
     id: resource.id,
     name: resource.name,
     shortName: resource.shortName,
@@ -460,232 +357,6 @@ function buildResources(
       ? categoryComparison
       : left.name.localeCompare(right.name)
   })
-}
-
-/**
- * Builds the manufactured-product catalogue from its curated dictionary.
- * Industrial Workbench remains a recipe source only.
- */
-function buildProducts(rows) {
-  const names = new Set()
-  const ids = new Set()
-  const shortNames = new Set()
-  const products = []
-
-  for (const [index, row] of rows.entries()) {
-    const rowNumber = index + 2
-
-    if (!row.Name || !row.ShortName || !row.Rarity) {
-      throw new Error(
-        `Manufactured product row ${rowNumber} is missing ` +
-          'Name, ShortName, or Rarity.',
-      )
-    }
-
-    const id = createNameId(row.Name)
-
-    assertUniqueValue(names, row.Name, 'manufactured product name')
-    assertUniqueValue(ids, id, 'manufactured product ID')
-    assertUniqueValue(
-      shortNames,
-      row.ShortName,
-      'manufactured product abbreviation',
-    )
-
-    products.push({
-      id,
-      name: row.Name,
-      shortName: row.ShortName,
-      rarity: parseRarity(
-        row.Rarity,
-        'Manufactured product',
-        rowNumber,
-      ),
-    })
-  }
-
-  return products.sort((left, right) =>
-    left.name.localeCompare(right.name),
-  )
-}
-
-/**
- * Builds canonical manufacturing recipes from Industrial Workbench rows.
- *
- * Product and ingredient names are resolved against the already-built
- * application catalogues rather than converted directly into IDs here.
- * This makes source/catalogue discrepancies visible during generation.
- *
- * Recipe quantities remain the unmodified base-game values. Character
- * modifiers such as Research Methods belong to later domain logic.
- */
-export function buildProductRecipes(
-  rows,
-  resources,
-  products,
-) {
-  const resourcesByName =
-    new Map(
-      resources.map((resource) => [
-        resource.name,
-        resource,
-      ]),
-    )
-
-  const resourcesById = new Map(
-    resources.map((resource) => [resource.id, resource]),
-  )
-
-  // Industrial Workbench remains legacy name-based; pin known spellings to
-  // stable app identity instead of coupling recipes to canonical/localized text.
-  const recipeResourceCompatibility = new Map([
-    ['Aluminium', 'aluminium'],
-  ])
-
-  const productsByName =
-    new Map(
-      products.map((product) => [
-        product.name,
-        product,
-      ]),
-    )
-
-  const recipesByProductId = new Map()
-
-  for (const [index, row] of rows.entries()) {
-    if (
-      !row.Product ||
-      !row.Ingredient ||
-      !row.Quantity
-    ) {
-      throw new Error(
-        `Industrial Workbench row ${index + 2} is missing ` +
-          'Product, Ingredient, or Quantity.',
-      )
-    }
-
-    const product =
-      productsByName.get(row.Product)
-
-    if (!product) {
-      throw new Error(
-        `Industrial Workbench row ${index + 2} refers to ` +
-          `unknown product "${row.Product}".`,
-      )
-    }
-
-    const compatibleResourceId = recipeResourceCompatibility.get(row.Ingredient)
-    const resourceIngredient = compatibleResourceId
-      ? resourcesById.get(compatibleResourceId)
-      : resourcesByName.get(row.Ingredient)
-
-    const productIngredient =
-      productsByName.get(row.Ingredient)
-
-    if (
-      resourceIngredient &&
-      productIngredient
-    ) {
-      throw new Error(
-        `Industrial Workbench row ${index + 2} has ambiguous ` +
-          `ingredient "${row.Ingredient}", which exists as both ` +
-          'a resource and a product.',
-      )
-    }
-
-    if (
-      !resourceIngredient &&
-      !productIngredient
-    ) {
-      throw new Error(
-        `Industrial Workbench row ${index + 2} refers to ` +
-          `unknown ingredient "${row.Ingredient}".`,
-      )
-    }
-
-    const quantity =
-      Number(row.Quantity)
-
-    if (
-      !Number.isInteger(quantity) ||
-      quantity < 1
-    ) {
-      throw new Error(
-        `Industrial Workbench row ${index + 2} has invalid ` +
-          `quantity "${row.Quantity}".`,
-      )
-    }
-
-    const item =
-      resourceIngredient
-        ? {
-            type: 'resource',
-            id: resourceIngredient.id,
-          }
-        : {
-            type: 'product',
-            id: productIngredient.id,
-          }
-
-    let recipe =
-      recipesByProductId.get(product.id)
-
-    if (!recipe) {
-      recipe = {
-        productId: product.id,
-        ingredients: [],
-      }
-
-      recipesByProductId.set(
-        product.id,
-        recipe,
-      )
-    }
-
-    const duplicateIngredient =
-      recipe.ingredients.some(
-        (ingredient) =>
-          ingredient.item.type === item.type &&
-          ingredient.item.id === item.id,
-      )
-
-    if (duplicateIngredient) {
-      throw new Error(
-        `Industrial Workbench contains duplicate ingredient ` +
-          `"${row.Ingredient}" for product "${row.Product}".`,
-      )
-    }
-
-    recipe.ingredients.push({
-      item,
-      quantity,
-    })
-  }
-
-  const productsWithoutRecipes = products.filter(
-    (product) => !recipesByProductId.has(product.id),
-  )
-
-  if (productsWithoutRecipes.length > 0) {
-    throw new Error(
-      'Manufactured product dictionary entries have no Industrial ' +
-        'Workbench recipe: ' +
-        productsWithoutRecipes
-          .map((product) => `"${product.name}"`)
-          .join(', ') +
-        '.',
-    )
-  }
-
-  /*
-   * Follow product catalogue order so generated output stays deterministic
-   * and easy to compare with products.json.
-   */
-  return products
-    .map((product) =>
-      recipesByProductId.get(product.id),
-    )
-    .filter((recipe) => recipe !== undefined)
 }
 
 /**
@@ -728,7 +399,7 @@ async function main() {
   const [
     inorganicCsv,
     inorganicPolicyCsv,
-    organicDictionaryRows,
+    itemMetadataCsv,
     organicOccurrenceRows,
     inorganicOccurrenceRows,
   ] = await Promise.all([
@@ -740,8 +411,9 @@ async function main() {
       INORGANIC_RESOURCE_TRACKER_POLICY_SOURCE_FILE,
       'utf8',
     ),
-    loadCsvFile(
-      ORGANIC_RESOURCE_DICTIONARY_SOURCE_FILE,
+    readFile(
+      ITEM_TRACKER_METADATA_SOURCE_FILE,
+      'utf8',
     ),
     loadCsvFile(
       ORGANIC_OCCURRENCES_SOURCE_FILE,
@@ -758,11 +430,18 @@ async function main() {
     inorganicPolicyRows,
   )
 
-  const resources =
-    buildResources(
-      inorganicBuild.resources,
-      organicDictionaryRows,
-    )
+  console.log('Loading canonical item and recipe sources...')
+  const industrialWorkbenchCsv = await readFile(INDUSTRIAL_WORKBENCH_SOURCE_FILE, 'utf8')
+  const productRecipeRows = parseIndustrialWorkbenchCsv(industrialWorkbenchCsv)
+  const itemMetadataRows = parseItemTrackerMetadataCsv(itemMetadataCsv)
+  validateCurrentItemPopulation(productRecipeRows, itemMetadataRows)
+  const itemBuild = buildItemReferenceData(
+    productRecipeRows,
+    organicOccurrenceRows,
+    itemMetadataRows,
+    inorganicBuild.resourceByFormId,
+  )
+  const resources = buildResources(inorganicBuild.resources, itemBuild.organicResources)
 
   await validateInorganicManifest(
     resolve(PROJECT_ROOT, 'reference-source', 'biome-inorganic-resources.manifest.json'),
@@ -772,8 +451,8 @@ async function main() {
     inorganicOccurrenceRows,
     organicOccurrenceRows,
     bodies,
-    resources,
     inorganicBuild.resourceByFormId,
+    itemBuild.organicResourceByFormId,
   )
   const { bodyResources } = biomeData
   for (const field of ['solarArrayPower', 'windTurbinePower', 'planetaryHabitationRank']) {
@@ -782,29 +461,8 @@ async function main() {
   }
   console.log('Planet directory: rows=' + planetRows.length + ', distinct IDs=' + bodies.length)
 
-  console.log('Loading Industrial Workbench...')
-
-  const [
-    productDictionaryRows,
-    productRecipeRows,
-  ] = await Promise.all([
-    loadCsvFile(
-      MANUFACTURED_PRODUCT_DICTIONARY_SOURCE_FILE,
-    ),
-    loadCsvFile(
-      INDUSTRIAL_WORKBENCH_SOURCE_FILE,
-    ),
-  ])
-
-  const products =
-    buildProducts(productDictionaryRows)
-
-  const productRecipes =
-    buildProductRecipes(
-      productRecipeRows,
-      resources,
-      products,
-    )
+  const products = itemBuild.products
+  const productRecipes = itemBuild.productRecipes
 
   for (const [key, data] of Object.entries(biomeData)) {
     const filename = key.replace(/[A-Z]/g, (letter) => '-' + letter.toLowerCase())

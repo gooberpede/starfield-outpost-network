@@ -182,7 +182,11 @@ Space records. The inorganic ESM extract provides canonical FormID identity,
 names, abbreviations, source rarity, and family parents. The separate
 FormID-keyed tracker policy pins stable persisted resource IDs and owns runtime
 inclusion, presentation rarity, and Planned Supply placement/order. The organic
-and manufactured-product dictionaries retain their existing curated roles.
+occurrence extract supplies canonical organic identity, while the canonical
+Industrial Workbench extract supplies manufactured-product identity and recipes.
+Both join by FormID to `item-tracker-metadata.csv`, which explicitly pins stable
+product/organic app IDs, abbreviations, tracker rarity, and sparse display
+overrides. Recipe COBJ provenance is validated only during generation.
 `biome-inorganic-resources.csv` and `biome-organic-resources.csv` supply biome,
 atmospheric, and species relationships. Body-level inventory is a derived
 compatibility index; organic matrix choices require domesticable species.
