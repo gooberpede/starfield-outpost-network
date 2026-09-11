@@ -21,6 +21,7 @@
 import type { ReactNode } from 'react'
 
 import './StatusBar.css'
+import { useLocalization } from '../../localization/LocalizationContext.ts'
 
 interface StatusBarProps {
   main: ReactNode
@@ -39,6 +40,7 @@ export function StatusBar({
   interactionHint,
   message,
 }: StatusBarProps) {
+  const { t } = useLocalization()
   return (
     <footer className="status-bar">
       <div className="status-bar__main">
@@ -63,8 +65,8 @@ export function StatusBar({
                 <button
                   type="button"
                   onClick={message.onDismiss}
-                  aria-label="Dismiss status message"
-                  title="Dismiss"
+                  aria-label={t('status.dismiss')}
+                  title={t('status.dismiss.short')}
                 >
                   ×
                 </button>

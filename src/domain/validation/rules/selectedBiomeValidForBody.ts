@@ -14,7 +14,7 @@ function validate(
       if (!bodyBiome || bodyBiome.bodyId === outpost.bodyId) continue
       issues.push({
         ruleId: RULE_ID, category: 'structural', severity: 'error',
-        message: 'This selected biome belongs to a different planetary body.',
+        messageKey: 'validation.selectedBiomeInvalid',
         outpostId: outpost.id, bodyBiomeId,
       })
     }

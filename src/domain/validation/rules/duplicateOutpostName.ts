@@ -61,8 +61,8 @@ function validateDuplicateOutpostNames(
       ruleId: RULE_ID,
       category: 'operational',
       severity: 'warning',
-      message:
-        `${count} outposts are named "${name}". Unique outpost names are recommended to avoid ambiguity.`,
+      messageKey: 'validation.duplicateOutpostName',
+      parameters: { count, name },
     })
   }
 

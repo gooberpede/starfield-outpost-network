@@ -57,8 +57,12 @@ function validateInvalidCharacterLevel(
       ruleId: RULE_ID,
       category: 'structural',
       severity: 'error',
-      message:
-        `Character level is ${level}, but a recorded character level must be a whole number from ${MIN_CHARACTER_LEVEL} to ${MAX_CHARACTER_LEVEL}.`,
+      messageKey: 'validation.invalidCharacterLevel',
+      parameters: {
+        level,
+        minimum: MIN_CHARACTER_LEVEL,
+        maximum: MAX_CHARACTER_LEVEL,
+      },
     },
   ]
 }

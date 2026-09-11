@@ -1,6 +1,9 @@
 import { useRef } from 'react'
 import { deserializeNetworkCollection } from '../../data/serialization'
 import type { NetworkCollection } from '../../data/networkCollection'
+import { useLocalization } from '../../localization/LocalizationContext.ts'
+import type { MessageDescriptor } from '../../localization/types.ts'
+import { getImportFailurePresentation } from '../importErrorPresentation.ts'
 
 interface NetworkImportButtonProps {
   onImport: (
@@ -10,7 +13,8 @@ interface NetworkImportButtonProps {
 
   onImportError: (
     fileName: string,
-    message: string,
+    reason: MessageDescriptor,
+    diagnostic?: string,
   ) => void
 }
 
@@ -18,6 +22,7 @@ export function NetworkImportButton({
   onImport,
   onImportError,
 }: NetworkImportButtonProps) {
+  const { t } = useLocalization()
   const fileInputRef =
     useRef<HTMLInputElement>(null)
 
@@ -28,7 +33,7 @@ export function NetworkImportButton({
       if (typeof reader.result !== 'string') {
         onImportError(
           file.name,
-          'The selected file could not be read.',
+          { key: 'status.import.readFailed' },
         )
 
         return
@@ -42,19 +47,15 @@ export function NetworkImportButton({
           file.name,
         )
       } catch (error) {
-        onImportError(
-          file.name,
-          error instanceof Error
-            ? error.message
-            : 'The selected file could not be imported.',
-        )
+        const failure = getImportFailurePresentation(error)
+        onImportError(file.name, failure.reason, failure.diagnostic)
       }
     }
 
     reader.onerror = () => {
       onImportError(
         file.name,
-        'The selected file could not be read.',
+        { key: 'status.import.readFailed' },
       )
     }
 
@@ -68,9 +69,9 @@ export function NetworkImportButton({
         onClick={() =>
           fileInputRef.current?.click()
         }
-        title="Import all networks from JSON"
+        title={t('transfer.import.tooltip')}
       >
-        Import
+        {t('transfer.import.button')}
       </button>
 
       <input

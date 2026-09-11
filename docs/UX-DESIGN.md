@@ -395,8 +395,9 @@ Fabricator quantity remains persisted but is not part of the current matrix UI.
 Outpost location controls include a flexible Biome toggle region beside stable
 System and Body selectors. Buttons wrap only inside that region. No pressed
 buttons means unrestricted/all body biomes; pressed buttons persist selected
-body-biome occurrence IDs. Equal same-name signatures share one button, while
-different signatures receive numeric suffixes in biome-index order.
+body-biome occurrence IDs. Equal signatures for one stable biome identity share
+one button, while different signatures receive numeric suffixes in biome-index
+order. The base display name resolves through that stable biome identity.
 
 Organic rows are source-specific and show canonical species names in Source.
 They sort plant, herbivore, carnivore, then by resource and species name. Inputs
@@ -702,6 +703,10 @@ markers, and alternate move-up/down controls. Reorder gutters appear only while
 unlocked, and the card list scrolls independently beneath its persistent
 toolbar.
 
+Visible pad ordinals are derived from current order and localized at render
+time. They do not use the legacy persisted `CargoPad.label` as presentation
+copy.
+
 Cargo Pad reshuffling requires at least two pads. With zero or one pad the
 Reshuffle control remains visible but disabled, and an active reshuffle mode
 exits if the pad count drops below two.
@@ -826,6 +831,14 @@ Locale changes take effect immediately and persist as an application preference
 without creating gameplay history. The selector remains a semantic,
 keyboard-operable form control with a visible focus treatment.
 
+The effective locale also sets the document language. Tracker-authored visible
+copy, accessible names/descriptions, contextual help, tooltips, validation,
+status feedback, and Undo/Redo titles resolve from whole semantic messages.
+Localized sentences should not be assembled from English fragments; lists,
+numbers, percentages, and display-name ordering use locale-aware formatters.
+Product names, stable IDs, schema/version tokens, filenames, and keyboard key
+tokens remain invariant where they are technical identity rather than prose.
+
 # Accessibility baseline
 
 Accessibility should be addressed locally and consistently without allowing a narrow UI task to expand into an unrelated full-application redesign.
@@ -839,6 +852,8 @@ At minimum:
 - full names should remain discoverable for abbreviation controls;
 - section headings should remain semantic;
 - focus-visible styling should remain clear.
+- tracker-authored accessible names and descriptions should resolve through the
+  same semantic localization catalogue as visible terminology.
 
 Do not create bespoke keyboard behavior where standard controls already provide suitable behavior.
 

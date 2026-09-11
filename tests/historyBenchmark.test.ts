@@ -28,7 +28,8 @@ test('representative workload creates legitimate deterministic history and resto
   assert.equal(firstResult.redoDepth, 0)
   assert.deepEqual(first.getSession().collection, second.getSession().collection)
   assert.deepEqual(first.getSession().context, second.getSession().context)
-  const labels = first.getSession().history.past.map(({ label }) => label)
+  const labels = first.getSession().history.past.map(({ label }) =>
+    String(label.parameters?.label ?? label.key))
   assert.ok(labels.some((label) => label.includes('add outpost')))
   assert.ok(labels.some((label) => label.includes('cargo link')))
   assert.ok(labels.some((label) => label.includes('manufacturing')))
@@ -43,7 +44,7 @@ test('whole-collection replacement records distinct deterministic import graphs'
   repeat.runTo(25)
   const entries = controller.getSession().history.past
   assert.equal(result.historyDepth, 25)
-  assert.ok(entries.every(({ label }) => label === 'Import networks'))
+  assert.ok(entries.every(({ label }) => label.key === 'history.importNetworks'))
   assert.ok(entries.every(({ after }) => after.collection.networks.every(
     ({ network }) => network.character.level !== null && network.character.level <= 999,
   )))

@@ -14,9 +14,9 @@ function validate(network: Parameters<ValidationRule['validate']>[0]): Validatio
       ruleId: RULE_ID,
       category: 'operational' as const,
       severity: 'warning' as const,
-      message: producing
-        ? 'X-Tech is recorded as produced, but the character lacks the required extraction capability.'
-        : 'X-Tech is recorded as present, but the character lacks the required extraction capability.',
+      messageKey: producing
+        ? 'validation.xTechCapabilityProduced' as const
+        : 'validation.xTechCapabilityPresent' as const,
       outpostId: outpost.id,
       cargoItem: { type: 'resource' as const, id: X_TECH_RESOURCE_ID },
     }]

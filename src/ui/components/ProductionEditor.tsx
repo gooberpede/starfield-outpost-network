@@ -1,5 +1,6 @@
 import type { Resource } from '../../domain/models'
 import type { ResourceId } from '../../domain/referenceData'
+import { useLocalization } from '../../localization/LocalizationContext.ts'
 
 interface ProductionEditorProps {
   resources: Resource[]
@@ -14,6 +15,7 @@ export function ProductionEditor({
   activeProductionIds,
   onChange,
 }: ProductionEditorProps) {
+  const { t } = useLocalization()
   const localResources = resources.filter((resource) =>
     localResourceIds.includes(resource.id),
   )
@@ -34,10 +36,10 @@ export function ProductionEditor({
 
   return (
     <section>
-      <h2>Active Production</h2>
+      <h2>{t('production.heading')}</h2>
 
       {localResources.length === 0 ? (
-        <p>No local resources have been selected.</p>
+        <p>{t('production.empty')}</p>
       ) : (
         localResources.map((resource) => (
           <p key={resource.id}>

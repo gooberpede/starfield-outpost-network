@@ -32,6 +32,7 @@ import type {
   PlanetaryBodyReference,
   StarSystemReference,
 } from '../../domain/referenceData'
+import type { BiomeButtonGroup } from '../../domain/bodyResourceAvailability.ts'
 
 import {
   getSolarEfficiencyLabel,
@@ -40,6 +41,9 @@ import {
 import { contextHelpText } from '../contextHelpText'
 import { getPowerEfficiencyTooltip } from '../statusTooltips'
 import { ContextHelp } from './ContextHelp'
+import { useLocalization } from '../../localization/LocalizationContext.ts'
+import { getReferenceDisplayName } from '../../localization/referenceNames.ts'
+import { getBiomeGroupDisplayName } from '../biomePresentation.ts'
 
 import './OutpostDetails.css'
 
@@ -47,11 +51,7 @@ interface OutpostDetailsProps {
   outpost: Outpost
   systems: StarSystemReference[]
   bodies: PlanetaryBodyReference[]
-  biomeGroups: {
-    key: string
-    label: string
-    bodyBiomeIds: BodyBiomeId[]
-  }[]
+  biomeGroups: BiomeButtonGroup[]
   onNameCommit: (
     name: string,
   ) => void
@@ -77,6 +77,7 @@ function OutpostNameField({
   name,
   onCommit,
 }: OutpostNameFieldProps) {
+  const { t } = useLocalization()
   const [draftName, setDraftName] =
     useState(name)
 
@@ -84,7 +85,7 @@ function OutpostNameField({
     <input
       className="outpost-details__name"
       type="text"
-      aria-label="Outpost name"
+      aria-label={t('outpost.name.label')}
       value={draftName}
       onChange={(event) =>
         setDraftName(event.target.value)
@@ -108,6 +109,7 @@ export function OutpostDetails({
   onBodyChange,
   onBiomeGroupToggle,
 }: OutpostDetailsProps) {
+  const { locale, t } = useLocalization()
   const eligibleBodies = bodies.filter(
     (body) => body.outpostAllowed,
   )
@@ -129,8 +131,8 @@ export function OutpostDetails({
   const windOutput = currentBody?.windTurbinePower ?? null
   const solarEfficiency = getSolarEfficiency(solarOutput)
   const windEfficiency = getWindEfficiency(windOutput)
-  const solarEfficiencyLabel = getSolarEfficiencyLabel(solarEfficiency)
-  const windEfficiencyLabel = getWindEfficiencyLabel(windEfficiency)
+  const solarEfficiencyLabel = getSolarEfficiencyLabel(solarEfficiency, locale)
+  const windEfficiencyLabel = getWindEfficiencyLabel(windEfficiency, locale)
   const availableBodies = eligibleBodies.filter(
     (body) => body.systemId === outpost.systemId,
   )
@@ -152,7 +154,7 @@ export function OutpostDetails({
 
       <div className="outpost-details__fields">
         <label className="outpost-details__field">
-          <span>System</span>
+          <span>{t('outpost.system.label')}</span>
 
           <select
             value={outpost.systemId}
@@ -163,7 +165,7 @@ export function OutpostDetails({
             }
           >
             <option value="">
-              Select system...
+              {t('outpost.system.select')}
             </option>
 
             {outpost.systemId && !currentSystem && (
@@ -177,14 +179,14 @@ export function OutpostDetails({
                 key={system.id}
                 value={system.id}
               >
-                {system.name}
+                {getReferenceDisplayName('system', system.id, system.name, locale)}
               </option>
             ))}
           </select>
         </label>
 
         <label className="outpost-details__field">
-          <span>Body</span>
+          <span>{t('outpost.body.label')}</span>
 
           <select
             value={outpost.bodyId}
@@ -196,7 +198,7 @@ export function OutpostDetails({
             }
           >
             <option value="">
-              Select body...
+              {t('outpost.body.select')}
             </option>
 
             {outpost.bodyId && !currentBody && (
@@ -210,34 +212,34 @@ export function OutpostDetails({
                 key={body.id}
                 value={body.id}
               >
-                {body.name}
+                {getReferenceDisplayName('body', body.id, body.name, locale)}
               </option>
             ))}
           </select>
         </label>
 
         <div className="outpost-details__field outpost-details__efficiency">
-          <span>Solar</span>
+          <span>{t('outpost.solar.label')}</span>
           <output
             tabIndex={0}
-            title={getPowerEfficiencyTooltip('Solar', solarEfficiency, solarOutput)}
-            aria-label={getPowerEfficiencyTooltip('Solar', solarEfficiency, solarOutput)}
+            title={getPowerEfficiencyTooltip(t('outpost.solar.label'), solarEfficiency, solarOutput, locale)}
+            aria-label={getPowerEfficiencyTooltip(t('outpost.solar.label'), solarEfficiency, solarOutput, locale)}
           >{solarEfficiencyLabel}</output>
         </div>
 
         <div className="outpost-details__field outpost-details__efficiency">
-          <span>Wind</span>
+          <span>{t('outpost.wind.label')}</span>
           <output
             tabIndex={0}
-            title={getPowerEfficiencyTooltip('Wind', windEfficiency, windOutput)}
-            aria-label={getPowerEfficiencyTooltip('Wind', windEfficiency, windOutput)}
+            title={getPowerEfficiencyTooltip(t('outpost.wind.label'), windEfficiency, windOutput, locale)}
+            aria-label={getPowerEfficiencyTooltip(t('outpost.wind.label'), windEfficiency, windOutput, locale)}
           >{windEfficiencyLabel}</output>
         </div>
 
         <div className="outpost-details__field outpost-details__biomes">
           <span className="outpost-details__field-label">
-            Biomes
-            <ContextHelp context="Biomes" text={contextHelpText.biomes} />
+            {t('outpost.biomes.label')}
+            <ContextHelp context={t('outpost.biomes.label')} text={t(contextHelpText.biomes)} />
           </span>
           <div className="outpost-details__biome-buttons">
             {biomeGroups.map((group) => {
@@ -250,7 +252,7 @@ export function OutpostDetails({
                   aria-pressed={pressed}
                   onClick={() => onBiomeGroupToggle(group.bodyBiomeIds)}
                 >
-                  {group.label}
+                  {getBiomeGroupDisplayName(group, locale)}
                 </button>
               )
             })}

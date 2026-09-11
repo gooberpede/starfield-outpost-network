@@ -11,6 +11,7 @@ import {
 } from '../contextHelpPosition'
 
 import './ContextHelp.css'
+import { useLocalization } from '../../localization/LocalizationContext.ts'
 
 interface ContextHelpProps {
   text: string
@@ -20,6 +21,7 @@ interface ContextHelpProps {
 const openEventName = 'starfield-context-help-open'
 
 export function ContextHelp({ text, context }: ContextHelpProps) {
+  const { t } = useLocalization()
   const id = useId()
   const panelId = `${id}-context-help`
   const containerRef = useRef<HTMLSpanElement>(null)
@@ -93,7 +95,7 @@ export function ContextHelp({ text, context }: ContextHelpProps) {
         ref={triggerRef}
         className="context-help__trigger"
         type="button"
-        aria-label={`Help for ${context}`}
+        aria-label={t('help.contextLabel', { context })}
         aria-expanded={isOpen}
         aria-controls={isOpen ? panelId : undefined}
         onClick={toggleHelp}

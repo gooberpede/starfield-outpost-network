@@ -34,19 +34,13 @@ const RULE_ID =
 const MIN_SKILL_LEVEL = 0
 const MAX_SKILL_LEVEL = 4
 
-/**
- * Human-readable names for the persisted character skill fields.
- *
- * Keeping display names here avoids exposing camelCase model keys directly
- * in validation messages.
- */
-const skillNames = {
-  outpostManagement: 'Outpost Management',
-  outpostEngineering: 'Outpost Engineering',
-  planetaryHabitation: 'Planetary Habitation',
-  researchMethods: 'Research Methods',
-  specialProjects: 'Special Projects',
-} as const
+const skillIds = [
+  'outpostManagement',
+  'outpostEngineering',
+  'planetaryHabitation',
+  'researchMethods',
+  'specialProjects',
+] as const
 
 /**
  * Reports one issue for each recorded character skill whose stored level falls
@@ -57,14 +51,8 @@ function validateInvalidSkillLevels(
 ): ValidationIssue[] {
   const issues: ValidationIssue[] = []
 
-  for (const [
-    skillId,
-    skillName,
-  ] of Object.entries(skillNames)) {
-    const level =
-      network.character.skills[
-        skillId as keyof typeof network.character.skills
-      ]
+  for (const skillId of skillIds) {
+    const level = network.character.skills[skillId]
 
     if (level === null) {
       continue
@@ -80,8 +68,13 @@ function validateInvalidSkillLevels(
       ruleId: RULE_ID,
       category: 'structural',
       severity: 'error',
-      message:
-        `${skillName} has level ${level}, but valid skill levels are integers ${MIN_SKILL_LEVEL} through ${MAX_SKILL_LEVEL}.`,
+      messageKey: 'validation.invalidSkillLevel',
+      parameters: {
+        level,
+        minimum: MIN_SKILL_LEVEL,
+        maximum: MAX_SKILL_LEVEL,
+      },
+      skillId,
     })
   }
 

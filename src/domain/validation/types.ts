@@ -21,6 +21,7 @@
 
 import type {
   CargoItem,
+  Character,
   OutpostNetwork,
 } from '../models'
 
@@ -30,6 +31,7 @@ import type {
   BodyBiomeId,
   ProductId,
 } from '../referenceData'
+import type { MessageKey, MessageParameters } from '../../localization/types.ts'
 
 /**
  * Groups validators by the kind of problem they detect.
@@ -64,11 +66,9 @@ export interface ValidationIssue {
   ruleId: string
   category: ValidationCategory
   severity: ValidationSeverity
-  message: string
-  /** Optional semantic presentation key for incrementally localized rules. */
-  messageKey?:
-    | 'validation.manufacturingInputUnavailable'
-    | 'validation.plannedSupplyUnresolved'
+  /** Domain rules emit semantic facts; presentation owns final wording. */
+  messageKey: Extract<MessageKey, `validation.${string}`>
+  parameters?: MessageParameters
   
   cargoLinkId?: string
   outpostId?: string
@@ -78,6 +78,7 @@ export interface ValidationIssue {
   productId?: ProductId
   speciesId?: SpeciesId
   bodyBiomeId?: BodyBiomeId
+  skillId?: keyof Character['skills']
 }
 
 /**

@@ -78,7 +78,9 @@ test('active production diagnostics name routes, selected biomes, and reliable a
     makeNetwork(inorganicOutpost), referenceData,
   )[0]
   assert.equal(
-    inorganicIssue.message,
+    getValidationIssuePresentation(
+      inorganicIssue, [inorganicOutpost], referenceData,
+    ).message,
     'Iron is marked as produced, but is not available for outpost extraction in Forest biome.',
   )
   assert.equal(
@@ -94,7 +96,9 @@ test('active production diagnostics name routes, selected biomes, and reliable a
     makeNetwork(organicOutpost), referenceData,
   )[0]
   assert.equal(
-    organicIssue.message,
+    getValidationIssuePresentation(
+      organicIssue, [organicOutpost], referenceData,
+    ).message,
     'Fiber is marked as produced, but is not available for outpost harvesting in Forest biome.',
   )
   assert.equal(
@@ -118,7 +122,9 @@ test('active production diagnostics name routes, selected biomes, and reliable a
     })),
     referenceData,
   )[0]
-  assert.match(staleBiomeIssue.message, /stale-biome-id biome/)
+  assert.match(getValidationIssuePresentation(
+    staleBiomeIssue, [makeOutpost({ selectedBiomeIds: ['stale-biome-id'] })], referenceData,
+  ).message, /stale-biome-id biome/)
 })
 
 test('manufacturing and organic farming diagnostics name both structured facts', () => {
@@ -127,7 +133,9 @@ test('manufacturing and organic farming diagnostics name both structured facts',
     referenceData,
   )[0]
   assert.equal(
-    manufacturingIssue.message,
+    getValidationIssuePresentation(
+      manufacturingIssue, [makeOutpost()], referenceData,
+    ).message,
     'Adaptive Frame requires Iron, but Iron is not available at this outpost.',
   )
   assert.equal(manufacturingIssue.productId, 'frame')
@@ -141,7 +149,9 @@ test('manufacturing and organic farming diagnostics name both structured facts',
     referenceData,
   )[0]
   assert.equal(
-    farmingIssue.message,
+    getValidationIssuePresentation(
+      farmingIssue, [makeOutpost({ selectedBiomeIds: ['body-mountain'] })], referenceData,
+    ).message,
     'Grazing Beetle requires Water, but Water is not available at this outpost.',
   )
 })
@@ -194,7 +204,7 @@ test('duplicate diagnostics resolve names and retain raw-ID fallbacks', () => {
     }],
   })
   const messages = duplicateCollectionEntriesRule.validate(makeNetwork(outpost), referenceData)
-    .map((issue) => issue.message)
+    .map((issue) => getValidationIssuePresentation(issue, [outpost], referenceData).message)
   assert.deepEqual(messages, [
     "Iron appears more than once in this outpost's local resources.",
     "Iron appears more than once in this outpost's active production.",
@@ -209,7 +219,7 @@ test('duplicate diagnostics resolve names and retain raw-ID fallbacks', () => {
     referenceData,
   )[0]
   assert.equal(
-    fallbackIssue.message,
+    getValidationIssuePresentation(fallbackIssue, [outpost], referenceData).message,
     "unknown-id appears more than once in this outpost's local resources.",
   )
 })
@@ -222,7 +232,8 @@ test('diagnostic presentation sorts stably and derives current pad ordinals', ()
     ],
   })
   const padIssue: ValidationIssue = {
-    ruleId: 'test', category: 'structural', severity: 'warning', message: 'Pad warning.',
+    ruleId: 'test', category: 'structural', severity: 'warning',
+    messageKey: 'validation.unresolvedCargoExport',
     outpostId: outpost.id, cargoPadId: 'pad-b',
   }
   assert.equal(
@@ -237,12 +248,12 @@ test('diagnostic presentation sorts stably and derives current pad ordinals', ()
   )
 
   const sorted = sortValidationIssues([
-    { ...padIssue, message: 'warning one' },
-    { ...padIssue, severity: 'info', message: 'info' },
-    { ...padIssue, severity: 'error', message: 'error' },
-    { ...padIssue, message: 'warning two' },
+    { ...padIssue, ruleId: 'warning one' },
+    { ...padIssue, severity: 'info', ruleId: 'info' },
+    { ...padIssue, severity: 'error', ruleId: 'error' },
+    { ...padIssue, ruleId: 'warning two' },
   ])
-  assert.deepEqual(sorted.map((issue) => issue.message), [
+  assert.deepEqual(sorted.map((issue) => issue.ruleId), [
     'error', 'warning one', 'warning two', 'info',
   ])
 })
@@ -257,7 +268,9 @@ test('Planned Supply emits one alphabetical Info summary per affected outpost', 
     makeNetwork(makeOutpost({ plannedSupply: [{ type: 'resource', id: 'water' }] })),
     referenceData,
   )[0]
-  assert.equal(singularIssue.message, '1 item in Planned Supply: Water.')
+  assert.equal(getValidationIssuePresentation(
+    singularIssue, [makeOutpost()], referenceData,
+  ).message, '1 item in Planned Supply: Water.')
   assert.equal(singularIssue.severity, 'info')
   assert.equal(singularIssue.category, 'supply')
   assert.equal(singularIssue.outpostId, 'outpost-1')
@@ -275,8 +288,8 @@ test('Planned Supply emits one alphabetical Info summary per affected outpost', 
     referenceData,
   )[0]
   assert.equal(
-    pluralIssue.message,
-    '3 items in Planned Supply: Adaptive Frame, Iron, Water.',
+    getValidationIssuePresentation(pluralIssue, [makeOutpost()], referenceData).message,
+    '3 items in Planned Supply: Adaptive Frame, Iron, and Water.',
   )
 })
 
@@ -371,14 +384,14 @@ test('unspecified organic production names the resource and valid sources', () =
     expandedReferenceData,
   )[0]
   assert.equal(
-    issue.message,
+    getValidationIssuePresentation(issue, [organicOutpost], expandedReferenceData).message,
     'Fiber is recorded as produced, but no flora or fauna source has been specified.',
   )
   assert.equal(issue.severity, 'warning')
   assert.equal(issue.category, 'operational')
   assert.equal(
     getValidationIssuePresentation(issue, [organicOutpost], expandedReferenceData).remediation,
-    'Available from: Armoured Crawler, Grazing Beetle',
+    'Available from: Armoured Crawler and Grazing Beetle',
   )
 
   const unavailableOutpost = { ...organicOutpost, selectedBiomeIds: ['body-forest'] }

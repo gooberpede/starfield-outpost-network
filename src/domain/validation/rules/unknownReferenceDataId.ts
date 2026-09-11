@@ -84,8 +84,8 @@ function validateUnknownReferenceDataIds(
         ruleId: RULE_ID,
         category: 'structural',
         severity: 'error',
-        message:
-          `This outpost refers to unknown star system ID "${outpost.systemId}".`,
+        messageKey: 'validation.unknownSystem',
+        parameters: { id: outpost.systemId },
         outpostId: outpost.id,
       })
     }
@@ -101,8 +101,8 @@ function validateUnknownReferenceDataIds(
         ruleId: RULE_ID,
         category: 'structural',
         severity: 'error',
-        message:
-          `This outpost refers to unknown planetary body ID "${outpost.bodyId}".`,
+        messageKey: 'validation.unknownBody',
+        parameters: { id: outpost.bodyId },
         outpostId: outpost.id,
       })
     }
@@ -121,8 +121,8 @@ function validateUnknownReferenceDataIds(
         ruleId: RULE_ID,
         category: 'structural',
         severity: 'error',
-        message:
-          `This outpost refers to unknown resource ID "${resourceId}" in its local resources.`,
+        messageKey: 'validation.unknownLocalResource',
+        parameters: { id: resourceId },
         outpostId: outpost.id,
         cargoItem: {
           type: 'resource',
@@ -135,7 +135,8 @@ function validateUnknownReferenceDataIds(
       if (referenceData.bodyBiomes.some((entry) => entry.id === bodyBiomeId)) continue
       issues.push({
         ruleId: RULE_ID, category: 'structural', severity: 'error',
-        message: `This outpost refers to unknown body-biome ID "${bodyBiomeId}".`,
+        messageKey: 'validation.unknownBiome',
+        parameters: { id: bodyBiomeId },
         outpostId: outpost.id, bodyBiomeId,
       })
     }
@@ -146,7 +147,8 @@ function validateUnknownReferenceDataIds(
         ruleId: RULE_ID,
         category: 'structural',
         severity: 'error',
-        message: `This outpost refers to unknown resource ID "${resourceId}" in its explicit resource presence.`,
+        messageKey: 'validation.unknownExplicitResource',
+        parameters: { id: resourceId },
         outpostId: outpost.id,
         cargoItem: { type: 'resource', id: resourceId },
       })
@@ -161,7 +163,8 @@ function validateUnknownReferenceDataIds(
           ruleId: RULE_ID,
           category: 'structural',
           severity: 'error',
-          message: `This outpost refers to unknown resource ID "${route.resourceId}" in its active production.`,
+          messageKey: 'validation.unknownProductionResource',
+          parameters: { id: route.resourceId },
           outpostId: outpost.id,
           cargoItem: { type: 'resource', id: route.resourceId },
         })
@@ -172,7 +175,8 @@ function validateUnknownReferenceDataIds(
       )) {
         issues.push({
           ruleId: RULE_ID, category: 'structural', severity: 'error',
-          message: `This outpost refers to unknown species ID "${route.speciesId}" in its active production.`,
+          messageKey: 'validation.unknownProductionSpecies',
+          parameters: { id: route.speciesId },
           outpostId: outpost.id, speciesId: route.speciesId,
           cargoItem: { type: 'resource', id: route.resourceId },
         })
@@ -193,8 +197,8 @@ function validateUnknownReferenceDataIds(
         ruleId: RULE_ID,
         category: 'structural',
         severity: 'error',
-        message:
-          `This outpost refers to unknown product ID "${entry.productId}" in its manufacturing list.`,
+        messageKey: 'validation.unknownManufacturingProduct',
+        parameters: { id: entry.productId },
         outpostId: outpost.id,
         cargoItem: {
           type: 'product',
@@ -217,8 +221,8 @@ function validateUnknownReferenceDataIds(
         ruleId: RULE_ID,
         category: 'structural',
         severity: 'error',
-        message:
-          `This outpost refers to unknown ${item.type} ID "${item.id}" in Planned Supply.`,
+        messageKey: 'validation.unknownPlannedItem',
+        parameters: { kind: item.type, id: item.id },
         outpostId: outpost.id,
         cargoItem: item,
       })
@@ -239,8 +243,8 @@ function validateUnknownReferenceDataIds(
           ruleId: RULE_ID,
           category: 'structural',
           severity: 'error',
-          message:
-            `This cargo pad refers to unknown ${item.type} ID "${item.id}" in its outbound items.`,
+          messageKey: 'validation.unknownOutboundItem',
+          parameters: { kind: item.type, id: item.id },
           outpostId: outpost.id,
           cargoPadId: cargoPad.id,
           cargoItem: item,

@@ -1,24 +1,18 @@
-/**
- * Resolves validation issue metadata into compact diagnostic presentation.
- * Stable IDs remain the source of identity; missing references fall back to
- * raw IDs so malformed imported data still produces useful diagnostics.
- */
-import {
-  getBiomeButtonGroups,
-  isProductionRouteAvailable,
-} from '../domain/bodyResourceAvailability.ts'
-import type {
-  CargoItem,
-  Outpost,
-  ResourceProductionRoute,
-} from '../domain/models.ts'
+/** Resolves structured validation facts into localized diagnostic presentation. */
+import { getBiomeButtonGroups, isProductionRouteAvailable } from '../domain/bodyResourceAvailability.ts'
+import type { CargoItem, Outpost, ResourceProductionRoute } from '../domain/models.ts'
 import type { ReferenceData } from '../domain/referenceData.ts'
 import type { ValidationIssue } from '../domain/validation/types.ts'
-import { getDomesticableSourceNames } from './statusTooltips.ts'
 import { translate } from '../localization/catalog.ts'
+import { formatList, getCollator } from '../localization/formatters.ts'
 import { getReferenceDisplayName } from '../localization/referenceNames.ts'
-import type { SupportedLocale } from '../localization/types.ts'
-import { formatList as formatLocalizedList } from '../localization/formatters.ts'
+import type { MessageKey, MessageParameters, SupportedLocale } from '../localization/types.ts'
+import { getDomesticableSourceNames } from './statusTooltips.ts'
+import {
+  getBiomeGroupDisplayName,
+  getBodyBiomeDisplayName,
+  type ReferenceNameResolver,
+} from './biomePresentation.ts'
 
 export interface ValidationIssuePresentation {
   context: string | null
@@ -26,169 +20,171 @@ export interface ValidationIssuePresentation {
   remediation: string | null
 }
 
-function getLocalizedCargoItemName(
+function getCargoItemName(
   item: CargoItem,
-  referenceData: ReferenceData | null,
+  data: ReferenceData | null,
   locale: SupportedLocale,
-): string {
+  resolveName: ReferenceNameResolver,
+) {
   const reference = item.type === 'resource'
-    ? referenceData?.resources.find(({ id }) => id === item.id)
-    : referenceData?.products.find(({ id }) => id === item.id)
-  return getReferenceDisplayName(item.type, item.id, reference?.name, locale)
+    ? data?.resources.find(({ id }) => id === item.id)
+    : data?.products.find(({ id }) => id === item.id)
+  return resolveName(item.type, item.id, reference?.name, locale)
 }
 
-function formatList(values: string[]): string {
-  if (values.length < 2) return values[0] ?? ''
-  if (values.length === 2) return values.join(' and ')
-  return `${values.slice(0, -1).join(', ')}, and ${values.at(-1)}`
+function getBiomeName(
+  id: string,
+  data: ReferenceData | null,
+  locale: SupportedLocale,
+  resolveName: ReferenceNameResolver,
+) {
+  return getBodyBiomeDisplayName(id, data, locale, resolveName)
 }
 
-function getActiveProductionRemediation(
+function getIssueMessage(
   issue: ValidationIssue,
   outpost: Outpost | undefined,
-  referenceData: ReferenceData | null,
-): string | null {
-  if (
-    issue.ruleId !== 'active-production-valid-for-body' ||
-    issue.cargoItem?.type !== 'resource' ||
-    !outpost ||
-    !referenceData
-  ) {
-    return null
+  data: ReferenceData | null,
+  locale: SupportedLocale,
+  resolveName: ReferenceNameResolver,
+): string {
+  let key: MessageKey = issue.messageKey
+  let parameters: MessageParameters = { ...issue.parameters }
+  if (key === 'validation.invalidSkillLevel' && issue.skillId) {
+    const skillKeys = {
+      outpostManagement: 'character.skill.outpostManagement',
+      outpostEngineering: 'character.skill.outpostEngineering',
+      planetaryHabitation: 'character.skill.planetaryHabitation',
+      researchMethods: 'character.skill.researchMethods',
+      specialProjects: 'character.skill.specialProjects',
+    } as const
+    parameters = {
+      ...parameters,
+      skill: translate(locale, skillKeys[issue.skillId]),
+    }
+  } else if (key === 'validation.manufacturingInputUnavailable' && issue.productId && issue.cargoItem) {
+    const product = data?.products.find(({ id }) => id === issue.productId)
+    parameters = {
+      product: resolveName('product', issue.productId, product?.name, locale),
+      input: getCargoItemName(issue.cargoItem, data, locale, resolveName),
+    }
+  } else if (key === 'validation.organicInputUnavailable' && issue.speciesId && issue.cargoItem) {
+    const species = data?.species.find(({ id }) => id === issue.speciesId)
+    parameters = {
+      species: resolveName('species', issue.speciesId, species?.name, locale),
+      input: getCargoItemName(issue.cargoItem, data, locale, resolveName),
+    }
+  } else if (key === 'validation.plannedSupplyUnresolved' && issue.cargoItems) {
+    const names = issue.cargoItems.map((item) => getCargoItemName(item, data, locale, resolveName))
+      .sort(getCollator(locale).compare)
+    parameters = { count: names.length, itemList: formatList(locale, names) }
+  } else if (key.startsWith('validation.duplicate') && issue.cargoItem) {
+    parameters = { item: getCargoItemName(issue.cargoItem, data, locale, resolveName) }
+  } else if (key === 'validation.duplicateBiome' && issue.bodyBiomeId) {
+    parameters = { item: getBiomeName(issue.bodyBiomeId, data, locale, resolveName) }
+  } else if (key === 'validation.unspecifiedOrganicSource' && issue.cargoItem) {
+    parameters = { resource: getCargoItemName(issue.cargoItem, data, locale, resolveName) }
+  } else if ((key === 'validation.activeProductionOrganicInvalid' ||
+    key === 'validation.activeProductionInorganicInvalid') && issue.cargoItem && outpost && data) {
+    const groups = getBiomeButtonGroups(data, outpost.bodyId)
+    const names = [...new Set(outpost.selectedBiomeIds.length > 0
+      ? outpost.selectedBiomeIds.map((id) => {
+          const group = groups.find((candidate) => candidate.bodyBiomeIds.includes(id))
+          return group
+            ? getBiomeGroupDisplayName(group, locale, resolveName)
+            : getBodyBiomeDisplayName(id, data, locale, resolveName)
+        })
+      : groups.map((group) => getBiomeGroupDisplayName(group, locale, resolveName)))]
+      .sort(getCollator(locale).compare)
+    key = key === 'validation.activeProductionOrganicInvalid'
+      ? names.length === 1
+        ? 'validation.activeProductionOrganicInvalidOne'
+        : 'validation.activeProductionOrganicInvalidMany'
+      : names.length === 1
+        ? 'validation.activeProductionInorganicInvalidOne'
+        : 'validation.activeProductionInorganicInvalidMany'
+    parameters = {
+      resource: getCargoItemName(issue.cargoItem, data, locale, resolveName),
+      biomes: formatList(locale, names),
+    }
   }
-
-  const resource = referenceData.resources.find(
-    (entry) => entry.id === issue.cargoItem?.id,
-  )
-  if (!resource) return null
-
-  let route: ResourceProductionRoute
-  if (issue.speciesId) {
-    if (resource.category !== 'organic') return null
-    if (!referenceData.species.some((entry) => entry.id === issue.speciesId)) {
-      return null
-    }
-    route = {
-      type: 'organic',
-      resourceId: issue.cargoItem.id,
-      speciesId: issue.speciesId,
-    }
-  } else {
-    if (resource.category !== 'inorganic') return null
-    route = {
-      type: 'inorganic',
-      resourceId: issue.cargoItem.id,
-    }
-  }
-
-  const availableBiomeNames = getBiomeButtonGroups(referenceData, outpost.bodyId)
-    .filter((group) => isProductionRouteAvailable(
-      referenceData,
-      outpost.bodyId,
-      group.bodyBiomeIds,
-      route,
-    ))
-    .map((group) => group.label)
-
-  if (availableBiomeNames.length === 0) return null
-
-  return `Available for ${issue.speciesId ? 'harvesting' : 'extraction'} in: ${
-    formatList(availableBiomeNames)
-  }`
+  return translate(locale, key, parameters)
 }
 
-function getUnspecifiedOrganicSourceRemediation(
+function getRemediation(
   issue: ValidationIssue,
   outpost: Outpost | undefined,
-  referenceData: ReferenceData | null,
+  data: ReferenceData | null,
+  locale: SupportedLocale,
+  resolveName: ReferenceNameResolver,
 ): string | null {
-  if (
-    issue.ruleId !== 'unspecified-organic-production-source' ||
-    issue.cargoItem?.type !== 'resource' ||
-    !outpost ||
-    !referenceData
-  ) {
-    return null
+  if (issue.ruleId === 'active-production-valid-for-body' &&
+    issue.cargoItem?.type === 'resource' && outpost && data) {
+    const resource = data.resources.find(({ id }) => id === issue.cargoItem?.id)
+    if (!resource) return null
+    let route: ResourceProductionRoute
+    if (issue.speciesId) {
+      if (resource.category !== 'organic' || !data.species.some(({ id }) => id === issue.speciesId)) {
+        return null
+      }
+      route = { type: 'organic', resourceId: issue.cargoItem.id, speciesId: issue.speciesId }
+    } else {
+      if (resource.category !== 'inorganic') return null
+      route = { type: 'inorganic', resourceId: issue.cargoItem.id }
+    }
+    const names = getBiomeButtonGroups(data, outpost.bodyId)
+      .filter((group) => isProductionRouteAvailable(data, outpost.bodyId, group.bodyBiomeIds, route))
+      .map((group) => getBiomeGroupDisplayName(group, locale, resolveName))
+      .sort(getCollator(locale).compare)
+    if (names.length === 0) return null
+    return translate(locale, issue.speciesId
+      ? 'validation.remediation.harvesting'
+      : 'validation.remediation.extraction', { biomes: formatList(locale, names) })
   }
-
-  const names = getDomesticableSourceNames(
-    referenceData,
-    outpost.bodyId,
-    outpost.selectedBiomeIds,
-    issue.cargoItem.id,
-  )
-  return names.length > 0 ? `Available from: ${names.join(', ')}` : null
+  if (issue.ruleId === 'unspecified-organic-production-source' &&
+    issue.cargoItem?.type === 'resource' && outpost && data) {
+    const names = getDomesticableSourceNames(
+      data, outpost.bodyId, outpost.selectedBiomeIds, issue.cargoItem.id, locale,
+    )
+    return names.length > 0
+      ? translate(locale, 'validation.remediation.organicSources', {
+          sources: formatList(locale, names),
+        })
+      : null
+  }
+  return null
 }
 
 export function getValidationIssuePresentation(
   issue: ValidationIssue,
   outposts: Outpost[],
-  referenceData: ReferenceData | null,
+  data: ReferenceData | null,
   locale: SupportedLocale = 'en-US',
+  resolveName: ReferenceNameResolver = getReferenceDisplayName,
 ): ValidationIssuePresentation {
-  const outpost = issue.outpostId
-    ? outposts.find((candidate) => candidate.id === issue.outpostId)
-    : undefined
-
-  const contextParts: string[] = []
-  if (issue.outpostId) contextParts.push(outpost?.name ?? issue.outpostId)
-
+  const outpost = issue.outpostId ? outposts.find(({ id }) => id === issue.outpostId) : undefined
+  const outpostContext = issue.outpostId ? outpost?.name ?? issue.outpostId : null
+  let padContext: string | null = null
   if (issue.cargoPadId) {
-    const padIndex = outpost?.cargoPads.findIndex(
-      (candidate) => candidate.id === issue.cargoPadId,
-    ) ?? -1
-    contextParts.push(padIndex >= 0 ? `Pad ${padIndex + 1}` : issue.cargoPadId)
+    const index = outpost?.cargoPads.findIndex(({ id }) => id === issue.cargoPadId) ?? -1
+    padContext = index >= 0
+      ? translate(locale, 'validation.context.pad', { ordinal: index + 1 })
+      : issue.cargoPadId
   }
-
-  let message = issue.message
-  if (
-    issue.messageKey === 'validation.manufacturingInputUnavailable' &&
-    issue.productId &&
-    issue.cargoItem &&
-    referenceData
-  ) {
-    const product = referenceData.products.find(({ id }) => id === issue.productId)
-    const inputReference = issue.cargoItem.type === 'resource'
-      ? referenceData.resources.find(({ id }) => id === issue.cargoItem?.id)
-      : referenceData.products.find(({ id }) => id === issue.cargoItem?.id)
-    message = translate(locale, issue.messageKey, {
-      product: getReferenceDisplayName('product', issue.productId, product?.name, locale),
-      input: getReferenceDisplayName(
-        issue.cargoItem.type,
-        issue.cargoItem.id,
-        inputReference?.name,
-        locale,
-      ),
-    })
-  } else if (
-    issue.messageKey === 'validation.plannedSupplyUnresolved' &&
-    issue.cargoItems &&
-    issue.cargoItems.length > 0
-  ) {
-    const itemNames = issue.cargoItems
-      .map((item) => getLocalizedCargoItemName(item, referenceData, locale))
-      .sort((left, right) => left.localeCompare(right, locale))
-    message = translate(locale, issue.messageKey, {
-      count: itemNames.length,
-      itemList: formatLocalizedList(locale, itemNames),
-    })
-  }
-
+  const context = outpostContext && padContext
+    ? translate(locale, 'validation.context.separator', { outpost: outpostContext, pad: padContext })
+    : outpostContext ?? padContext
   return {
-    context: contextParts.length > 0 ? contextParts.join(' · ') : null,
-    message,
-    remediation: getActiveProductionRemediation(issue, outpost, referenceData) ??
-      getUnspecifiedOrganicSourceRemediation(issue, outpost, referenceData),
+    context,
+    message: getIssueMessage(issue, outpost, data, locale, resolveName),
+    remediation: getRemediation(issue, outpost, data, locale, resolveName),
   }
 }
 
 export function sortValidationIssues(issues: ValidationIssue[]): ValidationIssue[] {
   const severityOrder = { error: 0, warning: 1, info: 2 }
-  return issues
-    .map((issue, index) => ({ issue, index }))
+  return issues.map((issue, index) => ({ issue, index }))
     .sort((left, right) =>
-      severityOrder[left.issue.severity] - severityOrder[right.issue.severity] ||
-      left.index - right.index,
-    )
+      severityOrder[left.issue.severity] - severityOrder[right.issue.severity] || left.index - right.index)
     .map(({ issue }) => issue)
 }

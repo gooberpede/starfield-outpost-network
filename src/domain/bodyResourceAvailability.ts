@@ -7,6 +7,7 @@ import type { ResourceProductionRoute } from './models'
 import { getProductionRouteKey } from './productionRoutes.ts'
 import type {
   BodyBiomeId,
+  BiomeId,
   PlanetaryBodyId,
   ReferenceData,
   ResourceId,
@@ -15,9 +16,12 @@ import type {
 
 export interface BiomeButtonGroup {
   key: string
+  biomeId: BiomeId
+  baseLabel: string
   label: string
   bodyBiomeIds: BodyBiomeId[]
   biomeIndex: number
+  ordinal: number | null
 }
 
 function getBodyBiomes(referenceData: ReferenceData, bodyId: PlanetaryBodyId | null) {
@@ -165,7 +169,7 @@ function getBiomeSignature(referenceData: ReferenceData, bodyBiomeId: BodyBiomeI
   return [...new Set([...inorganic, ...organic])].sort().join('|')
 }
 
-/** Groups equal same-name biome occurrences and numbers unequal signatures in source order. */
+/** Groups occurrences of one stable biome and numbers unequal signatures in source order. */
 export function getBiomeButtonGroups(
   referenceData: ReferenceData,
   bodyId: PlanetaryBodyId | null,
@@ -175,12 +179,18 @@ export function getBiomeButtonGroups(
     name: referenceData.biomes.find((biome) => biome.id === bodyBiome.biomeId)?.name ?? bodyBiome.biomeId,
     signature: getBiomeSignature(referenceData, bodyBiome.id),
   }))
-  const byName = new Map<string, typeof entries>()
-  for (const entry of entries) byName.set(entry.name, [...(byName.get(entry.name) ?? []), entry])
+  const byBiomeId = new Map<BiomeId, typeof entries>()
+  for (const entry of entries) {
+    byBiomeId.set(
+      entry.bodyBiome.biomeId,
+      [...(byBiomeId.get(entry.bodyBiome.biomeId) ?? []), entry],
+    )
+  }
   const groups: BiomeButtonGroup[] = []
-  for (const [name, sameName] of byName) {
+  for (const [biomeId, sameBiome] of byBiomeId) {
+    const name = sameBiome[0].name
     const bySignature = new Map<string, typeof entries>()
-    for (const entry of sameName) {
+    for (const entry of sameBiome) {
       bySignature.set(entry.signature, [...(bySignature.get(entry.signature) ?? []), entry])
     }
     const signatureGroups = [...bySignature.values()]
@@ -189,9 +199,12 @@ export function getBiomeButtonGroups(
       const ids = members.map((member) => member.bodyBiome.id)
       groups.push({
         key: ids.join('|'),
+        biomeId,
+        baseLabel: name,
         label: signatureGroups.length > 1 ? `${name} ${index + 1}` : name,
         bodyBiomeIds: ids,
         biomeIndex: Math.min(...members.map((member) => member.bodyBiome.biomeIndex)),
+        ordinal: signatureGroups.length > 1 ? index + 1 : null,
       })
     })
   }

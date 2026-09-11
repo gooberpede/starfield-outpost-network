@@ -66,8 +66,8 @@ function validateOutpostSkillLimit(
       ruleId: RULE_ID,
       category: 'operational',
       severity: 'warning',
-      message:
-        `This network has ${outpostCount} outposts, but the current Planetary Habitation level allows a maximum of ${limit}.`,
+      messageKey: 'validation.outpostSkillLimit',
+      parameters: { count: outpostCount, limit },
     },
   ]
 }

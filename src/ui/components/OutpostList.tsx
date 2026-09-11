@@ -29,6 +29,7 @@ import type { Ref } from 'react'
 import type { Outpost } from '../../domain/models'
 
 import './OutpostList.css'
+import { useLocalization } from '../../localization/LocalizationContext.ts'
 
 interface OutpostListProps {
   outposts: Outpost[]
@@ -62,6 +63,7 @@ export function OutpostList({
   onHideNavigation,
   hideNavigationControlRef,
 }: OutpostListProps) {
+  const { t } = useLocalization()
   const [isReshuffling, setIsReshuffling] = useState(false)
   const [activeDrag, setActiveDrag] = useState<ActiveDrag | null>(null)
 
@@ -198,7 +200,7 @@ export function OutpostList({
       }`}
     >
       <h2 className="outpost-list__heading">
-        <span>Outposts</span>
+        <span>{t('outpost.navigation.heading')}</span>
         <span className="outpost-list__count">
           {outposts.length}
           {maxOutposts !== null && ` / ${maxOutposts}`}
@@ -208,8 +210,8 @@ export function OutpostList({
           type="button"
           className="outpost-list__collapse"
           onClick={onHideNavigation}
-          aria-label="Hide outpost navigation"
-          title="Hide outpost navigation"
+          aria-label={t('outpost.navigation.hide')}
+          title={t('outpost.navigation.hide')}
         >
           ‹
         </button>
@@ -221,7 +223,7 @@ export function OutpostList({
           className="outpost-list__add"
           onClick={onAddOutpost}
         >
-          + Add Outpost
+          {t('outpost.navigation.addButton')}
         </button>
 
         <button
@@ -233,7 +235,7 @@ export function OutpostList({
           }}
           aria-pressed={isReshuffling}
         >
-          {isReshuffling ? 'Lock order' : 'Reshuffle'}
+          {isReshuffling ? t('outpost.navigation.lockOrder') : t('outpost.navigation.reshuffleButton')}
         </button>
       </div>
 
@@ -266,8 +268,8 @@ export function OutpostList({
                 draggable
                 onDragStart={(event) => startDrag(event, outpost.id)}
                 onDragEnd={clearDrag}
-                aria-label={`Drag ${outpost.name} to reorder`}
-                title={`Drag ${outpost.name} to reorder`}
+                aria-label={t('common.dragToReorder', { item: outpost.name })}
+                title={t('common.dragToReorder', { item: outpost.name })}
                 tabIndex={0}
               >
                 ⠿
@@ -298,8 +300,8 @@ export function OutpostList({
                     type="button"
                     onClick={() => onMoveOutpostUp(outpost.id)}
                     disabled={index === 0}
-                    title={`Move ${outpost.name} up`}
-                    aria-label={`Move ${outpost.name} up`}
+                    title={t('common.moveUp', { item: outpost.name })}
+                    aria-label={t('common.moveUp', { item: outpost.name })}
                   >
                     ↑
                   </button>
@@ -308,8 +310,8 @@ export function OutpostList({
                     type="button"
                     onClick={() => onMoveOutpostDown(outpost.id)}
                     disabled={index === outposts.length - 1}
-                    title={`Move ${outpost.name} down`}
-                    aria-label={`Move ${outpost.name} down`}
+                    title={t('common.moveDown', { item: outpost.name })}
+                    aria-label={t('common.moveDown', { item: outpost.name })}
                   >
                     ↓
                   </button>

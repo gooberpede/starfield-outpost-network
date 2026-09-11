@@ -26,6 +26,7 @@ import type {
 
 import './ConfirmDialog.css'
 import { useModalDialog } from './useModalDialog'
+import { useLocalization } from '../../localization/LocalizationContext.ts'
 
 interface ConfirmDialogProps {
   title: string
@@ -42,6 +43,7 @@ export function ConfirmDialog({
   onCancel,
   onConfirm,
 }: ConfirmDialogProps) {
+  const { t } = useLocalization()
   const titleId = useId()
   const descriptionId = useId()
   const cancelButtonRef = useRef<HTMLButtonElement>(null)
@@ -84,7 +86,7 @@ export function ConfirmDialog({
             type="button"
             onClick={onCancel}
           >
-            Cancel
+            {t('common.cancel')}
           </button>
 
           <button

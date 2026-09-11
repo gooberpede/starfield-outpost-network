@@ -79,8 +79,7 @@ function validateBodySystemMismatch(
       ruleId: RULE_ID,
       category: 'structural',
       severity: 'error',
-      message:
-        'This outpost\'s selected planetary body does not belong to its selected star system.',
+      messageKey: 'validation.bodySystemMismatch',
       outpostId: outpost.id,
     })
   }

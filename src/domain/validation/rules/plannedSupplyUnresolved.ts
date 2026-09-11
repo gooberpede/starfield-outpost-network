@@ -43,16 +43,10 @@ export const plannedSupplyUnresolvedRule: ValidationRule = {
       const sortedItems = [...outpost.plannedSupply]
         .sort((left, right) => getCargoItemName(left, referenceData)
           .localeCompare(getCargoItemName(right, referenceData), 'en'))
-      const itemNames = sortedItems.map((item) => getCargoItemName(item, referenceData))
-      const itemCount = itemNames.length
-
       return [{
         ruleId: RULE_ID,
         category: 'supply',
         severity: 'info',
-        message: itemCount === 1
-          ? `1 item in Planned Supply: ${itemNames[0]}.`
-          : `${itemCount} items in Planned Supply: ${itemNames.join(', ')}.`,
         messageKey: 'validation.plannedSupplyUnresolved',
         cargoItems: sortedItems.map((item) => ({ ...item })),
         outpostId: outpost.id,

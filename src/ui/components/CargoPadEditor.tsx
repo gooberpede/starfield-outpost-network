@@ -36,9 +36,11 @@ import { getInterstellarFuelState } from '../statusStates.ts'
 import { CargoExportsEditor } from './CargoExportsEditor'
 import { ContextHelp } from './ContextHelp'
 import './CargoPadEditor.css'
+import { useLocalization } from '../../localization/LocalizationContext.ts'
 
 interface CargoPadEditorProps {
   pad: CargoPad
+  displayLabel: string
   outposts: Outpost[]
   currentOutpostId: string
   onRemove: () => void
@@ -61,6 +63,7 @@ interface CargoPadEditorProps {
 
 export function CargoPadEditor({
   pad,
+  displayLabel,
   outposts,
   currentOutpostId,
   resources,
@@ -76,6 +79,7 @@ export function CargoPadEditor({
   onLinkedCargoPadChange,
   getDestinationPadLabel,
 }: CargoPadEditorProps) {
+  const { t } = useLocalization()
 
   const destinationId = linkedOutpostId
   const destinationPadId = linkedCargoPadId
@@ -110,11 +114,11 @@ export function CargoPadEditor({
               aria-pressed={isInterSystem}
               onClick={onToggleType}
             >
-              Inter-System
+              {t('cargo.interSystem.button')}
             </button>
             <ContextHelp
-              context="Inter-System cargo pads"
-              text={contextHelpText.interSystem}
+              context={t('cargo.interSystem.context')}
+              text={t(contextHelpText.interSystem)}
             />
           </span>
 
@@ -122,20 +126,20 @@ export function CargoPadEditor({
             type="button"
             onClick={onRemove}
             className="cargo-pad-editor__remove"
-            aria-label={`Remove ${pad.label}`}
+            aria-label={t('cargo.pad.remove', { pad: displayLabel })}
           >
-            Remove
+            {t('cargo.remove')}
           </button>
         </div>
 
         <select
-          aria-label="Destination outpost"
+          aria-label={t('cargo.destination.outpost')}
           value={destinationId}
           onChange={(event) =>
             onLinkedOutpostChange(event.target.value)
           }
         >
-          <option value="">Unlinked</option>
+          <option value="">{t('cargo.destination.unlinked')}</option>
 
           {availableDestinations.map((outpost) => (
             <option
@@ -143,22 +147,23 @@ export function CargoPadEditor({
               key={outpost.id}
               value={outpost.id}
             >
-              {outpost.name}
-              {outpost.cargoPads.length === 0 ? ' — no cargo pads' : ''}
+              {outpost.cargoPads.length === 0
+                ? t('cargo.destination.noPads', { outpost: outpost.name })
+                : outpost.name}
             </option>
           ))}
         </select>
 
         {linkedOutpostId && (
           <select
-            aria-label="Destination cargo pad"
+            aria-label={t('cargo.destination.pad')}
             value={destinationPadId}
             onChange={(event) =>
               onLinkedCargoPadChange(event.target.value)
             }
           >
             <option value="">
-              Select cargo pad...
+              {t('cargo.destination.selectPad')}
             </option>
 
             {availableDestinationPads.map((destinationPad) => (

@@ -68,8 +68,11 @@ import {
 } from './domain/collectionEditingSession'
 
 import type {
+  HistoryLabelDescriptor,
   NetworkUpdate,
 } from './domain/collectionEditingSession'
+import { translateDescriptor } from './localization/catalog.ts'
+import { getHistoryDisplayLabel } from './ui/historyPresentation.ts'
 
 import type {
   CargoItem,
@@ -78,6 +81,10 @@ import type {
   ResourceProductionRoute,
 } from './domain/models'
 import { getProductionRouteKey } from './domain/productionRoutes'
+import {
+  getInvariantCargoPadLabel,
+  renumberCargoPadLabels,
+} from './domain/cargoPadLabels.ts'
 import {
   addExplicitResourcePresence,
   changeOutpostBody,
@@ -93,6 +100,7 @@ import {
 } from './domain/resourcePresence.ts'
 import { useLocalization } from './localization/LocalizationContext.ts'
 import { getReferenceDisplayName } from './localization/referenceNames.ts'
+import type { MessageDescriptor } from './localization/types.ts'
 import {
   buildItemSearchCatalogue,
   getItemSearchMatches,
@@ -112,11 +120,14 @@ import {
 type StatusMessage =
   | {
       kind: 'success'
-      text: string
+      descriptor: MessageDescriptor
+      diagnostic?: string
     }
   | {
       kind: 'error'
-      text: string
+      descriptor: MessageDescriptor
+      reason?: MessageDescriptor
+      diagnostic?: string
     }
 
 // Reference-data diagnostics are hidden while the current catalogue is stable.
@@ -233,7 +244,10 @@ function App() {
     ...resource,
     name: getReferenceDisplayName('resource', resource.id, resource.name, locale),
   }))
-  const products = referenceData?.products ?? []
+  const products = (referenceData?.products ?? []).map((product) => ({
+    ...product,
+    name: getReferenceDisplayName('product', product.id, product.name, locale),
+  }))
   const searchCatalogue = useMemo(
     () => referenceData ? buildItemSearchCatalogue(referenceData, locale) : [],
     [referenceData, locale],
@@ -357,7 +371,7 @@ function App() {
       setReferenceDataError(
         error instanceof Error
           ? error.message
-          : 'Failed to load reference data.',
+          : String(error),
       )
     }
   }
@@ -390,7 +404,7 @@ function App() {
         setReferenceDataError(
           error instanceof Error
             ? error.message
-            : 'Failed to load reference data.',
+            : String(error),
         )
       })
 
@@ -414,7 +428,7 @@ function App() {
    * History sees the complete operation as one semantic action.
    */
   function applyUndoableNetworkChange(
-    label: string,
+    label: HistoryLabelDescriptor,
     update: NetworkUpdate,
     outpostId?: string | null,
   ) {
@@ -425,6 +439,21 @@ function App() {
       update,
       outpostId,
     })
+  }
+
+  function renderHistoryLabel(label: HistoryLabelDescriptor): string {
+    return getHistoryDisplayLabel(label, locale)
+  }
+
+  function renderStatusMessage(message: StatusMessage) {
+    const descriptor = message.kind === 'error' && message.reason
+      ? { ...message.descriptor, parameters: {
+          ...message.descriptor.parameters,
+          reason: translateDescriptor(locale, message.reason),
+        } }
+      : message.descriptor
+    const text = translateDescriptor(locale, descriptor)
+    return message.diagnostic ? <span title={message.diagnostic}>{text}</span> : text
   }
 
   /**
@@ -446,7 +475,7 @@ function App() {
       network.character.name
 
     applyUndoableNetworkChange(
-      `Rename character ${previousName} to ${name}`,
+      { key: 'history.renameCharacter', parameters: { previousName, name } },
       (currentNetwork) => ({
         ...currentNetwork,
 
@@ -461,11 +490,11 @@ function App() {
   function commitCharacterLevel(level: number | null) {
     const currentLevel = network.character.level
     if (currentLevel === level) return
-    const label = level === null
-      ? 'Clear character level'
+    const label: HistoryLabelDescriptor = level === null
+      ? { key: 'history.clearCharacterLevel' }
       : currentLevel === null
-        ? `Set character level to ${level}`
-        : `Change character level from ${currentLevel} to ${level}`
+        ? { key: 'history.setCharacterLevel', parameters: { level } }
+        : { key: 'history.changeCharacterLevel', parameters: { previousLevel: currentLevel, level } }
     applyUndoableNetworkChange(label, (currentNetwork) => ({
       ...currentNetwork,
       character: { ...currentNetwork.character, level },
@@ -488,31 +517,13 @@ function App() {
       return
     }
 
-    const skillLabels: Record<
-      keyof typeof network.character.skills,
-      string
-    > = {
-      outpostManagement:
-        'Outpost Management',
-      outpostEngineering:
-        'Outpost Engineering',
-      planetaryHabitation:
-        'Planetary Habitation',
-      researchMethods:
-        'Research Methods',
-      specialProjects:
-        'Special Projects',
-    }
-
-    const skillLabel =
-      skillLabels[skill]
-
-    const label =
+    const label: HistoryLabelDescriptor =
       rank === null
-        ? `Clear ${skillLabel}`
+        ? { key: 'history.clearSkill', skillId: skill }
         : currentRank === null
-          ? `Set ${skillLabel} to ${rank}`
-          : `Change ${skillLabel} from ${currentRank} to ${rank}`
+          ? { key: 'history.setSkill', skillId: skill, parameters: { rank } }
+          : { key: 'history.changeSkill', skillId: skill,
+              parameters: { previousRank: currentRank, rank } }
 
     applyUndoableNetworkChange(
       label,
@@ -564,7 +575,7 @@ function App() {
       network.outposts[currentIndex]
 
     applyUndoableNetworkChange(
-      `Move ${movedOutpost.name} to position ${finalIndex + 1}`,
+      { key: 'history.moveOutpost', parameters: { outpost: movedOutpost.name, position: finalIndex + 1 } },
       (currentNetwork) => {
         const liveCurrentIndex =
           currentNetwork.outposts.findIndex(
@@ -642,7 +653,7 @@ function App() {
       )
 
     applyUndoableNetworkChange(
-      'Add outpost',
+      { key: 'history.addOutpost' },
       (currentNetwork) => ({
         ...currentNetwork,
 
@@ -758,7 +769,7 @@ function App() {
       : effectiveSelectedOutpostId
 
     applyUndoableNetworkChange(
-      `Delete outpost ${deletedOutpost.name}`,
+      { key: 'history.deleteOutpost', parameters: { outpost: deletedOutpost.name } },
       (currentNetwork) => ({
         ...currentNetwork,
 
@@ -823,11 +834,10 @@ function App() {
       return
     }
 
-    const movedCargoPad =
-      outpost.cargoPads[currentIndex]
-
     applyUndoableNetworkChange(
-      `Move ${outpost.name} / ${movedCargoPad.label} to position ${finalIndex + 1}`,
+      { key: 'history.moveCargoPad', parameters: {
+        outpost: outpost.name, position: finalIndex + 1,
+      }, cargoPadOrdinalParameters: [{ parameter: 'pad', ordinal: currentIndex + 1 }] },
       (currentNetwork) => {
         const liveOutpost = currentNetwork.outposts.find(
           (candidate) => candidate.id === outpostId,
@@ -873,12 +883,7 @@ function App() {
                * them while retaining each pad ID and its associated data.
                */
               const renumberedCargoPads =
-                reorderedCargoPads.map(
-                  (candidateCargoPad, index) => ({
-                    ...candidateCargoPad,
-                    label: `Pad ${index + 1}`,
-                  }),
-                )
+                renumberCargoPadLabels(reorderedCargoPads)
 
               return {
                 ...candidateOutpost,
@@ -948,13 +953,16 @@ function App() {
 
     const newCargoPad = {
       id: crypto.randomUUID(),
-      label: `Pad ${outpost.cargoPads.length + 1}`,
+      label: getInvariantCargoPadLabel(outpost.cargoPads.length),
       type: 'regular' as const,
       outboundItems: [],
     }
 
     applyUndoableNetworkChange(
-      `Add ${outpost.name} / ${newCargoPad.label}`,
+      { key: 'history.addCargoPad', parameters: { outpost: outpost.name },
+        cargoPadOrdinalParameters: [{
+          parameter: 'pad', ordinal: outpost.cargoPads.length + 1,
+        }] },
       (currentNetwork) => ({
         ...currentNetwork,
 
@@ -1009,7 +1017,10 @@ function App() {
     }
 
     applyUndoableNetworkChange(
-      `Delete ${outpost.name} / ${cargoPad.label}`,
+      { key: 'history.deleteCargoPad', parameters: { outpost: outpost.name },
+        cargoPadOrdinalParameters: [{
+          parameter: 'pad', ordinal: outpost.cargoPads.findIndex(({ id }) => id === cargoPadId) + 1,
+        }] },
       (currentNetwork) =>
         retireFulfilledPlannedSupply({
           ...currentNetwork,
@@ -1024,15 +1035,11 @@ function App() {
                 }
 
                 const remainingCargoPads =
-                  candidateOutpost.cargoPads
-                    .filter(
-                      (pad) =>
-                        pad.id !== cargoPadId,
-                    )
-                    .map((pad, index) => ({
-                      ...pad,
-                      label: `Pad ${index + 1}`,
-                    }))
+                  renumberCargoPadLabels(
+                    candidateOutpost.cargoPads.filter(
+                      (pad) => pad.id !== cargoPadId,
+                    ),
+                  )
 
                 return {
                   ...candidateOutpost,
@@ -1109,7 +1116,10 @@ function App() {
     }
 
     applyUndoableNetworkChange(
-      `Unlink ${outpost.name} / ${cargoPad.label}`,
+      { key: 'history.unlinkCargoPad', parameters: { outpost: outpost.name },
+        cargoPadOrdinalParameters: [{
+          parameter: 'pad', ordinal: outpost.cargoPads.findIndex(({ id }) => id === cargoPadId) + 1,
+        }] },
       (currentNetwork) => ({
         ...currentNetwork,
 
@@ -1203,16 +1213,20 @@ function App() {
       return
     }
 
-    const label =
+    const label: HistoryLabelDescriptor =
       existingLocalLink
-        ? (
-            `Change link for ${localOutpost.name} / ${localCargoPad.label} ` +
-            `to ${remoteOutpost.name} / ${remoteCargoPad.label}`
-          )
-        : (
-            `Link ${localOutpost.name} / ${localCargoPad.label} ` +
-            `to ${remoteOutpost.name} / ${remoteCargoPad.label}`
-          )
+        ? { key: 'history.changeCargoLink', parameters: {
+            localOutpost: localOutpost.name, remoteOutpost: remoteOutpost.name,
+          }, cargoPadOrdinalParameters: [
+            { parameter: 'localPad', ordinal: localOutpost.cargoPads.findIndex(({ id }) => id === localCargoPadId) + 1 },
+            { parameter: 'remotePad', ordinal: remoteOutpost.cargoPads.findIndex(({ id }) => id === remoteCargoPadId) + 1 },
+          ] }
+        : { key: 'history.linkCargoPad', parameters: {
+            localOutpost: localOutpost.name, remoteOutpost: remoteOutpost.name,
+          }, cargoPadOrdinalParameters: [
+            { parameter: 'localPad', ordinal: localOutpost.cargoPads.findIndex(({ id }) => id === localCargoPadId) + 1 },
+            { parameter: 'remotePad', ordinal: remoteOutpost.cargoPads.findIndex(({ id }) => id === remoteCargoPadId) + 1 },
+          ] }
 
     const newLink = {
       id: crypto.randomUUID(),
@@ -1317,9 +1331,13 @@ function App() {
       reference?.name ?? item.id
 
     applyUndoableNetworkChange(
-      isCurrentlyExported
-        ? `Remove export ${itemName} from ${outpost.name} / ${cargoPad.label}`
-        : `Add export ${itemName} to ${outpost.name} / ${cargoPad.label}`,
+      { key: isCurrentlyExported ? 'history.removeExport' : 'history.addExport', parameters: {
+        outpost: outpost.name,
+      }, referenceParameters: [{
+        parameter: 'item', kind: item.type, id: item.id, fallback: itemName,
+      }], cargoPadOrdinalParameters: [{
+        parameter: 'pad', ordinal: outpost.cargoPads.findIndex(({ id }) => id === cargoPadId) + 1,
+      }] },
       (currentNetwork) =>
         retireFulfilledPlannedSupply({
           ...currentNetwork,
@@ -1407,7 +1425,11 @@ function App() {
         : 'regular'
 
     applyUndoableNetworkChange(
-      `Change ${outpost.name} / ${cargoPad.label} to ${nextType}`,
+      { key: 'history.changeCargoPadType', parameters: {
+        outpost: outpost.name, type: nextType,
+      }, cargoPadOrdinalParameters: [{
+        parameter: 'pad', ordinal: outpost.cargoPads.findIndex(({ id }) => id === cargoPadId) + 1,
+      }] },
       (currentNetwork) => ({
         ...currentNetwork,
 
@@ -1544,7 +1566,7 @@ function App() {
       selectedOutpost.name
 
     applyUndoableNetworkChange(
-      `Rename outpost ${previousName} to ${name}`,
+      { key: 'history.renameOutpost', parameters: { previousName, name } },
       (currentNetwork) => ({
         ...currentNetwork,
 
@@ -1584,10 +1606,15 @@ function App() {
           candidate.id === systemId,
       )
 
-    const label =
+    const label: HistoryLabelDescriptor =
       systemId
-        ? `Change ${selectedOutpost.name} system to ${system?.name ?? systemId}`
-        : `Clear system for ${selectedOutpost.name}`
+        ? { key: 'history.changeSystem', parameters: {
+            outpost: selectedOutpost.name,
+          }, referenceParameters: [{
+            parameter: 'system', kind: 'system', id: systemId,
+            fallback: system?.name ?? systemId,
+          }] }
+        : { key: 'history.clearSystem', parameters: { outpost: selectedOutpost.name } }
 
     applyUndoableNetworkChange(
       label,
@@ -1627,10 +1654,15 @@ function App() {
           candidate.id === bodyId,
       )
 
-    const label =
+    const label: HistoryLabelDescriptor =
       bodyId
-        ? `Change ${selectedOutpost.name} body to ${body?.name ?? bodyId}`
-        : `Clear body for ${selectedOutpost.name}`
+        ? { key: 'history.changeBody', parameters: {
+            outpost: selectedOutpost.name,
+          }, referenceParameters: [{
+            parameter: 'body', kind: 'body', id: bodyId,
+            fallback: body?.name ?? bodyId,
+          }] }
+        : { key: 'history.clearBody', parameters: { outpost: selectedOutpost.name } }
 
     applyUndoableNetworkChange(
       label,
@@ -1655,7 +1687,8 @@ function App() {
     const isSelected = selectedOutpost.selectedBiomeIds.length > 0 &&
       bodyBiomeIds.every((id) => selectedOutpost.selectedBiomeIds.includes(id))
     applyUndoableNetworkChange(
-      `${isSelected ? 'Remove' : 'Add'} biome selection for ${selectedOutpost.name}`,
+      { key: isSelected ? 'history.removeBiome' : 'history.addBiome',
+        parameters: { outpost: selectedOutpost.name } },
       (currentNetwork) => ({
         ...currentNetwork,
         outposts: currentNetwork.outposts.map((outpost) => {
@@ -1692,9 +1725,11 @@ function App() {
       resource?.name ?? resourceId
 
     applyUndoableNetworkChange(
-      isCurrentlyLocal
-        ? `Remove local resource ${resourceName} from ${selectedOutpost.name}`
-        : `Add local resource ${resourceName} to ${selectedOutpost.name}`,
+      { key: isCurrentlyLocal ? 'history.removeLocalResource' : 'history.addLocalResource',
+        parameters: { outpost: selectedOutpost.name },
+        referenceParameters: [{
+          parameter: 'resource', kind: 'resource', id: resourceId, fallback: resourceName,
+        }] },
       (currentNetwork) => ({
         ...currentNetwork,
 
@@ -1743,7 +1778,11 @@ function App() {
     if (!isPresent && !canAddExplicitResourcePresence(network.character, resourceId)) return
     const resourceName = resources.find((candidate) => candidate.id === resourceId)?.name ?? resourceId
     applyUndoableNetworkChange(
-      `${isPresent ? 'Remove' : 'Add'} explicit resource ${resourceName} ${isPresent ? 'from' : 'to'} ${selectedOutpost.name}`,
+      { key: isPresent ? 'history.removeExplicitResource' : 'history.addExplicitResource',
+        parameters: { outpost: selectedOutpost.name },
+        referenceParameters: [{
+          parameter: 'resource', kind: 'resource', id: resourceId, fallback: resourceName,
+        }] },
       (currentNetwork) => ({
         ...currentNetwork,
         outposts: currentNetwork.outposts.map((outpost) =>
@@ -1786,9 +1825,11 @@ function App() {
     ))) return
 
     applyUndoableNetworkChange(
-      isCurrentlyActive
-        ? `Stop producing ${resourceName} at ${selectedOutpost.name}`
-        : `Start producing ${resourceName} at ${selectedOutpost.name}`,
+      { key: isCurrentlyActive ? 'history.stopProducing' : 'history.startProducing',
+        parameters: { outpost: selectedOutpost.name },
+        referenceParameters: [{
+          parameter: 'resource', kind: 'resource', id: route.resourceId, fallback: resourceName,
+        }] },
       (currentNetwork) => {
         const updatedNetwork: OutpostNetwork = {
           ...currentNetwork,
@@ -1832,7 +1873,7 @@ function App() {
     }
 
     applyUndoableNetworkChange(
-      `Edit manufacturing at ${selectedOutpost.name}`,
+      { key: 'history.editManufacturing', parameters: { outpost: selectedOutpost.name } },
       (currentNetwork) =>
         retireFulfilledPlannedSupply({
           ...currentNetwork,
@@ -1881,9 +1922,10 @@ function App() {
       reference?.name ?? item.id
 
     applyUndoableNetworkChange(
-      isCurrentlyPlanned
-        ? `Remove Planned Supply ${itemName}`
-        : `Add Planned Supply ${itemName}`,
+      { key: isCurrentlyPlanned ? 'history.removePlannedSupply' : 'history.addPlannedSupply',
+        referenceParameters: [{
+          parameter: 'item', kind: item.type, id: item.id, fallback: itemName,
+        }] },
       (currentNetwork) => retireFulfilledPlannedSupply({
         ...currentNetwork,
 
@@ -1932,7 +1974,7 @@ function App() {
   ) {
     setStatusMessage({
       kind: 'success',
-      text: `Exported ${fileName}.`,
+      descriptor: { key: 'status.export.success', parameters: { fileName } },
     })
   }
 
@@ -1956,7 +1998,7 @@ function App() {
 
     setStatusMessage({
       kind: 'success',
-      text: `Imported ${fileName}.`,
+      descriptor: { key: 'status.import.success', parameters: { fileName } },
     })
   }
 
@@ -1965,11 +2007,14 @@ function App() {
    */
   function reportNetworkImportError(
     fileName: string,
-    message: string,
+    reason: MessageDescriptor,
+    diagnostic?: string,
   ) {
     setStatusMessage({
       kind: 'error',
-      text: `Import failed for ${fileName}: ${message}`,
+      descriptor: { key: 'status.import.failed', parameters: { fileName, reason: '' } },
+      reason,
+      diagnostic,
     })
   }  
 
@@ -2001,7 +2046,7 @@ function App() {
               }}
               disabled={network.outposts.length <= 1}
             >
-              Delete Outpost
+              {t('outpost.delete')}
             </button>
 
             <button
@@ -2010,11 +2055,13 @@ function App() {
               disabled={history.past.length === 0}
               title={
                 history.past.length > 0
-                  ? `Undo: ${history.past.at(-1)?.label}`
-                  : 'Nothing to undo'
+                  ? t('history.undo.action', {
+                      action: renderHistoryLabel(history.past.at(-1)!.label),
+                    })
+                  : t('history.undo.none')
               }
             >
-              Undo
+              {t('history.undo')}
             </button>
 
             <button
@@ -2023,11 +2070,13 @@ function App() {
               disabled={history.future.length === 0}
               title={
                 history.future.length > 0
-                  ? `Redo: ${history.future.at(-1)?.label}`
-                  : 'Nothing to redo'
+                  ? t('history.redo.action', {
+                      action: renderHistoryLabel(history.future.at(-1)!.label),
+                    })
+                  : t('history.redo.none')
               }
             >
-              Redo
+              {t('history.redo')}
             </button>
 
             <NetworkExportButton
@@ -2042,27 +2091,27 @@ function App() {
         }
         networkActions={
           <>
-            <span className="page-header__network-label">NETWORK</span>
+            <span className="page-header__network-label">{t('network.label')}</span>
             <div className="page-header__network-controls">
               <button
                 type="button"
                 className="page-header__network-button"
-                aria-label="Previous Network"
-                title="Previous Network"
+                aria-label={t('network.previous')}
+                title={t('network.previous')}
                 disabled={collection.networks.length === 1}
                 onClick={() => switchNetwork(getPreviousNetworkId(collection))}
               >
                 &lt;
               </button>
-              <span className="page-header__network-ordinal" aria-label="Active network">
+              <span className="page-header__network-ordinal" aria-label={t('network.active')}>
                 {collection.networks.findIndex(({ id }) => id === collection.activeNetworkId) + 1}
                 {' / '}{collection.networks.length}
               </span>
               <button
                 type="button"
                 className="page-header__network-button"
-                aria-label="Next Network"
-                title="Next Network"
+                aria-label={t('network.next')}
+                title={t('network.next')}
                 disabled={collection.networks.length === 1}
                 onClick={() => switchNetwork(getNextNetworkId(collection))}
               >
@@ -2071,8 +2120,8 @@ function App() {
               <button
                 type="button"
                 className="page-header__network-button"
-                aria-label="Add Network"
-                title="Add Network"
+                aria-label={t('network.add')}
+                title={t('network.add')}
                 onClick={addNetwork}
               >
                 +
@@ -2081,10 +2130,10 @@ function App() {
                 type="button"
                 className="page-header__network-button"
                 aria-label={collection.networks.length === 1
-                  ? 'Reset Network'
+                  ? t('network.reset.button')
                   : t('network.delete.button')}
                 title={collection.networks.length === 1
-                  ? 'Reset Network'
+                  ? t('network.reset.button')
                   : t('network.delete.button')}
                 onClick={() => setIsDeleteNetworkDialogOpen(true)}
               >
@@ -2147,7 +2196,7 @@ function App() {
           <>
             {selectedOutpost?.bodyId && !selectedBodyResources && (
               <p className="reference-data-empty">
-                No resource reference data found for this body.
+                {t('outpost.referenceData.empty')}
               </p>
             )}
 
@@ -2275,7 +2324,7 @@ function App() {
       <StatusBar
         interactionHint={
           isOutpostDragging
-            ? 'Drop to reorder · Esc to cancel'
+            ? t('status.drag.reorder')
             : undefined
         }
         main={
@@ -2298,11 +2347,12 @@ function App() {
               <>
                 {referenceData && (
                   <span>
-                    Reference data loaded:{' '}
-                    {referenceData.systems.length} systems,{' '}
-                    {referenceData.bodies.length} bodies,{' '}
-                    {referenceData.resources.length} resources,{' '}
-                    {referenceData.products.length} products.
+                    {t('status.referenceData.loaded', {
+                      systems: referenceData.systems.length,
+                      bodies: referenceData.bodies.length,
+                      resources: referenceData.resources.length,
+                      products: referenceData.products.length,
+                    })}
                   </span>
                 )}
 
@@ -2310,7 +2360,7 @@ function App() {
                   type="button"
                   onClick={() => void reloadReferenceData()}
                 >
-                  Reload Reference Data
+                  {t('status.referenceData.reload')}
                 </button>
               </>
             )}
@@ -2320,7 +2370,7 @@ function App() {
           statusMessage
             ? {
                 kind: statusMessage.kind,
-                content: statusMessage.text,
+                content: renderStatusMessage(statusMessage),
                 onDismiss:
                   statusMessage.kind === 'error'
                     ? () => setStatusMessage(null)
@@ -2329,8 +2379,7 @@ function App() {
             : referenceDataError
               ? {
                   kind: 'error',
-                  content:
-                    `Reference data error: ${referenceDataError}`,
+                  content: <span title={referenceDataError}>{t('status.referenceData.failed')}</span>,
                 }
               : undefined
         }
@@ -2339,16 +2388,16 @@ function App() {
       {isDeleteNetworkDialogOpen && (
         <ConfirmDialog
           title={collection.networks.length === 1
-            ? 'RESET NETWORK'
+            ? t('network.reset.confirmTitle')
             : t('network.delete.confirmTitle')}
           confirmLabel={collection.networks.length === 1
-            ? 'Reset Network'
+            ? t('network.reset.button')
             : t('network.delete.button')}
           onCancel={() => setIsDeleteNetworkDialogOpen(false)}
           onConfirm={deleteOrResetNetwork}
         >
           <p>{collection.networks.length === 1
-            ? 'Reset the current network to a fresh default state?'
+            ? t('network.reset.explanation')
             : t('network.delete.explanation')}</p>
           <p>{t('network.delete.undoHint')}</p>
         </ConfirmDialog>

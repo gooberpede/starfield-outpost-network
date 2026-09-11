@@ -98,8 +98,7 @@ function validateSendingEndpoint(
     ruleId: RULE_ID,
     category: 'operational',
     severity: 'warning',
-    message:
-      'This interstellar cargo pad is sending cargo, but its outpost has no available Helium-3 supply.',
+    messageKey: 'validation.interstellarHelium3',
     cargoLinkId,
     outpostId: endpoint.outpostId,
     cargoPadId: endpoint.cargoPadId,

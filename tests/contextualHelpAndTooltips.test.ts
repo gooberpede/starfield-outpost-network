@@ -58,7 +58,9 @@ const organicRoute = {
 }
 
 test('the seven contextual-help strings retain their approved copy', () => {
-  assert.deepEqual(contextHelpText, {
+  assert.deepEqual(Object.fromEntries(Object.entries(contextHelpText).map(
+    ([name, key]) => [name, translate('en-US', key)],
+  )), {
     plannedSupply: 'Selected items act as placeholders until local or imported supply is established.',
     logistics: 'Items currently assigned to cargo links are displayed here.',
     biomes: 'Selected biomes limit resource availability to resources that can occur in those biomes.',

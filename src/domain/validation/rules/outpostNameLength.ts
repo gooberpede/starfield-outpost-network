@@ -19,8 +19,7 @@ function validateOutpostNameLengths(
       ruleId: RULE_ID,
       category: 'operational',
       severity: 'warning',
-      message:
-        'Starfield normally limits outpost names to 25 characters; longer modded names remain supported.',
+      messageKey: 'validation.outpostNameLength',
       outpostId: outpost.id,
     }))
 }

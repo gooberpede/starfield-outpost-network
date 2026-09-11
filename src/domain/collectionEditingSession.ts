@@ -13,7 +13,9 @@ import {
   setActiveNetwork,
 } from '../data/networkCollection.ts'
 import type { NetworkCollection } from '../data/networkCollection'
-import type { OutpostNetwork } from './models'
+import type { Character, OutpostNetwork } from './models'
+import type { MessageDescriptor } from '../localization/types.ts'
+import type { ReferenceNameKind } from '../localization/referenceNames.ts'
 
 export const MAX_HISTORY_ENTRIES = 1_000
 
@@ -28,11 +30,26 @@ export interface CollectionHistoryState {
 }
 
 export interface CollectionHistoryEntry {
-  label: string
+  label: HistoryLabelDescriptor
   timestamp: number
   before: CollectionHistoryState
   after: CollectionHistoryState
   resetsNetworkPresentation: boolean
+}
+
+export interface HistoryLabelDescriptor extends MessageDescriptor {
+  networkOrdinal?: number
+  skillId?: keyof Character['skills']
+  referenceParameters?: Array<{
+    parameter: string
+    kind: ReferenceNameKind
+    id: string
+    fallback: string
+  }>
+  cargoPadOrdinalParameters?: Array<{
+    parameter: string
+    ordinal: number
+  }>
 }
 
 export interface CollectionEditingSession {
@@ -48,7 +65,7 @@ export interface CollectionEditingSession {
 export type NetworkUpdate = (network: OutpostNetwork) => OutpostNetwork
 
 export type CollectionEditingAction =
-  | { type: 'apply-active-network'; label: string; timestamp: number;
+  | { type: 'apply-active-network'; label: HistoryLabelDescriptor; timestamp: number;
       update: NetworkUpdate; outpostId?: string | null }
   | { type: 'select-outpost'; outpostId: string | null }
   | { type: 'switch-network'; networkId: string }
@@ -87,11 +104,14 @@ export function normalizeHistoryState(
 export function formatNetworkHistoryLabel(
   collection: NetworkCollection,
   networkId: string,
-  label: string,
-): string {
-  if (collection.networks.length === 1) return label
+  label: HistoryLabelDescriptor | string,
+): HistoryLabelDescriptor {
+  const descriptor = typeof label === 'string'
+    ? { key: 'history.benchmark' as const, parameters: { label } }
+    : label
+  if (collection.networks.length === 1) return descriptor
   const ordinal = collection.networks.findIndex(({ id }) => id === networkId) + 1
-  return ordinal > 0 ? `Network ${ordinal}: ${label}` : label
+  return ordinal > 0 ? { ...descriptor, networkOrdinal: ordinal } : descriptor
 }
 
 function remember(
@@ -110,7 +130,7 @@ function remember(
 
 function record(
   session: CollectionEditingSession,
-  label: string,
+  label: HistoryLabelDescriptor,
   timestamp: number,
   after: CollectionHistoryState,
   resetsNetworkPresentation = false,
@@ -203,7 +223,7 @@ export function collectionEditingSessionReducer(
         session.collection, action.networkId, action.outpostId, action.outpostBaseName,
       )
       return record(session, formatNetworkHistoryLabel(
-        collection, action.networkId, 'Add network',
+        collection, action.networkId, { key: 'history.addNetwork' },
       ), action.timestamp, {
         collection,
         context: { networkId: action.networkId, outpostId: action.outpostId },
@@ -211,7 +231,7 @@ export function collectionEditingSessionReducer(
     }
     case 'delete-network': {
       const label = formatNetworkHistoryLabel(
-        session.collection, session.context.networkId, 'Delete network',
+        session.collection, session.context.networkId, { key: 'history.deleteNetwork' },
       )
       const collection = deleteNetwork(session.collection)
       const target = getActiveSavedNetwork(collection)
@@ -227,14 +247,14 @@ export function collectionEditingSessionReducer(
       const collection = resetOnlyNetwork(
         session.collection, action.outpostId, action.outpostBaseName,
       )
-      return record(session, 'Reset network', action.timestamp, {
+      return record(session, { key: 'history.resetNetwork' }, action.timestamp, {
         collection,
         context: { networkId: collection.activeNetworkId, outpostId: action.outpostId },
       }, true)
     }
     case 'replace-collection': {
       const active = getActiveSavedNetwork(action.collection)
-      return record(session, 'Import networks', action.timestamp, {
+      return record(session, { key: 'history.importNetworks' }, action.timestamp, {
         collection: action.collection,
         context: {
           networkId: active.id,

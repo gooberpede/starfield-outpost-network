@@ -23,6 +23,7 @@
 import type { ReactNode, Ref } from 'react'
 
 import './WorkspaceLayout.css'
+import { useLocalization } from '../../localization/LocalizationContext.ts'
 
 interface WorkspaceLayoutProps {
   left: ReactNode
@@ -50,6 +51,7 @@ export function WorkspaceLayout({
   onShowNavigation,
   showNavigationControlRef,
 }: WorkspaceLayoutProps) {
+  const { t } = useLocalization()
   return (
     <div className={`workspace-layout${
       isNavigationOpen ? '' : ' workspace-layout--navigation-collapsed'
@@ -64,8 +66,8 @@ export function WorkspaceLayout({
             ref={showNavigationControlRef}
             type="button"
             onClick={onShowNavigation}
-            aria-label="Show outpost navigation"
-            title="Show outpost navigation"
+            aria-label={t('outpost.navigation.show')}
+            title={t('outpost.navigation.show')}
           >
             ›
           </button>

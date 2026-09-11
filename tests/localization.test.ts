@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 
-import { translate } from '../src/localization/catalog.ts'
+import { translate, translateDescriptor } from '../src/localization/catalog.ts'
 import {
   getBrowserLanguages,
   getLocaleSelectorOptions,
@@ -18,7 +18,12 @@ import { createDefaultOutpost } from '../src/domain/defaults.ts'
 import { createCollectionEditingSession } from '../src/domain/collectionEditingSession.ts'
 import { createDefaultNetworkCollection } from '../src/data/networkCollection.ts'
 import { getExportTooltip, getInorganicPresentTooltip } from '../src/ui/statusTooltips.ts'
-import { formatList } from '../src/localization/formatters.ts'
+import { formatDecimal, formatInteger, formatList, formatPercent, getCollator } from '../src/localization/formatters.ts'
+import { enUSMessages } from '../src/localization/locales/en-US.ts'
+import { enGBMessages } from '../src/localization/locales/en-GB.ts'
+import { setDocumentLanguage } from '../src/localization/documentLanguage.ts'
+import { getImportFailurePresentation } from '../src/ui/importErrorPresentation.ts'
+import { getHistoryDisplayLabel } from '../src/ui/historyPresentation.ts'
 
 class MemoryStorage {
   values = new Map<string, string>()
@@ -96,11 +101,96 @@ test('proof messages cover static, parameterized, tooltip, and plural paths', ()
     () => translate('en-US', 'missing.key' as Parameters<typeof translate>[1]),
     /Missing baseline localization message/,
   )
+  assert.throws(
+    () => translate('en-US', 'network.delete.button', { unexpected: 'value' }),
+    /Unexpected localization parameter/,
+  )
+  assert.throws(
+    () => translate('en-US', 'status.export.success'),
+    /Missing localization parameter/,
+  )
+})
+
+test('baseline catalogue is complete and regional English remains a sparse override', () => {
+  assert.ok(Object.keys(enUSMessages).length >= 300)
+  assert.ok(Object.keys(enGBMessages).length < Object.keys(enUSMessages).length)
+  for (const key of Object.keys(enUSMessages) as (keyof typeof enUSMessages)[]) {
+    assert.equal(typeof translate('en-GB', key, sampleParameters(enUSMessages[key])), 'string')
+  }
+})
+
+function sampleParameters(template: string): Record<string, string | number> {
+  const normalized = template.replace(
+    /\{(\w+), plural, one \{[^{}]*\} other \{[^{}]*\}\}/g, '{$1}',
+  )
+  return Object.fromEntries([...normalized.matchAll(/\{(\w+)\}/g)].map((match) => [
+    match[1], match[1] === 'count' ? 2 : 'value',
+  ]))
+}
+
+test('semantic descriptors relocalize without changing their stored facts', () => {
+  const descriptor = { key: 'history.addExport' as const, parameters: {
+    item: 'Aluminum', outpost: 'Home', pad: 'Pad 1',
+  } }
+  assert.equal(
+    translateDescriptor('en-US', descriptor),
+    'Add export Aluminum to Home / Pad 1',
+  )
+  assert.deepEqual(descriptor.parameters, {
+    item: 'Aluminum', outpost: 'Home', pad: 'Pad 1',
+  })
+})
+
+test('history resolves stable reference facts in the current locale', () => {
+  const descriptor = {
+    key: 'history.addLocalResource' as const,
+    parameters: { outpost: 'Home' },
+    referenceParameters: [{
+      parameter: 'resource', kind: 'resource' as const,
+      id: 'aluminium', fallback: 'Aluminum',
+    }],
+  }
+  assert.equal(
+    getHistoryDisplayLabel(descriptor, 'en-US'),
+    'Add local resource Aluminum to Home',
+  )
+  assert.equal(
+    getHistoryDisplayLabel(descriptor, 'en-GB'),
+    'Add local resource Aluminium to Home',
+  )
 })
 
 test('locale-aware list formatting owns conjunction and punctuation', () => {
   assert.equal(formatList('en-US', ['Aluminum', 'Iron']), 'Aluminum and Iron')
   assert.equal(formatList('en-GB', ['Aluminium', 'Iron']), 'Aluminium and Iron')
+})
+
+test('locale-aware number helpers and collator use Intl presentation', () => {
+  assert.equal(formatInteger('en-US', 1234), '1,234')
+  assert.equal(formatDecimal('en-US', 2 / 3), '0.67')
+  assert.equal(formatPercent('en-US', 0.25), '25%')
+  assert.ok(getCollator('en-US').compare('Pad 2', 'Pad 10') < 0)
+})
+
+test('document language follows initial and switched effective locale', () => {
+  const target = { documentElement: { lang: 'en' } } as Pick<Document, 'documentElement'>
+  setDocumentLanguage('en-US', target)
+  assert.equal(target.documentElement.lang, 'en-US')
+  setDocumentLanguage('en-GB', target)
+  assert.equal(target.documentElement.lang, 'en-GB')
+})
+
+test('known import failures use stable descriptors and retain diagnostics', () => {
+  const invalidJson = getImportFailurePresentation(new SyntaxError('Unexpected token'))
+  assert.equal(invalidJson.reason.key, 'status.import.invalidJson')
+  assert.equal(invalidJson.diagnostic, 'Unexpected token')
+  const unsupported = getImportFailurePresentation(
+    new Error('Unsupported network schema version: 99'),
+  )
+  assert.deepEqual(unsupported.reason, {
+    key: 'status.import.unsupportedNetworkSchema', parameters: { version: '99' },
+  })
+  assert.equal(unsupported.diagnostic, 'Unsupported network schema version: 99')
 })
 
 test('matrix export tooltip combines localized names with localized list formatting', () => {

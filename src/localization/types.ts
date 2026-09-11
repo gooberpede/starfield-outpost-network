@@ -11,48 +11,16 @@ export interface LocaleMetadata {
   displayName: string
 }
 
-export type MessageKey =
-  | 'locale.selector.label'
-  | 'locale.selector.automatic'
-  | 'network.delete.button'
-  | 'network.delete.confirmTitle'
-  | 'network.delete.explanation'
-  | 'network.delete.undoHint'
-  | 'outpost.defaultName'
-  | 'validation.issueCount'
-  | 'validation.manufacturingInputUnavailable'
-  | 'validation.plannedSupplyUnresolved'
-  | 'help.inorganicPresentRecorded'
-  | 'help.inorganicPresentPossible'
-  | 'matrix.action.xTech.add'
-  | 'matrix.tooltip.xTech.add'
-  | 'matrix.tooltip.xTech.present'
-  | 'matrix.tooltip.producing.active'
-  | 'matrix.tooltip.producing.inactive'
-  | 'matrix.tooltip.manufacturing.blocked'
-  | 'matrix.tooltip.input.available'
-  | 'matrix.tooltip.input.unavailable'
-  | 'matrix.tooltip.export.active'
-  | 'matrix.tooltip.export.inactive'
-  | 'matrix.tooltip.import.active'
-  | 'search.input.label'
-  | 'search.input.placeholder'
-  | 'search.input.description'
-  | 'search.submit'
-  | 'search.autocomplete.resource'
-  | 'search.autocomplete.product'
-  | 'search.results.title'
-  | 'search.results.found'
-  | 'search.results.notFound'
-  | 'search.results.close'
-  | 'search.results.flag.present'
-  | 'search.results.flag.producing'
-  | 'search.results.flag.missingInputs'
-  | 'search.results.flag.importing'
-  | 'search.results.flag.exporting'
-  | 'search.results.flag.plannedSupply'
-  | 'search.results.dragInstructions'
+import type { enUSMessages } from './locales/en-US.ts'
+
+export type MessageKey = keyof typeof enUSMessages
 
 export type MessageParameters = Record<string, string | number>
 export type MessageCatalogue = Record<MessageKey, string>
 export type LocaleOverrides = Partial<MessageCatalogue>
+
+/** A relocalizable user-facing message retained as semantic session/domain data. */
+export interface MessageDescriptor {
+  key: MessageKey
+  parameters?: MessageParameters
+}

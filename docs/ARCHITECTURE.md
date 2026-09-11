@@ -273,6 +273,10 @@ Pad 2
 Pad 3
 ```
 
+This legacy persisted label is generated in the invariant `Pad {n}` form and
+must not depend on the active locale. User-facing pad ordinals are derived from
+array order and localized separately at render time.
+
 Stable identity is still the pad ID, not the label.
 
 There is a known future design question around whether positional labels should continue to be persisted or instead be derived from array order. That is not currently resolved.
@@ -615,22 +619,43 @@ between invalid-skill and habitation validation.
 
 Localization is application presentation infrastructure under
 `src/localization/`. `en-US` is the complete baseline and fallback catalogue;
-other registered locales may supply sparse overrides. The registry owns locale
-metadata and catalogue registration so feature components do not contain
-per-locale branching.
+regional variants such as `en-GB` may supply sparse overrides. The semantic
+catalogue is the boundary for tracker-authored visible copy, accessible names,
+tooltips/help, validation presentation, transient status, and history labels.
+The registry owns locale metadata and catalogue registration so feature
+components do not contain per-locale branching. Baseline keys are derived from
+the complete catalogue, while interpolation validates both missing and
+unexpected named parameters at runtime and in tests.
 
 The localization provider resolves the effective locale from an explicit
 supported override, then the browser language list, then `en-US`. Application
 preferences use a dedicated localStorage key and are not part of
 `NetworkCollection`, `OutpostNetwork`, import/export, or Undo/Redo history.
+The provider also owns `document.documentElement.lang` and updates it whenever
+the effective locale changes.
 
 Reference display names use a separate sparse overlay keyed by stable reference
 kind and ID. Resolution is locale override, canonical runtime name, then raw ID.
 The overlay never changes reference identity or generated reference datasets.
 
-Validation remains backward compatible with final `message` strings. Migrated
-rules may additionally expose a semantic message key and structured stable IDs;
-the presentation layer resolves localized names and the final localized phrase.
+Validation rules emit a required semantic `messageKey`, structured parameters,
+and stable target/reference IDs rather than completed English sentences. The
+presentation layer resolves localized names, locale-aware lists, current pad
+ordinals, contextual labels, remediations, and the final phrase. Rule IDs,
+categories, severity, navigation metadata, and triggering semantics remain
+domain facts.
+
+Undo/Redo history remains session-only, but its labels are semantic
+`HistoryLabelDescriptor` values. Descriptors capture user-authored names at
+action time, retain frozen network ordinals, and render in the current locale,
+so switching locale relocalizes existing Undo/Redo titles without changing the
+stored collection or history snapshots. Expected import failures and transient
+status messages use the same descriptor boundary; unexpected diagnostics are
+kept separately from localized user-facing copy.
+
+`formatters.ts` is the narrow locale-formatting boundary for lists, integers,
+decimals, percentages, and display-name collation. Export filename timestamps,
+schema values, IDs, and other technical identity remain invariant.
 
 # 15. Reference-data loading
 

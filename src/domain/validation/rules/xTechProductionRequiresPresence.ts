@@ -12,7 +12,7 @@ function validate(network: Parameters<ValidationRule['validate']>[0]): Validatio
       ruleId: RULE_ID,
       category: 'operational' as const,
       severity: 'warning' as const,
-      message: 'X-Tech is recorded as produced, but it is not explicitly recorded as present at this outpost.',
+      messageKey: 'validation.xTechRequiresPresence',
       outpostId: outpost.id,
       cargoItem: { type: 'resource' as const, id: X_TECH_RESOURCE_ID },
     }]

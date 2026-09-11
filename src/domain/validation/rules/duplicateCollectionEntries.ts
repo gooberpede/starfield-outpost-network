@@ -112,7 +112,6 @@ function getDuplicateRoutes(routes: ResourceProductionRoute[]): ResourceProducti
  */
 function validateDuplicateCollectionEntries(
   network: Parameters<ValidationRule['validate']>[0],
-  referenceData: Parameters<ValidationRule['validate']>[1],
 ): ValidationIssue[] {
   const issues: ValidationIssue[] = []
 
@@ -121,14 +120,11 @@ function validateDuplicateCollectionEntries(
       const resourceId of
       getDuplicateStrings(outpost.localResources)
     ) {
-      const resourceName = referenceData?.resources.find(
-        (entry) => entry.id === resourceId,
-      )?.name ?? resourceId
       issues.push({
         ruleId: RULE_ID,
         category: 'structural',
         severity: 'error',
-        message: `${resourceName} appears more than once in this outpost's local resources.`,
+        messageKey: 'validation.duplicateLocalResource',
         outpostId: outpost.id,
         cargoItem: {
           type: 'resource',
@@ -140,14 +136,11 @@ function validateDuplicateCollectionEntries(
     for (
       const route of getDuplicateRoutes(outpost.activeProduction)
     ) {
-      const resourceName = referenceData?.resources.find(
-        (entry) => entry.id === route.resourceId,
-      )?.name ?? route.resourceId
       issues.push({
         ruleId: RULE_ID,
         category: 'structural',
         severity: 'error',
-        message: `${resourceName} appears more than once in this outpost's active production.`,
+        messageKey: 'validation.duplicateActiveProduction',
         outpostId: outpost.id,
         cargoItem: {
           type: 'resource',
@@ -157,29 +150,20 @@ function validateDuplicateCollectionEntries(
     }
 
     for (const resourceId of getDuplicateStrings(outpost.explicitResourcePresence ?? [])) {
-      const resourceName = referenceData?.resources.find(
-        (entry) => entry.id === resourceId,
-      )?.name ?? resourceId
       issues.push({
         ruleId: RULE_ID,
         category: 'structural',
         severity: 'error',
-        message: `${resourceName} appears more than once in this outpost's explicit resource presence.`,
+        messageKey: 'validation.duplicateExplicitPresence',
         outpostId: outpost.id,
         cargoItem: { type: 'resource', id: resourceId },
       })
     }
 
     for (const bodyBiomeId of getDuplicateStrings(outpost.selectedBiomeIds ?? [])) {
-      const biomeId = referenceData?.bodyBiomes.find(
-        (entry) => entry.id === bodyBiomeId,
-      )?.biomeId
-      const biomeName = referenceData?.biomes.find(
-        (entry) => entry.id === biomeId,
-      )?.name ?? bodyBiomeId
       issues.push({
         ruleId: RULE_ID, category: 'structural', severity: 'error',
-        message: `${biomeName} appears more than once in this outpost's biome selection.`,
+        messageKey: 'validation.duplicateBiome',
         outpostId: outpost.id, bodyBiomeId,
       })
     }
@@ -194,14 +178,11 @@ function validateDuplicateCollectionEntries(
       const productId of
       getDuplicateStrings(manufacturingProductIds)
     ) {
-      const productName = referenceData?.products.find(
-        (entry) => entry.id === productId,
-      )?.name ?? productId
       issues.push({
         ruleId: RULE_ID,
         category: 'structural',
         severity: 'error',
-        message: `${productName} appears more than once in this outpost's manufacturing list.`,
+        messageKey: 'validation.duplicateManufacturing',
         outpostId: outpost.id,
         cargoItem: {
           type: 'product',
@@ -214,14 +195,11 @@ function validateDuplicateCollectionEntries(
       const item of
       getDuplicateCargoItems(outpost.plannedSupply)
     ) {
-      const itemName = item.type === 'resource'
-        ? referenceData?.resources.find((entry) => entry.id === item.id)?.name ?? item.id
-        : referenceData?.products.find((entry) => entry.id === item.id)?.name ?? item.id
       issues.push({
         ruleId: RULE_ID,
         category: 'structural',
         severity: 'error',
-        message: `${itemName} appears more than once in this outpost's Planned Supply.`,
+        messageKey: 'validation.duplicatePlannedSupply',
         outpostId: outpost.id,
         cargoItem: item,
       })
@@ -234,14 +212,11 @@ function validateDuplicateCollectionEntries(
           cargoPad.outboundItems,
         )
       ) {
-        const itemName = item.type === 'resource'
-          ? referenceData?.resources.find((entry) => entry.id === item.id)?.name ?? item.id
-          : referenceData?.products.find((entry) => entry.id === item.id)?.name ?? item.id
         issues.push({
           ruleId: RULE_ID,
           category: 'structural',
           severity: 'error',
-          message: `${itemName} appears more than once in this cargo pad's outbound items.`,
+          messageKey: 'validation.duplicateOutboundItem',
           outpostId: outpost.id,
           cargoPadId: cargoPad.id,
           cargoItem: item,

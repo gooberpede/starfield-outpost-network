@@ -121,21 +121,10 @@ function validateManufacturingInputsUnavailable(
           continue
         }
 
-        const inputName =
-          ingredient.item.type === 'resource'
-            ? referenceData.resources.find(
-                (entry) => entry.id === ingredient.item.id,
-              )?.name ?? ingredient.item.id
-            : referenceData.products.find(
-                (entry) => entry.id === ingredient.item.id,
-              )?.name ?? ingredient.item.id
-
         issues.push({
           ruleId: RULE_ID,
           category: 'operational',
           severity: 'warning',
-          message:
-            `${product.name} requires ${inputName}, but ${inputName} is not available at this outpost.`,
           messageKey: 'validation.manufacturingInputUnavailable',
           outpostId: outpost.id,
           productId: manufacturingEntry.productId,

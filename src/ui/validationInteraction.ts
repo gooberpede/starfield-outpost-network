@@ -48,7 +48,8 @@ export function getValidationIssueIdentity(issue: ValidationIssue): string {
     issue.productId ?? '',
     issue.speciesId ?? '',
     issue.bodyBiomeId ?? '',
-    issue.message,
+    issue.messageKey,
+    issue.parameters ?? {},
   ])
 }
 

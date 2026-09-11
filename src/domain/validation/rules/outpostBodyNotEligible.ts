@@ -34,8 +34,7 @@ function validateOutpostBodyEligibility(
       ruleId: RULE_ID,
       category: 'structural',
       severity: 'error',
-      message:
-        'This outpost is located on a body that cannot host outposts.',
+      messageKey: 'validation.outpostBodyNotEligible',
       outpostId: outpost.id,
     })
   }

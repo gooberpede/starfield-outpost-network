@@ -136,7 +136,9 @@ test('divergent edit near the cap clears Redo without exceeding retention', () =
   assert.equal(session.history.past.length, 991)
   assert.equal(session.history.future.length, 0)
   assert.equal(session.history.past[0].timestamp, 1)
-  assert.equal(session.history.past.at(-1)?.label, 'Network 1: Branched')
+  assert.deepEqual(session.history.past.at(-1)?.label, {
+    key: 'history.benchmark', parameters: { label: 'Branched' }, networkOrdinal: 1,
+  })
 })
 
 test('mixed edits and collection replacement share the cap and preserve context', () => {
@@ -158,7 +160,7 @@ test('mixed edits and collection replacement share the cap and preserve context'
   }
 
   assert.equal(session.history.past.length, MAX_HISTORY_ENTRIES)
-  assert.equal(session.history.past[0].label, 'Import networks')
+  assert.deepEqual(session.history.past[0].label, { key: 'history.importNetworks' })
   assert.equal(session.history.past[0].timestamp, 2)
   const finalCollection = session.collection
   const finalContext = session.context
@@ -201,13 +203,17 @@ test('Add/Delete Network Undo/Redo restores lifecycle contexts and frozen ordina
   let session = createCollectionEditingSession(collection())
   session = reduce(session, { type: 'select-outpost', outpostId: 'a2' })
   session = reduce(session, { type: 'add-network', networkId: 'c', outpostId: 'c1', timestamp: 1 })
-  assert.equal(session.history.past.at(-1)?.label, 'Network 3: Add network')
+  assert.deepEqual(session.history.past.at(-1)?.label, {
+    key: 'history.addNetwork', networkOrdinal: 3,
+  })
   session = reduce(session, { type: 'undo' })
   assert.deepEqual(session.context, { networkId: 'a', outpostId: 'a2' })
   session = reduce(session, { type: 'redo' })
   assert.deepEqual(session.context, { networkId: 'c', outpostId: 'c1' })
   session = reduce(session, { type: 'delete-network', timestamp: 2 })
-  assert.equal(session.history.past.at(-1)?.label, 'Network 3: Delete network')
+  assert.deepEqual(session.history.past.at(-1)?.label, {
+    key: 'history.deleteNetwork', networkOrdinal: 3,
+  })
   session = reduce(session, { type: 'undo' })
   assert.deepEqual(session.context, { networkId: 'c', outpostId: 'c1' })
   session = reduce(session, { type: 'redo' })
@@ -224,7 +230,7 @@ test('single reset and whole-collection import are contextual actions', () => {
   assert.equal(session.context.outpostId, 'fresh')
   const imported = collection(); imported.activeNetworkId = 'b'
   session = reduce(session, { type: 'replace-collection', collection: imported, timestamp: 2 })
-  assert.equal(session.history.past.at(-1)?.label, 'Import networks')
+  assert.deepEqual(session.history.past.at(-1)?.label, { key: 'history.importNetworks' })
   assert.deepEqual(session.context, { networkId: 'b', outpostId: 'b1' })
   session = reduce(session, { type: 'undo' })
   assert.deepEqual(session.context, { networkId: 'only', outpostId: 'fresh' })
@@ -234,8 +240,12 @@ test('single reset and whole-collection import are contextual actions', () => {
 
 test('history label formatting is concise for one network and prefixed for many', () => {
   const one: NetworkCollection = { schemaVersion: 1, networks: [{ id: 'a', network: network('A', 'a1') }], activeNetworkId: 'a' }
-  assert.equal(formatNetworkHistoryLabel(one, 'a', 'Edit'), 'Edit')
-  assert.equal(formatNetworkHistoryLabel(collection(), 'b', 'Edit'), 'Network 2: Edit')
+  assert.deepEqual(formatNetworkHistoryLabel(one, 'a', 'Edit'), {
+    key: 'history.benchmark', parameters: { label: 'Edit' },
+  })
+  assert.deepEqual(formatNetworkHistoryLabel(collection(), 'b', 'Edit'), {
+    key: 'history.benchmark', parameters: { label: 'Edit' }, networkOrdinal: 2,
+  })
 })
 
 test('presentation reset detection distinguishes ordinary traversal from boundaries', () => {

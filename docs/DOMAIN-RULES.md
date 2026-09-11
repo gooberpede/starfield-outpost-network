@@ -218,6 +218,10 @@ or add metadata that attempts to distinguish automatic names from user names.
 Reference IDs remain opaque stable identity regardless of their localized
 display names.
 
+Validation rules record semantic facts and stable IDs. Localized validation
+sentences, reference display names, lists, context labels, and remediation are
+presentation concerns and do not alter validation triggering or persisted data.
+
 # 5. Star system and planetary body
 
 An outpost stores:
@@ -400,7 +404,9 @@ Reordering a cargo pad must preserve:
 - outbound items;
 - cargo-link relationship.
 
-Visible positional labels may be renumbered after reordering.
+The legacy persisted positional labels are renumbered after reordering using
+the locale-independent `Pad {n}` form. Visible ordinal presentation is derived
+from current order and localized separately.
 
 Whether positional pad labels should eventually be derived instead of persisted is unresolved.
 
@@ -1127,6 +1133,11 @@ outpost memory and global contextual history remain session-only.
 
 Undo/Redo history is not domain persistence and is not saved.
 
+Session history labels are semantic descriptors rather than final display
+strings. They may relocalize when the application locale changes, while
+user-authored names captured at action time preserve the historical meaning of
+the action. These descriptors never enter collection JSON.
+
 Presentation state is not saved unless explicitly added as a future requirement.
 
 ---
@@ -1241,10 +1252,12 @@ belonging to the body. Explicitly selecting every biome is functionally equivale
 to empty but remains persisted. Body changes, and system changes that clear body,
 clear biome selection in the same undoable operation.
 
-Atmospheric inorganics remain available in every scope. Equal same-name biome
-occurrences share one button only when their inorganic and domesticable
-resource/species signatures match; otherwise the UI numbers them in `biomeIndex`
-order without changing canonical identity.
+Atmospheric inorganics remain available in every scope. Occurrences referencing
+the same stable biome identity share one button only when their inorganic and
+domesticable resource/species signatures match; otherwise the UI numbers them
+in `biomeIndex` order without changing canonical identity. Display-name
+localization uses the stable biome ID, never a body-biome occurrence ID, group
+key, or derived label.
 
 ---
 

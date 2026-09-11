@@ -77,8 +77,7 @@ function validateMissingCargoLinkEndpoints(
         ruleId: RULE_ID,
         category: 'structural',
         severity: 'error',
-        message:
-          'This cargo link refers to a missing outpost or cargo pad.',
+        messageKey: 'validation.missingCargoEndpoint',
         outpostId: endpoint.outpostId,
         cargoPadId: endpoint.cargoPadId,
       })

@@ -68,8 +68,7 @@ function validateUnresolvedCargoExports(
           ruleId: RULE_ID,
           category: 'supply',
           severity: 'warning',
-          message:
-            'This cargo export has no actual source.',
+          messageKey: 'validation.unresolvedCargoExport',
           outpostId: outpost.id,
           cargoPadId: cargoPad.id,
           cargoItem: item,

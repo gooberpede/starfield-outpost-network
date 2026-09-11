@@ -77,8 +77,7 @@ function validateRegularCargoPadCrossSystem(
         ruleId: RULE_ID,
         category: 'structural',
         severity: 'error',
-        message:
-          'This regular cargo pad is linked to an outpost in another star system.',
+        messageKey: 'validation.regularPadCrossSystem',
         outpostId: outpostA.id,
         cargoPadId: cargoPadA.id,
       })
@@ -89,8 +88,7 @@ function validateRegularCargoPadCrossSystem(
         ruleId: RULE_ID,
         category: 'structural',
         severity: 'error',
-        message:
-          'This regular cargo pad is linked to an outpost in another star system.',
+        messageKey: 'validation.regularPadCrossSystem',
         outpostId: outpostB.id,
         cargoPadId: cargoPadB.id,
       })

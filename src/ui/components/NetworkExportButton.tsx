@@ -2,6 +2,7 @@ import type { NetworkCollection } from '../../data/networkCollection'
 import { getActiveSavedNetwork } from '../../data/networkCollection'
 import { serializeNetworkCollection } from '../../data/serialization'
 import { createNetworkExportFileName } from '../../data/exportFileName'
+import { useLocalization } from '../../localization/LocalizationContext.ts'
 
 interface NetworkExportButtonProps {
   collection: NetworkCollection
@@ -12,6 +13,7 @@ export function NetworkExportButton({
   collection,
   onExport,
 }: NetworkExportButtonProps) {
+  const { t } = useLocalization()
   function exportNetwork() {
     const json = serializeNetworkCollection(collection)
     const activeCharacter = getActiveSavedNetwork(collection).network.character
@@ -42,9 +44,9 @@ export function NetworkExportButton({
     <button
       type="button"
       onClick={exportNetwork}
-      title="Export all networks to JSON"
+      title={t('transfer.export.tooltip')}
     >
-      Export
+      {t('transfer.export.button')}
     </button>
   )
 }

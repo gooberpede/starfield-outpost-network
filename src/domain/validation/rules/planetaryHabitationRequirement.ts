@@ -31,8 +31,8 @@ function validatePlanetaryHabitationRequirement(
       ruleId: RULE_ID,
       category: 'operational',
       severity: 'warning',
-      message:
-        `This outpost requires Planetary Habitation rank ${body.planetaryHabitationRank}, but the recorded character rank is ${rank}.`,
+      messageKey: 'validation.planetaryHabitationRequirement',
+      parameters: { required: body.planetaryHabitationRank, recorded: rank },
       outpostId: outpost.id,
     })
   }

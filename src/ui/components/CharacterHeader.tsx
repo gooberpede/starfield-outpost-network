@@ -28,6 +28,7 @@ import { useState } from 'react'
 
 import type { Character } from '../../domain/models'
 import { parseCharacterLevelDraft } from '../../domain/characterLevel'
+import { useLocalization } from '../../localization/LocalizationContext.ts'
 
 import './CharacterHeader.css'
 
@@ -49,6 +50,7 @@ interface CharacterLevelFieldProps {
 }
 
 function CharacterLevelField({ level, onCommit }: CharacterLevelFieldProps) {
+  const { t } = useLocalization()
   const [draftLevel, setDraftLevel] = useState(level === null ? '' : String(level))
   function commitDraft() {
     const parsed = parseCharacterLevelDraft(draftLevel)
@@ -60,7 +62,7 @@ function CharacterLevelField({ level, onCommit }: CharacterLevelFieldProps) {
   }
   return (
     <label className="character-header__field">
-      <span>Level</span>
+      <span>{t('character.level')}</span>
       <input
         className="character-header__level"
         type="text"
@@ -86,12 +88,13 @@ function CharacterNameField({
   name,
   onCommit,
 }: CharacterNameFieldProps) {
+  const { t } = useLocalization()
   const [draftName, setDraftName] =
     useState(name)
 
   return (
     <label className="character-header__field">
-      <span>Character</span>
+      <span>{t('character.name')}</span>
 
       <input
         type="text"
@@ -190,6 +193,7 @@ export function CharacterHeader({
   onLevelCommit,
   onSkillCommit,
 }: CharacterHeaderProps) {
+  const { t } = useLocalization()
   return (
     <header className="character-header">
 
@@ -208,7 +212,7 @@ export function CharacterHeader({
 
         <SkillRankField
           key={`outpostManagement:${character.skills.outpostManagement ?? 'unknown'}`}
-          label="Outpost Management"
+          label={t('character.skill.outpostManagement')}
           rank={character.skills.outpostManagement}
           skill="outpostManagement"
           onCommit={onSkillCommit}
@@ -216,7 +220,7 @@ export function CharacterHeader({
 
         <SkillRankField
           key={`planetaryHabitation:${character.skills.planetaryHabitation ?? 'unknown'}`}
-          label="Planetary Habitation"
+          label={t('character.skill.planetaryHabitation')}
           rank={character.skills.planetaryHabitation}
           skill="planetaryHabitation"
           onCommit={onSkillCommit}

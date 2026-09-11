@@ -61,6 +61,8 @@ import type {
 
 import { CargoPadEditor } from './CargoPadEditor'
 import './CargoPadsEditor.css'
+import { useLocalization } from '../../localization/LocalizationContext.ts'
+import { formatInteger } from '../../localization/formatters.ts'
 
 interface CargoPadsEditorProps {
   outpost: Outpost
@@ -124,6 +126,7 @@ export function CargoPadsEditor({
   onToggleExport,
   onToggleCargoPadType,
 }: CargoPadsEditorProps) {
+  const { locale, t } = useLocalization()
   /*
    * Selecting an outpost does not by itself constitute a cargo link.
    * Keep that partial selection in UI state until the user chooses a
@@ -429,8 +432,15 @@ export function CargoPadsEditor({
     )
 
     if (!destinationOutpost || !destinationPad) {
-      return 'Unknown cargo pad'
+      return t('cargo.destination.unknownPad')
     }
+
+    const destinationPadOrdinal = destinationOutpost.cargoPads.findIndex(
+      ({ id }) => id === destinationPadId,
+    ) + 1
+    const destinationPadDisplayLabel = t('cargo.pad.summary', {
+      ordinal: formatInteger(locale, destinationPadOrdinal),
+    })
 
   /*
   * Destination-pad labels are primarily identifiers, so use compact
@@ -459,7 +469,7 @@ export function CargoPadsEditor({
   const outboundLabel =
     outboundShortNames.length > 0
       ? outboundShortNames.join(' ')
-      : 'nothing'
+      : t('cargo.destination.nothing')
 
     /*
     * A pad can participate in only one network-level CargoLink. If this
@@ -479,7 +489,7 @@ export function CargoPadsEditor({
     )
 
     if (!existingLink) {
-      return `${destinationPad.label}: (${outboundLabel})`
+      return t('cargo.destination.padContents', { pad: destinationPadDisplayLabel, contents: outboundLabel })
     }
 
     const destinationIsEndpointA =
@@ -500,7 +510,7 @@ export function CargoPadsEditor({
       otherEndpoint.cargoPadId === localPadId
 
     if (isCurrentRelationship) {
-      return `${destinationPad.label}: (${outboundLabel})`
+      return t('cargo.destination.padContents', { pad: destinationPadDisplayLabel, contents: outboundLabel })
     }
 
     const otherOutpost = allOutposts.find(
@@ -513,13 +523,20 @@ export function CargoPadsEditor({
 
     const linkedToLabel =
       otherOutpost && otherPad
-        ? `${otherOutpost.name} / ${otherPad.label}`
-        : 'unknown cargo pad'
+        ? t('cargo.destination.linkedLocator', {
+            outpost: otherOutpost.name,
+            pad: t('cargo.pad.summary', {
+              ordinal: formatInteger(
+                locale,
+                otherOutpost.cargoPads.findIndex(({ id }) => id === otherPad.id) + 1,
+              ),
+            }),
+          })
+        : t('cargo.destination.unknownPadInline')
 
-    return (
-      `${destinationPad.label}: (${outboundLabel})` +
-      ` — linked to ${linkedToLabel}`
-    )
+    return t('cargo.destination.padContentsLinked', {
+      pad: destinationPadDisplayLabel, contents: outboundLabel, destination: linkedToLabel,
+    })
   }
 
   /**
@@ -602,7 +619,7 @@ export function CargoPadsEditor({
   return (
     <section className="cargo-pads">
       <h2>
-        Cargo Pads
+        {t('cargo.heading')}
         <span className="cargo-pads__count">
           [{outpost.cargoPads.length}
           {maxCargoPads !== null && `/${maxCargoPads}`}]
@@ -611,7 +628,7 @@ export function CargoPadsEditor({
 
       <div className="cargo-pads__actions">
         <button type="button" onClick={addCargoPad}>
-          + Add Cargo Pad
+          {t('cargo.addButton')}
         </button>
 
         <div className="cargo-pads__action-group">
@@ -621,8 +638,8 @@ export function CargoPadsEditor({
             disabled={outpost.cargoPads.length === 0}
           >
             {areAllCargoPadsExpanded
-              ? 'Collapse all'
-              : 'Expand all'}
+              ? t('cargo.collapseAll')
+              : t('cargo.expandAll')}
           </button>
 
           <button
@@ -638,7 +655,7 @@ export function CargoPadsEditor({
             disabled={!canReshuffle}
             aria-pressed={isReshuffling}
           >
-            {isReshuffling ? 'Lock order' : 'Reshuffle'}
+            {isReshuffling ? t('cargo.lockOrder') : t('cargo.reshuffleButton')}
           </button>
         </div>
       </div>
@@ -697,6 +714,9 @@ export function CargoPadsEditor({
 
         const isCollapsed =
           !(expandedPadIds[pad.id] ?? false)
+        const displayPadLabel = t('cargo.pad.summary', {
+          ordinal: formatInteger(locale, index + 1),
+        })
 
         const outboundSummaryItems =
           pad.outboundItems.map(
@@ -730,8 +750,8 @@ export function CargoPadsEditor({
                 draggable
                 onDragStart={(event) => startDrag(event, pad.id)}
                 onDragEnd={clearDrag}
-                aria-label={`Drag ${pad.label} to reorder`}
-                title={`Drag ${pad.label} to reorder`}
+                aria-label={t('common.dragToReorder', { item: displayPadLabel })}
+                title={t('common.dragToReorder', { item: displayPadLabel })}
                 tabIndex={0}
               >
                 ⠿
@@ -741,7 +761,7 @@ export function CargoPadsEditor({
                 className="cargo-pads__ordinal"
                 aria-hidden="true"
               >
-                {index + 1}
+                {formatInteger(locale, index + 1)}
               </span>
             )}
 
@@ -755,8 +775,8 @@ export function CargoPadsEditor({
                         toggleCargoPadCollapsed(pad.id)
                       }
                       aria-expanded={!isCollapsed}
-                      aria-label={`${isCollapsed ? 'Expand' : 'Collapse'} ${pad.label}`}
-                      title={`${isCollapsed ? 'Expand' : 'Collapse'} ${pad.label}`}
+                      aria-label={t(isCollapsed ? 'common.expandItem' : 'common.collapseItem', { item: displayPadLabel })}
+                      title={t(isCollapsed ? 'common.expandItem' : 'common.collapseItem', { item: displayPadLabel })}
                     >
                       <span aria-hidden="true">{isCollapsed ? '▸' : '▾'}</span>
                     </button>
@@ -764,7 +784,7 @@ export function CargoPadsEditor({
                     {pad.type === 'interstellar' && (
                       <span
                         className="cargo-pad__interstellar"
-                        title="Interstellar cargo link"
+                        title={t('cargo.interstellar')}
                       >
                         [INT]
                       </span>
@@ -775,7 +795,7 @@ export function CargoPadsEditor({
                     className="cargo-pad__destination"
                     title={remoteOutpost?.name}
                   >
-                    {remoteOutpost?.name ?? 'Unlinked'}
+                    {remoteOutpost?.name ?? t('cargo.destination.unlinked')}
                   </div>
                 </div>
 
@@ -824,6 +844,7 @@ export function CargoPadsEditor({
                 <div className="cargo-pad__body">
                   <CargoPadEditor
                     pad={pad}
+                    displayLabel={displayPadLabel}
                     outposts={allOutposts}
                     currentOutpostId={outpost.id}
                     resources={resources}
@@ -878,8 +899,8 @@ export function CargoPadsEditor({
                   type="button"
                   onClick={() => onMoveCargoPadUp(pad.id)}
                   disabled={index === 0}
-                  title={`Move ${pad.label} up`}
-                  aria-label={`Move ${pad.label} up`}
+                  title={t('common.moveUp', { item: displayPadLabel })}
+                  aria-label={t('common.moveUp', { item: displayPadLabel })}
                 >
                   ↑
                 </button>
@@ -888,8 +909,8 @@ export function CargoPadsEditor({
                   type="button"
                   onClick={() => onMoveCargoPadDown(pad.id)}
                   disabled={index === outpost.cargoPads.length - 1}
-                  title={`Move ${pad.label} down`}
-                  aria-label={`Move ${pad.label} down`}
+                  title={t('common.moveDown', { item: displayPadLabel })}
+                  aria-label={t('common.moveDown', { item: displayPadLabel })}
                 >
                   ↓
                 </button>

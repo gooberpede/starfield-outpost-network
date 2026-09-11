@@ -18,16 +18,11 @@ function validate(
       if (route.type !== 'organic' || !isProductionRouteAvailable(
         referenceData, outpost.bodyId, outpost.selectedBiomeIds ?? [], route,
       )) continue
-      const speciesName = referenceData.species.find((entry) => entry.id === route.speciesId)?.name
-        ?? route.speciesId
       for (const input of getOrganicRouteInputs(referenceData, outpost.bodyId, route)) {
         if (available.has(`resource:${input.resourceId}`)) continue
-        const inputName = referenceData.resources.find(
-          (entry) => entry.id === input.resourceId,
-        )?.name ?? input.resourceId
         issues.push({
           ruleId: RULE_ID, category: 'operational', severity: 'warning',
-          message: `${speciesName} requires ${inputName}, but ${inputName} is not available at this outpost.`,
+          messageKey: 'validation.organicInputUnavailable',
           outpostId: outpost.id, speciesId: route.speciesId,
           cargoItem: { type: 'resource', id: input.resourceId },
         })

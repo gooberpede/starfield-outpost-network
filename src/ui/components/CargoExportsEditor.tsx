@@ -23,6 +23,7 @@ import type {
   Product,
   Resource,
 } from '../../domain/models'
+import { useLocalization } from '../../localization/LocalizationContext.ts'
 
 interface CargoExportsEditorProps {
   resources: Resource[]
@@ -46,6 +47,7 @@ export function CargoExportsEditor({
   availableItems,
   onToggleExport,
 }: CargoExportsEditorProps) {
+  const { t } = useLocalization()
   const getItemKey = (item: CargoItem) =>
     `${item.type}:${item.id}`
 
@@ -95,11 +97,11 @@ export function CargoExportsEditor({
 
   return (
     <section className="cargo-exports">
-      <h4>Exports</h4>
+      <h4>{t('cargo.exports.heading')}</h4>
 
       {groups.length === 0 ? (
         <p className="cargo-exports__empty">
-          No items available to export.
+          {t('cargo.exports.empty')}
         </p>
       ) : groups.map((group, groupIndex) => (
         <div
@@ -119,7 +121,7 @@ export function CargoExportsEditor({
                 key={itemKey}
                 type="button"
                 title={candidate.name}
-                aria-label={`Toggle export for ${candidate.name}`}
+                aria-label={t('cargo.export.toggle', { item: candidate.name })}
                 aria-pressed={isExported}
                 onClick={() => onToggleExport(candidate.item)}
               >

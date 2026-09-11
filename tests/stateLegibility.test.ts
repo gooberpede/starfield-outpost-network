@@ -14,6 +14,7 @@ import {
   getManufacturingProducingState,
 } from '../src/ui/statusStates.ts'
 import { getRoutedExportDestinationNamesAtOutpost } from '../src/domain/logistics.ts'
+import { getValidationIssuePresentation } from '../src/ui/validationPresentation.ts'
 
 const referenceData: ReferenceData = {
   systems: [], bodies: [], biomes: [], bodyBiomes: [], inorganicOccurrences: [],
@@ -79,7 +80,10 @@ test('cargo export without any source still receives the warning', () => {
 
   const issues = unresolvedCargoExportRule.validate(network, referenceData)
   assert.equal(issues.length, 1)
-  assert.equal(issues[0].message, 'This cargo export has no actual source.')
+  assert.equal(
+    getValidationIssuePresentation(issues[0], network.outposts, referenceData).message,
+    'This cargo export has no actual source.',
+  )
 })
 
 test('actual local and imported cargo sources remain valid', () => {

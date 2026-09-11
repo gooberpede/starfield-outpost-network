@@ -30,6 +30,7 @@ import type {
 import type { Rarity } from '../../domain/referenceData'
 import { contextHelpText } from '../contextHelpText'
 import { ContextHelp } from './ContextHelp'
+import { useLocalization } from '../../localization/LocalizationContext.ts'
 
 import './PlannedSupplyEditor.css'
 
@@ -181,6 +182,7 @@ export function PlannedSupplyEditor({
   actuallyAvailableItems,
   onTogglePlannedSupply,
 }: PlannedSupplyEditorProps) {
+  const { t } = useLocalization()
   const [isExpanded, setIsExpanded] = useState(false)
 
   const plannedKeys = new Set(
@@ -220,7 +222,9 @@ export function PlannedSupplyEditor({
         key={itemKey}
         type="button"
         title={item.name}
-        aria-label={item.name}
+        aria-label={isAvailable
+          ? item.name
+          : t(isPlanned ? 'plannedSupply.remove' : 'plannedSupply.add', { item: item.name })}
         aria-disabled={isAvailable}
         aria-pressed={!isAvailable && isPlanned}
         style={style}
@@ -251,7 +255,7 @@ export function PlannedSupplyEditor({
         key={`${type}:${item.id}`}
         type="button"
         title={item.name}
-        aria-label={`Remove ${item.name} from Planned Supply`}
+        aria-label={t('plannedSupply.remove', { item: item.name })}
         aria-pressed="true"
         onClick={() => onTogglePlannedSupply(cargoItem)}
       >
@@ -382,13 +386,13 @@ export function PlannedSupplyEditor({
           type="button"
           title={
             isExpanded
-              ? 'Collapse Planned Supply'
-              : 'Expand Planned Supply'
+              ? t('plannedSupply.collapse')
+              : t('plannedSupply.expand')
           }
           aria-label={
             isExpanded
-              ? 'Collapse Planned Supply'
-              : 'Expand Planned Supply'
+              ? t('plannedSupply.collapse')
+              : t('plannedSupply.expand')
           }
           aria-expanded={isExpanded}
           onClick={() =>
@@ -398,16 +402,16 @@ export function PlannedSupplyEditor({
           {isExpanded ? '▼' : '▶'}
         </button>
 
-        <span>Planned Supply</span>
+        <span>{t('plannedSupply.heading')}</span>
         <ContextHelp
-          context="Planned Supply"
-          text={contextHelpText.plannedSupply}
+          context={t('plannedSupply.heading')}
+          text={t(contextHelpText.plannedSupply)}
         />
       </h2>
 
       {!isExpanded && (
         compactItemCount === 0
-          ? <p className="planned-supply__empty">No planned supply.</p>
+          ? <p className="planned-supply__empty">{t('plannedSupply.empty')}</p>
           : (
               <div className="planned-supply__compact-list">
                 {compactGroups
@@ -429,7 +433,7 @@ export function PlannedSupplyEditor({
       {isExpanded && (
         <div className="planned-supply__catalogue">
           <section className="planned-supply__section">
-            <h3>Inorganic Resources</h3>
+            <h3>{t('plannedSupply.section.inorganic')}</h3>
 
             <div className="planned-supply__overflow">
               <div className="planned-supply__inorganic">
@@ -472,7 +476,7 @@ export function PlannedSupplyEditor({
 
           <div className="planned-supply__catalogue-pair">
             <section className="planned-supply__section">
-              <h3>Organic Resources</h3>
+              <h3>{t('plannedSupply.section.organic')}</h3>
 
               {renderFlatRarityGrid(
                 organicResources,
@@ -482,7 +486,7 @@ export function PlannedSupplyEditor({
             </section>
 
             <section className="planned-supply__section">
-              <h3>Manufactured Products</h3>
+              <h3>{t('plannedSupply.section.products')}</h3>
 
               {renderFlatRarityGrid(
                 products,

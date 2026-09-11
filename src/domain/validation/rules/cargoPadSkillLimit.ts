@@ -66,8 +66,8 @@ function validateCargoPadSkillLimit(
       ruleId: RULE_ID,
       category: 'operational',
       severity: 'warning',
-      message:
-        `This outpost has ${cargoPadCount} cargo pads, but the current Outpost Management level allows a maximum of ${limit}.`,
+      messageKey: 'validation.cargoPadSkillLimit',
+      parameters: { count: cargoPadCount, limit },
       outpostId: outpost.id,
     })
   }

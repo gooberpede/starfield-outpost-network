@@ -49,7 +49,7 @@ export function TitleBar({ onAbout }: TitleBarProps) {
       <label className="title-bar__locale">
         <select
           aria-label={t('locale.selector.label')}
-          title={`${t('locale.selector.label')}: ${closedLabel}`}
+          title={t('locale.selector.current', { locale: closedLabel })}
           value={localeOverride ?? 'automatic'}
           onChange={(event) => {
             const value = event.target.value
@@ -70,7 +70,7 @@ export function TitleBar({ onAbout }: TitleBarProps) {
         className="title-bar__about"
         onClick={onAbout}
       >
-        About
+        {t('common.about')}
       </button>
     </header>
   )

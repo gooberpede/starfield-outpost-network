@@ -92,8 +92,7 @@ function validateCargoPadsLinkedMultipleTimes(
         ruleId: RULE_ID,
         category: 'structural',
         severity: 'error',
-        message:
-          'This cargo pad is linked more than once.',
+        messageKey: 'validation.cargoPadLinkedMultiple',
         outpostId: outpost.id,
         cargoPadId: cargoPad.id,
       })

@@ -34,6 +34,24 @@ export function translate(
     throw new Error(`Missing baseline localization message: ${key}`)
   }
 
+  const parameterTemplate = template.replace(
+    /\{(\w+), plural, one \{[^{}]*\} other \{[^{}]*\}\}/g,
+    '{$1}',
+  )
+  const expectedNames = new Set(
+    [...parameterTemplate.matchAll(/\{(\w+)\}/g)].map((match) => match[1]),
+  )
+  for (const name of expectedNames) {
+    if (parameters[name] === undefined) {
+      throw new Error(`Missing localization parameter "${name}" for ${key}.`)
+    }
+  }
+  for (const name of Object.keys(parameters)) {
+    if (!expectedNames.has(name)) {
+      throw new Error(`Unexpected localization parameter "${name}" for ${key}.`)
+    }
+  }
+
   return resolvePluralExpressions(template, locale, parameters).replace(
     /\{(\w+)\}/g,
     (_match, name: string) => {
@@ -44,4 +62,11 @@ export function translate(
       return String(value)
     },
   )
+}
+
+export function translateDescriptor(
+  locale: SupportedLocale,
+  descriptor: import('./types.ts').MessageDescriptor,
+): string {
+  return translate(locale, descriptor.key, descriptor.parameters)
 }

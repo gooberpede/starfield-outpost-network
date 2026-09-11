@@ -12,33 +12,44 @@ import type {
   WindEfficiency,
 } from '../domain/powerEfficiency.ts'
 import { translate } from '../localization/catalog.ts'
-import { formatList } from '../localization/formatters.ts'
+import { formatDecimal, formatList, formatPercent, getCollator } from '../localization/formatters.ts'
+import { getReferenceDisplayName } from '../localization/referenceNames.ts'
+import { getBiomeGroupDisplayName } from './biomePresentation.ts'
 import type { SupportedLocale } from '../localization/types.ts'
 import type { ManufacturingProducingState } from './statusStates.ts'
 
-const qualitativePowerLabels = {
-  'very-poor': 'Very Poor',
-  poor: 'Poor',
-  normal: 'Normal',
-  good: 'Good',
-  none: 'None',
-  unknown: 'Unknown',
+const qualitativePowerKeys = {
+  'very-poor': 'power.quality.veryPoor',
+  poor: 'power.quality.poor',
+  normal: 'power.quality.normal',
+  good: 'power.quality.good',
+  none: 'power.quality.none',
+  unknown: 'power.quality.unknown',
 } as const
 
 export function getPowerEfficiencyTooltip(
-  source: 'Solar' | 'Wind',
+  source: string,
   efficiency: SolarEfficiency | WindEfficiency,
   baseOutput: number | null,
+  locale: SupportedLocale = 'en-US',
 ): string {
-  const qualitative = qualitativePowerLabels[efficiency]
-  if (efficiency === 'unknown' || baseOutput === null) return `${source}: ${qualitative}`
+  const qualitative = translate(locale, qualitativePowerKeys[efficiency])
+  if (efficiency === 'unknown' || baseOutput === null) {
+    return translate(locale, 'power.tooltip.unknown', { source, quality: qualitative })
+  }
 
   const multiplier = baseOutput / 6
   const percentage = Math.round((multiplier - 1) * 100)
-  const modifier = percentage === 0
-    ? 'no modifier'
-    : `${percentage > 0 ? '+' : '−'}${Math.abs(percentage)}%`
-  return `${source}: ${qualitative} · ${multiplier.toFixed(2)}× output (${modifier})`
+  const multiplierText = formatDecimal(locale, multiplier)
+  if (percentage === 0) {
+    return translate(locale, 'power.tooltip.noModifier', {
+      source, quality: qualitative, multiplier: multiplierText,
+    })
+  }
+  const modifier = `${percentage > 0 ? '+' : '−'}${formatPercent(locale, Math.abs(percentage) / 100)}`
+  return translate(locale, 'power.tooltip.modified', {
+    source, quality: qualitative, multiplier: multiplierText, modifier,
+  })
 }
 
 export function getInorganicPresentTooltip(
@@ -75,6 +86,7 @@ function getSupportingSelectedBiomeNames(
   bodyId: string | null,
   selectedBiomeIds: string[],
   route: ResourceProductionRoute,
+  locale: SupportedLocale,
 ): string[] {
   if (selectedBiomeIds.length === 0) return []
   const selectedIds = new Set(selectedBiomeIds)
@@ -86,7 +98,7 @@ function getSupportingSelectedBiomeNames(
       group.bodyBiomeIds,
       route,
     ))
-    .map((group) => group.label)
+    .map((group) => getBiomeGroupDisplayName(group, locale))
 }
 
 export function getOrganicPresentTooltip(
@@ -96,6 +108,7 @@ export function getOrganicPresentTooltip(
   referenceData: ReferenceData,
   bodyId: string | null,
   selectedBiomeIds: string[],
+  locale: SupportedLocale = 'en-US',
 ): string {
   if (route.type !== 'organic') return resourceName
 
@@ -108,13 +121,15 @@ export function getOrganicPresentTooltip(
 
   if (!isPresent) {
     if (selectedBiomeIds.length === 0) {
-      return `${resourceName} is not available from this domesticable species on this planet.`
+      return translate(locale, 'help.organic.unavailablePlanet', { resource: resourceName })
     }
-    return `${resourceName} is not available from this domesticable species in the selected ${selectedBiomeIds.length === 1 ? 'biome' : 'biomes'}.`
+    return translate(locale, selectedBiomeIds.length === 1
+      ? 'help.organic.unavailableBiome'
+      : 'help.organic.unavailableBiomes', { resource: resourceName })
   }
 
   if (selectedBiomeIds.length === 0) {
-    return `${resourceName} is available from a domesticable species on this planet.`
+    return translate(locale, 'help.organic.availablePlanet', { resource: resourceName })
   }
 
   const biomeNames = getSupportingSelectedBiomeNames(
@@ -122,11 +137,16 @@ export function getOrganicPresentTooltip(
     bodyId,
     selectedBiomeIds,
     route,
+    locale,
   )
   if (biomeNames.length === 1) {
-    return `${resourceName} is available from a domesticable species in ${biomeNames[0]}.`
+    return translate(locale, 'help.organic.availableBiome', {
+      resource: resourceName, biome: biomeNames[0],
+    })
   }
-  return `${resourceName} is available from a domesticable species in the selected ${selectedBiomeIds.length === 1 ? 'biome' : 'biomes'}.`
+  return translate(locale, selectedBiomeIds.length === 1
+    ? 'help.organic.availableSelectedBiome'
+    : 'help.organic.availableBiomes', { resource: resourceName })
 }
 
 export function getDomesticableSourceNames(
@@ -134,8 +154,11 @@ export function getDomesticableSourceNames(
   bodyId: string | null,
   selectedBiomeIds: string[],
   resourceId: ResourceId,
+  locale: SupportedLocale = 'en-US',
 ): string[] {
-  const speciesById = new Map(referenceData.species.map((entry) => [entry.id, entry.name]))
+  const speciesById = new Map(referenceData.species.map((entry) => [
+    entry.id, getReferenceDisplayName('species', entry.id, entry.name, locale),
+  ]))
   const names = referenceData.planetSpecies
     .filter((entry) =>
       entry.bodyId === bodyId &&
@@ -150,7 +173,7 @@ export function getDomesticableSourceNames(
     .map((entry) => speciesById.get(entry.speciesId))
     .filter((name): name is string => Boolean(name))
 
-  return [...new Set(names)].sort((left, right) => left.localeCompare(right))
+  return [...new Set(names)].sort(getCollator(locale).compare)
 }
 
 export function getProducingTooltip(

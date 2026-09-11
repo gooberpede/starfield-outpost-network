@@ -156,7 +156,9 @@ function apply(session: CollectionEditingSession, operation: number, label: stri
   update: (network: OutpostNetwork) => OutpostNetwork,
   outpostId?: string | null): CollectionEditingSession {
   const next = reduce(session, {
-    type: 'apply-active-network', label, timestamp: operation + 1, update, outpostId,
+    type: 'apply-active-network', label: {
+      key: 'history.benchmark', parameters: { label },
+    }, timestamp: operation + 1, update, outpostId,
   })
   if (next.history.past.length !== session.history.past.length + 1) {
     throw new Error(`Benchmark operation ${operation} (${label}) did not create one history entry.`)

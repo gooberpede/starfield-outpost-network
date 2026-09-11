@@ -97,8 +97,15 @@ test('empty and explicit-all biome scope are equivalent; subsets retain atmosphe
   assert.equal(getAvailableOrganicProductionRoutes(data, 'body', ['b0']).length, 1)
 })
 
-test('same-name biomes group by inorganic and source-specific organic signatures in index order', () => {
+test('same-biome occurrences group by inorganic and source-specific organic signatures in index order', () => {
   const groups = getBiomeButtonGroups(referenceFixture(), 'body')
+  assert.deepEqual(groups.map(({ biomeId, baseLabel, ordinal }) => ({
+    biomeId, baseLabel, ordinal,
+  })), [
+    { biomeId: 'same', baseLabel: 'Volcanic', ordinal: 1 },
+    { biomeId: 'same', baseLabel: 'Volcanic', ordinal: 2 },
+    { biomeId: 'same', baseLabel: 'Volcanic', ordinal: 3 },
+  ])
   assert.deepEqual(groups.map((group) => [group.label, group.bodyBiomeIds]), [
     ['Volcanic 1', ['b0', 'b1']],
     ['Volcanic 2', ['b2']],

@@ -20,6 +20,7 @@ import {
 import type { MouseEvent } from 'react'
 
 import './AboutDialog.css'
+import { useLocalization } from '../../localization/LocalizationContext.ts'
 import { useModalDialog } from './useModalDialog'
 
 interface AboutDialogProps {
@@ -27,6 +28,7 @@ interface AboutDialogProps {
 }
 
 export function AboutDialog({ onClose }: AboutDialogProps) {
+  const { t } = useLocalization()
   const titleId = useId()
   const descriptionId = useId()
   const closeButtonRef = useRef<HTMLButtonElement>(null)
@@ -56,12 +58,12 @@ export function AboutDialog({ onClose }: AboutDialogProps) {
         onKeyDown={handleKeyDown}
       >
         <header className="about-dialog__header">
-          <h2 id={titleId}>About</h2>
+          <h2 id={titleId}>{t('common.about')}</h2>
           <button
             type="button"
             className="about-dialog__icon-close"
-            aria-label="Close About dialog"
-            title="Close"
+            aria-label={t('about.closeDialog')}
+            title={t('common.close')}
             onClick={onClose}
           >
             ×
@@ -72,14 +74,14 @@ export function AboutDialog({ onClose }: AboutDialogProps) {
           <p className="about-dialog__app-name">
             Starfield Outpost Network
           </p>
-          <p>A tracking tool for Starfield outpost networks.</p>
+          <p>{t('about.description')}</p>
           <p>
             <a
               href="https://www.flaticon.com/free-icons/cosmos"
               target="_blank"
               rel="noreferrer"
             >
-              Cosmos icons created by gravisio - Flaticon
+              {t('about.attribution')}
             </a>
           </p>
         </div>
@@ -90,7 +92,7 @@ export function AboutDialog({ onClose }: AboutDialogProps) {
             type="button"
             onClick={onClose}
           >
-            Close
+            {t('common.close')}
           </button>
         </div>
       </div>

@@ -51,8 +51,7 @@ function validateSelfLinkedCargoPads(
       ruleId: RULE_ID,
       category: 'structural',
       severity: 'error',
-      message:
-        'This cargo link connects a cargo pad to itself.',
+      messageKey: 'validation.selfLinkedCargoPad',
       outpostId: link.endpointA.outpostId,
       cargoPadId: link.endpointA.cargoPadId,
     })

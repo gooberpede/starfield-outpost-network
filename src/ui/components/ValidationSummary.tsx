@@ -248,7 +248,7 @@ export function ValidationSummary({
         >
           {t('validation.issueCount', { count: issues.length })}
         </button>
-        <ContextHelp context="Validation" text={contextHelpText.validation} />
+        <ContextHelp context={t('validation.heading')} text={t(contextHelpText.validation)} />
       </div>
 
       {isOpen && (
@@ -265,16 +265,16 @@ export function ValidationSummary({
           }}
         >
           <div className="validation-summary-panel__header">
-            <strong>Validation</strong>
+            <strong>{t('validation.heading')}</strong>
             <span>
-              {errorCount} errors ·{' '}
-              {warningCount} warnings ·{' '}
-              {infoCount} info
+              {t('validation.counts', {
+                errors: errorCount, warnings: warningCount, info: infoCount,
+              })}
             </span>
           </div>
 
           {issues.length === 0 ? (
-            <p className="validation-summary-panel__empty">No validation issues.</p>
+            <p className="validation-summary-panel__empty">{t('validation.none')}</p>
           ) : (
             <ul className="validation-summary-panel__issues technical-scrollbar">
               {keyedIssues.map(({ issue, key, actionable }) => {
