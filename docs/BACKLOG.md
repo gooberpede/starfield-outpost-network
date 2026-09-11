@@ -163,8 +163,11 @@ Future enhancements may include:
 - visible history/timeline list;
 - direct jump to an earlier history state.
 
-Current behaviour remains whole-collection immutable snapshots with one deliberate
-operation per history entry and a 1,000-entry collection-global session cap.
+The completed benchmark investigation is recorded in `docs/HISTORY-BENCHMARK.md`.
+
+Current behaviour remains whole-collection immutable before/after snapshots with
+one deliberate operation per history entry and a 1,000-entry collection-global
+session cap.
 
 ---
 
@@ -224,6 +227,78 @@ Possible future improvements:
 JSON remains a transfer vehicle, not the live/current-document model.
 
 Browser storage remains the default persistence mechanism unless explicitly redesigned.
+
+---
+
+## Repository maintenance and test infrastructure
+
+### Normalize repository line endings
+
+Git for Windows is currently using the system-level setting:
+
+```text
+core.autocrlf=true
+````
+
+As a result, `git diff --check` routinely reports LF-to-CRLF working-copy
+conversion warnings across otherwise clean changes.
+
+Add an explicit repository-level line-ending policy so checkout and commit
+behaviour is deterministic across Windows, macOS, Linux, Codex, and other
+development environments.
+
+Settled direction:
+
+* add a root `.gitattributes`;
+* prefer LF for repository text files;
+* perform any resulting one-time normalization as a dedicated housekeeping
+  change rather than mixing it into feature work;
+* review the normalization diff carefully so genuine content changes are not
+  obscured by line-ending churn;
+* preserve appropriate handling for binary/non-text files.
+
+Do not treat the current conversion warnings as feature failures in the
+meantime; `git diff --check` remains successful when it reports only these
+conversion notices.
+
+### Bring the TypeScript test fixtures back into static type agreement
+
+The Node test suite currently runs successfully through:
+
+```text
+node --experimental-strip-types --test tests/*.test.ts
+```
+
+but the test files are not part of the production TypeScript build and are not
+currently required to pass full static type checking.
+
+A temporary attempt to add the tests to the TypeScript build exposed a large
+existing set of type errors, including:
+
+* fixtures missing newly required domain fields such as character
+  `capabilities`;
+* fixtures missing outpost `explicitResourcePresence`;
+* stale object shapes such as older Cargo Link fields;
+* callbacks losing inferred parameter types because their surrounding fixture
+  types are already invalid;
+* NodeNext module-resolution complaints about the suite's existing
+  extensionless imports.
+
+The editor configuration should continue to provide Node typings without
+silently making the existing test suite part of the production `tsc -b` build.
+
+Future maintenance should:
+
+* bring test fixtures into agreement with the current domain model;
+* prefer shared/default fixture builders where that reduces stale duplicated
+  object literals without obscuring what individual tests are proving;
+* remove obsolete fixture fields and update outdated domain shapes;
+* decide on a deliberate module-resolution strategy for tests;
+* once the suite is clean, consider adding an explicit test type-check command
+  and eventually making it part of routine verification/CI.
+
+Do not mix this cleanup into unrelated feature work merely to make tests
+statically type-check.
 
 ---
 
@@ -298,20 +373,6 @@ Review at least:
 
 Do not introduce speculative security infrastructure before the audit identifies
 a concrete need.
-
----
-
-## History and editing
-
-Future enhancements may include:
-
-- visible history/timeline list;
-- direct jump to an earlier history state.
-
-The completed benchmark investigation is recorded in `docs/HISTORY-BENCHMARK.md`.
-Current behavior remains whole-collection immutable before/after snapshots with
-one deliberate operation per history entry and a 1,000-entry collection-global
-session cap.
 
 ---
 
