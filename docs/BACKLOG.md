@@ -232,35 +232,6 @@ Browser storage remains the default persistence mechanism unless explicitly rede
 
 ## Repository maintenance and test infrastructure
 
-### Normalize repository line endings
-
-Git for Windows is currently using the system-level setting:
-
-```text
-core.autocrlf=true
-````
-
-As a result, `git diff --check` routinely reports LF-to-CRLF working-copy
-conversion warnings across otherwise clean changes.
-
-Add an explicit repository-level line-ending policy so checkout and commit
-behaviour is deterministic across Windows, macOS, Linux, Codex, and other
-development environments.
-
-Settled direction:
-
-* add a root `.gitattributes`;
-* prefer LF for repository text files;
-* perform any resulting one-time normalization as a dedicated housekeeping
-  change rather than mixing it into feature work;
-* review the normalization diff carefully so genuine content changes are not
-  obscured by line-ending churn;
-* preserve appropriate handling for binary/non-text files.
-
-Do not treat the current conversion warnings as feature failures in the
-meantime; `git diff --check` remains successful when it reports only these
-conversion notices.
-
 ### Bring the TypeScript test fixtures back into static type agreement
 
 The Node test suite currently runs successfully through:
