@@ -284,13 +284,17 @@ public-facing application rather than only the developer's own use.
 The semantic localization boundary now covers current tracker-authored UI,
 accessible text, help/tooltips, validation, status/transient feedback, and
 session history labels. `en-US` is complete, `en-GB` is a sparse override, and
-current list/number/percent/collation needs use `Intl`. Deferred localization
-work includes:
+`ja-JP` now has a complete first-pass tracker-authored catalogue, glossary, and
+deterministic independent-review package. Current list/number/percent/collation
+needs use `Intl`. Japanese is not final or independently approved. Deferred
+localization work includes:
 
-- adding the complete Japanese catalogue;
+- running the independent DeepL English-source pass;
+- comparatively adjudicating and refining the Codex and DeepL drafts;
 - extracting official Bethesda Japanese terminology and generating stable-ID
   reference-name overlays;
 - Japanese font, layout, wrapping, and search hardening;
+- final Japanese release verification;
 - adopting richer ICU/FormatJS-style formatting only if future real catalogue
   content requires nested plural/select or translator-controlled rich text;
 - applying locale-aware date/time formatting if user-visible date/time display

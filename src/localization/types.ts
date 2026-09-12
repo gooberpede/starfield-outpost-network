@@ -1,4 +1,4 @@
-export const supportedLocaleIds = ['en-US', 'en-GB'] as const
+export const supportedLocaleIds = ['en-US', 'en-GB', 'ja-JP'] as const
 export type SupportedLocale = typeof supportedLocaleIds[number]
 
 export interface ApplicationPreferences {

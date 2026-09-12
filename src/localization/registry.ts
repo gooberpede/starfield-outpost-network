@@ -1,5 +1,6 @@
 import { enGBMessages } from './locales/en-GB.ts'
 import { enUSMessages } from './locales/en-US.ts'
+import { jaJPMessages } from './locales/ja-JP.ts'
 import type { LocaleMetadata, LocaleOverrides, SupportedLocale } from './types.ts'
 
 export interface LocaleRegistration extends LocaleMetadata {
@@ -14,5 +15,7 @@ export const localeRegistry: Record<SupportedLocale, LocaleRegistration> = {
   'en-GB': {
     id: 'en-GB', shortLabel: 'EN-GB', displayName: 'English (UK)', messages: enGBMessages,
   },
+  'ja-JP': {
+    id: 'ja-JP', shortLabel: '日本語', displayName: '日本語', messages: jaJPMessages,
+  },
 }
-

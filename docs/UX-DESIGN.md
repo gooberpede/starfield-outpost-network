@@ -822,9 +822,10 @@ Refer to `docs/BACKLOG.md`.
 # Locale selection
 
 The main title bar permanently presents a compact locale selector beside About.
-Its closed state shows the effective locale tag (`EN-US` or `EN-GB`), including
+Its closed state shows the effective locale tag (`EN-US`, `EN-GB`, or `JA-JP`), including
 when Automatic mode is selected. The Automatic option names its current result;
-explicit locale options use self-identifying labels. The control uses no flags
+explicit locale options use self-identifying labels; Japanese identifies itself
+as `日本語`. The control uses no flags
 and does not require a Settings or About dialog.
 
 Locale changes take effect immediately and persist as an application preference
@@ -838,6 +839,11 @@ Localized sentences should not be assembled from English fragments; lists,
 numbers, percentages, and display-name ordering use locale-aware formatters.
 Product names, stable IDs, schema/version tokens, filenames, and keyboard key
 tokens remain invariant where they are technical identity rather than prose.
+
+Japanese currently covers tracker-authored copy as a review-stage complete
+catalogue. Parcel B1 is not layout-final: Japanese font choice, wrapping,
+density, and search behavior remain deferred to Parcel E unless a defect makes
+the interface non-functional.
 
 # Accessibility baseline
 

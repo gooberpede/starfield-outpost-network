@@ -48,7 +48,7 @@ test('application preferences persist separately and recover invalid values as A
   const storage = new MemoryStorage()
   assert.deepEqual(loadApplicationPreferences(storage), { localeOverride: null })
 
-  for (const localeOverride of [null, 'en-US', 'en-GB'] as const) {
+  for (const localeOverride of [null, 'en-US', 'en-GB', 'ja-JP'] as const) {
     saveApplicationPreferences({ localeOverride }, storage)
     assert.deepEqual(loadApplicationPreferences(storage), { localeOverride })
   }
@@ -73,6 +73,7 @@ test('selector model exposes the effective closed label and dynamic Automatic ro
     { value: 'automatic', label: 'Automatic (EN-GB)' },
     { value: 'en-US', label: 'English (US)' },
     { value: 'en-GB', label: 'English (UK)' },
+    { value: 'ja-JP', label: '日本語' },
   ])
   assert.equal(resolveEffectiveLocale('en-US', ['en-GB']), 'en-US')
 

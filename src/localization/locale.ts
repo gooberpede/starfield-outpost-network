@@ -17,6 +17,7 @@ export function resolveBrowserLocale(
 ): SupportedLocale {
   for (const language of languages ?? []) {
     const normalized = language.trim().toLowerCase()
+    if (normalized === 'ja' || normalized.startsWith('ja-')) return 'ja-JP'
     if (normalized === 'en-us' || normalized.startsWith('en-us-')) return 'en-US'
     if (normalized === 'en' || normalized.startsWith('en-')) return 'en-GB'
   }

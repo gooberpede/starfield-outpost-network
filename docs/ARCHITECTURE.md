@@ -619,7 +619,10 @@ between invalid-skill and habitation validation.
 
 Localization is application presentation infrastructure under
 `src/localization/`. `en-US` is the complete baseline and fallback catalogue;
-regional variants such as `en-GB` may supply sparse overrides. The semantic
+`ja-JP` is a complete release-oriented catalogue, while regional variants such
+as `en-GB` may supply sparse overrides. Tests require complete locales to have
+exact key and placeholder parity with `en-US`; runtime fallback remains only as
+defensive resilience. The semantic
 catalogue is the boundary for tracker-authored visible copy, accessible names,
 tooltips/help, validation presentation, transient status, and history labels.
 The registry owns locale metadata and catalogue registration so feature
@@ -637,6 +640,15 @@ the effective locale changes.
 Reference display names use a separate sparse overlay keyed by stable reference
 kind and ID. Resolution is locale override, canonical runtime name, then raw ID.
 The overlay never changes reference identity or generated reference datasets.
+Japanese tracker copy therefore remains independent of Bethesda-owned resource,
+product, system, body, biome, species, and other reference names. Those names
+continue to use canonical fallback until official stable-ID overlays are built.
+
+Japanese translation approval is staged: Parcel B1 supplies the Codex first
+draft, glossary, and deterministic English-source review package; Parcel B2
+creates an independent translation without seeing that draft; Parcel B3
+adjudicates the keyed comparison; and Parcel B4 performs final integration and
+verification. A complete runtime catalogue does not imply human approval.
 
 Validation rules emit a required semantic `messageKey`, structured parameters,
 and stable target/reference IDs rather than completed English sentences. The
