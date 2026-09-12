@@ -13,6 +13,14 @@ export const NAME_NORMALIZATIONS = Object.freeze([
     reasonCode: 'TRACKER_NORMALIZATION',
     detail: 'xEdit structural source preserves SOL; official localized STDT FULL is Sol.',
   }),
+  Object.freeze({
+    entityKind: 'body',
+    entityId: '00223320',
+    expectedSourceEnglish: '_TridentLuxuryLinesOrbital',
+    expectedLocalizedEnglish: 'Trident Luxury Liners Staryard',
+    reasonCode: 'TRACKER_NORMALIZATION',
+    detail: 'Canonical PNDT structural text is an internal orbital label; official localized PNDT FULL is Trident Luxury Liners Staryard.',
+  }),
 ])
 
 export function buildNameNormalizationPolicy(entries = NAME_NORMALIZATIONS) {

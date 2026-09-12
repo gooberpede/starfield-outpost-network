@@ -147,6 +147,7 @@ test('base and Shattered Space systems share one pipeline; zero-target plugins a
 
 test('approves only the exact system:0 SOL to Sol source/display normalization', () => {
   const policy = buildNameNormalizationPolicy()
+  const systemNormalizations = NAME_NORMALIZATIONS.filter((entry) => entry.entityKind === 'system')
   const target = {
     entityKind: 'system', entityId: '0', canonicalEnglish: 'SOL',
     bodies: [{ recordSourcePlugin: 'Starfield.esm', recordFormId: '00000001', recordSignature: 'PNDT' }],
@@ -161,10 +162,10 @@ test('approves only the exact system:0 SOL to Sol source/display normalization',
   assert.deepEqual(result.normalizations.map((item) => [item.EntityKind, item.EntityId, item.ExpectedSourceEnglish, item.ExpectedLocalizedEnglish, item.ReasonCode]), [
     ['system', '0', 'SOL', 'Sol', 'TRACKER_NORMALIZATION'],
   ])
-  assert.equal(validateNameNormalizations(NAME_NORMALIZATIONS, [target], result.provenance, result.unresolved, result.normalizations), 1)
+  assert.equal(validateNameNormalizations(systemNormalizations, [target], result.provenance, result.unresolved, result.normalizations), 1)
   assert.throws(
     () => validateNameNormalizations(
-      NAME_NORMALIZATIONS, [target], result.provenance, result.unresolved,
+      systemNormalizations, [target], result.provenance, result.unresolved,
       result.normalizations.map((item) => ({ ...item, ExpectedLocalizedEnglish: 'Sun' })),
     ),
     /does not exactly match/,

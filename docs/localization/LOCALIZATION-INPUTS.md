@@ -64,7 +64,7 @@ and zlib-framed compressed members. Unsupported versions/types and malformed or
 truncated members fail with stable error codes. It does not support texture
 archives or arbitrary asset extraction.
 
-## Rerun C2/C3 with extracted English tables
+## Rerun C2-C4 with extracted English tables
 
 Point the ignored provenance config at the intake manifest. C3 requires the
 declared official plugin set even when a plugin contributes zero canonical
@@ -113,6 +113,23 @@ expected values. The resolved provenance row retains the structural
 `CanonicalEnglish`; the approved official string is authoritative for later
 localized display generation. The generated `localized-name-normalizations.csv`
 keeps each approved source/display pair visible and independently validated.
+
+C4 independently treats every row in `planet-directory.csv` as one canonical
+body target. `Planet`, `Moon`, and `Orbital` rows are peers for provenance:
+membership comes only from the checked-in tracker population, never from a scan
+for additional PNDT or station records. Each target is looked up by its exact
+source plugin and FormID, and its name is read only from
+`baseFormComponents.TESFullName_Component.fullName.FULL`; inline `ANAM` text is
+not provenance. Every target must have exactly one resolved or unresolved row.
+The same four official plugins are supported, and a supported plugin may
+legitimately contribute zero targets.
+
+Installed-game regeneration should report body totals by source plugin and by
+the canonical `Planet`/`Moon`/`Orbital` types. Representative review covers
+Akila, Volii Alpha, gas and ice giants, a Shattered Space body, and canonical
+orbitals such as The Eye, The Den, The Oracle, ECS Constant, and Deimos
+Staryard. Structural-source/display differences remain exact, entity-scoped
+normalizations; unsupported shapes remain explicit unresolved rows.
 
 ## Add another language
 

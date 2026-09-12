@@ -746,6 +746,25 @@ use the same population and lookup path. A supported plugin may legitimately
 contribute zero targets, while missing, conflicting, ambiguous, or mismatched
 systems remain explicit in the unresolved crosswalk.
 
+Parcel C4 adds one direct row per canonical tracker body:
+
+```text
+canonical planet-directory row
+    -> exact source plugin + PNDT FormID
+    -> PNDT TESFullName_Component.FULL localized ID
+    -> exact official English verification
+```
+
+The checked-in tracker population is the complete scope boundary. `Planet`,
+`Moon`, and `Orbital` rows are peer body targets, including unusual and
+non-landable bodies; the pipeline does not scan PNDT records to discover
+additional stations or celestial objects. All current canonical shapes use the
+same full-name component route, and inline `ANAM` text is never accepted as
+localized-name provenance. Any future structural exception must remain an
+explicit unresolved row until a target-specific semantic route is audited.
+Source/display differences use the same exact entity-scoped normalization
+policy as system names.
+
 Exact English equality remains the default verification rule. A structural
 canonical value is never rewritten merely to match localized display text. A
 localized value may differ only through a checked-in approval keyed by stable
@@ -763,7 +782,7 @@ explicit BA2 v2 GNRL paths
     -> member-table enumeration
     -> exact plugin-base + locale + table-type selection
     -> ignored local official string tables + hashes
-    -> C2/C3 English verification
+    -> C2-C4 English verification
     -> future Parcel D locale overlays
 ```
 
@@ -776,8 +795,8 @@ intake, not general archive discovery, inherited override analysis, or a BA2
 browser.
 
 This build-time boundary does not run in the browser, participate in application
-persistence, or resolve runtime display text. Bodies, species, composed names,
-override hardening, and final coverage remain in C4-C8. Japanese overlay
+persistence, or resolve runtime display text. Species, composed names,
+override hardening, and final coverage remain in C5-C8. Japanese overlay
 generation and display-consumer changes remain wholly deferred to Parcel D.
 
 # 15. Reference-data loading

@@ -4,6 +4,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { buildC2Targets, generateProvenance, PROVENANCE_HEADERS, serializeCsv, UNRESOLVED_HEADERS } from './localized-name-provenance.mjs'
+import { buildC4Targets } from './body-provenance.mjs'
 import { localizationInputsFromManifest } from './localization-input-manifest.mjs'
 import { buildNameNormalizationPolicy, NAME_NORMALIZATION_HEADERS, NAME_NORMALIZATIONS, validateNameNormalizations } from './name-normalization-policy.mjs'
 import { createProvenanceManifest } from './provenance-manifest.mjs'
@@ -56,6 +57,7 @@ export async function buildLocalizedNameProvenance(options) {
   const sources = await loadSources()
   const { targets: c2Targets, statistics: c2Statistics } = buildC2Targets(sources)
   const { targets: systemTargets, statistics: systemStatistics } = buildC3Targets(sources.planets)
+  const { targets: bodyTargets, statistics: bodyStatistics } = buildC4Targets(sources.planets)
   const pluginByName = new Map(plugins.map((item) => [item.filename, item]))
   const missingOfficialPlugins = OFFICIAL_SYSTEM_PLUGINS.filter((plugin) => !pluginByName.has(plugin))
   if (missingOfficialPlugins.length) throw new Error(`Missing required official plugin input(s): ${missingOfficialPlugins.join(', ')}.`)
@@ -63,6 +65,7 @@ export async function buildLocalizedNameProvenance(options) {
   const recordTargets = [
     ...c2Targets,
     ...systemTargets.flatMap((item) => item.bodies.map((body) => ({ ...body, entityKind: 'body-evidence' }))),
+    ...bodyTargets,
   ]
   for (const pluginName of new Set(recordTargets.map((item) => item.recordSourcePlugin))) {
     const plugin = pluginByName.get(pluginName)
@@ -84,12 +87,13 @@ export async function buildLocalizedNameProvenance(options) {
   const normalizationPolicy = buildNameNormalizationPolicy()
   const c2Result = generateProvenance(c2Targets, recordsByPlugin, tables, normalizationPolicy)
   const systemResult = generateSystemProvenance(systemTargets, recordsByPlugin, starRecordsByPlugin, tables, normalizationPolicy)
+  const bodyResult = generateProvenance(bodyTargets, recordsByPlugin, tables, normalizationPolicy)
   const result = {
-    provenance: [...c2Result.provenance, ...systemResult.provenance].sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || Number(a.ComponentOrder) - Number(b.ComponentOrder)),
-    unresolved: [...c2Result.unresolved, ...systemResult.unresolved].sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || a.ReasonCode.localeCompare(b.ReasonCode)),
-    normalizations: [...c2Result.normalizations, ...systemResult.normalizations],
+    provenance: [...c2Result.provenance, ...systemResult.provenance, ...bodyResult.provenance].sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || Number(a.ComponentOrder) - Number(b.ComponentOrder)),
+    unresolved: [...c2Result.unresolved, ...systemResult.unresolved, ...bodyResult.unresolved].sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || a.ReasonCode.localeCompare(b.ReasonCode)),
+    normalizations: [...c2Result.normalizations, ...systemResult.normalizations, ...bodyResult.normalizations],
   }
-  validateNameNormalizations(NAME_NORMALIZATIONS, [...c2Targets, ...systemTargets], result.provenance, result.unresolved, result.normalizations)
+  validateNameNormalizations(NAME_NORMALIZATIONS, [...c2Targets, ...systemTargets, ...bodyTargets], result.provenance, result.unresolved, result.normalizations)
   const fatal = c2Result.unresolved.filter((row) => ['CANONICAL_SOURCE_ERROR', 'MISSING_STRING_ID', 'WRONG_FIELD', 'WRONG_PLUGIN', 'WRONG_TABLE'].includes(row.ReasonCode))
   if (fatal.length) throw new Error(`English provenance verification failed: ${fatal.map((row) => `${row.EntityKind}:${row.EntityId} ${row.ReasonCode}`).join(', ')}.`)
 
@@ -104,7 +108,19 @@ export async function buildLocalizedNameProvenance(options) {
   await mkdir(path.dirname(manifestPath), { recursive: true })
   await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8')
   const owningPluginCounts = Object.fromEntries(OFFICIAL_SYSTEM_PLUGINS.map((plugin) => [plugin, systemResult.provenance.filter((row) => row.RecordSourcePlugin === plugin).length]))
-  return { ...result, statistics: { ...c2Statistics, ...systemStatistics, owningPluginCounts }, manifest, manifestPath }
+  const bodyResolvedPluginCounts = Object.fromEntries(OFFICIAL_SYSTEM_PLUGINS.map((plugin) => [plugin, bodyResult.provenance.filter((row) => row.RecordSourcePlugin === plugin).length]))
+  const bodyUnresolvedPluginCounts = Object.fromEntries(OFFICIAL_SYSTEM_PLUGINS.map((plugin) => [plugin, bodyResult.unresolved.filter((row) => row.RecordSourcePlugin === plugin).length]))
+  const orbitalIds = new Set(bodyTargets.filter((target) => target.bodyType === 'Orbital').map((target) => target.entityId))
+  return {
+    ...result,
+    statistics: {
+      ...c2Statistics, ...systemStatistics, ...bodyStatistics, owningPluginCounts,
+      bodyResolvedPluginCounts, bodyUnresolvedPluginCounts,
+      orbitalResolved: bodyResult.provenance.filter((row) => orbitalIds.has(row.EntityId)).length,
+      orbitalUnresolved: bodyResult.unresolved.filter((row) => orbitalIds.has(row.EntityId)).length,
+    },
+    manifest, manifestPath,
+  }
 }
 
 async function main() {
@@ -120,6 +136,14 @@ async function main() {
   process.stdout.write(
     `Biome targets ${report.statistics.uniqueBiomes}; resolved rows ${resolvedBiomes}; ` +
     `repeated-name groups ${report.statistics.repeatedBiomeNameGroups}\nManifest ${report.manifestPath}\n`,
+  )
+  const resolvedBodies = report.provenance.filter((row) => row.EntityKind === 'body').length
+  const unresolvedBodies = report.unresolved.filter((row) => row.EntityKind === 'body').length
+  process.stdout.write(
+    `Body targets ${report.statistics.canonicalBodies}; types ${JSON.stringify(report.statistics.bodyTypeCounts)}\n` +
+    `Bodies resolved ${resolvedBodies}; unresolved ${unresolvedBodies}; source targets ${JSON.stringify(report.statistics.sourcePluginCounts)}\n` +
+    `Body resolved by plugin ${JSON.stringify(report.statistics.bodyResolvedPluginCounts)}; unresolved by plugin ${JSON.stringify(report.statistics.bodyUnresolvedPluginCounts)}\n` +
+    `Orbitals resolved ${report.statistics.orbitalResolved}; unresolved ${report.statistics.orbitalUnresolved}\n`,
   )
   const resolvedSystems = report.provenance.filter((row) => row.EntityKind === 'system').length
   const unresolvedSystems = report.unresolved.filter((row) => row.EntityKind === 'system').length

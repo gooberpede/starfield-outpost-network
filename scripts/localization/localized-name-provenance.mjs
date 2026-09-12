@@ -224,7 +224,7 @@ export function validateCommittedCrosswalk(provenanceCsv, unresolvedCsv, targets
   const expected = new Set(targets.map((item) => `${item.entityKind}:${item.entityId}`))
   if ([...coverage].some(([key, count]) => !expected.has(key) || count !== 1) ||
       targets.some((item) => coverage.get(`${item.entityKind}:${item.entityId}`) !== 1)) {
-    throw new Error('Committed C2/C3 crosswalk does not cover every canonical target exactly once.')
+    throw new Error('Committed C2-C4 crosswalk does not cover every canonical target exactly once.')
   }
 
   const targetByIdentity = new Map(targets.map((item) => [`${item.entityKind}:${item.entityId}`, item]))
