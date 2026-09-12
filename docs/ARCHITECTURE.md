@@ -644,11 +644,12 @@ Japanese tracker copy therefore remains independent of Bethesda-owned resource,
 product, system, body, biome, species, and other reference names. Those names
 continue to use canonical fallback until official stable-ID overlays are built.
 
-Japanese translation approval is staged: Parcel B1 supplies the Codex first
-draft, glossary, and deterministic English-source review package; Parcel B2
-creates an independent translation without seeing that draft; Parcel B3
-adjudicates the keyed comparison; and Parcel B4 performs final integration and
-verification. A complete runtime catalogue does not imply human approval.
+Japanese tracker-catalogue work closed after Parcels B1-B4 supplied the Codex
+first draft, an independent English-source translation, keyed comparative
+adjudication, and final integration verification. The resulting 330-message
+catalogue has exact key and placeholder parity with `en-US`. Its 114
+Bethesda-dependent terminology decisions remain provisional pending Parcels
+C/D, and the machine-assisted review does not imply native-speaker approval.
 
 Validation rules emit a required semantic `messageKey`, structured parameters,
 and stable target/reference IDs rather than completed English sentences. The

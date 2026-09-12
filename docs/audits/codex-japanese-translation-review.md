@@ -241,3 +241,20 @@ remained English fallbacks as expected because no Japanese overlay was added.
 No reference-name overlay, Bethesda BA2/string extraction, persistence or
 schema work, layout/font work, dependency change, commit, or push was performed
 for this parcel.
+
+## 18. Parcel B4 closure
+
+Parcel B4 re-ran the deterministic catalogue review and all repository gates,
+then completed a targeted Japanese browser smoke test. The tracker-authored
+catalogue remains complete at 330/330 keys with placeholder, ICU, and protected-
+token integrity intact; no unintended tracker-owned English fallback or runtime
+integration defect was found. Japanese remained selectable and self-labelled as
+`日本語`, Automatic Japanese locale matching remained covered, and the runtime
+document language was `ja-JP`.
+
+Parcel B is therefore closed. The 114 Bethesda-dependent terminology decisions
+remain intentionally provisional for Parcels C/D. Japanese font, wrapping,
+layout, and search hardening remain deferred to Parcel E. No native-speaker
+review was available, though one remains useful if it becomes available. B4 did
+not perform BA2/string extraction, reference-name overlay work, Japanese layout
+or search hardening, persistence/schema changes, or production-code changes.

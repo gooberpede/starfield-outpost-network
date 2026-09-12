@@ -284,13 +284,12 @@ public-facing application rather than only the developer's own use.
 The semantic localization boundary now covers current tracker-authored UI,
 accessible text, help/tooltips, validation, status/transient feedback, and
 session history labels. `en-US` is complete, `en-GB` is a sparse override, and
-`ja-JP` now has a complete first-pass tracker-authored catalogue, glossary, and
-deterministic independent-review package. Current list/number/percent/collation
-needs use `Intl`. Japanese is not final or independently approved. Deferred
-localization work includes:
+the B1-B4 `ja-JP` tracker catalogue is closed at 330 messages with exact key and
+placeholder parity. It has a durable glossary, comparative machine-assisted
+review, and closure verification, but no native-speaker review was available.
+Current list/number/percent/collation needs use `Intl`. Deferred localization
+work includes:
 
-- running the independent DeepL English-source pass;
-- comparatively adjudicating and refining the Codex and DeepL drafts;
 - extracting official Bethesda Japanese terminology and generating stable-ID
   reference-name overlays;
 - Japanese font, layout, wrapping, and search hardening;
