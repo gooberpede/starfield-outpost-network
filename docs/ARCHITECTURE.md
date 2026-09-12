@@ -670,6 +670,41 @@ kept separately from localized user-facing copy.
 decimals, percentages, and display-name collation. Export filename timestamps,
 schema values, IDs, and other technical identity remain invariant.
 
+## 14.2 Build-time localized-string provenance boundary
+
+Canonical localized-name provenance uses deliberately separate authorities:
+
+```text
+xEdit / canonical sources
+    -> semantic identity, relationships, discovery, and later provider analysis
+narrow ESM reader
+    -> raw serialized localized uint32 IDs only
+project-owned semantic field map
+    -> allowlisted record path and string-table type
+later Parcel D tooling
+    -> localized text resolution and runtime overlays
+```
+
+The C1 tooling lives under `scripts/localization/`. Its binary layer supports
+only 24-byte record/group framing, recursive groups, compressed records, `XXXX`
+subrecord sizes, and exact raw FormID selection for the four audited signatures.
+The semantic layer, rather than the binary reader, decides whether a `FULL`
+subrecord is the intended localized field. Unknown, missing, or ambiguous shapes
+fail closed. The current component route is specifically bounded by serialized
+`BFCB`/`BFCE` markers for `TESFullName_Component`; this is not a claim of generic
+Starfield component parsing.
+
+Plugin files are opened read-only and are required only for an opt-in local proof.
+Unit tests use project-authored synthetic framing, and local manifests retain a
+normalized filename, size, SHA-256, declared load order, tool version, game
+version, and generation timestamp. No ESM, BA2, string-table contents, or raw
+record dumps belong in the repository.
+
+This build-time boundary does not run in the browser, alter canonical reference
+CSVs, participate in application persistence, or resolve display text. C2-C8
+remain responsible for population coverage, systems/bodies, fauna and composed
+names, load-order/override hardening, verification, and builder integration.
+
 # 15. Reference-data loading
 
 Reference data is loaded through the data layer and then supplied to the application.

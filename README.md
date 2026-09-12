@@ -199,6 +199,38 @@ Planned Supply. Its recorded presence is an explicit outpost fact rather than a
 canonical biome occurrence. Localized names are presentation-only and never
 determine persisted identity.
 
+### Localized-string provenance proof
+
+Parcel C1 includes a narrow, read-only build tool for recovering raw localized
+string IDs from four audited `Starfield.esm` record fields. It is not a general
+plugin parser and is never used by the browser application. Ordinary CI uses
+project-authored synthetic bytes only; no Bethesda binary data is stored in the
+repository.
+
+With a locally installed, legally owned copy of Starfield, run:
+
+```powershell
+npm run localization:provenance:proof -- --plugin "C:\path\to\Starfield.esm"
+```
+
+The proof is pinned to Starfield `1.16.244.0` and SHA-256
+`1DABED00C3F4282DD3BB54D2E9601E40B577D8742D078B7CCEF203ADBFEF0DA7`.
+The command reports the observed size/hash and writes a local reproducibility
+manifest under `.local-work/localization/provenance/`. If the hash differs, it
+still reports extracted values but requires `--acknowledge-hash-mismatch` before
+treating proof-value differences as test failures. Review and re-audit version
+drift rather than updating the pinned profile blindly.
+
+Run the synthetic parser tests independently with:
+
+```powershell
+npm run localization:provenance:test
+```
+
+The tool does not read BA2/string tables, emit localized Bethesda text, generate
+runtime overlays, or modify plugin files. Later Parcel C work will build on its
+semantic field map and manifest without moving game-file parsing into runtime.
+
 ## Project status
 
 This project is in active development.
