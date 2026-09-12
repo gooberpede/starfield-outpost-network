@@ -14,6 +14,9 @@ import {
   buildC5Targets, buildNamingRules, C6_HANDOFF_HEADERS, generateOrganicProvenance, ORGANIC_CLASSIFICATIONS, TEMPLATE_LINEAGE_HEADERS,
 } from './organic-provenance.mjs'
 import { createProvenanceManifest } from './provenance-manifest.mjs'
+import {
+  AUTHORITATIVE_LOCALIZATION_PLUGINS, buildSupportedProviderChains, logicalIdentityForRecord, readTes4MasterList,
+} from './official-master-provider-chains.mjs'
 import { findAvailableRecordsInPlugin, findRecordsBySignaturesInPlugin, findStarRecordsInPlugin } from './starfield-plugin-reader.mjs'
 import { buildC3Targets, generateSystemProvenance, OFFICIAL_SYSTEM_PLUGINS } from './star-system-provenance.mjs'
 import { readStringTable } from './string-table-reader.mjs'
@@ -29,6 +32,17 @@ const SOURCES = {
   planets: 'reference-source/planet-directory.csv',
   c6Fauna: 'reference-source/localized-name-provenance-c6-fauna.csv',
 }
+const PROVIDER_SIGNATURES = Object.freeze(['IRES', 'BIOM', 'PERK', 'STDT', 'PNDT', 'FLOR', 'NPC_', 'LVLN', 'OMOD', 'INNR'])
+const EXPECTED_FULL_MODULE_MASTERS = Object.freeze({
+  'Starfield.esm': Object.freeze([]),
+  'ShatteredSpace.esm': Object.freeze(['Starfield.esm']),
+  'SFBGS00D.esm': Object.freeze(['Starfield.esm']),
+})
+const INSTALLED_C7_EXPECTED = Object.freeze({
+  resolvedEntities: 3539, provenanceRows: 4796, unresolvedRows: 0, distinctRecords: 2619,
+  singleProviderRows: 4795, overrideRows: 1, winnerOwnsRows: 4796, inheritedRows: 0,
+  nameProviders: Object.freeze({ 'Starfield.esm': 4759, 'ShatteredSpace.esm': 35, 'SFBGS00D.esm': 2 }),
+})
 
 function parseArguments(args) {
   const result = {}
@@ -66,6 +80,21 @@ export async function buildLocalizedNameProvenance(options) {
   const pluginByName = new Map(plugins.map((item) => [item.filename, item]))
   const missingOfficialPlugins = OFFICIAL_SYSTEM_PLUGINS.filter((plugin) => !pluginByName.has(plugin))
   if (missingOfficialPlugins.length) throw new Error(`Missing required official plugin input(s): ${missingOfficialPlugins.join(', ')}.`)
+  const mastersByPlugin = new Map()
+  const authoritativeRecordsByPlugin = new Map()
+  for (const pluginName of AUTHORITATIVE_LOCALIZATION_PLUGINS) {
+    const plugin = pluginByName.get(pluginName)
+    if (!plugin) throw new Error(`Missing required authoritative localization plugin input: ${pluginName}.`)
+    const masters = readTes4MasterList(plugin.path)
+    if (JSON.stringify(masters) !== JSON.stringify(EXPECTED_FULL_MODULE_MASTERS[pluginName])) {
+      throw new Error(`C7 ${pluginName} full-module master list drifted: ${JSON.stringify(masters)}.`)
+    }
+    mastersByPlugin.set(pluginName, masters)
+    authoritativeRecordsByPlugin.set(pluginName, findRecordsBySignaturesInPlugin(plugin.path, PROVIDER_SIGNATURES))
+  }
+  const providerChains = buildSupportedProviderChains(AUTHORITATIVE_LOCALIZATION_PLUGINS.map((plugin) => ({
+    plugin, masters: mastersByPlugin.get(plugin), records: authoritativeRecordsByPlugin.get(plugin),
+  })))
   const recordsByPlugin = new Map()
   const recordTargets = [
     ...c2Targets,
@@ -107,9 +136,10 @@ export async function buildLocalizedNameProvenance(options) {
     if (locale === 'en') tables.set(`${input.plugin}:${input.tableType}`, table)
   }
   const normalizationPolicy = buildNameNormalizationPolicy()
-  const c2Result = generateProvenance(c2Targets, recordsByPlugin, tables, normalizationPolicy)
+  const providerContext = { mastersByPlugin, providerChains }
+  const c2Result = generateProvenance(c2Targets, recordsByPlugin, tables, normalizationPolicy, providerContext)
   const systemResult = generateSystemProvenance(systemTargets, recordsByPlugin, starRecordsByPlugin, tables, normalizationPolicy)
-  const bodyResult = generateProvenance(bodyTargets, recordsByPlugin, tables, normalizationPolicy)
+  const bodyResult = generateProvenance(bodyTargets, recordsByPlugin, tables, normalizationPolicy, providerContext)
   const organicResult = generateOrganicProvenance(
     organicTargets, organicCanonicalRecords, organicRelationshipRecords, tables,
     buildNamingRules(organicRelationshipRecords), normalizationPolicy,
@@ -127,6 +157,7 @@ export async function buildLocalizedNameProvenance(options) {
     unresolved: [...c2Result.unresolved, ...systemResult.unresolved, ...bodyResult.unresolved, ...organicUnresolved].sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || a.ReasonCode.localeCompare(b.ReasonCode)),
     normalizations: [...c2Result.normalizations, ...systemResult.normalizations, ...bodyResult.normalizations, ...organicResult.normalizations],
   }
+  const providerStatistics = validateInstalledC7Population(result, providerChains, mastersByPlugin, localizedTables)
   validateNameNormalizations(NAME_NORMALIZATIONS, [...c2Targets, ...systemTargets, ...bodyTargets, ...organicTargets], result.provenance, result.unresolved, result.normalizations)
   const fatal = [...c2Result.unresolved, ...organicUnresolved].filter((row) => ['CANONICAL_SOURCE_ERROR', 'MISSING_STRING_ID', 'WRONG_FIELD', 'WRONG_PLUGIN', 'WRONG_TABLE'].includes(row.ReasonCode))
   if (fatal.length) throw new Error(`English provenance verification failed: ${fatal.map((row) => `${row.EntityKind}:${row.EntityId} ${row.ReasonCode}`).join(', ')}.`)
@@ -155,10 +186,58 @@ export async function buildLocalizedNameProvenance(options) {
       bodyResolvedPluginCounts, bodyUnresolvedPluginCounts,
       orbitalResolved: bodyResult.provenance.filter((row) => orbitalIds.has(row.EntityId)).length,
       orbitalUnresolved: bodyResult.unresolved.filter((row) => orbitalIds.has(row.EntityId)).length,
+      providerChains: providerStatistics,
     },
     organic: { ...organicResult, unresolved: organicUnresolved, classifications: organicClassifications, handoff: c6Result.handoff }, c6: c6Result,
     manifest, manifestPath,
   }
+}
+
+function validateInstalledC7Population(result, providerChains, mastersByPlugin, localizedTables) {
+  const identities = new Set()
+  let singleProviderRows = 0
+  let overrideRows = 0
+  let winnerOwnsRows = 0
+  let inheritedRows = 0
+  for (const row of result.provenance) {
+    const identity = logicalIdentityForRecord(
+      row.RecordSourcePlugin, mastersByPlugin, row.RecordSignature, Number.parseInt(row.RecordFormID, 16) >>> 0,
+    )
+    identities.add(identity.key)
+    const chain = providerChains.get(identity.key)
+    if (!chain?.length) throw new Error(`C7 provider chain missing for ${row.EntityKind}:${row.EntityId}.`)
+    if (chain.length === 1) singleProviderRows += 1
+    else overrideRows += 1
+    if (row.NameSourcePlugin === chain.at(-1).plugin) winnerOwnsRows += 1
+    else inheritedRows += 1
+  }
+  const nameProviders = Object.fromEntries(AUTHORITATIVE_LOCALIZATION_PLUGINS.map((plugin) => [
+    plugin, result.provenance.filter((row) => row.NameSourcePlugin === plugin).length,
+  ]))
+  const statistics = {
+    resolvedEntities: new Set(result.provenance.map((row) => `${row.EntityKind}:${row.EntityId}`)).size,
+    provenanceRows: result.provenance.length, unresolvedRows: result.unresolved.length,
+    distinctRecords: identities.size, singleProviderRows, overrideRows, winnerOwnsRows, inheritedRows, nameProviders,
+  }
+  for (const key of ['resolvedEntities', 'provenanceRows', 'unresolvedRows', 'distinctRecords', 'singleProviderRows', 'overrideRows', 'winnerOwnsRows', 'inheritedRows']) {
+    if (statistics[key] !== INSTALLED_C7_EXPECTED[key]) throw new Error(`C7 installed invariant ${key} expected ${INSTALLED_C7_EXPECTED[key]}, received ${statistics[key]}.`)
+  }
+  if (JSON.stringify(nameProviders) !== JSON.stringify(INSTALLED_C7_EXPECTED.nameProviders)) {
+    throw new Error(`C7 installed name-provider counts drifted: ${JSON.stringify(nameProviders)}.`)
+  }
+  const muphrid = result.provenance.find((row) => row.EntityKind === 'body' && row.EntityId === '0005E364')
+  const expected = {
+    RecordSourcePlugin: 'Starfield.esm', RecordFormID: '0005E364', RecordSignature: 'PNDT',
+    NameSourcePlugin: 'SFBGS00D.esm', NameStringTable: 'strings', NameStringID: '0000A682',
+  }
+  if (!muphrid || Object.entries(expected).some(([key, value]) => muphrid[key] !== value)) {
+    throw new Error(`C7 Muphrid IV regression failed: ${JSON.stringify(muphrid)}.`)
+  }
+  const japanese = localizedTables.get('SFBGS00D.esm:ja:strings')?.get(0xA682)
+  if (muphrid.CanonicalEnglish !== 'Muphrid IV' || japanese !== 'ムフリドIV') {
+    throw new Error(`C7 Muphrid IV localized values drifted: en=${JSON.stringify(muphrid.CanonicalEnglish)}, ja=${JSON.stringify(japanese)}.`)
+  }
+  return statistics
 }
 
 async function main() {
@@ -203,6 +282,7 @@ async function main() {
     `Organic unresolved reasons ${JSON.stringify(Object.fromEntries(organicReasons))}\n`,
   )
   process.stdout.write(`C6 ${JSON.stringify(report.c6.statistics)}\n`)
+  process.stdout.write(`C7 provider chains ${JSON.stringify(report.statistics.providerChains)}\n`)
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

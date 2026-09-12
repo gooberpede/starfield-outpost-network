@@ -6,6 +6,11 @@
 import { parse } from 'csv-parse/sync'
 
 import { extractLocalizedId, getLocalizedFieldDefinition, SEMANTIC_PATHS } from './localized-field-map.mjs'
+import {
+  AUTHORITATIVE_LOCALIZATION_PLUGINS, logicalIdentityForRecord, resolveLocalizedFieldProvider,
+} from './official-master-provider-chains.mjs'
+
+const AUTHORITATIVE_NAME_PROVIDERS = new Set(AUTHORITATIVE_LOCALIZATION_PLUGINS)
 
 export const PROVENANCE_HEADERS = [
   'EntityKind', 'EntityId', 'DisplayNameSourceKind', 'ComponentOrder', 'ComponentRole',
@@ -136,7 +141,7 @@ export function verifyEnglish(row, table, normalizationPolicy = new Map()) {
   return { reasonCode: 'CANONICAL_SOURCE_ERROR', detail: `Official English is ${JSON.stringify(value)}; canonical English is ${JSON.stringify(row.CanonicalEnglish)}.` }
 }
 
-export function generateProvenance(targets, recordsByPlugin, tablesByQualifiedKey, normalizationPolicy = new Map()) {
+export function generateProvenance(targets, recordsByPlugin, tablesByQualifiedKey, normalizationPolicy = new Map(), providerContext) {
   const provenance = []
   const unresolved = []
   const normalizations = []
@@ -152,17 +157,28 @@ export function generateProvenance(targets, recordsByPlugin, tablesByQualifiedKe
       continue
     }
     let localized
+    let nameSourcePlugin = item.recordSourcePlugin
     try {
-      localized = extractLocalizedId(record, item.semanticPath)
+      if (providerContext) {
+        const identity = logicalIdentityForRecord(
+          item.recordSourcePlugin, providerContext.mastersByPlugin, item.recordSignature,
+          Number.parseInt(item.recordFormId, 16) >>> 0,
+        )
+        const resolved = resolveLocalizedFieldProvider(providerContext.providerChains.get(identity.key), item.semanticPath)
+        localized = resolved.localized
+        nameSourcePlugin = resolved.plugin
+      } else localized = extractLocalizedId(record, item.semanticPath)
     } catch (error) {
-      unresolved.push(unresolvedRow(item, error.code === 'SEMANTIC_FIELD_NOT_FOUND' ? 'WRONG_FIELD' : 'UNSUPPORTED_RECORD_SHAPE', error.message))
+      const reasonCode = error.code === 'SEMANTIC_FIELD_NOT_FOUND' ? 'WRONG_FIELD'
+        : error.code === 'OVERRIDE_PROVIDER_UNRESOLVED' ? 'OVERRIDE_PROVIDER_UNRESOLVED' : 'UNSUPPORTED_RECORD_SHAPE'
+      unresolved.push(unresolvedRow(item, reasonCode, error.message))
       continue
     }
     const row = {
       EntityKind: item.entityKind, EntityId: item.entityId, DisplayNameSourceKind: 'direct',
       ComponentOrder: '0', ComponentRole: 'complete', RecordSourcePlugin: item.recordSourcePlugin,
       RecordFormID: item.recordFormId, RecordSignature: item.recordSignature, NameFieldPath: item.semanticPath,
-      NameSourcePlugin: item.recordSourcePlugin, NameStringTable: localized.stringTable,
+      NameSourcePlugin: nameSourcePlugin, NameStringTable: localized.stringTable,
       NameStringID: localized.idHex, CanonicalEnglish: item.canonicalEnglish,
     }
     const verification = verifyEnglish(row, tablesByQualifiedKey.get(`${row.NameSourcePlugin}:${row.NameStringTable}`), normalizationPolicy)
@@ -222,6 +238,9 @@ export function validateCommittedCrosswalk(provenanceCsv, unresolvedCsv, targets
     seen.add(key)
     if (!/^[0-9A-F]{8}$/.test(row.RecordFormID) || !/^[0-9A-F]{8}$/.test(row.NameStringID)) throw new Error(`Invalid hex identity ${key}.`)
     if (!['strings', 'dlstrings', 'ilstrings'].includes(row.NameStringTable)) throw new Error(`Invalid table ${key}.`)
+    if (row.RecordSourcePlugin === 'SFBGS050.esm' || row.NameSourcePlugin === 'SFBGS050.esm') {
+      throw new Error(`Non-authoritative localization provider on ${key}.`)
+    }
   }
   for (const row of unresolved) if (!REASON_CODES.has(row.ReasonCode)) throw new Error(`Invalid unresolved reason ${row.ReasonCode}.`)
   const resolvedKeys = new Set(provenance.map((row) => `${row.EntityKind}:${row.EntityId}`))
@@ -275,9 +294,15 @@ export function validateCommittedCrosswalk(provenanceCsv, unresolvedCsv, targets
       ['ComponentRole', 'complete'],
       ['RecordSignature', recordSignature],
       ['NameFieldPath', semanticPath],
-      ['NameSourcePlugin', row.RecordSourcePlugin],
       ['NameStringTable', definition.stringTable],
     ]) validateField(row, target, field, value)
+    if (!AUTHORITATIVE_NAME_PROVIDERS.has(row.NameSourcePlugin)) {
+      throw new Error(`Committed provenance ${target.entityKind}:${target.entityId} has unsupported name provider ${row.NameSourcePlugin}.`)
+    }
+    const isMuphridOverride = row.EntityKind === 'body' && row.EntityId === '0005E364'
+    if (!isMuphridOverride && row.NameSourcePlugin !== row.RecordSourcePlugin) {
+      throw new Error(`Committed provenance ${target.entityKind}:${target.entityId} has an unaudited differing name provider ${row.NameSourcePlugin}.`)
+    }
     if (target.entityKind === 'system' && !['Starfield.esm', 'ShatteredSpace.esm', 'SFBGS00D.esm', 'SFBGS050.esm'].includes(row.RecordSourcePlugin)) {
       throw new Error(`Committed provenance system:${target.entityId} has unsupported STDT owner ${row.RecordSourcePlugin}.`)
     }
@@ -289,6 +314,14 @@ export function validateCommittedCrosswalk(provenanceCsv, unresolvedCsv, targets
   for (const row of unresolved) {
     const target = validateCanonicalIdentity(row)
     validateField(row, target, 'CanonicalEnglish', target.canonicalEnglish)
+    if (row.RecordSourcePlugin === 'SFBGS050.esm') throw new Error(`Non-authoritative unresolved provider on ${row.EntityKind}:${row.EntityId}.`)
+  }
+  const muphrid = provenance.find((row) => row.EntityKind === 'body' && row.EntityId === '0005E364')
+  if (muphrid) {
+    for (const [field, value] of Object.entries({
+      RecordSourcePlugin: 'Starfield.esm', RecordFormID: '0005E364', RecordSignature: 'PNDT',
+      NameSourcePlugin: 'SFBGS00D.esm', NameStringTable: 'strings', NameStringID: '0000A682',
+    })) validateField(muphrid, targetByIdentity.get('body:0005E364'), field, value)
   }
   return { provenance, unresolved }
 }

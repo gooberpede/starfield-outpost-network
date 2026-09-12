@@ -130,6 +130,20 @@ test('committed validation rejects syntactically valid resolved canonical drift'
   }
 })
 
+test('committed validation rejects an unaudited differing name provider', () => {
+  const { records, tables } = inputs()
+  const result = generateProvenance(targets, records, tables)
+  const changed = result.provenance.map((row) => row.EntityId === 'aluminium'
+    ? { ...row, NameSourcePlugin: 'ShatteredSpace.esm' }
+    : row)
+  assert.throws(
+    () => validateCommittedCrosswalk(
+      serializeCsv(PROVENANCE_HEADERS, changed), serializeCsv(UNRESOLVED_HEADERS, result.unresolved), targets,
+    ),
+    /unaudited differing name provider/,
+  )
+})
+
 test('committed validation rejects canonical drift in an unresolved row', () => {
   const { records, tables } = inputs()
   tables.delete('SFBGS00D.esm:strings')

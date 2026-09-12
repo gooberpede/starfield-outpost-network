@@ -766,6 +766,29 @@ explicit unresolved row until a target-specific semantic route is audited.
 Source/display differences use the same exact entity-scoped normalization
 policy as system names.
 
+Parcel C7 hardens direct-name ownership across the authoritative localization
+source universe, which is exactly `Starfield.esm`, `ShatteredSpace.esm`, and
+`SFBGS00D.esm`. All three are ordinary full modules. The narrow provider layer
+reads their ordered TES4 `MAST` entries and normalizes each file-local FormID to:
+
+```text
+record signature + origin plugin + lower-24-bit object ID
+```
+
+Provider chains use that logical identity in the fixed supported order. The
+last record is the winner, but `NameSourcePlugin` is the latest provider that
+explicitly serializes the exact allowlisted `NameFieldPath`; if the winner omits
+that field, resolution walks backward and otherwise fails closed. Text equality
+and bare string-ID equality never establish ownership. Muphrid IV is the current
+live regression: its canonical PNDT remains `Starfield.esm:0005E364`, while its
+explicit winning full-name field and qualified string table belong to
+`SFBGS00D.esm`.
+
+This is intentionally not a generic load-order model. Medium/light modules,
+Creations, and third-party mods remain outside tracker scope. `SFBGS050.esm`
+may remain in local historical configuration for compatibility, but it is not
+an authoritative tracker source and cannot participate in provider selection.
+
 Parcel C5 derives its complete organic target set from
 `biome-organic-resources.csv`, collapsing Planet × Biome occurrence rows to one
 stable flora or fauna FormID. It reproduces the production exporter precedence:
