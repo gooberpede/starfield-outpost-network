@@ -681,6 +681,8 @@ narrow ESM reader
     -> raw serialized localized uint32 IDs only
 project-owned semantic field map
     -> allowlisted record path and string-table type
+explicit BA2 inputs
+    -> validated localization members and local official tables
 later Parcel D tooling
     -> localized text resolution and runtime overlays
 ```
@@ -723,8 +725,26 @@ to choose it.
 Local regeneration consumes an explicit config and records plugin and English
 table filenames, sizes, hashes, declared load order, game/tool version, and time
 in an ignored local manifest. Committed-crosswalk validation runs without local
-game data as part of the reference build. C2 does not implement general archive
-discovery or inherited override providers.
+game data as part of the reference build.
+
+The localization-input layer is a separate build-time sniper:
+
+```text
+explicit BA2 v2 GNRL paths
+    -> member-table enumeration
+    -> exact plugin-base + locale + table-type selection
+    -> ignored local official string tables + hashes
+    -> C2 English verification
+    -> future Parcel D locale overlays
+```
+
+It never infers ownership from an archive filename and never crawls the game
+Data directory. Its manifest adapter verifies each extracted table's size and
+SHA-256 before exposing it through C2's existing string-table reader. Ambiguous
+qualified tables fail closed. Archive and table bytes remain external/ignored;
+the application never reads game archives at runtime. This is narrow archive
+intake, not general archive discovery, inherited override analysis, or a BA2
+browser.
 
 This build-time boundary does not run in the browser, participate in application
 persistence, or resolve runtime display text. Systems, bodies, species, composed

@@ -424,6 +424,9 @@ biome,003EA2FC,direct,0,complete,Starfield.esm,003EA2FC,BIOM,topLevel.FULL,Starf
 biome,003EA2FD,direct,0,complete,Starfield.esm,003EA2FD,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7A2,Craters
 biome,003FA120,direct,0,complete,Starfield.esm,003FA120,BIOM,topLevel.FULL,Starfield.esm,strings,0002E79A,Wetlands
 biome,003FA121,direct,0,complete,Starfield.esm,003FA121,BIOM,topLevel.FULL,Starfield.esm,strings,0002E798,Wetlands
+biome,01012244,direct,0,complete,ShatteredSpace.esm,01012244,BIOM,topLevel.FULL,ShatteredSpace.esm,strings,00000731,Rocky Desert
+biome,01012245,direct,0,complete,ShatteredSpace.esm,01012245,BIOM,topLevel.FULL,ShatteredSpace.esm,strings,00000730,Frozen Craters
+biome,01012246,direct,0,complete,ShatteredSpace.esm,01012246,BIOM,topLevel.FULL,ShatteredSpace.esm,strings,00000BA8,Sandy Desert
 official-term,skill.outpost-engineering,direct,0,complete,Starfield.esm,002C59E0,PERK,topLevel.FULL,Starfield.esm,strings,00009B6B,Outpost Engineering
 official-term,skill.outpost-management,direct,0,complete,Starfield.esm,0023826F,PERK,topLevel.FULL,Starfield.esm,strings,00009ECC,Outpost Management
 official-term,skill.planetary-habitation,direct,0,complete,Starfield.esm,0027CBC2,PERK,topLevel.FULL,Starfield.esm,strings,00009DD9,Planetary Habitation
@@ -512,5 +515,6 @@ resource,vanadium,direct,0,complete,Starfield.esm,000057ED,IRES,topLevel.FULL,St
 resource,veryl,direct,0,complete,Starfield.esm,00005DF7,IRES,topLevel.FULL,Starfield.esm,strings,000080C4,Veryl
 resource,vytinium,direct,0,complete,Starfield.esm,00005DF8,IRES,topLevel.FULL,Starfield.esm,strings,000081A8,Vytinium
 resource,water,direct,0,complete,Starfield.esm,000083EC,IRES,topLevel.FULL,Starfield.esm,strings,000081AC,Water
+resource,x-tech,direct,0,complete,SFBGS00D.esm,01033E3F,IRES,topLevel.FULL,SFBGS00D.esm,strings,00000FC7,X-Tech
 resource,xenon,direct,0,complete,Starfield.esm,000057DC,IRES,topLevel.FULL,Starfield.esm,strings,000081D0,Xenon
 resource,ytterbium,direct,0,complete,Starfield.esm,000057CA,IRES,topLevel.FULL,Starfield.esm,strings,000081FE,Ytterbium

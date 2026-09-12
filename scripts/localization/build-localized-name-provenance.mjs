@@ -4,6 +4,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { buildC2Targets, generateProvenance, PROVENANCE_HEADERS, serializeCsv, UNRESOLVED_HEADERS } from './localized-name-provenance.mjs'
+import { localizationInputsFromManifest } from './localization-input-manifest.mjs'
 import { createProvenanceManifest } from './provenance-manifest.mjs'
 import { findRecordsInPlugin } from './starfield-plugin-reader.mjs'
 import { readStringTable } from './string-table-reader.mjs'
@@ -40,6 +41,15 @@ export async function buildLocalizedNameProvenance(options) {
   const resolveLocal = (value) => path.resolve(configDirectory, value)
   const plugins = (config.plugins ?? []).map((item) => ({ ...item, path: resolveLocal(item.path) }))
   const localizationInputs = (config.localizationInputs ?? []).map((item) => ({ ...item, path: resolveLocal(item.path) }))
+  if (config.localizationInputManifest) {
+    const intakeManifestPath = resolveLocal(config.localizationInputManifest)
+    const intakeManifest = JSON.parse(await readFile(intakeManifestPath, 'utf8'))
+    localizationInputs.push(...await localizationInputsFromManifest(
+      intakeManifest,
+      intakeManifestPath,
+      config.localizationInputLocale ?? 'en',
+    ))
+  }
   const { targets, statistics } = buildC2Targets(await loadSources())
   const pluginByName = new Map(plugins.map((item) => [item.filename, item]))
   const recordsByPlugin = new Map()
@@ -50,7 +60,12 @@ export async function buildLocalizedNameProvenance(options) {
     const records = findRecordsInPlugin(plugin.path, pluginTargets.map((item) => ({ signature: item.recordSignature, formId: Number.parseInt(item.recordFormId, 16) })))
     recordsByPlugin.set(pluginName, new Map(records.map((record) => [`${record.signature}:${record.formIdHex}`, record])))
   }
-  const tables = new Map(localizationInputs.map((input) => [`${input.plugin}:${input.tableType}`, readStringTable(input.path, input.tableType)]))
+  const tables = new Map()
+  for (const input of localizationInputs) {
+    const key = `${input.plugin}:${input.tableType}`
+    if (tables.has(key)) throw new Error(`LOCALIZATION_TABLE_AMBIGUOUS: Multiple inputs were supplied for ${key}.`)
+    tables.set(key, readStringTable(input.path, input.tableType))
+  }
   const result = generateProvenance(targets, recordsByPlugin, tables)
   const fatal = result.unresolved.filter((row) => ['CANONICAL_SOURCE_ERROR', 'MISSING_STRING_ID', 'WRONG_FIELD', 'WRONG_PLUGIN', 'WRONG_TABLE'].includes(row.ReasonCode))
   if (fatal.length) throw new Error(`English provenance verification failed: ${fatal.map((row) => `${row.EntityKind}:${row.EntityId} ${row.ReasonCode}`).join(', ')}.`)
