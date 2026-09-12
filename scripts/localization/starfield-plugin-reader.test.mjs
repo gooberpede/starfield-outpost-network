@@ -136,6 +136,17 @@ test('extracts supported IRES and BIOM top-level FULL fields', () => {
   }
 })
 
+test('extracts only the PERK skill label before rank entries', () => {
+  const payload = Buffer.concat([
+    subrecord('EDID', Buffer.from('FixtureSkill\0')),
+    subrecord('FULL', localizedId(0x30F39)),
+    subrecord('PRRK', Buffer.alloc(0)),
+    subrecord('FULL', localizedId(0xDEADBEEF)),
+  ])
+  const selected = parsedRecord('PERK', 4, payload)
+  assert.equal(extractLocalizedId(selected, SEMANTIC_PATHS.TOP_LEVEL_FULL).idHex, '00030F39')
+})
+
 test('component selection requires TESFullName_Component and ignores sibling FULL and inline ANAM', () => {
   const marker = (name) => subrecord('BFCB', Buffer.from(`${name}\0`))
   const payload = Buffer.concat([
@@ -172,10 +183,13 @@ test('localized IDs require four little-endian bytes and normalize as uppercase 
 test('manifest records stable plugin identity, hash, version, and declared load order', async () => {
   const directory = await mkdtemp(path.join(os.tmpdir(), 'starfield-provenance-'))
   const pluginPath = path.join(directory, 'Fixture.esm')
+  const tablePath = path.join(directory, 'fixture_en.strings')
   try {
     await writeFile(pluginPath, Buffer.from('project-authored fixture'))
+    await writeFile(tablePath, Buffer.from('project-authored table fixture'))
     const manifest = await createProvenanceManifest({
       pluginPaths: [pluginPath],
+      localizationInputs: [{ plugin: 'Fixture.esm', tableType: 'strings', path: tablePath }],
       gameVersion: 'fixture-version',
       generatedAt: '2026-09-12T00:00:00.000Z',
     })
@@ -186,6 +200,11 @@ test('manifest records stable plugin identity, hash, version, and declared load 
     assert.equal(manifest.plugins[0].size, 24)
     assert.match(manifest.plugins[0].sha256, /^[0-9A-F]{64}$/)
     assert.deepEqual(manifest.declaredLoadOrder, ['Fixture.esm'])
+    assert.equal(manifest.localizationInputs[0].plugin, 'Fixture.esm')
+    assert.equal(manifest.localizationInputs[0].tableType, 'strings')
+    assert.equal(manifest.localizationInputs[0].sourceFilename, 'fixture_en.strings')
+    assert.equal(manifest.localizationInputs[0].size, Buffer.byteLength('project-authored table fixture'))
+    assert.match(manifest.localizationInputs[0].sha256, /^[0-9A-F]{64}$/)
   } finally {
     await rm(directory, { recursive: true })
   }

@@ -700,10 +700,36 @@ normalized filename, size, SHA-256, declared load order, tool version, game
 version, and generation timestamp. No ESM, BA2, string-table contents, or raw
 record dumps belong in the repository.
 
-This build-time boundary does not run in the browser, alter canonical reference
-CSVs, participate in application persistence, or resolve display text. C2-C8
-remain responsible for population coverage, systems/bodies, fauna and composed
-names, load-order/override hardening, verification, and builder integration.
+Parcel C2 adds a normalized, generated crosswalk for direct-name resources,
+products, biomes, and official skill terms:
+
+```text
+canonical stable entity
+    -> exact source plugin + FormID + allowlisted semantic field
+    -> raw localized uint32 ID and field-owned table type
+    -> explicitly mapped official English table
+    -> exact CanonicalEnglish verification
+```
+
+`reference-source/localized-name-provenance.csv` contains only complete,
+qualified direct-name rows. `localized-name-provenance-unresolved.csv` preserves
+every target whose local plugin/table input or supported direct shape is missing;
+there are no silent drops. Recipe and biome occurrence sources are normalized to
+stable entity identity before extraction, so occurrence repetition cannot create
+duplicate provenance. The fully qualified name identity remains
+`NameSourcePlugin + NameStringTable + NameStringID`; English text is never used
+to choose it.
+
+Local regeneration consumes an explicit config and records plugin and English
+table filenames, sizes, hashes, declared load order, game/tool version, and time
+in an ignored local manifest. Committed-crosswalk validation runs without local
+game data as part of the reference build. C2 does not implement general archive
+discovery or inherited override providers.
+
+This build-time boundary does not run in the browser, participate in application
+persistence, or resolve runtime display text. Systems, bodies, species, composed
+names, override hardening, and final coverage remain in C3-C8. Japanese overlay
+generation and display-consumer changes remain wholly deferred to Parcel D.
 
 # 15. Reference-data loading
 

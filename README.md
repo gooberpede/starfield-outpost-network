@@ -199,7 +199,7 @@ Planned Supply. Its recorded presence is an explicit outpost fact rather than a
 canonical biome occurrence. Localized names are presentation-only and never
 determine persisted identity.
 
-### Localized-string provenance proof
+### Localized-name provenance
 
 Parcel C1 includes a narrow, read-only build tool for recovering raw localized
 string IDs from four audited `Starfield.esm` record fields. It is not a general
@@ -227,9 +227,40 @@ Run the synthetic parser tests independently with:
 npm run localization:provenance:test
 ```
 
-The tool does not read BA2/string tables, emit localized Bethesda text, generate
-runtime overlays, or modify plugin files. Later Parcel C work will build on its
-semantic field map and manifest without moving game-file parsing into runtime.
+Parcel C2 uses the same narrow reader to build the normalized
+`reference-source/localized-name-provenance.csv` crosswalk for direct-name
+resources, products, biomes, and five official skill terms. Every canonical C2
+target is either in that file or in
+`reference-source/localized-name-provenance-unresolved.csv`; repeated recipe and
+BIOM occurrences do not duplicate entity provenance.
+
+Local regeneration requires a JSON config supplied with `--config`. It declares
+`gameVersion`, an ordered `plugins` array of `{ filename, path }`, and an explicit
+`localizationInputs` array of `{ plugin, tableType, path }`. Paths may be absolute
+or relative to the config file. Tables must already be legally extracted English
+`.strings`, `.dlstrings`, or `.ilstrings` files; archive names are deliberately
+not inferred. For example:
+
+```powershell
+npm run localization:provenance:build -- --config ".local-work/localization/provenance/c2-inputs.json"
+npm run localization:provenance:verify
+```
+
+The first command reads plugins and tables only, deterministically rewrites the
+two crosswalk CSVs, and writes a local hash manifest under `.local-work/` by
+default. The second command validates committed schema, identity, and complete
+resolved/unresolved coverage without requiring game files. `reference:build`
+runs the same validation gate before producing runtime reference JSON.
+
+Missing plugin/table inputs and unsupported direct record shapes remain explicit
+unresolved rows. Wrong IDs, tables, fields, plugins, or unexplained English
+mismatches fail regeneration. The verifier always follows record to raw ID to
+official English; it never selects an ID by matching English text.
+
+No Bethesda plugin, archive, or string-table content may be committed. C2 emits
+no Japanese data and does not alter runtime localization, UI, persistence, or
+network schemas. Later parcels C3-C8 cover deferred populations and provider
+inheritance; Parcel D will consume verified provenance for runtime overlays.
 
 ## Project status
 

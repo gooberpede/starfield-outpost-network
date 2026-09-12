@@ -1,0 +1,5 @@
+EntityKind,EntityId,RecordSourcePlugin,RecordFormID,RecordSignature,CanonicalEnglish,ReasonCode,Detail
+biome,01012244,ShatteredSpace.esm,01012244,BIOM,Rocky Desert,MISSING_LOCALIZATION_INPUT,Extracted strings:00000731; No strings input was supplied for ShatteredSpace.esm.
+biome,01012245,ShatteredSpace.esm,01012245,BIOM,Frozen Craters,MISSING_LOCALIZATION_INPUT,Extracted strings:00000730; No strings input was supplied for ShatteredSpace.esm.
+biome,01012246,ShatteredSpace.esm,01012246,BIOM,Sandy Desert,MISSING_LOCALIZATION_INPUT,Extracted strings:00000BA8; No strings input was supplied for ShatteredSpace.esm.
+resource,x-tech,SFBGS00D.esm,01033E3F,IRES,X-Tech,MISSING_LOCALIZATION_INPUT,Extracted strings:00000FC7; No strings input was supplied for SFBGS00D.esm.

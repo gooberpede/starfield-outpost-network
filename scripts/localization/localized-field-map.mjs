@@ -9,6 +9,8 @@ export const SEMANTIC_PATHS = Object.freeze({
 const definitions = [
   { recordSignature: 'IRES', semanticPath: SEMANTIC_PATHS.TOP_LEVEL_FULL, stringTable: 'strings', selector: { kind: 'topLevel', signature: 'FULL' } },
   { recordSignature: 'BIOM', semanticPath: SEMANTIC_PATHS.TOP_LEVEL_FULL, stringTable: 'strings', selector: { kind: 'topLevel', signature: 'FULL' } },
+  // PERK records can contain later rank FULL fields; only the top-level skill label is a C2 name.
+  { recordSignature: 'PERK', semanticPath: SEMANTIC_PATHS.TOP_LEVEL_FULL, stringTable: 'strings', selector: { kind: 'topLevelBefore', signature: 'FULL', boundarySignature: 'PRRK' } },
   { recordSignature: 'STDT', semanticPath: SEMANTIC_PATHS.TES_FULL_NAME, stringTable: 'strings', selector: { kind: 'component', componentMarker: 'TESFullName_Component', signature: 'FULL' } },
   { recordSignature: 'PNDT', semanticPath: SEMANTIC_PATHS.TES_FULL_NAME, stringTable: 'strings', selector: { kind: 'component', componentMarker: 'TESFullName_Component', signature: 'FULL' } },
 ]
@@ -39,6 +41,7 @@ function selectSemanticCandidates(subrecords, selector, context) {
   const candidates = []
   let openComponent = null
   for (const subrecord of subrecords) {
+    if (selector.kind === 'topLevelBefore' && subrecord.signature === selector.boundarySignature) break
     if (subrecord.signature === 'BFCB') {
       if (openComponent !== null) {
         throw new PluginReaderError('SEMANTIC_FIELD_AMBIGUOUS', 'Nested or unterminated base-form component markers are unsupported.', context)
@@ -52,6 +55,7 @@ function selectSemanticCandidates(subrecords, selector, context) {
     }
     if (subrecord.signature !== selector.signature) continue
     if (selector.kind === 'topLevel' && openComponent === null) candidates.push(subrecord)
+    if (selector.kind === 'topLevelBefore' && openComponent === null) candidates.push(subrecord)
     if (selector.kind === 'component' && openComponent === selector.componentMarker) candidates.push(subrecord)
   }
   return candidates

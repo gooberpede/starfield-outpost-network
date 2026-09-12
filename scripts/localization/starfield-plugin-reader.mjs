@@ -8,7 +8,7 @@ import zlib from 'node:zlib'
 
 export const RECORD_HEADER_SIZE = 24
 export const COMPRESSED_RECORD_FLAG = 0x00040000
-export const C1_RECORD_SIGNATURES = new Set(['IRES', 'BIOM', 'STDT', 'PNDT'])
+export const C1_RECORD_SIGNATURES = new Set(['IRES', 'BIOM', 'PERK', 'STDT', 'PNDT'])
 
 export class PluginReaderError extends Error {
   constructor(code, message, context = {}, cause) {

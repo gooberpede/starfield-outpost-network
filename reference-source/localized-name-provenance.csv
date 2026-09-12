@@ -1,0 +1,516 @@
+EntityKind,EntityId,DisplayNameSourceKind,ComponentOrder,ComponentRole,RecordSourcePlugin,RecordFormID,RecordSignature,NameFieldPath,NameSourcePlugin,NameStringTable,NameStringID,CanonicalEnglish
+biome,0001CA06,direct,0,complete,Starfield.esm,0001CA06,BIOM,topLevel.FULL,Starfield.esm,strings,00006467,Frozen Plains
+biome,00024FC4,direct,0,complete,Starfield.esm,00024FC4,BIOM,topLevel.FULL,Starfield.esm,strings,00006469,Rocky Desert
+biome,0002E850,direct,0,complete,Starfield.esm,0002E850,BIOM,topLevel.FULL,Starfield.esm,strings,00006444,Volcanic
+biome,00037935,direct,0,complete,Starfield.esm,00037935,BIOM,topLevel.FULL,Starfield.esm,strings,000300D2,Hills
+biome,000414BB,direct,0,complete,Starfield.esm,000414BB,BIOM,topLevel.FULL,Starfield.esm,strings,0000646D,Hills
+biome,0004E650,direct,0,complete,Starfield.esm,0004E650,BIOM,topLevel.FULL,Starfield.esm,strings,0003247D,Hills
+biome,0004E681,direct,0,complete,Starfield.esm,0004E681,BIOM,topLevel.FULL,Starfield.esm,strings,0003247E,Rocky Desert
+biome,0007D721,direct,0,complete,Starfield.esm,0007D721,BIOM,topLevel.FULL,Starfield.esm,strings,00006423,Ocean
+biome,0007D722,direct,0,complete,Starfield.esm,0007D722,BIOM,topLevel.FULL,Starfield.esm,strings,0000644B,Ocean
+biome,0007D723,direct,0,complete,Starfield.esm,0007D723,BIOM,topLevel.FULL,Starfield.esm,strings,0000643F,Ocean
+biome,0007D724,direct,0,complete,Starfield.esm,0007D724,BIOM,topLevel.FULL,Starfield.esm,strings,00006440,Ocean
+biome,0007D725,direct,0,complete,Starfield.esm,0007D725,BIOM,topLevel.FULL,Starfield.esm,strings,00006441,Ocean
+biome,0007E2C5,direct,0,complete,Starfield.esm,0007E2C5,BIOM,topLevel.FULL,Starfield.esm,strings,00006442,Volcanic
+biome,0007E2C6,direct,0,complete,Starfield.esm,0007E2C6,BIOM,topLevel.FULL,Starfield.esm,strings,00006443,Volcanic
+biome,0007EF0F,direct,0,complete,Starfield.esm,0007EF0F,BIOM,topLevel.FULL,Starfield.esm,strings,0000646B,Deciduous Forest
+biome,0007F887,direct,0,complete,Starfield.esm,0007F887,BIOM,topLevel.FULL,Starfield.esm,strings,00006445,Ocean
+biome,0007F888,direct,0,complete,Starfield.esm,0007F888,BIOM,topLevel.FULL,Starfield.esm,strings,00006446,Ocean
+biome,0007F889,direct,0,complete,Starfield.esm,0007F889,BIOM,topLevel.FULL,Starfield.esm,strings,00006447,Ocean
+biome,0007F88A,direct,0,complete,Starfield.esm,0007F88A,BIOM,topLevel.FULL,Starfield.esm,strings,00006448,Ocean
+biome,0007F88B,direct,0,complete,Starfield.esm,0007F88B,BIOM,topLevel.FULL,Starfield.esm,strings,00006449,Ocean
+biome,0007FFFE,direct,0,complete,Starfield.esm,0007FFFE,BIOM,topLevel.FULL,Starfield.esm,strings,0000644A,Volcanic
+biome,0007FFFF,direct,0,complete,Starfield.esm,0007FFFF,BIOM,topLevel.FULL,Starfield.esm,strings,00006457,Volcanic
+biome,00080000,direct,0,complete,Starfield.esm,00080000,BIOM,topLevel.FULL,Starfield.esm,strings,00006430,Volcanic
+biome,00080231,direct,0,complete,Starfield.esm,00080231,BIOM,topLevel.FULL,Starfield.esm,strings,0000644D,Volcanic
+biome,00080232,direct,0,complete,Starfield.esm,00080232,BIOM,topLevel.FULL,Starfield.esm,strings,0000644E,Volcanic
+biome,00080233,direct,0,complete,Starfield.esm,00080233,BIOM,topLevel.FULL,Starfield.esm,strings,0000644F,Volcanic
+biome,00084E12,direct,0,complete,Starfield.esm,00084E12,BIOM,topLevel.FULL,Starfield.esm,strings,0003247F,Frozen Hills
+biome,0008A8A4,direct,0,complete,Starfield.esm,0008A8A4,BIOM,topLevel.FULL,Starfield.esm,strings,0000645E,Volcanic
+biome,0008A8A5,direct,0,complete,Starfield.esm,0008A8A5,BIOM,topLevel.FULL,Starfield.esm,strings,00006452,Volcanic
+biome,0008A8A6,direct,0,complete,Starfield.esm,0008A8A6,BIOM,topLevel.FULL,Starfield.esm,strings,00006453,Volcanic
+biome,0008A8A7,direct,0,complete,Starfield.esm,0008A8A7,BIOM,topLevel.FULL,Starfield.esm,strings,00006454,Volcanic
+biome,0008AE77,direct,0,complete,Starfield.esm,0008AE77,BIOM,topLevel.FULL,Starfield.esm,strings,00006455,Hills
+biome,0008AE7A,direct,0,complete,Starfield.esm,0008AE7A,BIOM,topLevel.FULL,Starfield.esm,strings,00006456,Volcanic
+biome,0008AE7B,direct,0,complete,Starfield.esm,0008AE7B,BIOM,topLevel.FULL,Starfield.esm,strings,000063D6,Volcanic
+biome,0008DFF9,direct,0,complete,Starfield.esm,0008DFF9,BIOM,topLevel.FULL,Starfield.esm,strings,0000640B,Frozen Crevasses
+biome,0008DFFA,direct,0,complete,Starfield.esm,0008DFFA,BIOM,topLevel.FULL,Starfield.esm,strings,00006431,Volcanic
+biome,0008DFFB,direct,0,complete,Starfield.esm,0008DFFB,BIOM,topLevel.FULL,Starfield.esm,strings,00006426,Volcanic
+biome,0008DFFD,direct,0,complete,Starfield.esm,0008DFFD,BIOM,topLevel.FULL,Starfield.esm,strings,00006428,Volcanic
+biome,00094239,direct,0,complete,Starfield.esm,00094239,BIOM,topLevel.FULL,Starfield.esm,strings,000330AC,Ocean
+biome,0009423A,direct,0,complete,Starfield.esm,0009423A,BIOM,topLevel.FULL,Starfield.esm,strings,000330B4,Ocean
+biome,0009423B,direct,0,complete,Starfield.esm,0009423B,BIOM,topLevel.FULL,Starfield.esm,strings,000330AD,Ocean
+biome,00095091,direct,0,complete,Starfield.esm,00095091,BIOM,topLevel.FULL,Starfield.esm,strings,00006429,Volcanic
+biome,00095092,direct,0,complete,Starfield.esm,00095092,BIOM,topLevel.FULL,Starfield.esm,strings,0000642A,Sandy Desert
+biome,00095093,direct,0,complete,Starfield.esm,00095093,BIOM,topLevel.FULL,Starfield.esm,strings,0000641D,Volcanic
+biome,00095094,direct,0,complete,Starfield.esm,00095094,BIOM,topLevel.FULL,Starfield.esm,strings,0000642C,Volcanic
+biome,00095095,direct,0,complete,Starfield.esm,00095095,BIOM,topLevel.FULL,Starfield.esm,strings,0000642D,Volcanic
+biome,00095096,direct,0,complete,Starfield.esm,00095096,BIOM,topLevel.FULL,Starfield.esm,strings,0000642E,Volcanic
+biome,00095097,direct,0,complete,Starfield.esm,00095097,BIOM,topLevel.FULL,Starfield.esm,strings,0000642F,Volcanic
+biome,000A108C,direct,0,complete,Starfield.esm,000A108C,BIOM,topLevel.FULL,Starfield.esm,strings,000330AE,Ocean
+biome,000A86D9,direct,0,complete,Starfield.esm,000A86D9,BIOM,topLevel.FULL,Starfield.esm,strings,0000644C,Frozen Volcanic
+biome,000A86DA,direct,0,complete,Starfield.esm,000A86DA,BIOM,topLevel.FULL,Starfield.esm,strings,00006425,Mountains
+biome,000A86DB,direct,0,complete,Starfield.esm,000A86DB,BIOM,topLevel.FULL,Starfield.esm,strings,00006432,Frozen Dunes
+biome,000A86DC,direct,0,complete,Starfield.esm,000A86DC,BIOM,topLevel.FULL,Starfield.esm,strings,00006433,Craters
+biome,000A86DD,direct,0,complete,Starfield.esm,000A86DD,BIOM,topLevel.FULL,Starfield.esm,strings,00006434,Rocky Desert
+biome,000AA382,direct,0,complete,Starfield.esm,000AA382,BIOM,topLevel.FULL,Starfield.esm,strings,00006435,Volcanic
+biome,000AF3CA,direct,0,complete,Starfield.esm,000AF3CA,BIOM,topLevel.FULL,Starfield.esm,strings,00006436,Savanna
+biome,000AF3CB,direct,0,complete,Starfield.esm,000AF3CB,BIOM,topLevel.FULL,Starfield.esm,strings,00006437,Savanna
+biome,000B2630,direct,0,complete,Starfield.esm,000B2630,BIOM,topLevel.FULL,Starfield.esm,strings,00006411,Savanna
+biome,000B2635,direct,0,complete,Starfield.esm,000B2635,BIOM,topLevel.FULL,Starfield.esm,strings,00006439,Savanna
+biome,000B2D7C,direct,0,complete,Starfield.esm,000B2D7C,BIOM,topLevel.FULL,Starfield.esm,strings,000063E6,Frozen Plains
+biome,000B2D7D,direct,0,complete,Starfield.esm,000B2D7D,BIOM,topLevel.FULL,Starfield.esm,strings,0002FBD5,Hills
+biome,000B2D7E,direct,0,complete,Starfield.esm,000B2D7E,BIOM,topLevel.FULL,Starfield.esm,strings,000063A4,Wetlands
+biome,000C5714,direct,0,complete,Starfield.esm,000C5714,BIOM,topLevel.FULL,Starfield.esm,strings,0000643A,Craters
+biome,000C5715,direct,0,complete,Starfield.esm,000C5715,BIOM,topLevel.FULL,Starfield.esm,strings,0000643B,Frozen Craters
+biome,000C5716,direct,0,complete,Starfield.esm,000C5716,BIOM,topLevel.FULL,Starfield.esm,strings,0000643C,Craters
+biome,000C5717,direct,0,complete,Starfield.esm,000C5717,BIOM,topLevel.FULL,Starfield.esm,strings,0000643D,Craters
+biome,000C5718,direct,0,complete,Starfield.esm,000C5718,BIOM,topLevel.FULL,Starfield.esm,strings,000063FE,Craters
+biome,000C5719,direct,0,complete,Starfield.esm,000C5719,BIOM,topLevel.FULL,Starfield.esm,strings,0000640C,Craters
+biome,000C571A,direct,0,complete,Starfield.esm,000C571A,BIOM,topLevel.FULL,Starfield.esm,strings,0000640D,Craters
+biome,000C571B,direct,0,complete,Starfield.esm,000C571B,BIOM,topLevel.FULL,Starfield.esm,strings,0000640E,Craters
+biome,000D0A64,direct,0,complete,Starfield.esm,000D0A64,BIOM,topLevel.FULL,Starfield.esm,strings,000063E1,Swamp
+biome,000D1B7B,direct,0,complete,Starfield.esm,000D1B7B,BIOM,topLevel.FULL,Starfield.esm,strings,0000640F,Mountains
+biome,000D1B7C,direct,0,complete,Starfield.esm,000D1B7C,BIOM,topLevel.FULL,Starfield.esm,strings,00006410,Mountains
+biome,000D1B7D,direct,0,complete,Starfield.esm,000D1B7D,BIOM,topLevel.FULL,Starfield.esm,strings,00006438,Mountains
+biome,000D1B7E,direct,0,complete,Starfield.esm,000D1B7E,BIOM,topLevel.FULL,Starfield.esm,strings,00006412,Mountains
+biome,000D1B7F,direct,0,complete,Starfield.esm,000D1B7F,BIOM,topLevel.FULL,Starfield.esm,strings,00006413,Mountains
+biome,000D1B80,direct,0,complete,Starfield.esm,000D1B80,BIOM,topLevel.FULL,Starfield.esm,strings,00006414,Mountains
+biome,000D1B81,direct,0,complete,Starfield.esm,000D1B81,BIOM,topLevel.FULL,Starfield.esm,strings,00006415,Mountains
+biome,000D1B82,direct,0,complete,Starfield.esm,000D1B82,BIOM,topLevel.FULL,Starfield.esm,strings,00006416,Mountains
+biome,000D3A1D,direct,0,complete,Starfield.esm,000D3A1D,BIOM,topLevel.FULL,Starfield.esm,strings,00006451,Mountains
+biome,000D3A1E,direct,0,complete,Starfield.esm,000D3A1E,BIOM,topLevel.FULL,Starfield.esm,strings,00006418,Mountains
+biome,000D9BAC,direct,0,complete,Starfield.esm,000D9BAC,BIOM,topLevel.FULL,Starfield.esm,strings,00006419,Frozen Volcanic
+biome,000D9BAD,direct,0,complete,Starfield.esm,000D9BAD,BIOM,topLevel.FULL,Starfield.esm,strings,0000641A,Mountains
+biome,000D9BAE,direct,0,complete,Starfield.esm,000D9BAE,BIOM,topLevel.FULL,Starfield.esm,strings,0000641B,Mountains
+biome,000D9BAF,direct,0,complete,Starfield.esm,000D9BAF,BIOM,topLevel.FULL,Starfield.esm,strings,0000641C,Mountains
+biome,000D9BB0,direct,0,complete,Starfield.esm,000D9BB0,BIOM,topLevel.FULL,Starfield.esm,strings,0000642B,Mountains
+biome,000D9BB1,direct,0,complete,Starfield.esm,000D9BB1,BIOM,topLevel.FULL,Starfield.esm,strings,0000641E,Mountains
+biome,000E37D7,direct,0,complete,Starfield.esm,000E37D7,BIOM,topLevel.FULL,Starfield.esm,strings,0000641F,Rocky Desert
+biome,000E37D8,direct,0,complete,Starfield.esm,000E37D8,BIOM,topLevel.FULL,Starfield.esm,strings,00006420,Rocky Desert
+biome,000E37D9,direct,0,complete,Starfield.esm,000E37D9,BIOM,topLevel.FULL,Starfield.esm,strings,00006421,Rocky Desert
+biome,000E37DA,direct,0,complete,Starfield.esm,000E37DA,BIOM,topLevel.FULL,Starfield.esm,strings,00006422,Rocky Desert
+biome,000E37DB,direct,0,complete,Starfield.esm,000E37DB,BIOM,topLevel.FULL,Starfield.esm,strings,00006424,Rocky Desert
+biome,000E66AE,direct,0,complete,Starfield.esm,000E66AE,BIOM,topLevel.FULL,Starfield.esm,strings,00006316,Rocky Desert
+biome,000E66AF,direct,0,complete,Starfield.esm,000E66AF,BIOM,topLevel.FULL,Starfield.esm,strings,0000640A,Rocky Desert
+biome,000E66B0,direct,0,complete,Starfield.esm,000E66B0,BIOM,topLevel.FULL,Starfield.esm,strings,000063F3,Rocky Desert
+biome,000E66B1,direct,0,complete,Starfield.esm,000E66B1,BIOM,topLevel.FULL,Starfield.esm,strings,000063F4,Rocky Desert
+biome,000E869D,direct,0,complete,Starfield.esm,000E869D,BIOM,topLevel.FULL,Starfield.esm,strings,0002E79C,Plateau
+biome,000F1169,direct,0,complete,Starfield.esm,000F1169,BIOM,topLevel.FULL,Starfield.esm,strings,000063F5,Sandy Desert
+biome,000F1F0B,direct,0,complete,Starfield.esm,000F1F0B,BIOM,topLevel.FULL,Starfield.esm,strings,000063F6,Swamp
+biome,000F1F0C,direct,0,complete,Starfield.esm,000F1F0C,BIOM,topLevel.FULL,Starfield.esm,strings,000063F7,Swamp
+biome,000F1F0D,direct,0,complete,Starfield.esm,000F1F0D,BIOM,topLevel.FULL,Starfield.esm,strings,000063EA,Swamp
+biome,000F1F0E,direct,0,complete,Starfield.esm,000F1F0E,BIOM,topLevel.FULL,Starfield.esm,strings,000063F9,Swamp
+biome,000F1F0F,direct,0,complete,Starfield.esm,000F1F0F,BIOM,topLevel.FULL,Starfield.esm,strings,000063FA,Swamp
+biome,000F1F10,direct,0,complete,Starfield.esm,000F1F10,BIOM,topLevel.FULL,Starfield.esm,strings,000063FB,Swamp
+biome,000F1F11,direct,0,complete,Starfield.esm,000F1F11,BIOM,topLevel.FULL,Starfield.esm,strings,000063FC,Swamp
+biome,000F1F12,direct,0,complete,Starfield.esm,000F1F12,BIOM,topLevel.FULL,Starfield.esm,strings,000063FD,Swamp
+biome,000F1F13,direct,0,complete,Starfield.esm,000F1F13,BIOM,topLevel.FULL,Starfield.esm,strings,000063BC,Swamp
+biome,000F1F14,direct,0,complete,Starfield.esm,000F1F14,BIOM,topLevel.FULL,Starfield.esm,strings,000063FF,Swamp
+biome,000F1F15,direct,0,complete,Starfield.esm,000F1F15,BIOM,topLevel.FULL,Starfield.esm,strings,00006400,Swamp
+biome,000F1F16,direct,0,complete,Starfield.esm,000F1F16,BIOM,topLevel.FULL,Starfield.esm,strings,00006401,Swamp
+biome,000F1F17,direct,0,complete,Starfield.esm,000F1F17,BIOM,topLevel.FULL,Starfield.esm,strings,00006402,Swamp
+biome,000F3D3A,direct,0,complete,Starfield.esm,000F3D3A,BIOM,topLevel.FULL,Starfield.esm,strings,000305C9,Frozen Plains
+biome,000FC617,direct,0,complete,Starfield.esm,000FC617,BIOM,topLevel.FULL,Starfield.esm,strings,00006403,Frozen Hills
+biome,000FC618,direct,0,complete,Starfield.esm,000FC618,BIOM,topLevel.FULL,Starfield.esm,strings,00006404,Frozen Plains
+biome,000FC619,direct,0,complete,Starfield.esm,000FC619,BIOM,topLevel.FULL,Starfield.esm,strings,000063DD,Frozen Volcanic
+biome,000FC61A,direct,0,complete,Starfield.esm,000FC61A,BIOM,topLevel.FULL,Starfield.esm,strings,00006406,Frozen Plains
+biome,000FC61B,direct,0,complete,Starfield.esm,000FC61B,BIOM,topLevel.FULL,Starfield.esm,strings,00006407,Frozen Mountains
+biome,000FC61C,direct,0,complete,Starfield.esm,000FC61C,BIOM,topLevel.FULL,Starfield.esm,strings,00006408,Frozen Plains
+biome,000FC61D,direct,0,complete,Starfield.esm,000FC61D,BIOM,topLevel.FULL,Starfield.esm,strings,00006409,Frozen Dunes
+biome,000FC61E,direct,0,complete,Starfield.esm,000FC61E,BIOM,topLevel.FULL,Starfield.esm,strings,00006417,Frozen Mountains
+biome,000FC61F,direct,0,complete,Starfield.esm,000FC61F,BIOM,topLevel.FULL,Starfield.esm,strings,000063F1,Frozen Hills
+biome,000FC620,direct,0,complete,Starfield.esm,000FC620,BIOM,topLevel.FULL,Starfield.esm,strings,000063D8,Frozen Plains
+biome,000FD00A,direct,0,complete,Starfield.esm,000FD00A,BIOM,topLevel.FULL,Starfield.esm,strings,000063D9,Frozen Plains
+biome,000FD00B,direct,0,complete,Starfield.esm,000FD00B,BIOM,topLevel.FULL,Starfield.esm,strings,000063DA,Frozen Plains
+biome,000FD00C,direct,0,complete,Starfield.esm,000FD00C,BIOM,topLevel.FULL,Starfield.esm,strings,000063DB,Frozen Mountains
+biome,000FD00D,direct,0,complete,Starfield.esm,000FD00D,BIOM,topLevel.FULL,Starfield.esm,strings,000063DC,Frozen Mountains
+biome,000FD00E,direct,0,complete,Starfield.esm,000FD00E,BIOM,topLevel.FULL,Starfield.esm,strings,00006405,Frozen Hills
+biome,000FD00F,direct,0,complete,Starfield.esm,000FD00F,BIOM,topLevel.FULL,Starfield.esm,strings,000063DE,Swamp
+biome,000FD010,direct,0,complete,Starfield.esm,000FD010,BIOM,topLevel.FULL,Starfield.esm,strings,000063DF,Swamp
+biome,000FD011,direct,0,complete,Starfield.esm,000FD011,BIOM,topLevel.FULL,Starfield.esm,strings,000063E0,Swamp
+biome,000FD012,direct,0,complete,Starfield.esm,000FD012,BIOM,topLevel.FULL,Starfield.esm,strings,0002FBD4,Swamp
+biome,000FD013,direct,0,complete,Starfield.esm,000FD013,BIOM,topLevel.FULL,Starfield.esm,strings,000063E2,Swamp
+biome,000FD014,direct,0,complete,Starfield.esm,000FD014,BIOM,topLevel.FULL,Starfield.esm,strings,000063E3,Swamp
+biome,000FD015,direct,0,complete,Starfield.esm,000FD015,BIOM,topLevel.FULL,Starfield.esm,strings,000063F0,Swamp
+biome,000FD6F5,direct,0,complete,Starfield.esm,000FD6F5,BIOM,topLevel.FULL,Starfield.esm,strings,000063C9,Frozen Dunes
+biome,000FD6F6,direct,0,complete,Starfield.esm,000FD6F6,BIOM,topLevel.FULL,Starfield.esm,strings,000300D5,Frozen Plains
+biome,000FD6F7,direct,0,complete,Starfield.esm,000FD6F7,BIOM,topLevel.FULL,Starfield.esm,strings,000063E7,Frozen Plains
+biome,00100515,direct,0,complete,Starfield.esm,00100515,BIOM,topLevel.FULL,Starfield.esm,strings,00033C92,Frozen Mountains
+biome,00101646,direct,0,complete,Starfield.esm,00101646,BIOM,topLevel.FULL,Starfield.esm,strings,000063E8,Rocky Desert
+biome,0010EC55,direct,0,complete,Starfield.esm,0010EC55,BIOM,topLevel.FULL,Starfield.esm,strings,000063E9,Hills
+biome,0010EC56,direct,0,complete,Starfield.esm,0010EC56,BIOM,topLevel.FULL,Starfield.esm,strings,000063F8,Hills
+biome,0010EC57,direct,0,complete,Starfield.esm,0010EC57,BIOM,topLevel.FULL,Starfield.esm,strings,000063EB,Hills
+biome,0010EC58,direct,0,complete,Starfield.esm,0010EC58,BIOM,topLevel.FULL,Starfield.esm,strings,000063EC,Hills
+biome,00110D5C,direct,0,complete,Starfield.esm,00110D5C,BIOM,topLevel.FULL,Starfield.esm,strings,0002E79D,Plateau
+biome,00110FCA,direct,0,complete,Starfield.esm,00110FCA,BIOM,topLevel.FULL,Starfield.esm,strings,000063ED,Tropical Forest
+biome,00110FCB,direct,0,complete,Starfield.esm,00110FCB,BIOM,topLevel.FULL,Starfield.esm,strings,000063EE,Tropical Forest
+biome,00110FCC,direct,0,complete,Starfield.esm,00110FCC,BIOM,topLevel.FULL,Starfield.esm,strings,000063EF,Plateau
+biome,0011445C,direct,0,complete,Starfield.esm,0011445C,BIOM,topLevel.FULL,Starfield.esm,strings,000063E4,Rocky Desert
+biome,001160D5,direct,0,complete,Starfield.esm,001160D5,BIOM,topLevel.FULL,Starfield.esm,strings,000063A3,Hills
+biome,001160D6,direct,0,complete,Starfield.esm,001160D6,BIOM,topLevel.FULL,Starfield.esm,strings,000063CA,Hills
+biome,001160D7,direct,0,complete,Starfield.esm,001160D7,BIOM,topLevel.FULL,Starfield.esm,strings,000063BF,Hills
+biome,001160D8,direct,0,complete,Starfield.esm,001160D8,BIOM,topLevel.FULL,Starfield.esm,strings,000063C0,Hills
+biome,001160D9,direct,0,complete,Starfield.esm,001160D9,BIOM,topLevel.FULL,Starfield.esm,strings,000063C1,Hills
+biome,001160DA,direct,0,complete,Starfield.esm,001160DA,BIOM,topLevel.FULL,Starfield.esm,strings,000063C2,Hills
+biome,001160DB,direct,0,complete,Starfield.esm,001160DB,BIOM,topLevel.FULL,Starfield.esm,strings,000063C3,Hills
+biome,001160DC,direct,0,complete,Starfield.esm,001160DC,BIOM,topLevel.FULL,Starfield.esm,strings,000063B6,Hills
+biome,001160DD,direct,0,complete,Starfield.esm,001160DD,BIOM,topLevel.FULL,Starfield.esm,strings,000063C5,Hills
+biome,001160DE,direct,0,complete,Starfield.esm,001160DE,BIOM,topLevel.FULL,Starfield.esm,strings,000063C6,Hills
+biome,001160DF,direct,0,complete,Starfield.esm,001160DF,BIOM,topLevel.FULL,Starfield.esm,strings,000063C7,Hills
+biome,001160E0,direct,0,complete,Starfield.esm,001160E0,BIOM,topLevel.FULL,Starfield.esm,strings,000063C8,Hills
+biome,001160E1,direct,0,complete,Starfield.esm,001160E1,BIOM,topLevel.FULL,Starfield.esm,strings,000063E5,Hills
+biome,001160E2,direct,0,complete,Starfield.esm,001160E2,BIOM,topLevel.FULL,Starfield.esm,strings,000063BE,Hills
+biome,001160E3,direct,0,complete,Starfield.esm,001160E3,BIOM,topLevel.FULL,Starfield.esm,strings,000063CB,Hills
+biome,001160E4,direct,0,complete,Starfield.esm,001160E4,BIOM,topLevel.FULL,Starfield.esm,strings,000063CC,Hills
+biome,001160E5,direct,0,complete,Starfield.esm,001160E5,BIOM,topLevel.FULL,Starfield.esm,strings,000063CD,Hills
+biome,001160E6,direct,0,complete,Starfield.esm,001160E6,BIOM,topLevel.FULL,Starfield.esm,strings,000063CE,Hills
+biome,001160E7,direct,0,complete,Starfield.esm,001160E7,BIOM,topLevel.FULL,Starfield.esm,strings,000063CF,Hills
+biome,001160E8,direct,0,complete,Starfield.esm,001160E8,BIOM,topLevel.FULL,Starfield.esm,strings,000063D0,Hills
+biome,001160E9,direct,0,complete,Starfield.esm,001160E9,BIOM,topLevel.FULL,Starfield.esm,strings,000063AA,Hills
+biome,001160EA,direct,0,complete,Starfield.esm,001160EA,BIOM,topLevel.FULL,Starfield.esm,strings,000063D2,Hills
+biome,001160EB,direct,0,complete,Starfield.esm,001160EB,BIOM,topLevel.FULL,Starfield.esm,strings,000063D3,Hills
+biome,001160EC,direct,0,complete,Starfield.esm,001160EC,BIOM,topLevel.FULL,Starfield.esm,strings,000063D4,Coniferous Forest
+biome,001160ED,direct,0,complete,Starfield.esm,001160ED,BIOM,topLevel.FULL,Starfield.esm,strings,000063D5,Coniferous Forest
+biome,001160EE,direct,0,complete,Starfield.esm,001160EE,BIOM,topLevel.FULL,Starfield.esm,strings,00006458,Coniferous Forest
+biome,001160EF,direct,0,complete,Starfield.esm,001160EF,BIOM,topLevel.FULL,Starfield.esm,strings,000063B0,Coniferous Forest
+biome,001160F0,direct,0,complete,Starfield.esm,001160F0,BIOM,topLevel.FULL,Starfield.esm,strings,000063A5,Coniferous Forest
+biome,001160F1,direct,0,complete,Starfield.esm,001160F1,BIOM,topLevel.FULL,Starfield.esm,strings,000063A6,Coniferous Forest
+biome,001160F2,direct,0,complete,Starfield.esm,001160F2,BIOM,topLevel.FULL,Starfield.esm,strings,000063A7,Coniferous Forest
+biome,001160F3,direct,0,complete,Starfield.esm,001160F3,BIOM,topLevel.FULL,Starfield.esm,strings,000063A8,Coniferous Forest
+biome,001160F4,direct,0,complete,Starfield.esm,001160F4,BIOM,topLevel.FULL,Starfield.esm,strings,000063A9,Coniferous Forest
+biome,001160F5,direct,0,complete,Starfield.esm,001160F5,BIOM,topLevel.FULL,Starfield.esm,strings,000063D1,Coniferous Forest
+biome,00116476,direct,0,complete,Starfield.esm,00116476,BIOM,topLevel.FULL,Starfield.esm,strings,000063AB,Coniferous Forest
+biome,00116477,direct,0,complete,Starfield.esm,00116477,BIOM,topLevel.FULL,Starfield.esm,strings,000063AC,Coniferous Forest
+biome,00116478,direct,0,complete,Starfield.esm,00116478,BIOM,topLevel.FULL,Starfield.esm,strings,000063AD,Coniferous Forest
+biome,00116479,direct,0,complete,Starfield.esm,00116479,BIOM,topLevel.FULL,Starfield.esm,strings,000063AE,Coniferous Forest
+biome,0011647A,direct,0,complete,Starfield.esm,0011647A,BIOM,topLevel.FULL,Starfield.esm,strings,000063AF,Coniferous Forest
+biome,0011647B,direct,0,complete,Starfield.esm,0011647B,BIOM,topLevel.FULL,Starfield.esm,strings,000063F2,Coniferous Forest
+biome,0011647C,direct,0,complete,Starfield.esm,0011647C,BIOM,topLevel.FULL,Starfield.esm,strings,000063B1,Coniferous Forest
+biome,0011647D,direct,0,complete,Starfield.esm,0011647D,BIOM,topLevel.FULL,Starfield.esm,strings,000063B2,Coniferous Forest
+biome,0011647E,direct,0,complete,Starfield.esm,0011647E,BIOM,topLevel.FULL,Starfield.esm,strings,000063B3,Coniferous Forest
+biome,00116482,direct,0,complete,Starfield.esm,00116482,BIOM,topLevel.FULL,Starfield.esm,strings,000063B4,Coniferous Forest
+biome,00116483,direct,0,complete,Starfield.esm,00116483,BIOM,topLevel.FULL,Starfield.esm,strings,000063B5,Coniferous Forest
+biome,00116484,direct,0,complete,Starfield.esm,00116484,BIOM,topLevel.FULL,Starfield.esm,strings,000063C4,Coniferous Forest
+biome,001177C4,direct,0,complete,Starfield.esm,001177C4,BIOM,topLevel.FULL,Starfield.esm,strings,000063B7,Wetlands
+biome,001177C5,direct,0,complete,Starfield.esm,001177C5,BIOM,topLevel.FULL,Starfield.esm,strings,000063B8,Wetlands
+biome,001177C6,direct,0,complete,Starfield.esm,001177C6,BIOM,topLevel.FULL,Starfield.esm,strings,000063B9,Wetlands
+biome,001177C7,direct,0,complete,Starfield.esm,001177C7,BIOM,topLevel.FULL,Starfield.esm,strings,000063BA,Wetlands
+biome,0011B743,direct,0,complete,Starfield.esm,0011B743,BIOM,topLevel.FULL,Starfield.esm,strings,000063BB,Wetlands
+biome,0011B744,direct,0,complete,Starfield.esm,0011B744,BIOM,topLevel.FULL,Starfield.esm,strings,000063D7,Wetlands
+biome,0011B745,direct,0,complete,Starfield.esm,0011B745,BIOM,topLevel.FULL,Starfield.esm,strings,0002F5D0,Wetlands
+biome,0011B746,direct,0,complete,Starfield.esm,0011B746,BIOM,topLevel.FULL,Starfield.esm,strings,0000637D,Wetlands
+biome,0011BCD2,direct,0,complete,Starfield.esm,0011BCD2,BIOM,topLevel.FULL,Starfield.esm,strings,0002E79E,Plateau
+biome,0011BCD3,direct,0,complete,Starfield.esm,0011BCD3,BIOM,topLevel.FULL,Starfield.esm,strings,0002E79B,Plateau
+biome,0011F922,direct,0,complete,Starfield.esm,0011F922,BIOM,topLevel.FULL,Starfield.esm,strings,0000638C,Deciduous Forest
+biome,0011F923,direct,0,complete,Starfield.esm,0011F923,BIOM,topLevel.FULL,Starfield.esm,strings,0000638D,Deciduous Forest
+biome,0011F924,direct,0,complete,Starfield.esm,0011F924,BIOM,topLevel.FULL,Starfield.esm,strings,0000638E,Deciduous Forest
+biome,0011F925,direct,0,complete,Starfield.esm,0011F925,BIOM,topLevel.FULL,Starfield.esm,strings,0000638F,Deciduous Forest
+biome,0011F926,direct,0,complete,Starfield.esm,0011F926,BIOM,topLevel.FULL,Starfield.esm,strings,00006390,Deciduous Forest
+biome,0011F927,direct,0,complete,Starfield.esm,0011F927,BIOM,topLevel.FULL,Starfield.esm,strings,00006383,Deciduous Forest
+biome,0011F928,direct,0,complete,Starfield.esm,0011F928,BIOM,topLevel.FULL,Starfield.esm,strings,00006392,Deciduous Forest
+biome,0011F929,direct,0,complete,Starfield.esm,0011F929,BIOM,topLevel.FULL,Starfield.esm,strings,00006393,Deciduous Forest
+biome,0011F92A,direct,0,complete,Starfield.esm,0011F92A,BIOM,topLevel.FULL,Starfield.esm,strings,00006394,Deciduous Forest
+biome,0011F92B,direct,0,complete,Starfield.esm,0011F92B,BIOM,topLevel.FULL,Starfield.esm,strings,00006395,Deciduous Forest
+biome,0011F97E,direct,0,complete,Starfield.esm,0011F97E,BIOM,topLevel.FULL,Starfield.esm,strings,00006396,Deciduous Forest
+biome,0011F97F,direct,0,complete,Starfield.esm,0011F97F,BIOM,topLevel.FULL,Starfield.esm,strings,00006355,Deciduous Forest
+biome,0011F980,direct,0,complete,Starfield.esm,0011F980,BIOM,topLevel.FULL,Starfield.esm,strings,00006398,Deciduous Forest
+biome,0011F981,direct,0,complete,Starfield.esm,0011F981,BIOM,topLevel.FULL,Starfield.esm,strings,00006399,Deciduous Forest
+biome,0011F982,direct,0,complete,Starfield.esm,0011F982,BIOM,topLevel.FULL,Starfield.esm,strings,0000639A,Deciduous Forest
+biome,0011F983,direct,0,complete,Starfield.esm,0011F983,BIOM,topLevel.FULL,Starfield.esm,strings,0000639B,Deciduous Forest
+biome,0011F984,direct,0,complete,Starfield.esm,0011F984,BIOM,topLevel.FULL,Starfield.esm,strings,0000639C,Deciduous Forest
+biome,0011F985,direct,0,complete,Starfield.esm,0011F985,BIOM,topLevel.FULL,Starfield.esm,strings,0000639D,Deciduous Forest
+biome,0011F986,direct,0,complete,Starfield.esm,0011F986,BIOM,topLevel.FULL,Starfield.esm,strings,00006376,Deciduous Forest
+biome,0011F987,direct,0,complete,Starfield.esm,0011F987,BIOM,topLevel.FULL,Starfield.esm,strings,0000639F,Deciduous Forest
+biome,0011F988,direct,0,complete,Starfield.esm,0011F988,BIOM,topLevel.FULL,Starfield.esm,strings,000063A0,Deciduous Forest
+biome,00120C76,direct,0,complete,Starfield.esm,00120C76,BIOM,topLevel.FULL,Starfield.esm,strings,000063A1,Ocean
+biome,001217BB,direct,0,complete,Starfield.esm,001217BB,BIOM,topLevel.FULL,Starfield.esm,strings,000063A2,Tropical Forest
+biome,001217BC,direct,0,complete,Starfield.esm,001217BC,BIOM,topLevel.FULL,Starfield.esm,strings,00006397,Tropical Forest
+biome,001217BD,direct,0,complete,Starfield.esm,001217BD,BIOM,topLevel.FULL,Starfield.esm,strings,00006308,Tropical Forest
+biome,001217BE,direct,0,complete,Starfield.esm,001217BE,BIOM,topLevel.FULL,Starfield.esm,strings,00006371,Tropical Forest
+biome,00124044,direct,0,complete,Starfield.esm,00124044,BIOM,topLevel.FULL,Starfield.esm,strings,00006372,Frozen Plains
+biome,001297F1,direct,0,complete,Starfield.esm,001297F1,BIOM,topLevel.FULL,Starfield.esm,strings,00006373,Wetlands
+biome,001297F2,direct,0,complete,Starfield.esm,001297F2,BIOM,topLevel.FULL,Starfield.esm,strings,00006374,Wetlands
+biome,0012B463,direct,0,complete,Starfield.esm,0012B463,BIOM,topLevel.FULL,Starfield.esm,strings,00006375,Coniferous Forest
+biome,0012B464,direct,0,complete,Starfield.esm,0012B464,BIOM,topLevel.FULL,Starfield.esm,strings,0000639E,Coniferous Forest
+biome,00134B6A,direct,0,complete,Starfield.esm,00134B6A,BIOM,topLevel.FULL,Starfield.esm,strings,00006378,Frozen Plains
+biome,00145440,direct,0,complete,Starfield.esm,00145440,BIOM,topLevel.FULL,Starfield.esm,strings,00006379,Plateau
+biome,00145442,direct,0,complete,Starfield.esm,00145442,BIOM,topLevel.FULL,Starfield.esm,strings,0000637A,Plateau
+biome,0014544E,direct,0,complete,Starfield.esm,0014544E,BIOM,topLevel.FULL,Starfield.esm,strings,0000637B,Plateau
+biome,0014544F,direct,0,complete,Starfield.esm,0014544F,BIOM,topLevel.FULL,Starfield.esm,strings,0000637C,Plateau
+biome,0014805D,direct,0,complete,Starfield.esm,0014805D,BIOM,topLevel.FULL,Starfield.esm,strings,00006389,Plateau
+biome,00148061,direct,0,complete,Starfield.esm,00148061,BIOM,topLevel.FULL,Starfield.esm,strings,00006362,Plateau
+biome,00148062,direct,0,complete,Starfield.esm,00148062,BIOM,topLevel.FULL,Starfield.esm,strings,0000637F,Plateau
+biome,00148063,direct,0,complete,Starfield.esm,00148063,BIOM,topLevel.FULL,Starfield.esm,strings,00006380,Plateau
+biome,00148064,direct,0,complete,Starfield.esm,00148064,BIOM,topLevel.FULL,Starfield.esm,strings,00006381,Plateau
+biome,0014C016,direct,0,complete,Starfield.esm,0014C016,BIOM,topLevel.FULL,Starfield.esm,strings,00006382,Sandy Desert
+biome,0014C017,direct,0,complete,Starfield.esm,0014C017,BIOM,topLevel.FULL,Starfield.esm,strings,00006391,Sandy Desert
+biome,0014C018,direct,0,complete,Starfield.esm,0014C018,BIOM,topLevel.FULL,Starfield.esm,strings,00006384,Sandy Desert
+biome,0014C019,direct,0,complete,Starfield.esm,0014C019,BIOM,topLevel.FULL,Starfield.esm,strings,00006385,Sandy Desert
+biome,0014C01A,direct,0,complete,Starfield.esm,0014C01A,BIOM,topLevel.FULL,Starfield.esm,strings,00006386,Sandy Desert
+biome,0014C01B,direct,0,complete,Starfield.esm,0014C01B,BIOM,topLevel.FULL,Starfield.esm,strings,00006387,Sandy Desert
+biome,0014C1C3,direct,0,complete,Starfield.esm,0014C1C3,BIOM,topLevel.FULL,Starfield.esm,strings,00006388,Sandy Desert
+biome,0014C1D4,direct,0,complete,Starfield.esm,0014C1D4,BIOM,topLevel.FULL,Starfield.esm,strings,000063BD,Sandy Desert
+biome,0014C1D5,direct,0,complete,Starfield.esm,0014C1D5,BIOM,topLevel.FULL,Starfield.esm,strings,00006370,Sandy Desert
+biome,0014C1DD,direct,0,complete,Starfield.esm,0014C1DD,BIOM,topLevel.FULL,Starfield.esm,strings,00006363,Sandy Desert
+biome,0017B858,direct,0,complete,Starfield.esm,0017B858,BIOM,topLevel.FULL,Starfield.esm,strings,0000635A,Coniferous Forest
+biome,0017B859,direct,0,complete,Starfield.esm,0017B859,BIOM,topLevel.FULL,Starfield.esm,strings,0000635B,Coniferous Forest
+biome,0017B85A,direct,0,complete,Starfield.esm,0017B85A,BIOM,topLevel.FULL,Starfield.esm,strings,0000635C,Coniferous Forest
+biome,0017B85B,direct,0,complete,Starfield.esm,0017B85B,BIOM,topLevel.FULL,Starfield.esm,strings,0000634F,Coniferous Forest
+biome,0017B85C,direct,0,complete,Starfield.esm,0017B85C,BIOM,topLevel.FULL,Starfield.esm,strings,0000635E,Coniferous Forest
+biome,0017B85D,direct,0,complete,Starfield.esm,0017B85D,BIOM,topLevel.FULL,Starfield.esm,strings,0000635F,Coniferous Forest
+biome,001862BD,direct,0,complete,Starfield.esm,001862BD,BIOM,topLevel.FULL,Starfield.esm,strings,00006360,Craters
+biome,001862BE,direct,0,complete,Starfield.esm,001862BE,BIOM,topLevel.FULL,Starfield.esm,strings,00006361,Craters
+biome,001862BF,direct,0,complete,Starfield.esm,001862BF,BIOM,topLevel.FULL,Starfield.esm,strings,0000637E,Craters
+biome,001862C0,direct,0,complete,Starfield.esm,001862C0,BIOM,topLevel.FULL,Starfield.esm,strings,00006357,Craters
+biome,00187463,direct,0,complete,Starfield.esm,00187463,BIOM,topLevel.FULL,Starfield.esm,strings,00006364,Craters
+biome,001886D0,direct,0,complete,Starfield.esm,001886D0,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7BA,Hills
+biome,001886D2,direct,0,complete,Starfield.esm,001886D2,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7AB,Hills
+biome,001886D3,direct,0,complete,Starfield.esm,001886D3,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7B9,Hills
+biome,0018A899,direct,0,complete,Starfield.esm,0018A899,BIOM,topLevel.FULL,Starfield.esm,strings,00006366,Savanna
+biome,0018A89A,direct,0,complete,Starfield.esm,0018A89A,BIOM,topLevel.FULL,Starfield.esm,strings,00006367,Savanna
+biome,0018A89B,direct,0,complete,Starfield.esm,0018A89B,BIOM,topLevel.FULL,Starfield.esm,strings,00006368,Savanna
+biome,0018A89C,direct,0,complete,Starfield.esm,0018A89C,BIOM,topLevel.FULL,Starfield.esm,strings,00006369,Savanna
+biome,0018A89D,direct,0,complete,Starfield.esm,0018A89D,BIOM,topLevel.FULL,Starfield.esm,strings,00006343,Savanna
+biome,0018A89E,direct,0,complete,Starfield.esm,0018A89E,BIOM,topLevel.FULL,Starfield.esm,strings,0000636B,Savanna
+biome,0018A89F,direct,0,complete,Starfield.esm,0018A89F,BIOM,topLevel.FULL,Starfield.esm,strings,0000636C,Savanna
+biome,0018A8A0,direct,0,complete,Starfield.esm,0018A8A0,BIOM,topLevel.FULL,Starfield.esm,strings,0000636D,Savanna
+biome,0018E3C8,direct,0,complete,Starfield.esm,0018E3C8,BIOM,topLevel.FULL,Starfield.esm,strings,0000636E,Tropical Forest
+biome,0018E65A,direct,0,complete,Starfield.esm,0018E65A,BIOM,topLevel.FULL,Starfield.esm,strings,0000636F,Tropical Forest
+biome,0018F249,direct,0,complete,Starfield.esm,0018F249,BIOM,topLevel.FULL,Starfield.esm,strings,0000633E,Tropical Forest
+biome,0018FE1A,direct,0,complete,Starfield.esm,0018FE1A,BIOM,topLevel.FULL,Starfield.esm,strings,0000633F,Tropical Forest
+biome,00190131,direct,0,complete,Starfield.esm,00190131,BIOM,topLevel.FULL,Starfield.esm,strings,00006340,Tropical Forest
+biome,00190132,direct,0,complete,Starfield.esm,00190132,BIOM,topLevel.FULL,Starfield.esm,strings,00006341,Tropical Forest
+biome,00190133,direct,0,complete,Starfield.esm,00190133,BIOM,topLevel.FULL,Starfield.esm,strings,00006342,Tropical Forest
+biome,00190134,direct,0,complete,Starfield.esm,00190134,BIOM,topLevel.FULL,Starfield.esm,strings,0000636A,Tropical Forest
+biome,00190135,direct,0,complete,Starfield.esm,00190135,BIOM,topLevel.FULL,Starfield.esm,strings,00006344,Tropical Forest
+biome,00190136,direct,0,complete,Starfield.esm,00190136,BIOM,topLevel.FULL,Starfield.esm,strings,00006345,Tropical Forest
+biome,00190137,direct,0,complete,Starfield.esm,00190137,BIOM,topLevel.FULL,Starfield.esm,strings,00006346,Tropical Forest
+biome,00190B97,direct,0,complete,Starfield.esm,00190B97,BIOM,topLevel.FULL,Starfield.esm,strings,00006347,Tropical Forest
+biome,00190B98,direct,0,complete,Starfield.esm,00190B98,BIOM,topLevel.FULL,Starfield.esm,strings,00006348,Tropical Forest
+biome,00190B99,direct,0,complete,Starfield.esm,00190B99,BIOM,topLevel.FULL,Starfield.esm,strings,0000638B,Tropical Forest
+biome,00190B9A,direct,0,complete,Starfield.esm,00190B9A,BIOM,topLevel.FULL,Starfield.esm,strings,0000634A,Tropical Forest
+biome,0019E808,direct,0,complete,Starfield.esm,0019E808,BIOM,topLevel.FULL,Starfield.esm,strings,0000634B,Sandy Desert
+biome,0019E809,direct,0,complete,Starfield.esm,0019E809,BIOM,topLevel.FULL,Starfield.esm,strings,0000634C,Sandy Desert
+biome,0019E82A,direct,0,complete,Starfield.esm,0019E82A,BIOM,topLevel.FULL,Starfield.esm,strings,0000634D,Sandy Desert
+biome,001A23C7,direct,0,complete,Starfield.esm,001A23C7,BIOM,topLevel.FULL,Starfield.esm,strings,0000634E,Sandy Desert
+biome,001A2F12,direct,0,complete,Starfield.esm,001A2F12,BIOM,topLevel.FULL,Starfield.esm,strings,0000635D,Sandy Desert
+biome,001A2F16,direct,0,complete,Starfield.esm,001A2F16,BIOM,topLevel.FULL,Starfield.esm,strings,00006350,Sandy Desert
+biome,001A540B,direct,0,complete,Starfield.esm,001A540B,BIOM,topLevel.FULL,Starfield.esm,strings,00006351,Rocky Desert
+biome,001A540D,direct,0,complete,Starfield.esm,001A540D,BIOM,topLevel.FULL,Starfield.esm,strings,00006352,Rocky Desert
+biome,001A540E,direct,0,complete,Starfield.esm,001A540E,BIOM,topLevel.FULL,Starfield.esm,strings,00006353,Rocky Desert
+biome,001A540F,direct,0,complete,Starfield.esm,001A540F,BIOM,topLevel.FULL,Starfield.esm,strings,00006354,Rocky Desert
+biome,001A5410,direct,0,complete,Starfield.esm,001A5410,BIOM,topLevel.FULL,Starfield.esm,strings,00006356,Rocky Desert
+biome,001C068A,direct,0,complete,Starfield.esm,001C068A,BIOM,topLevel.FULL,Starfield.esm,strings,00006309,Frozen Plains
+biome,001CBD6A,direct,0,complete,Starfield.esm,001CBD6A,BIOM,topLevel.FULL,Starfield.esm,strings,0000633C,Deciduous Forest
+biome,001D1D92,direct,0,complete,Starfield.esm,001D1D92,BIOM,topLevel.FULL,Starfield.esm,strings,00006325,Rocky Desert
+biome,001DDF39,direct,0,complete,Starfield.esm,001DDF39,BIOM,topLevel.FULL,Starfield.esm,strings,00006326,Craters
+biome,001DFDD1,direct,0,complete,Starfield.esm,001DFDD1,BIOM,topLevel.FULL,Starfield.esm,strings,0002F5CF,Mountains
+biome,001DFDFB,direct,0,complete,Starfield.esm,001DFDFB,BIOM,topLevel.FULL,Starfield.esm,strings,0002EF06,Mountains
+biome,001DFDFC,direct,0,complete,Starfield.esm,001DFDFC,BIOM,topLevel.FULL,Starfield.esm,strings,0002E799,Volcanic
+biome,001DFDFD,direct,0,complete,Starfield.esm,001DFDFD,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7B5,Volcanic
+biome,001DFDFE,direct,0,complete,Starfield.esm,001DFDFE,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7B7,Volcanic
+biome,001DFDFF,direct,0,complete,Starfield.esm,001DFDFF,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7B6,Volcanic
+biome,001DFE01,direct,0,complete,Starfield.esm,001DFE01,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7AE,Volcanic
+biome,001DFE02,direct,0,complete,Starfield.esm,001DFE02,BIOM,topLevel.FULL,Starfield.esm,strings,0002EF05,Volcanic
+biome,001DFE03,direct,0,complete,Starfield.esm,001DFE03,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7A0,Volcanic
+biome,001DFE04,direct,0,complete,Starfield.esm,001DFE04,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7B3,Mountains
+biome,001DFE05,direct,0,complete,Starfield.esm,001DFE05,BIOM,topLevel.FULL,Starfield.esm,strings,0002E79F,Mountains
+biome,001DFE06,direct,0,complete,Starfield.esm,001DFE06,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7AA,Mountains
+biome,001DFE07,direct,0,complete,Starfield.esm,001DFE07,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7A1,Mountains
+biome,00203E9F,direct,0,complete,Starfield.esm,00203E9F,BIOM,topLevel.FULL,Starfield.esm,strings,00006327,Coniferous Forest
+biome,00203EA1,direct,0,complete,Starfield.esm,00203EA1,BIOM,topLevel.FULL,Starfield.esm,strings,00006329,Savanna
+biome,0020D0F3,direct,0,complete,Starfield.esm,0020D0F3,BIOM,topLevel.FULL,Starfield.esm,strings,0000631C,Tropical Forest
+biome,0020E381,direct,0,complete,Starfield.esm,0020E381,BIOM,topLevel.FULL,Starfield.esm,strings,0000632B,Tropical Forest
+biome,0021040C,direct,0,complete,Starfield.esm,0021040C,BIOM,topLevel.FULL,Starfield.esm,strings,00033095,Volcanic
+biome,0021040D,direct,0,complete,Starfield.esm,0021040D,BIOM,topLevel.FULL,Starfield.esm,strings,000330AF,Craters
+biome,0021040E,direct,0,complete,Starfield.esm,0021040E,BIOM,topLevel.FULL,Starfield.esm,strings,00033096,Mountains
+biome,00211529,direct,0,complete,Starfield.esm,00211529,BIOM,topLevel.FULL,Starfield.esm,strings,0000632C,Plateau
+biome,00211C5F,direct,0,complete,Starfield.esm,00211C5F,BIOM,topLevel.FULL,Starfield.esm,strings,0000632D,Tropical Forest
+biome,00212131,direct,0,complete,Starfield.esm,00212131,BIOM,topLevel.FULL,Starfield.esm,strings,0000632E,Hills
+biome,00212132,direct,0,complete,Starfield.esm,00212132,BIOM,topLevel.FULL,Starfield.esm,strings,0000632F,Hills
+biome,00212941,direct,0,complete,Starfield.esm,00212941,BIOM,topLevel.FULL,Starfield.esm,strings,000062EE,Hills
+biome,00214810,direct,0,complete,Starfield.esm,00214810,BIOM,topLevel.FULL,Starfield.esm,strings,00006331,Hills
+biome,00214968,direct,0,complete,Starfield.esm,00214968,BIOM,topLevel.FULL,Starfield.esm,strings,00006332,Plateau
+biome,00214969,direct,0,complete,Starfield.esm,00214969,BIOM,topLevel.FULL,Starfield.esm,strings,00006333,Hills
+biome,00214F1A,direct,0,complete,Starfield.esm,00214F1A,BIOM,topLevel.FULL,Starfield.esm,strings,00006334,Hills
+biome,00215097,direct,0,complete,Starfield.esm,00215097,BIOM,topLevel.FULL,Starfield.esm,strings,00006335,Hills
+biome,00215098,direct,0,complete,Starfield.esm,00215098,BIOM,topLevel.FULL,Starfield.esm,strings,00006336,Hills
+biome,00215CC2,direct,0,complete,Starfield.esm,00215CC2,BIOM,topLevel.FULL,Starfield.esm,strings,00006338,Craters
+biome,00215CC3,direct,0,complete,Starfield.esm,00215CC3,BIOM,topLevel.FULL,Starfield.esm,strings,00006339,Craters
+biome,0021615C,direct,0,complete,Starfield.esm,0021615C,BIOM,topLevel.FULL,Starfield.esm,strings,0000633A,Craters
+biome,00216D44,direct,0,complete,Starfield.esm,00216D44,BIOM,topLevel.FULL,Starfield.esm,strings,0000633B,Craters
+biome,00216D45,direct,0,complete,Starfield.esm,00216D45,BIOM,topLevel.FULL,Starfield.esm,strings,00006349,Plateau
+biome,00236EA3,direct,0,complete,Starfield.esm,00236EA3,BIOM,topLevel.FULL,Starfield.esm,strings,000300D3,Swamp
+biome,0023C0CE,direct,0,complete,Starfield.esm,0023C0CE,BIOM,topLevel.FULL,Starfield.esm,strings,00006323,Mountains
+biome,0025D992,direct,0,complete,Starfield.esm,0025D992,BIOM,topLevel.FULL,Starfield.esm,strings,0000630C,Plateau
+biome,0025D993,direct,0,complete,Starfield.esm,0025D993,BIOM,topLevel.FULL,Starfield.esm,strings,0000630D,Plateau
+biome,0025F375,direct,0,complete,Starfield.esm,0025F375,BIOM,topLevel.FULL,Starfield.esm,strings,0000630E,Tropical Forest
+biome,0025F387,direct,0,complete,Starfield.esm,0025F387,BIOM,topLevel.FULL,Starfield.esm,strings,00006337,Tropical Forest
+biome,0025F48B,direct,0,complete,Starfield.esm,0025F48B,BIOM,topLevel.FULL,Starfield.esm,strings,00006310,Hills
+biome,0025F48C,direct,0,complete,Starfield.esm,0025F48C,BIOM,topLevel.FULL,Starfield.esm,strings,00006311,Hills
+biome,0025F490,direct,0,complete,Starfield.esm,0025F490,BIOM,topLevel.FULL,Starfield.esm,strings,00006312,Craters
+biome,0025FC04,direct,0,complete,Starfield.esm,0025FC04,BIOM,topLevel.FULL,Starfield.esm,strings,00006313,Tropical Forest
+biome,002636B9,direct,0,complete,Starfield.esm,002636B9,BIOM,topLevel.FULL,Starfield.esm,strings,00006314,Mountains
+biome,002636BA,direct,0,complete,Starfield.esm,002636BA,BIOM,topLevel.FULL,Starfield.esm,strings,00006315,Mountains
+biome,002636BB,direct,0,complete,Starfield.esm,002636BB,BIOM,topLevel.FULL,Starfield.esm,strings,00006322,Mountains
+biome,002636BC,direct,0,complete,Starfield.esm,002636BC,BIOM,topLevel.FULL,Starfield.esm,strings,000062FB,Mountains
+biome,00263FE4,direct,0,complete,Starfield.esm,00263FE4,BIOM,topLevel.FULL,Starfield.esm,strings,00006318,Volcanic
+biome,00263FE5,direct,0,complete,Starfield.esm,00263FE5,BIOM,topLevel.FULL,Starfield.esm,strings,00006319,Volcanic
+biome,00263FE6,direct,0,complete,Starfield.esm,00263FE6,BIOM,topLevel.FULL,Starfield.esm,strings,0000631A,Volcanic
+biome,00263FE7,direct,0,complete,Starfield.esm,00263FE7,BIOM,topLevel.FULL,Starfield.esm,strings,0000631B,Volcanic
+biome,00263FE8,direct,0,complete,Starfield.esm,00263FE8,BIOM,topLevel.FULL,Starfield.esm,strings,0000632A,Deciduous Forest
+biome,0026893C,direct,0,complete,Starfield.esm,0026893C,BIOM,topLevel.FULL,Starfield.esm,strings,0000631D,Mountains
+biome,0026893D,direct,0,complete,Starfield.esm,0026893D,BIOM,topLevel.FULL,Starfield.esm,strings,0000631E,Mountains
+biome,0026B3F2,direct,0,complete,Starfield.esm,0026B3F2,BIOM,topLevel.FULL,Starfield.esm,strings,00006320,Mountains
+biome,0026BB6A,direct,0,complete,Starfield.esm,0026BB6A,BIOM,topLevel.FULL,Starfield.esm,strings,00006321,Mountains
+biome,00285AF8,direct,0,complete,Starfield.esm,00285AF8,BIOM,topLevel.FULL,Starfield.esm,strings,00033097,Volcanic
+biome,00285AF9,direct,0,complete,Starfield.esm,00285AF9,BIOM,topLevel.FULL,Starfield.esm,strings,000330B0,Plateau
+biome,00285AFA,direct,0,complete,Starfield.esm,00285AFA,BIOM,topLevel.FULL,Starfield.esm,strings,000330B1,Frozen Hills
+biome,00285AFB,direct,0,complete,Starfield.esm,00285AFB,BIOM,topLevel.FULL,Starfield.esm,strings,000330B2,Rocky Desert
+biome,00285AFC,direct,0,complete,Starfield.esm,00285AFC,BIOM,topLevel.FULL,Starfield.esm,strings,00033098,Hills
+biome,00285AFD,direct,0,complete,Starfield.esm,00285AFD,BIOM,topLevel.FULL,Starfield.esm,strings,000062EC,Sandy Desert
+biome,0028791F,direct,0,complete,Starfield.esm,0028791F,BIOM,topLevel.FULL,Starfield.esm,strings,00033124,Frozen Plains
+biome,0028ACD0,direct,0,complete,Starfield.esm,0028ACD0,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7A3,Deciduous Forest
+biome,0028ACD1,direct,0,complete,Starfield.esm,0028ACD1,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7A9,Deciduous Forest
+biome,00294332,direct,0,complete,Starfield.esm,00294332,BIOM,topLevel.FULL,Starfield.esm,strings,0000643E,Coniferous Forest
+biome,00294333,direct,0,complete,Starfield.esm,00294333,BIOM,topLevel.FULL,Starfield.esm,strings,000062EF,Coniferous Forest
+biome,00294334,direct,0,complete,Starfield.esm,00294334,BIOM,topLevel.FULL,Starfield.esm,strings,000062FC,Coniferous Forest
+biome,0029434E,direct,0,complete,Starfield.esm,0029434E,BIOM,topLevel.FULL,Starfield.esm,strings,000062F1,Coniferous Forest
+biome,0029B450,direct,0,complete,Starfield.esm,0029B450,BIOM,topLevel.FULL,Starfield.esm,strings,000062F2,Savanna
+biome,002A3777,direct,0,complete,Starfield.esm,002A3777,BIOM,topLevel.FULL,Starfield.esm,strings,000062F3,Rocky Desert
+biome,002ACD5A,direct,0,complete,Starfield.esm,002ACD5A,BIOM,topLevel.FULL,Starfield.esm,strings,000062F4,Rocky Desert
+biome,002ACD5B,direct,0,complete,Starfield.esm,002ACD5B,BIOM,topLevel.FULL,Starfield.esm,strings,000300D4,Sandy Desert
+biome,002B6352,direct,0,complete,Starfield.esm,002B6352,BIOM,topLevel.FULL,Starfield.esm,strings,000062F5,Savanna
+biome,002C17A5,direct,0,complete,Starfield.esm,002C17A5,BIOM,topLevel.FULL,Starfield.esm,strings,000062E8,Savanna
+biome,002C9984,direct,0,complete,Starfield.esm,002C9984,BIOM,topLevel.FULL,Starfield.esm,strings,000062F7,Volcanic
+biome,002C9985,direct,0,complete,Starfield.esm,002C9985,BIOM,topLevel.FULL,Starfield.esm,strings,000062F8,Volcanic
+biome,002C9986,direct,0,complete,Starfield.esm,002C9986,BIOM,topLevel.FULL,Starfield.esm,strings,000062F9,Volcanic
+biome,002C998A,direct,0,complete,Starfield.esm,002C998A,BIOM,topLevel.FULL,Starfield.esm,strings,000062FA,Volcanic
+biome,002C998C,direct,0,complete,Starfield.esm,002C998C,BIOM,topLevel.FULL,Starfield.esm,strings,000062F0,Savanna
+biome,002C998D,direct,0,complete,Starfield.esm,002C998D,BIOM,topLevel.FULL,Starfield.esm,strings,000062FD,Sandy Desert
+biome,002C998E,direct,0,complete,Starfield.esm,002C998E,BIOM,topLevel.FULL,Starfield.esm,strings,000062FE,Rocky Desert
+biome,002CE505,direct,0,complete,Starfield.esm,002CE505,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7A4,Deciduous Forest
+biome,002CE506,direct,0,complete,Starfield.esm,002CE506,BIOM,topLevel.FULL,Starfield.esm,strings,000062FF,Sandy Desert
+biome,002CE507,direct,0,complete,Starfield.esm,002CE507,BIOM,topLevel.FULL,Starfield.esm,strings,00006300,Sandy Desert
+biome,002CE508,direct,0,complete,Starfield.esm,002CE508,BIOM,topLevel.FULL,Starfield.esm,strings,00006301,Rocky Desert
+biome,002CE509,direct,0,complete,Starfield.esm,002CE509,BIOM,topLevel.FULL,Starfield.esm,strings,00006302,Rocky Desert
+biome,002DCDD4,direct,0,complete,Starfield.esm,002DCDD4,BIOM,topLevel.FULL,Starfield.esm,strings,000062E3,Sandy Desert
+biome,002DEAC4,direct,0,complete,Starfield.esm,002DEAC4,BIOM,topLevel.FULL,Starfield.esm,strings,000062E4,Deciduous Forest
+biome,002E54C9,direct,0,complete,Starfield.esm,002E54C9,BIOM,topLevel.FULL,Starfield.esm,strings,000062E5,Swamp
+biome,002E57E0,direct,0,complete,Starfield.esm,002E57E0,BIOM,topLevel.FULL,Starfield.esm,strings,000062E6,Wetlands
+biome,002E57E1,direct,0,complete,Starfield.esm,002E57E1,BIOM,topLevel.FULL,Starfield.esm,strings,000062E7,Wetlands
+biome,002E57E2,direct,0,complete,Starfield.esm,002E57E2,BIOM,topLevel.FULL,Starfield.esm,strings,000062F6,Wetlands
+biome,002E57E3,direct,0,complete,Starfield.esm,002E57E3,BIOM,topLevel.FULL,Starfield.esm,strings,000062E9,Wetlands
+biome,002E57E4,direct,0,complete,Starfield.esm,002E57E4,BIOM,topLevel.FULL,Starfield.esm,strings,000062EA,Wetlands Frozen
+biome,002E57E5,direct,0,complete,Starfield.esm,002E57E5,BIOM,topLevel.FULL,Starfield.esm,strings,000062EB,Wetlands
+biome,00336CC7,direct,0,complete,Starfield.esm,00336CC7,BIOM,topLevel.FULL,Starfield.esm,strings,000330B3,Sandy Desert
+biome,0034980C,direct,0,complete,Starfield.esm,0034980C,BIOM,topLevel.FULL,Starfield.esm,strings,0002F5CE,Hills
+biome,003D673C,direct,0,complete,Starfield.esm,003D673C,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7A5,Hills
+biome,003D673D,direct,0,complete,Starfield.esm,003D673D,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7A6,Hills
+biome,003D673E,direct,0,complete,Starfield.esm,003D673E,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7A7,Hills
+biome,003D673F,direct,0,complete,Starfield.esm,003D673F,BIOM,topLevel.FULL,Starfield.esm,strings,0002EF04,Hills
+biome,003D6740,direct,0,complete,Starfield.esm,003D6740,BIOM,topLevel.FULL,Starfield.esm,strings,0002EF03,Hills
+biome,003D6741,direct,0,complete,Starfield.esm,003D6741,BIOM,topLevel.FULL,Starfield.esm,strings,0002EF02,Hills
+biome,003D6742,direct,0,complete,Starfield.esm,003D6742,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7A8,Hills
+biome,003E3ADD,direct,0,complete,Starfield.esm,003E3ADD,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7B4,Savanna
+biome,003E3ADE,direct,0,complete,Starfield.esm,003E3ADE,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7B8,Savanna
+biome,003E3ADF,direct,0,complete,Starfield.esm,003E3ADF,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7AD,Savanna
+biome,003E3AE0,direct,0,complete,Starfield.esm,003E3AE0,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7AF,Savanna
+biome,003E3AE1,direct,0,complete,Starfield.esm,003E3AE1,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7B0,Savanna
+biome,003E5E43,direct,0,complete,Starfield.esm,003E5E43,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7B1,Wetlands
+biome,003EA2FB,direct,0,complete,Starfield.esm,003EA2FB,BIOM,topLevel.FULL,Starfield.esm,strings,0002EF01,Craters
+biome,003EA2FC,direct,0,complete,Starfield.esm,003EA2FC,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7B2,Craters
+biome,003EA2FD,direct,0,complete,Starfield.esm,003EA2FD,BIOM,topLevel.FULL,Starfield.esm,strings,0002E7A2,Craters
+biome,003FA120,direct,0,complete,Starfield.esm,003FA120,BIOM,topLevel.FULL,Starfield.esm,strings,0002E79A,Wetlands
+biome,003FA121,direct,0,complete,Starfield.esm,003FA121,BIOM,topLevel.FULL,Starfield.esm,strings,0002E798,Wetlands
+official-term,skill.outpost-engineering,direct,0,complete,Starfield.esm,002C59E0,PERK,topLevel.FULL,Starfield.esm,strings,00009B6B,Outpost Engineering
+official-term,skill.outpost-management,direct,0,complete,Starfield.esm,0023826F,PERK,topLevel.FULL,Starfield.esm,strings,00009ECC,Outpost Management
+official-term,skill.planetary-habitation,direct,0,complete,Starfield.esm,0027CBC2,PERK,topLevel.FULL,Starfield.esm,strings,00009DD9,Planetary Habitation
+official-term,skill.research-methods,direct,0,complete,Starfield.esm,002C555C,PERK,topLevel.FULL,Starfield.esm,strings,00009C96,Research Methods
+official-term,skill.special-projects,direct,0,complete,Starfield.esm,0004CE2D,PERK,topLevel.FULL,Starfield.esm,strings,00030F39,Special Projects
+product,adaptive-frame,direct,0,complete,Starfield.esm,00245775,IRES,topLevel.FULL,Starfield.esm,strings,000080C7,Adaptive Frame
+product,aldumite-drilling-rig,direct,0,complete,Starfield.esm,00202F59,IRES,topLevel.FULL,Starfield.esm,strings,0000811B,Aldumite Drilling Rig
+product,austenitic-manifold,direct,0,complete,Starfield.esm,0027319D,IRES,topLevel.FULL,Starfield.esm,strings,000080B7,Austenitic Manifold
+product,comm-relay,direct,0,complete,Starfield.esm,00299544,IRES,topLevel.FULL,Starfield.esm,strings,000080CF,Comm Relay
+product,control-rod,direct,0,complete,Starfield.esm,0029C460,IRES,topLevel.FULL,Starfield.esm,strings,000080A5,Control Rod
+product,drilling-rig,direct,0,complete,Starfield.esm,00208E99,IRES,topLevel.FULL,Starfield.esm,strings,00008123,Drilling Rig
+product,indicite-wafer,direct,0,complete,Starfield.esm,00203EA2,IRES,topLevel.FULL,Starfield.esm,strings,0000811C,Indicite Wafer
+product,isocentered-magnet,direct,0,complete,Starfield.esm,0024578A,IRES,topLevel.FULL,Starfield.esm,strings,000080B0,Isocentered Magnet
+product,isotopic-coolant,direct,0,complete,Starfield.esm,00245789,IRES,topLevel.FULL,Starfield.esm,strings,000080AD,Isotopic Coolant
+product,mag-pressure-tank,direct,0,complete,Starfield.esm,00245788,IRES,topLevel.FULL,Starfield.esm,strings,000080C5,Mag Pressure Tank
+product,microsecond-regulator,direct,0,complete,Starfield.esm,00245787,IRES,topLevel.FULL,Starfield.esm,strings,000081EC,Microsecond Regulator
+product,molecular-sieve,direct,0,complete,Starfield.esm,00245786,IRES,topLevel.FULL,Starfield.esm,strings,000080D7,Molecular Sieve
+product,monopropellant,direct,0,complete,Starfield.esm,00245785,IRES,topLevel.FULL,Starfield.esm,strings,000080D6,Monopropellant
+product,nuclear-fuel-rod,direct,0,complete,Starfield.esm,00245783,IRES,topLevel.FULL,Starfield.esm,strings,000080D4,Nuclear Fuel Rod
+product,paramagnon-conductor,direct,0,complete,Starfield.esm,00245782,IRES,topLevel.FULL,Starfield.esm,strings,000080D3,Paramagnon Conductor
+product,polytextile,direct,0,complete,Starfield.esm,0024577F,IRES,topLevel.FULL,Starfield.esm,strings,000080D1,Polytextile
+product,positron-battery,direct,0,complete,Starfield.esm,0024577E,IRES,topLevel.FULL,Starfield.esm,strings,000080D0,Positron Battery
+product,power-circuit,direct,0,complete,Starfield.esm,0024577D,IRES,topLevel.FULL,Starfield.esm,strings,000080BA,Power Circuit
+product,reactive-gauge,direct,0,complete,Starfield.esm,0024577B,IRES,topLevel.FULL,Starfield.esm,strings,000080CD,Reactive Gauge
+product,rothicite-magnet,direct,0,complete,Starfield.esm,00203EA4,IRES,topLevel.FULL,Starfield.esm,strings,0000811E,Rothicite Magnet
+product,semimetal-wafer,direct,0,complete,Starfield.esm,00245779,IRES,topLevel.FULL,Starfield.esm,strings,000080CB,Semimetal Wafer
+product,sterile-nanotubes,direct,0,complete,Starfield.esm,00245778,IRES,topLevel.FULL,Starfield.esm,strings,000080CA,Sterile Nanotubes
+product,substrate-molecular-sieve,direct,0,complete,Starfield.esm,00202781,IRES,topLevel.FULL,Starfield.esm,strings,0000811A,Substrate Molecule Sieve
+product,supercooled-magnet,direct,0,complete,Starfield.esm,00245774,IRES,topLevel.FULL,Starfield.esm,strings,000080C6,Supercooled Magnet
+product,tasine-superconductor,direct,0,complete,Starfield.esm,00203EA6,IRES,topLevel.FULL,Starfield.esm,strings,0000810C,Tasine Superconductor
+product,tau-grade-rheostat,direct,0,complete,Starfield.esm,00245772,IRES,topLevel.FULL,Starfield.esm,strings,0002E0A3,Tau Grade Rheostat
+product,veryl-treated-manifold,direct,0,complete,Starfield.esm,00203EA8,IRES,topLevel.FULL,Starfield.esm,strings,00008121,Veryl-Treated Manifold
+product,vytinium-fuel-rod,direct,0,complete,Starfield.esm,00203EA3,IRES,topLevel.FULL,Starfield.esm,strings,0000811D,Vytinium Fuel Rod
+product,zero-g-gimbal,direct,0,complete,Starfield.esm,0024576F,IRES,topLevel.FULL,Starfield.esm,strings,00008102,Zero-G Gimbal
+product,zero-wire,direct,0,complete,Starfield.esm,0024576E,IRES,topLevel.FULL,Starfield.esm,strings,000080EC,Zero Wire
+resource,aldumite,direct,0,complete,Starfield.esm,00005DF5,IRES,topLevel.FULL,Starfield.esm,strings,000081EA,Aldumite
+resource,alkanes,direct,0,complete,Starfield.esm,000057C9,IRES,topLevel.FULL,Starfield.esm,strings,000081FC,Alkanes
+resource,aluminium,direct,0,complete,Starfield.esm,000057D6,IRES,topLevel.FULL,Starfield.esm,strings,00008155,Aluminum
+resource,antimony,direct,0,complete,Starfield.esm,000057D3,IRES,topLevel.FULL,Starfield.esm,strings,0000820F,Antimony
+resource,aqueous-hematite,direct,0,complete,Starfield.esm,00006529,IRES,topLevel.FULL,Starfield.esm,strings,000300D7,Aqueous Hematite
+resource,argon,direct,0,complete,Starfield.esm,000057EA,IRES,topLevel.FULL,Starfield.esm,strings,000081DC,Argon
+resource,benzene,direct,0,complete,Starfield.esm,000057E7,IRES,topLevel.FULL,Starfield.esm,strings,000081D6,Benzene
+resource,beryllium,direct,0,complete,Starfield.esm,000057D8,IRES,topLevel.FULL,Starfield.esm,strings,000081CA,Beryllium
+resource,biosuppressant,direct,0,complete,Starfield.esm,00077824,IRES,topLevel.FULL,Starfield.esm,strings,00008193,Biosuppressant
+resource,caelumite,direct,0,complete,Starfield.esm,00252074,IRES,topLevel.FULL,Starfield.esm,strings,000080B6,Caelumite
+resource,caesium,direct,0,complete,Starfield.esm,000057E0,IRES,topLevel.FULL,Starfield.esm,strings,000081D2,Caesium
+resource,carboxylic-acids,direct,0,complete,Starfield.esm,000057E8,IRES,topLevel.FULL,Starfield.esm,strings,000081D8,Carboxylic Acids
+resource,chlorine,direct,0,complete,Starfield.esm,000057D5,IRES,topLevel.FULL,Starfield.esm,strings,00008213,Chlorine
+resource,chlorosilanes,direct,0,complete,Starfield.esm,000057D7,IRES,topLevel.FULL,Starfield.esm,strings,000081C8,Chlorosilanes
+resource,cobalt,direct,0,complete,Starfield.esm,000057CE,IRES,topLevel.FULL,Starfield.esm,strings,00008205,Cobalt
+resource,copper,direct,0,complete,Starfield.esm,000057CF,IRES,topLevel.FULL,Starfield.esm,strings,00008207,Copper
+resource,cosmetic,direct,0,complete,Starfield.esm,000777F8,IRES,topLevel.FULL,Starfield.esm,strings,000081BE,Cosmetic
+resource,dysprosium,direct,0,complete,Starfield.esm,000057C2,IRES,topLevel.FULL,Starfield.esm,strings,000081F0,Dysprosium
+resource,europium,direct,0,complete,Starfield.esm,000057E2,IRES,topLevel.FULL,Starfield.esm,strings,000081D4,Europium
+resource,fiber,direct,0,complete,Starfield.esm,00077821,IRES,topLevel.FULL,Starfield.esm,strings,000081C4,Fiber
+resource,fluorine,direct,0,complete,Starfield.esm,000057D0,IRES,topLevel.FULL,Starfield.esm,strings,00008209,Fluorine
+resource,gold,direct,0,complete,Starfield.esm,000057D2,IRES,topLevel.FULL,Starfield.esm,strings,0000820D,Gold
+resource,helium-3,direct,0,complete,Starfield.esm,000057F5,IRES,topLevel.FULL,Starfield.esm,strings,000081E6,Helium-3
+resource,indicite,direct,0,complete,Starfield.esm,0004BA38,IRES,topLevel.FULL,Starfield.esm,strings,000081DA,Indicite
+resource,ionic-liquids,direct,0,complete,Starfield.esm,000057D4,IRES,topLevel.FULL,Starfield.esm,strings,00008211,Ionic Liquids
+resource,iridium,direct,0,complete,Starfield.esm,000057EC,IRES,topLevel.FULL,Starfield.esm,strings,000081E0,Iridium
+resource,iron,direct,0,complete,Starfield.esm,000057C7,IRES,topLevel.FULL,Starfield.esm,strings,000081F8,Iron
+resource,lead,direct,0,complete,Starfield.esm,000057C1,IRES,topLevel.FULL,Starfield.esm,strings,00008192,Lead
+resource,lithium,direct,0,complete,Starfield.esm,000057DA,IRES,topLevel.FULL,Starfield.esm,strings,000081CC,Lithium
+resource,lubricant,direct,0,complete,Starfield.esm,000777F9,IRES,topLevel.FULL,Starfield.esm,strings,000081BF,Lubricant
+resource,membrane,direct,0,complete,Starfield.esm,0007782C,IRES,topLevel.FULL,Starfield.esm,strings,0000819D,Membrane
+resource,memory-substrate,direct,0,complete,Starfield.esm,00077832,IRES,topLevel.FULL,Starfield.esm,strings,000081A3,Memory Substrate
+resource,mercury,direct,0,complete,Starfield.esm,0027C499,IRES,topLevel.FULL,Starfield.esm,strings,000080B9,Mercury
+resource,neodymium,direct,0,complete,Starfield.esm,000057DB,IRES,topLevel.FULL,Starfield.esm,strings,000081CE,Neodymium
+resource,neon,direct,0,complete,Starfield.esm,000057E9,IRES,topLevel.FULL,Starfield.esm,strings,000081BC,Neon
+resource,nickel,direct,0,complete,Starfield.esm,000057CB,IRES,topLevel.FULL,Starfield.esm,strings,00008200,Nickel
+resource,palladium,direct,0,complete,Starfield.esm,000057CD,IRES,topLevel.FULL,Starfield.esm,strings,00008203,Palladium
+resource,platinum,direct,0,complete,Starfield.esm,000057CC,IRES,topLevel.FULL,Starfield.esm,strings,0000819C,Platinum
+resource,plutonium,direct,0,complete,Starfield.esm,000057EE,IRES,topLevel.FULL,Starfield.esm,strings,000081E4,Plutonium
+resource,polymer,direct,0,complete,Starfield.esm,00077826,IRES,topLevel.FULL,Starfield.esm,strings,00008195,Polymer
+resource,rothicite,direct,0,complete,Starfield.esm,00005DF1,IRES,topLevel.FULL,Starfield.esm,strings,000081E8,Rothicite
+resource,silver,direct,0,complete,Starfield.esm,000057C3,IRES,topLevel.FULL,Starfield.esm,strings,000081F2,Silver
+resource,solvent,direct,0,complete,Starfield.esm,00077827,IRES,topLevel.FULL,Starfield.esm,strings,00008196,Solvent
+resource,tantalum,direct,0,complete,Starfield.esm,000057C8,IRES,topLevel.FULL,Starfield.esm,strings,000081FA,Tantalum
+resource,tasine,direct,0,complete,Starfield.esm,00005DF6,IRES,topLevel.FULL,Starfield.esm,strings,000081EE,Tasine
+resource,tetrafluorides,direct,0,complete,Starfield.esm,000057D1,IRES,topLevel.FULL,Starfield.esm,strings,0000820B,Tetrafluorides
+resource,titanium,direct,0,complete,Starfield.esm,000057C6,IRES,topLevel.FULL,Starfield.esm,strings,000081F6,Titanium
+resource,tungsten,direct,0,complete,Starfield.esm,000057C4,IRES,topLevel.FULL,Starfield.esm,strings,000081F4,Tungsten
+resource,uranium,direct,0,complete,Starfield.esm,000057EB,IRES,topLevel.FULL,Starfield.esm,strings,000081DE,Uranium
+resource,vanadium,direct,0,complete,Starfield.esm,000057ED,IRES,topLevel.FULL,Starfield.esm,strings,000081E2,Vanadium
+resource,veryl,direct,0,complete,Starfield.esm,00005DF7,IRES,topLevel.FULL,Starfield.esm,strings,000080C4,Veryl
+resource,vytinium,direct,0,complete,Starfield.esm,00005DF8,IRES,topLevel.FULL,Starfield.esm,strings,000081A8,Vytinium
+resource,water,direct,0,complete,Starfield.esm,000083EC,IRES,topLevel.FULL,Starfield.esm,strings,000081AC,Water
+resource,xenon,direct,0,complete,Starfield.esm,000057DC,IRES,topLevel.FULL,Starfield.esm,strings,000081D0,Xenon
+resource,ytterbium,direct,0,complete,Starfield.esm,000057CA,IRES,topLevel.FULL,Starfield.esm,strings,000081FE,Ytterbium
