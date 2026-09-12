@@ -8,10 +8,9 @@ import { parse } from 'csv-parse/sync'
 import { extractLocalizedId, SEMANTIC_PATHS } from './localized-field-map.mjs'
 import { PluginReaderError } from './starfield-plugin-reader.mjs'
 import { verifyEnglish } from './localized-name-provenance.mjs'
+import { AUTHORITATIVE_LOCALIZATION_PLUGINS } from './official-master-provider-chains.mjs'
 
-export const OFFICIAL_SYSTEM_PLUGINS = Object.freeze([
-  'Starfield.esm', 'ShatteredSpace.esm', 'SFBGS00D.esm', 'SFBGS050.esm',
-])
+export const OFFICIAL_SYSTEM_PLUGINS = AUTHORITATIVE_LOCALIZATION_PLUGINS
 
 function exactNumericSubrecord(record, signature, expectedSize, context) {
   const candidates = record.subrecords.filter((item) => item.signature === signature && item.size === expectedSize)
@@ -79,8 +78,8 @@ export function buildC3Targets(planetDirectoryCsv) {
 
 export function indexStdtBySystemNumber(starRecordsByPlugin) {
   const index = new Map()
-  for (const plugin of OFFICIAL_SYSTEM_PLUGINS) {
-    for (const record of starRecordsByPlugin.get(plugin) ?? []) {
+  for (const [plugin, records] of starRecordsByPlugin) {
+    for (const record of records) {
       const systemNumber = extractStdtSystemNumber(record)
       const match = { plugin, record }
       index.set(systemNumber, [...(index.get(systemNumber) ?? []), match])

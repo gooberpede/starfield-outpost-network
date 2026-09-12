@@ -875,6 +875,60 @@ Creation Kit confirmation of exact on-screen U+0020 fidelity remains a
 hardening item. Japanese overlay generation and all display-consumer changes
 remain wholly deferred to Parcel D.
 
+Parcel C8 integrates C1-C7 behind one fail-closed builder. The project-owned
+policy at `reference-source/localization-provenance-policy.json` is the single
+allowlist for authoritative sources, expected TES4 master relationships,
+locale encodings, and the currently reviewed closure totals. Its authoritative
+universe is exactly `Starfield.esm`, `ShatteredSpace.esm`, and `SFBGS00D.esm`.
+`SFBGS050.esm` is optional historical configuration only; its absence cannot
+fail coverage and its presence cannot affect record or string-provider
+selection. Other installed ESMs are ignored.
+
+The integrated local pipeline is:
+
+```text
+manifest and authoritative-input validation
+    -> canonical C2/C3/C4/C5 population by stable tracker identity
+    -> direct, system/body, organic, and composed-fauna generation
+    -> C7 logical provider-chain selection
+    -> entity-scoped normalization and exact English verification
+    -> qualified Japanese-ID availability and C6 reconstruction
+    -> resolved/unresolved/excluded coverage reconciliation
+    -> row-shape validation and semantic drift comparison
+    -> ignored machine-readable build report
+```
+
+Direct and template names have one complete component at slot 0. Composed
+fauna retain sparse semantic slots 0=prefix, 1=species, and 2=diet. Every
+canonical entity must occur in exactly one resolved, explicit unresolved, or
+explicit excluded state. The current reviewed closure is 3,539 resolved
+entities, 4,796 provenance rows, and zero unresolved entities.
+
+`reference-source/localized-name-provenance-manifest.json` records the reviewed
+game version, normalized plugin identities and SHA-256 hashes, TES4 masters,
+module class, archive identities and hashes, selected localization members and
+hashes, locales, table types, encoding policy, generator version, and a
+dedicated generation timestamp. It contains no machine-absolute paths or
+Bethesda content. A normal build compares fresh inputs to this manifest before
+acceptance; timestamps and optional commit metadata do not create input drift.
+
+Repository-only validation reads committed artifacts and synthetic fixtures and
+does not require Starfield. The explicit installed-game builder writes its
+detailed report to `.local-work/localization/provenance/build-report.json` and,
+by default, does not rewrite committed outputs. Input, editorial-localization,
+and structural-provenance drift are reported separately and cause failure.
+`--write` is an explicit post-review acceptance action that refreshes the
+project-owned outputs and input manifest.
+
+A future Bethesda DLC enters scope only through an intentional policy update,
+declared TES4/archive/table relationships, and canonical tracker source-data
+extension. Existing provider logic then consumes the expanded allowlist; a new
+extractor is added only for a genuinely new naming shape. Game patches are
+review events: run the builder, inspect input and semantic drift, update source
+data or narrow logic if justified, explicitly accept regenerated artifacts,
+then rerun repository verification. The pipeline never auto-adopts Creations,
+third-party mods, arbitrary installed ESMs, or user-selected load orders.
+
 # 15. Reference-data loading
 
 Reference data is loaded through the data layer and then supplied to the application.

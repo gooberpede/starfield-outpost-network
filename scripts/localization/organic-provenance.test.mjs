@@ -59,7 +59,7 @@ test('builds one canonical flora/fauna target per stable species identity', () =
   assert.deepEqual(result.statistics, {
     organicOccurrenceRows: 3, uniqueFlora: 1, uniqueFauna: 1, uniqueOrganicSpecies: 2,
     duplicateOrganicOccurrencesCollapsed: 1, floraDuplicateOccurrencesCollapsed: 1, faunaDuplicateOccurrencesCollapsed: 0,
-    organicSourcePluginCounts: { 'Starfield.esm': 1, 'ShatteredSpace.esm': 1, 'SFBGS00D.esm': 0, 'SFBGS050.esm': 0 },
+    organicSourcePluginCounts: { 'Starfield.esm': 1, 'ShatteredSpace.esm': 1, 'SFBGS00D.esm': 0 },
   })
 })
 

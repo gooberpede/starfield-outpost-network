@@ -188,21 +188,23 @@ test('manifest records stable plugin identity, hash, version, and declared load 
     await writeFile(pluginPath, Buffer.from('project-authored fixture'))
     await writeFile(tablePath, Buffer.from('project-authored table fixture'))
     const manifest = await createProvenanceManifest({
-      pluginPaths: [pluginPath],
-      localizationInputs: [{ plugin: 'Fixture.esm', tableType: 'strings', path: tablePath }],
+      plugins: [{ filename: 'Fixture.esm', path: pluginPath }],
+      localizationInputs: [{ plugin: 'Fixture.esm', locale: 'en', tableType: 'strings', path: tablePath }],
+      policy: { authoritativePlugins: [{ filename: 'Fixture.esm', moduleClass: 'full' }], optionalCompatibilityPlugins: [], locales: ['en'], encodingPolicy: { en: 'windows-1252' } },
+      mastersByPlugin: new Map([['Fixture.esm', []]]),
       gameVersion: 'fixture-version',
       generatedAt: '2026-09-12T00:00:00.000Z',
     })
     assert.equal(manifest.gameVersion, 'fixture-version')
     assert.equal(manifest.generatedAt, '2026-09-12T00:00:00.000Z')
-    assert.equal(manifest.plugins[0].sourcePath, 'Fixture.esm')
-    assert.equal(manifest.plugins[0].filename, 'Fixture.esm')
-    assert.equal(manifest.plugins[0].size, 24)
-    assert.match(manifest.plugins[0].sha256, /^[0-9A-F]{64}$/)
-    assert.deepEqual(manifest.declaredLoadOrder, ['Fixture.esm'])
+    assert.equal(manifest.authoritativePlugins[0].localReference, 'Data/Fixture.esm')
+    assert.equal(manifest.authoritativePlugins[0].filename, 'Fixture.esm')
+    assert.equal(manifest.authoritativePlugins[0].size, 24)
+    assert.match(manifest.authoritativePlugins[0].sha256, /^[0-9A-F]{64}$/)
+    assert.deepEqual(manifest.authoritativePlugins[0].masters, [])
     assert.equal(manifest.localizationInputs[0].plugin, 'Fixture.esm')
     assert.equal(manifest.localizationInputs[0].tableType, 'strings')
-    assert.equal(manifest.localizationInputs[0].sourceFilename, 'fixture_en.strings')
+    assert.equal(manifest.localizationInputs[0].memberName, 'fixture_en.strings')
     assert.equal(manifest.localizationInputs[0].size, Buffer.byteLength('project-authored table fixture'))
     assert.match(manifest.localizationInputs[0].sha256, /^[0-9A-F]{64}$/)
   } finally {

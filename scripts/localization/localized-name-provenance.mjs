@@ -303,11 +303,11 @@ export function validateCommittedCrosswalk(provenanceCsv, unresolvedCsv, targets
     if (!isMuphridOverride && row.NameSourcePlugin !== row.RecordSourcePlugin) {
       throw new Error(`Committed provenance ${target.entityKind}:${target.entityId} has an unaudited differing name provider ${row.NameSourcePlugin}.`)
     }
-    if (target.entityKind === 'system' && !['Starfield.esm', 'ShatteredSpace.esm', 'SFBGS00D.esm', 'SFBGS050.esm'].includes(row.RecordSourcePlugin)) {
+    if (target.entityKind === 'system' && !AUTHORITATIVE_LOCALIZATION_PLUGINS.includes(row.RecordSourcePlugin)) {
       throw new Error(`Committed provenance system:${target.entityId} has unsupported STDT owner ${row.RecordSourcePlugin}.`)
     }
     if (target.entityKind === 'fauna' && row.DisplayNameSourceKind === 'template' &&
-        !['Starfield.esm', 'ShatteredSpace.esm', 'SFBGS00D.esm', 'SFBGS050.esm'].includes(row.RecordSourcePlugin)) {
+        !AUTHORITATIVE_LOCALIZATION_PLUGINS.includes(row.RecordSourcePlugin)) {
       throw new Error(`Committed provenance fauna:${target.entityId} has unsupported encounter NPC_ owner ${row.RecordSourcePlugin}.`)
     }
   }

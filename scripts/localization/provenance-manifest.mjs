@@ -4,7 +4,7 @@ import { createReadStream } from 'node:fs'
 import { stat } from 'node:fs/promises'
 import path from 'node:path'
 
-export const PROVENANCE_TOOL_VERSION = '4.0.0-c4'
+export const PROVENANCE_TOOL_VERSION = '8.0.0-c8'
 
 export async function sha256File(filePath) {
   const hash = createHash('sha256')
@@ -13,19 +13,25 @@ export async function sha256File(filePath) {
 }
 
 export async function createProvenanceManifest({
-  pluginPaths,
+  plugins,
   localizationInputs = [],
+  intakeManifest,
+  policy,
+  mastersByPlugin,
   gameVersion,
   generatedAt = new Date().toISOString(),
+  generatorCommit = null,
 }) {
-  const plugins = []
-  for (const pluginPath of pluginPaths) {
-    const details = await stat(pluginPath)
-    plugins.push({
-      sourcePath: path.basename(pluginPath),
-      filename: path.basename(pluginPath),
+  const pluginEntries = []
+  for (const plugin of plugins) {
+    const details = await stat(plugin.path)
+    pluginEntries.push({
+      localReference: `Data/${plugin.filename}`,
+      filename: plugin.filename,
+      moduleClass: policy.authoritativePlugins.find((item) => item.filename === plugin.filename)?.moduleClass ?? 'full',
+      masters: mastersByPlugin.get(plugin.filename) ?? [],
       size: details.size,
-      sha256: await sha256File(pluginPath),
+      sha256: await sha256File(plugin.path),
     })
   }
   const tables = []
@@ -33,18 +39,34 @@ export async function createProvenanceManifest({
     const details = await stat(input.path)
     tables.push({
       plugin: input.plugin,
+      locale: input.locale,
       tableType: input.tableType,
-      sourceFilename: path.basename(input.path),
+      archiveFilename: input.archiveFilename ?? null,
+      memberName: input.memberName ?? path.basename(input.path),
       size: details.size,
       sha256: await sha256File(input.path),
     })
   }
+  const archives = []
+  for (const plugin of policy.authoritativePlugins.map((item) => item.filename)) {
+    for (const archive of intakeManifest?.plugins?.[plugin]?.archives ?? []) {
+      archives.push({
+        plugin, filename: archive.filename, size: archive.size, sha256: archive.sha256,
+        version: archive.version, archiveType: archive.archiveType, memberCount: archive.memberCount,
+      })
+    }
+  }
   return {
+    schemaVersion: 1,
     gameVersion,
-    toolVersion: PROVENANCE_TOOL_VERSION,
     generatedAt,
-    plugins,
-    declaredLoadOrder: plugins.map((plugin) => plugin.filename),
-    localizationInputs: tables,
+    generator: { toolVersion: PROVENANCE_TOOL_VERSION, commit: generatorCommit },
+    authoritativePlugins: pluginEntries.sort((a, b) => policy.authoritativePlugins.findIndex((item) => item.filename === a.filename) - policy.authoritativePlugins.findIndex((item) => item.filename === b.filename)),
+    optionalCompatibilityPlugins: [...policy.optionalCompatibilityPlugins].sort(),
+    localizationArchives: archives.sort((a, b) => a.plugin.localeCompare(b.plugin) || a.filename.localeCompare(b.filename)),
+    localizationInputs: tables.sort((a, b) => a.plugin.localeCompare(b.plugin) || a.locale.localeCompare(b.locale) || a.tableType.localeCompare(b.tableType)),
+    locales: [...policy.locales],
+    tableTypes: [...new Set(tables.map((table) => table.tableType))].sort(),
+    encodingPolicy: policy.encodingPolicy,
   }
 }

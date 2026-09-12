@@ -1,0 +1,257 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "1.16.244.0",
+  "generatedAt": "2026-09-12T22:53:05.111Z",
+  "generator": {
+    "toolVersion": "8.0.0-c8",
+    "commit": "1e42466423aa4918b1b8cd96baffc11003f02cae"
+  },
+  "authoritativePlugins": [
+    {
+      "localReference": "Data/Starfield.esm",
+      "filename": "Starfield.esm",
+      "moduleClass": "full",
+      "masters": [],
+      "size": 1457098709,
+      "sha256": "1DABED00C3F4282DD3BB54D2E9601E40B577D8742D078B7CCEF203ADBFEF0DA7"
+    },
+    {
+      "localReference": "Data/ShatteredSpace.esm",
+      "filename": "ShatteredSpace.esm",
+      "moduleClass": "full",
+      "masters": [
+        "Starfield.esm"
+      ],
+      "size": 501394621,
+      "sha256": "F8B9333000ABA2A4A8A417CB74A11EDE6F5B824D27DB1918FD1C1F7B64385A43"
+    },
+    {
+      "localReference": "Data/SFBGS00D.esm",
+      "filename": "SFBGS00D.esm",
+      "moduleClass": "full",
+      "masters": [
+        "Starfield.esm"
+      ],
+      "size": 102054268,
+      "sha256": "35271D3221310094C70AC2F418D7D393DB59DD94D303E830536F85034F44DA95"
+    }
+  ],
+  "optionalCompatibilityPlugins": [
+    "SFBGS050.esm"
+  ],
+  "localizationArchives": [
+    {
+      "plugin": "SFBGS00D.esm",
+      "filename": "SFBGS00D - Main.ba2",
+      "size": 985929646,
+      "sha256": "5700C96903BEF0FAA908B340FC619B8952B646D82F21685C37AAE5D3B83D3A1C",
+      "version": 2,
+      "archiveType": "GNRL",
+      "memberCount": 11974
+    },
+    {
+      "plugin": "ShatteredSpace.esm",
+      "filename": "ShatteredSpace - Main01.ba2",
+      "size": 4294957291,
+      "sha256": "B87BDABC89C946C44E371D483EF45E362F8AC19E01C4AFFD985C94A406D7FE74",
+      "version": 2,
+      "archiveType": "GNRL",
+      "memberCount": 64458
+    },
+    {
+      "plugin": "ShatteredSpace.esm",
+      "filename": "ShatteredSpace - Main02.ba2",
+      "size": 1439724095,
+      "sha256": "A5E7FF82335145BE13B5CCA0C458E374F83CBA24D8C7473CC2DCE8A0C1343025",
+      "version": 2,
+      "archiveType": "GNRL",
+      "memberCount": 14934
+    },
+    {
+      "plugin": "Starfield.esm",
+      "filename": "Starfield - Localization.ba2",
+      "size": 114281094,
+      "sha256": "C1944A84346A919226B97D10E10CD94A776CD7F0AF84F52C9E9EC86CEEDAF3D0",
+      "version": 2,
+      "archiveType": "GNRL",
+      "memberCount": 27
+    }
+  ],
+  "localizationInputs": [
+    {
+      "plugin": "SFBGS00D.esm",
+      "locale": "en",
+      "tableType": "dlstrings",
+      "archiveFilename": "SFBGS00D - Main.ba2",
+      "memberName": "strings/sfbgs00d_en.dlstrings",
+      "size": 85169,
+      "sha256": "E304C3816413DE429EBC7E420C6CB53A65692BBB725AC083D893215BC70BDA40"
+    },
+    {
+      "plugin": "SFBGS00D.esm",
+      "locale": "en",
+      "tableType": "ilstrings",
+      "archiveFilename": "SFBGS00D - Main.ba2",
+      "memberName": "strings/sfbgs00d_en.ilstrings",
+      "size": 452058,
+      "sha256": "86D625C3748A3E9E449A74CB13F384B78D6E5B08A392002C5E5932B9C682C920"
+    },
+    {
+      "plugin": "SFBGS00D.esm",
+      "locale": "en",
+      "tableType": "strings",
+      "archiveFilename": "SFBGS00D - Main.ba2",
+      "memberName": "strings/sfbgs00d_en.strings",
+      "size": 106733,
+      "sha256": "EF6FD364E49ECF1792EC22F7716F95359E466EB7DED769D045365EB5C05BE3CA"
+    },
+    {
+      "plugin": "SFBGS00D.esm",
+      "locale": "ja",
+      "tableType": "dlstrings",
+      "archiveFilename": "SFBGS00D - Main.ba2",
+      "memberName": "strings/sfbgs00d_ja.dlstrings",
+      "size": 107762,
+      "sha256": "B308F4FE25156AB567714767D5EB9ED61D4F49B8D167C88D659658A0CD1AF31C"
+    },
+    {
+      "plugin": "SFBGS00D.esm",
+      "locale": "ja",
+      "tableType": "ilstrings",
+      "archiveFilename": "SFBGS00D - Main.ba2",
+      "memberName": "strings/sfbgs00d_ja.ilstrings",
+      "size": 521631,
+      "sha256": "D83CEAB0629E9E21E9F8FAEB2FA6D99604A0299555935B9152D469005676936B"
+    },
+    {
+      "plugin": "SFBGS00D.esm",
+      "locale": "ja",
+      "tableType": "strings",
+      "archiveFilename": "SFBGS00D - Main.ba2",
+      "memberName": "strings/sfbgs00d_ja.strings",
+      "size": 134050,
+      "sha256": "07DBAB25529FEDC35FCEEBA23F2CAB4B63A8E4FF982CEAC5B99979852CFAE986"
+    },
+    {
+      "plugin": "ShatteredSpace.esm",
+      "locale": "en",
+      "tableType": "dlstrings",
+      "archiveFilename": "ShatteredSpace - Main02.ba2",
+      "memberName": "strings/shatteredspace_en.dlstrings",
+      "size": 159663,
+      "sha256": "D798968F42024A06F33DCC4483166B2CBDA88531AF6C8DE46DE9D133417B39DC"
+    },
+    {
+      "plugin": "ShatteredSpace.esm",
+      "locale": "en",
+      "tableType": "ilstrings",
+      "archiveFilename": "ShatteredSpace - Main02.ba2",
+      "memberName": "strings/shatteredspace_en.ilstrings",
+      "size": 1310050,
+      "sha256": "46650343D7AE24B2AB767BE44B984BB311A56E9B3A94D961F3BAD3C7922840E0"
+    },
+    {
+      "plugin": "ShatteredSpace.esm",
+      "locale": "en",
+      "tableType": "strings",
+      "archiveFilename": "ShatteredSpace - Main02.ba2",
+      "memberName": "strings/shatteredspace_en.strings",
+      "size": 183083,
+      "sha256": "BC2D6DDBB544FB2076C8246F66682F608B49C0311C7D10BDFC76B00AF7943235"
+    },
+    {
+      "plugin": "ShatteredSpace.esm",
+      "locale": "ja",
+      "tableType": "dlstrings",
+      "archiveFilename": "ShatteredSpace - Main02.ba2",
+      "memberName": "strings/shatteredspace_ja.dlstrings",
+      "size": 207557,
+      "sha256": "89E2E377373EBAA71D6E7E46ABD5A173F4D0F7197D04AB0342C4F5D6EA11C058"
+    },
+    {
+      "plugin": "ShatteredSpace.esm",
+      "locale": "ja",
+      "tableType": "ilstrings",
+      "archiveFilename": "ShatteredSpace - Main02.ba2",
+      "memberName": "strings/shatteredspace_ja.ilstrings",
+      "size": 1563554,
+      "sha256": "2C507F7D0FA0F7951E2460787FDBE65C926AC6109EFF36996345029728681166"
+    },
+    {
+      "plugin": "ShatteredSpace.esm",
+      "locale": "ja",
+      "tableType": "strings",
+      "archiveFilename": "ShatteredSpace - Main02.ba2",
+      "memberName": "strings/shatteredspace_ja.strings",
+      "size": 222250,
+      "sha256": "4B8B4EBCDE180216AE23CDA3ACF66566AFBB98FB32830C0AEAB99EA9FB470479"
+    },
+    {
+      "plugin": "Starfield.esm",
+      "locale": "en",
+      "tableType": "dlstrings",
+      "archiveFilename": "Starfield - Localization.ba2",
+      "memberName": "strings/starfield_en.dlstrings",
+      "size": 1013328,
+      "sha256": "E3AE6115C31582927D13F659EE3F1E1F3FC61E6F8BA708C4E4E5E1223B97AA03"
+    },
+    {
+      "plugin": "Starfield.esm",
+      "locale": "en",
+      "tableType": "ilstrings",
+      "archiveFilename": "Starfield - Localization.ba2",
+      "memberName": "strings/starfield_en.ilstrings",
+      "size": 9466727,
+      "sha256": "3A8619DA87901511A359287CB7D93696EC2B526DBD764E2AFDFD5B7EC9271F25"
+    },
+    {
+      "plugin": "Starfield.esm",
+      "locale": "en",
+      "tableType": "strings",
+      "archiveFilename": "Starfield - Localization.ba2",
+      "memberName": "strings/starfield_en.strings",
+      "size": 1542583,
+      "sha256": "E18CADD47270CC7C0F37A33BDE9FE3B4049468CF94558379DA36356BB144951E"
+    },
+    {
+      "plugin": "Starfield.esm",
+      "locale": "ja",
+      "tableType": "dlstrings",
+      "archiveFilename": "Starfield - Localization.ba2",
+      "memberName": "strings/starfield_ja.dlstrings",
+      "size": 1252966,
+      "sha256": "C04B2BB2C73E82D954A74A6FC72E9BFC7620E918FFA404542E1A851FD51621AE"
+    },
+    {
+      "plugin": "Starfield.esm",
+      "locale": "ja",
+      "tableType": "ilstrings",
+      "archiveFilename": "Starfield - Localization.ba2",
+      "memberName": "strings/starfield_ja.ilstrings",
+      "size": 11267448,
+      "sha256": "3E76280120C853C5033408A770D32B6071D83AE800B97FB2DBA2F80F59374632"
+    },
+    {
+      "plugin": "Starfield.esm",
+      "locale": "ja",
+      "tableType": "strings",
+      "archiveFilename": "Starfield - Localization.ba2",
+      "memberName": "strings/starfield_ja.strings",
+      "size": 1892778,
+      "sha256": "9AEB4293C6F490DADDD75931AC126CEB051EEC8E0C598FAE4445474E0E6249CC"
+    }
+  ],
+  "locales": [
+    "en",
+    "ja"
+  ],
+  "tableTypes": [
+    "dlstrings",
+    "ilstrings",
+    "strings"
+  ],
+  "encodingPolicy": {
+    "en": "windows-1252",
+    "ja": "utf-8"
+  }
+}

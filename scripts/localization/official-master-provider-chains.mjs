@@ -3,14 +3,13 @@
  * Architecture: TES4 master-relative identity is normalized before deterministic provider selection.
  * Change this file when: The authoritative official-master boundary or full-module provider rule changes.
  */
-import fs from 'node:fs'
+import fs, { readFileSync } from 'node:fs'
 
 import { extractLocalizedId } from './localized-field-map.mjs'
 import { decodeRecordHeader, decodeSubrecords, formatHex32, PluginReaderError, RECORD_HEADER_SIZE } from './starfield-plugin-reader.mjs'
 
-export const AUTHORITATIVE_LOCALIZATION_PLUGINS = Object.freeze([
-  'Starfield.esm', 'ShatteredSpace.esm', 'SFBGS00D.esm',
-])
+const SOURCE_POLICY = JSON.parse(readFileSync(new URL('../../reference-source/localization-provenance-policy.json', import.meta.url), 'utf8'))
+export const AUTHORITATIVE_LOCALIZATION_PLUGINS = Object.freeze(SOURCE_POLICY.authoritativePlugins.map((plugin) => plugin.filename))
 
 function canonicalPluginName(value) {
   return AUTHORITATIVE_LOCALIZATION_PLUGINS.find((plugin) => plugin.toLowerCase() === value.toLowerCase()) ?? value
@@ -57,10 +56,10 @@ export function normalizeFullModuleRecordIdentity(plugin, masters, recordSignatu
 }
 
 /** Build chains only from the explicitly ordered authoritative official masters. */
-export function buildSupportedProviderChains(pluginInputs) {
+export function buildSupportedProviderChains(pluginInputs, authoritativePlugins = AUTHORITATIVE_LOCALIZATION_PLUGINS) {
   const byPlugin = new Map(pluginInputs.map((input) => [input.plugin, input]))
   const chains = new Map()
-  for (const plugin of AUTHORITATIVE_LOCALIZATION_PLUGINS) {
+  for (const plugin of authoritativePlugins) {
     const input = byPlugin.get(plugin)
     if (!input) throw new PluginReaderError('SUPPORTED_PLUGIN_MISSING', `Required provider input ${plugin} is missing.`)
     for (const record of input.records) {

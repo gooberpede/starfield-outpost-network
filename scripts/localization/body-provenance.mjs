@@ -15,12 +15,12 @@ function compareTargets(left, right) {
 }
 
 /** Every canonical tracker row is one body target, including ingested orbitals. */
-export function buildC4Targets(planetDirectoryCsv) {
+export function buildC4Targets(planetDirectoryCsv, authoritativePlugins = OFFICIAL_SYSTEM_PLUGINS) {
   const rows = parse(planetDirectoryCsv, { bom: true, columns: true, skip_empty_lines: true, trim: true })
   const targets = []
   const identities = new Set()
   const bodyTypeCounts = Object.fromEntries(CANONICAL_BODY_TYPES.map((bodyType) => [bodyType, 0]))
-  const sourcePluginCounts = Object.fromEntries(OFFICIAL_SYSTEM_PLUGINS.map((plugin) => [plugin, 0]))
+  const sourcePluginCounts = Object.fromEntries(authoritativePlugins.map((plugin) => [plugin, 0]))
 
   for (const row of rows) {
     if (!row.SourceFile || !row.PlanetFormID || !row.PlanetName || !row.BodyType) {
@@ -29,7 +29,7 @@ export function buildC4Targets(planetDirectoryCsv) {
     if (!CANONICAL_BODY_TYPES.includes(row.BodyType)) {
       throw new Error(`CANONICAL_SOURCE_ERROR: unsupported canonical body type ${JSON.stringify(row.BodyType)} on ${row.PlanetFormID}.`)
     }
-    if (!OFFICIAL_SYSTEM_PLUGINS.includes(row.SourceFile)) {
+    if (!authoritativePlugins.includes(row.SourceFile)) {
       throw new Error(`CANONICAL_SOURCE_ERROR: unsupported body source plugin ${JSON.stringify(row.SourceFile)} on ${row.PlanetFormID}.`)
     }
     if (!/^[0-9A-F]{8}$/.test(row.PlanetFormID)) {

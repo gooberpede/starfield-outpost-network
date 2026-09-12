@@ -8,6 +8,7 @@ import { validateCommittedC6Artifacts } from './composed-fauna-provenance.mjs'
 import { NAME_NORMALIZATIONS, parseNameNormalizationsCsv, validateNameNormalizations } from './name-normalization-policy.mjs'
 import { buildC5Targets, validateCommittedOrganicArtifacts } from './organic-provenance.mjs'
 import { buildC3Targets } from './star-system-provenance.mjs'
+import { buildCanonicalPopulation, validateCoverage, validateProvenanceRowShapes } from './provenance-build-integration.mjs'
 
 const sourceNames = {
   inorganic: 'inorganic-resource-dictionary.csv', inorganicPolicy: 'inorganic-resource-tracker-policy.csv',
@@ -27,6 +28,10 @@ const result = validateCommittedCrosswalk(
   await readFile(path.join(directory, 'localized-name-provenance-unresolved.csv'), 'utf8'),
   targets,
 )
+const policy = JSON.parse(await readFile(path.join(directory, 'localization-provenance-policy.json'), 'utf8'))
+const population = buildCanonicalPopulation([c2Targets, c3Targets, c4Targets, c5Targets])
+const coverage = validateCoverage(population, result.provenance, result.unresolved)
+validateProvenanceRowShapes(result.provenance)
 const normalizedRows = parseNameNormalizationsCsv(await readFile(path.join(directory, 'localized-name-normalizations.csv'), 'utf8'))
 const normalized = validateNameNormalizations(NAME_NORMALIZATIONS, targets, result.provenance, result.unresolved, normalizedRows)
 const organic = validateCommittedOrganicArtifacts(
@@ -40,8 +45,19 @@ const c6 = validateCommittedC6Artifacts(
   await readFile(path.join(directory, 'localized-name-provenance-c6-fauna.csv'), 'utf8'),
   await readFile(path.join(directory, 'localized-name-c6-fauna-ja-preview.csv'), 'utf8'),
 )
+if (coverage.resolvedEntities !== policy.expectedClosure.resolvedEntities || result.provenance.length !== policy.expectedClosure.provenanceRows ||
+    result.unresolved.length !== policy.expectedClosure.unresolvedRows || c6.statistics.entities !== policy.expectedClosure.composedFaunaEntities ||
+    c6.statistics.rows !== policy.expectedClosure.composedFaunaRows) {
+  throw new Error(`Committed C8 closure totals drifted: ${JSON.stringify({ coverage, provenanceRows: result.provenance.length, c6: c6.statistics })}`)
+}
+const providerRows = Object.fromEntries(policy.authoritativePlugins.map(({ filename }) => [filename, result.provenance.filter((row) => row.NameSourcePlugin === filename).length]))
+if (JSON.stringify(providerRows) !== JSON.stringify(policy.expectedClosure.providerRows)) throw new Error(`Committed C8 provider totals drifted: ${JSON.stringify(providerRows)}.`)
+const manifest = JSON.parse(await readFile(path.join(directory, 'localized-name-provenance-manifest.json'), 'utf8'))
+if (JSON.stringify(manifest.authoritativePlugins.map((plugin) => plugin.filename)) !== JSON.stringify(policy.authoritativePlugins.map((plugin) => plugin.filename))) {
+  throw new Error('Committed C8 manifest authoritative plugin policy drifted.')
+}
 process.stdout.write(
   `Validated ${new Set(result.provenance.map((row) => `${row.EntityKind}:${row.EntityId}`)).size} resolved entities in ${result.provenance.length} provenance rows, ` +
   `${normalized} normalized, and ${result.unresolved.length} unresolved; ${c6.statistics.entities} C6 fauna in ${c6.statistics.rows} component rows ` +
-  `and ${organic.lineage.length} template lineages.\n`,
+  `and ${organic.lineage.length} template lineages; authoritative providers ${JSON.stringify(providerRows)}.\n`,
 )

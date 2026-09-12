@@ -35,11 +35,11 @@ function sourceError(message) {
 }
 
 /** Deduplicate Planet x Biome occurrences by the exporter's stable species identity. */
-export function buildC5Targets(csv) {
+export function buildC5Targets(csv, authoritativePlugins = OFFICIAL_SYSTEM_PLUGINS) {
   const occurrenceRows = parse(csv, { bom: true, columns: true, skip_empty_lines: true, trim: true })
   const targets = new Map()
   const occurrenceCounts = { flora: 0, fauna: 0 }
-  const sourcePluginCounts = Object.fromEntries(OFFICIAL_SYSTEM_PLUGINS.map((plugin) => [plugin, 0]))
+  const sourcePluginCounts = Object.fromEntries(authoritativePlugins.map((plugin) => [plugin, 0]))
   for (const row of occurrenceRows) {
     const type = row.SpeciesType?.toLowerCase()
     if (!['flora', 'fauna'].includes(type)) sourceError(`unsupported organic species type ${JSON.stringify(row.SpeciesType)}.`)
@@ -47,7 +47,7 @@ export function buildC5Targets(csv) {
       if (!row[field]) sourceError(`missing ${field} on organic species ${row.SpeciesFormID || '<unknown>'}.`)
     }
     if (!/^[0-9A-F]{8}$/.test(row.SpeciesFormID)) sourceError(`invalid species FormID ${JSON.stringify(row.SpeciesFormID)}.`)
-    if (!OFFICIAL_SYSTEM_PLUGINS.includes(row.SpeciesSourceFile)) sourceError(`unsupported species source plugin ${JSON.stringify(row.SpeciesSourceFile)}.`)
+    if (!authoritativePlugins.includes(row.SpeciesSourceFile)) sourceError(`unsupported species source plugin ${JSON.stringify(row.SpeciesSourceFile)}.`)
     occurrenceCounts[type] += 1
     const item = {
       entityKind: type,

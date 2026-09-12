@@ -142,7 +142,6 @@ test('base and Shattered Space systems share one pipeline; zero-target plugins a
   assert.equal(result.provenance.length, 2)
   assert.equal(result.unresolved.length, 0)
   assert.equal(stars.get('SFBGS00D.esm').length, 0)
-  assert.equal(stars.get('SFBGS050.esm').length, 0)
 })
 
 test('approves only the exact system:0 SOL to Sol source/display normalization', () => {

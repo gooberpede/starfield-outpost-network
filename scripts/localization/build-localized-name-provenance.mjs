@@ -1,19 +1,24 @@
 #!/usr/bin/env node
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { access, mkdir, readFile, writeFile } from 'node:fs/promises'
+import { execFileSync } from 'node:child_process'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { buildC2Targets, generateProvenance, PROVENANCE_HEADERS, serializeCsv, UNRESOLVED_HEADERS } from './localized-name-provenance.mjs'
+import { buildC2Targets, generateProvenance, PROVENANCE_HEADERS, serializeCsv, UNRESOLVED_HEADERS, validateCommittedCrosswalk } from './localized-name-provenance.mjs'
 import { buildC4Targets } from './body-provenance.mjs'
 import {
   C6_PREVIEW_HEADERS, generateComposedFaunaProvenance, parseC6Targets,
 } from './composed-fauna-provenance.mjs'
 import { localizationInputsFromManifest } from './localization-input-manifest.mjs'
-import { buildNameNormalizationPolicy, NAME_NORMALIZATION_HEADERS, NAME_NORMALIZATIONS, validateNameNormalizations } from './name-normalization-policy.mjs'
+import { buildNameNormalizationPolicy, NAME_NORMALIZATION_HEADERS, NAME_NORMALIZATIONS, parseNameNormalizationsCsv, validateNameNormalizations } from './name-normalization-policy.mjs'
 import {
   buildC5Targets, buildNamingRules, C6_HANDOFF_HEADERS, generateOrganicProvenance, ORGANIC_CLASSIFICATIONS, TEMPLATE_LINEAGE_HEADERS,
 } from './organic-provenance.mjs'
 import { createProvenanceManifest } from './provenance-manifest.mjs'
+import {
+  buildCanonicalPopulation, compareInputManifests, compareProvenanceArtifacts, stableManifestIdentity,
+  validateCoverage, validateInputPolicy, validateProvenanceRowShapes, verifyJapaneseAvailability,
+} from './provenance-build-integration.mjs'
 import {
   AUTHORITATIVE_LOCALIZATION_PLUGINS, buildSupportedProviderChains, logicalIdentityForRecord, readTes4MasterList,
 } from './official-master-provider-chains.mjs'
@@ -33,15 +38,14 @@ const SOURCES = {
   c6Fauna: 'reference-source/localized-name-provenance-c6-fauna.csv',
 }
 const PROVIDER_SIGNATURES = Object.freeze(['IRES', 'BIOM', 'PERK', 'STDT', 'PNDT', 'FLOR', 'NPC_', 'LVLN', 'OMOD', 'INNR'])
-const EXPECTED_FULL_MODULE_MASTERS = Object.freeze({
-  'Starfield.esm': Object.freeze([]),
-  'ShatteredSpace.esm': Object.freeze(['Starfield.esm']),
-  'SFBGS00D.esm': Object.freeze(['Starfield.esm']),
-})
-const INSTALLED_C7_EXPECTED = Object.freeze({
-  resolvedEntities: 3539, provenanceRows: 4796, unresolvedRows: 0, distinctRecords: 2619,
-  singleProviderRows: 4795, overrideRows: 1, winnerOwnsRows: 4796, inheritedRows: 0,
-  nameProviders: Object.freeze({ 'Starfield.esm': 4759, 'ShatteredSpace.esm': 35, 'SFBGS00D.esm': 2 }),
+const OUTPUT_PATHS = Object.freeze({
+  provenance: 'reference-source/localized-name-provenance.csv',
+  unresolved: 'reference-source/localized-name-provenance-unresolved.csv',
+  normalizations: 'reference-source/localized-name-normalizations.csv',
+  c6Handoff: 'reference-source/localized-name-provenance-c6-fauna.csv',
+  c6Preview: 'reference-source/localized-name-c6-fauna-ja-preview.csv',
+  c5Lineage: 'reference-source/localized-name-provenance-c5-fauna-lineage.csv',
+  manifest: 'reference-source/localized-name-provenance-manifest.json',
 })
 
 function parseArguments(args) {
@@ -49,9 +53,10 @@ function parseArguments(args) {
   for (let index = 0; index < args.length; index += 1) {
     if (args[index] === '--config') result.configPath = args[++index]
     else if (args[index] === '--manifest') result.manifestPath = args[++index]
+    else if (args[index] === '--write') result.write = true
     else throw new Error(`Unknown argument: ${args[index]}`)
   }
-  if (!result.configPath) throw new Error('Missing required --config <local-inputs.json>.')
+  result.configPath ??= '.local-work/localization/provenance/c2-inputs.json'
   return result
 }
 
@@ -63,38 +68,51 @@ export async function buildLocalizedNameProvenance(options) {
   const configPath = path.resolve(options.configPath)
   const configDirectory = path.dirname(configPath)
   const config = JSON.parse(await readFile(configPath, 'utf8'))
+  const policy = JSON.parse(await readFile(path.join(ROOT, 'reference-source/localization-provenance-policy.json'), 'utf8'))
   const resolveLocal = (value) => path.resolve(configDirectory, value)
-  const plugins = (config.plugins ?? []).map((item) => ({ ...item, path: resolveLocal(item.path) }))
-  const localizationInputs = (config.localizationInputs ?? []).map((item) => ({ locale: 'en', ...item, path: resolveLocal(item.path) }))
+  const configuredPlugins = (config.plugins ?? []).map((item) => ({ ...item, path: resolveLocal(item.path) }))
+  const inputPolicy = validateInputPolicy(configuredPlugins, policy)
+  const plugins = inputPolicy.authoritative
+  for (const plugin of plugins) {
+    try { await access(plugin.path) } catch {
+      throw new Error(`AUTHORITATIVE_PLUGIN_MISSING: ${plugin.filename} was not found at configured path ${plugin.path}.`)
+    }
+  }
+  const authoritativePluginNames = policy.authoritativePlugins.map((item) => item.filename)
+  const localizationInputs = (config.localizationInputs ?? [])
+    .filter((item) => authoritativePluginNames.includes(item.plugin))
+    .map((item) => ({ locale: 'en', ...item, path: resolveLocal(item.path) }))
+  let intakeManifest
   if (config.localizationInputManifest) {
     const intakeManifestPath = resolveLocal(config.localizationInputManifest)
-    const intakeManifest = JSON.parse(await readFile(intakeManifestPath, 'utf8'))
-    for (const locale of ['en', 'ja']) localizationInputs.push(...await localizationInputsFromManifest(intakeManifest, intakeManifestPath, locale))
+    intakeManifest = JSON.parse(await readFile(intakeManifestPath, 'utf8'))
+    for (const locale of policy.locales) localizationInputs.push(...await localizationInputsFromManifest(intakeManifest, intakeManifestPath, locale, authoritativePluginNames))
   }
   const sources = await loadSources()
   const { targets: c2Targets, statistics: c2Statistics } = buildC2Targets(sources)
   const { targets: systemTargets, statistics: systemStatistics } = buildC3Targets(sources.planets)
-  const { targets: bodyTargets, statistics: bodyStatistics } = buildC4Targets(sources.planets)
-  const { targets: organicTargets, statistics: organicStatistics } = buildC5Targets(sources.biomeOrganic)
+  const { targets: bodyTargets, statistics: bodyStatistics } = buildC4Targets(sources.planets, authoritativePluginNames)
+  const { targets: organicTargets, statistics: organicStatistics } = buildC5Targets(sources.biomeOrganic, authoritativePluginNames)
   const c6Targets = parseC6Targets(sources.c6Fauna)
   const pluginByName = new Map(plugins.map((item) => [item.filename, item]))
-  const missingOfficialPlugins = OFFICIAL_SYSTEM_PLUGINS.filter((plugin) => !pluginByName.has(plugin))
+  const missingOfficialPlugins = authoritativePluginNames.filter((plugin) => !pluginByName.has(plugin))
   if (missingOfficialPlugins.length) throw new Error(`Missing required official plugin input(s): ${missingOfficialPlugins.join(', ')}.`)
   const mastersByPlugin = new Map()
   const authoritativeRecordsByPlugin = new Map()
-  for (const pluginName of AUTHORITATIVE_LOCALIZATION_PLUGINS) {
+  for (const pluginName of authoritativePluginNames) {
     const plugin = pluginByName.get(pluginName)
     if (!plugin) throw new Error(`Missing required authoritative localization plugin input: ${pluginName}.`)
     const masters = readTes4MasterList(plugin.path)
-    if (JSON.stringify(masters) !== JSON.stringify(EXPECTED_FULL_MODULE_MASTERS[pluginName])) {
+    const expectedMasters = policy.authoritativePlugins.find((item) => item.filename === pluginName).masters
+    if (JSON.stringify(masters) !== JSON.stringify(expectedMasters)) {
       throw new Error(`C7 ${pluginName} full-module master list drifted: ${JSON.stringify(masters)}.`)
     }
     mastersByPlugin.set(pluginName, masters)
     authoritativeRecordsByPlugin.set(pluginName, findRecordsBySignaturesInPlugin(plugin.path, PROVIDER_SIGNATURES))
   }
-  const providerChains = buildSupportedProviderChains(AUTHORITATIVE_LOCALIZATION_PLUGINS.map((plugin) => ({
+  const providerChains = buildSupportedProviderChains(authoritativePluginNames.map((plugin) => ({
     plugin, masters: mastersByPlugin.get(plugin), records: authoritativeRecordsByPlugin.get(plugin),
-  })))
+  })), authoritativePluginNames)
   const recordsByPlugin = new Map()
   const recordTargets = [
     ...c2Targets,
@@ -109,13 +127,13 @@ export async function buildLocalizedNameProvenance(options) {
     recordsByPlugin.set(pluginName, new Map(records.map((record) => [`${record.signature}:${record.formIdHex}`, record])))
   }
   const starRecordsByPlugin = new Map()
-  for (const pluginName of OFFICIAL_SYSTEM_PLUGINS) {
+  for (const pluginName of authoritativePluginNames) {
     starRecordsByPlugin.set(pluginName, findStarRecordsInPlugin(pluginByName.get(pluginName).path))
   }
   const organicCanonicalRecords = new Map()
   const organicRelationshipRecords = new Map()
   const organicProviderChains = new Map()
-  for (const pluginName of OFFICIAL_SYSTEM_PLUGINS) {
+  for (const pluginName of authoritativePluginNames) {
     const records = findRecordsBySignaturesInPlugin(pluginByName.get(pluginName).path, ['FLOR', 'NPC_', 'LVLN', 'OMOD', 'INNR'])
     for (const record of records) {
       const provider = { plugin: pluginName, record }
@@ -157,24 +175,61 @@ export async function buildLocalizedNameProvenance(options) {
     unresolved: [...c2Result.unresolved, ...systemResult.unresolved, ...bodyResult.unresolved, ...organicUnresolved].sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || a.ReasonCode.localeCompare(b.ReasonCode)),
     normalizations: [...c2Result.normalizations, ...systemResult.normalizations, ...bodyResult.normalizations, ...organicResult.normalizations],
   }
-  const providerStatistics = validateInstalledC7Population(result, providerChains, mastersByPlugin, localizedTables)
+  const population = buildCanonicalPopulation([c2Targets, systemTargets, bodyTargets, organicTargets])
+  const coverage = validateCoverage(population, result.provenance, result.unresolved)
+  validateProvenanceRowShapes(result.provenance)
+  const japanese = verifyJapaneseAvailability(result.provenance, localizedTables)
+  const providerStatistics = validateInstalledC7Population(result, providerChains, mastersByPlugin, localizedTables, policy)
   validateNameNormalizations(NAME_NORMALIZATIONS, [...c2Targets, ...systemTargets, ...bodyTargets, ...organicTargets], result.provenance, result.unresolved, result.normalizations)
   const fatal = [...c2Result.unresolved, ...organicUnresolved].filter((row) => ['CANONICAL_SOURCE_ERROR', 'MISSING_STRING_ID', 'WRONG_FIELD', 'WRONG_PLUGIN', 'WRONG_TABLE'].includes(row.ReasonCode))
   if (fatal.length) throw new Error(`English provenance verification failed: ${fatal.map((row) => `${row.EntityKind}:${row.EntityId} ${row.ReasonCode}`).join(', ')}.`)
 
-  await writeFile(path.join(ROOT, 'reference-source/localized-name-provenance.csv'), serializeCsv(PROVENANCE_HEADERS, result.provenance), 'utf8')
-  await writeFile(path.join(ROOT, 'reference-source/localized-name-provenance-unresolved.csv'), serializeCsv(UNRESOLVED_HEADERS, result.unresolved), 'utf8')
-  await writeFile(path.join(ROOT, 'reference-source/localized-name-normalizations.csv'), serializeCsv(NAME_NORMALIZATION_HEADERS, result.normalizations), 'utf8')
-  await writeFile(path.join(ROOT, 'reference-source/localized-name-provenance-c6-fauna.csv'), serializeCsv(C6_HANDOFF_HEADERS, c6Result.handoff), 'utf8')
-  await writeFile(path.join(ROOT, 'reference-source/localized-name-c6-fauna-ja-preview.csv'), serializeCsv(C6_PREVIEW_HEADERS, c6Result.preview), 'utf8')
-  await writeFile(path.join(ROOT, 'reference-source/localized-name-provenance-c5-fauna-lineage.csv'), serializeCsv(TEMPLATE_LINEAGE_HEADERS, organicResult.lineage), 'utf8')
   const manifest = await createProvenanceManifest({
-    pluginPaths: plugins.map((item) => item.path), localizationInputs,
-    gameVersion: config.gameVersion ?? 'unknown',
+    plugins, localizationInputs, intakeManifest, policy, mastersByPlugin, gameVersion: config.gameVersion ?? 'unknown',
+    generatorCommit: (() => { try { return execFileSync('git', ['rev-parse', 'HEAD'], { cwd: ROOT, encoding: 'utf8' }).trim() } catch { return null } })(),
   })
-  const manifestPath = path.resolve(options.manifestPath ?? path.join(ROOT, '.local-work/localization/provenance/c2-manifest.json'))
-  await mkdir(path.dirname(manifestPath), { recursive: true })
-  await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8')
+  const serialized = {
+    provenance: serializeCsv(PROVENANCE_HEADERS, result.provenance), unresolved: serializeCsv(UNRESOLVED_HEADERS, result.unresolved),
+    normalizations: serializeCsv(NAME_NORMALIZATION_HEADERS, result.normalizations), c6Handoff: serializeCsv(C6_HANDOFF_HEADERS, c6Result.handoff),
+    c6Preview: serializeCsv(C6_PREVIEW_HEADERS, c6Result.preview), c5Lineage: serializeCsv(TEMPLATE_LINEAGE_HEADERS, organicResult.lineage),
+  }
+  let committedManifest
+  try { committedManifest = JSON.parse(await readFile(path.join(ROOT, OUTPUT_PATHS.manifest), 'utf8')) } catch (error) { if (error.code !== 'ENOENT') throw error }
+  const committedCrosswalk = validateCommittedCrosswalk(
+    await readFile(path.join(ROOT, OUTPUT_PATHS.provenance), 'utf8'), await readFile(path.join(ROOT, OUTPUT_PATHS.unresolved), 'utf8'),
+    [...c2Targets, ...systemTargets, ...bodyTargets, ...organicTargets],
+  )
+  const committed = {
+    ...committedCrosswalk,
+    normalizations: parseNameNormalizationsCsv(await readFile(path.join(ROOT, OUTPUT_PATHS.normalizations), 'utf8')),
+  }
+  const drift = [
+    ...compareInputManifests(manifest, committedManifest),
+    ...compareProvenanceArtifacts(result, committed),
+  ]
+  const supportingDrift = []
+  for (const key of ['c6Handoff', 'c6Preview', 'c5Lineage']) {
+    if (serialized[key] !== await readFile(path.join(ROOT, OUTPUT_PATHS[key]), 'utf8')) supportingDrift.push({ category: 'structural', type: 'supporting-artifact-changed', key })
+  }
+  drift.push(...supportingDrift)
+  const reportPath = path.resolve(options.manifestPath ?? path.join(ROOT, '.local-work/localization/provenance/build-report.json'))
+  const entityKindCounts = Object.fromEntries([...new Set(result.provenance.map((row) => row.EntityKind))].sort().map((kind) => [kind, new Set(result.provenance.filter((row) => row.EntityKind === kind).map((row) => row.EntityId)).size]))
+  const buildReport = {
+    schemaVersion: 1, generatedAt: new Date().toISOString(), inputManifestIdentity: stableManifestIdentity(manifest),
+    inputPolicy, coverage, providerCounts: providerStatistics.nameProviders, entityKindCounts,
+    composition: c6Result.statistics, normalizationUsage: { approved: NAME_NORMALIZATIONS.length, used: result.normalizations.length, stale: 0 },
+    verification: { englishMismatches: 0, japanese }, drift,
+    outputFiles: Object.fromEntries(Object.entries(serialized).map(([key]) => [OUTPUT_PATHS[key], drift.some((item) => item.key === key || !item.key) ? 'review' : 'unchanged'])),
+    remainingRuntimeVerification: 'Confirm exact Japanese on-screen U+0020 composed-name separator fidelity in the runtime or Creation Kit.',
+  }
+  await mkdir(path.dirname(reportPath), { recursive: true })
+  await writeFile(reportPath, `${JSON.stringify(buildReport, null, 2)}\n`, 'utf8')
+  if (options.write) {
+    for (const [key, content] of Object.entries(serialized)) await writeFile(path.join(ROOT, OUTPUT_PATHS[key]), content, 'utf8')
+    await writeFile(path.join(ROOT, OUTPUT_PATHS.manifest), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8')
+  } else if (drift.length) {
+    throw new Error(`PROVENANCE_DRIFT_DETECTED: ${drift.length} change(s); inspect ${reportPath}. Use --write only after review.`)
+  }
   const owningPluginCounts = Object.fromEntries(OFFICIAL_SYSTEM_PLUGINS.map((plugin) => [plugin, systemResult.provenance.filter((row) => row.RecordSourcePlugin === plugin).length]))
   const bodyResolvedPluginCounts = Object.fromEntries(OFFICIAL_SYSTEM_PLUGINS.map((plugin) => [plugin, bodyResult.provenance.filter((row) => row.RecordSourcePlugin === plugin).length]))
   const bodyUnresolvedPluginCounts = Object.fromEntries(OFFICIAL_SYSTEM_PLUGINS.map((plugin) => [plugin, bodyResult.unresolved.filter((row) => row.RecordSourcePlugin === plugin).length]))
@@ -189,11 +244,11 @@ export async function buildLocalizedNameProvenance(options) {
       providerChains: providerStatistics,
     },
     organic: { ...organicResult, unresolved: organicUnresolved, classifications: organicClassifications, handoff: c6Result.handoff }, c6: c6Result,
-    manifest, manifestPath,
+    manifest, manifestPath: reportPath, buildReport,
   }
 }
 
-function validateInstalledC7Population(result, providerChains, mastersByPlugin, localizedTables) {
+function validateInstalledC7Population(result, providerChains, mastersByPlugin, localizedTables, policy) {
   const identities = new Set()
   let singleProviderRows = 0
   let overrideRows = 0
@@ -211,7 +266,7 @@ function validateInstalledC7Population(result, providerChains, mastersByPlugin, 
     if (row.NameSourcePlugin === chain.at(-1).plugin) winnerOwnsRows += 1
     else inheritedRows += 1
   }
-  const nameProviders = Object.fromEntries(AUTHORITATIVE_LOCALIZATION_PLUGINS.map((plugin) => [
+  const nameProviders = Object.fromEntries(policy.authoritativePlugins.map(({ filename: plugin }) => [
     plugin, result.provenance.filter((row) => row.NameSourcePlugin === plugin).length,
   ]))
   const statistics = {
@@ -219,10 +274,10 @@ function validateInstalledC7Population(result, providerChains, mastersByPlugin, 
     provenanceRows: result.provenance.length, unresolvedRows: result.unresolved.length,
     distinctRecords: identities.size, singleProviderRows, overrideRows, winnerOwnsRows, inheritedRows, nameProviders,
   }
-  for (const key of ['resolvedEntities', 'provenanceRows', 'unresolvedRows', 'distinctRecords', 'singleProviderRows', 'overrideRows', 'winnerOwnsRows', 'inheritedRows']) {
-    if (statistics[key] !== INSTALLED_C7_EXPECTED[key]) throw new Error(`C7 installed invariant ${key} expected ${INSTALLED_C7_EXPECTED[key]}, received ${statistics[key]}.`)
+  for (const key of ['resolvedEntities', 'provenanceRows', 'unresolvedRows']) {
+    if (statistics[key] !== policy.expectedClosure[key]) throw new Error(`C8 closure invariant ${key} expected ${policy.expectedClosure[key]}, received ${statistics[key]}.`)
   }
-  if (JSON.stringify(nameProviders) !== JSON.stringify(INSTALLED_C7_EXPECTED.nameProviders)) {
+  if (JSON.stringify(nameProviders) !== JSON.stringify(policy.expectedClosure.providerRows)) {
     throw new Error(`C7 installed name-provider counts drifted: ${JSON.stringify(nameProviders)}.`)
   }
   const muphrid = result.provenance.find((row) => row.EntityKind === 'body' && row.EntityId === '0005E364')
@@ -283,6 +338,12 @@ async function main() {
   )
   process.stdout.write(`C6 ${JSON.stringify(report.c6.statistics)}\n`)
   process.stdout.write(`C7 provider chains ${JSON.stringify(report.statistics.providerChains)}\n`)
+  process.stdout.write(
+    `C8 coverage ${JSON.stringify(report.buildReport.coverage)}; Japanese missing IDs ${report.buildReport.verification.japanese.missingIds}; ` +
+    `drift ${report.buildReport.drift.length}; mode ${report.buildReport.drift.length ? 'review' : 'no-drift'}\n` +
+    `Authoritative plugins ${report.manifest.authoritativePlugins.map((plugin) => plugin.filename).join(', ')}\n` +
+    `Build report ${report.manifestPath}\n`,
+  )
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

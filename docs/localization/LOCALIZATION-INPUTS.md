@@ -76,20 +76,49 @@ systems:
   "plugins": [
     { "filename": "Starfield.esm", "path": "C:/Games/Starfield/Data/Starfield.esm" },
     { "filename": "ShatteredSpace.esm", "path": "C:/Games/Starfield/Data/ShatteredSpace.esm" },
-    { "filename": "SFBGS00D.esm", "path": "C:/Games/Starfield/Data/SFBGS00D.esm" },
-    { "filename": "SFBGS050.esm", "path": "C:/Games/Starfield/Data/SFBGS050.esm" }
+    { "filename": "SFBGS00D.esm", "path": "C:/Games/Starfield/Data/SFBGS00D.esm" }
   ],
   "localizationInputManifest": "../inputs/manifest.json",
   "localizationInputLocale": "en"
 }
 ```
 
-Then run:
+`SFBGS050.esm` may remain as an additional config entry for compatibility, but
+it is optional and non-authoritative. The builder ignores it for canonical
+coverage, record discovery, and provider selection. All other unallowlisted
+plugins are ignored as well.
+
+## Full Parcel C regeneration
+
+Prerequisites are Node/npm dependencies, the three authoritative ESMs, the
+explicitly configured BA2 archives, and extracted English/Japanese tables with
+their intake manifest. Keep machine paths in the ignored
+`.local-work/localization/provenance/c2-inputs.json`; the committed manifest
+uses normalized local references.
+
+Run the complete installed-game pipeline with one top-level command:
 
 ```text
-npm run localization:provenance:build -- --config .local-work/localization/provenance/c2-inputs.json
-npm run localization:provenance:verify
+npm run localization:provenance:build
 ```
+
+Use `-- --config <path>` only for a non-default local config. The command
+validates inputs, runs the C1-C7 generation/provider logic, verifies English and
+Japanese data, reconciles coverage, compares fresh and committed artifacts, and
+writes `.local-work/localization/provenance/build-report.json`. It does not
+change committed files in normal mode. Missing authoritative plugins/tables,
+hash mismatches, unsupported encodings, coverage gaps, verification failures,
+or drift fail with an actionable code and report.
+
+After reviewing intended drift, explicitly accept it with:
+
+```text
+npm run localization:provenance:build -- --write
+```
+
+This refreshes the six existing provenance/support CSVs and
+`reference-source/localized-name-provenance-manifest.json`. Run the normal
+command again to prove zero drift and deterministic output.
 
 Before provenance generation reads a table, the manifest adapter rechecks its
 size and SHA-256 and fails with `TABLE_HASH_MISMATCH` if local content changed.
@@ -101,7 +130,7 @@ C3 derives its target set from `planet-directory.csv`, collapses body rows by
 stable numeric `StarSystemID`, and verifies that every PNDT body assigned to a
 system has the same audited `GNAM` system number. It then requires exactly one
 `STDT.DNAM` match across `Starfield.esm`, `ShatteredSpace.esm`, `SFBGS00D.esm`,
-and `SFBGS050.esm`. Zero targets for a supported plugin are valid. Missing or
+and `SFBGS00D.esm`. Zero targets for a supported plugin are valid. Missing or
 conflicting system numbers, absent or ambiguous STDT matches, unsupported record
 shapes, missing strings, and English mismatches are retained in
 `localized-name-provenance-unresolved.csv`; systems are never silently dropped.
@@ -178,3 +207,52 @@ composed-name verification. Discovery, mapping, and extraction are
 locale-parameterized. A fresh CCT architecture audit is needed only if evidence
 contradicts the fixed prefix/species/diet model. Extraction alone does not create
 a runtime overlay or alter reference display behavior; that remains Parcel D.
+
+## Patch and DLC review workflow
+
+When a game update changes a manifested hash, run the normal builder first and
+inspect the input/editorial/structural drift in the local report. Update
+canonical sources or extraction/provider logic only when the evidence requires
+it. Then run the explicit `--write` acceptance command, rerun repository-only
+verification, and commit only the reviewed project-owned outputs. Never refresh
+committed provenance merely because installed files changed.
+
+For a new official DLC, add it deliberately to
+`localization-provenance-policy.json`, declare its masters and archive/table
+inputs, extend canonical tracker data, and run this same workflow. New narrow
+record logic is required only if its naming shape is unsupported.
+
+## Parcel D handoff
+
+Parcel D consumes these project-owned contracts:
+
+- `localized-name-provenance.csv` for qualified direct/template identities and
+  ordered composed component identities;
+- `localized-name-provenance-unresolved.csv` for the explicit unresolved state;
+- `localized-name-normalizations.csv` for entity-scoped English policy;
+- `localized-name-provenance-manifest.json` for exact reviewed input identity;
+- `localized-name-provenance-c6-fauna.csv` and
+  `localized-name-provenance-c5-fauna-lineage.csv` for organic lineage/population;
+- `localized-name-c6-fauna-ja-preview.csv` for verified C6 Japanese assembly;
+- `.local-work/localization/provenance/build-report.json` for the local coverage,
+  verification, and drift review.
+
+These artifacts already carry canonical tracker identity, FormIDs, field paths,
+provider ownership, exact English verification text, and composed-name rules.
+Parcel D must not rediscover them. Exact Japanese on-screen U+0020 separator
+fidelity remains a runtime/Creation Kit verification item.
+
+Repository-only verification remains:
+
+```text
+npm test
+npm run reference:test
+npm run localization:provenance:test
+npm run localization:provenance:verify
+npm run reference:build
+npm run build
+npm run lint
+```
+
+None of these commands require installed game files; only
+`localization:provenance:build` does.
