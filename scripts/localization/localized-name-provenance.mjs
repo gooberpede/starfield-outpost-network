@@ -22,6 +22,10 @@ export const REASON_CODES = new Set([
   'OVERRIDE_PROVIDER_UNRESOLVED', 'MISSING_LOCALIZATION_INPUT',
   'SYSTEM_NUMBER_MISSING', 'SYSTEM_NUMBER_CONFLICT', 'SYSTEM_STDT_NOT_FOUND',
   'SYSTEM_STDT_AMBIGUOUS', 'SYSTEM_NAME_MISMATCH',
+  'ORGANIC_DIRECT_FULL_NOT_FOUND', 'FAUNA_CCT_CHAIN_UNSUPPORTED',
+  'FAUNA_CCT_NAME_AMBIGUOUS', 'DEFERRED_COMPOSED_FAUNA_C6',
+  'FAUNA_TEMPLATE_NAME_NOT_FOUND', 'FAUNA_TEMPLATE_NAME_AMBIGUOUS',
+  'FAUNA_TEMPLATE_CHAIN_UNSUPPORTED',
 ])
 
 export const OFFICIAL_TERMS = Object.freeze([
@@ -224,7 +228,7 @@ export function validateCommittedCrosswalk(provenanceCsv, unresolvedCsv, targets
   const expected = new Set(targets.map((item) => `${item.entityKind}:${item.entityId}`))
   if ([...coverage].some(([key, count]) => !expected.has(key) || count !== 1) ||
       targets.some((item) => coverage.get(`${item.entityKind}:${item.entityId}`) !== 1)) {
-    throw new Error('Committed C2-C4 crosswalk does not cover every canonical target exactly once.')
+    throw new Error('Committed C2-C5 crosswalk does not cover every canonical target exactly once.')
   }
 
   const targetByIdentity = new Map(targets.map((item) => [`${item.entityKind}:${item.entityId}`, item]))
@@ -241,7 +245,7 @@ export function validateCommittedCrosswalk(provenanceCsv, unresolvedCsv, targets
     for (const [field, value] of [['EntityKind', target.entityKind], ['EntityId', target.entityId], ['CanonicalEnglish', target.canonicalEnglish]]) {
       validateField(row, target, field, value)
     }
-    if (target.entityKind !== 'system') {
+    if (target.entityKind !== 'system' && !(target.entityKind === 'fauna' && row.DisplayNameSourceKind === 'template')) {
       for (const [field, value] of [
         ['RecordSourcePlugin', target.recordSourcePlugin], ['RecordFormID', target.recordFormId], ['RecordSignature', target.recordSignature],
       ]) validateField(row, target, field, value)
@@ -250,11 +254,11 @@ export function validateCommittedCrosswalk(provenanceCsv, unresolvedCsv, targets
   }
   for (const row of provenance) {
     const target = validateCanonicalIdentity(row)
-    const recordSignature = target.entityKind === 'system' ? 'STDT' : target.recordSignature
+    const recordSignature = target.entityKind === 'system' ? 'STDT' : target.entityKind === 'fauna' && row.DisplayNameSourceKind === 'template' ? 'NPC_' : target.recordSignature
     const semanticPath = target.entityKind === 'system' ? SEMANTIC_PATHS.TES_FULL_NAME : target.semanticPath
     const definition = getLocalizedFieldDefinition(recordSignature, semanticPath)
     for (const [field, value] of [
-      ['DisplayNameSourceKind', 'direct'],
+      ['DisplayNameSourceKind', target.entityKind === 'fauna' && row.DisplayNameSourceKind === 'template' ? 'template' : 'direct'],
       ['ComponentOrder', '0'],
       ['ComponentRole', 'complete'],
       ['RecordSignature', recordSignature],
@@ -264,6 +268,10 @@ export function validateCommittedCrosswalk(provenanceCsv, unresolvedCsv, targets
     ]) validateField(row, target, field, value)
     if (target.entityKind === 'system' && !['Starfield.esm', 'ShatteredSpace.esm', 'SFBGS00D.esm', 'SFBGS050.esm'].includes(row.RecordSourcePlugin)) {
       throw new Error(`Committed provenance system:${target.entityId} has unsupported STDT owner ${row.RecordSourcePlugin}.`)
+    }
+    if (target.entityKind === 'fauna' && row.DisplayNameSourceKind === 'template' &&
+        !['Starfield.esm', 'ShatteredSpace.esm', 'SFBGS00D.esm', 'SFBGS050.esm'].includes(row.RecordSourcePlugin)) {
+      throw new Error(`Committed provenance fauna:${target.entityId} has unsupported encounter NPC_ owner ${row.RecordSourcePlugin}.`)
     }
   }
   for (const row of unresolved) validateCanonicalIdentity(row)

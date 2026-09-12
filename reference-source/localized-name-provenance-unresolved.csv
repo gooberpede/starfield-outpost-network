@@ -1,1 +1,923 @@
 EntityKind,EntityId,RecordSourcePlugin,RecordFormID,RecordSignature,CanonicalEnglish,ReasonCode,Detail
+fauna,000065E2,Starfield.esm,000065E2,NPC_,Carasnail Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Carasnail Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,000065E6,Starfield.esm,000065E6,NPC_,Herding Glowback Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Glowback Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,00023535,Starfield.esm,00023535,NPC_,Hornwing Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hornwing Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,00023536,Starfield.esm,00023536,NPC_,Pearl Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pearl Filterer; localized component provenance is deferred to Parcel C6.
+fauna,0002353B,Starfield.esm,0002353B,NPC_,Mothwing Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Mothwing Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,00025A9D,Starfield.esm,00025A9D,NPC_,Eggsac Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Eggsac Filterer; localized component provenance is deferred to Parcel C6.
+fauna,00025A9E,Starfield.esm,00025A9E,NPC_,Hunting Sharkwhale,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Sharkwhale; localized component provenance is deferred to Parcel C6.
+fauna,000285D6,Starfield.esm,000285D6,NPC_,Herding Glider Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Glider Grazer; localized component provenance is deferred to Parcel C6.
+fauna,000285D7,Starfield.esm,000285D7,NPC_,Carasnail Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Carasnail Geophage; localized component provenance is deferred to Parcel C6.
+fauna,0002B0D3,Starfield.esm,0002B0D3,NPC_,Herding Dragonfly Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Dragonfly Grazer; localized component provenance is deferred to Parcel C6.
+fauna,0002E342,Starfield.esm,0002E342,NPC_,Trilobite Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trilobite Grazer; localized component provenance is deferred to Parcel C6.
+fauna,0002E343,Starfield.esm,0002E343,NPC_,Pack Vulture,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Vulture; localized component provenance is deferred to Parcel C6.
+fauna,0002E344,Starfield.esm,0002E344,NPC_,Flocking Sporeback Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Sporeback Grazer; localized component provenance is deferred to Parcel C6.
+fauna,0002E345,Starfield.esm,0002E345,NPC_,Triworm Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Triworm Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,0002E346,Starfield.esm,0002E346,NPC_,Flamethorn Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flamethorn Grazer; localized component provenance is deferred to Parcel C6.
+fauna,0002E347,Starfield.esm,0002E347,NPC_,Pack Silverfish,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Silverfish; localized component provenance is deferred to Parcel C6.
+fauna,0002E348,Starfield.esm,0002E348,NPC_,Pack Eggtail Stalker,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Eggtail Stalker; localized component provenance is deferred to Parcel C6.
+fauna,0002E349,Starfield.esm,0002E349,NPC_,Pack Mothwing,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Mothwing; localized component provenance is deferred to Parcel C6.
+fauna,0002E34A,Starfield.esm,0002E34A,NPC_,Flocking Cranehopper Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Cranehopper Grazer; localized component provenance is deferred to Parcel C6.
+fauna,0002E34B,Starfield.esm,0002E34B,NPC_,Flocking Hippodon Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Hippodon Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,0002E34C,Starfield.esm,0002E34C,NPC_,Herding Glider Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Glider Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,0003C4C0,Starfield.esm,0003C4C0,NPC_,Morningstar Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Morningstar Filterer; localized component provenance is deferred to Parcel C6.
+fauna,00046C2D,Starfield.esm,00046C2D,NPC_,Fleshleaf Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Fleshleaf Filterer; localized component provenance is deferred to Parcel C6.
+fauna,00048A34,Starfield.esm,00048A34,NPC_,Apex Parrothawk,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Apex Parrothawk; localized component provenance is deferred to Parcel C6.
+fauna,0006B55D,Starfield.esm,0006B55D,NPC_,Herding Fluke Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Fluke Filterer; localized component provenance is deferred to Parcel C6.
+fauna,0008BDB6,Starfield.esm,0008BDB6,NPC_,Parrothawk Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Parrothawk Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,0008BDB7,Starfield.esm,0008BDB7,NPC_,Schooling Kronosaurus Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Kronosaurus Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,000DD261,Starfield.esm,000DD261,NPC_,Pack Glowhands,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Glowhands; localized component provenance is deferred to Parcel C6.
+fauna,000EF9A8,Starfield.esm,000EF9A8,NPC_,Hunting Boneglider,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Boneglider; localized component provenance is deferred to Parcel C6.
+fauna,000EF9A9,Starfield.esm,000EF9A9,NPC_,Schooling Sawhead Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Sawhead Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00131CD1,Starfield.esm,00131CD1,NPC_,Pack Sharkwhale,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Sharkwhale; localized component provenance is deferred to Parcel C6.
+fauna,00131CD2,Starfield.esm,00131CD2,NPC_,Shoaling Sawhead Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Shoaling Sawhead Filterer; localized component provenance is deferred to Parcel C6.
+fauna,00131CD3,Starfield.esm,00131CD3,NPC_,Cockatrice Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Cockatrice Filterer; localized component provenance is deferred to Parcel C6.
+fauna,00131CD4,Starfield.esm,00131CD4,NPC_,Herding Saturnine Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Saturnine Filterer; localized component provenance is deferred to Parcel C6.
+fauna,00131CD5,Starfield.esm,00131CD5,NPC_,Herding Tapeworm Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Tapeworm Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00131CD6,Starfield.esm,00131CD6,NPC_,Schooling Featherfin Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Featherfin Filterer; localized component provenance is deferred to Parcel C6.
+fauna,00131CD7,Starfield.esm,00131CD7,NPC_,Flocking Saturnine Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Saturnine Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00131CD8,Starfield.esm,00131CD8,NPC_,Pack Kronosaurus,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Kronosaurus; localized component provenance is deferred to Parcel C6.
+fauna,00131CD9,Starfield.esm,00131CD9,NPC_,Schooling Paddlefish Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Paddlefish Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,00131CDA,Starfield.esm,00131CDA,NPC_,Pearl Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pearl Filterer; localized component provenance is deferred to Parcel C6.
+fauna,00131CDB,Starfield.esm,00131CDB,NPC_,Shoaling Seahag Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Shoaling Seahag Filterer; localized component provenance is deferred to Parcel C6.
+fauna,00131CDC,Starfield.esm,00131CDC,NPC_,Pack Kronosaurus,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Kronosaurus; localized component provenance is deferred to Parcel C6.
+fauna,00131CDD,Starfield.esm,00131CDD,NPC_,Schooling Bladehead Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Bladehead Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00157E3B,Starfield.esm,00157E3B,NPC_,Schooling Skullface Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Skullface Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,00157E3C,Starfield.esm,00157E3C,NPC_,Coralbucket Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Coralbucket Filterer; localized component provenance is deferred to Parcel C6.
+fauna,00157E3D,Starfield.esm,00157E3D,NPC_,Pack Twintail,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Twintail; localized component provenance is deferred to Parcel C6.
+fauna,00157E3E,Starfield.esm,00157E3E,NPC_,Hunting Brainsprout,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Brainsprout; localized component provenance is deferred to Parcel C6.
+fauna,00157E3F,Starfield.esm,00157E3F,NPC_,Pack Twistfin,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Twistfin; localized component provenance is deferred to Parcel C6.
+fauna,00157E40,Starfield.esm,00157E40,NPC_,Toadface Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Toadface Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00157E41,Starfield.esm,00157E41,NPC_,Flocking Shellephant Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Shellephant Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,00157E42,Starfield.esm,00157E42,NPC_,Flocking Cephalopod Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Cephalopod Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,00157E43,Starfield.esm,00157E43,NPC_,Schooling Exowhale Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Exowhale Filterer; localized component provenance is deferred to Parcel C6.
+fauna,00157E44,Starfield.esm,00157E44,NPC_,Mayfly Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Mayfly Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,00157E45,Starfield.esm,00157E45,NPC_,Schooling Arapaima Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Arapaima Filterer; localized component provenance is deferred to Parcel C6.
+fauna,0015BE25,Starfield.esm,0015BE25,NPC_,Schooling Kronosaurus Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Kronosaurus Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00170A2A,Starfield.esm,00170A2A,NPC_,Hunting Brainsprout,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Brainsprout; localized component provenance is deferred to Parcel C6.
+fauna,00170A2B,Starfield.esm,00170A2B,NPC_,Coralbug Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Coralbug Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001791AE,Starfield.esm,001791AE,NPC_,Hunting Stonewalker Stalker,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Stonewalker Stalker; localized component provenance is deferred to Parcel C6.
+fauna,001791AF,Starfield.esm,001791AF,NPC_,Spaceroach Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spaceroach Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00179DC4,Starfield.esm,00179DC4,NPC_,Centiskull Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Centiskull Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00187114,Starfield.esm,00187114,NPC_,Eggsac Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Eggsac Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001933DD,Starfield.esm,001933DD,NPC_,Tuskfrog Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Tuskfrog Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001933DE,Starfield.esm,001933DE,NPC_,Herding Monitor Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Monitor Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001933DF,Starfield.esm,001933DF,NPC_,Hunting Bighorn,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Bighorn; localized component provenance is deferred to Parcel C6.
+fauna,001933E0,Starfield.esm,001933E0,NPC_,Hunting Trapmaw,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Trapmaw; localized component provenance is deferred to Parcel C6.
+fauna,001933E1,Starfield.esm,001933E1,NPC_,Grabber Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grabber Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001933E2,Starfield.esm,001933E2,NPC_,Triworm Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Triworm Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001933E3,Starfield.esm,001933E3,NPC_,Herding Beetlecrab Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Beetlecrab Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001933E4,Starfield.esm,001933E4,NPC_,Herding Bonefrill Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Bonefrill Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001933E5,Starfield.esm,001933E5,NPC_,Hunting Loxodont,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Loxodont; localized component provenance is deferred to Parcel C6.
+fauna,001933E6,Starfield.esm,001933E6,NPC_,Hunting Cephalopod,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Cephalopod; localized component provenance is deferred to Parcel C6.
+fauna,001941ED,Starfield.esm,001941ED,NPC_,Flocking Clawback Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Clawback Filterer; localized component provenance is deferred to Parcel C6.
+fauna,00194837,Starfield.esm,00194837,NPC_,Hunting Sharkwhale,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Sharkwhale; localized component provenance is deferred to Parcel C6.
+fauna,00194895,Starfield.esm,00194895,NPC_,Milliwhale Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Milliwhale Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00194896,Starfield.esm,00194896,NPC_,Schooling Finback Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Finback Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,00194897,Starfield.esm,00194897,NPC_,Herding Cassowary Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Cassowary Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,00194898,Starfield.esm,00194898,NPC_,Herding Leafbug Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Leafbug Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00194899,Starfield.esm,00194899,NPC_,Pack Bladehead,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Bladehead; localized component provenance is deferred to Parcel C6.
+fauna,0019489A,Starfield.esm,0019489A,NPC_,Pack Seabat,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Seabat; localized component provenance is deferred to Parcel C6.
+fauna,00195353,Starfield.esm,00195353,NPC_,Grabber Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grabber Filterer; localized component provenance is deferred to Parcel C6.
+fauna,00195354,Starfield.esm,00195354,NPC_,Herding Trihorn Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Trihorn Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00195355,Starfield.esm,00195355,NPC_,Herding Bighorn Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Bighorn Geophage; localized component provenance is deferred to Parcel C6.
+fauna,00195356,Starfield.esm,00195356,NPC_,Flocking Ankylosaurus Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Ankylosaurus Geophage; localized component provenance is deferred to Parcel C6.
+fauna,00195357,Starfield.esm,00195357,NPC_,Hunting Bonemane,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Bonemane; localized component provenance is deferred to Parcel C6.
+fauna,00195358,Starfield.esm,00195358,NPC_,Pack Vulture Stalker,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Vulture Stalker; localized component provenance is deferred to Parcel C6.
+fauna,00196516,Starfield.esm,00196516,NPC_,Flocking Glowhands Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Glowhands Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00196517,Starfield.esm,00196517,NPC_,Flocking Cutterhead Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Cutterhead Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00196BAF,Starfield.esm,00196BAF,NPC_,Spaceroach Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spaceroach Filterer; localized component provenance is deferred to Parcel C6.
+fauna,00196BB0,Starfield.esm,00196BB0,NPC_,Herding Beetlecrab Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Beetlecrab Filterer; localized component provenance is deferred to Parcel C6.
+fauna,00196BB1,Starfield.esm,00196BB1,NPC_,Leafbug Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Leafbug Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,00197D3F,Starfield.esm,00197D3F,NPC_,Centiskull Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Centiskull Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00197D40,Starfield.esm,00197D40,NPC_,Flocking Dodo Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Dodo Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00197D41,Starfield.esm,00197D41,NPC_,Herding Cockatrice Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Cockatrice Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,00197D42,Starfield.esm,00197D42,NPC_,Flocking Horsamander Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Horsamander Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00197D43,Starfield.esm,00197D43,NPC_,Swarming Sunflower,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Sunflower; localized component provenance is deferred to Parcel C6.
+fauna,00197D44,Starfield.esm,00197D44,NPC_,Pack Octomaggot,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Octomaggot; localized component provenance is deferred to Parcel C6.
+fauna,0019AA63,Starfield.esm,0019AA63,NPC_,Trilobite Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trilobite Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,0019AA64,Starfield.esm,0019AA64,NPC_,Flocking Shardhopper Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Shardhopper Geophage; localized component provenance is deferred to Parcel C6.
+fauna,0019AA65,Starfield.esm,0019AA65,NPC_,Herding Coralbucket Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Coralbucket Filterer; localized component provenance is deferred to Parcel C6.
+fauna,0019AA66,Starfield.esm,0019AA66,NPC_,Flocking Coralcrawler Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Coralcrawler Geophage; localized component provenance is deferred to Parcel C6.
+fauna,0019B1FA,Starfield.esm,0019B1FA,NPC_,Flamethorn Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flamethorn Geophage; localized component provenance is deferred to Parcel C6.
+fauna,0019B1FB,Starfield.esm,0019B1FB,NPC_,Herding Lockjaw Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Lockjaw Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,0019B1FC,Starfield.esm,0019B1FC,NPC_,Flocking Scepter Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Scepter Geophage; localized component provenance is deferred to Parcel C6.
+fauna,0019B1FD,Starfield.esm,0019B1FD,NPC_,Hunting Silverfish,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Silverfish; localized component provenance is deferred to Parcel C6.
+fauna,0019B1FE,Starfield.esm,0019B1FE,NPC_,Hunting Arachnomantis Stalker,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Arachnomantis Stalker; localized component provenance is deferred to Parcel C6.
+fauna,0019B898,Starfield.esm,0019B898,NPC_,Beetle Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetle Grazer; localized component provenance is deferred to Parcel C6.
+fauna,0019B899,Starfield.esm,0019B899,NPC_,Carasnail Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Carasnail Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,0019B89A,Starfield.esm,0019B89A,NPC_,Herding Reefwalker Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Reefwalker Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,0019B89B,Starfield.esm,0019B89B,NPC_,Flocking Seabat Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Seabat Geophage; localized component provenance is deferred to Parcel C6.
+fauna,0019B89C,Starfield.esm,0019B89C,NPC_,Herding Cutterhead Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Cutterhead Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,0019B89D,Starfield.esm,0019B89D,NPC_,Apex Crocodaunt,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Apex Crocodaunt; localized component provenance is deferred to Parcel C6.
+fauna,0019B89E,Starfield.esm,0019B89E,NPC_,Hunting Tuskfrog,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Tuskfrog; localized component provenance is deferred to Parcel C6.
+fauna,0019B89F,Starfield.esm,0019B89F,NPC_,Pack Coralbug,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Coralbug; localized component provenance is deferred to Parcel C6.
+fauna,0019BD93,Starfield.esm,0019BD93,NPC_,Metropus Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Metropus Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,0019BD94,Starfield.esm,0019BD94,NPC_,Herding Sunflower Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Sunflower Filterer; localized component provenance is deferred to Parcel C6.
+fauna,0019BD95,Starfield.esm,0019BD95,NPC_,Flocking Crab Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Crab Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,0019BD96,Starfield.esm,0019BD96,NPC_,Herding Dodo Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Dodo Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,0019CDA2,Starfield.esm,0019CDA2,NPC_,Centiskull Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Centiskull Filterer; localized component provenance is deferred to Parcel C6.
+fauna,0019CDA3,Starfield.esm,0019CDA3,NPC_,Eggback Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Eggback Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,0019CDA4,Starfield.esm,0019CDA4,NPC_,Herding Bonemane Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Bonemane Grazer; localized component provenance is deferred to Parcel C6.
+fauna,0019CDA5,Starfield.esm,0019CDA5,NPC_,Hunting Ankylosaurus,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Ankylosaurus; localized component provenance is deferred to Parcel C6.
+fauna,0019E77E,Starfield.esm,0019E77E,NPC_,Sunfish Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Sunfish Filterer; localized component provenance is deferred to Parcel C6.
+fauna,0019E858,Starfield.esm,0019E858,NPC_,Pack Seahag,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Seahag; localized component provenance is deferred to Parcel C6.
+fauna,001A6170,Starfield.esm,001A6170,NPC_,Carasnail Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Carasnail Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001A6171,Starfield.esm,001A6171,NPC_,Grabber Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grabber Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001A6172,Starfield.esm,001A6172,NPC_,Flocking Scepter Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Scepter Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A6173,Starfield.esm,001A6173,NPC_,Herding Blistercrab Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Blistercrab Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001A6174,Starfield.esm,001A6174,NPC_,Flocking Leafbug Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Leafbug Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A6175,Starfield.esm,001A6175,NPC_,Flocking Eyespine Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Eyespine Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001A6176,Starfield.esm,001A6176,NPC_,Hunting Seabat,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Seabat; localized component provenance is deferred to Parcel C6.
+fauna,001A6177,Starfield.esm,001A6177,NPC_,Pack Crab Stalker,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Crab Stalker; localized component provenance is deferred to Parcel C6.
+fauna,001A6178,Starfield.esm,001A6178,NPC_,Pack Bladeback,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Bladeback; localized component provenance is deferred to Parcel C6.
+fauna,001A6347,Starfield.esm,001A6347,NPC_,Triworm Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Triworm Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A6348,Starfield.esm,001A6348,NPC_,Thorn Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Thorn Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001A6349,Starfield.esm,001A6349,NPC_,Flocking Nautiloos Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Nautiloos Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A634B,Starfield.esm,001A634B,NPC_,Herding Scoopback Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Scoopback Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001A634C,Starfield.esm,001A634C,NPC_,Swarming Noid,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Noid; localized component provenance is deferred to Parcel C6.
+fauna,001A634D,Starfield.esm,001A634D,NPC_,Swarming Arachnofly Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Arachnofly Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001A634E,Starfield.esm,001A634E,NPC_,Swarming Shardhopper Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Shardhopper Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001A766F,Starfield.esm,001A766F,NPC_,Milliwhale Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Milliwhale Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A7670,Starfield.esm,001A7670,NPC_,Carasnail Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Carasnail Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001A7671,Starfield.esm,001A7671,NPC_,Schooling Bladehead Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Bladehead Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A7672,Starfield.esm,001A7672,NPC_,Flocking Scepter Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Scepter Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001A7673,Starfield.esm,001A7673,NPC_,Herding Glowhands Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Glowhands Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001A7674,Starfield.esm,001A7674,NPC_,Flocking Longarm Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Longarm Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001A7675,Starfield.esm,001A7675,NPC_,Swarming Sentinel,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Sentinel; localized component provenance is deferred to Parcel C6.
+fauna,001A7676,Starfield.esm,001A7676,NPC_,Pack Mossasaur,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Mossasaur; localized component provenance is deferred to Parcel C6.
+fauna,001A7677,Starfield.esm,001A7677,NPC_,Pack Landshark,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Landshark; localized component provenance is deferred to Parcel C6.
+fauna,001A7678,Starfield.esm,001A7678,NPC_,Pack Stingray,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Stingray; localized component provenance is deferred to Parcel C6.
+fauna,001A7EAC,Starfield.esm,001A7EAC,NPC_,Grabber Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grabber Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001A7EAD,Starfield.esm,001A7EAD,NPC_,Carasnail Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Carasnail Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001A7EAE,Starfield.esm,001A7EAE,NPC_,Centiskull Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Centiskull Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A7EAF,Starfield.esm,001A7EAF,NPC_,Herding Leafbug Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Leafbug Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001A7EB0,Starfield.esm,001A7EB0,NPC_,Flocking Blistercrab Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Blistercrab Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001A7EB1,Starfield.esm,001A7EB1,NPC_,Herding Crab Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Crab Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001A7EB2,Starfield.esm,001A7EB2,NPC_,Seahorse Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Seahorse Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001A7EB3,Starfield.esm,001A7EB3,NPC_,Herding Cutterhead Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Cutterhead Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001A7EB4,Starfield.esm,001A7EB4,NPC_,Herding Tuskfrog Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Tuskfrog Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A7EB5,Starfield.esm,001A7EB5,NPC_,Pack Scorpion,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Scorpion; localized component provenance is deferred to Parcel C6.
+fauna,001A7EB6,Starfield.esm,001A7EB6,NPC_,Hunting Coralcrawler,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Coralcrawler; localized component provenance is deferred to Parcel C6.
+fauna,001A7EB7,Starfield.esm,001A7EB7,NPC_,Pack Clickbeetle,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Clickbeetle; localized component provenance is deferred to Parcel C6.
+fauna,001A7F77,Starfield.esm,001A7F77,NPC_,Carasnail Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Carasnail Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A7F78,Starfield.esm,001A7F78,NPC_,Centiskull Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Centiskull Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001A7F79,Starfield.esm,001A7F79,NPC_,Herding Longneck Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Longneck Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001A7F7A,Starfield.esm,001A7F7A,NPC_,Herding Eggsac Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Eggsac Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A7F7B,Starfield.esm,001A7F7B,NPC_,Flocking Triantler Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Triantler Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001A7F7C,Starfield.esm,001A7F7C,NPC_,Hunting Dodo,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Dodo; localized component provenance is deferred to Parcel C6.
+fauna,001A7F7D,Starfield.esm,001A7F7D,NPC_,Pack Tuskfrog,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Tuskfrog; localized component provenance is deferred to Parcel C6.
+fauna,001A7F7E,Starfield.esm,001A7F7E,NPC_,Pack Caterpillar,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Caterpillar; localized component provenance is deferred to Parcel C6.
+fauna,001A8382,Starfield.esm,001A8382,NPC_,Beetle Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetle Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001A8384,Starfield.esm,001A8384,NPC_,Flamethorn Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flamethorn Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001A8385,Starfield.esm,001A8385,NPC_,Herding Toadface Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Toadface Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001A838A,Starfield.esm,001A838A,NPC_,Flocking Exocrawler,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Exocrawler; localized component provenance is deferred to Parcel C6.
+fauna,001A838B,Starfield.esm,001A838B,NPC_,Herding Loxodont Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Loxodont Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001A838E,Starfield.esm,001A838E,NPC_,Swarming Foxbat,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Foxbat; localized component provenance is deferred to Parcel C6.
+fauna,001A838F,Starfield.esm,001A838F,NPC_,Pack Scarab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Scarab; localized component provenance is deferred to Parcel C6.
+fauna,001A8392,Starfield.esm,001A8392,NPC_,Apex Ankylosaurus,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Apex Ankylosaurus; localized component provenance is deferred to Parcel C6.
+fauna,001A8FC6,Starfield.esm,001A8FC6,NPC_,Fleshleaf Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Fleshleaf Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A8FC7,Starfield.esm,001A8FC7,NPC_,Flamethorn Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flamethorn Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001A8FC8,Starfield.esm,001A8FC8,NPC_,Milliwhale Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Milliwhale Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001A8FC9,Starfield.esm,001A8FC9,NPC_,Flocking Brainsprout Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Brainsprout Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A8FCA,Starfield.esm,001A8FCA,NPC_,Leafstrider Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Leafstrider Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001A8FCB,Starfield.esm,001A8FCB,NPC_,Trihorn Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trihorn Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001A8FCC,Starfield.esm,001A8FCC,NPC_,Herding Cagebrain Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Cagebrain Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001A8FCD,Starfield.esm,001A8FCD,NPC_,Pack Boneshell,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Boneshell; localized component provenance is deferred to Parcel C6.
+fauna,001A8FCE,Starfield.esm,001A8FCE,NPC_,Pack Scarab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Scarab; localized component provenance is deferred to Parcel C6.
+fauna,001A8FCF,Starfield.esm,001A8FCF,NPC_,Hunting Lockjaw,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Lockjaw; localized component provenance is deferred to Parcel C6.
+fauna,001A903A,Starfield.esm,001A903A,NPC_,Beetle Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetle Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A903B,Starfield.esm,001A903B,NPC_,Herding Shardhopper Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Shardhopper Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001A903C,Starfield.esm,001A903C,NPC_,Hunting Coralbug,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Coralbug; localized component provenance is deferred to Parcel C6.
+fauna,001A903D,Starfield.esm,001A903D,NPC_,Spore Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spore Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A903E,Starfield.esm,001A903E,NPC_,Flamethorn Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flamethorn Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A903F,Starfield.esm,001A903F,NPC_,Flapwheel Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flapwheel Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001A9040,Starfield.esm,001A9040,NPC_,Herding Vuvuzelisk Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Vuvuzelisk Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001A9041,Starfield.esm,001A9041,NPC_,Herding Rockhound Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Rockhound Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001A9042,Starfield.esm,001A9042,NPC_,Hunting Coralcrab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Coralcrab; localized component provenance is deferred to Parcel C6.
+fauna,001A9043,Starfield.esm,001A9043,NPC_,Swarming Landshark,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Landshark; localized component provenance is deferred to Parcel C6.
+fauna,001A9044,Starfield.esm,001A9044,NPC_,Pack Exorunner,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Exorunner; localized component provenance is deferred to Parcel C6.
+fauna,001A94DA,Starfield.esm,001A94DA,NPC_,Spaceroach Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spaceroach Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001A94DB,Starfield.esm,001A94DB,NPC_,Beetle Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetle Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001A94DC,Starfield.esm,001A94DC,NPC_,Herding Trihorn Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Trihorn Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001A94DD,Starfield.esm,001A94DD,NPC_,Herding Vectorback Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Vectorback Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A94DE,Starfield.esm,001A94DE,NPC_,Flocking Leafback Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Leafback Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001A94DF,Starfield.esm,001A94DF,NPC_,Pack Clawback Stalker,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Clawback Stalker; localized component provenance is deferred to Parcel C6.
+fauna,001A94E0,Starfield.esm,001A94E0,NPC_,Pack Lacraia,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Lacraia; localized component provenance is deferred to Parcel C6.
+fauna,001A94E1,Starfield.esm,001A94E1,NPC_,Swarming Exorunner,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Exorunner; localized component provenance is deferred to Parcel C6.
+fauna,001A9996,Starfield.esm,001A9996,NPC_,Artichoke Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Artichoke Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A9997,Starfield.esm,001A9997,NPC_,Flamethorn Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flamethorn Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001A9998,Starfield.esm,001A9998,NPC_,Milliwhale Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Milliwhale Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001A9999,Starfield.esm,001A9999,NPC_,Herding Mantodea Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Mantodea Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001A999A,Starfield.esm,001A999A,NPC_,Glowhands Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Glowhands Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001A999B,Starfield.esm,001A999B,NPC_,Herding Octomaggot Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Octomaggot Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001A999C,Starfield.esm,001A999C,NPC_,Pack Shardhopper,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Shardhopper; localized component provenance is deferred to Parcel C6.
+fauna,001A999D,Starfield.esm,001A999D,NPC_,Pack Hammersaur,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Hammersaur; localized component provenance is deferred to Parcel C6.
+fauna,001A999E,Starfield.esm,001A999E,NPC_,Hunting Tentabeard,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Tentabeard; localized component provenance is deferred to Parcel C6.
+fauna,001A999F,Starfield.esm,001A999F,NPC_,Beetle Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetle Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A99A0,Starfield.esm,001A99A0,NPC_,Coralheart Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Coralheart Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001A99A1,Starfield.esm,001A99A1,NPC_,Grabber Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grabber Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A99A2,Starfield.esm,001A99A2,NPC_,Bonefrill Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Bonefrill Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001A99A3,Starfield.esm,001A99A3,NPC_,Herding Coralcrawler Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Coralcrawler Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A99A4,Starfield.esm,001A99A4,NPC_,Herding Hornface Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Hornface Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001A99A5,Starfield.esm,001A99A5,NPC_,Hunting Sunflower,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Sunflower; localized component provenance is deferred to Parcel C6.
+fauna,001A99A6,Starfield.esm,001A99A6,NPC_,Pack Twistfin,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Twistfin; localized component provenance is deferred to Parcel C6.
+fauna,001A9ACA,Starfield.esm,001A9ACA,NPC_,Hunting Cricket,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Cricket; localized component provenance is deferred to Parcel C6.
+fauna,001A9C7F,Starfield.esm,001A9C7F,NPC_,Trilobite Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trilobite Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A9C80,Starfield.esm,001A9C80,NPC_,Beetle Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetle Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001A9C81,Starfield.esm,001A9C81,NPC_,Herding Brainsprout Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Brainsprout Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001A9C82,Starfield.esm,001A9C82,NPC_,Flocking Clickbeetle Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Clickbeetle Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001A9C83,Starfield.esm,001A9C83,NPC_,Herding Twigwalker Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Twigwalker Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001A9C84,Starfield.esm,001A9C84,NPC_,Swarming Scorpion,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Scorpion; localized component provenance is deferred to Parcel C6.
+fauna,001A9C85,Starfield.esm,001A9C85,NPC_,Swarming Horsamander,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Horsamander; localized component provenance is deferred to Parcel C6.
+fauna,001A9C86,Starfield.esm,001A9C86,NPC_,Pack Scarab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Scarab; localized component provenance is deferred to Parcel C6.
+fauna,001AA10E,Starfield.esm,001AA10E,NPC_,Herding Trihorn Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Trihorn Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001AA10F,Starfield.esm,001AA10F,NPC_,Flocking Scorpion Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Scorpion Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001AA110,Starfield.esm,001AA110,NPC_,Herding Sailgator Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Sailgator Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001AA111,Starfield.esm,001AA111,NPC_,Hunting Brainsquid,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Brainsquid; localized component provenance is deferred to Parcel C6.
+fauna,001AA112,Starfield.esm,001AA112,NPC_,Hunting Cagebrain,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Cagebrain; localized component provenance is deferred to Parcel C6.
+fauna,001AA113,Starfield.esm,001AA113,NPC_,Pack Coralcrawler,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Coralcrawler; localized component provenance is deferred to Parcel C6.
+fauna,001AD03D,Starfield.esm,001AD03D,NPC_,Grabber Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grabber Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001AD03E,Starfield.esm,001AD03E,NPC_,Jackknife Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Jackknife Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001AD18C,Starfield.esm,001AD18C,NPC_,Spaceroach Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spaceroach Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001AD18D,Starfield.esm,001AD18D,NPC_,Jackknife Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Jackknife Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001AD18E,Starfield.esm,001AD18E,NPC_,Flocking Marnokk Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Marnokk Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001AD18F,Starfield.esm,001AD18F,NPC_,Hunting Sloth Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Sloth Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001AD190,Starfield.esm,001AD190,NPC_,Flocking Grub Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Grub Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001AD191,Starfield.esm,001AD191,NPC_,Pack Crab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Crab; localized component provenance is deferred to Parcel C6.
+fauna,001AD192,Starfield.esm,001AD192,NPC_,Pack Thornmantis,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Thornmantis; localized component provenance is deferred to Parcel C6.
+fauna,001AD193,Starfield.esm,001AD193,NPC_,Hunting Hammersaur,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Hammersaur; localized component provenance is deferred to Parcel C6.
+fauna,001AE4DF,Starfield.esm,001AE4DF,NPC_,Grabber Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grabber Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001AE4E0,Starfield.esm,001AE4E0,NPC_,Coralheart Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Coralheart Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001AE4E1,Starfield.esm,001AE4E1,NPC_,Herding Rockhound Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Rockhound Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001AE4E2,Starfield.esm,001AE4E2,NPC_,Herding Beetlecrab Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Beetlecrab Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001AE4E3,Starfield.esm,001AE4E3,NPC_,Herding Roundshell Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Roundshell Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001AE4E4,Starfield.esm,001AE4E4,NPC_,Flocking Leafstrider Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Leafstrider Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001AE4E5,Starfield.esm,001AE4E5,NPC_,Herding Vectorback Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Vectorback Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001AE4E6,Starfield.esm,001AE4E6,NPC_,Swarming Brightcage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Brightcage; localized component provenance is deferred to Parcel C6.
+fauna,001AE4E7,Starfield.esm,001AE4E7,NPC_,Swarming Eggback,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Eggback; localized component provenance is deferred to Parcel C6.
+fauna,001AE4E8,Starfield.esm,001AE4E8,NPC_,Hunting Boneshell,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Boneshell; localized component provenance is deferred to Parcel C6.
+fauna,001AF63C,Starfield.esm,001AF63C,NPC_,Tubecrawler Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Tubecrawler Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001AF63D,Starfield.esm,001AF63D,NPC_,Grabber Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grabber Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001AF63E,Starfield.esm,001AF63E,NPC_,Herding Dragon Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Dragon Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001AF63F,Starfield.esm,001AF63F,NPC_,Herding Hornface Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Hornface Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001AF640,Starfield.esm,001AF640,NPC_,Herding Spiderwasp Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Spiderwasp Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001AF641,Starfield.esm,001AF641,NPC_,Flocking Roundface Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Roundface Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001AF642,Starfield.esm,001AF642,NPC_,Pack Horsamander,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Horsamander; localized component provenance is deferred to Parcel C6.
+fauna,001AF643,Starfield.esm,001AF643,NPC_,Swarming Clickbeetle,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Clickbeetle; localized component provenance is deferred to Parcel C6.
+fauna,001AF644,Starfield.esm,001AF644,NPC_,Pack Exocrawler,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Exocrawler; localized component provenance is deferred to Parcel C6.
+fauna,001B003A,Starfield.esm,001B003A,NPC_,Flocking Trident Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Trident Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001B0044,Starfield.esm,001B0044,NPC_,Noid Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Noid Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001B0045,Starfield.esm,001B0045,NPC_,Grabber Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grabber Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001B0046,Starfield.esm,001B0046,NPC_,Herding Lockjaw Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Lockjaw Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001B0047,Starfield.esm,001B0047,NPC_,Exocrawler Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Exocrawler Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001B0048,Starfield.esm,001B0048,NPC_,Pack Ankylosaurus,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Ankylosaurus; localized component provenance is deferred to Parcel C6.
+fauna,001B0049,Starfield.esm,001B0049,NPC_,Hunting Bonefrill Stalker,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Bonefrill Stalker; localized component provenance is deferred to Parcel C6.
+fauna,001B034D,Starfield.esm,001B034D,NPC_,Grub Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grub Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001B034E,Starfield.esm,001B034E,NPC_,Flamethorn Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flamethorn Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001B034F,Starfield.esm,001B034F,NPC_,Leafstrider Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Leafstrider Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001B0350,Starfield.esm,001B0350,NPC_,Herding Stonewalker Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Stonewalker Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001B0351,Starfield.esm,001B0351,NPC_,Hunting Nailtail,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Nailtail; localized component provenance is deferred to Parcel C6.
+fauna,001B0352,Starfield.esm,001B0352,NPC_,Hunting Thornmantis,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Thornmantis; localized component provenance is deferred to Parcel C6.
+fauna,001B0519,Starfield.esm,001B0519,NPC_,Thorn Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Thorn Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001B051A,Starfield.esm,001B051A,NPC_,Herding Octomaggot Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Octomaggot Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001B051B,Starfield.esm,001B051B,NPC_,Herding Arachnofly Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Arachnofly Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001B051D,Starfield.esm,001B051D,NPC_,Pack Spiderwasp,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Spiderwasp; localized component provenance is deferred to Parcel C6.
+fauna,001B0637,Starfield.esm,001B0637,NPC_,Grub Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grub Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001B0645,Starfield.esm,001B0645,NPC_,Centiskull Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Centiskull Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001B0646,Starfield.esm,001B0646,NPC_,Herding Horsamander Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Horsamander Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001B0647,Starfield.esm,001B0647,NPC_,Flocking Sloth Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Sloth Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001B0648,Starfield.esm,001B0648,NPC_,Pack Scarab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Scarab; localized component provenance is deferred to Parcel C6.
+fauna,001B0649,Starfield.esm,001B0649,NPC_,Pack Crocodaunt,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Crocodaunt; localized component provenance is deferred to Parcel C6.
+fauna,001B064A,Starfield.esm,001B064A,NPC_,Thorn Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Thorn Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001B064E,Starfield.esm,001B064E,NPC_,Coralbug Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Coralbug Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001B064F,Starfield.esm,001B064F,NPC_,Herding Coralcrawler Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Coralcrawler Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001B0650,Starfield.esm,001B0650,NPC_,Hunting Shieldshell,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Shieldshell; localized component provenance is deferred to Parcel C6.
+fauna,001B0653,Starfield.esm,001B0653,NPC_,Herding Brightcage Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Brightcage Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001B0677,Starfield.esm,001B0677,NPC_,Pack Nailtail,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Nailtail; localized component provenance is deferred to Parcel C6.
+fauna,001B159A,Starfield.esm,001B159A,NPC_,Herding Wiggler Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Wiggler Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001B159B,Starfield.esm,001B159B,NPC_,Hunting Cricket,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Cricket; localized component provenance is deferred to Parcel C6.
+fauna,001B159E,Starfield.esm,001B159E,NPC_,Thorn Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Thorn Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001B159F,Starfield.esm,001B159F,NPC_,Coralheart Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Coralheart Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001B15A0,Starfield.esm,001B15A0,NPC_,Herding Crab Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Crab Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001B15A1,Starfield.esm,001B15A1,NPC_,Herding Lockjaw Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Lockjaw Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001B15A2,Starfield.esm,001B15A2,NPC_,Swarming Dragon,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Dragon; localized component provenance is deferred to Parcel C6.
+fauna,001B15A3,Starfield.esm,001B15A3,NPC_,Hunting Sailgator,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Sailgator; localized component provenance is deferred to Parcel C6.
+fauna,001B15A4,Starfield.esm,001B15A4,NPC_,Spaceroach Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spaceroach Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001B15A5,Starfield.esm,001B15A5,NPC_,Flocking Crab Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Crab Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001B15A6,Starfield.esm,001B15A6,NPC_,Herding Blistercrab Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Blistercrab Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001B15A7,Starfield.esm,001B15A7,NPC_,Swarming Crab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Crab; localized component provenance is deferred to Parcel C6.
+fauna,001B15A8,Starfield.esm,001B15A8,NPC_,Flamethorn Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flamethorn Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001B15A9,Starfield.esm,001B15A9,NPC_,Milliwhale Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Milliwhale Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001B15AA,Starfield.esm,001B15AA,NPC_,Herding Vuvuzelisk Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Vuvuzelisk Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001B15AB,Starfield.esm,001B15AB,NPC_,Flocking Toadface Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Toadface Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001B15AC,Starfield.esm,001B15AC,NPC_,Pack Cockroach,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Cockroach; localized component provenance is deferred to Parcel C6.
+fauna,001B15AD,Starfield.esm,001B15AD,NPC_,Hunting Coralcrab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Coralcrab; localized component provenance is deferred to Parcel C6.
+fauna,001B1742,Starfield.esm,001B1742,NPC_,Pearl Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pearl Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001B1743,Starfield.esm,001B1743,NPC_,Beetle Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetle Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001B1DE1,Starfield.esm,001B1DE1,NPC_,Herding Sailgator Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Sailgator Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001B1DE5,Starfield.esm,001B1DE5,NPC_,Herding Brainsprout Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Brainsprout Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001B1DE7,Starfield.esm,001B1DE7,NPC_,Herding Glider Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Glider Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001B1DE9,Starfield.esm,001B1DE9,NPC_,Swarming Crab Stalker,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Crab Stalker; localized component provenance is deferred to Parcel C6.
+fauna,001B1DEA,Starfield.esm,001B1DEA,NPC_,Pack Bonefrill,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Bonefrill; localized component provenance is deferred to Parcel C6.
+fauna,001B20B6,Starfield.esm,001B20B6,NPC_,Flamethorn Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flamethorn Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001B20B7,Starfield.esm,001B20B7,NPC_,Flocking Octomaggot Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Octomaggot Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001B20B8,Starfield.esm,001B20B8,NPC_,Herding Noid Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Noid Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001B20BA,Starfield.esm,001B20BA,NPC_,Herding Mantodea Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Mantodea Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001B218B,Starfield.esm,001B218B,NPC_,Pack Landshark,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Landshark; localized component provenance is deferred to Parcel C6.
+fauna,001B218C,Starfield.esm,001B218C,NPC_,Swarming Shardhopper,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Shardhopper; localized component provenance is deferred to Parcel C6.
+fauna,001B4C03,Starfield.esm,001B4C03,NPC_,Trilobite Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trilobite Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001B4C04,Starfield.esm,001B4C04,NPC_,Beetle Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetle Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001B4C05,Starfield.esm,001B4C05,NPC_,Herding Cagebrain Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Cagebrain Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001B4C06,Starfield.esm,001B4C06,NPC_,Flocking Trihorn Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Trihorn Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001B4C07,Starfield.esm,001B4C07,NPC_,Hunting Cricket,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Cricket; localized component provenance is deferred to Parcel C6.
+fauna,001B4C08,Starfield.esm,001B4C08,NPC_,Pack Ankylosaurus,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Ankylosaurus; localized component provenance is deferred to Parcel C6.
+fauna,001B4E75,Starfield.esm,001B4E75,NPC_,Spaceroach Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spaceroach Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001B4E76,Starfield.esm,001B4E76,NPC_,Herding Roundshell Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Roundshell Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001B4E77,Starfield.esm,001B4E77,NPC_,Hunting Hookneck,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Hookneck; localized component provenance is deferred to Parcel C6.
+fauna,001B70D5,Starfield.esm,001B70D5,NPC_,Fingerface Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Fingerface Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001B70D6,Starfield.esm,001B70D6,NPC_,Flocking Clawback Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Clawback Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001B70D7,Starfield.esm,001B70D7,NPC_,Pack Trapmaw,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Trapmaw; localized component provenance is deferred to Parcel C6.
+fauna,001B70D8,Starfield.esm,001B70D8,NPC_,Worm Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Worm Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001B70D9,Starfield.esm,001B70D9,NPC_,Flocking Earback Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Earback Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001B70DA,Starfield.esm,001B70DA,NPC_,Hunting Brainblimp,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Brainblimp; localized component provenance is deferred to Parcel C6.
+fauna,001BAC22,Starfield.esm,001BAC22,NPC_,Coralheart Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Coralheart Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001BAC23,Starfield.esm,001BAC23,NPC_,Herding Boneback Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Boneback Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001BAC24,Starfield.esm,001BAC24,NPC_,Hunting Crab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Crab; localized component provenance is deferred to Parcel C6.
+fauna,001BB05F,Starfield.esm,001BB05F,NPC_,Flamethorn Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flamethorn Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001BB060,Starfield.esm,001BB060,NPC_,Tubecrawler Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Tubecrawler Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001BB061,Starfield.esm,001BB061,NPC_,Pack Cutterhead,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Cutterhead; localized component provenance is deferred to Parcel C6.
+fauna,001BB062,Starfield.esm,001BB062,NPC_,Pack Exorunner,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Exorunner; localized component provenance is deferred to Parcel C6.
+fauna,001BB063,Starfield.esm,001BB063,NPC_,Pack Lionbear,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Lionbear; localized component provenance is deferred to Parcel C6.
+fauna,001BB064,Starfield.esm,001BB064,NPC_,Pack Ankylosaurus,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Ankylosaurus; localized component provenance is deferred to Parcel C6.
+fauna,001BB95C,Starfield.esm,001BB95C,NPC_,Drone Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Drone Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001BB95D,Starfield.esm,001BB95D,NPC_,Flamethorn Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flamethorn Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001BB95E,Starfield.esm,001BB95E,NPC_,Cagebrain Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Cagebrain Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001BB95F,Starfield.esm,001BB95F,NPC_,Herding Sporeback Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Sporeback Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001BB960,Starfield.esm,001BB960,NPC_,Swarming Spiderwasp,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Spiderwasp; localized component provenance is deferred to Parcel C6.
+fauna,001BB961,Starfield.esm,001BB961,NPC_,Pack Hammersaur,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Hammersaur; localized component provenance is deferred to Parcel C6.
+fauna,001BE894,Starfield.esm,001BE894,NPC_,Carasnail Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Carasnail Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001BEAD2,Starfield.esm,001BEAD2,NPC_,Flocking Scarab Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Scarab Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001BEAD3,Starfield.esm,001BEAD3,NPC_,Herding Leecher Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Leecher Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001BEAD7,Starfield.esm,001BEAD7,NPC_,Swarming Glider,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Glider; localized component provenance is deferred to Parcel C6.
+fauna,001BEE0D,Starfield.esm,001BEE0D,NPC_,Shoaling Finback Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Shoaling Finback Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001BEE0E,Starfield.esm,001BEE0E,NPC_,Shoaling Exowhale Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Shoaling Exowhale Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001BEE0F,Starfield.esm,001BEE0F,NPC_,Pack Kronosaurus,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Kronosaurus; localized component provenance is deferred to Parcel C6.
+fauna,001BEE10,Starfield.esm,001BEE10,NPC_,Pack Whaleshark,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Whaleshark; localized component provenance is deferred to Parcel C6.
+fauna,001BFE8F,Starfield.esm,001BFE8F,NPC_,Spaceroach Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spaceroach Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001BFE90,Starfield.esm,001BFE90,NPC_,Pack Cockroach,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Cockroach; localized component provenance is deferred to Parcel C6.
+fauna,001BFE91,Starfield.esm,001BFE91,NPC_,Herding Clawback Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Clawback Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001BFE92,Starfield.esm,001BFE92,NPC_,Pack Stingback,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Stingback; localized component provenance is deferred to Parcel C6.
+fauna,001C067F,Starfield.esm,001C067F,NPC_,Hunting Bonefrill,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Bonefrill; localized component provenance is deferred to Parcel C6.
+fauna,001C0680,Starfield.esm,001C0680,NPC_,Pack Trapmaw,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Trapmaw; localized component provenance is deferred to Parcel C6.
+fauna,001C0681,Starfield.esm,001C0681,NPC_,Pack Hammersaur,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Hammersaur; localized component provenance is deferred to Parcel C6.
+fauna,001C0682,Starfield.esm,001C0682,NPC_,Flamethorn Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flamethorn Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001C0683,Starfield.esm,001C0683,NPC_,Herding Tongueface Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Tongueface Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C0684,Starfield.esm,001C0684,NPC_,Flocking Tubecrawler Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Tubecrawler Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001C0685,Starfield.esm,001C0685,NPC_,Flocking Leafstrider Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Leafstrider Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C0686,Starfield.esm,001C0686,NPC_,Flocking Lionbear Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Lionbear Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001C0F2A,Starfield.esm,001C0F2A,NPC_,Pinecone Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pinecone Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001C0F2B,Starfield.esm,001C0F2B,NPC_,Flocking Leafbug Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Leafbug Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001C0F2C,Starfield.esm,001C0F2C,NPC_,Hunting Shieldshell,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Shieldshell; localized component provenance is deferred to Parcel C6.
+fauna,001C0F2D,Starfield.esm,001C0F2D,NPC_,Caterpillar Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Caterpillar Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001C0F2E,Starfield.esm,001C0F2E,NPC_,Herding Glowhands Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Glowhands Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C0F2F,Starfield.esm,001C0F2F,NPC_,Hunting Landshark,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Landshark; localized component provenance is deferred to Parcel C6.
+fauna,001C15F3,Starfield.esm,001C15F3,NPC_,Swarming Stingback,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Stingback; localized component provenance is deferred to Parcel C6.
+fauna,001C15F4,Starfield.esm,001C15F4,NPC_,Herding Leafback Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Leafback Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001C1F6E,Starfield.esm,001C1F6E,NPC_,Flocking Jackknife Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Jackknife Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001C1F6F,Starfield.esm,001C1F6F,NPC_,Pack Beetlecrab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Beetlecrab; localized component provenance is deferred to Parcel C6.
+fauna,001C23F7,Starfield.esm,001C23F7,NPC_,Thorn Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Thorn Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001C23F8,Starfield.esm,001C23F8,NPC_,Herding Canard Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Canard Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001C23F9,Starfield.esm,001C23F9,NPC_,Brainsprout Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Brainsprout Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001C23FA,Starfield.esm,001C23FA,NPC_,Herding Crab Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Crab Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C23FB,Starfield.esm,001C23FB,NPC_,Hunting Bonefrill,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Bonefrill; localized component provenance is deferred to Parcel C6.
+fauna,001C23FC,Starfield.esm,001C23FC,NPC_,Spaceroach Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spaceroach Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001C23FD,Starfield.esm,001C23FD,NPC_,Herding Blistercrab Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Blistercrab Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001C23FE,Starfield.esm,001C23FE,NPC_,Hunting Dragon,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Dragon; localized component provenance is deferred to Parcel C6.
+fauna,001C2AE0,Starfield.esm,001C2AE0,NPC_,Thorn Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Thorn Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C2AE1,Starfield.esm,001C2AE1,NPC_,Flocking Ankylosaurus Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Ankylosaurus Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C2AE2,Starfield.esm,001C2AE2,NPC_,Herding Shellephant Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Shellephant Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C2AE3,Starfield.esm,001C2AE3,NPC_,Hunting Bonecrest,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Bonecrest; localized component provenance is deferred to Parcel C6.
+fauna,001C2AE4,Starfield.esm,001C2AE4,NPC_,Apex Dragon,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Apex Dragon; localized component provenance is deferred to Parcel C6.
+fauna,001C2FC0,Starfield.esm,001C2FC0,NPC_,Gossamer Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Gossamer Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001C2FC1,Starfield.esm,001C2FC1,NPC_,Coralheart Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Coralheart Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001C2FC2,Starfield.esm,001C2FC2,NPC_,Herding Crabfly Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Crabfly Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C2FC3,Starfield.esm,001C2FC3,NPC_,Herding Coralcrawler Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Coralcrawler Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C2FC4,Starfield.esm,001C2FC4,NPC_,Flocking Octomaggot Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Octomaggot Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C2FC5,Starfield.esm,001C2FC5,NPC_,Hunting Shieldshell,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Shieldshell; localized component provenance is deferred to Parcel C6.
+fauna,001C2FC6,Starfield.esm,001C2FC6,NPC_,Pack Coralbug Stalker,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Coralbug Stalker; localized component provenance is deferred to Parcel C6.
+fauna,001C2FC7,Starfield.esm,001C2FC7,NPC_,Pack Coralcrab Stalker,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Coralcrab Stalker; localized component provenance is deferred to Parcel C6.
+fauna,001C334A,Starfield.esm,001C334A,NPC_,Trident Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trident Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001C334B,Starfield.esm,001C334B,NPC_,Herding Tongueface Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Tongueface Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001C334C,Starfield.esm,001C334C,NPC_,Pack Ankylosaurus,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Ankylosaurus; localized component provenance is deferred to Parcel C6.
+fauna,001C3D04,Starfield.esm,001C3D04,NPC_,Jackknife Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Jackknife Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001C3D05,Starfield.esm,001C3D05,NPC_,Flocking Beetlecrab Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Beetlecrab Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C43D7,Starfield.esm,001C43D7,NPC_,Hunting Scorpion,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Scorpion; localized component provenance is deferred to Parcel C6.
+fauna,001C48CA,Starfield.esm,001C48CA,NPC_,Trilobite Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trilobite Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001C48CB,Starfield.esm,001C48CB,NPC_,Herding Crabfly Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Crabfly Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C48CC,Starfield.esm,001C48CC,NPC_,Hunting Octomaggot,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Octomaggot; localized component provenance is deferred to Parcel C6.
+fauna,001C48CD,Starfield.esm,001C48CD,NPC_,Herding Coralcrawler Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Coralcrawler Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001C48CE,Starfield.esm,001C48CE,NPC_,Pack Bearclaw,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Bearclaw; localized component provenance is deferred to Parcel C6.
+fauna,001C48CF,Starfield.esm,001C48CF,NPC_,Hunting Cagebrain,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Cagebrain; localized component provenance is deferred to Parcel C6.
+fauna,001C48D0,Starfield.esm,001C48D0,NPC_,Herding Scepter Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Scepter Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001C48D1,Starfield.esm,001C48D1,NPC_,Pack Trapmaw,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Trapmaw; localized component provenance is deferred to Parcel C6.
+fauna,001C48D2,Starfield.esm,001C48D2,NPC_,Hunting Glowhands,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Glowhands; localized component provenance is deferred to Parcel C6.
+fauna,001C48EA,Starfield.esm,001C48EA,NPC_,Milliwhale Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Milliwhale Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001C48EB,Starfield.esm,001C48EB,NPC_,Gossamer Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Gossamer Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001C48EC,Starfield.esm,001C48EC,NPC_,Grabber Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grabber Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001C48ED,Starfield.esm,001C48ED,NPC_,Horsamander Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Horsamander Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C48EE,Starfield.esm,001C48EE,NPC_,Flocking Tongueface Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Tongueface Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001C48EF,Starfield.esm,001C48EF,NPC_,Leafstrider Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Leafstrider Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C48F0,Starfield.esm,001C48F0,NPC_,Hunting Glider,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Glider; localized component provenance is deferred to Parcel C6.
+fauna,001C48F1,Starfield.esm,001C48F1,NPC_,Pack Cockroach,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Cockroach; localized component provenance is deferred to Parcel C6.
+fauna,001C48F2,Starfield.esm,001C48F2,NPC_,Hunting Coralbug Stalker,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Coralbug Stalker; localized component provenance is deferred to Parcel C6.
+fauna,001C50E2,Starfield.esm,001C50E2,NPC_,Coralheart Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Coralheart Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C50E3,Starfield.esm,001C50E3,NPC_,Beetle Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetle Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001C50E4,Starfield.esm,001C50E4,NPC_,Herding Hornface Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Hornface Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001C50E5,Starfield.esm,001C50E5,NPC_,Flocking Beetlecrab Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Beetlecrab Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001C50E6,Starfield.esm,001C50E6,NPC_,Pack Longhorn,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Longhorn; localized component provenance is deferred to Parcel C6.
+fauna,001C6940,Starfield.esm,001C6940,NPC_,Milliwhale Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Milliwhale Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001C6941,Starfield.esm,001C6941,NPC_,Shoaling Unishark Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Shoaling Unishark Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001C6942,Starfield.esm,001C6942,NPC_,Herding Vuvuzelisk Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Vuvuzelisk Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001C6943,Starfield.esm,001C6943,NPC_,Hunting Sailgator,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Sailgator; localized component provenance is deferred to Parcel C6.
+fauna,001C6944,Starfield.esm,001C6944,NPC_,Coralheart Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Coralheart Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001C6945,Starfield.esm,001C6945,NPC_,Herding Blistercrab Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Blistercrab Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001C6946,Starfield.esm,001C6946,NPC_,Hunting Shieldshell,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Shieldshell; localized component provenance is deferred to Parcel C6.
+fauna,001C6947,Starfield.esm,001C6947,NPC_,Caterpillar Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Caterpillar Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001C6948,Starfield.esm,001C6948,NPC_,Spaceroach Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spaceroach Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001C6949,Starfield.esm,001C6949,NPC_,Cagebrain Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Cagebrain Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001C694A,Starfield.esm,001C694A,NPC_,Herding Boneback Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Boneback Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C694B,Starfield.esm,001C694B,NPC_,Flocking Cutterhead Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Cutterhead Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001C694C,Starfield.esm,001C694C,NPC_,Pack Windbag,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Windbag; localized component provenance is deferred to Parcel C6.
+fauna,001C694D,Starfield.esm,001C694D,NPC_,Hunting Sunflower,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Sunflower; localized component provenance is deferred to Parcel C6.
+fauna,001C7188,Starfield.esm,001C7188,NPC_,Beetle Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetle Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001C7189,Starfield.esm,001C7189,NPC_,Swarming Saturnine,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Saturnine; localized component provenance is deferred to Parcel C6.
+fauna,001C718A,Starfield.esm,001C718A,NPC_,Herding Bonemane Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Bonemane Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C718B,Starfield.esm,001C718B,NPC_,Flocking Horsamander Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Horsamander Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001C718C,Starfield.esm,001C718C,NPC_,Pack Exocrawler,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Exocrawler; localized component provenance is deferred to Parcel C6.
+fauna,001C718D,Starfield.esm,001C718D,NPC_,Hunting Toadface,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Toadface; localized component provenance is deferred to Parcel C6.
+fauna,001C7402,Starfield.esm,001C7402,NPC_,Trilobite Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trilobite Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001C7403,Starfield.esm,001C7403,NPC_,Schooling Sawhead Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Sawhead Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001C7404,Starfield.esm,001C7404,NPC_,Herding Vectorback Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Vectorback Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C7405,Starfield.esm,001C7405,NPC_,Pack Unishark,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Unishark; localized component provenance is deferred to Parcel C6.
+fauna,001C7406,Starfield.esm,001C7406,NPC_,Hunting Sailgator,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Sailgator; localized component provenance is deferred to Parcel C6.
+fauna,001C7DFE,Starfield.esm,001C7DFE,NPC_,Milliwhale Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Milliwhale Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001C7DFF,Starfield.esm,001C7DFF,NPC_,Flocking Vuvuzelisk Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Vuvuzelisk Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C7E00,Starfield.esm,001C7E00,NPC_,Herding Hippodon Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Hippodon Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001C7E01,Starfield.esm,001C7E01,NPC_,Herding Geckon Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Geckon Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C7E02,Starfield.esm,001C7E02,NPC_,Hunting Vectorback,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Vectorback; localized component provenance is deferred to Parcel C6.
+fauna,001C7E03,Starfield.esm,001C7E03,NPC_,Hunting Twistfin,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Twistfin; localized component provenance is deferred to Parcel C6.
+fauna,001C7E04,Starfield.esm,001C7E04,NPC_,Hunting Triantler,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Triantler; localized component provenance is deferred to Parcel C6.
+fauna,001C7E05,Starfield.esm,001C7E05,NPC_,Jellyfin Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Jellyfin Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001C7E06,Starfield.esm,001C7E06,NPC_,Flocking Brainblimp Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Brainblimp Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001C7E07,Starfield.esm,001C7E07,NPC_,Pack Whaleshark,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Whaleshark; localized component provenance is deferred to Parcel C6.
+fauna,001C801D,Starfield.esm,001C801D,NPC_,Artichoke Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Artichoke Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001C801E,Starfield.esm,001C801E,NPC_,Hunting Nautiloos Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Nautiloos Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001C80FC,Starfield.esm,001C80FC,NPC_,Grabber Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grabber Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001C80FD,Starfield.esm,001C80FD,NPC_,Flocking Exorunner Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Exorunner Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001C80FE,Starfield.esm,001C80FE,NPC_,Herding Bonefrill Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Bonefrill Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001C80FF,Starfield.esm,001C80FF,NPC_,Hunting Scorpion,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Scorpion; localized component provenance is deferred to Parcel C6.
+fauna,001C9AC9,Starfield.esm,001C9AC9,NPC_,Puffball Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Puffball Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001C9ACA,Starfield.esm,001C9ACA,NPC_,Hunting Kronosaurus,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Kronosaurus; localized component provenance is deferred to Parcel C6.
+fauna,001C9ACB,Starfield.esm,001C9ACB,NPC_,Schooling Featherfin Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Featherfin Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001C9ACC,Starfield.esm,001C9ACC,NPC_,Metropus Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Metropus Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001C9ACD,Starfield.esm,001C9ACD,NPC_,Herding Stingray Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Stingray Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001CB790,Starfield.esm,001CB790,NPC_,Thorn Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Thorn Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001CB791,Starfield.esm,001CB791,NPC_,Leafbug Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Leafbug Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001CB792,Starfield.esm,001CB792,NPC_,Herding Rockhound Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Rockhound Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001CB793,Starfield.esm,001CB793,NPC_,Hunting Crocalypse,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Crocalypse; localized component provenance is deferred to Parcel C6.
+fauna,001CBC8A,Starfield.esm,001CBC8A,NPC_,Trilobite Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trilobite Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001CBC8B,Starfield.esm,001CBC8B,NPC_,Herding Longhorn Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Longhorn Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001CBC8C,Starfield.esm,001CBC8C,NPC_,Pack Shardhopper,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Shardhopper; localized component provenance is deferred to Parcel C6.
+fauna,001CBCAD,Starfield.esm,001CBCAD,NPC_,Milliwhale Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Milliwhale Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001CBCAE,Starfield.esm,001CBCAE,NPC_,Coralheart Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Coralheart Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001CBCAF,Starfield.esm,001CBCAF,NPC_,Flocking Leafback Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Leafback Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001CBCB0,Starfield.esm,001CBCB0,NPC_,Schooling Finback Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Finback Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001CBCB1,Starfield.esm,001CBCB1,NPC_,Pack Windbag,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Windbag; localized component provenance is deferred to Parcel C6.
+fauna,001CCAEA,Starfield.esm,001CCAEA,NPC_,Trident Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trident Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001CCAEB,Starfield.esm,001CCAEB,NPC_,Shoaling Finback Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Shoaling Finback Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001CCAEC,Starfield.esm,001CCAEC,NPC_,Herding Canard Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Canard Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001CF18C,Starfield.esm,001CF18C,NPC_,Snail Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Snail Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001CF18D,Starfield.esm,001CF18D,NPC_,Herding Stoneback Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Stoneback Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001CF18E,Starfield.esm,001CF18E,NPC_,Flocking Horsamander Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Horsamander Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001CF18F,Starfield.esm,001CF18F,NPC_,Pack Crocodaunt,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Crocodaunt; localized component provenance is deferred to Parcel C6.
+fauna,001CF572,Starfield.esm,001CF572,NPC_,Trilobite Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trilobite Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001CF573,Starfield.esm,001CF573,NPC_,Flocking Lockjaw Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Lockjaw Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001CF574,Starfield.esm,001CF574,NPC_,Pack Sailgator,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Sailgator; localized component provenance is deferred to Parcel C6.
+fauna,001CF575,Starfield.esm,001CF575,NPC_,Pack Crocalypse,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Crocalypse; localized component provenance is deferred to Parcel C6.
+fauna,001D064E,Starfield.esm,001D064E,NPC_,Twingrub Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Twingrub Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001D064F,Starfield.esm,001D064F,NPC_,Schooling Kronosaurus Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Kronosaurus Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001D0650,Starfield.esm,001D0650,NPC_,Herding Crab Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Crab Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D065D,Starfield.esm,001D065D,NPC_,Hunting Hornface,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Hornface; localized component provenance is deferred to Parcel C6.
+fauna,001D065E,Starfield.esm,001D065E,NPC_,Milliwhale Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Milliwhale Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001D065F,Starfield.esm,001D065F,NPC_,Noid Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Noid Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D06EE,Starfield.esm,001D06EE,NPC_,Shoaling Lurefish Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Shoaling Lurefish Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001D06EF,Starfield.esm,001D06EF,NPC_,Clawback Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Clawback Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001D0708,Starfield.esm,001D0708,NPC_,Flocking Bonefrill Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Bonefrill Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D0709,Starfield.esm,001D0709,NPC_,Pack Scarab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Scarab; localized component provenance is deferred to Parcel C6.
+fauna,001D070A,Starfield.esm,001D070A,NPC_,Hunting Shieldshell,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Shieldshell; localized component provenance is deferred to Parcel C6.
+fauna,001D070B,Starfield.esm,001D070B,NPC_,Grabber Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grabber Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D070C,Starfield.esm,001D070C,NPC_,Shoaling Finback Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Shoaling Finback Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001D0714,Starfield.esm,001D0714,NPC_,Flocking Cockroach Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Cockroach Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001D0719,Starfield.esm,001D0719,NPC_,Pack Paddlefish,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Paddlefish; localized component provenance is deferred to Parcel C6.
+fauna,001D0732,Starfield.esm,001D0732,NPC_,Hunting Foxbat,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Foxbat; localized component provenance is deferred to Parcel C6.
+fauna,001D0734,Starfield.esm,001D0734,NPC_,Trilobite Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trilobite Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D0735,Starfield.esm,001D0735,NPC_,Herding Wobbleback Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Wobbleback Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001D0738,Starfield.esm,001D0738,NPC_,Hunting Coralcrab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Coralcrab; localized component provenance is deferred to Parcel C6.
+fauna,001D074F,Starfield.esm,001D074F,NPC_,Gossamer Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Gossamer Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D0758,Starfield.esm,001D0758,NPC_,Flamethorn Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flamethorn Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001D0762,Starfield.esm,001D0762,NPC_,Herding Boneback Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Boneback Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D0767,Starfield.esm,001D0767,NPC_,Herding Horsamander Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Horsamander Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D076C,Starfield.esm,001D076C,NPC_,Hunting Coralbug,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Coralbug; localized component provenance is deferred to Parcel C6.
+fauna,001D0770,Starfield.esm,001D0770,NPC_,Hunting Nailtail,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Nailtail; localized component provenance is deferred to Parcel C6.
+fauna,001D0780,Starfield.esm,001D0780,NPC_,Thorn Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Thorn Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001D0781,Starfield.esm,001D0781,NPC_,Spaceroach Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spaceroach Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D0782,Starfield.esm,001D0782,NPC_,Puffball Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Puffball Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D0783,Starfield.esm,001D0783,NPC_,Herding Crab Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Crab Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D0784,Starfield.esm,001D0784,NPC_,Beetlecrab Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetlecrab Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D0785,Starfield.esm,001D0785,NPC_,Hunting Nightmare,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Nightmare; localized component provenance is deferred to Parcel C6.
+fauna,001D07E6,Starfield.esm,001D07E6,NPC_,Milliwhale Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Milliwhale Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D07E7,Starfield.esm,001D07E7,NPC_,Toadface Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Toadface Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D07E8,Starfield.esm,001D07E8,NPC_,Hunting Trapmaw,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Trapmaw; localized component provenance is deferred to Parcel C6.
+fauna,001D2FA0,Starfield.esm,001D2FA0,NPC_,Milliwhale Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Milliwhale Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D2FA1,Starfield.esm,001D2FA1,NPC_,Flamethorn Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flamethorn Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D2FA2,Starfield.esm,001D2FA2,NPC_,Schooling Paddlefish Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Paddlefish Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D2FA3,Starfield.esm,001D2FA3,NPC_,Schooling Unishark Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Unishark Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001D2FA4,Starfield.esm,001D2FA4,NPC_,Flocking Snuffler Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Snuffler Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001D2FA5,Starfield.esm,001D2FA5,NPC_,Hunting Arapaima,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Arapaima; localized component provenance is deferred to Parcel C6.
+fauna,001D2FA6,Starfield.esm,001D2FA6,NPC_,Pack Scarab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Scarab; localized component provenance is deferred to Parcel C6.
+fauna,001D301F,Starfield.esm,001D301F,NPC_,Jellyfin Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Jellyfin Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D3020,Starfield.esm,001D3020,NPC_,Flocking Orchid Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Orchid Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001D3D1D,Starfield.esm,001D3D1D,NPC_,Spikeworm Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spikeworm Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D3D1E,Starfield.esm,001D3D1E,NPC_,Flocking Shardhopper Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Shardhopper Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001D3D1F,Starfield.esm,001D3D1F,NPC_,Hunting Ikuradon,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Ikuradon; localized component provenance is deferred to Parcel C6.
+fauna,001D50E1,Starfield.esm,001D50E1,NPC_,Puffball Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Puffball Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D50E2,Starfield.esm,001D50E2,NPC_,Swarming Cockroach,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Cockroach; localized component provenance is deferred to Parcel C6.
+fauna,001D50E3,Starfield.esm,001D50E3,NPC_,Herding Brainsquid Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Brainsquid Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001D50E4,Starfield.esm,001D50E4,NPC_,Herding Clawback Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Clawback Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001D50E5,Starfield.esm,001D50E5,NPC_,Hunting Cagebrain,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Cagebrain; localized component provenance is deferred to Parcel C6.
+fauna,001D50E6,Starfield.esm,001D50E6,NPC_,Apex Brainsprout,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Apex Brainsprout; localized component provenance is deferred to Parcel C6.
+fauna,001D5137,Starfield.esm,001D5137,NPC_,Flamethorn Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flamethorn Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001D5138,Starfield.esm,001D5138,NPC_,Herding Clickbeetle Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Clickbeetle Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D5139,Starfield.esm,001D5139,NPC_,Flocking Boneshell Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Boneshell Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D513A,Starfield.esm,001D513A,NPC_,Hunting Toadface Stalker,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Toadface Stalker; localized component provenance is deferred to Parcel C6.
+fauna,001D5A2F,Starfield.esm,001D5A2F,NPC_,Flocking Rockhound Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Rockhound Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001D5A30,Starfield.esm,001D5A30,NPC_,Hunting Stonewalker,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Stonewalker; localized component provenance is deferred to Parcel C6.
+fauna,001D5A9A,Starfield.esm,001D5A9A,NPC_,Trilobite Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trilobite Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D5A9B,Starfield.esm,001D5A9B,NPC_,Centiskull Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Centiskull Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001D5A9C,Starfield.esm,001D5A9C,NPC_,Schooling Unishark Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Unishark Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001D5A9D,Starfield.esm,001D5A9D,NPC_,Trihorn Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trihorn Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D5A9E,Starfield.esm,001D5A9E,NPC_,Flocking Brainblimp Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Brainblimp Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D5A9F,Starfield.esm,001D5A9F,NPC_,Herding Tongueface Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Tongueface Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D5AA1,Starfield.esm,001D5AA1,NPC_,Hunting Lockjaw,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Lockjaw; localized component provenance is deferred to Parcel C6.
+fauna,001D5AA3,Starfield.esm,001D5AA3,NPC_,Hunting Ikuradon,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Ikuradon; localized component provenance is deferred to Parcel C6.
+fauna,001D5F36,Starfield.esm,001D5F36,NPC_,Flocking Eggtail Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Eggtail Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D5F37,Starfield.esm,001D5F37,NPC_,Flocking Cyclozard Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Cyclozard Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001D5F38,Starfield.esm,001D5F38,NPC_,Ankylosaurus Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Ankylosaurus Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001D5F39,Starfield.esm,001D5F39,NPC_,Pack Glowhands,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Glowhands; localized component provenance is deferred to Parcel C6.
+fauna,001D5F3A,Starfield.esm,001D5F3A,NPC_,Swarming Eggback,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Eggback; localized component provenance is deferred to Parcel C6.
+fauna,001D6B6D,Starfield.esm,001D6B6D,NPC_,Jellyfin Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Jellyfin Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D6B6E,Starfield.esm,001D6B6E,NPC_,Herding Tapeworm Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Tapeworm Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001D6B6F,Starfield.esm,001D6B6F,NPC_,Pack Dragonfly,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Dragonfly; localized component provenance is deferred to Parcel C6.
+fauna,001D6B7D,Starfield.esm,001D6B7D,NPC_,Milliwhale Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Milliwhale Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D6B7E,Starfield.esm,001D6B7E,NPC_,Schooling Finback Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Finback Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001D6B7F,Starfield.esm,001D6B7F,NPC_,Herding Roundshell Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Roundshell Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D6B80,Starfield.esm,001D6B80,NPC_,Swarming Beetlecrab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Beetlecrab; localized component provenance is deferred to Parcel C6.
+fauna,001D7BC0,Starfield.esm,001D7BC0,NPC_,Snuffler Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Snuffler Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001D7BC1,Starfield.esm,001D7BC1,NPC_,Centiskull Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Centiskull Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001D7BC2,Starfield.esm,001D7BC2,NPC_,Herding Cutterhead Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Cutterhead Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001D7BC3,Starfield.esm,001D7BC3,NPC_,Herding Lacraia Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Lacraia Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D7BC4,Starfield.esm,001D7BC4,NPC_,Pack Cricket,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Cricket; localized component provenance is deferred to Parcel C6.
+fauna,001D7BEB,Starfield.esm,001D7BEB,NPC_,Drone Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Drone Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D7BEC,Starfield.esm,001D7BEC,NPC_,Trilobite Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trilobite Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D7BED,Starfield.esm,001D7BED,NPC_,Leafbug Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Leafbug Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D7BEE,Starfield.esm,001D7BEE,NPC_,Herding Windbag Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Windbag Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D7BEF,Starfield.esm,001D7BEF,NPC_,Hunting Scarab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Scarab; localized component provenance is deferred to Parcel C6.
+fauna,001D7BF0,Starfield.esm,001D7BF0,NPC_,Hunting Exocrawler,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Exocrawler; localized component provenance is deferred to Parcel C6.
+fauna,001D8423,Starfield.esm,001D8423,NPC_,Beetle Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetle Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D8424,Starfield.esm,001D8424,NPC_,Herding Boneback Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Boneback Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D8425,Starfield.esm,001D8425,NPC_,Hunting Shieldshell,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Shieldshell; localized component provenance is deferred to Parcel C6.
+fauna,001D871A,Starfield.esm,001D871A,NPC_,Triworm Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Triworm Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D871B,Starfield.esm,001D871B,NPC_,Herding Cutterhead Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Cutterhead Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D871C,Starfield.esm,001D871C,NPC_,Swarming Octomaggot,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Octomaggot; localized component provenance is deferred to Parcel C6.
+fauna,001D871D,Starfield.esm,001D871D,NPC_,Milliwhale Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Milliwhale Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001D871E,Starfield.esm,001D871E,NPC_,Grabber Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grabber Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D871F,Starfield.esm,001D871F,NPC_,Seahorse Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Seahorse Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D8720,Starfield.esm,001D8720,NPC_,Toadface Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Toadface Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D8721,Starfield.esm,001D8721,NPC_,Hunting Dragon,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Dragon; localized component provenance is deferred to Parcel C6.
+fauna,001D8722,Starfield.esm,001D8722,NPC_,Hunting Nailtail,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Nailtail; localized component provenance is deferred to Parcel C6.
+fauna,001D9478,Starfield.esm,001D9478,NPC_,Snuffler Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Snuffler Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D9479,Starfield.esm,001D9479,NPC_,Flamethorn Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flamethorn Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D947A,Starfield.esm,001D947A,NPC_,Herding Longhorn Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Longhorn Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001D947B,Starfield.esm,001D947B,NPC_,Roundshell Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Roundshell Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D947C,Starfield.esm,001D947C,NPC_,Tongueface Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Tongueface Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001D947D,Starfield.esm,001D947D,NPC_,Pack Rockhound,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Rockhound; localized component provenance is deferred to Parcel C6.
+fauna,001D947E,Starfield.esm,001D947E,NPC_,Hunting Hammersaur,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Hammersaur; localized component provenance is deferred to Parcel C6.
+fauna,001D9527,Starfield.esm,001D9527,NPC_,Grub Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grub Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001D9528,Starfield.esm,001D9528,NPC_,Herding Crabfly Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Crabfly Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001D9529,Starfield.esm,001D9529,NPC_,Hunting Glowhands Stalker,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Glowhands Stalker; localized component provenance is deferred to Parcel C6.
+fauna,001D952A,Starfield.esm,001D952A,NPC_,Flocking Windbag Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Windbag Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001D952B,Starfield.esm,001D952B,NPC_,Pack Boneback,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Boneback; localized component provenance is deferred to Parcel C6.
+fauna,001D952C,Starfield.esm,001D952C,NPC_,Pack Maggotmaw,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Maggotmaw; localized component provenance is deferred to Parcel C6.
+fauna,001D952D,Starfield.esm,001D952D,NPC_,Hunting Scarab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Scarab; localized component provenance is deferred to Parcel C6.
+fauna,001DBAE4,Starfield.esm,001DBAE4,NPC_,Thorn Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Thorn Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001DBAE5,Starfield.esm,001DBAE5,NPC_,Milliwhale Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Milliwhale Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001DBAE6,Starfield.esm,001DBAE6,NPC_,Cyclozard Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Cyclozard Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001DBAE7,Starfield.esm,001DBAE7,NPC_,Marnokk Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Marnokk Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001DBAE8,Starfield.esm,001DBAE8,NPC_,Shellephant Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Shellephant Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001DBAE9,Starfield.esm,001DBAE9,NPC_,Hunting Shieldshell,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Shieldshell; localized component provenance is deferred to Parcel C6.
+fauna,001DBAEA,Starfield.esm,001DBAEA,NPC_,Hunting Vectorback,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Vectorback; localized component provenance is deferred to Parcel C6.
+fauna,001DBAEB,Starfield.esm,001DBAEB,NPC_,Pack Trapmaw,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Trapmaw; localized component provenance is deferred to Parcel C6.
+fauna,001DBCE3,Starfield.esm,001DBCE3,NPC_,Milliwhale Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Milliwhale Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001DBCE4,Starfield.esm,001DBCE4,NPC_,Shoaling Finback Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Shoaling Finback Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001DBCE5,Starfield.esm,001DBCE5,NPC_,Herding Tongueface Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Tongueface Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001DBCE6,Starfield.esm,001DBCE6,NPC_,Hunting Vectorback,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Vectorback; localized component provenance is deferred to Parcel C6.
+fauna,001DC4A8,Starfield.esm,001DC4A8,NPC_,Coralheart Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Coralheart Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001DC4A9,Starfield.esm,001DC4A9,NPC_,Thorn Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Thorn Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001DC4AA,Starfield.esm,001DC4AA,NPC_,Flocking Earback Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Earback Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001DC4AB,Starfield.esm,001DC4AB,NPC_,Herding Morion Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Morion Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001DC4AC,Starfield.esm,001DC4AC,NPC_,Herding Clickbeetle Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Clickbeetle Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001DC4AD,Starfield.esm,001DC4AD,NPC_,Hunting Angler Stalker,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Angler Stalker; localized component provenance is deferred to Parcel C6.
+fauna,001DC4AE,Starfield.esm,001DC4AE,NPC_,Pack Exocrawler,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Exocrawler; localized component provenance is deferred to Parcel C6.
+fauna,001DCAEB,Starfield.esm,001DCAEB,NPC_,Twingrub Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Twingrub Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001DCAEC,Starfield.esm,001DCAEC,NPC_,Maggotmaw Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Maggotmaw Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001DCAED,Starfield.esm,001DCAED,NPC_,Hunting Cockroach,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Cockroach; localized component provenance is deferred to Parcel C6.
+fauna,001DCAEE,Starfield.esm,001DCAEE,NPC_,Centiskull Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Centiskull Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001DCAEF,Starfield.esm,001DCAEF,NPC_,Herding Brainsprout Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Brainsprout Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001DCAF0,Starfield.esm,001DCAF0,NPC_,Hunting Brainsquid,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Brainsquid; localized component provenance is deferred to Parcel C6.
+fauna,001DDAE8,Starfield.esm,001DDAE8,NPC_,Beetle Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetle Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001DDAE9,Starfield.esm,001DDAE9,NPC_,Spikeworm Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spikeworm Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001DDAEA,Starfield.esm,001DDAEA,NPC_,Beetlecrab Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetlecrab Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001DDAEB,Starfield.esm,001DDAEB,NPC_,Flocking Clawback Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Clawback Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001DDAEC,Starfield.esm,001DDAEC,NPC_,Hunting Coralbug,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Coralbug; localized component provenance is deferred to Parcel C6.
+fauna,001DDAED,Starfield.esm,001DDAED,NPC_,Pack Clickbeetle,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Clickbeetle; localized component provenance is deferred to Parcel C6.
+fauna,001DE40D,Starfield.esm,001DE40D,NPC_,Beetle Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetle Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001DE40E,Starfield.esm,001DE40E,NPC_,Flocking Shroomhead Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Shroomhead Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001DE40F,Starfield.esm,001DE40F,NPC_,Herding Longneck Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Longneck Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001DE410,Starfield.esm,001DE410,NPC_,Hunting Brightcage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Brightcage; localized component provenance is deferred to Parcel C6.
+fauna,001DE411,Starfield.esm,001DE411,NPC_,Pack Tentabeard,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Tentabeard; localized component provenance is deferred to Parcel C6.
+fauna,001DF4F6,Starfield.esm,001DF4F6,NPC_,Grub Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grub Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001DF4F7,Starfield.esm,001DF4F7,NPC_,Stonewalker Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Stonewalker Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001DF841,Starfield.esm,001DF841,NPC_,Jellyfin Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Jellyfin Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001DF842,Starfield.esm,001DF842,NPC_,Herding Nautiloos Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Nautiloos Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001DF843,Starfield.esm,001DF843,NPC_,Pack Sunfish,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Sunfish; localized component provenance is deferred to Parcel C6.
+fauna,001DF884,Starfield.esm,001DF884,NPC_,Jackknife Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Jackknife Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001DF885,Starfield.esm,001DF885,NPC_,Herding Olgreg,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Olgreg; localized component provenance is deferred to Parcel C6.
+fauna,001DF886,Starfield.esm,001DF886,NPC_,Herding Vuvuzelisk Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Vuvuzelisk Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001DF887,Starfield.esm,001DF887,NPC_,Hunting Raptor,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Raptor; localized component provenance is deferred to Parcel C6.
+fauna,001E064C,Starfield.esm,001E064C,NPC_,Fingerface Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Fingerface Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001E064F,Starfield.esm,001E064F,NPC_,Spaceroach Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spaceroach Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E069F,Starfield.esm,001E069F,NPC_,Herding Clawback Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Clawback Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E06E5,Starfield.esm,001E06E5,NPC_,Shardhopper Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Shardhopper Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001E07A6,Starfield.esm,001E07A6,NPC_,Swarming Cockroach,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Cockroach; localized component provenance is deferred to Parcel C6.
+fauna,001E07AB,Starfield.esm,001E07AB,NPC_,Hunting Exorunner,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Exorunner; localized component provenance is deferred to Parcel C6.
+fauna,001E07BD,Starfield.esm,001E07BD,NPC_,Pinecone Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pinecone Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E07BE,Starfield.esm,001E07BE,NPC_,Spaceroach Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spaceroach Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001E07BF,Starfield.esm,001E07BF,NPC_,Jellyfin Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Jellyfin Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001E07C0,Starfield.esm,001E07C0,NPC_,Herding Vuvuzelisk Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Vuvuzelisk Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001E07C1,Starfield.esm,001E07C1,NPC_,Hunting Leafstrider,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Leafstrider; localized component provenance is deferred to Parcel C6.
+fauna,001E07C2,Starfield.esm,001E07C2,NPC_,Hunting Bighorn,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Bighorn; localized component provenance is deferred to Parcel C6.
+fauna,001E08F4,Starfield.esm,001E08F4,NPC_,Beetle Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetle Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E08F5,Starfield.esm,001E08F5,NPC_,Herding Roundshell Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Roundshell Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E08F6,Starfield.esm,001E08F6,NPC_,Hunting Crab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Crab; localized component provenance is deferred to Parcel C6.
+fauna,001E2614,Starfield.esm,001E2614,NPC_,Fleshleaf Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Fleshleaf Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001E2615,Starfield.esm,001E2615,NPC_,Trilobite Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trilobite Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001E2616,Starfield.esm,001E2616,NPC_,Hunting Spiderwasp Stalker,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Spiderwasp Stalker; localized component provenance is deferred to Parcel C6.
+fauna,001E2617,Starfield.esm,001E2617,NPC_,Pack Cagebrain,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Cagebrain; localized component provenance is deferred to Parcel C6.
+fauna,001E2618,Starfield.esm,001E2618,NPC_,Windbag Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Windbag Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001E2619,Starfield.esm,001E2619,NPC_,Crabfly Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Crabfly Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001E2807,Starfield.esm,001E2807,NPC_,Coralheart Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Coralheart Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001E2808,Starfield.esm,001E2808,NPC_,Herding Stonewalker Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Stonewalker Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001E2809,Starfield.esm,001E2809,NPC_,Herding Rockhound Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Rockhound Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001E280A,Starfield.esm,001E280A,NPC_,Swarming Boneback,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Boneback; localized component provenance is deferred to Parcel C6.
+fauna,001E2871,Starfield.esm,001E2871,NPC_,Flocking Crab Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Crab Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001E292B,Starfield.esm,001E292B,NPC_,Snail Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Snail Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001E293B,Starfield.esm,001E293B,NPC_,Flocking Hippodon Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Hippodon Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001E293C,Starfield.esm,001E293C,NPC_,Pinecone Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pinecone Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001E293D,Starfield.esm,001E293D,NPC_,Herding Vuvuzelisk Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Vuvuzelisk Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001E293E,Starfield.esm,001E293E,NPC_,Pack Cricket,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Cricket; localized component provenance is deferred to Parcel C6.
+fauna,001E2948,Starfield.esm,001E2948,NPC_,Anteater Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Anteater Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001E2949,Starfield.esm,001E2949,NPC_,Hunting Brainsprout,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Brainsprout; localized component provenance is deferred to Parcel C6.
+fauna,001E2979,Starfield.esm,001E2979,NPC_,Grabber Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grabber Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001E2996,Starfield.esm,001E2996,NPC_,Herding Boneback Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Boneback Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001E2997,Starfield.esm,001E2997,NPC_,Pack Crab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Crab; localized component provenance is deferred to Parcel C6.
+fauna,001E299E,Starfield.esm,001E299E,NPC_,Caterpillar Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Caterpillar Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E299F,Starfield.esm,001E299F,NPC_,Beetle Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetle Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001E29A0,Starfield.esm,001E29A0,NPC_,Shoaling Exowhale Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Shoaling Exowhale Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001E29A1,Starfield.esm,001E29A1,NPC_,Herding Leafstrider Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Leafstrider Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001E29A2,Starfield.esm,001E29A2,NPC_,Flocking Plateskin Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Plateskin Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001E29A3,Starfield.esm,001E29A3,NPC_,Pack Crabfly,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Crabfly; localized component provenance is deferred to Parcel C6.
+fauna,001E29A4,Starfield.esm,001E29A4,NPC_,Hunting Brainsquid,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Brainsquid; localized component provenance is deferred to Parcel C6.
+fauna,001E2AC2,Starfield.esm,001E2AC2,NPC_,Crab Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Crab Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E2AC3,Starfield.esm,001E2AC3,NPC_,Herding Trihorn Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Trihorn Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001E2AC4,Starfield.esm,001E2AC4,NPC_,Hunting Coralcrab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Coralcrab; localized component provenance is deferred to Parcel C6.
+fauna,001E2AC5,Starfield.esm,001E2AC5,NPC_,Pack Cagebrain,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Cagebrain; localized component provenance is deferred to Parcel C6.
+fauna,001E3F36,Starfield.esm,001E3F36,NPC_,Trident Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trident Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001E3F37,Starfield.esm,001E3F37,NPC_,Roundshell Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Roundshell Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001E3F38,Starfield.esm,001E3F38,NPC_,Hunting Shieldshell,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Shieldshell; localized component provenance is deferred to Parcel C6.
+fauna,001E468A,Starfield.esm,001E468A,NPC_,Tubule Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Tubule Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001E468B,Starfield.esm,001E468B,NPC_,Herding Marnokk Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Marnokk Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E468C,Starfield.esm,001E468C,NPC_,Hunting Brainsquid,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Brainsquid; localized component provenance is deferred to Parcel C6.
+fauna,001E46C2,Starfield.esm,001E46C2,NPC_,Swarming Twistfin,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Twistfin; localized component provenance is deferred to Parcel C6.
+fauna,001E46C3,Starfield.esm,001E46C3,NPC_,Coralheart Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Coralheart Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001E46C4,Starfield.esm,001E46C4,NPC_,Thorn Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Thorn Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E46C5,Starfield.esm,001E46C5,NPC_,Crocalypse Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Crocalypse Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001E46C6,Starfield.esm,001E46C6,NPC_,Lockjaw Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Lockjaw Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001E46F7,Starfield.esm,001E46F7,NPC_,Flocking Cobalt Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Cobalt Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001E46F8,Starfield.esm,001E46F8,NPC_,Swarming Whaleshark,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Whaleshark; localized component provenance is deferred to Parcel C6.
+fauna,001E4E95,Starfield.esm,001E4E95,NPC_,Coralheart Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Coralheart Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001E4E96,Starfield.esm,001E4E96,NPC_,Herding Coralcrawler Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Coralcrawler Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001E4E97,Starfield.esm,001E4E97,NPC_,Herding Coralbug Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Coralbug Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001E4E98,Starfield.esm,001E4E98,NPC_,Swarming Shardhopper,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Shardhopper; localized component provenance is deferred to Parcel C6.
+fauna,001E4F5D,Starfield.esm,001E4F5D,NPC_,Worm Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Worm Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001E4F5E,Starfield.esm,001E4F5E,NPC_,Spaceroach Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spaceroach Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001E4F5F,Starfield.esm,001E4F5F,NPC_,Herding Vuvuzelisk Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Vuvuzelisk Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001E4F60,Starfield.esm,001E4F60,NPC_,Hunting Cricket,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Cricket; localized component provenance is deferred to Parcel C6.
+fauna,001E6680,Starfield.esm,001E6680,NPC_,Beetle Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetle Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E6681,Starfield.esm,001E6681,NPC_,Wiggler Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Wiggler Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E6682,Starfield.esm,001E6682,NPC_,Flocking Geckon Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Geckon Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E6683,Starfield.esm,001E6683,NPC_,Tongueface Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Tongueface Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001E6684,Starfield.esm,001E6684,NPC_,Pack Lionbear,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Lionbear; localized component provenance is deferred to Parcel C6.
+fauna,001E6685,Starfield.esm,001E6685,NPC_,Brainsprout Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Brainsprout Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001E6686,Starfield.esm,001E6686,NPC_,Hunting Landshark,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Landshark; localized component provenance is deferred to Parcel C6.
+fauna,001E6687,Starfield.esm,001E6687,NPC_,Hunting Stonewalker Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Stonewalker Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E6688,Starfield.esm,001E6688,NPC_,Jackknife Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Jackknife Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001E6689,Starfield.esm,001E6689,NPC_,Herding Brainsprout Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Brainsprout Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001E668A,Starfield.esm,001E668A,NPC_,Flocking Orchid Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Orchid Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E668B,Starfield.esm,001E668B,NPC_,Hunting Landshark,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Landshark; localized component provenance is deferred to Parcel C6.
+fauna,001E70EF,Starfield.esm,001E70EF,NPC_,Thorn Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Thorn Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001E70F0,Starfield.esm,001E70F0,NPC_,Herding Leafback Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Leafback Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001E70F1,Starfield.esm,001E70F1,NPC_,Hunting Crab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Crab; localized component provenance is deferred to Parcel C6.
+fauna,001E7100,Starfield.esm,001E7100,NPC_,Spaceroach Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spaceroach Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E7101,Starfield.esm,001E7101,NPC_,Hunting Cricket,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Cricket; localized component provenance is deferred to Parcel C6.
+fauna,001E7102,Starfield.esm,001E7102,NPC_,Hunting Boneshell,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Boneshell; localized component provenance is deferred to Parcel C6.
+fauna,001E7103,Starfield.esm,001E7103,NPC_,Hunting Crocalypse,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Crocalypse; localized component provenance is deferred to Parcel C6.
+fauna,001E7104,Starfield.esm,001E7104,NPC_,Hunting Glider,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Glider; localized component provenance is deferred to Parcel C6.
+fauna,001E7421,Starfield.esm,001E7421,NPC_,Noid Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Noid Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E7422,Starfield.esm,001E7422,NPC_,Flocking Exocrawler Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Exocrawler Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001E7423,Starfield.esm,001E7423,NPC_,Hunting Caterpillar Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Caterpillar Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E757A,Starfield.esm,001E757A,NPC_,Herding Lockjaw Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Lockjaw Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E757B,Starfield.esm,001E757B,NPC_,Beetle Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetle Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E757C,Starfield.esm,001E757C,NPC_,Grabber Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grabber Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E757D,Starfield.esm,001E757D,NPC_,Flocking Clickbeetle Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Clickbeetle Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001E757E,Starfield.esm,001E757E,NPC_,Swarming Maggotmaw,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Maggotmaw; localized component provenance is deferred to Parcel C6.
+fauna,001E757F,Starfield.esm,001E757F,NPC_,Pack Trapmaw,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Trapmaw; localized component provenance is deferred to Parcel C6.
+fauna,001E7580,Starfield.esm,001E7580,NPC_,Flocking Leafbug Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Leafbug Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001E7581,Starfield.esm,001E7581,NPC_,Herding Kelpstrider Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Kelpstrider Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001E798C,Starfield.esm,001E798C,NPC_,Trilobite Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trilobite Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001E798D,Starfield.esm,001E798D,NPC_,Cockroach Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Cockroach Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001E798E,Starfield.esm,001E798E,NPC_,Hunting Sunflower,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Sunflower; localized component provenance is deferred to Parcel C6.
+fauna,001E7BA6,Starfield.esm,001E7BA6,NPC_,Coralheart Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Coralheart Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001E7BA7,Starfield.esm,001E7BA7,NPC_,Lockjaw Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Lockjaw Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001E7BA8,Starfield.esm,001E7BA8,NPC_,Pack Clickbeetle,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Clickbeetle; localized component provenance is deferred to Parcel C6.
+fauna,001E7E6C,Starfield.esm,001E7E6C,NPC_,Grabber Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grabber Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E7E6D,Starfield.esm,001E7E6D,NPC_,Shroombobber Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Shroombobber Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001E7E6E,Starfield.esm,001E7E6E,NPC_,Herding Windbag Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Windbag Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001E7E6F,Starfield.esm,001E7E6F,NPC_,Triworm Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Triworm Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E7E70,Starfield.esm,001E7E70,NPC_,Hunting Angler,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Angler; localized component provenance is deferred to Parcel C6.
+fauna,001E7E71,Starfield.esm,001E7E71,NPC_,Hunting Cricket Stalker,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Cricket Stalker; localized component provenance is deferred to Parcel C6.
+fauna,001E7E85,Starfield.esm,001E7E85,NPC_,Tubule Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Tubule Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E7E86,Starfield.esm,001E7E86,NPC_,Herding Stonewalker Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Stonewalker Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001E7E87,Starfield.esm,001E7E87,NPC_,Pack Ankylosaurus,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Ankylosaurus; localized component provenance is deferred to Parcel C6.
+fauna,001E7E88,Starfield.esm,001E7E88,NPC_,Apex Exorunner,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Apex Exorunner; localized component provenance is deferred to Parcel C6.
+fauna,001E81A3,Starfield.esm,001E81A3,NPC_,Carasnail Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Carasnail Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001E81A4,Starfield.esm,001E81A4,NPC_,Flocking Caterpillar Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Caterpillar Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001E81A5,Starfield.esm,001E81A5,NPC_,Herding Crabfly Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Crabfly Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001E81A6,Starfield.esm,001E81A6,NPC_,Hunting Cockroach,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Cockroach; localized component provenance is deferred to Parcel C6.
+fauna,001E9BFC,Starfield.esm,001E9BFC,NPC_,Herding Nautiloos Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Nautiloos Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001E9BFD,Starfield.esm,001E9BFD,NPC_,Herding Brainblimp Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Brainblimp Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001E9BFE,Starfield.esm,001E9BFE,NPC_,Coralheart Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Coralheart Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001EA0D7,Starfield.esm,001EA0D7,NPC_,Herding Wobbleback Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Wobbleback Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001EA0D8,Starfield.esm,001EA0D8,NPC_,Hunting Leafstrider,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Leafstrider; localized component provenance is deferred to Parcel C6.
+fauna,001EA2AB,Starfield.esm,001EA2AB,NPC_,Canard Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Canard Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001EA2AC,Starfield.esm,001EA2AC,NPC_,Herding Snail Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Snail Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001EA2AD,Starfield.esm,001EA2AD,NPC_,Pack Brainsprout,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Brainsprout; localized component provenance is deferred to Parcel C6.
+fauna,001EA2AE,Starfield.esm,001EA2AE,NPC_,Schooling Seahag Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Seahag Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001EA2AF,Starfield.esm,001EA2AF,NPC_,Hunting Sharkwhale,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Sharkwhale; localized component provenance is deferred to Parcel C6.
+fauna,001EA39D,Starfield.esm,001EA39D,NPC_,Morion Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Morion Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001EA39E,Starfield.esm,001EA39E,NPC_,Fingerface Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Fingerface Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001EB5DE,Starfield.esm,001EB5DE,NPC_,Scepter Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Scepter Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001EB5DF,Starfield.esm,001EB5DF,NPC_,Trident Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trident Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001EB5E0,Starfield.esm,001EB5E0,NPC_,Pack Trapmaw,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Trapmaw; localized component provenance is deferred to Parcel C6.
+fauna,001EB631,Starfield.esm,001EB631,NPC_,Hunting Coralcrab,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Coralcrab; localized component provenance is deferred to Parcel C6.
+fauna,001EB65C,Starfield.esm,001EB65C,NPC_,Hunting Vuvuzelisk,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Vuvuzelisk; localized component provenance is deferred to Parcel C6.
+fauna,001EB65D,Starfield.esm,001EB65D,NPC_,Flocking Brightcage Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Brightcage Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001EC761,Starfield.esm,001EC761,NPC_,Beetle Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetle Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001EC762,Starfield.esm,001EC762,NPC_,Flocking Hornface Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Hornface Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001EC763,Starfield.esm,001EC763,NPC_,Hunting Boneshell,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Boneshell; localized component provenance is deferred to Parcel C6.
+fauna,001EC782,Starfield.esm,001EC782,NPC_,Grub Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grub Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001EC783,Starfield.esm,001EC783,NPC_,Flocking Scorpion Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Scorpion Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001EC784,Starfield.esm,001EC784,NPC_,Swarming Glider,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Swarming Glider; localized component provenance is deferred to Parcel C6.
+fauna,001EC785,Starfield.esm,001EC785,NPC_,Pack Cephalopod,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Cephalopod; localized component provenance is deferred to Parcel C6.
+fauna,001EC786,Starfield.esm,001EC786,NPC_,Hunting Skullface,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Skullface; localized component provenance is deferred to Parcel C6.
+fauna,001EC787,Starfield.esm,001EC787,NPC_,Spaceroach Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spaceroach Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001ECFD8,Starfield.esm,001ECFD8,NPC_,Centiskull Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Centiskull Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001ECFD9,Starfield.esm,001ECFD9,NPC_,Herding Sunflower Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Sunflower Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001ECFDA,Starfield.esm,001ECFDA,NPC_,Hunting Brightcage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Brightcage; localized component provenance is deferred to Parcel C6.
+fauna,001ED081,Starfield.esm,001ED081,NPC_,Glider Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Glider Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001ED082,Starfield.esm,001ED082,NPC_,Parrothawk Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Parrothawk Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001ED083,Starfield.esm,001ED083,NPC_,Eggsac Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Eggsac Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001ED084,Starfield.esm,001ED084,NPC_,Ghost Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Ghost Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001ED085,Starfield.esm,001ED085,NPC_,Herding Lionfish Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Lionfish Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001ED086,Starfield.esm,001ED086,NPC_,Gossamer Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Gossamer Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001ED149,Starfield.esm,001ED149,NPC_,Herding Sentinel Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Sentinel Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001ED14A,Starfield.esm,001ED14A,NPC_,Herding Scoopback Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Scoopback Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001ED14B,Starfield.esm,001ED14B,NPC_,Flocking Nautiloos Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Nautiloos Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001ED14C,Starfield.esm,001ED14C,NPC_,Pack Dragondon,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Dragondon; localized component provenance is deferred to Parcel C6.
+fauna,001ED14D,Starfield.esm,001ED14D,NPC_,Pack Cranehopper,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Cranehopper; localized component provenance is deferred to Parcel C6.
+fauna,001ED14E,Starfield.esm,001ED14E,NPC_,Beetle Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetle Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001ED14F,Starfield.esm,001ED14F,NPC_,Spaceroach Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spaceroach Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001EDF4B,Starfield.esm,001EDF4B,NPC_,Trilobite Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trilobite Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001EDF4C,Starfield.esm,001EDF4C,NPC_,Centiskull Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Centiskull Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001EDF4D,Starfield.esm,001EDF4D,NPC_,Scorpion Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Scorpion Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001EDF4E,Starfield.esm,001EDF4E,NPC_,Worm Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Worm Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001EDF4F,Starfield.esm,001EDF4F,NPC_,Hunting Exocrawler,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Exocrawler; localized component provenance is deferred to Parcel C6.
+fauna,001EE4D5,Starfield.esm,001EE4D5,NPC_,Trident Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trident Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001EE4DC,Starfield.esm,001EE4DC,NPC_,Spikeworm Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spikeworm Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001EE5B1,Starfield.esm,001EE5B1,NPC_,Thorn Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Thorn Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001EE81A,Starfield.esm,001EE81A,NPC_,Longhorn Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Longhorn Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001EE81B,Starfield.esm,001EE81B,NPC_,Hunting Leafback,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Leafback; localized component provenance is deferred to Parcel C6.
+fauna,001EE81C,Starfield.esm,001EE81C,NPC_,Pack Lionbear,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Lionbear; localized component provenance is deferred to Parcel C6.
+fauna,001EE81D,Starfield.esm,001EE81D,NPC_,Flocking Roundshell Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Roundshell Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001EE88E,Starfield.esm,001EE88E,NPC_,Thorn Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Thorn Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001EE88F,Starfield.esm,001EE88F,NPC_,Grabber Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grabber Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001EE890,Starfield.esm,001EE890,NPC_,Herding Blistercrab Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Blistercrab Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001EE891,Starfield.esm,001EE891,NPC_,Herding Leecher Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Leecher Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001EE892,Starfield.esm,001EE892,NPC_,Hunting Octomaggot,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Octomaggot; localized component provenance is deferred to Parcel C6.
+fauna,001EE893,Starfield.esm,001EE893,NPC_,Drone Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Drone Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001EE894,Starfield.esm,001EE894,NPC_,Grabber Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Grabber Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001EE895,Starfield.esm,001EE895,NPC_,Herding Seabat Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Seabat Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001EE896,Starfield.esm,001EE896,NPC_,Herding Bonemane Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Bonemane Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001EE897,Starfield.esm,001EE897,NPC_,Hunting Trihorn,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Trihorn; localized component provenance is deferred to Parcel C6.
+fauna,001EEEC0,Starfield.esm,001EEEC0,NPC_,Trident Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trident Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001EEEC1,Starfield.esm,001EEEC1,NPC_,Jackknife Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Jackknife Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001EEEC2,Starfield.esm,001EEEC2,NPC_,Beetle Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Beetle Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001EF053,Starfield.esm,001EF053,NPC_,Spaceroach Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spaceroach Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001EF054,Starfield.esm,001EF054,NPC_,Flamethorn Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flamethorn Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001EF055,Starfield.esm,001EF055,NPC_,Gossamer Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Gossamer Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001EF056,Starfield.esm,001EF056,NPC_,Herding Horsamander Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Horsamander Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001EF057,Starfield.esm,001EF057,NPC_,Herding Octomaggot Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Octomaggot Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001EF058,Starfield.esm,001EF058,NPC_,Hunting Crab Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Crab Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001EF059,Starfield.esm,001EF059,NPC_,Pack Exocrawler Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Exocrawler Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001EF5E6,Starfield.esm,001EF5E6,NPC_,Pack Trapmaw,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Trapmaw; localized component provenance is deferred to Parcel C6.
+fauna,001EF5E7,Starfield.esm,001EF5E7,NPC_,Hunting Clickbeetle Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Clickbeetle Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001EF5E8,Starfield.esm,001EF5E8,NPC_,Pack Lionbear,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Lionbear; localized component provenance is deferred to Parcel C6.
+fauna,001EF5E9,Starfield.esm,001EF5E9,NPC_,Herding Trihorn Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Trihorn Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001EF5EA,Starfield.esm,001EF5EA,NPC_,Lockjaw Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Lockjaw Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001EF5EB,Starfield.esm,001EF5EB,NPC_,Flocking Leafback Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Leafback Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001EFDAE,Starfield.esm,001EFDAE,NPC_,Twintail Herbivore,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Twintail Herbivore; localized component provenance is deferred to Parcel C6.
+fauna,001EFFAA,Starfield.esm,001EFFAA,NPC_,Horsamander Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Horsamander Grazer; localized component provenance is deferred to Parcel C6.
+fauna,001F0056,Starfield.esm,001F0056,NPC_,Pack Longhorn,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Longhorn; localized component provenance is deferred to Parcel C6.
+fauna,001F0057,Starfield.esm,001F0057,NPC_,Hunting Trapmaw,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Trapmaw; localized component provenance is deferred to Parcel C6.
+fauna,001F7668,Starfield.esm,001F7668,NPC_,Pearl Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pearl Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001F7669,Starfield.esm,001F7669,NPC_,Herding Fluke Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Fluke Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001F766A,Starfield.esm,001F766A,NPC_,Glider Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Glider Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001F766B,Starfield.esm,001F766B,NPC_,Schooling Kronosaurus Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Kronosaurus Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001F766C,Starfield.esm,001F766C,NPC_,Vampire Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Vampire Geophage; localized component provenance is deferred to Parcel C6.
+fauna,001F766D,Starfield.esm,001F766D,NPC_,Spore Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Spore Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001F766E,Starfield.esm,001F766E,NPC_,Schooling Arapaima Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Arapaima Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,001F766F,Starfield.esm,001F766F,NPC_,Puffball Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Puffball Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001F7670,Starfield.esm,001F7670,NPC_,Herding Lionfish Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Lionfish Filterer; localized component provenance is deferred to Parcel C6.
+fauna,001F7671,Starfield.esm,001F7671,NPC_,Schooling Kronosaurus Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Kronosaurus Grazer; localized component provenance is deferred to Parcel C6.
+fauna,002025D3,Starfield.esm,002025D3,NPC_,Herding Mayfly Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Mayfly Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,002025D5,Starfield.esm,002025D5,NPC_,Schooling Kronosaurus Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Kronosaurus Filterer; localized component provenance is deferred to Parcel C6.
+fauna,002025D6,Starfield.esm,002025D6,NPC_,Schooling Lurefish Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Lurefish Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,002025D7,Starfield.esm,002025D7,NPC_,Flocking Canard Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Canard Filterer; localized component provenance is deferred to Parcel C6.
+fauna,002025D8,Starfield.esm,002025D8,NPC_,Herding Flapwheel Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Flapwheel Grazer; localized component provenance is deferred to Parcel C6.
+fauna,002025D9,Starfield.esm,002025D9,NPC_,Schooling Sawhead Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Sawhead Grazer; localized component provenance is deferred to Parcel C6.
+fauna,002025DA,Starfield.esm,002025DA,NPC_,Schooling Sharkwhale Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Sharkwhale Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,002025DB,Starfield.esm,002025DB,NPC_,Saturnine Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Saturnine Filterer; localized component provenance is deferred to Parcel C6.
+fauna,002025DC,Starfield.esm,002025DC,NPC_,Herding Boneglider Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Boneglider Filterer; localized component provenance is deferred to Parcel C6.
+fauna,002025E1,Starfield.esm,002025E1,NPC_,Glider Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Glider Filterer; localized component provenance is deferred to Parcel C6.
+fauna,00221DBD,Starfield.esm,00221DBD,NPC_,Schooling Paddlefish Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Paddlefish Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00221DBE,Starfield.esm,00221DBE,NPC_,Schooling Sawhead Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Sawhead Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00221DBF,Starfield.esm,00221DBF,NPC_,Schooling Lurefish Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Lurefish Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,00221DC0,Starfield.esm,00221DC0,NPC_,Pack Skullface,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Skullface; localized component provenance is deferred to Parcel C6.
+fauna,00221DC1,Starfield.esm,00221DC1,NPC_,Herding Stingray Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Stingray Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00221DC2,Starfield.esm,00221DC2,NPC_,Mayfly Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Mayfly Filterer; localized component provenance is deferred to Parcel C6.
+fauna,00221DC3,Starfield.esm,00221DC3,NPC_,Mothwing Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Mothwing Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00221DC4,Starfield.esm,00221DC4,NPC_,Puffball Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Puffball Filterer; localized component provenance is deferred to Parcel C6.
+fauna,00221DC6,Starfield.esm,00221DC6,NPC_,Pack Unishark,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Unishark; localized component provenance is deferred to Parcel C6.
+fauna,00221DC7,Starfield.esm,00221DC7,NPC_,Nautilus Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Nautilus Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,00221DC8,Starfield.esm,00221DC8,NPC_,Herding Lionfish Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Lionfish Grazer; localized component provenance is deferred to Parcel C6.
+fauna,00221DC9,Starfield.esm,00221DC9,NPC_,Gossamer Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Gossamer Filterer; localized component provenance is deferred to Parcel C6.
+fauna,00221DCA,Starfield.esm,00221DCA,NPC_,Pack Paddlefish,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Paddlefish; localized component provenance is deferred to Parcel C6.
+fauna,00221DCB,Starfield.esm,00221DCB,NPC_,Schooling Seahag Filterer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Schooling Seahag Filterer; localized component provenance is deferred to Parcel C6.
+fauna,00221DCC,Starfield.esm,00221DCC,NPC_,Pack Sharkwhale,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Sharkwhale; localized component provenance is deferred to Parcel C6.
+fauna,00221DCD,Starfield.esm,00221DCD,NPC_,Flocking Stingray Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Flocking Stingray Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,00273718,Starfield.esm,00273718,NPC_,Herding Mothwing Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Mothwing Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,00287159,Starfield.esm,00287159,NPC_,Trident Geophage,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Trident Geophage; localized component provenance is deferred to Parcel C6.
+fauna,0037CEF4,Starfield.esm,0037CEF4,NPC_,Hunting Paddlefish,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Paddlefish; localized component provenance is deferred to Parcel C6.
+fauna,003AD1F9,Starfield.esm,003AD1F9,NPC_,Gossamer Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Gossamer Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,003AD1FA,Starfield.esm,003AD1FA,NPC_,Pack Cockroach Stalker,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Pack Cockroach Stalker; localized component provenance is deferred to Parcel C6.
+fauna,003CB234,Starfield.esm,003CB234,NPC_,Cassowary Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Cassowary Grazer; localized component provenance is deferred to Parcel C6.
+fauna,003CB235,Starfield.esm,003CB235,NPC_,Cassowary Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Cassowary Grazer; localized component provenance is deferred to Parcel C6.
+fauna,003CB236,Starfield.esm,003CB236,NPC_,Cassowary Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Cassowary Grazer; localized component provenance is deferred to Parcel C6.
+fauna,003CB237,Starfield.esm,003CB237,NPC_,Nautilus Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Nautilus Grazer; localized component provenance is deferred to Parcel C6.
+fauna,003CB238,Starfield.esm,003CB238,NPC_,Glowback Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Glowback Grazer; localized component provenance is deferred to Parcel C6.
+fauna,003CB239,Starfield.esm,003CB239,NPC_,Nautilus Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Nautilus Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,003D23F0,Starfield.esm,003D23F0,NPC_,Herding Cagebrain Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Cagebrain Grazer; localized component provenance is deferred to Parcel C6.
+fauna,0103D5DE,ShatteredSpace.esm,0103D5DE,NPC_,Tubecrawler Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Tubecrawler Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,0103D5DF,ShatteredSpace.esm,0103D5DF,NPC_,Hunting Twintail,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Hunting Twintail; localized component provenance is deferred to Parcel C6.
+fauna,0103D5E0,ShatteredSpace.esm,0103D5E0,NPC_,Herding Olgreg Scavenger,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Olgreg Scavenger; localized component provenance is deferred to Parcel C6.
+fauna,0103D5E1,ShatteredSpace.esm,0103D5E1,NPC_,Herding Wobbleback Grazer,DEFERRED_COMPOSED_FAUNA_C6,CCT composition resolves to Herding Wobbleback Grazer; localized component provenance is deferred to Parcel C6.

@@ -64,7 +64,7 @@ and zlib-framed compressed members. Unsupported versions/types and malformed or
 truncated members fail with stable error codes. It does not support texture
 archives or arbitrary asset extraction.
 
-## Rerun C2-C4 with extracted English tables
+## Rerun C2-C5 with extracted English tables
 
 Point the ignored provenance config at the intake manifest. C3 requires the
 declared official plugin set even when a plugin contributes zero canonical
@@ -130,6 +130,21 @@ Akila, Volii Alpha, gas and ice giants, a Shattered Space body, and canonical
 orbitals such as The Eye, The Den, The Oracle, ECS Constant, and Deimos
 Staryard. Structural-source/display differences remain exact, entity-scoped
 normalizations; unsupported shapes remain explicit unresolved rows.
+
+C5 takes organic species only from `biome-organic-resources.csv` and
+deduplicates its Planet × Biome occurrences by species type and stable FormID.
+Flora uses direct `FLOR.FULL`. Fauna follows the exporter precedence of direct
+`NPC_.FULL`, then valid CCT composition, then the bounded leveled/template route
+to an encounter `NPC_.FULL`. CCT evaluation is classification only in C5:
+native keywords, recursive OMOD includes, keyword properties, and INNR rule
+precedence identify the exact population deferred to C6, but no localized
+component IDs are emitted yet. Ambiguous CCT or template names fail closed.
+
+Installed game version 1.16.244.0 currently yields 1,121 unique organic species
+from 3,855 occurrence rows: 153 direct flora, 41 direct fauna, 5 template fauna,
+and 922 composed fauna deferred to C6. The generated C6 handoff contains those
+922 composed targets; the separate five-row lineage artifact records each
+template fauna's canonical NPC, LVLN, leveled NPC, and encounter name provider.
 
 ## Add another language
 

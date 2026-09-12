@@ -9,6 +9,10 @@ export const SEMANTIC_PATHS = Object.freeze({
 const definitions = [
   { recordSignature: 'IRES', semanticPath: SEMANTIC_PATHS.TOP_LEVEL_FULL, stringTable: 'strings', selector: { kind: 'topLevel', signature: 'FULL' } },
   { recordSignature: 'BIOM', semanticPath: SEMANTIC_PATHS.TOP_LEVEL_FULL, stringTable: 'strings', selector: { kind: 'topLevel', signature: 'FULL' } },
+  { recordSignature: 'FLOR', semanticPath: SEMANTIC_PATHS.TOP_LEVEL_FULL, stringTable: 'strings', selector: { kind: 'topLevel', signature: 'FULL' } },
+  // C5 allowlists only the explicit NPC name used by canonical fauna or the
+  // final encounter template; it does not generalize NPC naming semantics.
+  { recordSignature: 'NPC_', semanticPath: SEMANTIC_PATHS.TOP_LEVEL_FULL, stringTable: 'strings', selector: { kind: 'topLevel', signature: 'FULL' } },
   // PERK records can contain later rank FULL fields; only the top-level skill label is a C2 name.
   { recordSignature: 'PERK', semanticPath: SEMANTIC_PATHS.TOP_LEVEL_FULL, stringTable: 'strings', selector: { kind: 'topLevelBefore', signature: 'FULL', boundarySignature: 'PRRK' } },
   { recordSignature: 'STDT', semanticPath: SEMANTIC_PATHS.TES_FULL_NAME, stringTable: 'strings', selector: { kind: 'component', componentMarker: 'TESFullName_Component', signature: 'FULL' } },

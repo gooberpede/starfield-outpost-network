@@ -5,6 +5,7 @@ import path from 'node:path'
 import { buildC2Targets, validateCommittedCrosswalk } from './localized-name-provenance.mjs'
 import { buildC4Targets } from './body-provenance.mjs'
 import { NAME_NORMALIZATIONS, parseNameNormalizationsCsv, validateNameNormalizations } from './name-normalization-policy.mjs'
+import { buildC5Targets, validateCommittedOrganicArtifacts } from './organic-provenance.mjs'
 import { buildC3Targets } from './star-system-provenance.mjs'
 
 const sourceNames = {
@@ -18,7 +19,8 @@ const sources = Object.fromEntries(await Promise.all(Object.entries(sourceNames)
 const { targets: c2Targets } = buildC2Targets(sources)
 const { targets: c3Targets } = buildC3Targets(sources.planets)
 const { targets: c4Targets } = buildC4Targets(sources.planets)
-const targets = [...c2Targets, ...c3Targets, ...c4Targets]
+const { targets: c5Targets } = buildC5Targets(sources.biomeOrganic)
+const targets = [...c2Targets, ...c3Targets, ...c4Targets, ...c5Targets]
 const result = validateCommittedCrosswalk(
   await readFile(path.join(directory, 'localized-name-provenance.csv'), 'utf8'),
   await readFile(path.join(directory, 'localized-name-provenance-unresolved.csv'), 'utf8'),
@@ -26,4 +28,13 @@ const result = validateCommittedCrosswalk(
 )
 const normalizedRows = parseNameNormalizationsCsv(await readFile(path.join(directory, 'localized-name-normalizations.csv'), 'utf8'))
 const normalized = validateNameNormalizations(NAME_NORMALIZATIONS, targets, result.provenance, result.unresolved, normalizedRows)
-process.stdout.write(`Validated ${result.provenance.length} resolved, ${normalized} normalized, and ${result.unresolved.length} unresolved C2-C4 provenance rows.\n`)
+const organic = validateCommittedOrganicArtifacts(
+  result.provenance, result.unresolved,
+  await readFile(path.join(directory, 'localized-name-provenance-c6-fauna.csv'), 'utf8'),
+  await readFile(path.join(directory, 'localized-name-provenance-c5-fauna-lineage.csv'), 'utf8'),
+  c5Targets,
+)
+process.stdout.write(
+  `Validated ${result.provenance.length} resolved, ${normalized} normalized, and ${result.unresolved.length} unresolved C2-C5 provenance rows; ` +
+  `${organic.handoff.length} C6 fauna handoffs and ${organic.lineage.length} template lineages.\n`,
+)

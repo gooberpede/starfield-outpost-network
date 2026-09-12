@@ -1,0 +1,6 @@
+EntityKind,EntityId,CanonicalSourcePlugin,CanonicalNPCFormID,LeveledListSourcePlugin,LeveledListFormID,LeveledNPCSourcePlugin,LeveledNPCFormID,EncounterNPCSourcePlugin,EncounterNPCFormID,CanonicalEnglish
+fauna,0008D0D8,Starfield.esm,0008D0D8,Starfield.esm,0008D0D7,Starfield.esm,0008D0D5,Starfield.esm,0008D0D6,Grylloba Hunter
+fauna,0018711A,Starfield.esm,0018711A,Starfield.esm,0018711D,Starfield.esm,0008D0DC,Starfield.esm,0018710E,Grylloba
+fauna,00187129,Starfield.esm,00187129,Starfield.esm,0018712B,Starfield.esm,00187130,Starfield.esm,00187106,Cataxi Hunter
+fauna,0018712A,Starfield.esm,0018712A,Starfield.esm,0018712C,Starfield.esm,00187105,Starfield.esm,00187108,Cataxi Warrior
+fauna,002B2293,Starfield.esm,002B2293,Starfield.esm,002B2290,Starfield.esm,00324CF0,Starfield.esm,002B228F,Terrormorph

@@ -689,8 +689,8 @@ later Parcel D tooling
 
 The C1 tooling lives under `scripts/localization/`. Its binary layer supports
 only 24-byte record/group framing, recursive groups, compressed records, `XXXX`
-subrecord sizes, exact raw FormID selection for the audited signatures, and the
-C3-only scan of `STDT` records needed for numeric system matching.
+subrecord sizes, exact raw FormID selection for the audited signatures, and
+bounded signature scans used by C3 and C5 relationship resolution.
 The semantic layer, rather than the binary reader, decides whether a `FULL`
 subrecord is the intended localized field. Unknown, missing, or ambiguous shapes
 fail closed. The current component route is specifically bounded by serialized
@@ -765,6 +765,28 @@ explicit unresolved row until a target-specific semantic route is audited.
 Source/display differences use the same exact entity-scoped normalization
 policy as system names.
 
+Parcel C5 derives its complete organic target set from
+`biome-organic-resources.csv`, collapsing Planet × Biome occurrence rows to one
+stable flora or fauna FormID. It reproduces the production exporter precedence:
+
+```text
+flora: FLOR.FULL
+fauna: NPC_.FULL
+    > valid CCT composition (classification only; deferred to C6)
+    > NPC_ TPLT -> LVLN entry NPC_ -> encounter-template NPC_.FULL
+```
+
+Only direct flora, direct fauna, and template-fauna `FULL` providers enter the
+normalized provenance crosswalk. CCT classification includes native NPC
+keywords, recursive OMOD includes, `NPC - Keyword` properties, and the audited
+INNR ordering of greatest keyword specificity, highest `YNAM`, then earliest
+rule. Different useful Object Template names and different encounter-template
+names fail closed. `localized-name-provenance-c6-fauna.csv` bounds the deliberate
+C6 handoff, while `localized-name-provenance-c5-fauna-lineage.csv` preserves the
+canonical NPC → LVLN → leveled NPC → encounter NPC audit path without denormalizing
+the main crosswalk. The current installed-game inventory is 153 direct flora,
+41 direct fauna, 5 template fauna, and 922 C6-composed fauna targets.
+
 Exact English equality remains the default verification rule. A structural
 canonical value is never rewritten merely to match localized display text. A
 localized value may differ only through a checked-in approval keyed by stable
@@ -782,7 +804,7 @@ explicit BA2 v2 GNRL paths
     -> member-table enumeration
     -> exact plugin-base + locale + table-type selection
     -> ignored local official string tables + hashes
-    -> C2-C4 English verification
+    -> C2-C5 English verification
     -> future Parcel D locale overlays
 ```
 

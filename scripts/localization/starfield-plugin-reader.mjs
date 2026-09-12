@@ -8,7 +8,12 @@ import zlib from 'node:zlib'
 
 export const RECORD_HEADER_SIZE = 24
 export const COMPRESSED_RECORD_FLAG = 0x00040000
-export const C1_RECORD_SIGNATURES = new Set(['IRES', 'BIOM', 'PERK', 'STDT', 'PNDT'])
+export const SUPPORTED_RECORD_SIGNATURES = new Set([
+  'IRES', 'BIOM', 'PERK', 'STDT', 'PNDT',
+  // Parcel C5 follows only the record relationships required to classify the
+  // canonical organic-species population and locate its final FULL provider.
+  'FLOR', 'NPC_', 'LVLN', 'KYWD', 'OMOD', 'INNR',
+])
 
 export class PluginReaderError extends Error {
   constructor(code, message, context = {}, cause) {
@@ -126,10 +131,10 @@ export function decodeSubrecords(payload, recordContext = {}) {
 }
 
 function selectorKey(selector) {
-  if (!C1_RECORD_SIGNATURES.has(selector.signature)) {
+  if (!SUPPORTED_RECORD_SIGNATURES.has(selector.signature)) {
     throw new PluginReaderError(
       'UNSUPPORTED_RECORD_SIGNATURE',
-      `Record signature ${selector.signature} is not allowlisted for Parcel C1.`,
+      `Record signature ${selector.signature} is not allowlisted for localized-name provenance.`,
       selector,
     )
   }
@@ -277,6 +282,13 @@ export function findRecordsInPlugin(pluginPath, selectors) {
   const records = findAvailableRecordsInPlugin(pluginPath, selectors)
   const found = new Map(records.map((record) => [`${record.signature}:${record.formId}`, [record]]))
   return finishSelections(wanted, found, pluginPath)
+}
+
+/** C5-only bounded relationship scan; callers supply the exact required signatures. */
+export function findRecordsBySignaturesInPlugin(pluginPath, signatures) {
+  const allowed = new Set(signatures)
+  for (const signature of allowed) selectorKey({ signature, formId: 0 })
+  return scanPlugin(pluginPath, (header) => allowed.has(header.signature))
 }
 
 /** C3-only population scan: system stars must be joined by numeric STDT.DNAM. */

@@ -127,8 +127,8 @@ test('rejects dangling, incomplete, and out-of-bounds XXXX structures', () => {
   )
 })
 
-test('extracts supported IRES and BIOM top-level FULL fields', () => {
-  for (const signature of ['IRES', 'BIOM']) {
+test('extracts supported direct-name top-level FULL fields', () => {
+  for (const signature of ['IRES', 'BIOM', 'FLOR', 'NPC_']) {
     const selected = parsedRecord(signature, 1, subrecord('FULL', localizedId(0x8155)))
     assert.deepEqual(extractLocalizedId(selected, SEMANTIC_PATHS.TOP_LEVEL_FULL), {
       id: 0x8155, idHex: '00008155', stringTable: 'strings', semanticPath: 'topLevel.FULL',
@@ -163,7 +163,7 @@ test('component selection requires TESFullName_Component and ignores sibling FUL
 test('semantic selection fails closed for unsupported, missing, and ambiguous paths', () => {
   const full = subrecord('FULL', localizedId(1))
   assert.throws(
-    () => findRecordsInBuffer(record('FLOR', 1, full), [{ signature: 'FLOR', formId: 1 }]),
+    () => findRecordsInBuffer(record('MISC', 1, full), [{ signature: 'MISC', formId: 1 }]),
     assertCode('UNSUPPORTED_RECORD_SIGNATURE'),
   )
   const ires = parsedRecord('IRES', 1, full)
