@@ -3,8 +3,10 @@
 ## Status and scope
 
 This is the working terminology authority for tracker-authored Japanese copy.
-Parcel B1 is a machine-assisted first draft, not a human-approved translation.
-Independent English-source translation and comparative review remain required.
+Parcel B3 comparatively adjudicated the Codex B1 draft against an independent
+English-source DeepL pass. The catalogue is machine-reviewed, not
+human-approved; Bethesda terminology and final native-language review remain
+outstanding.
 
 Tracker messages may contain Bethesda-owned names supplied as parameters. Those
 names remain canonical English fallbacks until official Japanese overlays are
@@ -30,7 +32,7 @@ catalogue.
 | `plannedSupply.heading` | Planned Supply | A virtual assertion that an item will eventually be supplied to the outpost, allowing downstream production/logistics to be designed before the real supply route exists. It is **not** stock currently held, reserved inventory, or actual incoming cargo. | 供給予定 | Tracker-authored; HIGH risk. Use consistently as a named feature. |
 | `matrix.column.present` | Present | The resource can be, or has explicitly been recorded as, present at the outpost. It does not mean stored inventory. | 存在 | Tracker-authored; compact matrix state. Contextual help carries the qualification. |
 | `matrix.column.producing` | Producing | The outpost is configured to produce/extract/harvest the item now. | 生産中 | Tracker-authored. Do not imply production quantity or throughput. |
-| `matrix.column.inputs` | Inputs | Required recipe or organic-production inputs and their availability. | 入力 | Tracker-authored manufacturing term; not keyboard input. |
+| `matrix.column.inputs` | Inputs | Required recipe or organic-production inputs and their availability. | 必要素材 | Tracker-authored production term; deliberately avoids the keyboard/data-entry sense of `入力`. |
 | `matrix.column.logistics` | Logistics | Items actually assigned to a routed cargo export. It does not merely mean available to export. | 物流 | Tracker-authored; HIGH conceptual risk despite the short label. |
 | `transfer.import.button` | Import | Read a complete tracker collection from JSON. | インポート | Tracker-authored file operation. Use `搬入` for cargo coming into an outpost. |
 | `transfer.export.button` | Export | Write all tracker networks to JSON. | エクスポート | Tracker-authored file operation. Use `搬出` for cargo leaving an outpost. |
@@ -48,6 +50,26 @@ catalogue.
 | manufacturing | Manufacturing | Configured production of manufactured products from recipe inputs. | 製造 | Tracker-authored model term; no throughput is implied. |
 | production | Production | Active extraction, harvesting, or manufacturing recorded at an outpost. | 生産 | Tracker-authored umbrella term. |
 | `cargo.interSystem.*` | Inter-System | Cargo transport between different star systems. | 星系間 | Tracker UI wording. Requires `He-3`; official mechanic terms remain subject to Bethesda review. |
+| organic source help | domesticable species | A flora/fauna source that the tracker permits as an outpost organic-production route. | 飼育可能な生物種 | Tracker-authored grammar around Bethesda-owned species names. Avoid bare `種`, which is unnatural in these sentences. |
+| compact power quality labels | Poor / Very Poor | Short labels for relative power quality, not physical size. | 低 / 極低 | Tracker-authored compact UI labels. Full tooltips use `低い` / `非常に低い`. |
+
+## Parcel B3 adjudication decisions
+
+- Keep `供給予定`: it represents virtual future supply, not inventory or a
+  generic plan.
+- Keep `存在`, `生産中`, and `物流` for the compact matrix concepts. `現在`
+  was rejected for Present because it is temporal; `生産` was rejected because
+  it loses the configured/active state.
+- Change Inputs from `入力` to `必要素材` to make the production-requirement
+  meaning clear.
+- Keep cargo `搬入` / `搬出` distinct from JSON
+  `インポート` / `エクスポート`.
+- Keep extraction `抽出` distinct from organic harvesting `採集`.
+- Use `資源マトリックス` for Resource Matrix; `資源` preserves the domain
+  meaning and `マトリックス` is the natural Japanese loanword form.
+- Retain `貨物パッド`, `拠点`, `星系間`, the five displayed skill labels,
+  and X-Tech wording only as provisional runtime terms pending official
+  Bethesda evidence in Parcels C/D.
 
 ## Bethesda-owned terminology boundary
 

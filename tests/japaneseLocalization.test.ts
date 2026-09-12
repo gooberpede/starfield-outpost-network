@@ -92,7 +92,19 @@ test('representative semantic paths render Japanese tracker copy', () => {
     'Ironの搬出をHome / パッド1に追加',
   )
   assert.equal(translate('ja-JP', 'help.plannedSupply').includes('仮の供給'), true)
+  assert.equal(translate('ja-JP', 'matrix.column.present'), '存在')
+  assert.equal(translate('ja-JP', 'matrix.column.producing'), '生産中')
+  assert.equal(translate('ja-JP', 'matrix.column.inputs'), '必要素材')
+  assert.equal(translate('ja-JP', 'matrix.column.logistics'), '物流')
+  assert.equal(translate('ja-JP', 'matrix.heading'), '資源マトリックス')
+  assert.equal(translate('ja-JP', 'outpost.navigation.lockOrder'), '順序を固定')
+  assert.equal(translate('ja-JP', 'power.label.poor'), '低')
+  assert.equal(translate('ja-JP', 'power.label.veryPoor'), '極低')
+  assert.match(translate('ja-JP', 'help.organic.unavailableBiome', {
+    resource: 'Fiber',
+  }), /この飼育可能な生物種/)
   assert.equal(translate('ja-JP', 'status.import.invalidJson').includes('JSON'), true)
+  assert.match(translate('ja-JP', 'status.import.malformedEntry'), /形式が不正/)
   assert.equal(translate('ja-JP', 'search.results.close'), '検索結果を閉じる')
 })
 

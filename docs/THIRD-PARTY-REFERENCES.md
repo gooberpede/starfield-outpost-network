@@ -35,15 +35,19 @@ visible credits, or more than one location.
 - **Category:** Development/translation tool
 - **License/terms:** Service terms apply; any applicable output or attribution
   requirements must be verified before public release.
-- **Role:** Planned for Parcel B2 as an independent English-source translation
-  QA pass for tracker-authored Japanese copy. Its output will be compared with
-  the B1 catalogue, not blindly accepted.
+- **Role:** Used in Parcel B2 as an independent English-source Japanese 
+  translation pass for tracker-authored copy. Its output was compared against 
+  the Codex B1 catalogue during Parcel B3 comparative adjudication and was not 
+  imported blindly.
 - **Code copied or adapted:** None.
-- **Data/output used:** None in Parcel B1.
+- **Data/output used:** DeepL Japanese output was used as an independent review 
+  signal in B3; three final tracker strings adopted DeepL wording after 
+  adjudication, while other rows were retained, rewritten, or deferred.
 - **Runtime dependency:** No. Subscription or trial arrangements are development
   workflow details only.
-- **Attribution action:** Verify service terms when B2 is performed.
-- **Scope note:** DeepL is not a source for Bethesda-owned canonical terminology.
+- **Attribution action:** Service terms should be rechecked before public release.
+- **Scope note:** DeepL is not a runtime dependency and was not treated as a
+  source for Bethesda-owned canonical terminology.
 
 ## OpenAI Codex / ChatGPT
 
@@ -52,8 +56,10 @@ visible credits, or more than one location.
 - **Category:** Development/translation tool
 - **License/terms:** OpenAI service terms apply; no additional attribution
   requirement is asserted here.
-- **Role:** Used for code generation/review and the initial Japanese catalogue
-  drafting and reasoning in Parcel B1.
+- **Role:** Used for code generation/review; software architecture and 
+  design; implementation and refactoring; code and diff review; testing and 
+  audit design; documentation; localization drafting and comparative review; 
+  data-analysis and development workflow support.
 - **Code copied or adapted:** Project changes were generated for this repository;
   no OpenAI product source code was copied.
 - **Data/output used:** B1 code, documentation, and first-pass tracker-authored
