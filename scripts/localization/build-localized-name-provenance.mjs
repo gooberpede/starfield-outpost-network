@@ -5,10 +5,13 @@ import { fileURLToPath } from 'node:url'
 
 import { buildC2Targets, generateProvenance, PROVENANCE_HEADERS, serializeCsv, UNRESOLVED_HEADERS } from './localized-name-provenance.mjs'
 import { buildC4Targets } from './body-provenance.mjs'
+import {
+  C6_PREVIEW_HEADERS, generateComposedFaunaProvenance, parseC6Targets,
+} from './composed-fauna-provenance.mjs'
 import { localizationInputsFromManifest } from './localization-input-manifest.mjs'
 import { buildNameNormalizationPolicy, NAME_NORMALIZATION_HEADERS, NAME_NORMALIZATIONS, validateNameNormalizations } from './name-normalization-policy.mjs'
 import {
-  buildC5Targets, buildNamingRules, C6_HANDOFF_HEADERS, generateOrganicProvenance, TEMPLATE_LINEAGE_HEADERS,
+  buildC5Targets, buildNamingRules, C6_HANDOFF_HEADERS, generateOrganicProvenance, ORGANIC_CLASSIFICATIONS, TEMPLATE_LINEAGE_HEADERS,
 } from './organic-provenance.mjs'
 import { createProvenanceManifest } from './provenance-manifest.mjs'
 import { findAvailableRecordsInPlugin, findRecordsBySignaturesInPlugin, findStarRecordsInPlugin } from './starfield-plugin-reader.mjs'
@@ -24,6 +27,7 @@ const SOURCES = {
   biomeInorganic: 'reference-source/biome-inorganic-resources.csv',
   biomeOrganic: 'reference-source/biome-organic-resources.csv',
   planets: 'reference-source/planet-directory.csv',
+  c6Fauna: 'reference-source/localized-name-provenance-c6-fauna.csv',
 }
 
 function parseArguments(args) {
@@ -47,21 +51,18 @@ export async function buildLocalizedNameProvenance(options) {
   const config = JSON.parse(await readFile(configPath, 'utf8'))
   const resolveLocal = (value) => path.resolve(configDirectory, value)
   const plugins = (config.plugins ?? []).map((item) => ({ ...item, path: resolveLocal(item.path) }))
-  const localizationInputs = (config.localizationInputs ?? []).map((item) => ({ ...item, path: resolveLocal(item.path) }))
+  const localizationInputs = (config.localizationInputs ?? []).map((item) => ({ locale: 'en', ...item, path: resolveLocal(item.path) }))
   if (config.localizationInputManifest) {
     const intakeManifestPath = resolveLocal(config.localizationInputManifest)
     const intakeManifest = JSON.parse(await readFile(intakeManifestPath, 'utf8'))
-    localizationInputs.push(...await localizationInputsFromManifest(
-      intakeManifest,
-      intakeManifestPath,
-      config.localizationInputLocale ?? 'en',
-    ))
+    for (const locale of ['en', 'ja']) localizationInputs.push(...await localizationInputsFromManifest(intakeManifest, intakeManifestPath, locale))
   }
   const sources = await loadSources()
   const { targets: c2Targets, statistics: c2Statistics } = buildC2Targets(sources)
   const { targets: systemTargets, statistics: systemStatistics } = buildC3Targets(sources.planets)
   const { targets: bodyTargets, statistics: bodyStatistics } = buildC4Targets(sources.planets)
   const { targets: organicTargets, statistics: organicStatistics } = buildC5Targets(sources.biomeOrganic)
+  const c6Targets = parseC6Targets(sources.c6Fauna)
   const pluginByName = new Map(plugins.map((item) => [item.filename, item]))
   const missingOfficialPlugins = OFFICIAL_SYSTEM_PLUGINS.filter((plugin) => !pluginByName.has(plugin))
   if (missingOfficialPlugins.length) throw new Error(`Missing required official plugin input(s): ${missingOfficialPlugins.join(', ')}.`)
@@ -84,19 +85,26 @@ export async function buildLocalizedNameProvenance(options) {
   }
   const organicCanonicalRecords = new Map()
   const organicRelationshipRecords = new Map()
+  const organicProviderChains = new Map()
   for (const pluginName of OFFICIAL_SYSTEM_PLUGINS) {
     const records = findRecordsBySignaturesInPlugin(pluginByName.get(pluginName).path, ['FLOR', 'NPC_', 'LVLN', 'OMOD', 'INNR'])
     for (const record of records) {
       const provider = { plugin: pluginName, record }
-      organicRelationshipRecords.set(`${record.signature}:${record.formIdHex}`, provider)
+      const key = `${record.signature}:${record.formIdHex}`
+      organicProviderChains.set(key, [...(organicProviderChains.get(key) ?? []), provider])
+      organicRelationshipRecords.set(key, provider)
       organicCanonicalRecords.set(`${pluginName}:${record.signature}:${record.formIdHex}`, provider)
     }
   }
   const tables = new Map()
+  const localizedTables = new Map()
   for (const input of localizationInputs) {
-    const key = `${input.plugin}:${input.tableType}`
-    if (tables.has(key)) throw new Error(`LOCALIZATION_TABLE_AMBIGUOUS: Multiple inputs were supplied for ${key}.`)
-    tables.set(key, readStringTable(input.path, input.tableType))
+    const locale = input.locale ?? 'en'
+    const localizedKey = `${input.plugin}:${locale}:${input.tableType}`
+    if (localizedTables.has(localizedKey)) throw new Error(`LOCALIZATION_TABLE_AMBIGUOUS: Multiple inputs were supplied for ${localizedKey}.`)
+    const table = readStringTable(input.path, input.tableType, { locale })
+    localizedTables.set(localizedKey, table)
+    if (locale === 'en') tables.set(`${input.plugin}:${input.tableType}`, table)
   }
   const normalizationPolicy = buildNameNormalizationPolicy()
   const c2Result = generateProvenance(c2Targets, recordsByPlugin, tables, normalizationPolicy)
@@ -106,19 +114,28 @@ export async function buildLocalizedNameProvenance(options) {
     organicTargets, organicCanonicalRecords, organicRelationshipRecords, tables,
     buildNamingRules(organicRelationshipRecords), normalizationPolicy,
   )
+  const c6Result = generateComposedFaunaProvenance(
+    c6Targets, organicCanonicalRecords, organicRelationshipRecords, organicProviderChains, localizedTables,
+  )
+  const c6Keys = new Set(c6Targets.map((target) => `${target.EntityKind}:${target.EntityId}`))
+  const organicUnresolved = organicResult.unresolved.filter((row) => !c6Keys.has(`${row.EntityKind}:${row.EntityId}`))
+  const organicClassifications = organicResult.classifications.map((entry) => c6Keys.has(`${entry.item.entityKind}:${entry.item.entityId}`)
+    ? { ...entry, classification: ORGANIC_CLASSIFICATIONS.RESOLVED_COMPOSED_FAUNA }
+    : entry)
   const result = {
-    provenance: [...c2Result.provenance, ...systemResult.provenance, ...bodyResult.provenance, ...organicResult.provenance].sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || Number(a.ComponentOrder) - Number(b.ComponentOrder)),
-    unresolved: [...c2Result.unresolved, ...systemResult.unresolved, ...bodyResult.unresolved, ...organicResult.unresolved].sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || a.ReasonCode.localeCompare(b.ReasonCode)),
+    provenance: [...c2Result.provenance, ...systemResult.provenance, ...bodyResult.provenance, ...organicResult.provenance, ...c6Result.provenance].sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || Number(a.ComponentOrder) - Number(b.ComponentOrder)),
+    unresolved: [...c2Result.unresolved, ...systemResult.unresolved, ...bodyResult.unresolved, ...organicUnresolved].sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || a.ReasonCode.localeCompare(b.ReasonCode)),
     normalizations: [...c2Result.normalizations, ...systemResult.normalizations, ...bodyResult.normalizations, ...organicResult.normalizations],
   }
   validateNameNormalizations(NAME_NORMALIZATIONS, [...c2Targets, ...systemTargets, ...bodyTargets, ...organicTargets], result.provenance, result.unresolved, result.normalizations)
-  const fatal = [...c2Result.unresolved, ...organicResult.unresolved].filter((row) => ['CANONICAL_SOURCE_ERROR', 'MISSING_STRING_ID', 'WRONG_FIELD', 'WRONG_PLUGIN', 'WRONG_TABLE'].includes(row.ReasonCode))
+  const fatal = [...c2Result.unresolved, ...organicUnresolved].filter((row) => ['CANONICAL_SOURCE_ERROR', 'MISSING_STRING_ID', 'WRONG_FIELD', 'WRONG_PLUGIN', 'WRONG_TABLE'].includes(row.ReasonCode))
   if (fatal.length) throw new Error(`English provenance verification failed: ${fatal.map((row) => `${row.EntityKind}:${row.EntityId} ${row.ReasonCode}`).join(', ')}.`)
 
   await writeFile(path.join(ROOT, 'reference-source/localized-name-provenance.csv'), serializeCsv(PROVENANCE_HEADERS, result.provenance), 'utf8')
   await writeFile(path.join(ROOT, 'reference-source/localized-name-provenance-unresolved.csv'), serializeCsv(UNRESOLVED_HEADERS, result.unresolved), 'utf8')
   await writeFile(path.join(ROOT, 'reference-source/localized-name-normalizations.csv'), serializeCsv(NAME_NORMALIZATION_HEADERS, result.normalizations), 'utf8')
-  await writeFile(path.join(ROOT, 'reference-source/localized-name-provenance-c6-fauna.csv'), serializeCsv(C6_HANDOFF_HEADERS, organicResult.handoff), 'utf8')
+  await writeFile(path.join(ROOT, 'reference-source/localized-name-provenance-c6-fauna.csv'), serializeCsv(C6_HANDOFF_HEADERS, c6Result.handoff), 'utf8')
+  await writeFile(path.join(ROOT, 'reference-source/localized-name-c6-fauna-ja-preview.csv'), serializeCsv(C6_PREVIEW_HEADERS, c6Result.preview), 'utf8')
   await writeFile(path.join(ROOT, 'reference-source/localized-name-provenance-c5-fauna-lineage.csv'), serializeCsv(TEMPLATE_LINEAGE_HEADERS, organicResult.lineage), 'utf8')
   const manifest = await createProvenanceManifest({
     pluginPaths: plugins.map((item) => item.path), localizationInputs,
@@ -139,7 +156,7 @@ export async function buildLocalizedNameProvenance(options) {
       orbitalResolved: bodyResult.provenance.filter((row) => orbitalIds.has(row.EntityId)).length,
       orbitalUnresolved: bodyResult.unresolved.filter((row) => orbitalIds.has(row.EntityId)).length,
     },
-    organic: organicResult,
+    organic: { ...organicResult, unresolved: organicUnresolved, classifications: organicClassifications, handoff: c6Result.handoff }, c6: c6Result,
     manifest, manifestPath,
   }
 }
@@ -185,6 +202,7 @@ async function main() {
     `Organic classifications ${JSON.stringify(Object.fromEntries(organicCounts))}\n` +
     `Organic unresolved reasons ${JSON.stringify(Object.fromEntries(organicReasons))}\n`,
   )
+  process.stdout.write(`C6 ${JSON.stringify(report.c6.statistics)}\n`)
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

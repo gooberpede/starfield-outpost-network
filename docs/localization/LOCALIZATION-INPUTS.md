@@ -64,7 +64,7 @@ and zlib-framed compressed members. Unsupported versions/types and malformed or
 truncated members fail with stable error codes. It does not support texture
 archives or arbitrary asset extraction.
 
-## Rerun C2-C5 with extracted English tables
+## Rerun C2-C6 with extracted locale tables
 
 Point the ignored provenance config at the intake manifest. C3 requires the
 declared official plugin set even when a plugin contributes zero canonical
@@ -93,7 +93,7 @@ npm run localization:provenance:verify
 
 Before provenance generation reads a table, the manifest adapter rechecks its
 size and SHA-256 and fails with `TABLE_HASH_MISMATCH` if local content changed.
-The pipeline still resolves text
+The pipeline resolves English and Japanese text
 only through exact plugin, table type, and extracted string ID; it never reverse
 matches English.
 
@@ -142,13 +142,39 @@ component IDs are emitted yet. Ambiguous CCT or template names fail closed.
 
 Installed game version 1.16.244.0 currently yields 1,121 unique organic species
 from 3,855 occurrence rows: 153 direct flora, 41 direct fauna, 5 template fauna,
-and 922 composed fauna deferred to C6. The generated C6 handoff contains those
-922 composed targets; the separate five-row lineage artifact records each
+and 922 composed fauna routed to C6. The generated C6 population artifact keeps
+those 922 target identities and records their resolved state; the separate five-row lineage artifact records each
 template fauna's canonical NPC, LVLN, leveled NPC, and encounter name provider.
+
+C6 uses `localized-name-provenance-c6-fauna.csv` as its sole target population.
+For each selected Object Template combination it unions native NPC keywords
+with `NKEY` properties from selected and recursively included OMODs, then maps
+`dn_CCTPrefixes` ruleset 0 to prefix, and `dn_CCTSuffixes` rulesets 0 and 1 to
+species and diet. Rules use greatest required-keyword count, highest `YNAM`,
+then earliest serialized order. Selected raw `WNAM` IDs produce component rows
+in semantic slots `0=prefix`, `1=species`, `2=diet`; absent roles do not shift
+later slots. Assembly joins non-empty components with one literal U+0020.
+
+Installed-game regeneration fails unless the audited population remains 922
+entities and 2,179 rows, with shapes 335 prefix+species+diet, 320 species+diet,
+and 267 prefix+species. It also locks 602/922/655 component occurrences,
+8/198/6 unique qualified prefix/species/diet IDs (212 overall), all 922 exact
+English reconstructions, all 922 Japanese qualified-ID lookups, eight serialized
+rule-order ties, 35 recursive-OMOD fauna, four Shattered Space targets, and zero
+ambiguities or unsupported cases. `localized-name-c6-fauna-ja-preview.csv` is a
+verified handoff for later overlay generation and is not consumed at runtime.
+
+String-table decoding is locale-policy driven: English uses Windows-1252 and
+Japanese uses UTF-8. Unsupported locales fail with
+`UNSUPPORTED_LOCALE_ENCODING`; encodings are never guessed from bytes. Direct
+Japanese runtime or Creation Kit confirmation of exact displayed U+0020
+separator fidelity remains an explicit hardening task.
 
 ## Add another language
 
 Add its Bethesda locale token to the config's `languages` array and rerun
-intake. Discovery, mapping, and extraction are locale-parameterized. Extraction
-alone does not create a runtime overlay or alter reference display behavior;
-that remains a separate localization parcel.
+intake, add its explicit encoding to the project policy, and add representative
+composed-name verification. Discovery, mapping, and extraction are
+locale-parameterized. A fresh CCT architecture audit is needed only if evidence
+contradicts the fixed prefix/species/diet model. Extraction alone does not create
+a runtime overlay or alter reference display behavior; that remains Parcel D.

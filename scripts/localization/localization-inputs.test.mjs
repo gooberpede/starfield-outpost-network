@@ -10,7 +10,7 @@ import {
 } from './ba2-localization-reader.mjs'
 import { generateProvenance } from './localized-name-provenance.mjs'
 import { SEMANTIC_PATHS } from './localized-field-map.mjs'
-import { readStringTable } from './string-table-reader.mjs'
+import { encodingForLocale, readStringTable, StringTableError } from './string-table-reader.mjs'
 
 function tableBytes(id = 1, value = 'Fixture') {
   const text = Buffer.from(`${value}\0`, 'utf8')
@@ -134,4 +134,20 @@ test('an exact extracted table resolves C2 while a wrong-plugin table does not',
   assert.equal(generateProvenance([target], records, new Map([['Wrong.esm:strings', table]])).unresolved[0].ReasonCode, 'MISSING_LOCALIZATION_INPUT')
   assert.equal(generateProvenance([target], records, new Map([['Fixture.esm:strings', table]])).provenance.length, 1)
   assert.equal(readFileSync(tablePath).length, tableBytes(0xFC7, 'X-Tech').length)
+})
+
+test('decodes string tables with an explicit locale policy', () => {
+  const englishPath = tempFile('fixture_en.strings')
+  const japanesePath = tempFile('fixture_ja.strings')
+  const english = tableBytes(1, 'Creche')
+  english[18] = 0xE8
+  writeFileSync(englishPath, english)
+  writeFileSync(japanesePath, tableBytes(1, '遊牧の'))
+  assert.equal(readStringTable(englishPath, 'strings', { locale: 'en' }).get(1), 'Crèche')
+  assert.equal(readStringTable(japanesePath, 'strings', { locale: 'ja-JP' }).get(1), '遊牧の')
+  assert.equal(encodingForLocale('en-US'), 'windows-1252')
+  assert.throws(
+    () => encodingForLocale('xx'),
+    (error) => error instanceof StringTableError && error.code === 'UNSUPPORTED_LOCALE_ENCODING',
+  )
 })

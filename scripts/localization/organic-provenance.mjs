@@ -15,6 +15,7 @@ export const ORGANIC_CLASSIFICATIONS = Object.freeze({
   DIRECT_FAUNA: 'RESOLVED_DIRECT_FAUNA',
   TEMPLATE_FAUNA: 'RESOLVED_TEMPLATE_FAUNA',
   COMPOSED_FAUNA: 'DEFERRED_COMPOSED_FAUNA_C6',
+  RESOLVED_COMPOSED_FAUNA: 'RESOLVED_COMPOSED_FAUNA_C6',
   UNRESOLVED: 'UNRESOLVED',
 })
 
@@ -396,19 +397,22 @@ export function validateCommittedOrganicArtifacts(provenance, unresolved, handof
   const handoff = parseArtifact(handoffCsv, C6_HANDOFF_HEADERS, 'localized-name-provenance-c6-fauna.csv')
   const lineage = parseArtifact(lineageCsv, TEMPLATE_LINEAGE_HEADERS, 'localized-name-provenance-c5-fauna-lineage.csv')
   const deferred = new Set(organicUnresolved.filter((row) => row.ReasonCode === 'DEFERRED_COMPOSED_FAUNA_C6').map((row) => `${row.EntityKind}:${row.EntityId}`))
+  const composed = new Set(organicProvenance.filter((row) => row.DisplayNameSourceKind === 'composed').map((row) => `${row.EntityKind}:${row.EntityId}`))
   const template = new Map(organicProvenance.filter((row) => row.DisplayNameSourceKind === 'template').map((row) => [`${row.EntityKind}:${row.EntityId}`, row]))
 
-  if (handoff.length !== deferred.size) throw new Error('C6 fauna handoff count does not match deliberate C5 deferrals.')
+  const resolvedC6 = handoff.length > 0 && handoff.every((row) => row.Classification === ORGANIC_CLASSIFICATIONS.RESOLVED_COMPOSED_FAUNA)
+  const expectedC6 = resolvedC6 ? composed : deferred
+  if (handoff.length !== expectedC6.size || (resolvedC6 && deferred.size !== 0)) throw new Error('C6 fauna handoff count does not match its composed provenance state.')
   const seenHandoff = new Set()
   for (const row of handoff) {
     const key = `${row.EntityKind}:${row.EntityId}`
     const target = targetByKey.get(key)
-    if (!target || !deferred.has(key) || seenHandoff.has(key)) throw new Error(`Invalid C6 fauna handoff identity ${key}.`)
+    if (!target || !expectedC6.has(key) || seenHandoff.has(key)) throw new Error(`Invalid C6 fauna handoff identity ${key}.`)
     seenHandoff.add(key)
     for (const [field, value] of [
       ['SpeciesSourcePlugin', target.recordSourcePlugin], ['SpeciesFormID', target.recordFormId],
       ['SpeciesEditorID', target.speciesEditorId], ['CanonicalEnglish', target.canonicalEnglish],
-      ['Classification', ORGANIC_CLASSIFICATIONS.COMPOSED_FAUNA],
+      ['Classification', resolvedC6 ? ORGANIC_CLASSIFICATIONS.RESOLVED_COMPOSED_FAUNA : ORGANIC_CLASSIFICATIONS.COMPOSED_FAUNA],
     ]) if (row[field] !== value) throw new Error(`C6 fauna handoff ${key} field ${field} does not match its canonical target.`)
     if (!/^\d+$/.test(row.ObjectTemplateCombinationCount) || !row.ResolvedCombinationName) throw new Error(`C6 fauna handoff ${key} lacks audited CCT diagnostics.`)
   }

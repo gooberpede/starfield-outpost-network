@@ -1,0 +1,923 @@
+EntityKind,EntityId,CanonicalEnglish,JapanesePreview,ComponentShape,Separator
+fauna,000065E2,Carasnail Scavenger,カラカタツムリ スカベンジャー,species + diet,U+0020
+fauna,000065E6,Herding Glowback Scavenger,遊牧の グロウバック スカベンジャー,prefix + species + diet,U+0020
+fauna,00023535,Hornwing Scavenger,ホーンウィング スカベンジャー,species + diet,U+0020
+fauna,00023536,Pearl Filterer,パール フィルタラー,species + diet,U+0020
+fauna,0002353B,Mothwing Scavenger,モスウィング スカベンジャー,species + diet,U+0020
+fauna,00025A9D,Eggsac Filterer,エッグサック フィルタラー,species + diet,U+0020
+fauna,00025A9E,Hunting Sharkwhale,狩猟する サメクジラ,prefix + species,U+0020
+fauna,000285D6,Herding Glider Grazer,遊牧の グライダー グレイザー,prefix + species + diet,U+0020
+fauna,000285D7,Carasnail Geophage,カラカタツムリ 土食生物,species + diet,U+0020
+fauna,0002B0D3,Herding Dragonfly Grazer,遊牧の トンボ グレイザー,prefix + species + diet,U+0020
+fauna,0002E342,Trilobite Grazer,三葉虫 グレイザー,species + diet,U+0020
+fauna,0002E343,Pack Vulture,群れの ヴァルチャー,prefix + species,U+0020
+fauna,0002E344,Flocking Sporeback Grazer,群がる スポアバック グレイザー,prefix + species + diet,U+0020
+fauna,0002E345,Triworm Scavenger,トライワーム スカベンジャー,species + diet,U+0020
+fauna,0002E346,Flamethorn Grazer,フレイムソーン グレイザー,species + diet,U+0020
+fauna,0002E347,Pack Silverfish,群れの シルバーフィッシュ,prefix + species,U+0020
+fauna,0002E348,Pack Eggtail Stalker,群れの エッグテイル ストーカー,prefix + species + diet,U+0020
+fauna,0002E349,Pack Mothwing,群れの モスウィング,prefix + species,U+0020
+fauna,0002E34A,Flocking Cranehopper Grazer,群がる クレーンホッパー グレイザー,prefix + species + diet,U+0020
+fauna,0002E34B,Flocking Hippodon Scavenger,群がる ヒッポドン スカベンジャー,prefix + species + diet,U+0020
+fauna,0002E34C,Herding Glider Scavenger,遊牧の グライダー スカベンジャー,prefix + species + diet,U+0020
+fauna,0003C4C0,Morningstar Filterer,モーニングスター フィルタラー,species + diet,U+0020
+fauna,00046C2D,Fleshleaf Filterer,フレッシュリーフ フィルタラー,species + diet,U+0020
+fauna,00048A34,Apex Parrothawk,頂点の オウムタカ,prefix + species,U+0020
+fauna,0006B55D,Herding Fluke Filterer,遊牧の ヒラメ フィルタラー,prefix + species + diet,U+0020
+fauna,0008BDB6,Parrothawk Scavenger,オウムタカ スカベンジャー,species + diet,U+0020
+fauna,0008BDB7,Schooling Kronosaurus Scavenger,調教された クロノサウルス スカベンジャー,prefix + species + diet,U+0020
+fauna,000DD261,Pack Glowhands,群れの グロウハンズ,prefix + species,U+0020
+fauna,000EF9A8,Hunting Boneglider,狩猟する ボーングライダー,prefix + species,U+0020
+fauna,000EF9A9,Schooling Sawhead Grazer,調教された ソーヘッド グレイザー,prefix + species + diet,U+0020
+fauna,00131CD1,Pack Sharkwhale,群れの サメクジラ,prefix + species,U+0020
+fauna,00131CD2,Shoaling Sawhead Filterer,大群の ソーヘッド フィルタラー,prefix + species + diet,U+0020
+fauna,00131CD3,Cockatrice Filterer,コカトリス フィルタラー,species + diet,U+0020
+fauna,00131CD4,Herding Saturnine Filterer,遊牧の サターナイン フィルタラー,prefix + species + diet,U+0020
+fauna,00131CD5,Herding Tapeworm Grazer,遊牧の サナダムシ グレイザー,prefix + species + diet,U+0020
+fauna,00131CD6,Schooling Featherfin Filterer,調教された フェザーフィン フィルタラー,prefix + species + diet,U+0020
+fauna,00131CD7,Flocking Saturnine Grazer,群がる サターナイン グレイザー,prefix + species + diet,U+0020
+fauna,00131CD8,Pack Kronosaurus,群れの クロノサウルス,prefix + species,U+0020
+fauna,00131CD9,Schooling Paddlefish Scavenger,調教された ヘラチョウザメ スカベンジャー,prefix + species + diet,U+0020
+fauna,00131CDA,Pearl Filterer,パール フィルタラー,species + diet,U+0020
+fauna,00131CDB,Shoaling Seahag Filterer,大群の シーハッグ フィルタラー,prefix + species + diet,U+0020
+fauna,00131CDC,Pack Kronosaurus,群れの クロノサウルス,prefix + species,U+0020
+fauna,00131CDD,Schooling Bladehead Grazer,調教された ブレイドヘッド グレイザー,prefix + species + diet,U+0020
+fauna,00157E3B,Schooling Skullface Scavenger,調教された スカルフェイス スカベンジャー,prefix + species + diet,U+0020
+fauna,00157E3C,Coralbucket Filterer,コーラルバケット フィルタラー,species + diet,U+0020
+fauna,00157E3D,Pack Twintail,群れの ツインテール,prefix + species,U+0020
+fauna,00157E3E,Hunting Brainsprout,狩猟する ブレインスプラウト,prefix + species,U+0020
+fauna,00157E3F,Pack Twistfin,群れの ツイストフィン,prefix + species,U+0020
+fauna,00157E40,Toadface Grazer,トードフェイス グレイザー,species + diet,U+0020
+fauna,00157E41,Flocking Shellephant Herbivore,群がる シェレファント 草食動物,prefix + species + diet,U+0020
+fauna,00157E42,Flocking Cephalopod Scavenger,群がる 頭足動物 スカベンジャー,prefix + species + diet,U+0020
+fauna,00157E43,Schooling Exowhale Filterer,調教された エグゾクジラ フィルタラー,prefix + species + diet,U+0020
+fauna,00157E44,Mayfly Herbivore,カゲロウ 草食動物,species + diet,U+0020
+fauna,00157E45,Schooling Arapaima Filterer,調教された ピラルク フィルタラー,prefix + species + diet,U+0020
+fauna,0015BE25,Schooling Kronosaurus Grazer,調教された クロノサウルス グレイザー,prefix + species + diet,U+0020
+fauna,00170A2A,Hunting Brainsprout,狩猟する ブレインスプラウト,prefix + species,U+0020
+fauna,00170A2B,Coralbug Scavenger,コーラルバグ スカベンジャー,species + diet,U+0020
+fauna,001791AE,Hunting Stonewalker Stalker,狩猟する ストーンウォーカー ストーカー,prefix + species + diet,U+0020
+fauna,001791AF,Spaceroach Grazer,スペースローチ グレイザー,species + diet,U+0020
+fauna,00179DC4,Centiskull Grazer,センティスカル グレイザー,species + diet,U+0020
+fauna,00187114,Eggsac Geophage,エッグサック 土食生物,species + diet,U+0020
+fauna,001933DD,Tuskfrog Grazer,タスクフロッグ グレイザー,species + diet,U+0020
+fauna,001933DE,Herding Monitor Grazer,遊牧の モニター グレイザー,prefix + species + diet,U+0020
+fauna,001933DF,Hunting Bighorn,狩猟する ビッグホーン,prefix + species,U+0020
+fauna,001933E0,Hunting Trapmaw,狩猟する トラップモウ,prefix + species,U+0020
+fauna,001933E1,Grabber Grazer,グラバー グレイザー,species + diet,U+0020
+fauna,001933E2,Triworm Scavenger,トライワーム スカベンジャー,species + diet,U+0020
+fauna,001933E3,Herding Beetlecrab Scavenger,遊牧の ビートルクラブ スカベンジャー,prefix + species + diet,U+0020
+fauna,001933E4,Herding Bonefrill Geophage,遊牧の ボーンフリル 土食生物,prefix + species + diet,U+0020
+fauna,001933E5,Hunting Loxodont,狩猟する アフリカゾウ,prefix + species,U+0020
+fauna,001933E6,Hunting Cephalopod,狩猟する 頭足動物,prefix + species,U+0020
+fauna,001941ED,Flocking Clawback Filterer,群がる クローバック フィルタラー,prefix + species + diet,U+0020
+fauna,00194837,Hunting Sharkwhale,狩猟する サメクジラ,prefix + species,U+0020
+fauna,00194895,Milliwhale Grazer,ミリクジラ グレイザー,species + diet,U+0020
+fauna,00194896,Schooling Finback Scavenger,調教された フィンバック スカベンジャー,prefix + species + diet,U+0020
+fauna,00194897,Herding Cassowary Scavenger,遊牧の ヒクイドリ スカベンジャー,prefix + species + diet,U+0020
+fauna,00194898,Herding Leafbug Grazer,遊牧の リーフバグ グレイザー,prefix + species + diet,U+0020
+fauna,00194899,Pack Bladehead,群れの ブレイドヘッド,prefix + species,U+0020
+fauna,0019489A,Pack Seabat,群れの ウミゴウモリ,prefix + species,U+0020
+fauna,00195353,Grabber Filterer,グラバー フィルタラー,species + diet,U+0020
+fauna,00195354,Herding Trihorn Grazer,遊牧の トライホーン グレイザー,prefix + species + diet,U+0020
+fauna,00195355,Herding Bighorn Geophage,遊牧の ビッグホーン 土食生物,prefix + species + diet,U+0020
+fauna,00195356,Flocking Ankylosaurus Geophage,群がる アンキロサウルス 土食生物,prefix + species + diet,U+0020
+fauna,00195357,Hunting Bonemane,狩猟する ボーンメーン,prefix + species,U+0020
+fauna,00195358,Pack Vulture Stalker,群れの ヴァルチャー ストーカー,prefix + species + diet,U+0020
+fauna,00196516,Flocking Glowhands Grazer,群がる グロウハンズ グレイザー,prefix + species + diet,U+0020
+fauna,00196517,Flocking Cutterhead Grazer,群がる カッターヘッド グレイザー,prefix + species + diet,U+0020
+fauna,00196BAF,Spaceroach Filterer,スペースローチ フィルタラー,species + diet,U+0020
+fauna,00196BB0,Herding Beetlecrab Filterer,遊牧の ビートルクラブ フィルタラー,prefix + species + diet,U+0020
+fauna,00196BB1,Leafbug Herbivore,リーフバグ 草食動物,species + diet,U+0020
+fauna,00197D3F,Centiskull Grazer,センティスカル グレイザー,species + diet,U+0020
+fauna,00197D40,Flocking Dodo Grazer,群がる ドードー グレイザー,prefix + species + diet,U+0020
+fauna,00197D41,Herding Cockatrice Herbivore,遊牧の コカトリス 草食動物,prefix + species + diet,U+0020
+fauna,00197D42,Flocking Horsamander Grazer,群がる ホーサマンダー グレイザー,prefix + species + diet,U+0020
+fauna,00197D43,Swarming Sunflower,群れをなす サンフラワー,prefix + species,U+0020
+fauna,00197D44,Pack Octomaggot,群れの オクトマゴット,prefix + species,U+0020
+fauna,0019AA63,Trilobite Scavenger,三葉虫 スカベンジャー,species + diet,U+0020
+fauna,0019AA64,Flocking Shardhopper Geophage,群がる シャードホッパー 土食生物,prefix + species + diet,U+0020
+fauna,0019AA65,Herding Coralbucket Filterer,遊牧の コーラルバケット フィルタラー,prefix + species + diet,U+0020
+fauna,0019AA66,Flocking Coralcrawler Geophage,群がる コーラルクローラー 土食生物,prefix + species + diet,U+0020
+fauna,0019B1FA,Flamethorn Geophage,フレイムソーン 土食生物,species + diet,U+0020
+fauna,0019B1FB,Herding Lockjaw Herbivore,遊牧の ロックジョー 草食動物,prefix + species + diet,U+0020
+fauna,0019B1FC,Flocking Scepter Geophage,群がる セプター 土食生物,prefix + species + diet,U+0020
+fauna,0019B1FD,Hunting Silverfish,狩猟する シルバーフィッシュ,prefix + species,U+0020
+fauna,0019B1FE,Hunting Arachnomantis Stalker,狩猟する アラクノマンティス ストーカー,prefix + species + diet,U+0020
+fauna,0019B898,Beetle Grazer,カブトムシ グレイザー,species + diet,U+0020
+fauna,0019B899,Carasnail Scavenger,カラカタツムリ スカベンジャー,species + diet,U+0020
+fauna,0019B89A,Herding Reefwalker Scavenger,遊牧の リーフウォーカー スカベンジャー,prefix + species + diet,U+0020
+fauna,0019B89B,Flocking Seabat Geophage,群がる ウミゴウモリ 土食生物,prefix + species + diet,U+0020
+fauna,0019B89C,Herding Cutterhead Herbivore,遊牧の カッターヘッド 草食動物,prefix + species + diet,U+0020
+fauna,0019B89D,Apex Crocodaunt,頂点の クロコダント,prefix + species,U+0020
+fauna,0019B89E,Hunting Tuskfrog,狩猟する タスクフロッグ,prefix + species,U+0020
+fauna,0019B89F,Pack Coralbug,群れの コーラルバグ,prefix + species,U+0020
+fauna,0019BD93,Metropus Scavenger,メトロパス スカベンジャー,species + diet,U+0020
+fauna,0019BD94,Herding Sunflower Filterer,遊牧の サンフラワー フィルタラー,prefix + species + diet,U+0020
+fauna,0019BD95,Flocking Crab Herbivore,群がる カニ 草食動物,prefix + species + diet,U+0020
+fauna,0019BD96,Herding Dodo Scavenger,遊牧の ドードー スカベンジャー,prefix + species + diet,U+0020
+fauna,0019CDA2,Centiskull Filterer,センティスカル フィルタラー,species + diet,U+0020
+fauna,0019CDA3,Eggback Herbivore,エッグバック 草食動物,species + diet,U+0020
+fauna,0019CDA4,Herding Bonemane Grazer,遊牧の ボーンメーン グレイザー,prefix + species + diet,U+0020
+fauna,0019CDA5,Hunting Ankylosaurus,狩猟する アンキロサウルス,prefix + species,U+0020
+fauna,0019E77E,Sunfish Filterer,マンボウ フィルタラー,species + diet,U+0020
+fauna,0019E858,Pack Seahag,群れの シーハッグ,prefix + species,U+0020
+fauna,001A6170,Carasnail Geophage,カラカタツムリ 土食生物,species + diet,U+0020
+fauna,001A6171,Grabber Grazer,グラバー グレイザー,species + diet,U+0020
+fauna,001A6172,Flocking Scepter Filterer,群がる セプター フィルタラー,prefix + species + diet,U+0020
+fauna,001A6173,Herding Blistercrab Grazer,遊牧の ミズブクレガニ グレイザー,prefix + species + diet,U+0020
+fauna,001A6174,Flocking Leafbug Filterer,群がる リーフバグ フィルタラー,prefix + species + diet,U+0020
+fauna,001A6175,Flocking Eyespine Scavenger,群がる アイスパイン スカベンジャー,prefix + species + diet,U+0020
+fauna,001A6176,Hunting Seabat,狩猟する ウミゴウモリ,prefix + species,U+0020
+fauna,001A6177,Pack Crab Stalker,群れの カニ ストーカー,prefix + species + diet,U+0020
+fauna,001A6178,Pack Bladeback,群れの ブレイドバック,prefix + species,U+0020
+fauna,001A6347,Triworm Filterer,トライワーム フィルタラー,species + diet,U+0020
+fauna,001A6348,Thorn Geophage,ソーン 土食生物,species + diet,U+0020
+fauna,001A6349,Flocking Nautiloos Filterer,群がる ノーティラス フィルタラー,prefix + species + diet,U+0020
+fauna,001A634B,Herding Scoopback Geophage,遊牧の スクープバック 土食生物,prefix + species + diet,U+0020
+fauna,001A634C,Swarming Noid,群れをなす ノイド,prefix + species,U+0020
+fauna,001A634D,Swarming Arachnofly Scavenger,群れをなす スパイダーフライ スカベンジャー,prefix + species + diet,U+0020
+fauna,001A634E,Swarming Shardhopper Scavenger,群れをなす シャードホッパー スカベンジャー,prefix + species + diet,U+0020
+fauna,001A766F,Milliwhale Filterer,ミリクジラ フィルタラー,species + diet,U+0020
+fauna,001A7670,Carasnail Grazer,カラカタツムリ グレイザー,species + diet,U+0020
+fauna,001A7671,Schooling Bladehead Filterer,調教された ブレイドヘッド フィルタラー,prefix + species + diet,U+0020
+fauna,001A7672,Flocking Scepter Herbivore,群がる セプター 草食動物,prefix + species + diet,U+0020
+fauna,001A7673,Herding Glowhands Geophage,遊牧の グロウハンズ 土食生物,prefix + species + diet,U+0020
+fauna,001A7674,Flocking Longarm Herbivore,群がる ロングアーム 草食動物,prefix + species + diet,U+0020
+fauna,001A7675,Swarming Sentinel,群れをなす センチネル,prefix + species,U+0020
+fauna,001A7676,Pack Mossasaur,群れの モササウルス,prefix + species,U+0020
+fauna,001A7677,Pack Landshark,群れの ランドシャーク,prefix + species,U+0020
+fauna,001A7678,Pack Stingray,群れの スティングレイ,prefix + species,U+0020
+fauna,001A7EAC,Grabber Geophage,グラバー 土食生物,species + diet,U+0020
+fauna,001A7EAD,Carasnail Scavenger,カラカタツムリ スカベンジャー,species + diet,U+0020
+fauna,001A7EAE,Centiskull Filterer,センティスカル フィルタラー,species + diet,U+0020
+fauna,001A7EAF,Herding Leafbug Grazer,遊牧の リーフバグ グレイザー,prefix + species + diet,U+0020
+fauna,001A7EB0,Flocking Blistercrab Herbivore,群がる ミズブクレガニ 草食動物,prefix + species + diet,U+0020
+fauna,001A7EB1,Herding Crab Herbivore,遊牧の カニ 草食動物,prefix + species + diet,U+0020
+fauna,001A7EB2,Seahorse Herbivore,タツノオトシゴ 草食動物,species + diet,U+0020
+fauna,001A7EB3,Herding Cutterhead Grazer,遊牧の カッターヘッド グレイザー,prefix + species + diet,U+0020
+fauna,001A7EB4,Herding Tuskfrog Filterer,遊牧の タスクフロッグ フィルタラー,prefix + species + diet,U+0020
+fauna,001A7EB5,Pack Scorpion,群れの スコルピオン,prefix + species,U+0020
+fauna,001A7EB6,Hunting Coralcrawler,狩猟する コーラルクローラー,prefix + species,U+0020
+fauna,001A7EB7,Pack Clickbeetle,群れの クリックビートル,prefix + species,U+0020
+fauna,001A7F77,Carasnail Filterer,カラカタツムリ フィルタラー,species + diet,U+0020
+fauna,001A7F78,Centiskull Grazer,センティスカル グレイザー,species + diet,U+0020
+fauna,001A7F79,Herding Longneck Scavenger,遊牧の ロングネック スカベンジャー,prefix + species + diet,U+0020
+fauna,001A7F7A,Herding Eggsac Filterer,遊牧の エッグサック フィルタラー,prefix + species + diet,U+0020
+fauna,001A7F7B,Flocking Triantler Herbivore,群がる トライアントラー 草食動物,prefix + species + diet,U+0020
+fauna,001A7F7C,Hunting Dodo,狩猟する ドードー,prefix + species,U+0020
+fauna,001A7F7D,Pack Tuskfrog,群れの タスクフロッグ,prefix + species,U+0020
+fauna,001A7F7E,Pack Caterpillar,群れの キャタピラー,prefix + species,U+0020
+fauna,001A8382,Beetle Scavenger,カブトムシ スカベンジャー,species + diet,U+0020
+fauna,001A8384,Flamethorn Scavenger,フレイムソーン スカベンジャー,species + diet,U+0020
+fauna,001A8385,Herding Toadface Herbivore,遊牧の トードフェイス 草食動物,prefix + species + diet,U+0020
+fauna,001A838A,Flocking Exocrawler,群がる エグゾクローラー,prefix + species,U+0020
+fauna,001A838B,Herding Loxodont Grazer,遊牧の アフリカゾウ グレイザー,prefix + species + diet,U+0020
+fauna,001A838E,Swarming Foxbat,群れをなす キツネゴウモリ,prefix + species,U+0020
+fauna,001A838F,Pack Scarab,群れの コガネムシ,prefix + species,U+0020
+fauna,001A8392,Apex Ankylosaurus,頂点の アンキロサウルス,prefix + species,U+0020
+fauna,001A8FC6,Fleshleaf Filterer,フレッシュリーフ フィルタラー,species + diet,U+0020
+fauna,001A8FC7,Flamethorn Grazer,フレイムソーン グレイザー,species + diet,U+0020
+fauna,001A8FC8,Milliwhale Grazer,ミリクジラ グレイザー,species + diet,U+0020
+fauna,001A8FC9,Flocking Brainsprout Filterer,群がる ブレインスプラウト フィルタラー,prefix + species + diet,U+0020
+fauna,001A8FCA,Leafstrider Herbivore,リーフストライダー 草食動物,species + diet,U+0020
+fauna,001A8FCB,Trihorn Scavenger,トライホーン スカベンジャー,species + diet,U+0020
+fauna,001A8FCC,Herding Cagebrain Grazer,遊牧の ケージブレイン グレイザー,prefix + species + diet,U+0020
+fauna,001A8FCD,Pack Boneshell,群れの ボーンシェル,prefix + species,U+0020
+fauna,001A8FCE,Pack Scarab,群れの コガネムシ,prefix + species,U+0020
+fauna,001A8FCF,Hunting Lockjaw,狩猟する ロックジョー,prefix + species,U+0020
+fauna,001A903A,Beetle Filterer,カブトムシ フィルタラー,species + diet,U+0020
+fauna,001A903B,Herding Shardhopper Geophage,遊牧の シャードホッパー 土食生物,prefix + species + diet,U+0020
+fauna,001A903C,Hunting Coralbug,狩猟する コーラルバグ,prefix + species,U+0020
+fauna,001A903D,Spore Filterer,スポア フィルタラー,species + diet,U+0020
+fauna,001A903E,Flamethorn Filterer,フレイムソーン フィルタラー,species + diet,U+0020
+fauna,001A903F,Flapwheel Scavenger,フラップホイール スカベンジャー,species + diet,U+0020
+fauna,001A9040,Herding Vuvuzelisk Grazer,遊牧の ヴヴゼリスク グレイザー,prefix + species + diet,U+0020
+fauna,001A9041,Herding Rockhound Grazer,遊牧の ロックハウンド グレイザー,prefix + species + diet,U+0020
+fauna,001A9042,Hunting Coralcrab,狩猟する コーラルクラブ,prefix + species,U+0020
+fauna,001A9043,Swarming Landshark,群れをなす ランドシャーク,prefix + species,U+0020
+fauna,001A9044,Pack Exorunner,群れの エクゾランナー,prefix + species,U+0020
+fauna,001A94DA,Spaceroach Grazer,スペースローチ グレイザー,species + diet,U+0020
+fauna,001A94DB,Beetle Scavenger,カブトムシ スカベンジャー,species + diet,U+0020
+fauna,001A94DC,Herding Trihorn Herbivore,遊牧の トライホーン 草食動物,prefix + species + diet,U+0020
+fauna,001A94DD,Herding Vectorback Filterer,遊牧の ベクトルバック フィルタラー,prefix + species + diet,U+0020
+fauna,001A94DE,Flocking Leafback Scavenger,群がる リーフバック スカベンジャー,prefix + species + diet,U+0020
+fauna,001A94DF,Pack Clawback Stalker,群れの クローバック ストーカー,prefix + species + diet,U+0020
+fauna,001A94E0,Pack Lacraia,群れの オオムカデ,prefix + species,U+0020
+fauna,001A94E1,Swarming Exorunner,群れをなす エクゾランナー,prefix + species,U+0020
+fauna,001A9996,Artichoke Filterer,アーティチョーク フィルタラー,species + diet,U+0020
+fauna,001A9997,Flamethorn Grazer,フレイムソーン グレイザー,species + diet,U+0020
+fauna,001A9998,Milliwhale Geophage,ミリクジラ 土食生物,species + diet,U+0020
+fauna,001A9999,Herding Mantodea Grazer,遊牧の カマキリ グレイザー,prefix + species + diet,U+0020
+fauna,001A999A,Glowhands Grazer,グロウハンズ グレイザー,species + diet,U+0020
+fauna,001A999B,Herding Octomaggot Herbivore,遊牧の オクトマゴット 草食動物,prefix + species + diet,U+0020
+fauna,001A999C,Pack Shardhopper,群れの シャードホッパー,prefix + species,U+0020
+fauna,001A999D,Pack Hammersaur,群れの ハンマーサウル,prefix + species,U+0020
+fauna,001A999E,Hunting Tentabeard,狩猟する テンタビアード,prefix + species,U+0020
+fauna,001A999F,Beetle Filterer,カブトムシ フィルタラー,species + diet,U+0020
+fauna,001A99A0,Coralheart Herbivore,コーラルハート 草食動物,species + diet,U+0020
+fauna,001A99A1,Grabber Filterer,グラバー フィルタラー,species + diet,U+0020
+fauna,001A99A2,Bonefrill Herbivore,ボーンフリル 草食動物,species + diet,U+0020
+fauna,001A99A3,Herding Coralcrawler Filterer,遊牧の コーラルクローラー フィルタラー,prefix + species + diet,U+0020
+fauna,001A99A4,Herding Hornface Scavenger,遊牧の ホーンフェイス スカベンジャー,prefix + species + diet,U+0020
+fauna,001A99A5,Hunting Sunflower,狩猟する サンフラワー,prefix + species,U+0020
+fauna,001A99A6,Pack Twistfin,群れの ツイストフィン,prefix + species,U+0020
+fauna,001A9ACA,Hunting Cricket,狩猟する コオロギ,prefix + species,U+0020
+fauna,001A9C7F,Trilobite Filterer,三葉虫 フィルタラー,species + diet,U+0020
+fauna,001A9C80,Beetle Scavenger,カブトムシ スカベンジャー,species + diet,U+0020
+fauna,001A9C81,Herding Brainsprout Filterer,遊牧の ブレインスプラウト フィルタラー,prefix + species + diet,U+0020
+fauna,001A9C82,Flocking Clickbeetle Herbivore,群がる クリックビートル 草食動物,prefix + species + diet,U+0020
+fauna,001A9C83,Herding Twigwalker Grazer,遊牧の ツイッグウォーカー グレイザー,prefix + species + diet,U+0020
+fauna,001A9C84,Swarming Scorpion,群れをなす スコルピオン,prefix + species,U+0020
+fauna,001A9C85,Swarming Horsamander,群れをなす ホーサマンダー,prefix + species,U+0020
+fauna,001A9C86,Pack Scarab,群れの コガネムシ,prefix + species,U+0020
+fauna,001AA10E,Herding Trihorn Geophage,遊牧の トライホーン 土食生物,prefix + species + diet,U+0020
+fauna,001AA10F,Flocking Scorpion Geophage,群がる スコルピオン 土食生物,prefix + species + diet,U+0020
+fauna,001AA110,Herding Sailgator Herbivore,遊牧の セイルゲイター 草食動物,prefix + species + diet,U+0020
+fauna,001AA111,Hunting Brainsquid,狩猟する ブレインスキッド,prefix + species,U+0020
+fauna,001AA112,Hunting Cagebrain,狩猟する ケージブレイン,prefix + species,U+0020
+fauna,001AA113,Pack Coralcrawler,群れの コーラルクローラー,prefix + species,U+0020
+fauna,001AD03D,Grabber Herbivore,グラバー 草食動物,species + diet,U+0020
+fauna,001AD03E,Jackknife Geophage,ジャックナイフ 土食生物,species + diet,U+0020
+fauna,001AD18C,Spaceroach Herbivore,スペースローチ 草食動物,species + diet,U+0020
+fauna,001AD18D,Jackknife Scavenger,ジャックナイフ スカベンジャー,species + diet,U+0020
+fauna,001AD18E,Flocking Marnokk Herbivore,群がる マーノック 草食動物,prefix + species + diet,U+0020
+fauna,001AD18F,Hunting Sloth Geophage,狩猟する ナマケモノ 土食生物,prefix + species + diet,U+0020
+fauna,001AD190,Flocking Grub Herbivore,群がる グラブ 草食動物,prefix + species + diet,U+0020
+fauna,001AD191,Pack Crab,群れの カニ,prefix + species,U+0020
+fauna,001AD192,Pack Thornmantis,群れの ソーンマンティス,prefix + species,U+0020
+fauna,001AD193,Hunting Hammersaur,狩猟する ハンマーサウル,prefix + species,U+0020
+fauna,001AE4DF,Grabber Grazer,グラバー グレイザー,species + diet,U+0020
+fauna,001AE4E0,Coralheart Scavenger,コーラルハート スカベンジャー,species + diet,U+0020
+fauna,001AE4E1,Herding Rockhound Scavenger,遊牧の ロックハウンド スカベンジャー,prefix + species + diet,U+0020
+fauna,001AE4E2,Herding Beetlecrab Grazer,遊牧の ビートルクラブ グレイザー,prefix + species + diet,U+0020
+fauna,001AE4E3,Herding Roundshell Scavenger,遊牧の ラウンドシェル スカベンジャー,prefix + species + diet,U+0020
+fauna,001AE4E4,Flocking Leafstrider Filterer,群がる リーフストライダー フィルタラー,prefix + species + diet,U+0020
+fauna,001AE4E5,Herding Vectorback Herbivore,遊牧の ベクトルバック 草食動物,prefix + species + diet,U+0020
+fauna,001AE4E6,Swarming Brightcage,群れをなす ブライトケージ,prefix + species,U+0020
+fauna,001AE4E7,Swarming Eggback,群れをなす エッグバック,prefix + species,U+0020
+fauna,001AE4E8,Hunting Boneshell,狩猟する ボーンシェル,prefix + species,U+0020
+fauna,001AF63C,Tubecrawler Scavenger,チューブクローラー スカベンジャー,species + diet,U+0020
+fauna,001AF63D,Grabber Grazer,グラバー グレイザー,species + diet,U+0020
+fauna,001AF63E,Herding Dragon Scavenger,遊牧の ドラゴン スカベンジャー,prefix + species + diet,U+0020
+fauna,001AF63F,Herding Hornface Herbivore,遊牧の ホーンフェイス 草食動物,prefix + species + diet,U+0020
+fauna,001AF640,Herding Spiderwasp Grazer,遊牧の スパイダーワスプ グレイザー,prefix + species + diet,U+0020
+fauna,001AF641,Flocking Roundface Herbivore,群がる ラウンドフェイス 草食動物,prefix + species + diet,U+0020
+fauna,001AF642,Pack Horsamander,群れの ホーサマンダー,prefix + species,U+0020
+fauna,001AF643,Swarming Clickbeetle,群れをなす クリックビートル,prefix + species,U+0020
+fauna,001AF644,Pack Exocrawler,群れの エグゾクローラー,prefix + species,U+0020
+fauna,001B003A,Flocking Trident Grazer,群がる トライデント グレイザー,prefix + species + diet,U+0020
+fauna,001B0044,Noid Filterer,ノイド フィルタラー,species + diet,U+0020
+fauna,001B0045,Grabber Grazer,グラバー グレイザー,species + diet,U+0020
+fauna,001B0046,Herding Lockjaw Grazer,遊牧の ロックジョー グレイザー,prefix + species + diet,U+0020
+fauna,001B0047,Exocrawler Scavenger,エグゾクローラー スカベンジャー,species + diet,U+0020
+fauna,001B0048,Pack Ankylosaurus,群れの アンキロサウルス,prefix + species,U+0020
+fauna,001B0049,Hunting Bonefrill Stalker,狩猟する ボーンフリル ストーカー,prefix + species + diet,U+0020
+fauna,001B034D,Grub Herbivore,グラブ 草食動物,species + diet,U+0020
+fauna,001B034E,Flamethorn Herbivore,フレイムソーン 草食動物,species + diet,U+0020
+fauna,001B034F,Leafstrider Herbivore,リーフストライダー 草食動物,species + diet,U+0020
+fauna,001B0350,Herding Stonewalker Grazer,遊牧の ストーンウォーカー グレイザー,prefix + species + diet,U+0020
+fauna,001B0351,Hunting Nailtail,狩猟する ネイルテイル,prefix + species,U+0020
+fauna,001B0352,Hunting Thornmantis,狩猟する ソーンマンティス,prefix + species,U+0020
+fauna,001B0519,Thorn Scavenger,ソーン スカベンジャー,species + diet,U+0020
+fauna,001B051A,Herding Octomaggot Geophage,遊牧の オクトマゴット 土食生物,prefix + species + diet,U+0020
+fauna,001B051B,Herding Arachnofly Filterer,遊牧の スパイダーフライ フィルタラー,prefix + species + diet,U+0020
+fauna,001B051D,Pack Spiderwasp,群れの スパイダーワスプ,prefix + species,U+0020
+fauna,001B0637,Grub Geophage,グラブ 土食生物,species + diet,U+0020
+fauna,001B0645,Centiskull Grazer,センティスカル グレイザー,species + diet,U+0020
+fauna,001B0646,Herding Horsamander Herbivore,遊牧の ホーサマンダー 草食動物,prefix + species + diet,U+0020
+fauna,001B0647,Flocking Sloth Grazer,群がる ナマケモノ グレイザー,prefix + species + diet,U+0020
+fauna,001B0648,Pack Scarab,群れの コガネムシ,prefix + species,U+0020
+fauna,001B0649,Pack Crocodaunt,群れの クロコダント,prefix + species,U+0020
+fauna,001B064A,Thorn Grazer,ソーン グレイザー,species + diet,U+0020
+fauna,001B064E,Coralbug Scavenger,コーラルバグ スカベンジャー,species + diet,U+0020
+fauna,001B064F,Herding Coralcrawler Grazer,遊牧の コーラルクローラー グレイザー,prefix + species + diet,U+0020
+fauna,001B0650,Hunting Shieldshell,狩猟する シールドシェル,prefix + species,U+0020
+fauna,001B0653,Herding Brightcage Geophage,遊牧の ブライトケージ 土食生物,prefix + species + diet,U+0020
+fauna,001B0677,Pack Nailtail,群れの ネイルテイル,prefix + species,U+0020
+fauna,001B159A,Herding Wiggler Geophage,遊牧の ウィグラー 土食生物,prefix + species + diet,U+0020
+fauna,001B159B,Hunting Cricket,狩猟する コオロギ,prefix + species,U+0020
+fauna,001B159E,Thorn Grazer,ソーン グレイザー,species + diet,U+0020
+fauna,001B159F,Coralheart Filterer,コーラルハート フィルタラー,species + diet,U+0020
+fauna,001B15A0,Herding Crab Herbivore,遊牧の カニ 草食動物,prefix + species + diet,U+0020
+fauna,001B15A1,Herding Lockjaw Grazer,遊牧の ロックジョー グレイザー,prefix + species + diet,U+0020
+fauna,001B15A2,Swarming Dragon,群れをなす ドラゴン,prefix + species,U+0020
+fauna,001B15A3,Hunting Sailgator,狩猟する セイルゲイター,prefix + species,U+0020
+fauna,001B15A4,Spaceroach Herbivore,スペースローチ 草食動物,species + diet,U+0020
+fauna,001B15A5,Flocking Crab Filterer,群がる カニ フィルタラー,prefix + species + diet,U+0020
+fauna,001B15A6,Herding Blistercrab Grazer,遊牧の ミズブクレガニ グレイザー,prefix + species + diet,U+0020
+fauna,001B15A7,Swarming Crab,群れをなす カニ,prefix + species,U+0020
+fauna,001B15A8,Flamethorn Herbivore,フレイムソーン 草食動物,species + diet,U+0020
+fauna,001B15A9,Milliwhale Grazer,ミリクジラ グレイザー,species + diet,U+0020
+fauna,001B15AA,Herding Vuvuzelisk Filterer,遊牧の ヴヴゼリスク フィルタラー,prefix + species + diet,U+0020
+fauna,001B15AB,Flocking Toadface Herbivore,群がる トードフェイス 草食動物,prefix + species + diet,U+0020
+fauna,001B15AC,Pack Cockroach,群れの ゴキブリ,prefix + species,U+0020
+fauna,001B15AD,Hunting Coralcrab,狩猟する コーラルクラブ,prefix + species,U+0020
+fauna,001B1742,Pearl Herbivore,パール 草食動物,species + diet,U+0020
+fauna,001B1743,Beetle Scavenger,カブトムシ スカベンジャー,species + diet,U+0020
+fauna,001B1DE1,Herding Sailgator Scavenger,遊牧の セイルゲイター スカベンジャー,prefix + species + diet,U+0020
+fauna,001B1DE5,Herding Brainsprout Grazer,遊牧の ブレインスプラウト グレイザー,prefix + species + diet,U+0020
+fauna,001B1DE7,Herding Glider Herbivore,遊牧の グライダー 草食動物,prefix + species + diet,U+0020
+fauna,001B1DE9,Swarming Crab Stalker,群れをなす カニ ストーカー,prefix + species + diet,U+0020
+fauna,001B1DEA,Pack Bonefrill,群れの ボーンフリル,prefix + species,U+0020
+fauna,001B20B6,Flamethorn Geophage,フレイムソーン 土食生物,species + diet,U+0020
+fauna,001B20B7,Flocking Octomaggot Grazer,群がる オクトマゴット グレイザー,prefix + species + diet,U+0020
+fauna,001B20B8,Herding Noid Herbivore,遊牧の ノイド 草食動物,prefix + species + diet,U+0020
+fauna,001B20BA,Herding Mantodea Scavenger,遊牧の カマキリ スカベンジャー,prefix + species + diet,U+0020
+fauna,001B218B,Pack Landshark,群れの ランドシャーク,prefix + species,U+0020
+fauna,001B218C,Swarming Shardhopper,群れをなす シャードホッパー,prefix + species,U+0020
+fauna,001B4C03,Trilobite Filterer,三葉虫 フィルタラー,species + diet,U+0020
+fauna,001B4C04,Beetle Filterer,カブトムシ フィルタラー,species + diet,U+0020
+fauna,001B4C05,Herding Cagebrain Herbivore,遊牧の ケージブレイン 草食動物,prefix + species + diet,U+0020
+fauna,001B4C06,Flocking Trihorn Grazer,群がる トライホーン グレイザー,prefix + species + diet,U+0020
+fauna,001B4C07,Hunting Cricket,狩猟する コオロギ,prefix + species,U+0020
+fauna,001B4C08,Pack Ankylosaurus,群れの アンキロサウルス,prefix + species,U+0020
+fauna,001B4E75,Spaceroach Filterer,スペースローチ フィルタラー,species + diet,U+0020
+fauna,001B4E76,Herding Roundshell Grazer,遊牧の ラウンドシェル グレイザー,prefix + species + diet,U+0020
+fauna,001B4E77,Hunting Hookneck,狩猟する フーネック,prefix + species,U+0020
+fauna,001B70D5,Fingerface Geophage,フィンガーフェイス 土食生物,species + diet,U+0020
+fauna,001B70D6,Flocking Clawback Scavenger,群がる クローバック スカベンジャー,prefix + species + diet,U+0020
+fauna,001B70D7,Pack Trapmaw,群れの トラップモウ,prefix + species,U+0020
+fauna,001B70D8,Worm Geophage,ワーム 土食生物,species + diet,U+0020
+fauna,001B70D9,Flocking Earback Grazer,群がる イヤーバック グレイザー,prefix + species + diet,U+0020
+fauna,001B70DA,Hunting Brainblimp,狩猟する ブレインブリンプ,prefix + species,U+0020
+fauna,001BAC22,Coralheart Filterer,コーラルハート フィルタラー,species + diet,U+0020
+fauna,001BAC23,Herding Boneback Scavenger,遊牧の ボーンバック スカベンジャー,prefix + species + diet,U+0020
+fauna,001BAC24,Hunting Crab,狩猟する カニ,prefix + species,U+0020
+fauna,001BB05F,Flamethorn Grazer,フレイムソーン グレイザー,species + diet,U+0020
+fauna,001BB060,Tubecrawler Herbivore,チューブクローラー 草食動物,species + diet,U+0020
+fauna,001BB061,Pack Cutterhead,群れの カッターヘッド,prefix + species,U+0020
+fauna,001BB062,Pack Exorunner,群れの エクゾランナー,prefix + species,U+0020
+fauna,001BB063,Pack Lionbear,群れの ライオンベア,prefix + species,U+0020
+fauna,001BB064,Pack Ankylosaurus,群れの アンキロサウルス,prefix + species,U+0020
+fauna,001BB95C,Drone Filterer,ドローン フィルタラー,species + diet,U+0020
+fauna,001BB95D,Flamethorn Scavenger,フレイムソーン スカベンジャー,species + diet,U+0020
+fauna,001BB95E,Cagebrain Herbivore,ケージブレイン 草食動物,species + diet,U+0020
+fauna,001BB95F,Herding Sporeback Grazer,遊牧の スポアバック グレイザー,prefix + species + diet,U+0020
+fauna,001BB960,Swarming Spiderwasp,群れをなす スパイダーワスプ,prefix + species,U+0020
+fauna,001BB961,Pack Hammersaur,群れの ハンマーサウル,prefix + species,U+0020
+fauna,001BE894,Carasnail Grazer,カラカタツムリ グレイザー,species + diet,U+0020
+fauna,001BEAD2,Flocking Scarab Herbivore,群がる コガネムシ 草食動物,prefix + species + diet,U+0020
+fauna,001BEAD3,Herding Leecher Grazer,遊牧の リーチャー グレイザー,prefix + species + diet,U+0020
+fauna,001BEAD7,Swarming Glider,群れをなす グライダー,prefix + species,U+0020
+fauna,001BEE0D,Shoaling Finback Grazer,大群の フィンバック グレイザー,prefix + species + diet,U+0020
+fauna,001BEE0E,Shoaling Exowhale Filterer,大群の エグゾクジラ フィルタラー,prefix + species + diet,U+0020
+fauna,001BEE0F,Pack Kronosaurus,群れの クロノサウルス,prefix + species,U+0020
+fauna,001BEE10,Pack Whaleshark,群れの ホエールシャーク,prefix + species,U+0020
+fauna,001BFE8F,Spaceroach Grazer,スペースローチ グレイザー,species + diet,U+0020
+fauna,001BFE90,Pack Cockroach,群れの ゴキブリ,prefix + species,U+0020
+fauna,001BFE91,Herding Clawback Herbivore,遊牧の クローバック 草食動物,prefix + species + diet,U+0020
+fauna,001BFE92,Pack Stingback,群れの スティングバック,prefix + species,U+0020
+fauna,001C067F,Hunting Bonefrill,狩猟する ボーンフリル,prefix + species,U+0020
+fauna,001C0680,Pack Trapmaw,群れの トラップモウ,prefix + species,U+0020
+fauna,001C0681,Pack Hammersaur,群れの ハンマーサウル,prefix + species,U+0020
+fauna,001C0682,Flamethorn Scavenger,フレイムソーン スカベンジャー,species + diet,U+0020
+fauna,001C0683,Herding Tongueface Grazer,遊牧の タングフェイス グレイザー,prefix + species + diet,U+0020
+fauna,001C0684,Flocking Tubecrawler Geophage,群がる チューブクローラー 土食生物,prefix + species + diet,U+0020
+fauna,001C0685,Flocking Leafstrider Grazer,群がる リーフストライダー グレイザー,prefix + species + diet,U+0020
+fauna,001C0686,Flocking Lionbear Scavenger,群がる ライオンベア スカベンジャー,prefix + species + diet,U+0020
+fauna,001C0F2A,Pinecone Geophage,松ぼっくり 土食生物,species + diet,U+0020
+fauna,001C0F2B,Flocking Leafbug Herbivore,群がる リーフバグ 草食動物,prefix + species + diet,U+0020
+fauna,001C0F2C,Hunting Shieldshell,狩猟する シールドシェル,prefix + species,U+0020
+fauna,001C0F2D,Caterpillar Filterer,キャタピラー フィルタラー,species + diet,U+0020
+fauna,001C0F2E,Herding Glowhands Grazer,遊牧の グロウハンズ グレイザー,prefix + species + diet,U+0020
+fauna,001C0F2F,Hunting Landshark,狩猟する ランドシャーク,prefix + species,U+0020
+fauna,001C15F3,Swarming Stingback,群れをなす スティングバック,prefix + species,U+0020
+fauna,001C15F4,Herding Leafback Geophage,遊牧の リーフバック 土食生物,prefix + species + diet,U+0020
+fauna,001C1F6E,Flocking Jackknife Geophage,群がる ジャックナイフ 土食生物,prefix + species + diet,U+0020
+fauna,001C1F6F,Pack Beetlecrab,群れの ビートルクラブ,prefix + species,U+0020
+fauna,001C23F7,Thorn Filterer,ソーン フィルタラー,species + diet,U+0020
+fauna,001C23F8,Herding Canard Scavenger,遊牧の カナード スカベンジャー,prefix + species + diet,U+0020
+fauna,001C23F9,Brainsprout Herbivore,ブレインスプラウト 草食動物,species + diet,U+0020
+fauna,001C23FA,Herding Crab Grazer,遊牧の カニ グレイザー,prefix + species + diet,U+0020
+fauna,001C23FB,Hunting Bonefrill,狩猟する ボーンフリル,prefix + species,U+0020
+fauna,001C23FC,Spaceroach Geophage,スペースローチ 土食生物,species + diet,U+0020
+fauna,001C23FD,Herding Blistercrab Filterer,遊牧の ミズブクレガニ フィルタラー,prefix + species + diet,U+0020
+fauna,001C23FE,Hunting Dragon,狩猟する ドラゴン,prefix + species,U+0020
+fauna,001C2AE0,Thorn Grazer,ソーン グレイザー,species + diet,U+0020
+fauna,001C2AE1,Flocking Ankylosaurus Grazer,群がる アンキロサウルス グレイザー,prefix + species + diet,U+0020
+fauna,001C2AE2,Herding Shellephant Grazer,遊牧の シェレファント グレイザー,prefix + species + diet,U+0020
+fauna,001C2AE3,Hunting Bonecrest,狩猟する ボーンクレスト,prefix + species,U+0020
+fauna,001C2AE4,Apex Dragon,頂点の ドラゴン,prefix + species,U+0020
+fauna,001C2FC0,Gossamer Scavenger,ゴッサマー スカベンジャー,species + diet,U+0020
+fauna,001C2FC1,Coralheart Herbivore,コーラルハート 草食動物,species + diet,U+0020
+fauna,001C2FC2,Herding Crabfly Grazer,遊牧の クラブフライ グレイザー,prefix + species + diet,U+0020
+fauna,001C2FC3,Herding Coralcrawler Grazer,遊牧の コーラルクローラー グレイザー,prefix + species + diet,U+0020
+fauna,001C2FC4,Flocking Octomaggot Grazer,群がる オクトマゴット グレイザー,prefix + species + diet,U+0020
+fauna,001C2FC5,Hunting Shieldshell,狩猟する シールドシェル,prefix + species,U+0020
+fauna,001C2FC6,Pack Coralbug Stalker,群れの コーラルバグ ストーカー,prefix + species + diet,U+0020
+fauna,001C2FC7,Pack Coralcrab Stalker,群れの コーラルクラブ ストーカー,prefix + species + diet,U+0020
+fauna,001C334A,Trident Geophage,トライデント 土食生物,species + diet,U+0020
+fauna,001C334B,Herding Tongueface Herbivore,遊牧の タングフェイス 草食動物,prefix + species + diet,U+0020
+fauna,001C334C,Pack Ankylosaurus,群れの アンキロサウルス,prefix + species,U+0020
+fauna,001C3D04,Jackknife Filterer,ジャックナイフ フィルタラー,species + diet,U+0020
+fauna,001C3D05,Flocking Beetlecrab Grazer,群がる ビートルクラブ グレイザー,prefix + species + diet,U+0020
+fauna,001C43D7,Hunting Scorpion,狩猟する スコルピオン,prefix + species,U+0020
+fauna,001C48CA,Trilobite Filterer,三葉虫 フィルタラー,species + diet,U+0020
+fauna,001C48CB,Herding Crabfly Grazer,遊牧の クラブフライ グレイザー,prefix + species + diet,U+0020
+fauna,001C48CC,Hunting Octomaggot,狩猟する オクトマゴット,prefix + species,U+0020
+fauna,001C48CD,Herding Coralcrawler Filterer,遊牧の コーラルクローラー フィルタラー,prefix + species + diet,U+0020
+fauna,001C48CE,Pack Bearclaw,群れの クマヅメ,prefix + species,U+0020
+fauna,001C48CF,Hunting Cagebrain,狩猟する ケージブレイン,prefix + species,U+0020
+fauna,001C48D0,Herding Scepter Filterer,遊牧の セプター フィルタラー,prefix + species + diet,U+0020
+fauna,001C48D1,Pack Trapmaw,群れの トラップモウ,prefix + species,U+0020
+fauna,001C48D2,Hunting Glowhands,狩猟する グロウハンズ,prefix + species,U+0020
+fauna,001C48EA,Milliwhale Filterer,ミリクジラ フィルタラー,species + diet,U+0020
+fauna,001C48EB,Gossamer Filterer,ゴッサマー フィルタラー,species + diet,U+0020
+fauna,001C48EC,Grabber Scavenger,グラバー スカベンジャー,species + diet,U+0020
+fauna,001C48ED,Horsamander Grazer,ホーサマンダー グレイザー,species + diet,U+0020
+fauna,001C48EE,Flocking Tongueface Herbivore,群がる タングフェイス 草食動物,prefix + species + diet,U+0020
+fauna,001C48EF,Leafstrider Grazer,リーフストライダー グレイザー,species + diet,U+0020
+fauna,001C48F0,Hunting Glider,狩猟する グライダー,prefix + species,U+0020
+fauna,001C48F1,Pack Cockroach,群れの ゴキブリ,prefix + species,U+0020
+fauna,001C48F2,Hunting Coralbug Stalker,狩猟する コーラルバグ ストーカー,prefix + species + diet,U+0020
+fauna,001C50E2,Coralheart Grazer,コーラルハート グレイザー,species + diet,U+0020
+fauna,001C50E3,Beetle Scavenger,カブトムシ スカベンジャー,species + diet,U+0020
+fauna,001C50E4,Herding Hornface Herbivore,遊牧の ホーンフェイス 草食動物,prefix + species + diet,U+0020
+fauna,001C50E5,Flocking Beetlecrab Herbivore,群がる ビートルクラブ 草食動物,prefix + species + diet,U+0020
+fauna,001C50E6,Pack Longhorn,群れの ロングホーン,prefix + species,U+0020
+fauna,001C6940,Milliwhale Filterer,ミリクジラ フィルタラー,species + diet,U+0020
+fauna,001C6941,Shoaling Unishark Scavenger,大群の ユニシャーク スカベンジャー,prefix + species + diet,U+0020
+fauna,001C6942,Herding Vuvuzelisk Scavenger,遊牧の ヴヴゼリスク スカベンジャー,prefix + species + diet,U+0020
+fauna,001C6943,Hunting Sailgator,狩猟する セイルゲイター,prefix + species,U+0020
+fauna,001C6944,Coralheart Filterer,コーラルハート フィルタラー,species + diet,U+0020
+fauna,001C6945,Herding Blistercrab Filterer,遊牧の ミズブクレガニ フィルタラー,prefix + species + diet,U+0020
+fauna,001C6946,Hunting Shieldshell,狩猟する シールドシェル,prefix + species,U+0020
+fauna,001C6947,Caterpillar Filterer,キャタピラー フィルタラー,species + diet,U+0020
+fauna,001C6948,Spaceroach Geophage,スペースローチ 土食生物,species + diet,U+0020
+fauna,001C6949,Cagebrain Scavenger,ケージブレイン スカベンジャー,species + diet,U+0020
+fauna,001C694A,Herding Boneback Grazer,遊牧の ボーンバック グレイザー,prefix + species + diet,U+0020
+fauna,001C694B,Flocking Cutterhead Geophage,群がる カッターヘッド 土食生物,prefix + species + diet,U+0020
+fauna,001C694C,Pack Windbag,群れの ウィンドバッグ,prefix + species,U+0020
+fauna,001C694D,Hunting Sunflower,狩猟する サンフラワー,prefix + species,U+0020
+fauna,001C7188,Beetle Scavenger,カブトムシ スカベンジャー,species + diet,U+0020
+fauna,001C7189,Swarming Saturnine,群れをなす サターナイン,prefix + species,U+0020
+fauna,001C718A,Herding Bonemane Grazer,遊牧の ボーンメーン グレイザー,prefix + species + diet,U+0020
+fauna,001C718B,Flocking Horsamander Scavenger,群がる ホーサマンダー スカベンジャー,prefix + species + diet,U+0020
+fauna,001C718C,Pack Exocrawler,群れの エグゾクローラー,prefix + species,U+0020
+fauna,001C718D,Hunting Toadface,狩猟する トードフェイス,prefix + species,U+0020
+fauna,001C7402,Trilobite Filterer,三葉虫 フィルタラー,species + diet,U+0020
+fauna,001C7403,Schooling Sawhead Scavenger,調教された ソーヘッド スカベンジャー,prefix + species + diet,U+0020
+fauna,001C7404,Herding Vectorback Grazer,遊牧の ベクトルバック グレイザー,prefix + species + diet,U+0020
+fauna,001C7405,Pack Unishark,群れの ユニシャーク,prefix + species,U+0020
+fauna,001C7406,Hunting Sailgator,狩猟する セイルゲイター,prefix + species,U+0020
+fauna,001C7DFE,Milliwhale Filterer,ミリクジラ フィルタラー,species + diet,U+0020
+fauna,001C7DFF,Flocking Vuvuzelisk Grazer,群がる ヴヴゼリスク グレイザー,prefix + species + diet,U+0020
+fauna,001C7E00,Herding Hippodon Scavenger,遊牧の ヒッポドン スカベンジャー,prefix + species + diet,U+0020
+fauna,001C7E01,Herding Geckon Grazer,遊牧の ゲッコン グレイザー,prefix + species + diet,U+0020
+fauna,001C7E02,Hunting Vectorback,狩猟する ベクトルバック,prefix + species,U+0020
+fauna,001C7E03,Hunting Twistfin,狩猟する ツイストフィン,prefix + species,U+0020
+fauna,001C7E04,Hunting Triantler,狩猟する トライアントラー,prefix + species,U+0020
+fauna,001C7E05,Jellyfin Scavenger,ゼリーフィン スカベンジャー,species + diet,U+0020
+fauna,001C7E06,Flocking Brainblimp Filterer,群がる ブレインブリンプ フィルタラー,prefix + species + diet,U+0020
+fauna,001C7E07,Pack Whaleshark,群れの ホエールシャーク,prefix + species,U+0020
+fauna,001C801D,Artichoke Geophage,アーティチョーク 土食生物,species + diet,U+0020
+fauna,001C801E,Hunting Nautiloos Scavenger,狩猟する ノーティラス スカベンジャー,prefix + species + diet,U+0020
+fauna,001C80FC,Grabber Grazer,グラバー グレイザー,species + diet,U+0020
+fauna,001C80FD,Flocking Exorunner Geophage,群がる エクゾランナー 土食生物,prefix + species + diet,U+0020
+fauna,001C80FE,Herding Bonefrill Geophage,遊牧の ボーンフリル 土食生物,prefix + species + diet,U+0020
+fauna,001C80FF,Hunting Scorpion,狩猟する スコルピオン,prefix + species,U+0020
+fauna,001C9AC9,Puffball Filterer,ホコリタケ フィルタラー,species + diet,U+0020
+fauna,001C9ACA,Hunting Kronosaurus,狩猟する クロノサウルス,prefix + species,U+0020
+fauna,001C9ACB,Schooling Featherfin Filterer,調教された フェザーフィン フィルタラー,prefix + species + diet,U+0020
+fauna,001C9ACC,Metropus Filterer,メトロパス フィルタラー,species + diet,U+0020
+fauna,001C9ACD,Herding Stingray Grazer,遊牧の スティングレイ グレイザー,prefix + species + diet,U+0020
+fauna,001CB790,Thorn Filterer,ソーン フィルタラー,species + diet,U+0020
+fauna,001CB791,Leafbug Scavenger,リーフバグ スカベンジャー,species + diet,U+0020
+fauna,001CB792,Herding Rockhound Grazer,遊牧の ロックハウンド グレイザー,prefix + species + diet,U+0020
+fauna,001CB793,Hunting Crocalypse,狩猟する クロカリプス,prefix + species,U+0020
+fauna,001CBC8A,Trilobite Geophage,三葉虫 土食生物,species + diet,U+0020
+fauna,001CBC8B,Herding Longhorn Geophage,遊牧の ロングホーン 土食生物,prefix + species + diet,U+0020
+fauna,001CBC8C,Pack Shardhopper,群れの シャードホッパー,prefix + species,U+0020
+fauna,001CBCAD,Milliwhale Filterer,ミリクジラ フィルタラー,species + diet,U+0020
+fauna,001CBCAE,Coralheart Filterer,コーラルハート フィルタラー,species + diet,U+0020
+fauna,001CBCAF,Flocking Leafback Herbivore,群がる リーフバック 草食動物,prefix + species + diet,U+0020
+fauna,001CBCB0,Schooling Finback Filterer,調教された フィンバック フィルタラー,prefix + species + diet,U+0020
+fauna,001CBCB1,Pack Windbag,群れの ウィンドバッグ,prefix + species,U+0020
+fauna,001CCAEA,Trident Filterer,トライデント フィルタラー,species + diet,U+0020
+fauna,001CCAEB,Shoaling Finback Filterer,大群の フィンバック フィルタラー,prefix + species + diet,U+0020
+fauna,001CCAEC,Herding Canard Filterer,遊牧の カナード フィルタラー,prefix + species + diet,U+0020
+fauna,001CF18C,Snail Geophage,カタツムリ 土食生物,species + diet,U+0020
+fauna,001CF18D,Herding Stoneback Scavenger,遊牧の ストーンバック スカベンジャー,prefix + species + diet,U+0020
+fauna,001CF18E,Flocking Horsamander Grazer,群がる ホーサマンダー グレイザー,prefix + species + diet,U+0020
+fauna,001CF18F,Pack Crocodaunt,群れの クロコダント,prefix + species,U+0020
+fauna,001CF572,Trilobite Grazer,三葉虫 グレイザー,species + diet,U+0020
+fauna,001CF573,Flocking Lockjaw Grazer,群がる ロックジョー グレイザー,prefix + species + diet,U+0020
+fauna,001CF574,Pack Sailgator,群れの セイルゲイター,prefix + species,U+0020
+fauna,001CF575,Pack Crocalypse,群れの クロカリプス,prefix + species,U+0020
+fauna,001D064E,Twingrub Scavenger,ツイングラブ スカベンジャー,species + diet,U+0020
+fauna,001D064F,Schooling Kronosaurus Scavenger,調教された クロノサウルス スカベンジャー,prefix + species + diet,U+0020
+fauna,001D0650,Herding Crab Grazer,遊牧の カニ グレイザー,prefix + species + diet,U+0020
+fauna,001D065D,Hunting Hornface,狩猟する ホーンフェイス,prefix + species,U+0020
+fauna,001D065E,Milliwhale Geophage,ミリクジラ 土食生物,species + diet,U+0020
+fauna,001D065F,Noid Filterer,ノイド フィルタラー,species + diet,U+0020
+fauna,001D06EE,Shoaling Lurefish Scavenger,大群の ルアーフィッシュ スカベンジャー,prefix + species + diet,U+0020
+fauna,001D06EF,Clawback Herbivore,クローバック 草食動物,species + diet,U+0020
+fauna,001D0708,Flocking Bonefrill Grazer,群がる ボーンフリル グレイザー,prefix + species + diet,U+0020
+fauna,001D0709,Pack Scarab,群れの コガネムシ,prefix + species,U+0020
+fauna,001D070A,Hunting Shieldshell,狩猟する シールドシェル,prefix + species,U+0020
+fauna,001D070B,Grabber Filterer,グラバー フィルタラー,species + diet,U+0020
+fauna,001D070C,Shoaling Finback Scavenger,大群の フィンバック スカベンジャー,prefix + species + diet,U+0020
+fauna,001D0714,Flocking Cockroach Scavenger,群がる ゴキブリ スカベンジャー,prefix + species + diet,U+0020
+fauna,001D0719,Pack Paddlefish,群れの ヘラチョウザメ,prefix + species,U+0020
+fauna,001D0732,Hunting Foxbat,狩猟する キツネゴウモリ,prefix + species,U+0020
+fauna,001D0734,Trilobite Filterer,三葉虫 フィルタラー,species + diet,U+0020
+fauna,001D0735,Herding Wobbleback Herbivore,遊牧の ウォブルバック 草食動物,prefix + species + diet,U+0020
+fauna,001D0738,Hunting Coralcrab,狩猟する コーラルクラブ,prefix + species,U+0020
+fauna,001D074F,Gossamer Filterer,ゴッサマー フィルタラー,species + diet,U+0020
+fauna,001D0758,Flamethorn Scavenger,フレイムソーン スカベンジャー,species + diet,U+0020
+fauna,001D0762,Herding Boneback Grazer,遊牧の ボーンバック グレイザー,prefix + species + diet,U+0020
+fauna,001D0767,Herding Horsamander Grazer,遊牧の ホーサマンダー グレイザー,prefix + species + diet,U+0020
+fauna,001D076C,Hunting Coralbug,狩猟する コーラルバグ,prefix + species,U+0020
+fauna,001D0770,Hunting Nailtail,狩猟する ネイルテイル,prefix + species,U+0020
+fauna,001D0780,Thorn Scavenger,ソーン スカベンジャー,species + diet,U+0020
+fauna,001D0781,Spaceroach Filterer,スペースローチ フィルタラー,species + diet,U+0020
+fauna,001D0782,Puffball Filterer,ホコリタケ フィルタラー,species + diet,U+0020
+fauna,001D0783,Herding Crab Grazer,遊牧の カニ グレイザー,prefix + species + diet,U+0020
+fauna,001D0784,Beetlecrab Grazer,ビートルクラブ グレイザー,species + diet,U+0020
+fauna,001D0785,Hunting Nightmare,狩猟する ナイトメア,prefix + species,U+0020
+fauna,001D07E6,Milliwhale Filterer,ミリクジラ フィルタラー,species + diet,U+0020
+fauna,001D07E7,Toadface Grazer,トードフェイス グレイザー,species + diet,U+0020
+fauna,001D07E8,Hunting Trapmaw,狩猟する トラップモウ,prefix + species,U+0020
+fauna,001D2FA0,Milliwhale Filterer,ミリクジラ フィルタラー,species + diet,U+0020
+fauna,001D2FA1,Flamethorn Grazer,フレイムソーン グレイザー,species + diet,U+0020
+fauna,001D2FA2,Schooling Paddlefish Filterer,調教された ヘラチョウザメ フィルタラー,prefix + species + diet,U+0020
+fauna,001D2FA3,Schooling Unishark Scavenger,調教された ユニシャーク スカベンジャー,prefix + species + diet,U+0020
+fauna,001D2FA4,Flocking Snuffler Scavenger,群がる スナッフラー スカベンジャー,prefix + species + diet,U+0020
+fauna,001D2FA5,Hunting Arapaima,狩猟する ピラルク,prefix + species,U+0020
+fauna,001D2FA6,Pack Scarab,群れの コガネムシ,prefix + species,U+0020
+fauna,001D301F,Jellyfin Filterer,ゼリーフィン フィルタラー,species + diet,U+0020
+fauna,001D3020,Flocking Orchid Geophage,群がる オーキッド 土食生物,prefix + species + diet,U+0020
+fauna,001D3D1D,Spikeworm Grazer,スパイクワーム グレイザー,species + diet,U+0020
+fauna,001D3D1E,Flocking Shardhopper Geophage,群がる シャードホッパー 土食生物,prefix + species + diet,U+0020
+fauna,001D3D1F,Hunting Ikuradon,狩猟する イクラドン,prefix + species,U+0020
+fauna,001D50E1,Puffball Filterer,ホコリタケ フィルタラー,species + diet,U+0020
+fauna,001D50E2,Swarming Cockroach,群れをなす ゴキブリ,prefix + species,U+0020
+fauna,001D50E3,Herding Brainsquid Scavenger,遊牧の ブレインスキッド スカベンジャー,prefix + species + diet,U+0020
+fauna,001D50E4,Herding Clawback Scavenger,遊牧の クローバック スカベンジャー,prefix + species + diet,U+0020
+fauna,001D50E5,Hunting Cagebrain,狩猟する ケージブレイン,prefix + species,U+0020
+fauna,001D50E6,Apex Brainsprout,頂点の ブレインスプラウト,prefix + species,U+0020
+fauna,001D5137,Flamethorn Herbivore,フレイムソーン 草食動物,species + diet,U+0020
+fauna,001D5138,Herding Clickbeetle Grazer,遊牧の クリックビートル グレイザー,prefix + species + diet,U+0020
+fauna,001D5139,Flocking Boneshell Grazer,群がる ボーンシェル グレイザー,prefix + species + diet,U+0020
+fauna,001D513A,Hunting Toadface Stalker,狩猟する トードフェイス ストーカー,prefix + species + diet,U+0020
+fauna,001D5A2F,Flocking Rockhound Geophage,群がる ロックハウンド 土食生物,prefix + species + diet,U+0020
+fauna,001D5A30,Hunting Stonewalker,狩猟する ストーンウォーカー,prefix + species,U+0020
+fauna,001D5A9A,Trilobite Filterer,三葉虫 フィルタラー,species + diet,U+0020
+fauna,001D5A9B,Centiskull Scavenger,センティスカル スカベンジャー,species + diet,U+0020
+fauna,001D5A9C,Schooling Unishark Scavenger,調教された ユニシャーク スカベンジャー,prefix + species + diet,U+0020
+fauna,001D5A9D,Trihorn Grazer,トライホーン グレイザー,species + diet,U+0020
+fauna,001D5A9E,Flocking Brainblimp Filterer,群がる ブレインブリンプ フィルタラー,prefix + species + diet,U+0020
+fauna,001D5A9F,Herding Tongueface Grazer,遊牧の タングフェイス グレイザー,prefix + species + diet,U+0020
+fauna,001D5AA1,Hunting Lockjaw,狩猟する ロックジョー,prefix + species,U+0020
+fauna,001D5AA3,Hunting Ikuradon,狩猟する イクラドン,prefix + species,U+0020
+fauna,001D5F36,Flocking Eggtail Filterer,群がる エッグテイル フィルタラー,prefix + species + diet,U+0020
+fauna,001D5F37,Flocking Cyclozard Scavenger,群がる サイクロザード スカベンジャー,prefix + species + diet,U+0020
+fauna,001D5F38,Ankylosaurus Herbivore,アンキロサウルス 草食動物,species + diet,U+0020
+fauna,001D5F39,Pack Glowhands,群れの グロウハンズ,prefix + species,U+0020
+fauna,001D5F3A,Swarming Eggback,群れをなす エッグバック,prefix + species,U+0020
+fauna,001D6B6D,Jellyfin Filterer,ゼリーフィン フィルタラー,species + diet,U+0020
+fauna,001D6B6E,Herding Tapeworm Scavenger,遊牧の サナダムシ スカベンジャー,prefix + species + diet,U+0020
+fauna,001D6B6F,Pack Dragonfly,群れの トンボ,prefix + species,U+0020
+fauna,001D6B7D,Milliwhale Filterer,ミリクジラ フィルタラー,species + diet,U+0020
+fauna,001D6B7E,Schooling Finback Scavenger,調教された フィンバック スカベンジャー,prefix + species + diet,U+0020
+fauna,001D6B7F,Herding Roundshell Grazer,遊牧の ラウンドシェル グレイザー,prefix + species + diet,U+0020
+fauna,001D6B80,Swarming Beetlecrab,群れをなす ビートルクラブ,prefix + species,U+0020
+fauna,001D7BC0,Snuffler Geophage,スナッフラー 土食生物,species + diet,U+0020
+fauna,001D7BC1,Centiskull Herbivore,センティスカル 草食動物,species + diet,U+0020
+fauna,001D7BC2,Herding Cutterhead Herbivore,遊牧の カッターヘッド 草食動物,prefix + species + diet,U+0020
+fauna,001D7BC3,Herding Lacraia Grazer,遊牧の オオムカデ グレイザー,prefix + species + diet,U+0020
+fauna,001D7BC4,Pack Cricket,群れの コオロギ,prefix + species,U+0020
+fauna,001D7BEB,Drone Grazer,ドローン グレイザー,species + diet,U+0020
+fauna,001D7BEC,Trilobite Filterer,三葉虫 フィルタラー,species + diet,U+0020
+fauna,001D7BED,Leafbug Grazer,リーフバグ グレイザー,species + diet,U+0020
+fauna,001D7BEE,Herding Windbag Grazer,遊牧の ウィンドバッグ グレイザー,prefix + species + diet,U+0020
+fauna,001D7BEF,Hunting Scarab,狩猟する コガネムシ,prefix + species,U+0020
+fauna,001D7BF0,Hunting Exocrawler,狩猟する エグゾクローラー,prefix + species,U+0020
+fauna,001D8423,Beetle Filterer,カブトムシ フィルタラー,species + diet,U+0020
+fauna,001D8424,Herding Boneback Filterer,遊牧の ボーンバック フィルタラー,prefix + species + diet,U+0020
+fauna,001D8425,Hunting Shieldshell,狩猟する シールドシェル,prefix + species,U+0020
+fauna,001D871A,Triworm Filterer,トライワーム フィルタラー,species + diet,U+0020
+fauna,001D871B,Herding Cutterhead Grazer,遊牧の カッターヘッド グレイザー,prefix + species + diet,U+0020
+fauna,001D871C,Swarming Octomaggot,群れをなす オクトマゴット,prefix + species,U+0020
+fauna,001D871D,Milliwhale Scavenger,ミリクジラ スカベンジャー,species + diet,U+0020
+fauna,001D871E,Grabber Filterer,グラバー フィルタラー,species + diet,U+0020
+fauna,001D871F,Seahorse Grazer,タツノオトシゴ グレイザー,species + diet,U+0020
+fauna,001D8720,Toadface Grazer,トードフェイス グレイザー,species + diet,U+0020
+fauna,001D8721,Hunting Dragon,狩猟する ドラゴン,prefix + species,U+0020
+fauna,001D8722,Hunting Nailtail,狩猟する ネイルテイル,prefix + species,U+0020
+fauna,001D9478,Snuffler Grazer,スナッフラー グレイザー,species + diet,U+0020
+fauna,001D9479,Flamethorn Filterer,フレイムソーン フィルタラー,species + diet,U+0020
+fauna,001D947A,Herding Longhorn Herbivore,遊牧の ロングホーン 草食動物,prefix + species + diet,U+0020
+fauna,001D947B,Roundshell Grazer,ラウンドシェル グレイザー,species + diet,U+0020
+fauna,001D947C,Tongueface Grazer,タングフェイス グレイザー,species + diet,U+0020
+fauna,001D947D,Pack Rockhound,群れの ロックハウンド,prefix + species,U+0020
+fauna,001D947E,Hunting Hammersaur,狩猟する ハンマーサウル,prefix + species,U+0020
+fauna,001D9527,Grub Geophage,グラブ 土食生物,species + diet,U+0020
+fauna,001D9528,Herding Crabfly Geophage,遊牧の クラブフライ 土食生物,prefix + species + diet,U+0020
+fauna,001D9529,Hunting Glowhands Stalker,狩猟する グロウハンズ ストーカー,prefix + species + diet,U+0020
+fauna,001D952A,Flocking Windbag Filterer,群がる ウィンドバッグ フィルタラー,prefix + species + diet,U+0020
+fauna,001D952B,Pack Boneback,群れの ボーンバック,prefix + species,U+0020
+fauna,001D952C,Pack Maggotmaw,群れの マゴットモウ,prefix + species,U+0020
+fauna,001D952D,Hunting Scarab,狩猟する コガネムシ,prefix + species,U+0020
+fauna,001DBAE4,Thorn Filterer,ソーン フィルタラー,species + diet,U+0020
+fauna,001DBAE5,Milliwhale Scavenger,ミリクジラ スカベンジャー,species + diet,U+0020
+fauna,001DBAE6,Cyclozard Grazer,サイクロザード グレイザー,species + diet,U+0020
+fauna,001DBAE7,Marnokk Grazer,マーノック グレイザー,species + diet,U+0020
+fauna,001DBAE8,Shellephant Grazer,シェレファント グレイザー,species + diet,U+0020
+fauna,001DBAE9,Hunting Shieldshell,狩猟する シールドシェル,prefix + species,U+0020
+fauna,001DBAEA,Hunting Vectorback,狩猟する ベクトルバック,prefix + species,U+0020
+fauna,001DBAEB,Pack Trapmaw,群れの トラップモウ,prefix + species,U+0020
+fauna,001DBCE3,Milliwhale Filterer,ミリクジラ フィルタラー,species + diet,U+0020
+fauna,001DBCE4,Shoaling Finback Scavenger,大群の フィンバック スカベンジャー,prefix + species + diet,U+0020
+fauna,001DBCE5,Herding Tongueface Geophage,遊牧の タングフェイス 土食生物,prefix + species + diet,U+0020
+fauna,001DBCE6,Hunting Vectorback,狩猟する ベクトルバック,prefix + species,U+0020
+fauna,001DC4A8,Coralheart Grazer,コーラルハート グレイザー,species + diet,U+0020
+fauna,001DC4A9,Thorn Grazer,ソーン グレイザー,species + diet,U+0020
+fauna,001DC4AA,Flocking Earback Herbivore,群がる イヤーバック 草食動物,prefix + species + diet,U+0020
+fauna,001DC4AB,Herding Morion Grazer,遊牧の モリオン グレイザー,prefix + species + diet,U+0020
+fauna,001DC4AC,Herding Clickbeetle Grazer,遊牧の クリックビートル グレイザー,prefix + species + diet,U+0020
+fauna,001DC4AD,Hunting Angler Stalker,狩猟する アングラー ストーカー,prefix + species + diet,U+0020
+fauna,001DC4AE,Pack Exocrawler,群れの エグゾクローラー,prefix + species,U+0020
+fauna,001DCAEB,Twingrub Geophage,ツイングラブ 土食生物,species + diet,U+0020
+fauna,001DCAEC,Maggotmaw Geophage,マゴットモウ 土食生物,species + diet,U+0020
+fauna,001DCAED,Hunting Cockroach,狩猟する ゴキブリ,prefix + species,U+0020
+fauna,001DCAEE,Centiskull Scavenger,センティスカル スカベンジャー,species + diet,U+0020
+fauna,001DCAEF,Herding Brainsprout Grazer,遊牧の ブレインスプラウト グレイザー,prefix + species + diet,U+0020
+fauna,001DCAF0,Hunting Brainsquid,狩猟する ブレインスキッド,prefix + species,U+0020
+fauna,001DDAE8,Beetle Scavenger,カブトムシ スカベンジャー,species + diet,U+0020
+fauna,001DDAE9,Spikeworm Filterer,スパイクワーム フィルタラー,species + diet,U+0020
+fauna,001DDAEA,Beetlecrab Grazer,ビートルクラブ グレイザー,species + diet,U+0020
+fauna,001DDAEB,Flocking Clawback Herbivore,群がる クローバック 草食動物,prefix + species + diet,U+0020
+fauna,001DDAEC,Hunting Coralbug,狩猟する コーラルバグ,prefix + species,U+0020
+fauna,001DDAED,Pack Clickbeetle,群れの クリックビートル,prefix + species,U+0020
+fauna,001DE40D,Beetle Grazer,カブトムシ グレイザー,species + diet,U+0020
+fauna,001DE40E,Flocking Shroomhead Grazer,群がる シュルームヘッド グレイザー,prefix + species + diet,U+0020
+fauna,001DE40F,Herding Longneck Herbivore,遊牧の ロングネック 草食動物,prefix + species + diet,U+0020
+fauna,001DE410,Hunting Brightcage,狩猟する ブライトケージ,prefix + species,U+0020
+fauna,001DE411,Pack Tentabeard,群れの テンタビアード,prefix + species,U+0020
+fauna,001DF4F6,Grub Filterer,グラブ フィルタラー,species + diet,U+0020
+fauna,001DF4F7,Stonewalker Geophage,ストーンウォーカー 土食生物,species + diet,U+0020
+fauna,001DF841,Jellyfin Filterer,ゼリーフィン フィルタラー,species + diet,U+0020
+fauna,001DF842,Herding Nautiloos Filterer,遊牧の ノーティラス フィルタラー,prefix + species + diet,U+0020
+fauna,001DF843,Pack Sunfish,群れの マンボウ,prefix + species,U+0020
+fauna,001DF884,Jackknife Geophage,ジャックナイフ 土食生物,species + diet,U+0020
+fauna,001DF885,Herding Olgreg,遊牧の オルグレグ,prefix + species,U+0020
+fauna,001DF886,Herding Vuvuzelisk Geophage,遊牧の ヴヴゼリスク 土食生物,prefix + species + diet,U+0020
+fauna,001DF887,Hunting Raptor,狩猟する ラプター,prefix + species,U+0020
+fauna,001E064C,Fingerface Geophage,フィンガーフェイス 土食生物,species + diet,U+0020
+fauna,001E064F,Spaceroach Scavenger,スペースローチ スカベンジャー,species + diet,U+0020
+fauna,001E069F,Herding Clawback Scavenger,遊牧の クローバック スカベンジャー,prefix + species + diet,U+0020
+fauna,001E06E5,Shardhopper Herbivore,シャードホッパー 草食動物,species + diet,U+0020
+fauna,001E07A6,Swarming Cockroach,群れをなす ゴキブリ,prefix + species,U+0020
+fauna,001E07AB,Hunting Exorunner,狩猟する エクゾランナー,prefix + species,U+0020
+fauna,001E07BD,Pinecone Scavenger,松ぼっくり スカベンジャー,species + diet,U+0020
+fauna,001E07BE,Spaceroach Filterer,スペースローチ フィルタラー,species + diet,U+0020
+fauna,001E07BF,Jellyfin Filterer,ゼリーフィン フィルタラー,species + diet,U+0020
+fauna,001E07C0,Herding Vuvuzelisk Grazer,遊牧の ヴヴゼリスク グレイザー,prefix + species + diet,U+0020
+fauna,001E07C1,Hunting Leafstrider,狩猟する リーフストライダー,prefix + species,U+0020
+fauna,001E07C2,Hunting Bighorn,狩猟する ビッグホーン,prefix + species,U+0020
+fauna,001E08F4,Beetle Scavenger,カブトムシ スカベンジャー,species + diet,U+0020
+fauna,001E08F5,Herding Roundshell Scavenger,遊牧の ラウンドシェル スカベンジャー,prefix + species + diet,U+0020
+fauna,001E08F6,Hunting Crab,狩猟する カニ,prefix + species,U+0020
+fauna,001E2614,Fleshleaf Filterer,フレッシュリーフ フィルタラー,species + diet,U+0020
+fauna,001E2615,Trilobite Filterer,三葉虫 フィルタラー,species + diet,U+0020
+fauna,001E2616,Hunting Spiderwasp Stalker,狩猟する スパイダーワスプ ストーカー,prefix + species + diet,U+0020
+fauna,001E2617,Pack Cagebrain,群れの ケージブレイン,prefix + species,U+0020
+fauna,001E2618,Windbag Grazer,ウィンドバッグ グレイザー,species + diet,U+0020
+fauna,001E2619,Crabfly Herbivore,クラブフライ 草食動物,species + diet,U+0020
+fauna,001E2807,Coralheart Filterer,コーラルハート フィルタラー,species + diet,U+0020
+fauna,001E2808,Herding Stonewalker Geophage,遊牧の ストーンウォーカー 土食生物,prefix + species + diet,U+0020
+fauna,001E2809,Herding Rockhound Geophage,遊牧の ロックハウンド 土食生物,prefix + species + diet,U+0020
+fauna,001E280A,Swarming Boneback,群れをなす ボーンバック,prefix + species,U+0020
+fauna,001E2871,Flocking Crab Geophage,群がる カニ 土食生物,prefix + species + diet,U+0020
+fauna,001E292B,Snail Geophage,カタツムリ 土食生物,species + diet,U+0020
+fauna,001E293B,Flocking Hippodon Herbivore,群がる ヒッポドン 草食動物,prefix + species + diet,U+0020
+fauna,001E293C,Pinecone Herbivore,松ぼっくり 草食動物,species + diet,U+0020
+fauna,001E293D,Herding Vuvuzelisk Herbivore,遊牧の ヴヴゼリスク 草食動物,prefix + species + diet,U+0020
+fauna,001E293E,Pack Cricket,群れの コオロギ,prefix + species,U+0020
+fauna,001E2948,Anteater Geophage,アリクイ 土食生物,species + diet,U+0020
+fauna,001E2949,Hunting Brainsprout,狩猟する ブレインスプラウト,prefix + species,U+0020
+fauna,001E2979,Grabber Filterer,グラバー フィルタラー,species + diet,U+0020
+fauna,001E2996,Herding Boneback Grazer,遊牧の ボーンバック グレイザー,prefix + species + diet,U+0020
+fauna,001E2997,Pack Crab,群れの カニ,prefix + species,U+0020
+fauna,001E299E,Caterpillar Scavenger,キャタピラー スカベンジャー,species + diet,U+0020
+fauna,001E299F,Beetle Grazer,カブトムシ グレイザー,species + diet,U+0020
+fauna,001E29A0,Shoaling Exowhale Filterer,大群の エグゾクジラ フィルタラー,prefix + species + diet,U+0020
+fauna,001E29A1,Herding Leafstrider Filterer,遊牧の リーフストライダー フィルタラー,prefix + species + diet,U+0020
+fauna,001E29A2,Flocking Plateskin Grazer,群がる プレートスキン グレイザー,prefix + species + diet,U+0020
+fauna,001E29A3,Pack Crabfly,群れの クラブフライ,prefix + species,U+0020
+fauna,001E29A4,Hunting Brainsquid,狩猟する ブレインスキッド,prefix + species,U+0020
+fauna,001E2AC2,Crab Scavenger,カニ スカベンジャー,species + diet,U+0020
+fauna,001E2AC3,Herding Trihorn Grazer,遊牧の トライホーン グレイザー,prefix + species + diet,U+0020
+fauna,001E2AC4,Hunting Coralcrab,狩猟する コーラルクラブ,prefix + species,U+0020
+fauna,001E2AC5,Pack Cagebrain,群れの ケージブレイン,prefix + species,U+0020
+fauna,001E3F36,Trident Geophage,トライデント 土食生物,species + diet,U+0020
+fauna,001E3F37,Roundshell Geophage,ラウンドシェル 土食生物,species + diet,U+0020
+fauna,001E3F38,Hunting Shieldshell,狩猟する シールドシェル,prefix + species,U+0020
+fauna,001E468A,Tubule Filterer,トゥビュール フィルタラー,species + diet,U+0020
+fauna,001E468B,Herding Marnokk Scavenger,遊牧の マーノック スカベンジャー,prefix + species + diet,U+0020
+fauna,001E468C,Hunting Brainsquid,狩猟する ブレインスキッド,prefix + species,U+0020
+fauna,001E46C2,Swarming Twistfin,群れをなす ツイストフィン,prefix + species,U+0020
+fauna,001E46C3,Coralheart Filterer,コーラルハート フィルタラー,species + diet,U+0020
+fauna,001E46C4,Thorn Scavenger,ソーン スカベンジャー,species + diet,U+0020
+fauna,001E46C5,Crocalypse Grazer,クロカリプス グレイザー,species + diet,U+0020
+fauna,001E46C6,Lockjaw Grazer,ロックジョー グレイザー,species + diet,U+0020
+fauna,001E46F7,Flocking Cobalt Filterer,群がる コバルト フィルタラー,prefix + species + diet,U+0020
+fauna,001E46F8,Swarming Whaleshark,群れをなす ホエールシャーク,prefix + species,U+0020
+fauna,001E4E95,Coralheart Filterer,コーラルハート フィルタラー,species + diet,U+0020
+fauna,001E4E96,Herding Coralcrawler Filterer,遊牧の コーラルクローラー フィルタラー,prefix + species + diet,U+0020
+fauna,001E4E97,Herding Coralbug Filterer,遊牧の コーラルバグ フィルタラー,prefix + species + diet,U+0020
+fauna,001E4E98,Swarming Shardhopper,群れをなす シャードホッパー,prefix + species,U+0020
+fauna,001E4F5D,Worm Geophage,ワーム 土食生物,species + diet,U+0020
+fauna,001E4F5E,Spaceroach Filterer,スペースローチ フィルタラー,species + diet,U+0020
+fauna,001E4F5F,Herding Vuvuzelisk Grazer,遊牧の ヴヴゼリスク グレイザー,prefix + species + diet,U+0020
+fauna,001E4F60,Hunting Cricket,狩猟する コオロギ,prefix + species,U+0020
+fauna,001E6680,Beetle Scavenger,カブトムシ スカベンジャー,species + diet,U+0020
+fauna,001E6681,Wiggler Scavenger,ウィグラー スカベンジャー,species + diet,U+0020
+fauna,001E6682,Flocking Geckon Scavenger,群がる ゲッコン スカベンジャー,prefix + species + diet,U+0020
+fauna,001E6683,Tongueface Herbivore,タングフェイス 草食動物,species + diet,U+0020
+fauna,001E6684,Pack Lionbear,群れの ライオンベア,prefix + species,U+0020
+fauna,001E6685,Brainsprout Grazer,ブレインスプラウト グレイザー,species + diet,U+0020
+fauna,001E6686,Hunting Landshark,狩猟する ランドシャーク,prefix + species,U+0020
+fauna,001E6687,Hunting Stonewalker Scavenger,狩猟する ストーンウォーカー スカベンジャー,prefix + species + diet,U+0020
+fauna,001E6688,Jackknife Grazer,ジャックナイフ グレイザー,species + diet,U+0020
+fauna,001E6689,Herding Brainsprout Grazer,遊牧の ブレインスプラウト グレイザー,prefix + species + diet,U+0020
+fauna,001E668A,Flocking Orchid Scavenger,群がる オーキッド スカベンジャー,prefix + species + diet,U+0020
+fauna,001E668B,Hunting Landshark,狩猟する ランドシャーク,prefix + species,U+0020
+fauna,001E70EF,Thorn Filterer,ソーン フィルタラー,species + diet,U+0020
+fauna,001E70F0,Herding Leafback Grazer,遊牧の リーフバック グレイザー,prefix + species + diet,U+0020
+fauna,001E70F1,Hunting Crab,狩猟する カニ,prefix + species,U+0020
+fauna,001E7100,Spaceroach Scavenger,スペースローチ スカベンジャー,species + diet,U+0020
+fauna,001E7101,Hunting Cricket,狩猟する コオロギ,prefix + species,U+0020
+fauna,001E7102,Hunting Boneshell,狩猟する ボーンシェル,prefix + species,U+0020
+fauna,001E7103,Hunting Crocalypse,狩猟する クロカリプス,prefix + species,U+0020
+fauna,001E7104,Hunting Glider,狩猟する グライダー,prefix + species,U+0020
+fauna,001E7421,Noid Scavenger,ノイド スカベンジャー,species + diet,U+0020
+fauna,001E7422,Flocking Exocrawler Geophage,群がる エグゾクローラー 土食生物,prefix + species + diet,U+0020
+fauna,001E7423,Hunting Caterpillar Scavenger,狩猟する キャタピラー スカベンジャー,prefix + species + diet,U+0020
+fauna,001E757A,Herding Lockjaw Scavenger,遊牧の ロックジョー スカベンジャー,prefix + species + diet,U+0020
+fauna,001E757B,Beetle Scavenger,カブトムシ スカベンジャー,species + diet,U+0020
+fauna,001E757C,Grabber Scavenger,グラバー スカベンジャー,species + diet,U+0020
+fauna,001E757D,Flocking Clickbeetle Grazer,群がる クリックビートル グレイザー,prefix + species + diet,U+0020
+fauna,001E757E,Swarming Maggotmaw,群れをなす マゴットモウ,prefix + species,U+0020
+fauna,001E757F,Pack Trapmaw,群れの トラップモウ,prefix + species,U+0020
+fauna,001E7580,Flocking Leafbug Grazer,群がる リーフバグ グレイザー,prefix + species + diet,U+0020
+fauna,001E7581,Herding Kelpstrider Herbivore,遊牧の ケルプストライダー 草食動物,prefix + species + diet,U+0020
+fauna,001E798C,Trilobite Geophage,三葉虫 土食生物,species + diet,U+0020
+fauna,001E798D,Cockroach Geophage,ゴキブリ 土食生物,species + diet,U+0020
+fauna,001E798E,Hunting Sunflower,狩猟する サンフラワー,prefix + species,U+0020
+fauna,001E7BA6,Coralheart Geophage,コーラルハート 土食生物,species + diet,U+0020
+fauna,001E7BA7,Lockjaw Grazer,ロックジョー グレイザー,species + diet,U+0020
+fauna,001E7BA8,Pack Clickbeetle,群れの クリックビートル,prefix + species,U+0020
+fauna,001E7E6C,Grabber Scavenger,グラバー スカベンジャー,species + diet,U+0020
+fauna,001E7E6D,Shroombobber Filterer,シュルームボバー フィルタラー,species + diet,U+0020
+fauna,001E7E6E,Herding Windbag Grazer,遊牧の ウィンドバッグ グレイザー,prefix + species + diet,U+0020
+fauna,001E7E6F,Triworm Scavenger,トライワーム スカベンジャー,species + diet,U+0020
+fauna,001E7E70,Hunting Angler,狩猟する アングラー,prefix + species,U+0020
+fauna,001E7E71,Hunting Cricket Stalker,狩猟する コオロギ ストーカー,prefix + species + diet,U+0020
+fauna,001E7E85,Tubule Scavenger,トゥビュール スカベンジャー,species + diet,U+0020
+fauna,001E7E86,Herding Stonewalker Geophage,遊牧の ストーンウォーカー 土食生物,prefix + species + diet,U+0020
+fauna,001E7E87,Pack Ankylosaurus,群れの アンキロサウルス,prefix + species,U+0020
+fauna,001E7E88,Apex Exorunner,頂点の エクゾランナー,prefix + species,U+0020
+fauna,001E81A3,Carasnail Grazer,カラカタツムリ グレイザー,species + diet,U+0020
+fauna,001E81A4,Flocking Caterpillar Scavenger,群がる キャタピラー スカベンジャー,prefix + species + diet,U+0020
+fauna,001E81A5,Herding Crabfly Grazer,遊牧の クラブフライ グレイザー,prefix + species + diet,U+0020
+fauna,001E81A6,Hunting Cockroach,狩猟する ゴキブリ,prefix + species,U+0020
+fauna,001E9BFC,Herding Nautiloos Filterer,遊牧の ノーティラス フィルタラー,prefix + species + diet,U+0020
+fauna,001E9BFD,Herding Brainblimp Filterer,遊牧の ブレインブリンプ フィルタラー,prefix + species + diet,U+0020
+fauna,001E9BFE,Coralheart Filterer,コーラルハート フィルタラー,species + diet,U+0020
+fauna,001EA0D7,Herding Wobbleback Geophage,遊牧の ウォブルバック 土食生物,prefix + species + diet,U+0020
+fauna,001EA0D8,Hunting Leafstrider,狩猟する リーフストライダー,prefix + species,U+0020
+fauna,001EA2AB,Canard Filterer,カナード フィルタラー,species + diet,U+0020
+fauna,001EA2AC,Herding Snail Grazer,遊牧の カタツムリ グレイザー,prefix + species + diet,U+0020
+fauna,001EA2AD,Pack Brainsprout,群れの ブレインスプラウト,prefix + species,U+0020
+fauna,001EA2AE,Schooling Seahag Grazer,調教された シーハッグ グレイザー,prefix + species + diet,U+0020
+fauna,001EA2AF,Hunting Sharkwhale,狩猟する サメクジラ,prefix + species,U+0020
+fauna,001EA39D,Morion Grazer,モリオン グレイザー,species + diet,U+0020
+fauna,001EA39E,Fingerface Geophage,フィンガーフェイス 土食生物,species + diet,U+0020
+fauna,001EB5DE,Scepter Filterer,セプター フィルタラー,species + diet,U+0020
+fauna,001EB5DF,Trident Herbivore,トライデント 草食動物,species + diet,U+0020
+fauna,001EB5E0,Pack Trapmaw,群れの トラップモウ,prefix + species,U+0020
+fauna,001EB631,Hunting Coralcrab,狩猟する コーラルクラブ,prefix + species,U+0020
+fauna,001EB65C,Hunting Vuvuzelisk,狩猟する ヴヴゼリスク,prefix + species,U+0020
+fauna,001EB65D,Flocking Brightcage Geophage,群がる ブライトケージ 土食生物,prefix + species + diet,U+0020
+fauna,001EC761,Beetle Geophage,カブトムシ 土食生物,species + diet,U+0020
+fauna,001EC762,Flocking Hornface Grazer,群がる ホーンフェイス グレイザー,prefix + species + diet,U+0020
+fauna,001EC763,Hunting Boneshell,狩猟する ボーンシェル,prefix + species,U+0020
+fauna,001EC782,Grub Grazer,グラブ グレイザー,species + diet,U+0020
+fauna,001EC783,Flocking Scorpion Scavenger,群がる スコルピオン スカベンジャー,prefix + species + diet,U+0020
+fauna,001EC784,Swarming Glider,群れをなす グライダー,prefix + species,U+0020
+fauna,001EC785,Pack Cephalopod,群れの 頭足動物,prefix + species,U+0020
+fauna,001EC786,Hunting Skullface,狩猟する スカルフェイス,prefix + species,U+0020
+fauna,001EC787,Spaceroach Grazer,スペースローチ グレイザー,species + diet,U+0020
+fauna,001ECFD8,Centiskull Geophage,センティスカル 土食生物,species + diet,U+0020
+fauna,001ECFD9,Herding Sunflower Filterer,遊牧の サンフラワー フィルタラー,prefix + species + diet,U+0020
+fauna,001ECFDA,Hunting Brightcage,狩猟する ブライトケージ,prefix + species,U+0020
+fauna,001ED081,Glider Scavenger,グライダー スカベンジャー,species + diet,U+0020
+fauna,001ED082,Parrothawk Filterer,オウムタカ フィルタラー,species + diet,U+0020
+fauna,001ED083,Eggsac Scavenger,エッグサック スカベンジャー,species + diet,U+0020
+fauna,001ED084,Ghost Grazer,ゴースト グレイザー,species + diet,U+0020
+fauna,001ED085,Herding Lionfish Grazer,遊牧の ミノカサゴ グレイザー,prefix + species + diet,U+0020
+fauna,001ED086,Gossamer Filterer,ゴッサマー フィルタラー,species + diet,U+0020
+fauna,001ED149,Herding Sentinel Filterer,遊牧の センチネル フィルタラー,prefix + species + diet,U+0020
+fauna,001ED14A,Herding Scoopback Geophage,遊牧の スクープバック 土食生物,prefix + species + diet,U+0020
+fauna,001ED14B,Flocking Nautiloos Filterer,群がる ノーティラス フィルタラー,prefix + species + diet,U+0020
+fauna,001ED14C,Pack Dragondon,群れの ドラゴンドン,prefix + species,U+0020
+fauna,001ED14D,Pack Cranehopper,群れの クレーンホッパー,prefix + species,U+0020
+fauna,001ED14E,Beetle Scavenger,カブトムシ スカベンジャー,species + diet,U+0020
+fauna,001ED14F,Spaceroach Geophage,スペースローチ 土食生物,species + diet,U+0020
+fauna,001EDF4B,Trilobite Filterer,三葉虫 フィルタラー,species + diet,U+0020
+fauna,001EDF4C,Centiskull Grazer,センティスカル グレイザー,species + diet,U+0020
+fauna,001EDF4D,Scorpion Grazer,スコルピオン グレイザー,species + diet,U+0020
+fauna,001EDF4E,Worm Scavenger,ワーム スカベンジャー,species + diet,U+0020
+fauna,001EDF4F,Hunting Exocrawler,狩猟する エグゾクローラー,prefix + species,U+0020
+fauna,001EE4D5,Trident Filterer,トライデント フィルタラー,species + diet,U+0020
+fauna,001EE4DC,Spikeworm Herbivore,スパイクワーム 草食動物,species + diet,U+0020
+fauna,001EE5B1,Thorn Grazer,ソーン グレイザー,species + diet,U+0020
+fauna,001EE81A,Longhorn Grazer,ロングホーン グレイザー,species + diet,U+0020
+fauna,001EE81B,Hunting Leafback,狩猟する リーフバック,prefix + species,U+0020
+fauna,001EE81C,Pack Lionbear,群れの ライオンベア,prefix + species,U+0020
+fauna,001EE81D,Flocking Roundshell Grazer,群がる ラウンドシェル グレイザー,prefix + species + diet,U+0020
+fauna,001EE88E,Thorn Scavenger,ソーン スカベンジャー,species + diet,U+0020
+fauna,001EE88F,Grabber Grazer,グラバー グレイザー,species + diet,U+0020
+fauna,001EE890,Herding Blistercrab Scavenger,遊牧の ミズブクレガニ スカベンジャー,prefix + species + diet,U+0020
+fauna,001EE891,Herding Leecher Grazer,遊牧の リーチャー グレイザー,prefix + species + diet,U+0020
+fauna,001EE892,Hunting Octomaggot,狩猟する オクトマゴット,prefix + species,U+0020
+fauna,001EE893,Drone Filterer,ドローン フィルタラー,species + diet,U+0020
+fauna,001EE894,Grabber Grazer,グラバー グレイザー,species + diet,U+0020
+fauna,001EE895,Herding Seabat Grazer,遊牧の ウミゴウモリ グレイザー,prefix + species + diet,U+0020
+fauna,001EE896,Herding Bonemane Herbivore,遊牧の ボーンメーン 草食動物,prefix + species + diet,U+0020
+fauna,001EE897,Hunting Trihorn,狩猟する トライホーン,prefix + species,U+0020
+fauna,001EEEC0,Trident Scavenger,トライデント スカベンジャー,species + diet,U+0020
+fauna,001EEEC1,Jackknife Grazer,ジャックナイフ グレイザー,species + diet,U+0020
+fauna,001EEEC2,Beetle Geophage,カブトムシ 土食生物,species + diet,U+0020
+fauna,001EF053,Spaceroach Grazer,スペースローチ グレイザー,species + diet,U+0020
+fauna,001EF054,Flamethorn Grazer,フレイムソーン グレイザー,species + diet,U+0020
+fauna,001EF055,Gossamer Filterer,ゴッサマー フィルタラー,species + diet,U+0020
+fauna,001EF056,Herding Horsamander Geophage,遊牧の ホーサマンダー 土食生物,prefix + species + diet,U+0020
+fauna,001EF057,Herding Octomaggot Filterer,遊牧の オクトマゴット フィルタラー,prefix + species + diet,U+0020
+fauna,001EF058,Hunting Crab Scavenger,狩猟する カニ スカベンジャー,prefix + species + diet,U+0020
+fauna,001EF059,Pack Exocrawler Scavenger,群れの エグゾクローラー スカベンジャー,prefix + species + diet,U+0020
+fauna,001EF5E6,Pack Trapmaw,群れの トラップモウ,prefix + species,U+0020
+fauna,001EF5E7,Hunting Clickbeetle Scavenger,狩猟する クリックビートル スカベンジャー,prefix + species + diet,U+0020
+fauna,001EF5E8,Pack Lionbear,群れの ライオンベア,prefix + species,U+0020
+fauna,001EF5E9,Herding Trihorn Grazer,遊牧の トライホーン グレイザー,prefix + species + diet,U+0020
+fauna,001EF5EA,Lockjaw Grazer,ロックジョー グレイザー,species + diet,U+0020
+fauna,001EF5EB,Flocking Leafback Grazer,群がる リーフバック グレイザー,prefix + species + diet,U+0020
+fauna,001EFDAE,Twintail Herbivore,ツインテール 草食動物,species + diet,U+0020
+fauna,001EFFAA,Horsamander Grazer,ホーサマンダー グレイザー,species + diet,U+0020
+fauna,001F0056,Pack Longhorn,群れの ロングホーン,prefix + species,U+0020
+fauna,001F0057,Hunting Trapmaw,狩猟する トラップモウ,prefix + species,U+0020
+fauna,001F7668,Pearl Filterer,パール フィルタラー,species + diet,U+0020
+fauna,001F7669,Herding Fluke Filterer,遊牧の ヒラメ フィルタラー,prefix + species + diet,U+0020
+fauna,001F766A,Glider Scavenger,グライダー スカベンジャー,species + diet,U+0020
+fauna,001F766B,Schooling Kronosaurus Scavenger,調教された クロノサウルス スカベンジャー,prefix + species + diet,U+0020
+fauna,001F766C,Vampire Geophage,ヴァンパイア 土食生物,species + diet,U+0020
+fauna,001F766D,Spore Filterer,スポア フィルタラー,species + diet,U+0020
+fauna,001F766E,Schooling Arapaima Scavenger,調教された ピラルク スカベンジャー,prefix + species + diet,U+0020
+fauna,001F766F,Puffball Filterer,ホコリタケ フィルタラー,species + diet,U+0020
+fauna,001F7670,Herding Lionfish Filterer,遊牧の ミノカサゴ フィルタラー,prefix + species + diet,U+0020
+fauna,001F7671,Schooling Kronosaurus Grazer,調教された クロノサウルス グレイザー,prefix + species + diet,U+0020
+fauna,002025D3,Herding Mayfly Scavenger,遊牧の カゲロウ スカベンジャー,prefix + species + diet,U+0020
+fauna,002025D5,Schooling Kronosaurus Filterer,調教された クロノサウルス フィルタラー,prefix + species + diet,U+0020
+fauna,002025D6,Schooling Lurefish Scavenger,調教された ルアーフィッシュ スカベンジャー,prefix + species + diet,U+0020
+fauna,002025D7,Flocking Canard Filterer,群がる カナード フィルタラー,prefix + species + diet,U+0020
+fauna,002025D8,Herding Flapwheel Grazer,遊牧の フラップホイール グレイザー,prefix + species + diet,U+0020
+fauna,002025D9,Schooling Sawhead Grazer,調教された ソーヘッド グレイザー,prefix + species + diet,U+0020
+fauna,002025DA,Schooling Sharkwhale Scavenger,調教された サメクジラ スカベンジャー,prefix + species + diet,U+0020
+fauna,002025DB,Saturnine Filterer,サターナイン フィルタラー,species + diet,U+0020
+fauna,002025DC,Herding Boneglider Filterer,遊牧の ボーングライダー フィルタラー,prefix + species + diet,U+0020
+fauna,002025E1,Glider Filterer,グライダー フィルタラー,species + diet,U+0020
+fauna,00221DBD,Schooling Paddlefish Grazer,調教された ヘラチョウザメ グレイザー,prefix + species + diet,U+0020
+fauna,00221DBE,Schooling Sawhead Grazer,調教された ソーヘッド グレイザー,prefix + species + diet,U+0020
+fauna,00221DBF,Schooling Lurefish Scavenger,調教された ルアーフィッシュ スカベンジャー,prefix + species + diet,U+0020
+fauna,00221DC0,Pack Skullface,群れの スカルフェイス,prefix + species,U+0020
+fauna,00221DC1,Herding Stingray Grazer,遊牧の スティングレイ グレイザー,prefix + species + diet,U+0020
+fauna,00221DC2,Mayfly Filterer,カゲロウ フィルタラー,species + diet,U+0020
+fauna,00221DC3,Mothwing Grazer,モスウィング グレイザー,species + diet,U+0020
+fauna,00221DC4,Puffball Filterer,ホコリタケ フィルタラー,species + diet,U+0020
+fauna,00221DC6,Pack Unishark,群れの ユニシャーク,prefix + species,U+0020
+fauna,00221DC7,Nautilus Scavenger,ノーチラス スカベンジャー,species + diet,U+0020
+fauna,00221DC8,Herding Lionfish Grazer,遊牧の ミノカサゴ グレイザー,prefix + species + diet,U+0020
+fauna,00221DC9,Gossamer Filterer,ゴッサマー フィルタラー,species + diet,U+0020
+fauna,00221DCA,Pack Paddlefish,群れの ヘラチョウザメ,prefix + species,U+0020
+fauna,00221DCB,Schooling Seahag Filterer,調教された シーハッグ フィルタラー,prefix + species + diet,U+0020
+fauna,00221DCC,Pack Sharkwhale,群れの サメクジラ,prefix + species,U+0020
+fauna,00221DCD,Flocking Stingray Scavenger,群がる スティングレイ スカベンジャー,prefix + species + diet,U+0020
+fauna,00273718,Herding Mothwing Scavenger,遊牧の モスウィング スカベンジャー,prefix + species + diet,U+0020
+fauna,00287159,Trident Geophage,トライデント 土食生物,species + diet,U+0020
+fauna,0037CEF4,Hunting Paddlefish,狩猟する ヘラチョウザメ,prefix + species,U+0020
+fauna,003AD1F9,Gossamer Scavenger,ゴッサマー スカベンジャー,species + diet,U+0020
+fauna,003AD1FA,Pack Cockroach Stalker,群れの ゴキブリ ストーカー,prefix + species + diet,U+0020
+fauna,003CB234,Cassowary Grazer,ヒクイドリ グレイザー,species + diet,U+0020
+fauna,003CB235,Cassowary Grazer,ヒクイドリ グレイザー,species + diet,U+0020
+fauna,003CB236,Cassowary Grazer,ヒクイドリ グレイザー,species + diet,U+0020
+fauna,003CB237,Nautilus Grazer,ノーチラス グレイザー,species + diet,U+0020
+fauna,003CB238,Glowback Grazer,グロウバック グレイザー,species + diet,U+0020
+fauna,003CB239,Nautilus Scavenger,ノーチラス スカベンジャー,species + diet,U+0020
+fauna,003D23F0,Herding Cagebrain Grazer,遊牧の ケージブレイン グレイザー,prefix + species + diet,U+0020
+fauna,0103D5DE,Tubecrawler Scavenger,チューブクローラー スカベンジャー,species + diet,U+0020
+fauna,0103D5DF,Hunting Twintail,狩猟する ツインテール,prefix + species,U+0020
+fauna,0103D5E0,Herding Olgreg Scavenger,遊牧の オルグレグ スカベンジャー,prefix + species + diet,U+0020
+fauna,0103D5E1,Herding Wobbleback Grazer,遊牧の ウォブルバック グレイザー,prefix + species + diet,U+0020

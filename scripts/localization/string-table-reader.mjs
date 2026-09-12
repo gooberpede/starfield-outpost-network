@@ -3,6 +3,10 @@ import { readFileSync } from 'node:fs'
 import path from 'node:path'
 
 const TABLE_TYPES = new Set(['strings', 'dlstrings', 'ilstrings'])
+export const LOCALE_ENCODINGS = Object.freeze({
+  en: 'windows-1252',
+  ja: 'utf-8',
+})
 
 export class StringTableError extends Error {
   constructor(code, message) {
@@ -11,7 +15,14 @@ export class StringTableError extends Error {
   }
 }
 
-export function readStringTable(filePath, expectedType = path.extname(filePath).slice(1).toLowerCase()) {
+export function encodingForLocale(locale) {
+  const normalized = String(locale).toLowerCase().split(/[-_]/, 1)[0]
+  const encoding = LOCALE_ENCODINGS[normalized]
+  if (!encoding) throw new StringTableError('UNSUPPORTED_LOCALE_ENCODING', `No string-table encoding is configured for locale ${JSON.stringify(locale)}.`)
+  return encoding
+}
+
+export function readStringTable(filePath, expectedType = path.extname(filePath).slice(1).toLowerCase(), options = {}) {
   if (!TABLE_TYPES.has(expectedType)) {
     throw new StringTableError('WRONG_TABLE', `Unsupported string-table type ${expectedType}.`)
   }
@@ -26,7 +37,7 @@ export function readStringTable(filePath, expectedType = path.extname(filePath).
   if (dataStart > buffer.length || dataStart + dataSize > buffer.length) {
     throw new StringTableError('UNSUPPORTED_RECORD_SHAPE', `${path.basename(filePath)} has invalid directory/data bounds.`)
   }
-  const decoder = new TextDecoder('windows-1252')
+  const decoder = new TextDecoder(encodingForLocale(options.locale ?? 'en'), { fatal: true })
   const values = new Map()
   for (let index = 0; index < count; index += 1) {
     const entry = 8 + index * 8

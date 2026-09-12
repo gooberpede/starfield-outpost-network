@@ -66,7 +66,7 @@ export async function intakeLocalizationInputs(options) {
       if (options.mode !== 'inspect') {
         await mkdir(path.dirname(destination), { recursive: true })
         await writeFile(destination, bytes)
-        readStringTable(destination, item.tableType)
+        readStringTable(destination, item.tableType, { locale: item.locale })
       }
       tables[item.locale][item.tableType] = {
         path: portablePath(manifestDirectory, destination), archiveFilename: item.archive.archiveFilename,

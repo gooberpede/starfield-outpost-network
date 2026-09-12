@@ -26,6 +26,10 @@ export const REASON_CODES = new Set([
   'FAUNA_CCT_NAME_AMBIGUOUS', 'DEFERRED_COMPOSED_FAUNA_C6',
   'FAUNA_TEMPLATE_NAME_NOT_FOUND', 'FAUNA_TEMPLATE_NAME_AMBIGUOUS',
   'FAUNA_TEMPLATE_CHAIN_UNSUPPORTED',
+  'C6_NPC_NOT_FOUND', 'C6_OBJECT_TEMPLATE_MISSING', 'C6_MULTIPLE_FINAL_NAMES',
+  'C6_REQUIRED_SPECIES_COMPONENT_MISSING', 'C6_INNR_RECORD_NOT_FOUND', 'C6_INNR_RULE_UNSUPPORTED',
+  'C6_WNAM_ZERO', 'C6_STRING_ID_MISSING', 'C6_PROVIDER_AMBIGUOUS',
+  'C6_ENGLISH_RECONSTRUCTION_MISMATCH', 'C6_UNSUPPORTED_LOCALE_ENCODING',
 ])
 
 export const OFFICIAL_TERMS = Object.freeze([
@@ -220,15 +224,13 @@ export function validateCommittedCrosswalk(provenanceCsv, unresolvedCsv, targets
     if (!['strings', 'dlstrings', 'ilstrings'].includes(row.NameStringTable)) throw new Error(`Invalid table ${key}.`)
   }
   for (const row of unresolved) if (!REASON_CODES.has(row.ReasonCode)) throw new Error(`Invalid unresolved reason ${row.ReasonCode}.`)
-  const coverage = new Map()
-  for (const row of [...provenance, ...unresolved]) {
-    const key = `${row.EntityKind}:${row.EntityId}`
-    coverage.set(key, (coverage.get(key) ?? 0) + 1)
-  }
+  const resolvedKeys = new Set(provenance.map((row) => `${row.EntityKind}:${row.EntityId}`))
+  const unresolvedKeys = new Set(unresolved.map((row) => `${row.EntityKind}:${row.EntityId}`))
   const expected = new Set(targets.map((item) => `${item.entityKind}:${item.entityId}`))
-  if ([...coverage].some(([key, count]) => !expected.has(key) || count !== 1) ||
-      targets.some((item) => coverage.get(`${item.entityKind}:${item.entityId}`) !== 1)) {
-    throw new Error('Committed C2-C5 crosswalk does not cover every canonical target exactly once.')
+  const actual = new Set([...resolvedKeys, ...unresolvedKeys])
+  if ([...actual].some((key) => !expected.has(key)) ||
+      [...expected].some((key) => !actual.has(key) || (resolvedKeys.has(key) && unresolvedKeys.has(key)))) {
+    throw new Error('Committed provenance crosswalk does not cover every canonical target in exactly one resolved/unresolved state.')
   }
 
   const targetByIdentity = new Map(targets.map((item) => [`${item.entityKind}:${item.entityId}`, item]))
@@ -242,10 +244,11 @@ export function validateCommittedCrosswalk(provenanceCsv, unresolvedCsv, targets
   }
   const validateCanonicalIdentity = (row) => {
     const target = targetByIdentity.get(`${row.EntityKind}:${row.EntityId}`)
-    for (const [field, value] of [['EntityKind', target.entityKind], ['EntityId', target.entityId], ['CanonicalEnglish', target.canonicalEnglish]]) {
+    for (const [field, value] of [['EntityKind', target.entityKind], ['EntityId', target.entityId]]) {
       validateField(row, target, field, value)
     }
-    if (target.entityKind !== 'system' && !(target.entityKind === 'fauna' && row.DisplayNameSourceKind === 'template')) {
+    if (row.DisplayNameSourceKind !== 'composed') validateField(row, target, 'CanonicalEnglish', target.canonicalEnglish)
+    if (target.entityKind !== 'system' && !(target.entityKind === 'fauna' && ['template', 'composed'].includes(row.DisplayNameSourceKind))) {
       for (const [field, value] of [
         ['RecordSourcePlugin', target.recordSourcePlugin], ['RecordFormID', target.recordFormId], ['RecordSignature', target.recordSignature],
       ]) validateField(row, target, field, value)
@@ -254,6 +257,15 @@ export function validateCommittedCrosswalk(provenanceCsv, unresolvedCsv, targets
   }
   for (const row of provenance) {
     const target = validateCanonicalIdentity(row)
+    if (row.DisplayNameSourceKind === 'composed') {
+      const roles = { prefix: '0', species: '1', diet: '2' }
+      if (target.entityKind !== 'fauna' || roles[row.ComponentRole] !== row.ComponentOrder || row.RecordSignature !== 'INNR' ||
+          row.NameStringTable !== 'strings' || row.NameSourcePlugin !== row.RecordSourcePlugin || !row.CanonicalEnglish ||
+          !/^Naming Rules\[\d+]\/Names\[\d+]\/WNAM - Text$/.test(row.NameFieldPath)) {
+        throw new Error(`Committed composed provenance fauna:${target.entityId} has an invalid component row.`)
+      }
+      continue
+    }
     const recordSignature = target.entityKind === 'system' ? 'STDT' : target.entityKind === 'fauna' && row.DisplayNameSourceKind === 'template' ? 'NPC_' : target.recordSignature
     const semanticPath = target.entityKind === 'system' ? SEMANTIC_PATHS.TES_FULL_NAME : target.semanticPath
     const definition = getLocalizedFieldDefinition(recordSignature, semanticPath)
@@ -274,6 +286,9 @@ export function validateCommittedCrosswalk(provenanceCsv, unresolvedCsv, targets
       throw new Error(`Committed provenance fauna:${target.entityId} has unsupported encounter NPC_ owner ${row.RecordSourcePlugin}.`)
     }
   }
-  for (const row of unresolved) validateCanonicalIdentity(row)
+  for (const row of unresolved) {
+    const target = validateCanonicalIdentity(row)
+    validateField(row, target, 'CanonicalEnglish', target.canonicalEnglish)
+  }
   return { provenance, unresolved }
 }

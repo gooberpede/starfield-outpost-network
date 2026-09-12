@@ -4,6 +4,7 @@ import path from 'node:path'
 
 import { buildC2Targets, validateCommittedCrosswalk } from './localized-name-provenance.mjs'
 import { buildC4Targets } from './body-provenance.mjs'
+import { validateCommittedC6Artifacts } from './composed-fauna-provenance.mjs'
 import { NAME_NORMALIZATIONS, parseNameNormalizationsCsv, validateNameNormalizations } from './name-normalization-policy.mjs'
 import { buildC5Targets, validateCommittedOrganicArtifacts } from './organic-provenance.mjs'
 import { buildC3Targets } from './star-system-provenance.mjs'
@@ -34,7 +35,13 @@ const organic = validateCommittedOrganicArtifacts(
   await readFile(path.join(directory, 'localized-name-provenance-c5-fauna-lineage.csv'), 'utf8'),
   c5Targets,
 )
+const c6 = validateCommittedC6Artifacts(
+  result.provenance, result.unresolved,
+  await readFile(path.join(directory, 'localized-name-provenance-c6-fauna.csv'), 'utf8'),
+  await readFile(path.join(directory, 'localized-name-c6-fauna-ja-preview.csv'), 'utf8'),
+)
 process.stdout.write(
-  `Validated ${result.provenance.length} resolved, ${normalized} normalized, and ${result.unresolved.length} unresolved C2-C5 provenance rows; ` +
-  `${organic.handoff.length} C6 fauna handoffs and ${organic.lineage.length} template lineages.\n`,
+  `Validated ${new Set(result.provenance.map((row) => `${row.EntityKind}:${row.EntityId}`)).size} resolved entities in ${result.provenance.length} provenance rows, ` +
+  `${normalized} normalized, and ${result.unresolved.length} unresolved; ${c6.statistics.entities} C6 fauna in ${c6.statistics.rows} component rows ` +
+  `and ${organic.lineage.length} template lineages.\n`,
 )

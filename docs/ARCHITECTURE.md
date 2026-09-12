@@ -714,8 +714,9 @@ canonical stable entity
     -> exact CanonicalEnglish verification
 ```
 
-`reference-source/localized-name-provenance.csv` contains only complete,
-qualified direct-name rows. `localized-name-provenance-unresolved.csv` preserves
+`reference-source/localized-name-provenance.csv` contains complete, qualified
+direct-name rows and C6's normalized composed-component rows.
+`localized-name-provenance-unresolved.csv` preserves
 every target whose local plugin/table input or supported direct shape is missing;
 there are no silent drops. Recipe and biome occurrence sources are normalized to
 stable entity identity before extraction, so occurrence repetition cannot create
@@ -776,16 +777,40 @@ fauna: NPC_.FULL
     > NPC_ TPLT -> LVLN entry NPC_ -> encounter-template NPC_.FULL
 ```
 
-Only direct flora, direct fauna, and template-fauna `FULL` providers enter the
-normalized provenance crosswalk. CCT classification includes native NPC
+Direct flora, direct fauna, and template-fauna `FULL` providers enter the
+normalized provenance crosswalk in C5. CCT classification includes native NPC
 keywords, recursive OMOD includes, `NPC - Keyword` properties, and the audited
 INNR ordering of greatest keyword specificity, highest `YNAM`, then earliest
 rule. Different useful Object Template names and different encounter-template
-names fail closed. `localized-name-provenance-c6-fauna.csv` bounds the deliberate
-C6 handoff, while `localized-name-provenance-c5-fauna-lineage.csv` preserves the
+names fail closed. `localized-name-provenance-c6-fauna.csv` remains the exact
+C6 population boundary and records its resolved state, while
+`localized-name-provenance-c5-fauna-lineage.csv` preserves the
 canonical NPC → LVLN → leveled NPC → encounter NPC audit path without denormalizing
 the main crosswalk. The current installed-game inventory is 153 direct flora,
 41 direct fauna, 5 template fauna, and 922 C6-composed fauna targets.
+
+Parcel C6 resolves only those 922 committed targets through the audited CCT
+naming family:
+
+```text
+canonical fauna
+    -> native NPC KWDA + recursive selected-OMOD NKEY keywords
+    -> dn_CCTPrefixes ruleset 0 / dn_CCTSuffixes rulesets 0 and 1
+    -> specificity, YNAM, then serialized-rule-order selection
+    -> raw WNAM IDs with winning record and string providers
+    -> ordered prefix(0), species(1), diet(2) component provenance
+    -> exact qualified locale lookup
+    -> non-empty values joined by literal U+0020
+```
+
+Species is required; prefix and diet are optional, but their semantic slots are
+never renumbered. This fixed role order belongs to the CCT naming family.
+Locales change the qualified component values, not their order, and there is no
+locale grammar table or format entity. Every useful Object Template combination
+is resolved independently and multiple final names fail closed. The audited
+installed population emits 2,179 component rows and reconstructs all 922
+English names exactly. The Japanese preview resolves the same qualified IDs and
+is a deterministic handoff for later overlay work, not runtime localization.
 
 Exact English equality remains the default verification rule. A structural
 canonical value is never rewritten merely to match localized display text. A
@@ -804,7 +829,7 @@ explicit BA2 v2 GNRL paths
     -> member-table enumeration
     -> exact plugin-base + locale + table-type selection
     -> ignored local official string tables + hashes
-    -> C2-C5 English verification
+    -> C2-C6 English verification and C6 Japanese handoff verification
     -> future Parcel D locale overlays
 ```
 
@@ -817,9 +842,15 @@ intake, not general archive discovery, inherited override analysis, or a BA2
 browser.
 
 This build-time boundary does not run in the browser, participate in application
-persistence, or resolve runtime display text. Species, composed names,
-override hardening, and final coverage remain in C5-C8. Japanese overlay
-generation and display-consumer changes remain wholly deferred to Parcel D.
+persistence, or resolve runtime display text. The shared string-table reader
+selects decoding from a project-owned locale policy (currently Windows-1252 for
+English and UTF-8 for Japanese) and fails unknown locales explicitly. Adding a
+language requires an encoding mapping, manifested tables, and representative
+composed-name verification; it does not require another CCT architecture audit
+unless evidence contradicts the fixed model. Direct Japanese runtime or
+Creation Kit confirmation of exact on-screen U+0020 fidelity remains a
+hardening item. Japanese overlay generation and all display-consumer changes
+remain wholly deferred to Parcel D.
 
 # 15. Reference-data loading
 
