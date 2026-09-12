@@ -20,6 +20,8 @@ export const REASON_CODES = new Set([
   'WRONG_FIELD', 'WRONG_PLUGIN', 'WRONG_TABLE', 'MISSING_STRING_ID',
   'TRACKER_NORMALIZATION', 'CANONICAL_SOURCE_ERROR', 'UNSUPPORTED_RECORD_SHAPE',
   'OVERRIDE_PROVIDER_UNRESOLVED', 'MISSING_LOCALIZATION_INPUT',
+  'SYSTEM_NUMBER_MISSING', 'SYSTEM_NUMBER_CONFLICT', 'SYSTEM_STDT_NOT_FOUND',
+  'SYSTEM_STDT_AMBIGUOUS', 'SYSTEM_NAME_MISMATCH',
 ])
 
 export const OFFICIAL_TERMS = Object.freeze([
@@ -119,8 +121,9 @@ export function verifyEnglish(row, table, normalizationPolicy = new Map()) {
   if (value === undefined) return { reasonCode: 'MISSING_STRING_ID', detail: `${row.NameStringTable}:${row.NameStringID} is absent from ${row.NameSourcePlugin}.` }
   if (value === row.CanonicalEnglish) return { value }
   const policyKey = `${row.EntityKind}:${row.EntityId}`
-  if (normalizationPolicy.get(policyKey)?.officialEnglish === value && normalizationPolicy.get(policyKey)?.canonicalEnglish === row.CanonicalEnglish) {
-    return { value, classification: 'TRACKER_NORMALIZATION' }
+  const approval = normalizationPolicy.get(policyKey)
+  if (approval?.officialEnglish === value && approval?.canonicalEnglish === row.CanonicalEnglish) {
+    return { value, classification: approval.reasonCode ?? 'TRACKER_NORMALIZATION', detail: approval.detail }
   }
   return { reasonCode: 'CANONICAL_SOURCE_ERROR', detail: `Official English is ${JSON.stringify(value)}; canonical English is ${JSON.stringify(row.CanonicalEnglish)}.` }
 }
@@ -128,6 +131,7 @@ export function verifyEnglish(row, table, normalizationPolicy = new Map()) {
 export function generateProvenance(targets, recordsByPlugin, tablesByQualifiedKey, normalizationPolicy = new Map()) {
   const provenance = []
   const unresolved = []
+  const normalizations = []
   for (const item of targets) {
     const pluginRecords = recordsByPlugin.get(item.recordSourcePlugin)
     if (!pluginRecords) {
@@ -161,12 +165,18 @@ export function generateProvenance(targets, recordsByPlugin, tablesByQualifiedKe
         `Extracted ${localized.stringTable}:${localized.idHex}; ${verification.detail}`,
       ))
     }
-    else provenance.push(row)
+    else {
+      provenance.push(row)
+      if (verification.classification) normalizations.push({
+        EntityKind: row.EntityKind, EntityId: row.EntityId, ExpectedSourceEnglish: row.CanonicalEnglish,
+        ExpectedLocalizedEnglish: verification.value, ReasonCode: verification.classification, Detail: verification.detail ?? '',
+      })
+    }
   }
   provenance.sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || Number(a.ComponentOrder) - Number(b.ComponentOrder))
   unresolved.sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || a.ReasonCode.localeCompare(b.ReasonCode))
   if (provenance.length + unresolved.length !== targets.length) throw new Error('C2 coverage invariant failed.')
-  return { provenance, unresolved }
+  return { provenance, unresolved, normalizations }
 }
 
 function unresolvedRow(item, reasonCode, detail) {
@@ -214,7 +224,7 @@ export function validateCommittedCrosswalk(provenanceCsv, unresolvedCsv, targets
   const expected = new Set(targets.map((item) => `${item.entityKind}:${item.entityId}`))
   if ([...coverage].some(([key, count]) => !expected.has(key) || count !== 1) ||
       targets.some((item) => coverage.get(`${item.entityKind}:${item.entityId}`) !== 1)) {
-    throw new Error('Committed C2 crosswalk does not cover every canonical target exactly once.')
+    throw new Error('Committed C2/C3 crosswalk does not cover every canonical target exactly once.')
   }
 
   const targetByIdentity = new Map(targets.map((item) => [`${item.entityKind}:${item.entityId}`, item]))
@@ -228,27 +238,33 @@ export function validateCommittedCrosswalk(provenanceCsv, unresolvedCsv, targets
   }
   const validateCanonicalIdentity = (row) => {
     const target = targetByIdentity.get(`${row.EntityKind}:${row.EntityId}`)
-    for (const [field, value] of [
-      ['EntityKind', target.entityKind],
-      ['EntityId', target.entityId],
-      ['RecordSourcePlugin', target.recordSourcePlugin],
-      ['RecordFormID', target.recordFormId],
-      ['RecordSignature', target.recordSignature],
-      ['CanonicalEnglish', target.canonicalEnglish],
-    ]) validateField(row, target, field, value)
+    for (const [field, value] of [['EntityKind', target.entityKind], ['EntityId', target.entityId], ['CanonicalEnglish', target.canonicalEnglish]]) {
+      validateField(row, target, field, value)
+    }
+    if (target.entityKind !== 'system') {
+      for (const [field, value] of [
+        ['RecordSourcePlugin', target.recordSourcePlugin], ['RecordFormID', target.recordFormId], ['RecordSignature', target.recordSignature],
+      ]) validateField(row, target, field, value)
+    }
     return target
   }
   for (const row of provenance) {
     const target = validateCanonicalIdentity(row)
-    const definition = getLocalizedFieldDefinition(target.recordSignature, target.semanticPath)
+    const recordSignature = target.entityKind === 'system' ? 'STDT' : target.recordSignature
+    const semanticPath = target.entityKind === 'system' ? SEMANTIC_PATHS.TES_FULL_NAME : target.semanticPath
+    const definition = getLocalizedFieldDefinition(recordSignature, semanticPath)
     for (const [field, value] of [
       ['DisplayNameSourceKind', 'direct'],
       ['ComponentOrder', '0'],
       ['ComponentRole', 'complete'],
-      ['NameFieldPath', target.semanticPath],
-      ['NameSourcePlugin', target.recordSourcePlugin],
+      ['RecordSignature', recordSignature],
+      ['NameFieldPath', semanticPath],
+      ['NameSourcePlugin', row.RecordSourcePlugin],
       ['NameStringTable', definition.stringTable],
     ]) validateField(row, target, field, value)
+    if (target.entityKind === 'system' && !['Starfield.esm', 'ShatteredSpace.esm', 'SFBGS00D.esm', 'SFBGS050.esm'].includes(row.RecordSourcePlugin)) {
+      throw new Error(`Committed provenance system:${target.entityId} has unsupported STDT owner ${row.RecordSourcePlugin}.`)
+    }
   }
   for (const row of unresolved) validateCanonicalIdentity(row)
   return { provenance, unresolved }

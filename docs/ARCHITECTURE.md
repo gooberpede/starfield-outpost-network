@@ -689,7 +689,8 @@ later Parcel D tooling
 
 The C1 tooling lives under `scripts/localization/`. Its binary layer supports
 only 24-byte record/group framing, recursive groups, compressed records, `XXXX`
-subrecord sizes, and exact raw FormID selection for the four audited signatures.
+subrecord sizes, exact raw FormID selection for the audited signatures, and the
+C3-only scan of `STDT` records needed for numeric system matching.
 The semantic layer, rather than the binary reader, decides whether a `FULL`
 subrecord is the intended localized field. Unknown, missing, or ambiguous shapes
 fail closed. The current component route is specifically bounded by serialized
@@ -727,6 +728,34 @@ table filenames, sizes, hashes, declared load order, game/tool version, and time
 in an ignored local manifest. Committed-crosswalk validation runs without local
 game data as part of the reference build.
 
+Parcel C3 extends that population with one direct row per canonical star system:
+
+```text
+canonical system and its canonical body rows
+    -> exact PNDT records and audited 12-byte GNAM galaxy tuples
+    -> one consistent numeric system number
+    -> exact STDT.DNAM match across the declared official plugin set
+    -> STDT TESFullName_Component.FULL localized ID
+    -> exact official English verification
+```
+
+The numeric system number is the join key; English is verification only. All
+canonical bodies assigned to a system are checked for agreement before one
+system target produces one provenance row. Base-game and official DLC records
+use the same population and lookup path. A supported plugin may legitimately
+contribute zero targets, while missing, conflicting, ambiguous, or mismatched
+systems remain explicit in the unresolved crosswalk.
+
+Exact English equality remains the default verification rule. A structural
+canonical value is never rewritten merely to match localized display text. A
+localized value may differ only through a checked-in approval keyed by stable
+entity identity and exact expected source/display values. Once that exact
+provenance and approval are verified, the official localized string is
+authoritative for eventual localized display while `CanonicalEnglish` continues
+to preserve the structural source value.
+`localized-name-normalizations.csv` records the exact approved source/display
+pair and classification so committed-data validation can detect policy drift.
+
 The localization-input layer is a separate build-time sniper:
 
 ```text
@@ -734,21 +763,21 @@ explicit BA2 v2 GNRL paths
     -> member-table enumeration
     -> exact plugin-base + locale + table-type selection
     -> ignored local official string tables + hashes
-    -> C2 English verification
+    -> C2/C3 English verification
     -> future Parcel D locale overlays
 ```
 
 It never infers ownership from an archive filename and never crawls the game
 Data directory. Its manifest adapter verifies each extracted table's size and
-SHA-256 before exposing it through C2's existing string-table reader. Ambiguous
+SHA-256 before exposing it through the existing string-table reader. Ambiguous
 qualified tables fail closed. Archive and table bytes remain external/ignored;
 the application never reads game archives at runtime. This is narrow archive
 intake, not general archive discovery, inherited override analysis, or a BA2
 browser.
 
 This build-time boundary does not run in the browser, participate in application
-persistence, or resolve runtime display text. Systems, bodies, species, composed
-names, override hardening, and final coverage remain in C3-C8. Japanese overlay
+persistence, or resolve runtime display text. Bodies, species, composed names,
+override hardening, and final coverage remain in C4-C8. Japanese overlay
 generation and display-consumer changes remain wholly deferred to Parcel D.
 
 # 15. Reference-data loading

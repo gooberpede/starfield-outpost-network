@@ -218,9 +218,8 @@ function readExactly(fd, size, position, context) {
   return buffer
 }
 
-export function findRecordsInPlugin(pluginPath, selectors) {
-  const wanted = validateSelections(selectors)
-  const found = new Map()
+function scanPlugin(pluginPath, shouldSelect) {
+  const found = []
   const fd = fs.openSync(pluginPath, fs.constants.O_RDONLY)
   try {
     const fileSize = fs.fstatSync(fd).size
@@ -244,20 +243,43 @@ export function findRecordsInPlugin(pluginPath, selectors) {
         }
         const recordEnd = offset + RECORD_HEADER_SIZE + header.dataSize
         if (recordEnd > end) throw framingError('Record payload exceeds its containing boundary.', { plugin: pluginPath, byteOffset: offset })
-        const key = `${header.signature}:${header.formId >>> 0}`
-        if (wanted.has(key)) {
+        if (shouldSelect(header)) {
           const payload = readExactly(fd, header.dataSize, offset + RECORD_HEADER_SIZE, {
             plugin: pluginPath, byteOffset: offset,
           })
-          const record = selectedRecord(header, payload, ancestry, pluginPath)
-          found.set(key, [...(found.get(key) ?? []), record])
+          found.push(selectedRecord(header, payload, ancestry, pluginPath))
         }
         offset = recordEnd
       }
     }
     scan(0, fileSize, [])
-    return finishSelections(wanted, found, pluginPath)
+    return found
   } finally {
     fs.closeSync(fd)
   }
+}
+
+export function findAvailableRecordsInPlugin(pluginPath, selectors) {
+  const wanted = validateSelections(selectors)
+  const found = new Map()
+  for (const record of scanPlugin(pluginPath, (header) => wanted.has(`${header.signature}:${header.formId >>> 0}`))) {
+    const key = `${record.signature}:${record.formId}`
+    found.set(key, [...(found.get(key) ?? []), record])
+  }
+  for (const [key, records] of found) {
+    if (records.length > 1) throw new PluginReaderError('RECORD_SELECTION_AMBIGUOUS', `Multiple records matched ${key}.`, { plugin: pluginPath, key })
+  }
+  return [...wanted.keys()].flatMap((key) => found.get(key) ?? [])
+}
+
+export function findRecordsInPlugin(pluginPath, selectors) {
+  const wanted = validateSelections(selectors)
+  const records = findAvailableRecordsInPlugin(pluginPath, selectors)
+  const found = new Map(records.map((record) => [`${record.signature}:${record.formId}`, [record]]))
+  return finishSelections(wanted, found, pluginPath)
+}
+
+/** C3-only population scan: system stars must be joined by numeric STDT.DNAM. */
+export function findStarRecordsInPlugin(pluginPath) {
+  return scanPlugin(pluginPath, (header) => header.signature === 'STDT')
 }

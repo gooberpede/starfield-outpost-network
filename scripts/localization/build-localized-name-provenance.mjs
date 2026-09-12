@@ -5,8 +5,10 @@ import { fileURLToPath } from 'node:url'
 
 import { buildC2Targets, generateProvenance, PROVENANCE_HEADERS, serializeCsv, UNRESOLVED_HEADERS } from './localized-name-provenance.mjs'
 import { localizationInputsFromManifest } from './localization-input-manifest.mjs'
+import { buildNameNormalizationPolicy, NAME_NORMALIZATION_HEADERS, NAME_NORMALIZATIONS, validateNameNormalizations } from './name-normalization-policy.mjs'
 import { createProvenanceManifest } from './provenance-manifest.mjs'
-import { findRecordsInPlugin } from './starfield-plugin-reader.mjs'
+import { findAvailableRecordsInPlugin, findStarRecordsInPlugin } from './starfield-plugin-reader.mjs'
+import { buildC3Targets, generateSystemProvenance, OFFICIAL_SYSTEM_PLUGINS } from './star-system-provenance.mjs'
 import { readStringTable } from './string-table-reader.mjs'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
@@ -17,6 +19,7 @@ const SOURCES = {
   itemMetadata: 'reference-source/item-tracker-metadata.csv',
   biomeInorganic: 'reference-source/biome-inorganic-resources.csv',
   biomeOrganic: 'reference-source/biome-organic-resources.csv',
+  planets: 'reference-source/planet-directory.csv',
 }
 
 function parseArguments(args) {
@@ -50,15 +53,27 @@ export async function buildLocalizedNameProvenance(options) {
       config.localizationInputLocale ?? 'en',
     ))
   }
-  const { targets, statistics } = buildC2Targets(await loadSources())
+  const sources = await loadSources()
+  const { targets: c2Targets, statistics: c2Statistics } = buildC2Targets(sources)
+  const { targets: systemTargets, statistics: systemStatistics } = buildC3Targets(sources.planets)
   const pluginByName = new Map(plugins.map((item) => [item.filename, item]))
+  const missingOfficialPlugins = OFFICIAL_SYSTEM_PLUGINS.filter((plugin) => !pluginByName.has(plugin))
+  if (missingOfficialPlugins.length) throw new Error(`Missing required official plugin input(s): ${missingOfficialPlugins.join(', ')}.`)
   const recordsByPlugin = new Map()
-  for (const pluginName of new Set(targets.map((item) => item.recordSourcePlugin))) {
+  const recordTargets = [
+    ...c2Targets,
+    ...systemTargets.flatMap((item) => item.bodies.map((body) => ({ ...body, entityKind: 'body-evidence' }))),
+  ]
+  for (const pluginName of new Set(recordTargets.map((item) => item.recordSourcePlugin))) {
     const plugin = pluginByName.get(pluginName)
     if (!plugin) continue
-    const pluginTargets = targets.filter((item) => item.recordSourcePlugin === pluginName)
-    const records = findRecordsInPlugin(plugin.path, pluginTargets.map((item) => ({ signature: item.recordSignature, formId: Number.parseInt(item.recordFormId, 16) })))
+    const pluginTargets = recordTargets.filter((item) => item.recordSourcePlugin === pluginName)
+    const records = findAvailableRecordsInPlugin(plugin.path, pluginTargets.map((item) => ({ signature: item.recordSignature, formId: Number.parseInt(item.recordFormId, 16) })))
     recordsByPlugin.set(pluginName, new Map(records.map((record) => [`${record.signature}:${record.formIdHex}`, record])))
+  }
+  const starRecordsByPlugin = new Map()
+  for (const pluginName of OFFICIAL_SYSTEM_PLUGINS) {
+    starRecordsByPlugin.set(pluginName, findStarRecordsInPlugin(pluginByName.get(pluginName).path))
   }
   const tables = new Map()
   for (const input of localizationInputs) {
@@ -66,12 +81,21 @@ export async function buildLocalizedNameProvenance(options) {
     if (tables.has(key)) throw new Error(`LOCALIZATION_TABLE_AMBIGUOUS: Multiple inputs were supplied for ${key}.`)
     tables.set(key, readStringTable(input.path, input.tableType))
   }
-  const result = generateProvenance(targets, recordsByPlugin, tables)
-  const fatal = result.unresolved.filter((row) => ['CANONICAL_SOURCE_ERROR', 'MISSING_STRING_ID', 'WRONG_FIELD', 'WRONG_PLUGIN', 'WRONG_TABLE'].includes(row.ReasonCode))
+  const normalizationPolicy = buildNameNormalizationPolicy()
+  const c2Result = generateProvenance(c2Targets, recordsByPlugin, tables, normalizationPolicy)
+  const systemResult = generateSystemProvenance(systemTargets, recordsByPlugin, starRecordsByPlugin, tables, normalizationPolicy)
+  const result = {
+    provenance: [...c2Result.provenance, ...systemResult.provenance].sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || Number(a.ComponentOrder) - Number(b.ComponentOrder)),
+    unresolved: [...c2Result.unresolved, ...systemResult.unresolved].sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || a.ReasonCode.localeCompare(b.ReasonCode)),
+    normalizations: [...c2Result.normalizations, ...systemResult.normalizations],
+  }
+  validateNameNormalizations(NAME_NORMALIZATIONS, [...c2Targets, ...systemTargets], result.provenance, result.unresolved, result.normalizations)
+  const fatal = c2Result.unresolved.filter((row) => ['CANONICAL_SOURCE_ERROR', 'MISSING_STRING_ID', 'WRONG_FIELD', 'WRONG_PLUGIN', 'WRONG_TABLE'].includes(row.ReasonCode))
   if (fatal.length) throw new Error(`English provenance verification failed: ${fatal.map((row) => `${row.EntityKind}:${row.EntityId} ${row.ReasonCode}`).join(', ')}.`)
 
   await writeFile(path.join(ROOT, 'reference-source/localized-name-provenance.csv'), serializeCsv(PROVENANCE_HEADERS, result.provenance), 'utf8')
   await writeFile(path.join(ROOT, 'reference-source/localized-name-provenance-unresolved.csv'), serializeCsv(UNRESOLVED_HEADERS, result.unresolved), 'utf8')
+  await writeFile(path.join(ROOT, 'reference-source/localized-name-normalizations.csv'), serializeCsv(NAME_NORMALIZATION_HEADERS, result.normalizations), 'utf8')
   const manifest = await createProvenanceManifest({
     pluginPaths: plugins.map((item) => item.path), localizationInputs,
     gameVersion: config.gameVersion ?? 'unknown',
@@ -79,7 +103,8 @@ export async function buildLocalizedNameProvenance(options) {
   const manifestPath = path.resolve(options.manifestPath ?? path.join(ROOT, '.local-work/localization/provenance/c2-manifest.json'))
   await mkdir(path.dirname(manifestPath), { recursive: true })
   await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8')
-  return { ...result, statistics, manifest, manifestPath }
+  const owningPluginCounts = Object.fromEntries(OFFICIAL_SYSTEM_PLUGINS.map((plugin) => [plugin, systemResult.provenance.filter((row) => row.RecordSourcePlugin === plugin).length]))
+  return { ...result, statistics: { ...c2Statistics, ...systemStatistics, owningPluginCounts }, manifest, manifestPath }
 }
 
 async function main() {
@@ -96,6 +121,14 @@ async function main() {
     `Biome targets ${report.statistics.uniqueBiomes}; resolved rows ${resolvedBiomes}; ` +
     `repeated-name groups ${report.statistics.repeatedBiomeNameGroups}\nManifest ${report.manifestPath}\n`,
   )
+  const resolvedSystems = report.provenance.filter((row) => row.EntityKind === 'system').length
+  const unresolvedSystems = report.unresolved.filter((row) => row.EntityKind === 'system').length
+  process.stdout.write(
+    `System targets ${report.statistics.canonicalSystems}; body rows ${report.statistics.bodyRows}; ` +
+    `unique bodies ${report.statistics.uniqueBodies}; multi-body systems ${report.statistics.multiBodySystems}\n` +
+    `Systems resolved ${resolvedSystems}; unresolved ${unresolvedSystems}; STDT owners ${JSON.stringify(report.statistics.owningPluginCounts)}\n`,
+  )
+  process.stdout.write(`Normalized source/display differences ${report.normalizations.length}: ${JSON.stringify(report.normalizations)}\n`)
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

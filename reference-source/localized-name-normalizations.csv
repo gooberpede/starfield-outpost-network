@@ -1,0 +1,2 @@
+EntityKind,EntityId,ExpectedSourceEnglish,ExpectedLocalizedEnglish,ReasonCode,Detail
+system,0,SOL,Sol,TRACKER_NORMALIZATION,xEdit structural source preserves SOL; official localized STDT FULL is Sol.

@@ -146,3 +146,23 @@ test('committed validation rejects canonical drift in an unresolved row', () => 
     /resource:x-tech field RecordSourcePlugin expected/,
   )
 })
+
+test('committed validation checks project-owned C3 system shape without inventing STDT identity', () => {
+  const systemTarget = {
+    entityKind: 'system', entityId: '71456', canonicalEnglish: 'Alpha Centauri',
+    bodies: [{ recordSourcePlugin: 'Starfield.esm', recordFormId: '0003F5A1', recordSignature: 'PNDT' }],
+  }
+  const row = {
+    EntityKind: 'system', EntityId: '71456', DisplayNameSourceKind: 'direct', ComponentOrder: '0', ComponentRole: 'complete',
+    RecordSourcePlugin: 'Starfield.esm', RecordFormID: '0005E60A', RecordSignature: 'STDT',
+    NameFieldPath: SEMANTIC_PATHS.TES_FULL_NAME, NameSourcePlugin: 'Starfield.esm',
+    NameStringTable: 'strings', NameStringID: '0000A9D0', CanonicalEnglish: 'Alpha Centauri',
+  }
+  assert.equal(validateCommittedCrosswalk(
+    serializeCsv(PROVENANCE_HEADERS, [row]), serializeCsv(UNRESOLVED_HEADERS, []), [systemTarget],
+  ).provenance.length, 1)
+  assert.throws(() => validateCommittedCrosswalk(
+    serializeCsv(PROVENANCE_HEADERS, [{ ...row, RecordSignature: 'PNDT' }]),
+    serializeCsv(UNRESOLVED_HEADERS, []), [systemTarget],
+  ), /system:71456 field RecordSignature expected/)
+})

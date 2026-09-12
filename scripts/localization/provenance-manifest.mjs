@@ -4,7 +4,7 @@ import { createReadStream } from 'node:fs'
 import { stat } from 'node:fs/promises'
 import path from 'node:path'
 
-export const PROVENANCE_TOOL_VERSION = '2.0.0-c2'
+export const PROVENANCE_TOOL_VERSION = '3.0.0-c3'
 
 export async function sha256File(filePath) {
   const hash = createHash('sha256')
