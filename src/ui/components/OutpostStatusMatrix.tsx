@@ -279,13 +279,12 @@ export function OutpostStatusMatrix({
               title={getProducingTooltip(display.name, producing, locale)}
               onClick={() => onToggleActiveProduction(route)} /></div>
             <div role="cell" />
-            <div role="cell"><ReadOnlyState item={display}
-              lit={exportedItemKeys.has(getCargoItemKey(cargoItem))}
-              title={getExportTooltip(
+            <div role="cell">{exportedItemKeys.has(getCargoItemKey(cargoItem)) &&
+              <ReadOnlyState item={display} lit title={getExportTooltip(
                 display.name,
                 exportDestinationNames.get(getCargoItemKey(cargoItem)) ?? [],
                 locale,
-              )} /></div>
+              )} />}</div>
           </div>
         })}
       </section>}
@@ -337,13 +336,12 @@ export function OutpostStatusMatrix({
                   title={getInputTooltip(inputDisplay.name, available, locale)} />
               })}
             </div>
-            <div role="cell"><ReadOnlyState item={display}
-              lit={exportedItemKeys.has(getCargoItemKey(cargoItem))}
-              title={getExportTooltip(
+            <div role="cell">{exportedItemKeys.has(getCargoItemKey(cargoItem)) &&
+              <ReadOnlyState item={display} lit title={getExportTooltip(
                 display.name,
                 exportDestinationNames.get(getCargoItemKey(cargoItem)) ?? [],
                 locale,
-              )} /></div>
+              )} />}</div>
           </div>
         })}
       </section>}
@@ -392,13 +390,14 @@ export function OutpostStatusMatrix({
                     lit={available}
                     title={getInputTooltip(inputDisplay.name, available, locale)} />
                 })}
-              </div><div className="outpost-status-matrix__cell--logistics" role="cell"><ReadOnlyState item={display}
-                lit={exportedItemKeys.has(getCargoItemKey(cargoItem))}
-                title={getExportTooltip(
-                  display.name,
-                  exportDestinationNames.get(getCargoItemKey(cargoItem)) ?? [],
-                  locale,
-                )} /></div>
+              </div><div className="outpost-status-matrix__cell--logistics" role="cell">
+                {exportedItemKeys.has(getCargoItemKey(cargoItem)) &&
+                  <ReadOnlyState item={display} lit title={getExportTooltip(
+                    display.name,
+                    exportDestinationNames.get(getCargoItemKey(cargoItem)) ?? [],
+                    locale,
+                  )} />}
+              </div>
             </div>
           })}
       </section>

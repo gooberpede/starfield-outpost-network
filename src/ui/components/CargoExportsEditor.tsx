@@ -18,6 +18,7 @@
  *   - availability warnings need richer presentation;
  *   - additional cargo-item categories are introduced.
  */
+import { useId } from 'react'
 import type {
   CargoItem,
   Product,
@@ -49,6 +50,7 @@ export function CargoExportsEditor({
   onToggleExport,
 }: CargoExportsEditorProps) {
   const { locale, t } = useLocalization()
+  const descriptionIdPrefix = useId()
   const getItemKey = (item: CargoItem) =>
     `${item.type}:${item.id}`
 
@@ -119,20 +121,39 @@ export function CargoExportsEditor({
             const isExported = exportedKeys.has(itemKey)
             const isStale =
               isExported && !availableKeys.has(itemKey)
+            const staleDescriptionId = isStale
+              ? `${descriptionIdPrefix}-${itemKey.replaceAll(':', '-')}`
+              : undefined
+            const staleDescription = isStale
+              ? t('validation.unresolvedCargoExport')
+              : null
+            const tooltip = staleDescription
+              ? t('validation.context.separator', {
+                  outpost: candidate.name,
+                  pad: staleDescription,
+                })
+              : candidate.name
 
             return (
-              <button
-                className="cargo-exports__item"
-                data-state={isStale ? 'stale' : undefined}
-                key={itemKey}
-                type="button"
-                title={candidate.name}
-                aria-label={t('cargo.export.toggle', { item: candidate.name })}
-                aria-pressed={isExported}
-                onClick={() => onToggleExport(candidate.item)}
-              >
-                {candidate.shortName}
-              </button>
+              <span key={itemKey}>
+                <button
+                  className="cargo-exports__item"
+                  data-state={isStale ? 'stale' : undefined}
+                  type="button"
+                  title={tooltip}
+                  aria-label={t('cargo.export.toggle', { item: candidate.name })}
+                  aria-describedby={staleDescriptionId}
+                  aria-pressed={isExported}
+                  onClick={() => onToggleExport(candidate.item)}
+                >
+                  {candidate.shortName}
+                </button>
+                {isStale && (
+                  <span id={staleDescriptionId} className="ui-visually-hidden">
+                    {staleDescription}
+                  </span>
+                )}
+              </span>
             )
           })}
         </div>

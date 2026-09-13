@@ -306,11 +306,11 @@ export function ValidationSummary({
                         }}
                         onKeyDown={(event) => handleIssueKeyDown(event, key, issue)}
                       >
-                        <IssueContent presentation={presentation} />
+                        <IssueContent severity={issue.severity} presentation={presentation} />
                       </button>
                     ) : (
                       <div className="validation-summary-panel__issue-content">
-                        <IssueContent presentation={presentation} />
+                        <IssueContent severity={issue.severity} presentation={presentation} />
                       </div>
                     )}
                   </li>
@@ -325,10 +325,13 @@ export function ValidationSummary({
 }
 
 function IssueContent({
+  severity,
   presentation,
 }: {
+  severity: ValidationIssue['severity']
   presentation: ReturnType<typeof getValidationIssuePresentation>
 }) {
+  const { t } = useLocalization()
   return (
     <>
       {presentation.context && (
@@ -337,6 +340,9 @@ function IssueContent({
         </div>
       )}
       <div className="validation-summary-panel__message">
+        <span className="validation-summary-panel__severity">
+          {t(`validation.severity.${severity}`)}:
+        </span>{' '}
         {presentation.message}
       </div>
       {presentation.remediation && (

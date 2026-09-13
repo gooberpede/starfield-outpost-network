@@ -58,6 +58,8 @@ export function StatusBar({
           {message && (
             <div
               className={`status-bar__message status-bar__message--${message.kind}`}
+              role={message.kind === 'error' ? 'alert' : 'status'}
+              aria-live={message.kind === 'error' ? 'assertive' : 'polite'}
             >
               <span>{message.content}</span>
 

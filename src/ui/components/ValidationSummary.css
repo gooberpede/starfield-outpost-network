@@ -147,6 +147,13 @@
   white-space: nowrap;
 }
 
+.validation-summary-panel__severity {
+  color: var(--ui-text);
+  font: 600 0.64rem/1 var(--ui-font);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
 .validation-summary-panel__message {
   margin-top: 0.16rem;
   color: var(--ui-text);

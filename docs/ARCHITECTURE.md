@@ -661,9 +661,11 @@ validation order, and history chronology retain their domain or user sequence.
 Japanese tracker-catalogue work closed after Parcels B1-B4 supplied the Codex
 first draft, an independent English-source translation, keyed comparative
 adjudication, and final integration verification. The resulting 331-message
-catalogue has exact key and placeholder parity with `en-US`. Its 114
-Bethesda-dependent terminology decisions remain provisional pending Parcels
-C/D, and the machine-assisted review does not imply native-speaker approval.
+catalogue has exact key and placeholder parity with `en-US`. Official Japanese
+reference-name overlays and official terminology provenance are implemented;
+the Free Lanes source remains terminology evidence only and does not extend the
+canonical content universe. The remaining limitation is native-speaker and
+manual/platform release verification, not missing localization architecture.
 
 Validation rules emit a required semantic `messageKey`, structured parameters,
 and stable target/reference IDs rather than completed English sentences. The

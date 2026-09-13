@@ -305,7 +305,7 @@
 }
 
 .outpost-status-matrix__state[data-state='dimmed'] {
-  color: var(--ui-text-muted);
+  color: var(--ui-text-disabled);
   background: transparent;
   opacity: 0.58;
 }
@@ -332,7 +332,7 @@
 
 .outpost-status-matrix__state--editable:disabled {
   border-color: color-mix(in srgb, var(--ui-rule) 50%, var(--ui-background));
-  color: var(--ui-text-muted);
+  color: var(--ui-text-disabled);
   background: color-mix(in srgb, var(--ui-surface) 45%, var(--ui-background));
   opacity: 0.62;
   cursor: not-allowed;

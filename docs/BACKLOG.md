@@ -290,9 +290,8 @@ review, and closure verification, but no native-speaker review was available.
 Current list/number/percent/collation needs use `Intl`. Deferred localization
 work includes:
 
-- extracting official Bethesda Japanese terminology and generating stable-ID
-  reference-name overlays;
 - final Japanese release verification;
+- native-speaker review when available;
 - adopting richer ICU/FormatJS-style formatting only if future real catalogue
   content requires nested plural/select or translator-controlled rich text;
 - applying locale-aware date/time formatting if user-visible date/time display
@@ -300,6 +299,12 @@ work includes:
 
 Export filename timestamps and persisted/schema formats remain invariant unless
 a separate design explicitly changes them.
+
+Official Japanese reference overlays and official terminology provenance are
+implemented. Free Lanes is settled as a terminology-only source and does not
+change the canonical reference-data universe. Localization architecture and
+catalogue closure are complete at 331/331; the remaining release work is
+manual, native-speaker, and platform verification.
 
 ### Accessibility audit
 

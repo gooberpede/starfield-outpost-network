@@ -106,7 +106,7 @@
 
 .outpost-details__field select:disabled {
   border-color: color-mix(in srgb, var(--ui-rule) 62%, var(--ui-surface));
-  color: var(--ui-text-muted);
+  color: var(--ui-text-disabled);
   background: color-mix(in srgb, var(--ui-surface) 68%, var(--ui-highlight));
 }
 

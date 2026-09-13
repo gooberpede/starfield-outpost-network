@@ -755,9 +755,9 @@ export function CargoPadsEditor({
                 draggable
                 onDragStart={(event) => startDrag(event, pad.id)}
                 onDragEnd={clearDrag}
-                aria-label={t('common.dragToReorder', { item: displayPadLabel })}
+                aria-hidden="true"
                 title={t('common.dragToReorder', { item: displayPadLabel })}
-                tabIndex={0}
+                tabIndex={-1}
               >
                 ⠿
               </span>
@@ -789,6 +789,7 @@ export function CargoPadsEditor({
                     {pad.type === 'interstellar' && (
                       <span
                         className="cargo-pad__interstellar"
+                        role="img"
                         title={t('cargo.interstellar')}
                         aria-label={t('cargo.interstellar')}
                       >

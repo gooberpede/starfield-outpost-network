@@ -94,7 +94,7 @@
 .cargo-pads__actions button:disabled,
 .cargo-pads__move-controls button:disabled {
   border-color: color-mix(in srgb, var(--ui-rule) 62%, var(--ui-surface));
-  color: var(--ui-text-muted);
+  color: var(--ui-text-disabled);
   background: color-mix(in srgb, var(--ui-surface) 68%, var(--ui-highlight));
   cursor: not-allowed;
   opacity: 0.68;
@@ -247,6 +247,7 @@
 }
 
 .cargo-pad__summary button:disabled {
+  color: var(--ui-text-disabled);
   opacity: 0.35;
   cursor: default;
 }

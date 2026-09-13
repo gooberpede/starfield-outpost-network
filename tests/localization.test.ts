@@ -24,7 +24,10 @@ import { enGBMessages } from '../src/localization/locales/en-GB.ts'
 import { setDocumentLanguage } from '../src/localization/documentLanguage.ts'
 import { getImportFailurePresentation } from '../src/ui/importErrorPresentation.ts'
 import { getHistoryDisplayLabel } from '../src/ui/historyPresentation.ts'
-import { serializeNetworkCollection } from '../src/data/serialization.ts'
+import {
+  deserializeNetworkCollection,
+  serializeNetworkCollection,
+} from '../src/data/serialization.ts'
 
 class MemoryStorage {
   values = new Map<string, string>()
@@ -189,6 +192,38 @@ test('history relocalization and locale preferences leave collection and history
   assert.deepEqual(session.history, historyBefore)
   assert.equal(serializeNetworkCollection(session.collection), exportBefore)
   assert.equal(session.context.outpostId, null)
+})
+
+test('collection import and export are locale-independent for every supported preference', () => {
+  const storage = new MemoryStorage()
+  const collection = createDefaultNetworkCollection()
+  collection.networks[0].id = 'stable-network'
+  collection.activeNetworkId = 'stable-network'
+  collection.networks[0].network.outposts = [
+    createDefaultOutpost([], 'stable-outpost', 'Locale fixture'),
+  ]
+  const fixture = serializeNetworkCollection(collection)
+
+  const results = (['en-US', 'en-GB', 'ja-JP'] as const).map((localeOverride) => {
+    saveApplicationPreferences({ localeOverride }, storage)
+    const imported = deserializeNetworkCollection(fixture)
+    return {
+      localeOverride: loadApplicationPreferences(storage).localeOverride,
+      serialized: serializeNetworkCollection(imported),
+      networkIds: imported.networks.map(({ id }) => id),
+      outpostIds: imported.networks.flatMap(({ network }) =>
+        network.outposts.map(({ id }) => id)),
+    }
+  })
+
+  for (const result of results) {
+    assert.equal(result.serialized, fixture)
+    assert.deepEqual(result.networkIds, ['stable-network'])
+    assert.deepEqual(result.outpostIds, ['stable-outpost'])
+  }
+  assert.deepEqual(results.map(({ localeOverride }) => localeOverride), [
+    'en-US', 'en-GB', 'ja-JP',
+  ])
 })
 
 test('skill history labels use official names in the locale active at render time', () => {

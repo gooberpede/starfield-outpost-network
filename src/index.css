@@ -28,7 +28,8 @@
   --ui-panel: #b8c8c1;
   --ui-structural-dark: #2a3e3a;
   --ui-text: #2e4440;
-  --ui-text-muted: #6e7f7a;
+  --ui-text-muted: #425550;
+  --ui-text-disabled: #6e7f7a;
   --ui-rule: #9fafaa;
   --ui-highlight: #f7faf8;
   --ui-success: #3b8062;
@@ -52,6 +53,17 @@
   @media (max-width: 1024px) {
     font-size: 16px;
   }
+}
+
+.ui-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 :lang(ja) {

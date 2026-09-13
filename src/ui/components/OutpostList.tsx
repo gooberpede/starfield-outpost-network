@@ -270,9 +270,9 @@ export function OutpostList({
                 draggable
                 onDragStart={(event) => startDrag(event, outpost.id)}
                 onDragEnd={clearDrag}
-                aria-label={t('common.dragToReorder', { item: outpost.name })}
+                aria-hidden="true"
                 title={t('common.dragToReorder', { item: outpost.name })}
-                tabIndex={0}
+                tabIndex={-1}
               >
                 ⠿
               </span>

@@ -227,7 +227,7 @@
 
 .planned-supply__item[data-state='available'] {
   border-style: dashed;
-  color: var(--ui-text-muted);
+  color: var(--ui-text-disabled);
   background:
     repeating-linear-gradient(
       -45deg,

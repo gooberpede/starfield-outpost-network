@@ -23,6 +23,7 @@
  * CargoPadsEditor or, later, in dedicated domain/data services.
  */
 
+import { useId } from 'react'
 import type {
   CargoItem,
   CargoPad,
@@ -37,6 +38,7 @@ import { CargoExportsEditor } from './CargoExportsEditor'
 import { ContextHelp } from './ContextHelp'
 import './CargoPadEditor.css'
 import { useLocalization } from '../../localization/LocalizationContext.ts'
+import { getReferenceDisplayName } from '../../localization/referenceNames.ts'
 
 interface CargoPadEditorProps {
   pad: CargoPad
@@ -79,7 +81,8 @@ export function CargoPadEditor({
   onLinkedCargoPadChange,
   getDestinationPadLabel,
 }: CargoPadEditorProps) {
-  const { t } = useLocalization()
+  const { locale, t } = useLocalization()
+  const fuelDescriptionId = useId()
 
   const destinationId = linkedOutpostId
   const destinationPadId = linkedCargoPadId
@@ -100,6 +103,23 @@ export function CargoPadEditor({
     (item) => item.type === 'resource' && item.id === 'helium-3',
   )
   const fuelState = getInterstellarFuelState(isInterSystem, hasActualHelium3)
+  const helium3Name = getReferenceDisplayName(
+    'resource',
+    'helium-3',
+    resources.find((resource) => resource.id === 'helium-3')?.name ?? 'Helium-3',
+    locale,
+  )
+  const fuelDescription = isInterSystem
+    ? t(hasActualHelium3
+        ? 'matrix.tooltip.input.available'
+        : 'matrix.tooltip.input.unavailable', { item: helium3Name })
+    : null
+  const interSystemTooltip = fuelDescription
+    ? t('validation.context.separator', {
+        outpost: t('cargo.interstellar'),
+        pad: fuelDescription,
+      })
+    : t('cargo.interstellar')
 
   return (
     <div className="cargo-pad-editor">
@@ -112,6 +132,8 @@ export function CargoPadEditor({
               data-fuel-state={fuelState}
               type="button"
               aria-pressed={isInterSystem}
+              aria-describedby={isInterSystem ? fuelDescriptionId : undefined}
+              title={interSystemTooltip}
               onClick={onToggleType}
             >
               {t('cargo.interSystem.button')}
@@ -120,6 +142,11 @@ export function CargoPadEditor({
               context={t('cargo.interSystem.context')}
               text={t(contextHelpText.interSystem)}
             />
+            {isInterSystem && (
+              <span id={fuelDescriptionId} className="ui-visually-hidden">
+                {fuelDescription}
+              </span>
+            )}
           </span>
 
           <button

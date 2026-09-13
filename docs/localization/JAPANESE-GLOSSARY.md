@@ -80,13 +80,13 @@ catalogue.
 
 Resource, product, system, body, biome, species, and canonical game skill names
 are Bethesda-owned reference terminology. Their stable IDs and canonical names
-are resolved outside the tracker message catalogue. Official Japanese terms,
-where available, will be extracted and overlaid in later parcels. B1 must not
-turn a machine translation into canonical reference data.
-
-The provisional Japanese skill labels currently used by tracker-authored field
-labels and validation sentences require explicit comparison with official
-Bethesda Japanese terminology during Parcels C/D.
+are resolved outside the tracker message catalogue. Official Japanese terms
+are provided through generated stable-ID overlays with recorded provenance;
+tracker copy does not turn machine translation into canonical reference data.
+Official skill labels have also been integrated through the terminology
+boundary. Free Lanes remains a terminology-only evidence source and does not
+contribute reference entities. Native-speaker and manual/platform release
+verification remain outstanding.
 
 ## Protected and invariant tokens
 

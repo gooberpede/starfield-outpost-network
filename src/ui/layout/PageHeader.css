@@ -111,7 +111,7 @@
 .page-header input:disabled {
   border-color: color-mix(in srgb, var(--ui-rule) 62%, var(--ui-surface));
   background: color-mix(in srgb, var(--ui-surface) 68%, var(--ui-highlight));
-  color: var(--ui-text-muted);
+  color: var(--ui-text-disabled);
   cursor: not-allowed;
   opacity: 0.72;
 }
