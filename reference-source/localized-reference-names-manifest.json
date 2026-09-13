@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "locale": "ja-JP",
+  "gameVersion": "1.16.244.0",
+  "provenanceSha256": "7C3D3464C8DC3BC6CDF521C676F0E2CEF01F79CE287AAF253E80390BEFF67608",
+  "provenanceManifestSha256": "332C69FFE2B2B8F99F395B54C6C787EE8FD9B9EB881A1EB8B1DBA2D00C9610B0",
+  "provenanceManifestIdentity": "0BAA1AC4AA783BC3414053C21A32990E5F320D00BC8F2CA156598708F68F55F6",
+  "authoritativePlugins": [
+    "Starfield.esm",
+    "ShatteredSpace.esm",
+    "SFBGS00D.esm"
+  ],
+  "japaneseLocalizationInputs": [
+    {
+      "plugin": "SFBGS00D.esm",
+      "tableType": "dlstrings",
+      "memberName": "strings/sfbgs00d_ja.dlstrings",
+      "size": 107762,
+      "sha256": "B308F4FE25156AB567714767D5EB9ED61D4F49B8D167C88D659658A0CD1AF31C"
+    },
+    {
+      "plugin": "SFBGS00D.esm",
+      "tableType": "ilstrings",
+      "memberName": "strings/sfbgs00d_ja.ilstrings",
+      "size": 521631,
+      "sha256": "D83CEAB0629E9E21E9F8FAEB2FA6D99604A0299555935B9152D469005676936B"
+    },
+    {
+      "plugin": "SFBGS00D.esm",
+      "tableType": "strings",
+      "memberName": "strings/sfbgs00d_ja.strings",
+      "size": 134050,
+      "sha256": "07DBAB25529FEDC35FCEEBA23F2CAB4B63A8E4FF982CEAC5B99979852CFAE986"
+    },
+    {
+      "plugin": "ShatteredSpace.esm",
+      "tableType": "dlstrings",
+      "memberName": "strings/shatteredspace_ja.dlstrings",
+      "size": 207557,
+      "sha256": "89E2E377373EBAA71D6E7E46ABD5A173F4D0F7197D04AB0342C4F5D6EA11C058"
+    },
+    {
+      "plugin": "ShatteredSpace.esm",
+      "tableType": "ilstrings",
+      "memberName": "strings/shatteredspace_ja.ilstrings",
+      "size": 1563554,
+      "sha256": "2C507F7D0FA0F7951E2460787FDBE65C926AC6109EFF36996345029728681166"
+    },
+    {
+      "plugin": "ShatteredSpace.esm",
+      "tableType": "strings",
+      "memberName": "strings/shatteredspace_ja.strings",
+      "size": 222250,
+      "sha256": "4B8B4EBCDE180216AE23CDA3ACF66566AFBB98FB32830C0AEAB99EA9FB470479"
+    },
+    {
+      "plugin": "Starfield.esm",
+      "tableType": "dlstrings",
+      "memberName": "strings/starfield_ja.dlstrings",
+      "size": 1252966,
+      "sha256": "C04B2BB2C73E82D954A74A6FC72E9BFC7620E918FFA404542E1A851FD51621AE"
+    },
+    {
+      "plugin": "Starfield.esm",
+      "tableType": "ilstrings",
+      "memberName": "strings/starfield_ja.ilstrings",
+      "size": 11267448,
+      "sha256": "3E76280120C853C5033408A770D32B6071D83AE800B97FB2DBA2F80F59374632"
+    },
+    {
+      "plugin": "Starfield.esm",
+      "tableType": "strings",
+      "memberName": "strings/starfield_ja.strings",
+      "size": 1892778,
+      "sha256": "9AEB4293C6F490DADDD75931AC126CEB051EEC8E0C598FAE4445474E0E6249CC"
+    }
+  ],
+  "entityCount": 3561,
+  "perKindCounts": {
+    "biome": 428,
+    "body": 1776,
+    "species": 1121,
+    "official-term": 5,
+    "product": 30,
+    "resource": 78,
+    "system": 123
+  },
+  "provenanceRowCount": 4818,
+  "compositionPolicy": {
+    "slots": {
+      "0": "prefix",
+      "1": "species",
+      "2": "diet"
+    },
+    "requiredSlot": 1,
+    "assembly": "precomposed-at-build-time"
+  },
+  "separatorPolicy": {
+    "value": "U+0020",
+    "literal": " ",
+    "betweenNonEmptyComponents": true
+  },
+  "generatedModuleSha256": "37A238593885852254C9452714B8D31DF306DB9EE236DD60B1CE9CCF37B81D71",
+  "generator": {
+    "toolVersion": "1.0.0"
+  }
+}

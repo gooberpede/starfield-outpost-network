@@ -56,7 +56,7 @@ function parseArguments(args) {
     else if (args[index] === '--write') result.write = true
     else throw new Error(`Unknown argument: ${args[index]}`)
   }
-  result.configPath ??= '.local-work/localization/provenance/c2-inputs.json'
+  result.configPath ??= '.local-work/localization/provenance/localization-provenance-inputs.json'
   return result
 }
 

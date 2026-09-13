@@ -93,7 +93,7 @@ plugins are ignored as well.
 Prerequisites are Node/npm dependencies, the three authoritative ESMs, the
 explicitly configured BA2 archives, and extracted English/Japanese tables with
 their intake manifest. Keep machine paths in the ignored
-`.local-work/localization/provenance/c2-inputs.json`; the committed manifest
+`.local-work/localization/provenance/localization-provenance-inputs.json`; the committed manifest
 uses normalized local references.
 
 Run the complete installed-game pipeline with one top-level command:
@@ -254,5 +254,58 @@ npm run build
 npm run lint
 ```
 
-None of these commands require installed game files; only
-`localization:provenance:build` does.
+None of these commands require installed game files. The explicit provenance
+and reference-name generation commands described below use ignored local game
+inputs.
+
+## Official reference-name overlay generation
+
+The Japanese official reference-name generator consumes the committed
+`localized-name-provenance.csv` identities and the exact Japanese tables named
+by `localized-name-provenance-manifest.json`. It never discovers FormIDs or
+providers and never reverse-matches English. Before reading a local table it
+requires its member identity, size, and SHA-256 to match the committed
+provenance manifest.
+
+The installed-game generation command is:
+
+```text
+npm run localization:reference-names:build
+```
+
+Normal mode materializes the result in memory and fails with semantic drift
+categories without changing tracked files. After review, explicit acceptance
+mode writes the deterministic outputs:
+
+```text
+npm run localization:reference-names:build -- --write
+```
+
+The outputs are
+`src/localization/generated/ja-JP-reference-names.ts` and
+`reference-source/localized-reference-names-manifest.json`. The TypeScript
+module is the only committed text-bearing output. The sidecar records upstream
+and generated hashes, official table identities, game/tool versions, counts,
+and composition/separator policy without local paths or Bethesda table text.
+
+Direct and template rows resolve one exact qualified value. Composed fauna are
+precomposed during generation in semantic slot order (optional prefix, required
+species, optional diet), with exactly one U+0020 between components. The
+browser will not need Bethesda composition rules.
+
+The current closure is 3,561 entities: 428 biomes, 1,776 bodies, 1,121 species,
+5 official terms, 30 products, 78 resources, and 123 systems. Resource coverage
+is all 76 surfaced resources plus source-only `aqueous-hematite` and
+`caelumite`.
+
+Repository-only integrity checking requires no installed game files:
+
+```text
+npm run localization:reference-names:verify
+```
+
+It validates exact coverage against committed provenance, hashes, kinds,
+non-empty Japanese values, resource reconciliation, and sidecar counts. The
+normal production build runs this verifier. A future locale can reuse the same
+provenance, kind normalization, materialization, and serialization boundaries
+with an explicit locale encoding and manifested official tables.

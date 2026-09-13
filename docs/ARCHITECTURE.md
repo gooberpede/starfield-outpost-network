@@ -873,8 +873,30 @@ language requires an encoding mapping, manifested tables, and representative
 composed-name verification; it does not require another CCT architecture audit
 unless evidence contradicts the fixed model. Direct Japanese runtime or
 Creation Kit confirmation of exact on-screen U+0020 fidelity remains a
-hardening item. Japanese overlay generation and all display-consumer changes
-remain wholly deferred to Parcel D.
+hardening item. Runtime registration and all display-consumer changes remain
+separate from build-time overlay generation.
+
+Official reference-name overlay generation is a downstream build-time layer:
+
+```text
+committed qualified provenance
+    + manifested official locale tables
+    -> locale reference-name materializer
+    -> deterministic stable-ID overlay + reproducibility sidecar
+```
+
+Japanese is the first generated locale. Direct and template identities become
+one value, while composed fauna are assembled before runtime in fixed semantic
+slot order with a literal U+0020 separator. The committed module contains no
+FormID keys and requires no installed files at runtime. Its sidecar binds the
+module to provenance, provenance-manifest identity, official Japanese table
+hashes, closure counts, and generator policy. Repository-only verification
+checks these artifacts without reading Bethesda inputs; installed-game
+generation remains an explicit verify-by-default, `--write`-to-accept workflow.
+
+The generated module is deliberately not registered in runtime lookup in this
+build slice. Runtime consumers, official skill labels, search, sorting, and
+semantic-message terminology remain separate integration concerns.
 
 Parcel C8 integrates C1-C7 behind one fail-closed builder. The project-owned
 policy at `reference-source/localization-provenance-policy.json` is the single
