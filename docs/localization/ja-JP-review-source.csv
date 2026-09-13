@@ -44,6 +44,7 @@
 "character.skill.researchMethods","Research Methods","Character details field or Starfield skill label.","LOW","","","研究手法","Tracker-authored"
 "character.skill.specialProjects","Special Projects","Character details field or Starfield skill label.","LOW","","","特別プロジェクト","Tracker-authored"
 "common.about","About","Shared visible or accessible UI action.","LOW","","","このアプリについて","Tracker-authored"
+"common.add","+ Add","Shared visible or accessible UI action.","LOW","","","＋ 追加","Tracker-authored"
 "common.cancel","Cancel","Shared visible or accessible UI action.","LOW","","","キャンセル","Tracker-authored"
 "common.cancel.lower","cancel","Shared visible or accessible UI action.","LOW","","","キャンセル","Tracker-authored"
 "common.close","Close","Shared visible or accessible UI action.","LOW","","","閉じる","Tracker-authored"

@@ -142,7 +142,7 @@
 .validation-summary-panel__context {
   overflow: hidden;
   color: var(--ui-text-muted);
-  font: 500 0.68rem/1.2 var(--ui-font-mono);
+  font: 500 0.68rem/1.2 var(--ui-font);
   text-overflow: ellipsis;
   white-space: nowrap;
 }

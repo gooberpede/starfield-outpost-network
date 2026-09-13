@@ -31,6 +31,8 @@ import type { Rarity } from '../../domain/referenceData'
 import { contextHelpText } from '../contextHelpText'
 import { ContextHelp } from './ContextHelp'
 import { useLocalization } from '../../localization/LocalizationContext.ts'
+import type { SupportedLocale } from '../../localization/types.ts'
+import { compareLocalizedItems } from '../localizedCollation.ts'
 
 import './PlannedSupplyEditor.css'
 
@@ -73,14 +75,16 @@ const rarityPosition = new Map(
 function compareByName(
   left: CatalogueItem,
   right: CatalogueItem,
+  locale: SupportedLocale,
 ) {
-  return left.name.localeCompare(right.name)
+  return compareLocalizedItems(left, right, locale)
 }
 
 /** Explicit sibling order wins; names provide a stable fallback. */
 function compareInorganicSiblings(
   left: Resource,
   right: Resource,
+  locale: SupportedLocale,
 ) {
   if (
     left.sortOrder !== null &&
@@ -98,7 +102,7 @@ function compareInorganicSiblings(
     return 1
   }
 
-  return compareByName(left, right)
+  return compareByName(left, right, locale)
 }
 
 /**
@@ -110,6 +114,7 @@ function compareInorganicSiblings(
 function layoutInorganicFamily(
   root: Resource,
   childrenByParent: Map<string, Resource[]>,
+  locale: SupportedLocale,
 ): InorganicFamilyLayout {
   const resources: PositionedResource[] = []
   const visited = new Set<string>()
@@ -131,7 +136,7 @@ function layoutInorganicFamily(
 
     const children = [
       ...(childrenByParent.get(resource.id) ?? []),
-    ].sort(compareInorganicSiblings)
+    ].sort((left, right) => compareInorganicSiblings(left, right, locale))
 
     if (children.length === 0) {
       positionedResource.columnStart =
@@ -167,11 +172,12 @@ function layoutInorganicFamily(
 
 function groupByRarity<T extends CatalogueItem>(
   items: T[],
+  locale: SupportedLocale,
 ) {
   return rarityOrder.map((rarity) =>
     items
       .filter((item) => item.rarity === rarity)
-      .sort(compareByName),
+      .sort((left, right) => compareByName(left, right, locale)),
   )
 }
 
@@ -182,7 +188,7 @@ export function PlannedSupplyEditor({
   actuallyAvailableItems,
   onTogglePlannedSupply,
 }: PlannedSupplyEditorProps) {
-  const { t } = useLocalization()
+  const { locale, t } = useLocalization()
   const [isExpanded, setIsExpanded] = useState(false)
 
   const plannedKeys = new Set(
@@ -269,7 +275,7 @@ export function PlannedSupplyEditor({
     type: CargoItem['type'],
     gridClassName: string,
   ) {
-    const rows = groupByRarity(items)
+    const rows = groupByRarity(items, locale)
     const columnCount = Math.max(
       1,
       ...rows.map((row) => row.length),
@@ -332,12 +338,12 @@ export function PlannedSupplyEditor({
   )
   const specialInorganic = roots
     .filter((resource) => resource.plannedSupplyPlacement === 'special')
-    .sort(compareInorganicSiblings)
+    .sort((left, right) => compareInorganicSiblings(left, right, locale))
   const inorganicFamilies = roots
     .filter((resource) => resource.plannedSupplyPlacement === 'family')
-    .sort(compareInorganicSiblings)
+    .sort((left, right) => compareInorganicSiblings(left, right, locale))
     .map((root) =>
-      layoutInorganicFamily(root, childrenByParent),
+      layoutInorganicFamily(root, childrenByParent, locale),
     )
 
   /*
@@ -354,7 +360,7 @@ export function PlannedSupplyEditor({
         .filter((resource) =>
           plannedKeys.has(`resource:${resource.id}`),
         )
-        .sort(compareByName),
+        .sort((left, right) => compareByName(left, right, locale)),
     },
     {
       type: 'resource',
@@ -362,7 +368,7 @@ export function PlannedSupplyEditor({
         .filter((resource) =>
           plannedKeys.has(`resource:${resource.id}`),
         )
-        .sort(compareByName),
+        .sort((left, right) => compareByName(left, right, locale)),
     },
     {
       type: 'product',
@@ -370,7 +376,7 @@ export function PlannedSupplyEditor({
         .filter((product) =>
           plannedKeys.has(`product:${product.id}`),
         )
-        .sort(compareByName),
+        .sort((left, right) => compareByName(left, right, locale)),
     },
   ]
   const compactItemCount = compactGroups.reduce(

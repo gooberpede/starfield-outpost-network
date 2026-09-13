@@ -131,7 +131,7 @@
   text-transform: uppercase;
 }
 
-@media (max-width: 1050px) {
+@media (max-width: 1280px) {
   .page-header {
     grid-template-columns: minmax(0, 1fr) auto;
     row-gap: 0.55rem;

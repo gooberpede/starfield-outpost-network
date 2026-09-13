@@ -11,6 +11,7 @@ export const jaJPMessages = {
   'common.cancel.lower': 'キャンセル',
   'common.save': '保存',
   'common.edit': '編集',
+  'common.add': '＋ 追加',
   'common.removeItem': '{item}を削除',
   'common.moveUp': '{item}を上へ移動',
   'common.moveDown': '{item}を下へ移動',

@@ -627,8 +627,13 @@ export function CargoPadsEditor({
       </h2>
 
       <div className="cargo-pads__actions">
-        <button type="button" onClick={addCargoPad}>
-          {t('cargo.addButton')}
+        <button
+          type="button"
+          onClick={addCargoPad}
+          aria-label={t('cargo.addButton')}
+          title={t('cargo.addButton')}
+        >
+          {t('common.add')}
         </button>
 
         <div className="cargo-pads__action-group">
@@ -785,8 +790,9 @@ export function CargoPadsEditor({
                       <span
                         className="cargo-pad__interstellar"
                         title={t('cargo.interstellar')}
+                        aria-label={t('cargo.interstellar')}
                       >
-                        [INT]
+                        <span aria-hidden="true">✷⇄✷</span>
                       </span>
                     )}
                   </div>

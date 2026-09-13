@@ -592,7 +592,12 @@ unspecified sources; and missing farming inputs rather than repairing data.
 
 Search for Items builds a localized presentation index over the complete
 resource/product reference catalogue and submits only stable `{ type, id }`
-identity. `App.tsx` owns its draft, submitted item, open state, and floating
+identity. Each stable entity has one visible entry containing its localized
+display name and abbreviation, canonical English name, and narrowly curated
+supported alternate aliases. Localized matches rank before English and
+alternate aliases; alias collisions retain one deterministic row per stable
+entity and participate in category disambiguation. `App.tsx` owns its draft,
+submitted item, open state, and floating
 palette position above the outpost-keyed Matrix. Results are derived live from
 the active network by `src/domain/itemSearchResults.ts`: resource `PRESENT`
 mirrors the Matrix's recorded inorganic or source-specific biome-scoped organic
@@ -647,9 +652,15 @@ English semantic labels remain the fallback, and game FormIDs do not enter
 runtime or persisted state. Japanese tracker-authored copy therefore remains
 independent of Bethesda-owned reference names.
 
+Locale-aware collation is a presentation concern for genuinely alphabetical
+lists. Star systems, localized cargo candidates, and alphabetical Planned
+Supply groups use the active-locale collator with stable-ID tie-breakers.
+Body/orbit order, biome occurrence order, resource topology, persisted order,
+validation order, and history chronology retain their domain or user sequence.
+
 Japanese tracker-catalogue work closed after Parcels B1-B4 supplied the Codex
 first draft, an independent English-source translation, keyed comparative
-adjudication, and final integration verification. The resulting 330-message
+adjudication, and final integration verification. The resulting 331-message
 catalogue has exact key and placeholder parity with `en-US`. Its 114
 Bethesda-dependent terminology decisions remain provisional pending Parcels
 C/D, and the machine-assisted review does not imply native-speaker approval.

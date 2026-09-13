@@ -44,6 +44,7 @@ import { ContextHelp } from './ContextHelp'
 import { useLocalization } from '../../localization/LocalizationContext.ts'
 import { getReferenceDisplayName } from '../../localization/referenceNames.ts'
 import { getBiomeGroupDisplayName } from '../biomePresentation.ts'
+import { compareLocalizedItems } from '../localizedCollation.ts'
 
 import './OutpostDetails.css'
 
@@ -119,11 +120,20 @@ export function OutpostDetails({
   const currentSystem = systems.find(
     (system) => system.id === outpost.systemId,
   )
-  const availableSystems = systems.filter(
-    (system) =>
+  const availableSystems = systems
+    .filter((system) =>
       eligibleSystemIds.has(system.id) ||
-      system.id === outpost.systemId,
-  )
+      system.id === outpost.systemId)
+    .map((system) => ({
+      system,
+      displayName: getReferenceDisplayName('system', system.id, system.name, locale),
+    }))
+    .sort((left, right) =>
+      compareLocalizedItems(
+        { id: left.system.id, name: left.displayName },
+        { id: right.system.id, name: right.displayName },
+        locale,
+      ))
   const currentBody = bodies.find(
     (body) => body.id === outpost.bodyId,
   )
@@ -174,12 +184,12 @@ export function OutpostDetails({
               </option>
             )}
 
-            {availableSystems.map((system) => (
+            {availableSystems.map(({ system, displayName }) => (
               <option
                 key={system.id}
                 value={system.id}
               >
-                {getReferenceDisplayName('system', system.id, system.name, locale)}
+                {displayName}
               </option>
             ))}
           </select>

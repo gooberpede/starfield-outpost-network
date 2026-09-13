@@ -70,6 +70,31 @@ test('Japanese display and matching preserve the submitted stable identity', () 
   assert.deepEqual(getUniquelyResolvedSearchItem(
     getItemSearchMatches(catalogue, '順応型フレーム', 'ja-JP'),
   ), { type: 'product', id: 'adaptive-frame' })
+  for (const query of ['アルミ', 'Aluminum', 'Aluminium', 'AL', 'al']) {
+    const matches = getItemSearchMatches(catalogue, query, 'ja-JP')
+    assert.deepEqual(matches.map(({ key }) => key), ['resource:aluminium'], query)
+    assert.equal(matches[0].displayName, 'アルミニウム', query)
+  }
+  assert.deepEqual(getUniquelyResolvedSearchItem(
+    getItemSearchMatches(catalogue, 'adaptive frame', 'ja-JP'),
+  ), { type: 'product', id: 'adaptive-frame' })
+  assert.equal(getItemSearchMatches(catalogue, 'adaptive', 'ja-JP')[0].displayName, '順応型フレーム')
+  assert.equal(getItemSearchMatches(catalogue, 'Aluminum', 'ja-JP').length, 1)
+})
+
+test('localized matches outrank canonical and alternate aliases', () => {
+  const collisionReferences: ReferenceData = {
+    ...references,
+    resources: [
+      references.resources[0],
+      { ...references.resources[1], id: 'localized-aluminum', name: 'Aluminum' },
+    ],
+  }
+  const catalogue = buildItemSearchCatalogue(collisionReferences, 'en-GB')
+  assert.deepEqual(getItemSearchMatches(catalogue, 'Aluminum', 'en-GB').map(({ key }) => key), [
+    'resource:localized-aluminum',
+    'resource:aluminium',
+  ])
 })
 
 test('ordering and collision disambiguation remain deterministic', () => {
@@ -87,4 +112,24 @@ test('ordering and collision disambiguation remain deterministic', () => {
     'resource:same-a', 'resource:same-b', 'product:same-product',
   ])
   assert.equal(matches.every(({ needsCategoryDisambiguator }) => needsCategoryDisambiguator), true)
+})
+
+test('canonical alias collisions keep one deterministic row per stable entity', () => {
+  const collisionReferences: ReferenceData = {
+    ...references,
+    resources: [
+      { ...references.resources[0], id: 'shared-b', name: 'Shared Alias', shortName: 'SB' },
+      { ...references.resources[0], id: 'shared-a', name: 'Shared Alias', shortName: 'SA' },
+    ],
+    products: [],
+  }
+  const catalogue = buildItemSearchCatalogue(collisionReferences, 'ja-JP')
+  const matches = getItemSearchMatches(catalogue, 'shared alias', 'ja-JP')
+  assert.deepEqual(matches.map(({ key }) => key), [
+    'resource:shared-a',
+    'resource:shared-b',
+  ])
+  assert.equal(new Set(matches.map(({ key }) => key)).size, 2)
+  assert.equal(matches.every(({ needsCategoryDisambiguator }) => needsCategoryDisambiguator), true)
+  assert.equal(getUniquelyResolvedSearchItem(matches), null)
 })

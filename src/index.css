@@ -35,6 +35,7 @@
   --ui-warning: #d4a23f;
   --ui-critical: #c75452;
   --ui-shell-shadow: rgba(42, 62, 58, 0.12);
+  --ui-font-brand: 'Barlow Semi Condensed', 'Arial Narrow', var(--sans);
   --ui-font: 'Barlow Semi Condensed', 'Arial Narrow', var(--sans);
   --ui-font-mono: 'IBM Plex Mono', var(--mono);
 
@@ -51,6 +52,31 @@
   @media (max-width: 1024px) {
     font-size: 16px;
   }
+}
+
+:lang(ja) {
+  --ui-font:
+    'Yu Gothic UI',
+    'Yu Gothic',
+    'Hiragino Sans',
+    Meiryo,
+    system-ui,
+    sans-serif;
+}
+
+/* Condensed Latin label tracking is too loose for ordinary Japanese text. */
+:lang(ja) :is(
+  .page-header__network-label,
+  .page-header .character-header__field > span,
+  .outpost-list__heading,
+  .outpost-details__field > span,
+  .cargo-pads > h2,
+  .planned-supply__heading,
+  .planned-supply__section h3,
+  .outpost-status-matrix__heading,
+  .validation-summary-panel__header strong
+) {
+  letter-spacing: 0.02em;
 }
 
 @media (prefers-color-scheme: dark) {

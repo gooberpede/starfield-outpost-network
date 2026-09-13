@@ -50,7 +50,7 @@ test('Japanese is complete with exact key and placeholder parity', () => {
   const englishKeys = Object.keys(enUSMessages).sort()
   const japaneseKeys = Object.keys(jaJPMessages).sort()
   assert.deepEqual(japaneseKeys, englishKeys)
-  assert.equal(englishKeys.length, 330)
+  assert.equal(englishKeys.length, 331)
   assert.ok(Object.keys(enGBMessages).length < englishKeys.length)
   for (const key of englishKeys as MessageKey[]) {
     assert.deepEqual(parametersOf(jaJPMessages[key]), parametersOf(enUSMessages[key]), key)
@@ -87,6 +87,7 @@ test('Japanese preserves representative protected tokens and has no ordinary exa
 
 test('representative semantic paths render Japanese tracker copy', () => {
   assert.equal(translate('ja-JP', 'network.add'), 'ネットワークを追加')
+  assert.equal(translate('ja-JP', 'common.add'), '＋ 追加')
   assert.equal(
     translate('ja-JP', 'validation.manufacturingInputUnavailable', {
       product: 'Adaptive Frame', input: 'Aluminum',

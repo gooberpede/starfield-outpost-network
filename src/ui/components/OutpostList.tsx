@@ -222,8 +222,10 @@ export function OutpostList({
           type="button"
           className="outpost-list__add"
           onClick={onAddOutpost}
+          aria-label={t('outpost.navigation.addButton')}
+          title={t('outpost.navigation.addButton')}
         >
-          {t('outpost.navigation.addButton')}
+          {t('common.add')}
         </button>
 
         <button

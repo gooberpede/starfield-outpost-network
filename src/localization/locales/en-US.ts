@@ -9,6 +9,7 @@ export const enUSMessages = {
   'common.cancel.lower': 'cancel',
   'common.save': 'save',
   'common.edit': 'edit',
+  'common.add': '+ Add',
   'common.removeItem': 'Remove {item}',
   'common.moveUp': 'Move {item} up',
   'common.moveDown': 'Move {item} down',

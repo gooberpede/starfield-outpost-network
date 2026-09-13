@@ -713,6 +713,12 @@ Cargo Link reshuffling requires at least two links. With zero or one link the
 Reshuffle control remains visible but disabled, and an active reshuffle mode
 exits if the pad count drops below two.
 
+Contextual Add controls may use the compact localized visual label `+ Add` when
+their section already names the object, while retaining the complete localized
+action in both their tooltip and accessible name. The Inter-System marker uses
+a localization-neutral symbol with the full localized object name exposed in
+the same two ways; the internal `interstellar` identity remains unchanged.
+
 ---
 
 # Labels, abbreviations, and tooltips
@@ -844,8 +850,17 @@ tokens remain invariant where they are technical identity rather than prose.
 
 Japanese covers tracker-authored copy with a B1-B4-verified complete catalogue.
 The locale selector identifies Japanese as `日本語`, including in its closed
-state. Japanese font choice, wrapping, density, and search behavior remain
-deferred to Parcel E unless a defect makes the interface non-functional.
+state. Ordinary Japanese interface text uses an explicit system-font stack
+beginning with Yu Gothic UI/Yu Gothic, with Hiragino Sans and Meiryo fallbacks.
+Branding may retain its deliberate Latin face, while FormIDs, abbreviations,
+numeric codes, counters, and short technical flags retain the mono token.
+Japanese headings and labels reduce Latin-oriented tracking rather than
+spacing kana and kanji as condensed uppercase text.
+
+Genuinely alphabetical localized lists use the active-locale collator with a
+stable-ID fallback. Body/orbit sequence, biome occurrence order, resource
+topology, persisted outpost order, validation order, source-class order, and
+history chronology retain their established domain or user ordering.
 
 # Accessibility baseline
 

@@ -169,7 +169,7 @@
   background: var(--ui-structural-dark);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1180px) {
   .outpost-details__name {
     font-size: 1.25rem;
   }
@@ -179,8 +179,11 @@
       minmax(9rem, 1fr)
       minmax(9rem, 1fr)
       4.25rem
-      4.25rem
-      minmax(10rem, 1fr);
+      4.25rem;
     gap: 0.5rem;
+  }
+
+  .outpost-details__biomes {
+    grid-column: 1 / -1;
   }
 }

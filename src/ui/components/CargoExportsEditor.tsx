@@ -24,6 +24,7 @@ import type {
   Resource,
 } from '../../domain/models'
 import { useLocalization } from '../../localization/LocalizationContext.ts'
+import { compareLocalizedItems } from '../localizedCollation.ts'
 
 interface CargoExportsEditorProps {
   resources: Resource[]
@@ -47,7 +48,7 @@ export function CargoExportsEditor({
   availableItems,
   onToggleExport,
 }: CargoExportsEditorProps) {
-  const { t } = useLocalization()
+  const { locale, t } = useLocalization()
   const getItemKey = (item: CargoItem) =>
     `${item.type}:${item.id}`
 
@@ -92,7 +93,12 @@ export function CargoExportsEditor({
   ).map((group) =>
     candidates
       .filter((candidate) => candidate.group === group)
-      .sort((left, right) => left.name.localeCompare(right.name)),
+      .sort((left, right) =>
+        compareLocalizedItems(
+          { id: getItemKey(left.item), name: left.name },
+          { id: getItemKey(right.item), name: right.name },
+          locale,
+        )),
   ).filter((group) => group.length > 0)
 
   return (
