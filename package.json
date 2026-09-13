@@ -12,6 +12,7 @@
     "localization:provenance:build": "node scripts/localization/build-localized-name-provenance.mjs",
     "localization:provenance:verify": "node scripts/localization/validate-localized-name-provenance.mjs",
     "localization:provenance:proof": "node scripts/localization/verify-localized-proof-targets.mjs",
+    "localization:terminology:verify": "node scripts/localization/verify-official-terminology.mjs",
     "localization:reference-names:build": "node scripts/localization/build-reference-name-overlay.mjs",
     "localization:reference-names:verify": "node scripts/localization/verify-reference-name-overlay.mjs",
     "localization:inputs:inspect": "node scripts/localization/localization-inputs.mjs --inspect",

@@ -5,8 +5,8 @@
 This is the working terminology authority for tracker-authored Japanese copy.
 Parcel B3 comparatively adjudicated the Codex B1 draft against an independent
 English-source DeepL pass. The catalogue is machine-reviewed, not
-human-approved; Bethesda terminology and final native-language review remain
-outstanding.
+human-approved; official terminology evidence has since been incorporated,
+while final native-language review remains outstanding.
 
 Tracker messages may contain Bethesda-owned names supplied as parameters. Those
 names remain canonical English fallbacks until official Japanese overlays are
@@ -36,7 +36,7 @@ catalogue.
 | `matrix.column.logistics` | Logistics | Items actually assigned to a routed cargo export. It does not merely mean available to export. | 物流 | Tracker-authored; HIGH conceptual risk despite the short label. |
 | `transfer.import.button` | Import | Read a complete tracker collection from JSON. | インポート | Tracker-authored file operation. Use `搬入` for cargo coming into an outpost. |
 | `transfer.export.button` | Export | Write all tracker networks to JSON. | エクスポート | Tracker-authored file operation. Use `搬出` for cargo leaving an outpost. |
-| `cargo.heading` | Cargo Pads | Outpost cargo-link endpoints managed by the tracker. | 貨物パッド | Tracker-authored UI concept describing a Bethesda mechanic; verify official game term in Parcels C/D before final approval. |
+| `cargo.heading` | Cargo Links | Outpost cargo-link endpoints managed by the tracker. | 貨物リンク | Uses Bethesda's official presentation term. Internal `CargoPad` identifiers remain unchanged. |
 | `outpost.navigation.heading` | Outpost | A player-built Starfield outpost recorded by the tracker. | 拠点 | Tracker UI term; Bethesda terminology status must be verified separately. |
 | `network.label` | Network | A tracker document containing related outposts and cargo links. | ネットワーク | Tracker-authored; not a computer network. |
 | `validation.severity.error` | Error | Invalid state requiring attention. | エラー | Tracker-authored severity. Do not silently strengthen warnings into errors. |
@@ -49,7 +49,7 @@ catalogue.
 | reshuffle / reorder / move | Reshuffle / reorder / move | Enter ordering mode, change order, or move a specific object. | 並べ替え / 並べ替え / 移動 | Tracker-authored. Prefer the concrete object/action in accessible text. |
 | manufacturing | Manufacturing | Configured production of manufactured products from recipe inputs. | 製造 | Tracker-authored model term; no throughput is implied. |
 | production | Production | Active extraction, harvesting, or manufacturing recorded at an outpost. | 生産 | Tracker-authored umbrella term. |
-| `cargo.interSystem.*` | Inter-System | Cargo transport between different star systems. | 星系間 | Tracker UI wording. Requires `He-3`; official mechanic terms remain subject to Bethesda review. |
+| `cargo.interSystem.*` | Inter-System Cargo Link | Cargo transport between different star systems. | 星系間貨物リンク | Uses Bethesda's official full label. Compact modifiers use `星系間`; requires `He-3`. |
 | organic source help | domesticable species | A flora/fauna source that the tracker permits as an outpost organic-production route. | 飼育可能な生物種 | Tracker-authored grammar around Bethesda-owned species names. Avoid bare `種`, which is unnatural in these sentences. |
 | compact power quality labels | Poor / Very Poor | Short labels for relative power quality, not physical size. | 低 / 極低 | Tracker-authored compact UI labels. Full tooltips use `低い` / `非常に低い`. |
 
@@ -67,9 +67,14 @@ catalogue.
 - Keep extraction `抽出` distinct from organic harvesting `採集`.
 - Use `資源マトリックス` for Resource Matrix; `資源` preserves the domain
   meaning and `マトリックス` is the natural Japanese loanword form.
-- Retain `貨物パッド`, `拠点`, `星系間`, the five displayed skill labels,
-  and X-Tech wording only as provisional runtime terms pending official
-  Bethesda evidence in Parcels C/D.
+- Use official `貨物リンク` / `星系間貨物リンク`; the earlier provisional
+  `貨物パッド` presentation has been retired.
+- Use `拠点エンジニアリング` for Outpost Engineering and `X-テック` for the
+  X-Tech resource. `X-テックパワーコア` is an independently attested Free
+  Lanes term and remains distinct from the resource.
+- Keep `バイオーム` where it is natural: Free Lanes provides official
+  structured-label evidence, while `生態系` and `環境` remain valid in their
+  respective official sentence contexts.
 
 ## Bethesda-owned terminology boundary
 
@@ -97,8 +102,9 @@ otherwise:
 - keyboard tokens such as `Ctrl`, `Shift`, `Z`, and `Esc`;
 - file extensions, filenames, and serialization tokens such as `.json` and
   `JSON`;
-- intentionally invariant proper names such as `Starfield`, `X-Tech`,
-  `X-Tech Power Cores`, and `Starfield Outpost Network`;
+- intentionally invariant product names such as `Starfield Outpost Network`;
+- official localized proper terminology such as `スターフィールド`,
+  `X-テック`, and `X-テックパワーコア` where Japanese copy is displayed;
 - legal attribution text when changing it could alter the credited name or
   required wording.
 
@@ -109,7 +115,7 @@ The generated review package lists protected tokens detected in each message.
 ## Review priorities
 
 Independent review should focus first on Planned Supply semantics; Present,
-Inputs, and Logistics distinctions; harvesting versus extraction; Cargo Pad and
+Inputs, and Logistics distinctions; harvesting versus extraction; Cargo Link and
 Inter-System official terminology; validation/remediation nuance; destructive
 confirmations; accessibility instructions; and official Japanese forms of the
 five displayed Starfield skill names.

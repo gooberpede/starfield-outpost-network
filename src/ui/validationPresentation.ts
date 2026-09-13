@@ -88,6 +88,10 @@ function getIssueMessage(
     parameters = { item: getBiomeName(issue.bodyBiomeId, data, locale, resolveName) }
   } else if (key === 'validation.unspecifiedOrganicSource' && issue.cargoItem) {
     parameters = { resource: getCargoItemName(issue.cargoItem, data, locale, resolveName) }
+  } else if ((key === 'validation.xTechCapabilityProduced' ||
+    key === 'validation.xTechCapabilityPresent' ||
+    key === 'validation.xTechRequiresPresence') && issue.cargoItem) {
+    parameters = { resource: getCargoItemName(issue.cargoItem, data, locale, resolveName) }
   } else if ((key === 'validation.activeProductionOrganicInvalid' ||
     key === 'validation.activeProductionInorganicInvalid') && issue.cargoItem && outpost && data) {
     const groups = getBiomeButtonGroups(data, outpost.bodyId)

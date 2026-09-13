@@ -1,5 +1,12 @@
 # Official Bethesda Terminology for Semantic Localization Audit
 
+> Historical audit note: the Free Lanes addendum supersedes this report's
+> source-limited conclusions for X-Tech Power Core and Biome. X-Tech Power Core
+> is officially attested as `X-テックパワーコア`; `バイオーム` is officially
+> attested and remains context-dependent; and Cargo Pad presentation has since
+> been intentionally retired in favor of Cargo Link. The original findings
+> below are retained as audit history.
+
 ## Executive outcome
 
 **Outcome B — mixed evidence.** All **114 / 114** messages originally marked

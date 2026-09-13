@@ -26,7 +26,7 @@ const contextByNamespace: Record<string, string> = {
   matrix: 'Resource Matrix label, action, state, or tooltip.',
   production: 'Active Production section.',
   plannedSupply: 'Planned Supply planning UI; virtual supply, not inventory.',
-  cargo: 'Cargo-pad, cargo-link, destination, or export UI.',
+  cargo: 'Cargo Link, destination, or export UI.',
   validation: 'Validation severity, diagnostic, context, or remediation.',
   status: 'Status bar, import/export feedback, or reference-data feedback.',
   transfer: 'Whole-collection JSON import/export control.',
@@ -37,10 +37,7 @@ const contextByNamespace: Record<string, string> = {
 
 const protectedTokenCandidates = [
   'Cosmos icons created by gravisio - Flaticon',
-  'X-Tech Power Cores',
-  'Starfield',
   'He-3',
-  'X-Tech',
   'JSON',
   'Esc',
   'Shift',

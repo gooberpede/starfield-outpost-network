@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "canonicalContentPlugins": [
+    "Starfield.esm",
+    "ShatteredSpace.esm",
+    "SFBGS00D.esm"
+  ],
+  "terminologyEvidencePlugins": [
+    "Starfield.esm",
+    "ShatteredSpace.esm",
+    "SFBGS00D.esm",
+    "SFBGS050.esm"
+  ]
+}

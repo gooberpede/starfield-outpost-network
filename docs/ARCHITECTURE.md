@@ -899,11 +899,28 @@ hashes, closure counts, and generator policy. Repository-only verification
 checks these artifacts without reading Bethesda inputs; installed-game
 generation remains an explicit verify-by-default, `--write`-to-accept workflow.
 
+Official semantic terminology has a separate evidence boundary. The
+`reference-source/official-terminology-policy.json` allowlists distinguish
+canonical tracker content from plugins that may only prove official wording,
+and `reference-source/official-terminology-provenance.csv` stores one qualified
+row per evidence occurrence. `SFBGS050.esm` is admitted only as terminology
+evidence: it proves terms such as `X-Tech Power Core`, but cannot add runtime
+reference entities or participate in canonical reference-name generation.
+Repository verification reads only these committed artifacts. A future locale
+can resolve the same plugin/record/field/string identity directly from its
+official string table, without English reverse matching; contextual rows still
+require editorial review.
+
 The generated module is registered statically under `ja-JP` in the runtime
 reference-name lookup. Existing consumers receive official Japanese names
 without changing stable identities, persistence, or domain state. Generic
 semantic-message terminology, search hardening, collation review, and visual
 layout remain separate concerns.
+
+User-facing cargo endpoint presentation uses the official `Cargo Link` and
+`Inter-System Cargo Link` terms. Internal domain and persistence vocabulary
+(`CargoPad`, `cargoPads`, `cargoPadId`, and the `interstellar` discriminator)
+remains intentionally unchanged; the terminology change is presentation-only.
 
 Parcel C8 integrates C1-C7 behind one fail-closed builder. The project-owned
 policy at `reference-source/localization-provenance-policy.json` is the single

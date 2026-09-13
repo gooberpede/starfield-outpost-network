@@ -258,6 +258,29 @@ None of these commands require installed game files. The explicit provenance
 and reference-name generation commands described below use ignored local game
 inputs.
 
+## Official terminology evidence
+
+Semantic terminology uses committed evidence separate from canonical
+reference-name provenance:
+
+- `reference-source/official-terminology-policy.json` explicitly distinguishes
+  canonical content plugins from terminology evidence plugins;
+- `reference-source/official-terminology-provenance.csv` stores one row per
+  evidence occurrence, including source-use and qualified string identity;
+- `SFBGS050.esm` is terminology evidence only and cannot contribute tracker
+  reference entities or generated reference names.
+
+Repository-only verification is available through:
+
+```text
+npm run localization:terminology:verify
+```
+
+For future languages, a qualified term such as `term.x-tech-power-core` reuses
+`SFBGS050.esm / MISC:02031E18 / topLevel.FULL / strings:000011E5` against the
+locale-specific official string table. This avoids English reverse matching.
+Contextual evidence remains subject to language-specific editorial review.
+
 ## Official reference-name overlay generation
 
 The Japanese official reference-name generator consumes the committed

@@ -10,6 +10,8 @@ import type { CargoPad } from '../src/domain/models.ts'
 import type { ReferenceData } from '../src/domain/referenceData.ts'
 import type { ValidationIssue } from '../src/domain/validation/types.ts'
 import { translate } from '../src/localization/catalog.ts'
+import { enUSMessages } from '../src/localization/locales/en-US.ts'
+import { jaJPMessages } from '../src/localization/locales/ja-JP.ts'
 import {
   getBiomeGroupDisplayName,
   getBodyBiomeDisplayName,
@@ -60,7 +62,7 @@ test('persisted cargo-pad labels remain invariant while ordinal presentation is 
   ]
   const beforeLocaleChange = structuredClone(pads)
   for (const locale of ['en-US', 'en-GB'] as const) {
-    assert.equal(translate(locale, 'cargo.pad.summary', { ordinal: 1 }), 'Pad 1')
+    assert.equal(translate(locale, 'cargo.pad.summary', { ordinal: 1 }), 'Cargo Link 1')
     assert.deepEqual(pads, beforeLocaleChange)
   }
 
@@ -76,8 +78,66 @@ test('persisted cargo-pad labels remain invariant while ordinal presentation is 
       parameters: { outpost: 'Home' },
       cargoPadOrdinalParameters: [{ parameter: 'pad', ordinal: 2 }],
     }, 'en-GB'),
-    'Delete Home / Pad 2',
+    'Delete Home / Cargo Link 2',
   )
+})
+
+test('official Cargo Link presentation migration covers the intended 26 semantic keys', () => {
+  const expected = {
+    'cargo.heading': ['Cargo Links', '貨物リンク'],
+    'cargo.add': ['Add cargo link', '貨物リンクを追加'],
+    'cargo.addButton': ['+ Add Cargo Link', '＋ 貨物リンクを追加'],
+    'cargo.addWithLimit': ['Add cargo link ({count} of {limit})', '貨物リンクを追加（{count}/{limit}）'],
+    'cargo.reshuffle': ['Reshuffle cargo links', '貨物リンクを並べ替え'],
+    'cargo.finishReshuffle': ['Finish reshuffling cargo links', '貨物リンクの並べ替えを完了'],
+    'cargo.destination.pad': ['Destination cargo link', '搬送先の貨物リンク'],
+    'cargo.destination.noPads': ['{outpost} — no cargo links', '{outpost} — 貨物リンクなし'],
+    'cargo.destination.selectPad': ['Select cargo link...', '貨物リンクを選択...'],
+    'cargo.destination.unknownPad': ['Unknown cargo link', '不明な貨物リンク'],
+    'cargo.destination.unknownPadInline': ['unknown cargo link', '不明な貨物リンク'],
+    'cargo.interSystem.context': ['Inter-System Cargo Links', '星系間貨物リンク'],
+    'cargo.interstellar': ['Inter-System Cargo Link', '星系間貨物リンク'],
+    'cargo.pad.summary': ['Cargo Link {ordinal}', '貨物リンク{ordinal}'],
+    'cargo.pad.count': ['{count} {count, plural, one {cargo link} other {cargo links}}', '{count}件の貨物リンク'],
+    'validation.context.pad': ['Cargo Link {ordinal}', '貨物リンク{ordinal}'],
+    'help.interSystem': ['Inter-System Cargo Links can connect outposts in different star systems and require Helium-3.', '星系間貨物リンクは異なる星系の拠点同士を接続でき、He-3を必要とします。'],
+    'status.import.invalidCargoPad': ['The selected file contains an invalid cargo link.', '選択したファイルに無効な貨物リンクが含まれています。'],
+    'validation.cargoPadLinkedMultiple': ['This Cargo Link has more than one connection.', 'この貨物リンクには複数の接続が設定されています。'],
+    'validation.cargoPadSkillLimit': ['This outpost has {count} cargo links, but the current {skill} level allows a maximum of {limit}.', 'この拠点の貨物リンク数は{count}ですが、現在の{skill}レベルでは最大{limit}です。'],
+    'validation.duplicateOutboundItem': ["{item} appears more than once in this Cargo Link's outbound items.", '{item}がこの貨物リンクの搬出項目に複数回含まれています。'],
+    'validation.interstellarHelium3': ['This Inter-System Cargo Link is sending cargo, but its outpost has no available Helium-3 supply.', 'この星系間貨物リンクは貨物を発送していますが、拠点で利用できるHe-3の供給がありません。'],
+    'validation.missingCargoEndpoint': ['This cargo connection refers to a missing outpost or Cargo Link endpoint.', 'この貨物接続が、存在しない拠点または接続先の貨物リンクを参照しています。'],
+    'validation.regularPadCrossSystem': ['This Cargo Link is connected to an outpost in another star system; use an Inter-System Cargo Link instead.', 'この貨物リンクは別の星系の拠点に接続されています。代わりに星系間貨物リンクを使用してください。'],
+    'validation.selfLinkedCargoPad': ['This cargo connection uses the same Cargo Link at both endpoints.', 'この貨物接続では、両端に同じ貨物リンクが指定されています。'],
+    'validation.unknownOutboundItem': ['This Cargo Link refers to unknown {kind} ID "{id}" in its outbound items.', 'この貨物リンクの搬出項目が不明な{kind} ID「{id}」を参照しています。'],
+  } as const
+
+  assert.equal(Object.keys(expected).length, 26)
+  for (const [key, [english, japanese]] of Object.entries(expected)) {
+    assert.equal(enUSMessages[key as keyof typeof enUSMessages], english, key)
+    assert.equal(jaJPMessages[key as keyof typeof jaJPMessages], japanese, key)
+  }
+})
+
+test('semantic catalogue values contain no retired cargo presentation wording', () => {
+  for (const [key, value] of Object.entries(enUSMessages)) {
+    assert.doesNotMatch(value, /cargo pads?|Cargo Pads?/, key)
+    if (key.startsWith('cargo.') || key === 'validation.interstellarHelium3') {
+      assert.doesNotMatch(value, /interstellar/i, key)
+    }
+  }
+  for (const [key, value] of Object.entries(jaJPMessages)) {
+    assert.doesNotMatch(value, /貨物パッド/, key)
+  }
+})
+
+test('official Japanese semantic corrections retain contextual biome wording', () => {
+  assert.equal(jaJPMessages['about.description'], 'スターフィールドの拠点ネットワークを記録・管理するツールです。')
+  assert.match(jaJPMessages['validation.outpostNameLength'], /^スターフィールド/)
+  assert.equal(jaJPMessages['character.skill.outpostEngineering'], '拠点エンジニアリング')
+  assert.match(jaJPMessages['matrix.tooltip.xTech.add'], /X-テックパワーコア/)
+  assert.equal(jaJPMessages['outpost.biomes.label'], 'バイオーム')
+  assert.match(jaJPMessages['help.biomes'], /バイオーム/)
 })
 
 test('body-biome and grouped labels localize through stable biome identity', () => {

@@ -58,7 +58,7 @@ test('Japanese is complete with exact key and placeholder parity', () => {
 })
 
 test('Japanese preserves representative protected tokens and has no ordinary exact fallback', () => {
-  assert.match(jaJPMessages['about.description'], /Starfield/)
+  assert.match(jaJPMessages['about.description'], /スターフィールド/)
   assert.equal(
     jaJPMessages['about.attribution'],
     'Cosmos icons created by gravisio - Flaticon',
@@ -69,7 +69,7 @@ test('Japanese preserves representative protected tokens and has no ordinary exa
   assert.match(jaJPMessages['search.results.dragInstructions'], /Shift/)
   assert.match(jaJPMessages['transfer.export.tooltip'], /JSON/)
   assert.match(jaJPMessages['validation.unknownSystem'], /ID/)
-  assert.match(jaJPMessages['matrix.tooltip.xTech.add'], /X-Tech Power Cores/)
+  assert.match(jaJPMessages['matrix.tooltip.xTech.add'], /X-テックパワーコア/)
 
   const intentionalInvariantMessages = new Set<MessageKey>([
     'about.attribution',

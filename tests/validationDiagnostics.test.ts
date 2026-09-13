@@ -36,6 +36,7 @@ const referenceData: ReferenceData = {
     { id: 'aluminium', name: 'Aluminum', shortName: 'Al', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
     { id: 'fiber', name: 'Fiber', shortName: 'Fb', category: 'organic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: null },
     { id: 'water', name: 'Water', shortName: 'H2O', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'special' },
+    { id: 'x-tech', name: 'X-Tech', shortName: 'XT', category: 'inorganic', rarity: 'unique', parentId: null, sortOrder: null, plannedSupplyPlacement: 'special' },
   ],
   products: [{ id: 'frame', name: 'Adaptive Frame', shortName: 'AF', rarity: 'common' }],
   inorganicOccurrences: [{
@@ -208,6 +209,24 @@ test('invalid skill diagnostics resolve Bethesda official-term names', () => {
   assert.equal(issue.skillId, 'outpostEngineering')
 })
 
+test('X-Tech diagnostics resolve the official resource name by stable identity', () => {
+  const issue: ValidationIssue = {
+    ruleId: 'x-tech-capability-mismatch',
+    category: 'operational',
+    severity: 'warning',
+    messageKey: 'validation.xTechCapabilityPresent',
+    cargoItem: { type: 'resource', id: 'x-tech' },
+  }
+  assert.match(
+    getValidationIssuePresentation(issue, [], referenceData, 'ja-JP').message,
+    /^X-テックは/,
+  )
+  assert.match(
+    getValidationIssuePresentation(issue, [], referenceData, 'en-US').message,
+    /^X-Tech is/,
+  )
+})
+
 test('duplicate diagnostics resolve names and retain raw-ID fallbacks', () => {
   const outpost = makeOutpost({
     localResources: ['iron', 'iron'],
@@ -231,7 +250,7 @@ test('duplicate diagnostics resolve names and retain raw-ID fallbacks', () => {
     "Forest appears more than once in this outpost's biome selection.",
     "Adaptive Frame appears more than once in this outpost's manufacturing list.",
     "Water appears more than once in this outpost's Planned Supply.",
-    "Adaptive Frame appears more than once in this cargo pad's outbound items.",
+    "Adaptive Frame appears more than once in this Cargo Link's outbound items.",
   ])
 
   const fallbackIssue = duplicateCollectionEntriesRule.validate(
@@ -258,7 +277,7 @@ test('diagnostic presentation sorts stably and derives current pad ordinals', ()
   }
   assert.equal(
     getValidationIssuePresentation(padIssue, [outpost], referenceData).context,
-    'Frontier · Pad 2',
+    'Frontier · Cargo Link 2',
   )
   assert.equal(
     getValidationIssuePresentation(

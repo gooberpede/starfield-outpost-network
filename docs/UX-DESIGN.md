@@ -258,7 +258,7 @@ The compact summary above is grouped by category, sorted alphabetically within e
 
 Dense secondary editors should generally default to compact/collapsed mode where that makes sense.
 
-Cargo Pads already follow this pattern.
+Cargo Links already follow this pattern.
 
 Planned Supply defaults to compact mode. Expansion remains local presentation
 state and is not persisted in the network.
@@ -361,7 +361,7 @@ Alignment within a component matters more than forcing unrelated sections onto t
 
 The middle Outpost Details column uses one shared status matrix for body
 resources, local manufacturing, and imports. Planned Supply follows beneath
-the matrix, while Cargo Pads remain in the right workspace column:
+the matrix, while Cargo Links remain in the right workspace column:
 
 ```text
 Item | Source | Present | Producing | Inputs | Logistics
@@ -677,9 +677,11 @@ visible only as the current recovery choice until the user changes away.
 
 ---
 
-# Cargo Pad presentation
+# Cargo Link presentation
 
-Cargo Pads are secondary detail editors and default collapsed.
+Cargo Links are secondary detail editors and default collapsed. The visible
+term follows Bethesda's official object label; the internal `CargoPad` model
+name remains an implementation detail.
 
 The compact summary should expose enough information to recognize the pad and its current logistics role without opening the full editor.
 
@@ -697,7 +699,7 @@ The detailed summary format may evolve, but preserve the general pattern:
 - reorder changes order rather than identity;
 - cargo/link semantics remain domain concerns rather than presentation state.
 
-Cargo Pads use the established Navigation reshuffle grammar: presentation-only
+Cargo Links use the established Navigation reshuffle grammar: presentation-only
 `Reshuffle` / `Lock order` state, handle-only drag, stationary cards with gap
 markers, and alternate move-up/down controls. Reorder gutters appear only while
 unlocked, and the card list scrolls independently beneath its persistent
@@ -707,7 +709,7 @@ Visible pad ordinals are derived from current order and localized at render
 time. They do not use the legacy persisted `CargoPad.label` as presentation
 copy.
 
-Cargo Pad reshuffling requires at least two pads. With zero or one pad the
+Cargo Link reshuffling requires at least two links. With zero or one link the
 Reshuffle control remains visible but disabled, and an active reshuffle mode
 exits if the pad count drops below two.
 
@@ -989,7 +991,7 @@ Prefer generic derivation from authoritative runtime data.
 
 Used by:
 
-- Cargo Pads;
+- Cargo Links;
 - Planned Supply.
 
 Use when:
