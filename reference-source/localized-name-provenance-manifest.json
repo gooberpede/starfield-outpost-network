@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "gameVersion": "1.16.244.0",
-  "generatedAt": "2026-09-12T22:53:05.111Z",
+  "generatedAt": "2026-09-13T00:18:14.224Z",
   "generator": {
     "toolVersion": "8.0.0-c8",
-    "commit": "1e42466423aa4918b1b8cd96baffc11003f02cae"
+    "commit": "597cf2623dffacacba6c009ddd6c2ddf6910733a"
   },
   "authoritativePlugins": [
     {

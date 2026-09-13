@@ -24,11 +24,11 @@
     "ja": "utf-8"
   },
   "expectedClosure": {
-    "resolvedEntities": 3539,
-    "provenanceRows": 4796,
+    "resolvedEntities": 3561,
+    "provenanceRows": 4818,
     "unresolvedRows": 0,
     "providerRows": {
-      "Starfield.esm": 4759,
+      "Starfield.esm": 4781,
       "ShatteredSpace.esm": 35,
       "SFBGS00D.esm": 2
     },

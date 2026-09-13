@@ -82,6 +82,18 @@ export function validateProvenanceRowShapes(provenance) {
   return grouped.size
 }
 
+export function validateResourceCatalogueReconciliation(provenance, runtimeResources, excludedResourceIds) {
+  const provenanceIds = new Set(provenance.filter((row) => row.EntityKind === 'resource').map((row) => row.EntityId))
+  const runtimeIds = new Set(runtimeResources.map((resource) => resource.id))
+  const excludedIds = new Set(excludedResourceIds)
+  const missing = [...runtimeIds].filter((id) => !provenanceIds.has(id)).sort()
+  const sourceOnly = [...provenanceIds].filter((id) => !runtimeIds.has(id)).sort()
+  if (missing.length || JSON.stringify(sourceOnly) !== JSON.stringify([...excludedIds].sort())) {
+    throw new Error(`RESOURCE_CATALOGUE_RECONCILIATION_FAILED: ${JSON.stringify({ missing, sourceOnly, excluded: [...excludedIds].sort() })}`)
+  }
+  return { provenanceResources: provenanceIds.size, runtimeResources: runtimeIds.size, sourceOnly }
+}
+
 export function verifyJapaneseAvailability(provenance, localizedTables) {
   const missing = []
   for (const row of provenance) {

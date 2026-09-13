@@ -5,6 +5,7 @@
  */
 import { parse } from 'csv-parse/sync'
 
+import { reduceCanonicalOrganicIdentities } from '../item-reference-data.mjs'
 import { extractLocalizedId, getLocalizedFieldDefinition, SEMANTIC_PATHS } from './localized-field-map.mjs'
 import {
   AUTHORITATIVE_LOCALIZATION_PLUGINS, logicalIdentityForRecord, resolveLocalizedFieldProvider,
@@ -45,6 +46,13 @@ export const OFFICIAL_TERMS = Object.freeze([
   { entityId: 'skill.outpost-engineering', formId: '002C59E0', canonicalEnglish: 'Outpost Engineering' },
 ])
 
+export const ORGANIC_RESOURCE_ADDENDUM_IDS = Object.freeze([
+  'adhesive', 'amino-acids', 'analgesic', 'antimicrobial', 'aromatic',
+  'gastronomic-delight', 'hallucinogen', 'high-tensile-spidroin', 'hypercatalyst',
+  'immunostimulant', 'luxury-textile', 'metabolic-agent', 'neurologic', 'nutrient',
+  'ornamental', 'pigment', 'sealant', 'sedative', 'spice', 'stimulant', 'structural', 'toxin',
+])
+
 function rows(csv) {
   return parse(csv, { bom: true, columns: true, skip_empty_lines: true, trim: true })
 }
@@ -64,7 +72,8 @@ function target(entityKind, entityId, plugin, formId, canonicalEnglish, signatur
 
 export function buildC2Targets(sources) {
   const policy = new Map(rows(sources.inorganicPolicy).map((row) => [row.ResourceFormID, row.ResourceId]))
-  const metadata = new Map(rows(sources.itemMetadata).map((row) => [`${row.ItemType}:${row.ItemFormID}`, row]))
+  const metadataRows = rows(sources.itemMetadata)
+  const metadata = new Map(metadataRows.map((row) => [`${row.ItemType}:${row.ItemFormID}`, row]))
   const targets = new Map()
   const add = (item) => {
     const key = `${item.entityKind}:${item.entityId}`
@@ -94,6 +103,43 @@ export function buildC2Targets(sources) {
     add(matches[0])
   }
 
+  // Harvested-resource identity comes from the canonical occurrence FormID; display text is verification only.
+  const organicOccurrences = rows(sources.biomeOrganic)
+  const organicByFormId = reduceCanonicalOrganicIdentities(organicOccurrences)
+  const organicMetadata = metadataRows.filter((row) => row.ItemType === 'organic')
+  const organicMetadataByFormId = new Map()
+  const organicIds = new Set()
+  for (const row of organicMetadata) {
+    if (organicMetadataByFormId.has(row.ItemFormID)) {
+      throw new Error(`CANONICAL_SOURCE_ERROR: duplicate organic metadata FormID ${row.ItemFormID}.`)
+    }
+    if (organicIds.has(row.ItemId)) {
+      throw new Error(`CANONICAL_SOURCE_ERROR: duplicate organic stable ID ${row.ItemId}.`)
+    }
+    organicMetadataByFormId.set(row.ItemFormID, row)
+    organicIds.add(row.ItemId)
+  }
+  const missingMetadata = [...organicByFormId.keys()].filter((formId) => !organicMetadataByFormId.has(formId))
+  const unmatchedMetadata = [...organicMetadataByFormId.keys()].filter((formId) => !organicByFormId.has(formId))
+  if (missingMetadata.length || unmatchedMetadata.length) {
+    throw new Error(
+      `CANONICAL_SOURCE_ERROR: organic FormID coverage differs; missing metadata: ${missingMetadata.join(', ') || 'none'}; ` +
+      `unmatched metadata: ${unmatchedMetadata.join(', ') || 'none'}.`,
+    )
+  }
+  const targetCountBeforeOrganics = targets.size
+  for (const [formId, canonical] of organicByFormId) {
+    const item = organicMetadataByFormId.get(formId)
+    if (item.ItemEditorID !== canonical.editorId || item.CanonicalName !== canonical.canonicalName) {
+      throw new Error(`CANONICAL_SOURCE_ERROR: organic metadata ${formId} contradicts canonical EditorID/name.`)
+    }
+    add(target(
+      'resource', item.ItemId, canonical.sourceFile, formId,
+      item.DisplayNameOverride || item.CanonicalName,
+    ))
+  }
+  const organicResourceTargetsAdded = targets.size - targetCountBeforeOrganics
+
   const biomeIdentities = new Map()
   for (const csv of [sources.biomeInorganic, sources.biomeOrganic]) {
     for (const row of rows(csv)) {
@@ -120,6 +166,10 @@ export function buildC2Targets(sources) {
       duplicateRecipeOccurrencesCollapsed: recipeRows.length * 2 - new Set([...recipeRows.map((row) => `item:${row.ProductFormID}`), ...recipeRows.map((row) => `item:${row.IngredientFormID}`)]).size,
       uniqueBiomes: biomeIdentities.size,
       repeatedBiomeNameGroups: [...biomeNameCounts.values()].filter((count) => count > 1).length,
+      organicResourceOccurrenceRows: organicOccurrences.filter((row) => row.ResourceResolutionStatus === 'Resolved').length,
+      uniqueOrganicResources: organicByFormId.size,
+      duplicateOrganicResourceOccurrencesCollapsed: organicOccurrences.filter((row) => row.ResourceResolutionStatus === 'Resolved').length - organicByFormId.size,
+      organicResourceTargetsAdded,
     },
   }
 }
@@ -219,7 +269,7 @@ export function serializeCsv(headers, data) {
   return `${[headers, ...data.map((row) => headers.map((header) => row[header]))].map((line) => line.map(csvCell).join(',')).join('\n')}\n`
 }
 
-export function validateCommittedCrosswalk(provenanceCsv, unresolvedCsv, targets) {
+export function validateCommittedCrosswalk(provenanceCsv, unresolvedCsv, targets, options = {}) {
   const parseExact = (csv, headers, name) => {
     const data = parse(csv, { bom: true, skip_empty_lines: true, trim: true })
     const actualHeaders = data.shift() ?? []
@@ -247,8 +297,9 @@ export function validateCommittedCrosswalk(provenanceCsv, unresolvedCsv, targets
   const unresolvedKeys = new Set(unresolved.map((row) => `${row.EntityKind}:${row.EntityId}`))
   const expected = new Set(targets.map((item) => `${item.entityKind}:${item.entityId}`))
   const actual = new Set([...resolvedKeys, ...unresolvedKeys])
-  if ([...actual].some((key) => !expected.has(key)) ||
-      [...expected].some((key) => !actual.has(key) || (resolvedKeys.has(key) && unresolvedKeys.has(key)))) {
+  const missingOrOverlapping = [...expected].some((key) =>
+    (!actual.has(key) && options.allowMissingTargets !== true) || (resolvedKeys.has(key) && unresolvedKeys.has(key)))
+  if ([...actual].some((key) => !expected.has(key)) || missingOrOverlapping) {
     throw new Error('Committed provenance crosswalk does not cover every canonical target in exactly one resolved/unresolved state.')
   }
 

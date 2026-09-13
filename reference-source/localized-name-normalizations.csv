@@ -1,3 +1,4 @@
 EntityKind,EntityId,ExpectedSourceEnglish,ExpectedLocalizedEnglish,ReasonCode,Detail
 system,0,SOL,Sol,TRACKER_NORMALIZATION,xEdit structural source preserves SOL; official localized STDT FULL is Sol.
 body,00223320,_TridentLuxuryLinesOrbital,Trident Luxury Liners Staryard,TRACKER_NORMALIZATION,Canonical PNDT structural text is an internal orbital label; official localized PNDT FULL is Trident Luxury Liners Staryard.
+resource,gastronomic-delight,Gastronomic Delight,Gastro Delight,TRACKER_NORMALIZATION,Tracker display override preserves Gastronomic Delight; official localized IRES FULL is Gastro Delight.

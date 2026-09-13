@@ -4,7 +4,7 @@ import { execFileSync } from 'node:child_process'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { buildC2Targets, generateProvenance, PROVENANCE_HEADERS, serializeCsv, UNRESOLVED_HEADERS, validateCommittedCrosswalk } from './localized-name-provenance.mjs'
+import { buildC2Targets, generateProvenance, ORGANIC_RESOURCE_ADDENDUM_IDS, PROVENANCE_HEADERS, serializeCsv, UNRESOLVED_HEADERS, validateCommittedCrosswalk } from './localized-name-provenance.mjs'
 import { buildC4Targets } from './body-provenance.mjs'
 import {
   C6_PREVIEW_HEADERS, generateComposedFaunaProvenance, parseC6Targets,
@@ -173,7 +173,7 @@ export async function buildLocalizedNameProvenance(options) {
   const result = {
     provenance: [...c2Result.provenance, ...systemResult.provenance, ...bodyResult.provenance, ...organicResult.provenance, ...c6Result.provenance].sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || Number(a.ComponentOrder) - Number(b.ComponentOrder)),
     unresolved: [...c2Result.unresolved, ...systemResult.unresolved, ...bodyResult.unresolved, ...organicUnresolved].sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || a.ReasonCode.localeCompare(b.ReasonCode)),
-    normalizations: [...c2Result.normalizations, ...systemResult.normalizations, ...bodyResult.normalizations, ...organicResult.normalizations],
+    normalizations: [...systemResult.normalizations, ...bodyResult.normalizations, ...c2Result.normalizations, ...organicResult.normalizations],
   }
   const population = buildCanonicalPopulation([c2Targets, systemTargets, bodyTargets, organicTargets])
   const coverage = validateCoverage(population, result.provenance, result.unresolved)
@@ -197,7 +197,7 @@ export async function buildLocalizedNameProvenance(options) {
   try { committedManifest = JSON.parse(await readFile(path.join(ROOT, OUTPUT_PATHS.manifest), 'utf8')) } catch (error) { if (error.code !== 'ENOENT') throw error }
   const committedCrosswalk = validateCommittedCrosswalk(
     await readFile(path.join(ROOT, OUTPUT_PATHS.provenance), 'utf8'), await readFile(path.join(ROOT, OUTPUT_PATHS.unresolved), 'utf8'),
-    [...c2Targets, ...systemTargets, ...bodyTargets, ...organicTargets],
+    [...c2Targets, ...systemTargets, ...bodyTargets, ...organicTargets], { allowMissingTargets: true },
   )
   const committed = {
     ...committedCrosswalk,
@@ -291,6 +291,30 @@ function validateInstalledC7Population(result, providerChains, mastersByPlugin, 
   const japanese = localizedTables.get('SFBGS00D.esm:ja:strings')?.get(0xA682)
   if (muphrid.CanonicalEnglish !== 'Muphrid IV' || japanese !== 'ムフリドIV') {
     throw new Error(`C7 Muphrid IV localized values drifted: en=${JSON.stringify(muphrid.CanonicalEnglish)}, ja=${JSON.stringify(japanese)}.`)
+  }
+  const organicAddendumRows = result.provenance.filter((row) =>
+    row.EntityKind === 'resource' && ORGANIC_RESOURCE_ADDENDUM_IDS.includes(row.EntityId))
+  if (organicAddendumRows.length !== ORGANIC_RESOURCE_ADDENDUM_IDS.length || organicAddendumRows.some((row) => {
+    const identity = logicalIdentityForRecord(
+      row.RecordSourcePlugin, mastersByPlugin, row.RecordSignature, Number.parseInt(row.RecordFormID, 16) >>> 0,
+    )
+    const chain = providerChains.get(identity.key)
+    return row.RecordSourcePlugin !== 'Starfield.esm' || row.NameSourcePlugin !== 'Starfield.esm' || chain?.length !== 1
+  })) throw new Error('C7 organic-resource addendum provider boundary drifted.')
+  const gastronomic = organicAddendumRows.find((row) => row.EntityId === 'gastronomic-delight')
+  const gastronomicExpected = {
+    RecordSourcePlugin: 'Starfield.esm', RecordFormID: '0007782F', RecordSignature: 'IRES',
+    NameFieldPath: 'topLevel.FULL', NameSourcePlugin: 'Starfield.esm', NameStringTable: 'strings',
+    NameStringID: '000081A0', CanonicalEnglish: 'Gastronomic Delight',
+  }
+  const gastronomicEnglish = localizedTables.get('Starfield.esm:en:strings')?.get(0x81A0)
+  const gastronomicJapanese = localizedTables.get('Starfield.esm:ja:strings')?.get(0x81A0)
+  if (!gastronomic || Object.entries(gastronomicExpected).some(([key, value]) => gastronomic[key] !== value) ||
+      gastronomicEnglish !== 'Gastro Delight' || gastronomicJapanese !== '美食の喜び') {
+    throw new Error(
+      `Organic-resource Gastronomic Delight regression failed: row=${JSON.stringify(gastronomic)}, ` +
+      `en=${JSON.stringify(gastronomicEnglish)}, ja=${JSON.stringify(gastronomicJapanese)}.`,
+    )
   }
   return statistics
 }

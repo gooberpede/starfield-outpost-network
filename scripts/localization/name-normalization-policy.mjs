@@ -21,6 +21,14 @@ export const NAME_NORMALIZATIONS = Object.freeze([
     reasonCode: 'TRACKER_NORMALIZATION',
     detail: 'Canonical PNDT structural text is an internal orbital label; official localized PNDT FULL is Trident Luxury Liners Staryard.',
   }),
+  Object.freeze({
+    entityKind: 'resource',
+    entityId: 'gastronomic-delight',
+    expectedSourceEnglish: 'Gastronomic Delight',
+    expectedLocalizedEnglish: 'Gastro Delight',
+    reasonCode: 'TRACKER_NORMALIZATION',
+    detail: 'Tracker display override preserves Gastronomic Delight; official localized IRES FULL is Gastro Delight.',
+  }),
 ])
 
 export function buildNameNormalizationPolicy(entries = NAME_NORMALIZATIONS) {

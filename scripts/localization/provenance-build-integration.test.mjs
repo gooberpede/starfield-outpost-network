@@ -3,7 +3,7 @@ import test from 'node:test'
 
 import {
   buildCanonicalPopulation, compareInputManifests, compareProvenanceArtifacts,
-  validateCoverage, validateInputPolicy, validateProvenanceRowShapes,
+  validateCoverage, validateInputPolicy, validateProvenanceRowShapes, validateResourceCatalogueReconciliation,
 } from './provenance-build-integration.mjs'
 
 const policy = {
@@ -45,6 +45,19 @@ test('coverage rejects duplicate, missing, extra, and overlapping states', () =>
   assert.throws(() => validateCoverage(population, [row()], []), /missing/)
   assert.throws(() => validateCoverage(population, [row(), row({ EntityId: '3' })], [{ EntityKind: 'body', EntityId: '2' }]), /extra/)
   assert.throws(() => validateCoverage(population, [row()], [{ EntityKind: 'body', EntityId: '1' }, { EntityKind: 'body', EntityId: '2' }]), /overlap/)
+})
+
+test('resource catalogue reconciliation permits only the two source-only exclusions', () => {
+  const provenance = [
+    row({ EntityKind: 'resource', EntityId: 'iron' }),
+    row({ EntityKind: 'resource', EntityId: 'aqueous-hematite' }),
+    row({ EntityKind: 'resource', EntityId: 'caelumite' }),
+  ]
+  assert.deepEqual(
+    validateResourceCatalogueReconciliation(provenance, [{ id: 'iron' }], ['aqueous-hematite', 'caelumite']),
+    { provenanceResources: 3, runtimeResources: 1, sourceOnly: ['aqueous-hematite', 'caelumite'] },
+  )
+  assert.throws(() => validateResourceCatalogueReconciliation(provenance, [{ id: 'iron' }, { id: 'toxin' }], ['aqueous-hematite', 'caelumite']), /RECONCILIATION_FAILED/)
 })
 
 test('row shapes accept complete names and every generically valid composed fauna shape', () => {

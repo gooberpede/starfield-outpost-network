@@ -703,8 +703,9 @@ normalized filename, size, SHA-256, declared load order, tool version, game
 version, and generation timestamp. No ESM, BA2, string-table contents, or raw
 record dumps belong in the repository.
 
-Parcel C2 adds a normalized, generated crosswalk for direct-name resources,
-products, biomes, and official skill terms:
+Parcel C2 adds a normalized, generated crosswalk for direct-name resources
+(inorganic, special/X-Tech, and organic harvest resources), products, biomes,
+and official skill terms:
 
 ```text
 canonical stable entity
@@ -901,8 +902,10 @@ manifest and authoritative-input validation
 Direct and template names have one complete component at slot 0. Composed
 fauna retain sparse semantic slots 0=prefix, 1=species, and 2=diet. Every
 canonical entity must occur in exactly one resolved, explicit unresolved, or
-explicit excluded state. The current reviewed closure is 3,539 resolved
-entities, 4,796 provenance rows, and zero unresolved entities.
+explicit excluded state. The current reviewed closure is 3,561 resolved
+entities, 4,818 provenance rows, and zero unresolved entities. Its 78 resource
+entities cover all 76 surfaced runtime resources plus the source-only excluded
+`aqueous-hematite` and `caelumite` identities.
 
 `reference-source/localized-name-provenance-manifest.json` records the reviewed
 game version, normalized plugin identities and SHA-256 hashes, TES4 masters,

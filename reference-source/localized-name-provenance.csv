@@ -4616,12 +4616,17 @@ product,veryl-treated-manifold,direct,0,complete,Starfield.esm,00203EA8,IRES,top
 product,vytinium-fuel-rod,direct,0,complete,Starfield.esm,00203EA3,IRES,topLevel.FULL,Starfield.esm,strings,0000811D,Vytinium Fuel Rod
 product,zero-g-gimbal,direct,0,complete,Starfield.esm,0024576F,IRES,topLevel.FULL,Starfield.esm,strings,00008102,Zero-G Gimbal
 product,zero-wire,direct,0,complete,Starfield.esm,0024576E,IRES,topLevel.FULL,Starfield.esm,strings,000080EC,Zero Wire
+resource,adhesive,direct,0,complete,Starfield.esm,00077828,IRES,topLevel.FULL,Starfield.esm,strings,00008198,Adhesive
 resource,aldumite,direct,0,complete,Starfield.esm,00005DF5,IRES,topLevel.FULL,Starfield.esm,strings,000081EA,Aldumite
 resource,alkanes,direct,0,complete,Starfield.esm,000057C9,IRES,topLevel.FULL,Starfield.esm,strings,000081FC,Alkanes
 resource,aluminium,direct,0,complete,Starfield.esm,000057D6,IRES,topLevel.FULL,Starfield.esm,strings,00008155,Aluminum
+resource,amino-acids,direct,0,complete,Starfield.esm,0007782A,IRES,topLevel.FULL,Starfield.esm,strings,0000819A,Amino Acids
+resource,analgesic,direct,0,complete,Starfield.esm,00077829,IRES,topLevel.FULL,Starfield.esm,strings,00008199,Analgesic
+resource,antimicrobial,direct,0,complete,Starfield.esm,00077820,IRES,topLevel.FULL,Starfield.esm,strings,000081C3,Antimicrobial
 resource,antimony,direct,0,complete,Starfield.esm,000057D3,IRES,topLevel.FULL,Starfield.esm,strings,0000820F,Antimony
 resource,aqueous-hematite,direct,0,complete,Starfield.esm,00006529,IRES,topLevel.FULL,Starfield.esm,strings,000300D7,Aqueous Hematite
 resource,argon,direct,0,complete,Starfield.esm,000057EA,IRES,topLevel.FULL,Starfield.esm,strings,000081DC,Argon
+resource,aromatic,direct,0,complete,Starfield.esm,000777FB,IRES,topLevel.FULL,Starfield.esm,strings,000081C1,Aromatic
 resource,benzene,direct,0,complete,Starfield.esm,000057E7,IRES,topLevel.FULL,Starfield.esm,strings,000081D6,Benzene
 resource,beryllium,direct,0,complete,Starfield.esm,000057D8,IRES,topLevel.FULL,Starfield.esm,strings,000081CA,Beryllium
 resource,biosuppressant,direct,0,complete,Starfield.esm,00077824,IRES,topLevel.FULL,Starfield.esm,strings,00008193,Biosuppressant
@@ -4637,8 +4642,13 @@ resource,dysprosium,direct,0,complete,Starfield.esm,000057C2,IRES,topLevel.FULL,
 resource,europium,direct,0,complete,Starfield.esm,000057E2,IRES,topLevel.FULL,Starfield.esm,strings,000081D4,Europium
 resource,fiber,direct,0,complete,Starfield.esm,00077821,IRES,topLevel.FULL,Starfield.esm,strings,000081C4,Fiber
 resource,fluorine,direct,0,complete,Starfield.esm,000057D0,IRES,topLevel.FULL,Starfield.esm,strings,00008209,Fluorine
+resource,gastronomic-delight,direct,0,complete,Starfield.esm,0007782F,IRES,topLevel.FULL,Starfield.esm,strings,000081A0,Gastronomic Delight
 resource,gold,direct,0,complete,Starfield.esm,000057D2,IRES,topLevel.FULL,Starfield.esm,strings,0000820D,Gold
+resource,hallucinogen,direct,0,complete,Starfield.esm,0029F403,IRES,topLevel.FULL,Starfield.esm,strings,000080A9,Hallucinogen
 resource,helium-3,direct,0,complete,Starfield.esm,000057F5,IRES,topLevel.FULL,Starfield.esm,strings,000081E6,Helium-3
+resource,high-tensile-spidroin,direct,0,complete,Starfield.esm,000777FC,IRES,topLevel.FULL,Starfield.esm,strings,000081C2,High-Tensile Spidroin
+resource,hypercatalyst,direct,0,complete,Starfield.esm,0029F40C,IRES,topLevel.FULL,Starfield.esm,strings,000080AB,Hypercatalyst
+resource,immunostimulant,direct,0,complete,Starfield.esm,00077830,IRES,topLevel.FULL,Starfield.esm,strings,000081A1,Immunostimulant
 resource,indicite,direct,0,complete,Starfield.esm,0004BA38,IRES,topLevel.FULL,Starfield.esm,strings,000081DA,Indicite
 resource,ionic-liquids,direct,0,complete,Starfield.esm,000057D4,IRES,topLevel.FULL,Starfield.esm,strings,00008211,Ionic Liquids
 resource,iridium,direct,0,complete,Starfield.esm,000057EC,IRES,topLevel.FULL,Starfield.esm,strings,000081E0,Iridium
@@ -4646,23 +4656,35 @@ resource,iron,direct,0,complete,Starfield.esm,000057C7,IRES,topLevel.FULL,Starfi
 resource,lead,direct,0,complete,Starfield.esm,000057C1,IRES,topLevel.FULL,Starfield.esm,strings,00008192,Lead
 resource,lithium,direct,0,complete,Starfield.esm,000057DA,IRES,topLevel.FULL,Starfield.esm,strings,000081CC,Lithium
 resource,lubricant,direct,0,complete,Starfield.esm,000777F9,IRES,topLevel.FULL,Starfield.esm,strings,000081BF,Lubricant
+resource,luxury-textile,direct,0,complete,Starfield.esm,00077831,IRES,topLevel.FULL,Starfield.esm,strings,000081A2,Luxury Textile
 resource,membrane,direct,0,complete,Starfield.esm,0007782C,IRES,topLevel.FULL,Starfield.esm,strings,0000819D,Membrane
 resource,memory-substrate,direct,0,complete,Starfield.esm,00077832,IRES,topLevel.FULL,Starfield.esm,strings,000081A3,Memory Substrate
 resource,mercury,direct,0,complete,Starfield.esm,0027C499,IRES,topLevel.FULL,Starfield.esm,strings,000080B9,Mercury
+resource,metabolic-agent,direct,0,complete,Starfield.esm,0029F3FD,IRES,topLevel.FULL,Starfield.esm,strings,000080A7,Metabolic Agent
 resource,neodymium,direct,0,complete,Starfield.esm,000057DB,IRES,topLevel.FULL,Starfield.esm,strings,000081CE,Neodymium
 resource,neon,direct,0,complete,Starfield.esm,000057E9,IRES,topLevel.FULL,Starfield.esm,strings,000081BC,Neon
+resource,neurologic,direct,0,complete,Starfield.esm,0029F408,IRES,topLevel.FULL,Starfield.esm,strings,000080AA,Neurologic
 resource,nickel,direct,0,complete,Starfield.esm,000057CB,IRES,topLevel.FULL,Starfield.esm,strings,00008200,Nickel
+resource,nutrient,direct,0,complete,Starfield.esm,000777E6,IRES,topLevel.FULL,Starfield.esm,strings,000081BD,Nutrient
+resource,ornamental,direct,0,complete,Starfield.esm,00077822,IRES,topLevel.FULL,Starfield.esm,strings,000081AA,Ornamental
 resource,palladium,direct,0,complete,Starfield.esm,000057CD,IRES,topLevel.FULL,Starfield.esm,strings,00008203,Palladium
+resource,pigment,direct,0,complete,Starfield.esm,0029F401,IRES,topLevel.FULL,Starfield.esm,strings,000080A8,Pigment
 resource,platinum,direct,0,complete,Starfield.esm,000057CC,IRES,topLevel.FULL,Starfield.esm,strings,0000819C,Platinum
 resource,plutonium,direct,0,complete,Starfield.esm,000057EE,IRES,topLevel.FULL,Starfield.esm,strings,000081E4,Plutonium
 resource,polymer,direct,0,complete,Starfield.esm,00077826,IRES,topLevel.FULL,Starfield.esm,strings,00008195,Polymer
 resource,rothicite,direct,0,complete,Starfield.esm,00005DF1,IRES,topLevel.FULL,Starfield.esm,strings,000081E8,Rothicite
+resource,sealant,direct,0,complete,Starfield.esm,0007782D,IRES,topLevel.FULL,Starfield.esm,strings,0000819E,Sealant
+resource,sedative,direct,0,complete,Starfield.esm,0007782B,IRES,topLevel.FULL,Starfield.esm,strings,00008201,Sedative
 resource,silver,direct,0,complete,Starfield.esm,000057C3,IRES,topLevel.FULL,Starfield.esm,strings,000081F2,Silver
 resource,solvent,direct,0,complete,Starfield.esm,00077827,IRES,topLevel.FULL,Starfield.esm,strings,00008196,Solvent
+resource,spice,direct,0,complete,Starfield.esm,0007782E,IRES,topLevel.FULL,Starfield.esm,strings,0000819F,Spice
+resource,stimulant,direct,0,complete,Starfield.esm,00077825,IRES,topLevel.FULL,Starfield.esm,strings,00008194,Stimulant
+resource,structural,direct,0,complete,Starfield.esm,000777FA,IRES,topLevel.FULL,Starfield.esm,strings,000081C0,Structural
 resource,tantalum,direct,0,complete,Starfield.esm,000057C8,IRES,topLevel.FULL,Starfield.esm,strings,000081FA,Tantalum
 resource,tasine,direct,0,complete,Starfield.esm,00005DF6,IRES,topLevel.FULL,Starfield.esm,strings,000081EE,Tasine
 resource,tetrafluorides,direct,0,complete,Starfield.esm,000057D1,IRES,topLevel.FULL,Starfield.esm,strings,0000820B,Tetrafluorides
 resource,titanium,direct,0,complete,Starfield.esm,000057C6,IRES,topLevel.FULL,Starfield.esm,strings,000081F6,Titanium
+resource,toxin,direct,0,complete,Starfield.esm,00077823,IRES,topLevel.FULL,Starfield.esm,strings,00008190,Toxin
 resource,tungsten,direct,0,complete,Starfield.esm,000057C4,IRES,topLevel.FULL,Starfield.esm,strings,000081F4,Tungsten
 resource,uranium,direct,0,complete,Starfield.esm,000057EB,IRES,topLevel.FULL,Starfield.esm,strings,000081DE,Uranium
 resource,vanadium,direct,0,complete,Starfield.esm,000057ED,IRES,topLevel.FULL,Starfield.esm,strings,000081E2,Vanadium

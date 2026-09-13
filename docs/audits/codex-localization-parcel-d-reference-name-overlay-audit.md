@@ -1,5 +1,11 @@
 # Localization Parcel D: Official Japanese Reference-Name Overlay Integration Audit
 
+> Resolution note (2026-09-13): the Parcel C organic-resource provenance
+> addendum closed the 22-resource gap described in this historical audit.
+> Parcel C now contains 78 resource identities: all 76 surfaced runtime
+> resources plus the source-only exclusions `aqueous-hematite` and `caelumite`.
+> The remaining findings below are preserved as originally audited.
+
 ## Executive verdict
 
 Parcel D should extend the existing stable-ID reference-name overlay rather than
