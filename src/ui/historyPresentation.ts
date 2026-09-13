@@ -1,17 +1,10 @@
 import { translateDescriptor } from '../localization/catalog.ts'
 import { getReferenceDisplayName } from '../localization/referenceNames.ts'
+import { getSkillDisplayName } from '../localization/officialTerms.ts'
 import { formatInteger } from '../localization/formatters.ts'
 
 import type { HistoryLabelDescriptor } from '../domain/collectionEditingSession.ts'
 import type { MessageParameters, SupportedLocale } from '../localization/types.ts'
-
-const skillMessageKeys = {
-  outpostManagement: 'character.skill.outpostManagement',
-  outpostEngineering: 'character.skill.outpostEngineering',
-  planetaryHabitation: 'character.skill.planetaryHabitation',
-  researchMethods: 'character.skill.researchMethods',
-  specialProjects: 'character.skill.specialProjects',
-} as const
 
 /** Resolves semantic history facts against the locale active at render time. */
 export function getHistoryDisplayLabel(
@@ -31,9 +24,7 @@ export function getHistoryDisplayLabel(
   )
   const skillParameters: MessageParameters = label.skillId
     ? {
-        skill: translateDescriptor(locale, {
-          key: skillMessageKeys[label.skillId],
-        }),
+        skill: getSkillDisplayName(label.skillId, locale),
       }
     : {}
   const cargoPadParameters: MessageParameters = Object.fromEntries(

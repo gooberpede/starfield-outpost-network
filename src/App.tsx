@@ -248,6 +248,18 @@ function App() {
     ...product,
     name: getReferenceDisplayName('product', product.id, product.name, locale),
   }))
+
+  /** History fallbacks must remain canonical English across locale changes. */
+  function getCanonicalItemName(item: CargoItem): string {
+    const reference = item.type === 'resource'
+      ? referenceData?.resources.find(({ id }) => id === item.id)
+      : referenceData?.products.find(({ id }) => id === item.id)
+    return reference?.name ?? item.id
+  }
+
+  function getCanonicalResourceName(resourceId: string): string {
+    return referenceData?.resources.find(({ id }) => id === resourceId)?.name ?? resourceId
+  }
   const searchCatalogue = useMemo(
     () => referenceData ? buildItemSearchCatalogue(referenceData, locale) : [],
     [referenceData, locale],
@@ -1316,19 +1328,7 @@ function App() {
           outboundItem.id === item.id,
       )
 
-    const reference =
-      item.type === 'resource'
-        ? resources.find(
-            (resource) =>
-              resource.id === item.id,
-          )
-        : products.find(
-            (product) =>
-              product.id === item.id,
-          )
-
-    const itemName =
-      reference?.name ?? item.id
+    const itemName = getCanonicalItemName(item)
 
     applyUndoableNetworkChange(
       { key: isCurrentlyExported ? 'history.removeExport' : 'history.addExport', parameters: {
@@ -1715,14 +1715,7 @@ function App() {
         resourceId,
       )
 
-    const resource =
-      resources.find(
-        (candidate) =>
-          candidate.id === resourceId,
-      )
-
-    const resourceName =
-      resource?.name ?? resourceId
+    const resourceName = getCanonicalResourceName(resourceId)
 
     applyUndoableNetworkChange(
       { key: isCurrentlyLocal ? 'history.removeLocalResource' : 'history.addLocalResource',
@@ -1776,7 +1769,7 @@ function App() {
   function toggleExplicitResourcePresence(resourceId: string) {
     const isPresent = hasExplicitResourcePresence(selectedOutpost, resourceId)
     if (!isPresent && !canAddExplicitResourcePresence(network.character, resourceId)) return
-    const resourceName = resources.find((candidate) => candidate.id === resourceId)?.name ?? resourceId
+    const resourceName = getCanonicalResourceName(resourceId)
     applyUndoableNetworkChange(
       { key: isPresent ? 'history.removeExplicitResource' : 'history.addExplicitResource',
         parameters: { outpost: selectedOutpost.name },
@@ -1811,14 +1804,7 @@ function App() {
         (candidate) => getProductionRouteKey(candidate) === getProductionRouteKey(route),
       )
 
-    const resource =
-      resources.find(
-        (candidate) =>
-          candidate.id === route.resourceId,
-      )
-
-    const resourceName =
-      resource?.name ?? route.resourceId
+    const resourceName = getCanonicalResourceName(route.resourceId)
 
     if (!isCurrentlyActive && (!referenceData || !canActivateProductionRoute(
       network.character, selectedOutpost, route, referenceData,
@@ -1907,19 +1893,7 @@ function App() {
           plannedItem.id === item.id,
       )
 
-    const reference =
-      item.type === 'resource'
-        ? resources.find(
-            (resource) =>
-              resource.id === item.id,
-          )
-        : products.find(
-            (product) =>
-              product.id === item.id,
-          )
-
-    const itemName =
-      reference?.name ?? item.id
+    const itemName = getCanonicalItemName(item)
 
     applyUndoableNetworkChange(
       { key: isCurrentlyPlanned ? 'history.removePlannedSupply' : 'history.addPlannedSupply',

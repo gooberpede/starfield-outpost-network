@@ -640,9 +640,12 @@ the effective locale changes.
 Reference display names use a separate sparse overlay keyed by stable reference
 kind and ID. Resolution is locale override, canonical runtime name, then raw ID.
 The overlay never changes reference identity or generated reference datasets.
-Japanese tracker copy therefore remains independent of Bethesda-owned resource,
-product, system, body, biome, species, and other reference names. Those names
-continue to use canonical fallback until official stable-ID overlays are built.
+The generated Japanese official-name overlay is registered at this seam for
+resource, product, system, body, biome, species, and `official-term` names.
+Character skill slots map to five namespaced `official-term` IDs; their canonical
+English semantic labels remain the fallback, and game FormIDs do not enter
+runtime or persisted state. Japanese tracker-authored copy therefore remains
+independent of Bethesda-owned reference names.
 
 Japanese tracker-catalogue work closed after Parcels B1-B4 supplied the Codex
 first draft, an independent English-source translation, keyed comparative
@@ -662,7 +665,9 @@ Undo/Redo history remains session-only, but its labels are semantic
 `HistoryLabelDescriptor` values. Descriptors capture user-authored names at
 action time, retain frozen network ordinals, and render in the current locale,
 so switching locale relocalizes existing Undo/Redo titles without changing the
-stored collection or history snapshots. Expected import failures and transient
+stored collection or history snapshots. Reference parameters retain their stable
+kind and ID plus an authoritative canonical English fallback, never text from a
+locale-decorated presentation copy. Expected import failures and transient
 status messages use the same descriptor boundary; unexpected diagnostics are
 kept separately from localized user-facing copy.
 
@@ -894,9 +899,11 @@ hashes, closure counts, and generator policy. Repository-only verification
 checks these artifacts without reading Bethesda inputs; installed-game
 generation remains an explicit verify-by-default, `--write`-to-accept workflow.
 
-The generated module is deliberately not registered in runtime lookup in this
-build slice. Runtime consumers, official skill labels, search, sorting, and
-semantic-message terminology remain separate integration concerns.
+The generated module is registered statically under `ja-JP` in the runtime
+reference-name lookup. Existing consumers receive official Japanese names
+without changing stable identities, persistence, or domain state. Generic
+semantic-message terminology, search hardening, collation review, and visual
+layout remain separate concerns.
 
 Parcel C8 integrates C1-C7 behind one fail-closed builder. The project-owned
 policy at `reference-source/localization-provenance-policy.json` is the single

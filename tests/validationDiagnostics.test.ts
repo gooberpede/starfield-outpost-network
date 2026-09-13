@@ -188,6 +188,26 @@ test('manufacturing diagnostic presentation localizes names from stable IDs', ()
   )
 })
 
+test('invalid skill diagnostics resolve Bethesda official-term names', () => {
+  const issue: ValidationIssue = {
+    ruleId: 'valid-skill-level',
+    category: 'character',
+    severity: 'warning',
+    messageKey: 'validation.invalidSkillLevel',
+    skillId: 'outpostEngineering',
+    parameters: { level: 5, minimum: 0, maximum: 4 },
+  }
+  assert.match(
+    getValidationIssuePresentation(issue, [], null, 'ja-JP').message,
+    /拠点エンジニアリング/,
+  )
+  assert.match(
+    getValidationIssuePresentation(issue, [], null, 'en-US').message,
+    /Outpost Engineering/,
+  )
+  assert.equal(issue.skillId, 'outpostEngineering')
+})
+
 test('duplicate diagnostics resolve names and retain raw-ID fallbacks', () => {
   const outpost = makeOutpost({
     localResources: ['iron', 'iron'],

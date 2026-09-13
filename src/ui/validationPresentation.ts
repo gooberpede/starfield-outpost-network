@@ -6,7 +6,9 @@ import type { ValidationIssue } from '../domain/validation/types.ts'
 import { translate } from '../localization/catalog.ts'
 import { formatList, getCollator } from '../localization/formatters.ts'
 import { getReferenceDisplayName } from '../localization/referenceNames.ts'
+import { getSkillDisplayName } from '../localization/officialTerms.ts'
 import type { MessageKey, MessageParameters, SupportedLocale } from '../localization/types.ts'
+import type { CharacterSkill } from '../localization/officialTerms.ts'
 import { getDomesticableSourceNames } from './statusTooltips.ts'
 import {
   getBiomeGroupDisplayName,
@@ -18,6 +20,12 @@ export interface ValidationIssuePresentation {
   context: string | null
   message: string
   remediation: string | null
+}
+
+const validationSkillByMessage: Partial<Record<MessageKey, CharacterSkill>> = {
+  'validation.cargoPadSkillLimit': 'outpostManagement',
+  'validation.outpostSkillLimit': 'planetaryHabitation',
+  'validation.planetaryHabitationRequirement': 'planetaryHabitation',
 }
 
 function getCargoItemName(
@@ -50,17 +58,13 @@ function getIssueMessage(
 ): string {
   let key: MessageKey = issue.messageKey
   let parameters: MessageParameters = { ...issue.parameters }
-  if (key === 'validation.invalidSkillLevel' && issue.skillId) {
-    const skillKeys = {
-      outpostManagement: 'character.skill.outpostManagement',
-      outpostEngineering: 'character.skill.outpostEngineering',
-      planetaryHabitation: 'character.skill.planetaryHabitation',
-      researchMethods: 'character.skill.researchMethods',
-      specialProjects: 'character.skill.specialProjects',
-    } as const
+  const skill = key === 'validation.invalidSkillLevel'
+    ? issue.skillId
+    : validationSkillByMessage[key]
+  if (skill) {
     parameters = {
       ...parameters,
-      skill: translate(locale, skillKeys[issue.skillId]),
+      skill: getSkillDisplayName(skill, locale),
     }
   } else if (key === 'validation.manufacturingInputUnavailable' && issue.productId && issue.cargoItem) {
     const product = data?.products.find(({ id }) => id === issue.productId)

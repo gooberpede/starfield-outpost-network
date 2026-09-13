@@ -58,6 +58,20 @@ test('localized names rebuild between US and UK English without changing identit
   assert.deepEqual(getItemSearchMatches(us, 'R-COC', 'en-US'), [])
 })
 
+test('Japanese display and matching preserve the submitted stable identity', () => {
+  const catalogue = buildItemSearchCatalogue(references, 'ja-JP')
+  const resource = catalogue.find(({ key }) => key === 'resource:aluminium')
+  const product = catalogue.find(({ key }) => key === 'product:adaptive-frame')
+  assert.equal(resource?.displayName, 'アルミニウム')
+  assert.equal(product?.displayName, '順応型フレーム')
+  assert.deepEqual(getUniquelyResolvedSearchItem(
+    getItemSearchMatches(catalogue, 'アルミニウム', 'ja-JP'),
+  ), { type: 'resource', id: 'aluminium' })
+  assert.deepEqual(getUniquelyResolvedSearchItem(
+    getItemSearchMatches(catalogue, '順応型フレーム', 'ja-JP'),
+  ), { type: 'product', id: 'adaptive-frame' })
+})
+
 test('ordering and collision disambiguation remain deterministic', () => {
   const collisionReferences: ReferenceData = {
     ...references,

@@ -24,6 +24,7 @@ import { enGBMessages } from '../src/localization/locales/en-GB.ts'
 import { setDocumentLanguage } from '../src/localization/documentLanguage.ts'
 import { getImportFailurePresentation } from '../src/ui/importErrorPresentation.ts'
 import { getHistoryDisplayLabel } from '../src/ui/historyPresentation.ts'
+import { serializeNetworkCollection } from '../src/data/serialization.ts'
 
 class MemoryStorage {
   values = new Map<string, string>()
@@ -159,6 +160,48 @@ test('history resolves stable reference facts in the current locale', () => {
     getHistoryDisplayLabel(descriptor, 'en-GB'),
     'Add local resource Aluminium to Home',
   )
+  assert.equal(
+    getHistoryDisplayLabel(descriptor, 'ja-JP'),
+    'Homeに現地資源アルミニウムを追加',
+  )
+  assert.deepEqual(descriptor.referenceParameters[0], {
+    parameter: 'resource', kind: 'resource', id: 'aluminium', fallback: 'Aluminum',
+  })
+})
+
+test('history relocalization and locale preferences leave collection and history unchanged', () => {
+  const session = createCollectionEditingSession(createDefaultNetworkCollection())
+  const descriptor = {
+    key: 'history.addPlannedSupply' as const,
+    referenceParameters: [{
+      parameter: 'item', kind: 'product' as const,
+      id: 'adaptive-frame', fallback: 'Adaptive Frame',
+    }],
+  }
+  const collectionBefore = structuredClone(session.collection)
+  const historyBefore = structuredClone(session.history)
+  const exportBefore = serializeNetworkCollection(session.collection)
+
+  assert.match(getHistoryDisplayLabel(descriptor, 'ja-JP'), /順応型フレーム/)
+  assert.match(getHistoryDisplayLabel(descriptor, 'en-US'), /Adaptive Frame/)
+  assert.match(getHistoryDisplayLabel(descriptor, 'ja-JP'), /順応型フレーム/)
+  assert.deepEqual(session.collection, collectionBefore)
+  assert.deepEqual(session.history, historyBefore)
+  assert.equal(serializeNetworkCollection(session.collection), exportBefore)
+  assert.equal(session.context.outpostId, null)
+})
+
+test('skill history labels use official names in the locale active at render time', () => {
+  const descriptor = {
+    key: 'history.setSkill' as const,
+    skillId: 'outpostEngineering' as const,
+    parameters: { rank: 2 },
+  }
+  assert.equal(getHistoryDisplayLabel(descriptor, 'en-US'), 'Set Outpost Engineering to 2')
+  assert.match(getHistoryDisplayLabel(descriptor, 'ja-JP'), /拠点エンジニアリング/)
+  assert.deepEqual(descriptor, {
+    key: 'history.setSkill', skillId: 'outpostEngineering', parameters: { rank: 2 },
+  })
 })
 
 test('locale-aware list formatting owns conjunction and punctuation', () => {

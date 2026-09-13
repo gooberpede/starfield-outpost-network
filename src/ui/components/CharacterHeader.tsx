@@ -29,6 +29,7 @@ import { useState } from 'react'
 import type { Character } from '../../domain/models'
 import { parseCharacterLevelDraft } from '../../domain/characterLevel'
 import { useLocalization } from '../../localization/LocalizationContext.ts'
+import { getSkillDisplayName } from '../../localization/officialTerms.ts'
 
 import './CharacterHeader.css'
 
@@ -193,7 +194,7 @@ export function CharacterHeader({
   onLevelCommit,
   onSkillCommit,
 }: CharacterHeaderProps) {
-  const { t } = useLocalization()
+  const { locale } = useLocalization()
   return (
     <header className="character-header">
 
@@ -212,7 +213,7 @@ export function CharacterHeader({
 
         <SkillRankField
           key={`outpostManagement:${character.skills.outpostManagement ?? 'unknown'}`}
-          label={t('character.skill.outpostManagement')}
+          label={getSkillDisplayName('outpostManagement', locale)}
           rank={character.skills.outpostManagement}
           skill="outpostManagement"
           onCommit={onSkillCommit}
@@ -220,7 +221,7 @@ export function CharacterHeader({
 
         <SkillRankField
           key={`planetaryHabitation:${character.skills.planetaryHabitation ?? 'unknown'}`}
-          label={t('character.skill.planetaryHabitation')}
+          label={getSkillDisplayName('planetaryHabitation', locale)}
           rank={character.skills.planetaryHabitation}
           skill="planetaryHabitation"
           onCommit={onSkillCommit}
