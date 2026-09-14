@@ -159,3 +159,28 @@
 .cargo-exports__empty {
   font-size: 0.82rem;
 }
+
+@media (forced-colors: active) {
+  .cargo-pad-editor__inter-system[aria-pressed='true'],
+  .cargo-exports__item[aria-pressed='true'] {
+    border: 2px solid Highlight;
+    color: HighlightText;
+    background: Highlight;
+  }
+
+  .cargo-pad-editor__inter-system[data-fuel-state='unfuelled'] {
+    border-style: dashed;
+  }
+
+  .cargo-exports__item[data-state='stale'] {
+    border: 2px dashed CanvasText;
+    color: CanvasText;
+    background: Canvas;
+    opacity: 1;
+  }
+
+  .cargo-pad-editor button:focus-visible,
+  .cargo-exports__item:focus-visible {
+    outline-color: Highlight;
+  }
+}

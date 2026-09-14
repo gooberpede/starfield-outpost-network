@@ -48,8 +48,8 @@
   display: grid;
   place-items: center;
   box-sizing: border-box;
-  width: 1.35rem;
-  height: 1.35rem;
+  width: 1.5rem;
+  height: 1.5rem;
   padding: 0;
   border: 1px solid var(--ui-rule);
   border-radius: 1px;
@@ -258,5 +258,25 @@
 @container (max-width: 65rem) {
   .planned-supply__families {
     justify-content: flex-start;
+  }
+}
+
+@media (forced-colors: active) {
+  .planned-supply__item[data-state='planned'] {
+    border: 2px solid Highlight;
+    color: HighlightText;
+    background: Highlight;
+  }
+
+  .planned-supply__item[data-state='available'] {
+    border: 2px dashed GrayText;
+    color: GrayText;
+    background: Canvas;
+    opacity: 1;
+  }
+
+  .planned-supply__item[data-state='planned']:focus-visible,
+  .planned-supply__expand-toggle:focus-visible {
+    outline-color: Highlight;
   }
 }

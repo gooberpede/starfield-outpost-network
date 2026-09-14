@@ -9,7 +9,7 @@
   text-transform: none;
 }
 
-.item-search__control { display: flex; height: 1.25rem; }
+.item-search__control { display: flex; height: 1.5rem; }
 .item-search__control input {
   box-sizing: border-box;
   min-width: 0;
@@ -29,7 +29,7 @@
   border: 1px solid color-mix(in srgb, var(--ui-rule) 52%, transparent);
   border-left: 0;
   border-bottom: 0;
-  min-width: 1.42rem;
+  min-width: 1.5rem;
   padding: 0;
   color: var(--ui-text-muted);
   background: color-mix(in srgb, var(--ui-surface) 38%, transparent);

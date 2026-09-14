@@ -3,7 +3,7 @@
  * Architecture: Route rows are derived from reference data plus persisted recovery state.
  * Change this file when: matrix row or input presentation semantics change.
  */
-import { useMemo, useState, type ReactNode } from 'react'
+import { useId, useMemo, useState, type ReactNode } from 'react'
 import {
   getAvailableOrganicProductionRoutes,
   getOutpostAvailableInorganicResourceIds,
@@ -82,13 +82,17 @@ function ReadOnlyState({ item, lit, state, title = item.name }: {
   title?: string
 }) {
   const { t } = useLocalization()
+  const descriptionId = useId()
   return <span
     className="outpost-status-matrix__state"
     data-state={state ?? (lit ? 'lit' : 'dimmed')}
     title={title}
     aria-label={t(lit ? 'matrix.state.active' : 'matrix.state.inactive', { item: item.name })}
-    tabIndex={0}
-  >{item.shortName}</span>
+    aria-describedby={descriptionId}
+  >
+    {item.shortName}
+    <span id={descriptionId} className="ui-visually-hidden">{title}</span>
+  </span>
 }
 
 function EditableState({ item, pressed, disabled = false, label, title = item.name, onClick }: {
@@ -243,7 +247,7 @@ export function OutpostStatusMatrix({
             <h3 id="matrix-inorganic">{t('matrix.section.inorganic')}</h3>
           </div>
           {canAddXTech && <div className="outpost-status-matrix__add-explicit-cell" role="cell" aria-colspan={4}>
-            <button type="button" className="outpost-status-matrix__add-explicit"
+            <button type="button" className="outpost-status-matrix__add-explicit outpost-status-matrix__compact-action"
               title={getExplicitResourceAddTooltip(xTechDisplayName, locale)}
               aria-label={t('matrix.action.xTech.add', { resource: xTechDisplayName })}
               onClick={() => onToggleExplicitResourcePresence(X_TECH_RESOURCE_ID)}>
@@ -363,10 +367,10 @@ export function OutpostStatusMatrix({
           <div className="outpost-status-matrix__section-bar-content" role="cell" aria-colspan={6}>
             <h3 id="matrix-manufacturing">{t('matrix.section.manufacturing')}</h3>
             <div className="outpost-status-matrix__actions">{draftManufacturing ? <>
-              <button type="button" onClick={() => { onCommitManufacturing(draftManufacturing); setDraftManufacturing(null); setIsAddingProduct(false) }}>{t('common.save')}</button>
-              <button type="button" onClick={() => { setDraftManufacturing(null); setIsAddingProduct(false) }}>{t('common.cancel.lower')}</button>
-              <button type="button" aria-label={t('matrix.manufacturing.add')} onClick={() => setIsAddingProduct(true)}>+</button>
-            </> : <button type="button" onClick={beginManufacturingEdit}>{t('common.edit')}</button>}</div>
+              <button className="outpost-status-matrix__compact-action" type="button" onClick={() => { onCommitManufacturing(draftManufacturing); setDraftManufacturing(null); setIsAddingProduct(false) }}>{t('common.save')}</button>
+              <button className="outpost-status-matrix__compact-action" type="button" onClick={() => { setDraftManufacturing(null); setIsAddingProduct(false) }}>{t('common.cancel.lower')}</button>
+              <button className="outpost-status-matrix__compact-action" type="button" aria-label={t('matrix.manufacturing.add')} onClick={() => setIsAddingProduct(true)}>+</button>
+            </> : <button className="outpost-status-matrix__compact-action" type="button" onClick={beginManufacturingEdit}>{t('common.edit')}</button>}</div>
           </div>
         </div>
         {draftManufacturing && isAddingProduct && <div className="outpost-status-matrix__full-row" role="row"><div role="cell" aria-colspan={6}>

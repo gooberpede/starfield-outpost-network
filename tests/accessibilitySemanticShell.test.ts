@@ -32,3 +32,23 @@ test('selected-outpost container stacks editing columns at their combined practi
   assert.match(matrixCss, /\.outpost-status-matrix__scroll[\s\S]*overflow-x:\s*auto/)
   assert.match(plannedSupplyCss, /\.planned-supply__overflow[\s\S]*overflow-x:\s*auto/)
 })
+
+test('dense controls retain forced-colors cues and practical target sizes', async () => {
+  const [matrixCss, plannedSupplyCss, cargoCss, cargoPadsCss, searchCss, helpCss] = await Promise.all([
+    source('../src/ui/components/OutpostStatusMatrix.css'),
+    source('../src/ui/components/PlannedSupplyEditor.css'),
+    source('../src/ui/components/CargoPadEditor.css'),
+    source('../src/ui/components/CargoPadsEditor.css'),
+    source('../src/ui/components/SearchForItems.css'),
+    source('../src/ui/components/ContextHelp.css'),
+  ])
+
+  assert.match(matrixCss, /@media \(forced-colors: active\)[\s\S]*aria-pressed='true'/)
+  assert.match(matrixCss, /\.outpost-status-matrix__compact-action[\s\S]*min-height:\s*1\.55rem/)
+  assert.match(plannedSupplyCss, /@media \(forced-colors: active\)[\s\S]*data-state='planned'/)
+  assert.match(plannedSupplyCss, /\.planned-supply__expand-toggle[\s\S]*width:\s*1\.5rem[\s\S]*height:\s*1\.5rem/)
+  assert.match(cargoCss, /@media \(forced-colors: active\)[\s\S]*data-state='stale'[\s\S]*border:\s*2px dashed CanvasText/)
+  assert.match(cargoPadsCss, /\.cargo-pad__summary button[\s\S]*width:\s*1\.5rem[\s\S]*height:\s*1\.5rem/)
+  assert.match(searchCss, /\.item-search__control \{[^}]*height:\s*1\.5rem/)
+  assert.match(helpCss, /\.context-help__trigger[\s\S]*width:\s*1\.5rem[\s\S]*height:\s*1\.5rem/)
+})

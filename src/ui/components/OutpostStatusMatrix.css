@@ -187,24 +187,9 @@
 }
 
 .outpost-status-matrix__add-explicit {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 3.2rem;
-  height: 1.15rem;
   margin-left: calc(0.5rem + 4px);
-  padding: 0;
-
-  border: 1px solid color-mix(in srgb, var(--ui-rule) 55%, transparent);
-  border-radius: 1px;
   color: var(--ui-text-muted);
   background: transparent;
-  box-shadow: none;
-
-  font: 500 0.7rem/1 var(--ui-font);
-  white-space: nowrap;
-  cursor: pointer;
 }
 
 .outpost-status-matrix__add-explicit:hover {
@@ -213,18 +198,17 @@
   background: color-mix(in srgb, var(--ui-highlight) 55%, transparent);
 }
 
-.outpost-status-matrix__add-explicit:focus-visible {
-  outline: 2px solid var(--ui-structural-dark);
-  outline-offset: 2px;
-}
-
 .outpost-status-matrix__actions {
   display: flex;
   gap: 0.25rem;
 }
 
-.outpost-status-matrix__actions button,
+.outpost-status-matrix__compact-action,
 .outpost-status-matrix__manufacturing-item button {
+  display: inline-flex;
+  min-height: 1.55rem;
+  align-items: center;
+  justify-content: center;
   padding: 0.1rem 0.35rem;
   border: 1px solid var(--ui-rule);
   border-radius: 1px;
@@ -233,9 +217,11 @@
   font-family: var(--ui-font);
   font-size: 0.78rem;
   line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
 }
 
-.outpost-status-matrix__actions button:focus-visible,
+.outpost-status-matrix__compact-action:focus-visible,
 .outpost-status-matrix__manufacturing-item button:focus-visible,
 .outpost-status-matrix__product-selector select:focus-visible {
   outline: 2px solid var(--ui-structural-dark);
@@ -391,4 +377,26 @@
   color: var(--ui-text);
   background: var(--ui-highlight);
   font-family: var(--ui-font);
+}
+
+@media (forced-colors: active) {
+  .outpost-status-matrix__state--editable[aria-pressed='true'],
+  .outpost-status-matrix__state[data-state='producing'] {
+    border: 2px solid Highlight;
+    color: HighlightText;
+    background: Highlight;
+  }
+
+  .outpost-status-matrix__state[data-state='dimmed'],
+  .outpost-status-matrix__state--editable:disabled {
+    border-color: GrayText;
+    color: GrayText;
+    background: Canvas;
+    opacity: 1;
+  }
+
+  .outpost-status-matrix__state:focus-visible,
+  .outpost-status-matrix__compact-action:focus-visible {
+    outline-color: Highlight;
+  }
 }

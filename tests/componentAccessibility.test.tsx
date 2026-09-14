@@ -114,21 +114,33 @@ describe('release accessibility semantics', () => {
   test('Resource Matrix uses owned row groups and retains interactive names and states', () => {
     const outpost = makeOutpost('one', 'Alpha')
     outpost.activeProduction = [{ type: 'inorganic', resourceId: 'iron' }]
+    outpost.manufacturing = [{ productId: 'adaptive-frame', quantity: 1 }]
     const network = createDefaultNetwork()
-    network.character.capabilities.xTechExtraction = false
     network.outposts = [outpost]
     const iron = {
       id: 'iron', name: 'Iron', shortName: 'Fe', category: 'inorganic' as const,
       rarity: 'common' as const, parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' as const,
     }
+    const xTech = {
+      id: 'x-tech', name: 'X-Tech', shortName: 'X', category: 'inorganic' as const,
+      rarity: 'unique' as const, parentId: null, sortOrder: null, plannedSupplyPlacement: 'special' as const,
+    }
+    const adaptiveFrame = {
+      id: 'adaptive-frame', name: 'Adaptive Frame', shortName: 'AF', rarity: 'common' as const,
+    }
     const referenceData: ReferenceData = {
       biomes: [], bodyBiomes: [], inorganicOccurrences: [], species: [], planetSpecies: [],
       organicOccurrences: [], organicFarmingProfiles: [], systems: [], bodies: [],
-      resources: [iron], products: [], bodyResources: [], productRecipes: [],
+      resources: [iron, xTech], products: [adaptiveFrame], bodyResources: [], productRecipes: [{
+        productId: 'adaptive-frame',
+        ingredients: [{ item: { type: 'resource', id: 'iron' }, quantity: 1 }],
+      }],
     }
     localized('en-US', <OutpostStatusMatrix
-      outpost={outpost} network={network} resources={[iron]} products={[]}
-      referenceData={referenceData} availableItems={[]} actuallyAvailableItems={[]}
+      outpost={outpost} network={network} resources={[iron, xTech]} products={[adaptiveFrame]}
+      referenceData={referenceData} availableItems={[]} actuallyAvailableItems={[
+        { type: 'product', id: 'adaptive-frame' },
+      ]}
       onToggleResource={noOp} onToggleExplicitResourcePresence={noOp}
       onToggleActiveProduction={noOp} onCommitManufacturing={noOp}
     />)
@@ -140,10 +152,57 @@ describe('release accessibility semantics', () => {
       expect(Array.from(rowGroup.children).every((child) => child.getAttribute('role') === 'row')).toBe(true)
     }
     expect(within(table).getAllByRole('columnheader')).toHaveLength(6)
-    expect(screen.getByRole('button', { name: 'Toggle Present for Iron' }))
-      .toHaveAttribute('aria-pressed', 'false')
-    expect(screen.getByRole('button', { name: 'Toggle Producing for Iron' }))
-      .toHaveAttribute('aria-pressed', 'true')
+    const present = screen.getByRole('button', { name: 'Toggle Present for Iron' })
+    const producing = screen.getByRole('button', { name: 'Toggle Producing for Iron' })
+    expect(present).toHaveAttribute('aria-pressed', 'false')
+    expect(producing).toHaveAttribute('aria-pressed', 'true')
+    present.focus()
+    expect(document.activeElement).toBe(present)
+
+    const passiveStates = table.querySelectorAll('.outpost-status-matrix__state:not(button)')
+    expect(passiveStates.length).toBeGreaterThanOrEqual(2)
+    for (const passiveState of passiveStates) expect(passiveState).not.toHaveAttribute('tabindex')
+    const manufacturedState = within(table).getByText('AF').closest('.outpost-status-matrix__state')
+    expect(manufacturedState).toHaveAccessibleName('Adaptive Frame: active')
+    expect(manufacturedState).toHaveAccessibleDescription(
+      'Adaptive Frame is being produced at this outpost.',
+    )
+
+    const xTechAdd = screen.getByRole('button', { name: 'Add X-Tech as present' })
+    const manufacturingEdit = screen.getByRole('button', { name: 'edit' })
+    expect(xTechAdd).toHaveClass('outpost-status-matrix__compact-action')
+    expect(manufacturingEdit).toHaveClass('outpost-status-matrix__compact-action')
+  })
+
+  test('Planned Supply retains neutral, planned, and unavailable semantics', async () => {
+    const user = userEvent.setup()
+    const products = [
+      { id: 'neutral', name: 'Neutral', shortName: 'N', rarity: 'common' as const },
+      { id: 'planned', name: 'Planned', shortName: 'P', rarity: 'common' as const },
+      { id: 'available', name: 'Available', shortName: 'A', rarity: 'common' as const },
+    ]
+    const { container } = localized('en-US', <PlannedSupplyEditor
+      resources={[]}
+      products={products}
+      plannedSupply={[{ type: 'product', id: 'planned' }]}
+      actuallyAvailableItems={[{ type: 'product', id: 'available' }]}
+      onTogglePlannedSupply={noOp}
+    />)
+
+    await user.click(screen.getByRole('button', { name: 'Expand Planned Supply' }))
+    const catalogue = container.querySelector('.planned-supply__catalogue')!
+    const neutral = catalogue.querySelector('button[title="Neutral"]')
+    const planned = catalogue.querySelector('button[title="Planned"]')
+    const available = catalogue.querySelector('button[title="Available"]')
+    expect(neutral).toHaveAttribute('data-state', 'neither')
+    expect(neutral).toHaveAttribute('aria-pressed', 'false')
+    expect(neutral).toHaveAttribute('aria-disabled', 'false')
+    expect(planned).toHaveAttribute('data-state', 'planned')
+    expect(planned).toHaveAttribute('aria-pressed', 'true')
+    expect(planned).toHaveAttribute('aria-disabled', 'false')
+    expect(available).toHaveAttribute('data-state', 'available')
+    expect(available).toHaveAttribute('aria-disabled', 'true')
+    expect(available).toHaveAttribute('aria-pressed', 'false')
   })
 
   test('compact Add controls keep concise copy and full contextual names', async () => {
@@ -398,6 +457,8 @@ describe('release accessibility semantics', () => {
       'Inter-System Cargo Link · Helium-3 is not available at this outpost.',
     )
     const staleExport = screen.getByRole('button', { name: 'Toggle export for Iron' })
+    expect(staleExport).toHaveAttribute('aria-pressed', 'true')
+    expect(staleExport).toHaveAttribute('data-state', 'stale')
     const staleDescription = document.getElementById(staleExport.getAttribute('aria-describedby')!)
     expect(staleDescription).toHaveTextContent('This cargo export has no actual source.')
     expect(staleExport).toHaveAccessibleDescription('This cargo export has no actual source.')
@@ -406,6 +467,7 @@ describe('release accessibility semantics', () => {
       'Iron · This cargo export has no actual source.',
     )
     const normalExport = screen.getByRole('button', { name: 'Toggle export for Copper' })
+    expect(normalExport).toHaveAttribute('aria-pressed', 'false')
     expect(normalExport).toHaveAttribute('title', 'Copper')
     expect(normalExport).not.toHaveAttribute('aria-describedby')
   })
