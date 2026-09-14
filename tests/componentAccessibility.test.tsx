@@ -1,5 +1,5 @@
 import { useRef, useState, type ReactNode } from 'react'
-import { fireEvent, render, screen, within } from '@testing-library/react'
+import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, test, vi } from 'vitest'
 
@@ -10,6 +10,7 @@ import type { Outpost } from '../src/domain/models.ts'
 import type { ValidationIssue } from '../src/domain/validation/types.ts'
 import { translate } from '../src/localization/catalog.ts'
 import { LocalizationContext, useLocalization } from '../src/localization/LocalizationContext.ts'
+import type { LocalizationContextValue } from '../src/localization/LocalizationContext.ts'
 import { LocalizationProvider } from '../src/localization/LocalizationProvider.tsx'
 import type { SupportedLocale } from '../src/localization/types.ts'
 import { CargoPadEditor } from '../src/ui/components/CargoPadEditor.tsx'
@@ -180,20 +181,108 @@ describe('release accessibility semantics', () => {
     expect(row.className).toContain('warning')
   })
 
-  test('status feedback uses one live region with strength appropriate to outcome', () => {
-    const { rerender } = localized('en-US', <StatusBar
-      main="Ready" message={{ kind: 'success', content: 'Exported' }}
-    />)
-    expect(screen.getAllByRole('status')).toHaveLength(1)
-    expect(screen.getByRole('status')).toHaveAttribute('aria-live', 'polite')
-
-    rerender(<LocalizationContext value={{
+  test('status feedback updates stable polite and assertive text-only live regions', () => {
+    const contextValue: LocalizationContextValue = {
       locale: 'en-US', automaticLocale: 'en-US', localeOverride: 'en-US',
       setLocaleOverride: noOp, t: (key, parameters) => translate('en-US', key, parameters),
-    }}><StatusBar main="Ready" message={{ kind: 'error', content: 'Failed' }} /></LocalizationContext>)
-    expect(screen.queryAllByRole('status')).toHaveLength(0)
+    }
+    const { rerender } = render(<LocalizationContext value={contextValue}>
+      <StatusBar main="Ready" />
+    </LocalizationContext>)
+    const politeLiveRegion = screen.getByRole('status')
+    const assertiveLiveRegion = screen.getByRole('alert')
+    expect(politeLiveRegion).toBeEmptyDOMElement()
+    expect(assertiveLiveRegion).toBeEmptyDOMElement()
+
+    rerender(<LocalizationContext value={contextValue}><StatusBar
+      main="Ready" message={{ kind: 'success', content: 'Imported collection.json' }}
+    /></LocalizationContext>)
+    expect(screen.getAllByRole('status')).toHaveLength(1)
     expect(screen.getAllByRole('alert')).toHaveLength(1)
-    expect(screen.getByRole('alert')).toHaveAttribute('aria-live', 'assertive')
+    expect(screen.getByRole('status')).toBe(politeLiveRegion)
+    expect(screen.getByRole('alert')).toBe(assertiveLiveRegion)
+    expect(politeLiveRegion).toHaveAttribute('aria-live', 'polite')
+    expect(politeLiveRegion).toHaveAttribute('aria-atomic', 'true')
+    expect(assertiveLiveRegion).toHaveAttribute('aria-live', 'assertive')
+    expect(assertiveLiveRegion).toHaveAttribute('aria-atomic', 'true')
+    expect(politeLiveRegion).toHaveTextContent('Imported collection.json')
+    expect(assertiveLiveRegion).toBeEmptyDOMElement()
+
+    rerender(<LocalizationContext value={contextValue}><StatusBar main="Ready" message={{
+      kind: 'error', content: 'Import failed', onDismiss: noOp,
+    }} /></LocalizationContext>)
+    expect(screen.getByRole('status')).toBe(politeLiveRegion)
+    expect(screen.getByRole('alert')).toBe(assertiveLiveRegion)
+    expect(politeLiveRegion).toBeEmptyDOMElement()
+    expect(assertiveLiveRegion).toHaveTextContent('Import failed')
+    expect(within(politeLiveRegion).queryByRole('button')).not.toBeInTheDocument()
+    expect(within(assertiveLiveRegion).queryByRole('button')).not.toBeInTheDocument()
+    const dismissButton = screen.getByRole('button', { name: 'Dismiss status message' })
+    expect(dismissButton).toBeVisible()
+    expect(politeLiveRegion).not.toContainElement(dismissButton)
+    expect(assertiveLiveRegion).not.toContainElement(dismissButton)
+
+    rerender(<LocalizationContext value={contextValue}><StatusBar
+      main="Ready" message={{ kind: 'success', content: 'Exported collection.json' }}
+    /></LocalizationContext>)
+    expect(screen.getByRole('status')).toBe(politeLiveRegion)
+    expect(screen.getByRole('alert')).toBe(assertiveLiveRegion)
+    expect(politeLiveRegion).toHaveTextContent('Exported collection.json')
+    expect(assertiveLiveRegion).toBeEmptyDOMElement()
+
+    rerender(<LocalizationContext value={contextValue}><StatusBar
+      main="Ready" message={{ kind: 'error', content: 'Export failed' }}
+    /></LocalizationContext>)
+    expect(screen.getByRole('status')).toBe(politeLiveRegion)
+    expect(screen.getByRole('alert')).toBe(assertiveLiveRegion)
+    expect(politeLiveRegion).toBeEmptyDOMElement()
+    expect(assertiveLiveRegion).toHaveTextContent('Export failed')
+  })
+
+  test('deferred import failure stays visible while its alert waits for focus and a frame', () => {
+    const frameCallbacks: FrameRequestCallback[] = []
+    const hasFocus = vi.spyOn(document, 'hasFocus').mockReturnValue(false)
+    const requestFrame = vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+      frameCallbacks.push(callback)
+      return frameCallbacks.length
+    })
+    const cancelFrame = vi.spyOn(window, 'cancelAnimationFrame').mockImplementation(noOp)
+
+    localized('en-US', <StatusBar
+      main="Ready"
+      message={{
+        kind: 'error',
+        content: 'Import failed immediately',
+        announcementText: 'Import failed immediately',
+        announcementId: 1,
+        deferAssertiveUntilWindowFocus: true,
+        onDismiss: noOp,
+      }}
+    />)
+
+    const politeLiveRegion = screen.getByRole('status')
+    const assertiveLiveRegion = screen.getByRole('alert')
+    const visibleMessage = document.querySelector('.status-bar__message')
+    expect(visibleMessage).toHaveTextContent('Import failed immediately')
+    expect(politeLiveRegion).toBeEmptyDOMElement()
+    expect(assertiveLiveRegion).toBeEmptyDOMElement()
+    expect(frameCallbacks).toHaveLength(0)
+
+    fireEvent.focus(window)
+    expect(assertiveLiveRegion).toBeEmptyDOMElement()
+    expect(frameCallbacks).toHaveLength(1)
+
+    act(() => frameCallbacks[0](0))
+    expect(assertiveLiveRegion).toHaveTextContent('Import failed immediately')
+    expect(politeLiveRegion).toBeEmptyDOMElement()
+
+    fireEvent.focus(window)
+    expect(frameCallbacks).toHaveLength(1)
+    expect(within(assertiveLiveRegion).getAllByText('Import failed immediately')).toHaveLength(1)
+
+    hasFocus.mockRestore()
+    requestFrame.mockRestore()
+    cancelFrame.mockRestore()
   })
 
   test('cargo controls expose unfuelled and stale-export descriptions and tooltips', () => {
@@ -317,6 +406,71 @@ test('Search exposes localized options and preserves keyboard combobox behavior'
   await user.keyboard('{ArrowDown}{ArrowDown}{Enter}')
   expect(submitted).toHaveBeenCalledWith({ type: 'product', id: 'iron' })
   expect(input).toHaveAttribute('aria-expanded', 'false')
+})
+
+test('keyboard Search submission focuses the portalled results and restores Search on close', async () => {
+  const user = userEvent.setup()
+  const match: ItemSearchEntry = {
+    item: { type: 'resource', id: 'iron' },
+    key: 'resource:iron',
+    displayName: 'Iron',
+    abbreviation: 'Fe',
+    category: 'resource',
+    normalizedName: 'iron',
+    normalizedAbbreviation: 'fe',
+    aliases: [],
+    needsCategoryDisambiguator: false,
+  }
+
+  function Harness() {
+    const inputRef = useRef<HTMLInputElement>(null)
+    const [highlighted, setHighlighted] = useState<string | null>(null)
+    const [autocompleteOpen, setAutocompleteOpen] = useState(true)
+    const [submittedName, setSubmittedName] = useState<string | null>(null)
+    const [resultsOpen, setResultsOpen] = useState(false)
+    return <SearchForItems
+      inputRef={inputRef}
+      draftQuery="Iron"
+      matches={[match]}
+      highlightedMatchKey={highlighted}
+      isAutocompleteOpen={autocompleteOpen}
+      submittedItemName={submittedName}
+      results={[{ outpostId: 'outpost', outpostName: 'Alpha', flags: ['present'] }]}
+      isResultsOpen={resultsOpen}
+      palettePosition={{ left: 20, top: 20 }}
+      onDraftQueryChange={noOp}
+      onHighlightChange={setHighlighted}
+      onAutocompleteOpenChange={setAutocompleteOpen}
+      onSubmit={() => {
+        setSubmittedName('Iron')
+        setResultsOpen(true)
+      }}
+      onResultsOpenChange={setResultsOpen}
+      onPalettePositionChange={noOp}
+      onSelectOutpost={noOp}
+    />
+  }
+
+  localized('en-US', <Harness />)
+  const input = screen.getByRole('combobox', {
+    name: 'Search for resources or products in your outposts.',
+  })
+  input.focus()
+  await user.keyboard('{ArrowDown}{Enter}')
+  const results = screen.getByRole('region', { name: 'Search Results' })
+  expect(results.parentElement).toBe(document.body)
+  expect(results).toHaveAttribute('tabindex', '-1')
+  expect(document.activeElement).toBe(results)
+
+  await user.click(screen.getByRole('button', { name: 'Close Search Results' }))
+  expect(screen.queryByRole('region', { name: 'Search Results' })).not.toBeInTheDocument()
+  expect(document.activeElement).toBe(input)
+
+  await user.keyboard('{ArrowDown}{Enter}')
+  expect(document.activeElement).toBe(screen.getByRole('region', { name: 'Search Results' }))
+  await user.keyboard('{Escape}')
+  expect(screen.queryByRole('region', { name: 'Search Results' })).not.toBeInTheDocument()
+  expect(document.activeElement).toBe(input)
 })
 
 test('provider locale switches do not mutate network selection, outpost context, data, or history', async () => {

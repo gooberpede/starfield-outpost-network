@@ -119,15 +119,18 @@ import {
  */
 type StatusMessage =
   | {
+      id: number
       kind: 'success'
       descriptor: MessageDescriptor
       diagnostic?: string
     }
   | {
+      id: number
       kind: 'error'
       descriptor: MessageDescriptor
       reason?: MessageDescriptor
       diagnostic?: string
+      deferAnnouncementUntilWindowFocus?: boolean
     }
 
 // Reference-data diagnostics are hidden while the current catalogue is stable.
@@ -185,6 +188,7 @@ function App() {
    */
   const [statusMessage, setStatusMessage] =
     useState<StatusMessage | null>(null)
+  const nextStatusMessageIdRef = useRef(0)
 
   const [isOutpostDragging, setIsOutpostDragging] =
     useState(false)
@@ -457,14 +461,18 @@ function App() {
     return getHistoryDisplayLabel(label, locale)
   }
 
-  function renderStatusMessage(message: StatusMessage) {
+  function getStatusMessageText(message: StatusMessage): string {
     const descriptor = message.kind === 'error' && message.reason
       ? { ...message.descriptor, parameters: {
           ...message.descriptor.parameters,
           reason: translateDescriptor(locale, message.reason),
         } }
       : message.descriptor
-    const text = translateDescriptor(locale, descriptor)
+    return translateDescriptor(locale, descriptor)
+  }
+
+  function renderStatusMessage(message: StatusMessage) {
+    const text = getStatusMessageText(message)
     return message.diagnostic ? <span title={message.diagnostic}>{text}</span> : text
   }
 
@@ -1947,6 +1955,7 @@ function App() {
     fileName: string,
   ) {
     setStatusMessage({
+      id: ++nextStatusMessageIdRef.current,
       kind: 'success',
       descriptor: { key: 'status.export.success', parameters: { fileName } },
     })
@@ -1971,6 +1980,7 @@ function App() {
     resetNetworkPresentationState()
 
     setStatusMessage({
+      id: ++nextStatusMessageIdRef.current,
       kind: 'success',
       descriptor: { key: 'status.import.success', parameters: { fileName } },
     })
@@ -1985,10 +1995,12 @@ function App() {
     diagnostic?: string,
   ) {
     setStatusMessage({
+      id: ++nextStatusMessageIdRef.current,
       kind: 'error',
       descriptor: { key: 'status.import.failed', parameters: { fileName, reason: '' } },
       reason,
       diagnostic,
+      deferAnnouncementUntilWindowFocus: true,
     })
   }  
 
@@ -2345,6 +2357,11 @@ function App() {
             ? {
                 kind: statusMessage.kind,
                 content: renderStatusMessage(statusMessage),
+                announcementText: getStatusMessageText(statusMessage),
+                announcementId: statusMessage.id,
+                deferAssertiveUntilWindowFocus:
+                  statusMessage.kind === 'error' &&
+                  statusMessage.deferAnnouncementUntilWindowFocus,
                 onDismiss:
                   statusMessage.kind === 'error'
                     ? () => setStatusMessage(null)

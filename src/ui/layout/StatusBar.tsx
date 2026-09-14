@@ -18,7 +18,7 @@
  *   - additional status regions are introduced.
  */
 
-import type { ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 
 import './StatusBar.css'
 import { useLocalization } from '../../localization/LocalizationContext.ts'
@@ -31,6 +31,9 @@ interface StatusBarProps {
   message?: {
     kind: 'success' | 'error'
     content: ReactNode
+    announcementText?: string
+    announcementId?: number
+    deferAssertiveUntilWindowFocus?: boolean
     onDismiss?: () => void
   }
 }
@@ -41,8 +44,85 @@ export function StatusBar({
   message,
 }: StatusBarProps) {
   const { t } = useLocalization()
+  const [deferredAssertiveAnnouncement, setDeferredAssertiveAnnouncement] =
+    useState<{ id: number; content: ReactNode } | null>(null)
+
+  useEffect(() => {
+    if (
+      message?.kind !== 'error' ||
+      !message.deferAssertiveUntilWindowFocus ||
+      message.announcementId === undefined ||
+      message.announcementText === undefined
+    ) {
+      return
+    }
+
+    const announcementId = message.announcementId
+    const announcementContent = message.announcementText
+    let animationFrameId: number | null = null
+
+    const publishAnnouncement = () => {
+      window.removeEventListener('focus', publishAnnouncement)
+      animationFrameId = window.requestAnimationFrame(() => {
+        setDeferredAssertiveAnnouncement({
+          id: announcementId,
+          content: announcementContent,
+        })
+      })
+    }
+
+    if (document.hasFocus()) {
+      publishAnnouncement()
+    } else {
+      window.addEventListener('focus', publishAnnouncement, { once: true })
+    }
+
+    return () => {
+      window.removeEventListener('focus', publishAnnouncement)
+      if (animationFrameId !== null) {
+        window.cancelAnimationFrame(animationFrameId)
+      }
+    }
+  }, [
+    message?.announcementId,
+    message?.announcementText,
+    message?.deferAssertiveUntilWindowFocus,
+    message?.kind,
+  ])
+
+  let assertiveAnnouncement: ReactNode = null
+  if (message?.kind === 'error') {
+    if (!message.deferAssertiveUntilWindowFocus) {
+      assertiveAnnouncement = message.announcementText ?? message.content
+    } else if (
+      deferredAssertiveAnnouncement &&
+      deferredAssertiveAnnouncement.id === message.announcementId
+    ) {
+      assertiveAnnouncement = deferredAssertiveAnnouncement.content
+    }
+  }
+
   return (
     <footer className="status-bar">
+      <div
+        className="ui-visually-hidden"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {message?.kind === 'success'
+          ? message.announcementText ?? message.content
+          : null}
+      </div>
+      <div
+        className="ui-visually-hidden"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        {assertiveAnnouncement}
+      </div>
+
       <div className="status-bar__main">
         {main}
       </div>
@@ -58,8 +138,6 @@ export function StatusBar({
           {message && (
             <div
               className={`status-bar__message status-bar__message--${message.kind}`}
-              role={message.kind === 'error' ? 'alert' : 'status'}
-              aria-live={message.kind === 'error' ? 'assertive' : 'polite'}
             >
               <span>{message.content}</span>
 

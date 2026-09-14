@@ -330,6 +330,15 @@ The application already contains several accessibility-conscious patterns, but
 public release should not rely on those individual decisions adding up to a
 complete accessibility review.
 
+### Apple/WebKit compatibility verification
+
+- Re-test the public production build in Safari/WebKit.
+- Verify Japanese font fallback on iPhone, iPad, and macOS Safari.
+- Investigate the current iPhone blank-page behavior if it is reproducible
+  against the public build.
+- Treat Apple mobile devices as compatibility and font-sanity targets, not a
+  mobile-support commitment.
+
 ### Security audit
 
 Perform a security-focused review before public release.

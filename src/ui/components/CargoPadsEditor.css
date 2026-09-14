@@ -91,6 +91,10 @@
   outline-offset: 2px;
 }
 
+.cargo-pads__move-controls button:focus-visible {
+  outline-offset: -2px;
+}
+
 .cargo-pads__actions button:disabled,
 .cargo-pads__move-controls button:disabled {
   border-color: color-mix(in srgb, var(--ui-rule) 62%, var(--ui-surface));

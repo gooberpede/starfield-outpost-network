@@ -75,6 +75,7 @@ export function SearchForItems({
   const rootRef = useRef<HTMLDivElement>(null)
   const paletteRef = useRef<HTMLElement>(null)
   const outlineRef = useRef<HTMLDivElement>(null)
+  const focusResultsAfterSubmitRef = useRef(false)
   const dragRef = useRef<{
     pointerId: number
     offsetLeft: number
@@ -85,7 +86,8 @@ export function SearchForItems({
   } | null>(null)
   const visibleMatches = isAutocompleteOpen ? matches : []
 
-  function submit(item: CargoItem) {
+  function submit(item: CargoItem, focusResults = false) {
+    focusResultsAfterSubmitRef.current = focusResults
     onSubmit({ ...item })
     onAutocompleteOpenChange(false)
     onHighlightChange(null)
@@ -123,7 +125,7 @@ export function SearchForItems({
       const candidate = highlighted ?? (matches.length === 1 ? matches[0] : null)
       if (!candidate) return
       event.preventDefault()
-      submit(candidate.item)
+      submit(candidate.item, true)
     }
   }
 
@@ -152,6 +154,17 @@ export function SearchForItems({
       observer.disconnect()
     }
   }, [clampAndSet, isResultsOpen, palettePosition])
+
+  useLayoutEffect(() => {
+    if (!isResultsOpen || !focusResultsAfterSubmitRef.current) return
+    focusResultsAfterSubmitRef.current = false
+    paletteRef.current?.focus()
+  }, [isResultsOpen, palettePosition, submittedItemName])
+
+  function closeResults() {
+    onResultsOpenChange(false)
+    inputRef.current?.focus()
+  }
 
   function startDrag(event: ReactPointerEvent<HTMLDivElement>) {
     if ((event.target as HTMLElement).closest('button') || !palettePosition) return
@@ -228,8 +241,15 @@ export function SearchForItems({
           ref={paletteRef}
           className="item-search-results"
           role="region"
+          tabIndex={-1}
           aria-labelledby={paletteTitleId}
           style={{ left: palettePosition.left, top: palettePosition.top }}
+          onKeyDown={(event) => {
+            if (event.key !== 'Escape') return
+            event.preventDefault()
+            event.stopPropagation()
+            closeResults()
+          }}
         >
           <div
             className="item-search-results__title-bar"
@@ -247,7 +267,7 @@ export function SearchForItems({
               type="button"
               aria-label={t('search.results.close')}
               title={t('search.results.close')}
-              onClick={() => onResultsOpenChange(false)}
+              onClick={closeResults}
             >×</button>
           </div>
           <div className="item-search-results__body technical-scrollbar">

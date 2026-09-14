@@ -264,16 +264,16 @@ These checks are outstanding and must not be recorded as passed until actually o
 
 ### Windows primary browser
 
-- [ ] Exercise `en-US`, `en-GB`, and `ja-JP` on representative populated data.
-- [ ] Switch locale repeatedly; verify selected network/outpost, data, history depth, Undo/Redo, IDs, and exported JSON do not change.
-- [ ] Exercise Search, Resource Matrix, Planned Supply, Cargo Links, Validation, history, About, and network reset/delete dialogs.
-- [ ] Confirm Japanese reference names, `X-テックパワーコア`, Cargo Link terminology, and the invariant app title render intentionally.
-- [ ] Record any visual, focus, or interaction regression.
+- [x] Exercise `en-US`, `en-GB`, and `ja-JP` on representative populated data.
+- [x] Switch locale repeatedly; verify selected network/outpost, data, history depth, Undo/Redo, IDs, and exported JSON do not change.
+- [x] Exercise Search, Resource Matrix, Planned Supply, Cargo Links, Validation, history, About, and network reset/delete dialogs.
+- [x] Confirm Japanese reference names, `X-テックパワーコア`, Cargo Link terminology, and the invariant app title render intentionally.
+- [x] Record any visual, focus, or interaction regression.
 
 ### Browser zoom
 
-- [ ] At 100%, 125%, and 150%, inspect the header, outpost details, Matrix, Cargo editor, Validation panel, Search results, and dialogs.
-- [ ] Check for clipping, hidden controls, document-level horizontal overflow, overlap, truncated essential text, inaccessible local scrollbars, and lost/obscured focus rings.
+- [x] At 100%, 125%, and 150%, inspect the header, outpost details, Matrix, Cargo editor, Validation panel, Search results, and dialogs.
+- [x] Check for clipping, hidden controls, document-level horizontal overflow, overlap, truncated essential text, inaccessible local scrollbars, and lost/obscured focus rings.
 
 ### iPhone Safari sanity check
 
@@ -284,26 +284,26 @@ These checks are outstanding and must not be recorded as passed until actually o
 
 ### Keyboard-only pass
 
-- [ ] Tab through locale, Search, network/outpost navigation, Add/Remove/Reshuffle, details, biome, Matrix, Planned Supply, Cargo, Validation, history, and About controls.
-- [ ] Activate native actions with Enter/Space and operate selects with the keyboard.
-- [ ] Open/close each dialog, verify initial focus, Tab containment, Escape close, and focus restoration.
-- [ ] Verify Search arrows/Enter/Escape and Validation roving focus/Home/End/Enter/Escape.
-- [ ] Verify every focus indicator remains visible, including selected/dark states and compact Add controls.
-- [ ] Confirm no focus trap; specifically retest reshuffle drag handles after A-05 is corrected.
+- [x] Tab through locale, Search, network/outpost navigation, Add/Remove/Reshuffle, details, biome, Matrix, Planned Supply, Cargo, Validation, history, and About controls.
+- [x] Activate native actions with Enter/Space and operate selects with the keyboard.
+- [x] Open/close each dialog, verify initial focus, Tab containment, Escape close, and focus restoration.
+- [x] Verify Search arrows/Enter/Escape and Validation roving focus/Home/End/Enter/Escape.
+- [x] Verify every focus indicator remains visible, including selected/dark states and compact Add controls.
+- [x] Confirm no focus trap; specifically retest reshuffle drag handles after A-05 is corrected.
 
 ### Optional screen-reader smoke test
 
-- [ ] With Narrator or another familiar Windows screen reader, verify both compact `+ Add` controls announce their full contextual actions.
-- [ ] Verify the collapsed Inter-System marker announces one localized semantic name and does not announce `✷⇄✷` literally.
-- [ ] Verify Search label, visible option names, category disambiguation, active option, and results summary.
-- [ ] Verify locale selector label/current selection.
-- [ ] Verify each Validation row includes its severity, context, message, and remediation.
-- [ ] Verify asynchronous import/export success and failure feedback is announced once.
-- [ ] Verify dialog close controls and dialog names/descriptions.
+- [x] With Narrator or another familiar Windows screen reader, verify both compact `+ Add` controls announce their full contextual actions.
+- [x] Verify the collapsed Inter-System marker announces one localized semantic name and does not announce `✷⇄✷` literally.
+- [x] Verify Search label, visible option names, category disambiguation, active option, and results summary.
+- [x] Verify locale selector label/current selection.
+- [x] Verify each Validation row includes its severity, context, message, and remediation.
+- [x] Verify asynchronous import/export success and failure feedback is announced once.
+- [x] Verify dialog close controls and dialog names/descriptions.
 
 ### Composed-fauna evidence
 
-- [ ] If a first-party Japanese screenshot or in-game dynamically composed fauna name becomes available, compare separator behavior with the current single U+0020 policy.
+- [x] If a first-party Japanese screenshot or in-game dynamically composed fauna name becomes available, compare separator behavior with the current single U+0020 policy.
 - [ ] Do not block release solely for absent evidence if current rendering is legible and no contradictory evidence appears.
 
 ### Marker prototype
