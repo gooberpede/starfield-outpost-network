@@ -143,6 +143,14 @@
   min-width: 0;
 }
 
+/* Bias the help target away from the biome buttons directly below it. */
+.outpost-details__biomes .context-help__trigger::before {
+  inset:
+    calc(-0.475rem - 1px)
+    calc(-0.3rem - 1px)
+    calc(-0.125rem - 1px);
+}
+
 .outpost-details__biome-buttons {
   display: flex;
   flex-wrap: wrap;

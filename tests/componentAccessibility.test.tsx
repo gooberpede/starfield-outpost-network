@@ -299,7 +299,9 @@ describe('release accessibility semantics', () => {
     const xTechAdd = screen.getByRole('button', { name: 'Add X-Tech as present' })
     const manufacturingEdit = screen.getByRole('button', { name: 'edit' })
     expect(xTechAdd).toHaveClass('outpost-status-matrix__compact-action')
+    expect(xTechAdd).toHaveClass('outpost-status-matrix__add-explicit')
     expect(manufacturingEdit).toHaveClass('outpost-status-matrix__compact-action')
+    expect(manufacturingEdit).not.toHaveClass('outpost-status-matrix__add-explicit')
   })
 
   test('Planned Supply retains neutral, planned, and unavailable semantics', async () => {

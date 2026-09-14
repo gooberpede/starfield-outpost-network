@@ -1,4 +1,5 @@
 .context-help {
+  position: relative;
   display: inline-flex;
   align-items: center;
   flex: none;
@@ -8,10 +9,11 @@
 }
 
 .context-help > .context-help__trigger {
+  position: relative;
   display: inline-grid;
-  min-height: 1.5rem;
-  width: 1.5rem;
-  height: 1.5rem;
+  min-height: 0.9rem;
+  width: 0.9rem;
+  height: 0.9rem;
   place-items: center;
   box-sizing: border-box;
   padding: 0;
@@ -21,6 +23,13 @@
   background: transparent;
   font: 600 0.68rem/1 var(--ui-font);
   cursor: help;
+}
+
+/* Keep the quiet visible chrome while restoring a practical pointer target. */
+.context-help > .context-help__trigger::before {
+  position: absolute;
+  inset: calc(-0.3rem - 1px);
+  content: '';
 }
 
 .context-help > .context-help__trigger:hover {

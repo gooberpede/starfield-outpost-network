@@ -50,5 +50,6 @@ test('dense controls retain forced-colors cues and practical target sizes', asyn
   assert.match(cargoCss, /@media \(forced-colors: active\)[\s\S]*data-state='stale'[\s\S]*border:\s*2px dashed CanvasText/)
   assert.match(cargoPadsCss, /\.cargo-pad__summary button[\s\S]*width:\s*1\.5rem[\s\S]*height:\s*1\.5rem/)
   assert.match(searchCss, /\.item-search__control \{[^}]*height:\s*1\.5rem/)
-  assert.match(helpCss, /\.context-help__trigger[\s\S]*width:\s*1\.5rem[\s\S]*height:\s*1\.5rem/)
+  assert.match(helpCss, /\.context-help__trigger[\s\S]*width:\s*0\.9rem[\s\S]*height:\s*0\.9rem/)
+  assert.match(helpCss, /\.context-help__trigger::before[\s\S]*inset:\s*calc\(-0\.3rem - 1px\)/)
 })

@@ -74,6 +74,8 @@
   position: sticky;
   z-index: 3;
   top: 0;
+  box-sizing: border-box;
+  min-height: calc(1.7rem + 1px);
   border-bottom: 1px solid var(--ui-structural-dark);
   color: var(--ui-text);
   background: color-mix(in srgb, var(--ui-surface) 72%, var(--ui-highlight));
@@ -85,7 +87,8 @@
 }
 
 .outpost-status-matrix__header > div,
-.outpost-status-matrix__row > div {
+.outpost-status-matrix__row > div,
+.outpost-status-matrix__add-explicit-cell {
   box-sizing: border-box;
   min-width: 0;
   padding: 0.1rem 0.5rem;
@@ -93,7 +96,8 @@
 
 @container (max-width: 41rem) {
   .outpost-status-matrix__header > div,
-  .outpost-status-matrix__row > div {
+  .outpost-status-matrix__row > div,
+  .outpost-status-matrix__add-explicit-cell {
     padding-inline: 0.3rem;
   }
 }
@@ -183,19 +187,16 @@
 }
 
 .outpost-status-matrix__add-explicit-cell {
-  grid-column: 3 / -1;
+  display: flex;
+  grid-column: 3;
+  align-items: center;
+  padding-block: 0;
 }
 
-.outpost-status-matrix__add-explicit {
-  margin-left: calc(0.5rem + 4px);
-  color: var(--ui-text-muted);
-  background: transparent;
-}
-
-.outpost-status-matrix__add-explicit:hover {
-  border-color: var(--ui-structural-dark);
-  color: var(--ui-text);
-  background: color-mix(in srgb, var(--ui-highlight) 55%, transparent);
+.outpost-status-matrix__add-explicit.outpost-status-matrix__compact-action {
+  box-sizing: border-box;
+  width: 3.2rem;
+  padding-inline: 0.15rem;
 }
 
 .outpost-status-matrix__actions {
