@@ -88,6 +88,8 @@
 }
 
 .workspace-layout__outpost {
+  container-name: selected-outpost;
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -100,4 +102,15 @@
     minmax(18rem, 1fr);
   gap: 1rem;
   align-items: start;
+}
+
+/*
+ * Cargo needs 18rem and the Matrix needs roughly 20rem before its local
+ * scroller ceases to be a practical viewport. Stack before those tracks and
+ * their 1rem gap compete for less than that combined working width.
+ */
+@container selected-outpost (max-width: 39rem) {
+  .workspace-layout__content {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

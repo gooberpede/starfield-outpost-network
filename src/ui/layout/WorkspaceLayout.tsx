@@ -57,9 +57,12 @@ export function WorkspaceLayout({
       isNavigationOpen ? '' : ' workspace-layout--navigation-collapsed'
     }`}>
       {isNavigationOpen ? (
-        <aside className="workspace-layout__left">
+        <nav
+          className="workspace-layout__left"
+          aria-label={t('outpost.navigation.heading')}
+        >
           {left}
-        </aside>
+        </nav>
       ) : (
         <div className="workspace-layout__reopen">
           <button
@@ -82,11 +85,14 @@ export function WorkspaceLayout({
         )}
 
         <div className="workspace-layout__content">
-          <main className="workspace-layout__middle">
+          <div className="workspace-layout__middle">
             {middle}
-          </main>
+          </div>
 
-          <aside className="workspace-layout__right">
+          <aside
+            className="workspace-layout__right"
+            aria-label={t('cargo.heading')}
+          >
             {right}
           </aside>
         </div>

@@ -187,3 +187,16 @@
     grid-column: 1 / -1;
   }
 }
+
+/* Keep the spanning details strip inside the same constrained workspace. */
+@container selected-outpost (max-width: 39rem) {
+  .outpost-details__fields {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 1fr);
+  }
+
+  .outpost-details__biomes {
+    grid-column: 1 / -1;
+  }
+}

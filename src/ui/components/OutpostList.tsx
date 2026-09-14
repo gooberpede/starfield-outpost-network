@@ -199,8 +199,8 @@ export function OutpostList({
         isReshuffling ? ' outpost-list--reshuffling' : ''
       }`}
     >
-      <h2 className="outpost-list__heading">
-        <span>{t('outpost.navigation.heading')}</span>
+      <div className="outpost-list__heading">
+        <h2>{t('outpost.navigation.heading')}</h2>
         <span className="outpost-list__count">
           {outposts.length}
           {maxOutposts !== null && ` / ${maxOutposts}`}
@@ -215,7 +215,7 @@ export function OutpostList({
         >
           ‹
         </button>
-      </h2>
+      </div>
 
       <div className="outpost-list__actions">
         <button

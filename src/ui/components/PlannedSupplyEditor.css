@@ -37,6 +37,13 @@
   text-transform: uppercase;
 }
 
+.planned-supply__heading h2 {
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
 .planned-supply__expand-toggle {
   display: grid;
   place-items: center;

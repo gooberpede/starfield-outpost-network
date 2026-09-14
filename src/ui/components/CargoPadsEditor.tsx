@@ -618,13 +618,13 @@ export function CargoPadsEditor({
 
   return (
     <section className="cargo-pads">
-      <h2>
-        {t('cargo.heading')}
+      <div className="cargo-pads__heading">
+        <h2>{t('cargo.heading')}</h2>
         <span className="cargo-pads__count">
           [{outpost.cargoPads.length}
           {maxCargoPads !== null && `/${maxCargoPads}`}]
         </span>
-      </h2>
+      </div>
 
       <div className="cargo-pads__actions">
         <button

@@ -42,6 +42,13 @@
   content: '';
 }
 
+.outpost-list__heading h2 {
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
 .outpost-list__collapse {
   box-sizing: border-box;
   width: 1.75rem;

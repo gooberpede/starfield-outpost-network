@@ -207,39 +207,49 @@ export function OutpostStatusMatrix({
     setIsAddingProduct(false)
   }
 
-  return <section className="outpost-status-matrix" aria-label={t('matrix.heading')}>
+  return <section className="outpost-status-matrix" aria-labelledby="resource-matrix-heading">
     <div className="outpost-status-matrix__heading-strip">
-      <h2>{t('matrix.heading')}</h2>
+      <h2 id="resource-matrix-heading">{t('matrix.heading')}</h2>
       {headingControl}
     </div>
-    <div className="outpost-status-matrix__scroll technical-scrollbar"><div className="outpost-status-matrix__table" role="table">
-      <div className="outpost-status-matrix__header" role="row">
-        <div role="columnheader">{t('matrix.column.item')}</div>
-        <div role="columnheader">{t('matrix.column.source')}</div>
-        <div role="columnheader" className="outpost-status-matrix__help-heading">
-          {t('matrix.column.present')}
-          <ContextHelp context={t('matrix.column.present')} text={t(contextHelpText.present)} />
-        </div>
-        <div role="columnheader" className="outpost-status-matrix__help-heading">
-          {t('matrix.column.producing')}
-          <ContextHelp context={t('matrix.column.producing')} text={t(contextHelpText.producing)} />
-        </div>
-        <div role="columnheader">{t('matrix.column.inputs')}</div>
-        <div role="columnheader" className="outpost-status-matrix__help-heading">
-          {t('matrix.column.logistics')}
-          <ContextHelp context={t('matrix.column.logistics')} text={t(contextHelpText.logistics)} />
+    <div className="outpost-status-matrix__scroll technical-scrollbar"><div
+      className="outpost-status-matrix__table"
+      role="table"
+      aria-labelledby="resource-matrix-heading"
+    >
+      <div role="rowgroup">
+        <div className="outpost-status-matrix__header" role="row">
+          <div role="columnheader">{t('matrix.column.item')}</div>
+          <div role="columnheader">{t('matrix.column.source')}</div>
+          <div role="columnheader" className="outpost-status-matrix__help-heading">
+            {t('matrix.column.present')}
+            <ContextHelp context={t('matrix.column.present')} text={t(contextHelpText.present)} />
+          </div>
+          <div role="columnheader" className="outpost-status-matrix__help-heading">
+            {t('matrix.column.producing')}
+            <ContextHelp context={t('matrix.column.producing')} text={t(contextHelpText.producing)} />
+          </div>
+          <div role="columnheader">{t('matrix.column.inputs')}</div>
+          <div role="columnheader" className="outpost-status-matrix__help-heading">
+            {t('matrix.column.logistics')}
+            <ContextHelp context={t('matrix.column.logistics')} text={t(contextHelpText.logistics)} />
+          </div>
         </div>
       </div>
 
-      {(inorganicRows.length > 0 || canAddXTech) && <section className="outpost-status-matrix__section" aria-labelledby="matrix-inorganic">
-        <div className="outpost-status-matrix__section-bar outpost-status-matrix__section-bar--matrix">
-          <h3 id="matrix-inorganic">{t('matrix.section.inorganic')}</h3>
-          {canAddXTech && <button type="button" className="outpost-status-matrix__add-explicit"
-            title={getExplicitResourceAddTooltip(xTechDisplayName, locale)}
-            aria-label={t('matrix.action.xTech.add', { resource: xTechDisplayName })}
-            onClick={() => onToggleExplicitResourcePresence(X_TECH_RESOURCE_ID)}>
-            + {xTechDisplayName}
-          </button>}
+      {(inorganicRows.length > 0 || canAddXTech) && <div className="outpost-status-matrix__section" role="rowgroup" aria-labelledby="matrix-inorganic">
+        <div className="outpost-status-matrix__section-bar outpost-status-matrix__section-bar--matrix" role="row">
+          <div className="outpost-status-matrix__section-heading-cell" role="cell" aria-colspan={2}>
+            <h3 id="matrix-inorganic">{t('matrix.section.inorganic')}</h3>
+          </div>
+          {canAddXTech && <div className="outpost-status-matrix__add-explicit-cell" role="cell" aria-colspan={4}>
+            <button type="button" className="outpost-status-matrix__add-explicit"
+              title={getExplicitResourceAddTooltip(xTechDisplayName, locale)}
+              aria-label={t('matrix.action.xTech.add', { resource: xTechDisplayName })}
+              onClick={() => onToggleExplicitResourcePresence(X_TECH_RESOURCE_ID)}>
+              + {xTechDisplayName}
+            </button>
+          </div>}
         </div>
         {inorganicRows.map((resourceId) => {
           const resource = resourcesById.get(resourceId)
@@ -287,10 +297,12 @@ export function OutpostStatusMatrix({
               )} />}</div>
           </div>
         })}
-      </section>}
+      </div>}
 
-      {organicRows.length > 0 && <section className="outpost-status-matrix__section" aria-labelledby="matrix-organic">
-        <h3 id="matrix-organic" className="outpost-status-matrix__section-heading">{t('matrix.section.organic')}</h3>
+      {organicRows.length > 0 && <div className="outpost-status-matrix__section" role="rowgroup" aria-labelledby="matrix-organic">
+        <div className="outpost-status-matrix__section-heading" role="row">
+          <div role="cell" aria-colspan={6}><h3 id="matrix-organic">{t('matrix.section.organic')}</h3></div>
+        </div>
         {organicRows.map((route) => {
           const resource = resourcesById.get(route.resourceId)
           const display = {
@@ -344,22 +356,30 @@ export function OutpostStatusMatrix({
               )} />}</div>
           </div>
         })}
-      </section>}
+      </div>}
 
-      <section className="outpost-status-matrix__section" aria-labelledby="matrix-manufacturing">
-        <div className="outpost-status-matrix__section-bar"><h3 id="matrix-manufacturing">{t('matrix.section.manufacturing')}</h3>
-          <div className="outpost-status-matrix__actions">{draftManufacturing ? <>
-            <button type="button" onClick={() => { onCommitManufacturing(draftManufacturing); setDraftManufacturing(null); setIsAddingProduct(false) }}>{t('common.save')}</button>
-            <button type="button" onClick={() => { setDraftManufacturing(null); setIsAddingProduct(false) }}>{t('common.cancel.lower')}</button>
-            <button type="button" aria-label={t('matrix.manufacturing.add')} onClick={() => setIsAddingProduct(true)}>+</button>
-          </> : <button type="button" onClick={beginManufacturingEdit}>{t('common.edit')}</button>}</div>
+      <div className="outpost-status-matrix__section" role="rowgroup" aria-labelledby="matrix-manufacturing">
+        <div className="outpost-status-matrix__section-bar" role="row">
+          <div className="outpost-status-matrix__section-bar-content" role="cell" aria-colspan={6}>
+            <h3 id="matrix-manufacturing">{t('matrix.section.manufacturing')}</h3>
+            <div className="outpost-status-matrix__actions">{draftManufacturing ? <>
+              <button type="button" onClick={() => { onCommitManufacturing(draftManufacturing); setDraftManufacturing(null); setIsAddingProduct(false) }}>{t('common.save')}</button>
+              <button type="button" onClick={() => { setDraftManufacturing(null); setIsAddingProduct(false) }}>{t('common.cancel.lower')}</button>
+              <button type="button" aria-label={t('matrix.manufacturing.add')} onClick={() => setIsAddingProduct(true)}>+</button>
+            </> : <button type="button" onClick={beginManufacturingEdit}>{t('common.edit')}</button>}</div>
+          </div>
         </div>
-        {draftManufacturing && isAddingProduct && <label className="outpost-status-matrix__product-selector">
-          <span>{t('matrix.manufacturing.addLabel')}</span><select value="" autoFocus onChange={(event) => addDraftProduct(event.target.value)}>
-            <option value="">{t('matrix.manufacturing.select')}</option>{addableProducts.map((product) =>
-              <option key={product.id} value={product.id}>{getReferenceDisplayName('product', product.id, product.name, locale)}</option>)}
-          </select></label>}
-        {sortedManufacturing.length === 0 ? <p className="outpost-status-matrix__empty">{t('matrix.manufacturing.empty')}</p>
+        {draftManufacturing && isAddingProduct && <div className="outpost-status-matrix__full-row" role="row"><div role="cell" aria-colspan={6}>
+          <label className="outpost-status-matrix__product-selector">
+            <span>{t('matrix.manufacturing.addLabel')}</span><select value="" autoFocus onChange={(event) => addDraftProduct(event.target.value)}>
+              <option value="">{t('matrix.manufacturing.select')}</option>{addableProducts.map((product) =>
+                <option key={product.id} value={product.id}>{getReferenceDisplayName('product', product.id, product.name, locale)}</option>)}
+            </select>
+          </label>
+        </div></div>}
+        {sortedManufacturing.length === 0 ? <div className="outpost-status-matrix__full-row" role="row"><div role="cell" aria-colspan={6}>
+          <p className="outpost-status-matrix__empty">{t('matrix.manufacturing.empty')}</p>
+        </div></div>
           : sortedManufacturing.map((entry) => {
             const product = productsById.get(entry.productId)
             const display = {
@@ -400,11 +420,15 @@ export function OutpostStatusMatrix({
               </div>
             </div>
           })}
-      </section>
+      </div>
 
-      <section className="outpost-status-matrix__section" aria-labelledby="matrix-imports">
-        <h3 id="matrix-imports" className="outpost-status-matrix__section-heading">{t('matrix.section.imports')}</h3>
-        {importSummaries.length === 0 ? <p className="outpost-status-matrix__empty">{t('matrix.imports.empty')}</p>
+      <div className="outpost-status-matrix__section" role="rowgroup" aria-labelledby="matrix-imports">
+        <div className="outpost-status-matrix__section-heading" role="row">
+          <div role="cell" aria-colspan={6}><h3 id="matrix-imports">{t('matrix.section.imports')}</h3></div>
+        </div>
+        {importSummaries.length === 0 ? <div className="outpost-status-matrix__full-row" role="row"><div role="cell" aria-colspan={6}>
+          <p className="outpost-status-matrix__empty">{t('matrix.imports.empty')}</p>
+        </div></div>
           : importSummaries.map((summary) => <div className="outpost-status-matrix__row" role="row" key={summary.sourceOutpostId}>
             <div className="outpost-status-matrix__item outpost-status-matrix__item--span-source" role="rowheader" title={summary.sourceOutpostName}>{summary.sourceOutpostName}</div>
             <div className="outpost-status-matrix__cell--present" role="cell" />
@@ -418,7 +442,7 @@ export function OutpostStatusMatrix({
                   title={getImportTooltip(display.name, locale)} />
               })}</div>
           </div>)}
-      </section>
+      </div>
     </div></div>
   </section>
 }

@@ -386,7 +386,7 @@ export function PlannedSupplyEditor({
 
   return (
     <section className="planned-supply">
-      <h2 className="planned-supply__heading">
+      <div className="planned-supply__heading">
         <button
           className="planned-supply__expand-toggle"
           type="button"
@@ -408,12 +408,12 @@ export function PlannedSupplyEditor({
           {isExpanded ? '▼' : '▶'}
         </button>
 
-        <span>{t('plannedSupply.heading')}</span>
+        <h2>{t('plannedSupply.heading')}</h2>
         <ContextHelp
           context={t('plannedSupply.heading')}
           text={t(contextHelpText.plannedSupply)}
         />
-      </h2>
+      </div>
 
       {!isExpanded && (
         compactItemCount === 0

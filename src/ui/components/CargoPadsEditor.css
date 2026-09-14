@@ -24,7 +24,7 @@
   font-family: var(--ui-font);
 }
 
-.cargo-pads > h2 {
+.cargo-pads__heading {
   position: relative;
   display: flex;
   gap: 0.5rem;
@@ -41,7 +41,7 @@
   text-transform: uppercase;
 }
 
-.cargo-pads > h2::before {
+.cargo-pads__heading::before {
   position: absolute;
   top: 0;
   bottom: -1px;
@@ -89,6 +89,13 @@
 .cargo-pads__move-controls button:focus-visible {
   outline: 2px solid var(--ui-structural-dark);
   outline-offset: 2px;
+}
+
+.cargo-pads__heading h2 {
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
 }
 
 .cargo-pads__move-controls button:focus-visible {

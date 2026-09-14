@@ -6,7 +6,9 @@ import { describe, expect, test, vi } from 'vitest'
 import { createDefaultNetworkCollection } from '../src/data/networkCollection.ts'
 import { serializeNetworkCollection } from '../src/data/serialization.ts'
 import { createCollectionEditingSession } from '../src/domain/collectionEditingSession.ts'
+import { createDefaultNetwork } from '../src/domain/defaults.ts'
 import type { Outpost } from '../src/domain/models.ts'
+import type { ReferenceData } from '../src/domain/referenceData.ts'
 import type { ValidationIssue } from '../src/domain/validation/types.ts'
 import { translate } from '../src/localization/catalog.ts'
 import { LocalizationContext, useLocalization } from '../src/localization/LocalizationContext.ts'
@@ -16,10 +18,13 @@ import type { SupportedLocale } from '../src/localization/types.ts'
 import { CargoPadEditor } from '../src/ui/components/CargoPadEditor.tsx'
 import { CargoPadsEditor } from '../src/ui/components/CargoPadsEditor.tsx'
 import { OutpostList } from '../src/ui/components/OutpostList.tsx'
+import { OutpostStatusMatrix } from '../src/ui/components/OutpostStatusMatrix.tsx'
+import { PlannedSupplyEditor } from '../src/ui/components/PlannedSupplyEditor.tsx'
 import { SearchForItems } from '../src/ui/components/SearchForItems.tsx'
 import { ValidationSummary } from '../src/ui/components/ValidationSummary.tsx'
 import type { ItemSearchEntry } from '../src/ui/itemSearch.ts'
 import { StatusBar } from '../src/ui/layout/StatusBar.tsx'
+import { WorkspaceLayout } from '../src/ui/layout/WorkspaceLayout.tsx'
 
 function localized(locale: SupportedLocale, children: ReactNode) {
   return render(
@@ -59,6 +64,88 @@ function makeOutpost(id: string, name: string, padCount = 0): Outpost {
 const noOp = vi.fn()
 
 describe('release accessibility semantics', () => {
+  test('workspace exposes one main with labelled Navigation and Cargo regions', () => {
+    localized('en-US', <main>
+      <WorkspaceLayout
+        left={<p>Outpost list</p>}
+        middle={<p>Editing column</p>}
+        right={<p>Cargo controls</p>}
+        isNavigationOpen
+        onShowNavigation={noOp}
+        showNavigationControlRef={{ current: null }}
+      />
+    </main>)
+
+    expect(screen.getAllByRole('main')).toHaveLength(1)
+    expect(screen.getByRole('navigation', { name: 'Outposts' })).toBeVisible()
+    expect(screen.getByRole('complementary', { name: 'Cargo Links' })).toBeVisible()
+  })
+
+  test('panel headings exclude adjacent controls and summary counts', () => {
+    const outpost = makeOutpost('one', 'Alpha')
+    localized('en-US', <>
+      <OutpostList
+        outposts={[outpost]} maxOutposts={8} selectedOutpostId="one"
+        onSelectOutpost={noOp} onMoveOutpost={noOp} onMoveOutpostUp={noOp}
+        onMoveOutpostDown={noOp} onAddOutpost={noOp} onDragActiveChange={noOp}
+        onHideNavigation={noOp} hideNavigationControlRef={{ current: null }}
+      />
+      <PlannedSupplyEditor
+        resources={[]} products={[]} plannedSupply={[]} actuallyAvailableItems={[]}
+        onTogglePlannedSupply={noOp}
+      />
+      <CargoPadsEditor
+        outpost={outpost} maxCargoPads={6} allOutposts={[outpost]} cargoLinks={[]}
+        resources={[]} products={[]} availableItems={[]} actuallyAvailableItems={[]}
+        onUnlinkCargoPad={noOp} onSetCargoLink={noOp} onAddCargoPad={noOp}
+        onMoveCargoPad={noOp} onMoveCargoPadUp={noOp} onMoveCargoPadDown={noOp}
+        onDeleteCargoPad={noOp} onToggleExport={noOp} onToggleCargoPadType={noOp}
+      />
+    </>)
+
+    expect(screen.getByRole('heading', { name: 'Outposts' })).toBeVisible()
+    expect(screen.getByRole('heading', { name: 'Planned Supply' })).toBeVisible()
+    expect(screen.getByRole('heading', { name: 'Cargo Links' })).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Hide outpost navigation' })).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Expand Planned Supply' })).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Help for Planned Supply' })).toBeVisible()
+  })
+
+  test('Resource Matrix uses owned row groups and retains interactive names and states', () => {
+    const outpost = makeOutpost('one', 'Alpha')
+    outpost.activeProduction = [{ type: 'inorganic', resourceId: 'iron' }]
+    const network = createDefaultNetwork()
+    network.character.capabilities.xTechExtraction = false
+    network.outposts = [outpost]
+    const iron = {
+      id: 'iron', name: 'Iron', shortName: 'Fe', category: 'inorganic' as const,
+      rarity: 'common' as const, parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' as const,
+    }
+    const referenceData: ReferenceData = {
+      biomes: [], bodyBiomes: [], inorganicOccurrences: [], species: [], planetSpecies: [],
+      organicOccurrences: [], organicFarmingProfiles: [], systems: [], bodies: [],
+      resources: [iron], products: [], bodyResources: [], productRecipes: [],
+    }
+    localized('en-US', <OutpostStatusMatrix
+      outpost={outpost} network={network} resources={[iron]} products={[]}
+      referenceData={referenceData} availableItems={[]} actuallyAvailableItems={[]}
+      onToggleResource={noOp} onToggleExplicitResourcePresence={noOp}
+      onToggleActiveProduction={noOp} onCommitManufacturing={noOp}
+    />)
+
+    const table = screen.getByRole('table', { name: 'Resource Matrix' })
+    const rowGroups = within(table).getAllByRole('rowgroup')
+    expect(rowGroups.length).toBeGreaterThanOrEqual(4)
+    for (const rowGroup of rowGroups) {
+      expect(Array.from(rowGroup.children).every((child) => child.getAttribute('role') === 'row')).toBe(true)
+    }
+    expect(within(table).getAllByRole('columnheader')).toHaveLength(6)
+    expect(screen.getByRole('button', { name: 'Toggle Present for Iron' }))
+      .toHaveAttribute('aria-pressed', 'false')
+    expect(screen.getByRole('button', { name: 'Toggle Producing for Iron' }))
+      .toHaveAttribute('aria-pressed', 'true')
+  })
+
   test('compact Add controls keep concise copy and full contextual names', async () => {
     const user = userEvent.setup()
     const outposts = [makeOutpost('one', 'Alpha', 2), makeOutpost('two', 'Beta')]
