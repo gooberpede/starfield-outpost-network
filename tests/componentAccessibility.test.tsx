@@ -17,6 +17,7 @@ import { LocalizationProvider } from '../src/localization/LocalizationProvider.t
 import type { SupportedLocale } from '../src/localization/types.ts'
 import { CargoPadEditor } from '../src/ui/components/CargoPadEditor.tsx'
 import { CargoPadsEditor } from '../src/ui/components/CargoPadsEditor.tsx'
+import { CharacterHeader } from '../src/ui/components/CharacterHeader.tsx'
 import { OutpostList } from '../src/ui/components/OutpostList.tsx'
 import { OutpostStatusMatrix } from '../src/ui/components/OutpostStatusMatrix.tsx'
 import { PlannedSupplyEditor } from '../src/ui/components/PlannedSupplyEditor.tsx'
@@ -64,6 +65,133 @@ function makeOutpost(id: string, name: string, padCount = 0): Outpost {
 const noOp = vi.fn()
 
 describe('release accessibility semantics', () => {
+  test('character numeric drafts validate only on blur and announce one frame later', async () => {
+    const user = userEvent.setup()
+    const levelCommit = vi.fn()
+    const skillCommit = vi.fn()
+    const frameCallbacks: FrameRequestCallback[] = []
+    const requestFrame = vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+      frameCallbacks.push(callback)
+      return frameCallbacks.length
+    })
+    const cancelFrame = vi.spyOn(window, 'cancelAnimationFrame').mockImplementation(noOp)
+    const character = createDefaultNetwork().character
+    character.level = 12
+    character.skills.outpostManagement = 2
+
+    localized('en-US', <CharacterHeader
+      character={character}
+      onNameCommit={noOp}
+      onLevelCommit={levelCommit}
+      onSkillCommit={skillCommit}
+    />)
+
+    const statusRegion = screen.getByRole('status')
+    const level = screen.getByRole('textbox', { name: 'Level' })
+    const rank = screen.getByRole('textbox', { name: 'Outpost Management' })
+    const planetaryRank = screen.getByRole('textbox', { name: 'Planetary Habitation' })
+
+    // Slow typing remains a silent edit buffer until blur.
+    await user.clear(level)
+    await user.type(level, 'x')
+    await user.type(level, 'y')
+    expect(level).toHaveValue('xy')
+    expect(level).not.toHaveAttribute('aria-invalid')
+    expect(level).not.toHaveAttribute('aria-describedby')
+    expect(statusRegion).toBeEmptyDOMElement()
+    expect(frameCallbacks).toHaveLength(0)
+    expect(levelCommit).not.toHaveBeenCalled()
+
+    await user.tab()
+    expect(level).toHaveValue('12')
+    expect(document.activeElement).toBe(rank)
+    expect(statusRegion).toBeEmptyDOMElement()
+    expect(frameCallbacks).toHaveLength(1)
+    act(() => frameCallbacks.shift()?.(0))
+    expect(statusRegion).toHaveTextContent(
+      'Invalid level. Restored to 12. Enter a level from 1 to 999.',
+    )
+    expect(levelCommit).not.toHaveBeenCalled()
+
+    // A valid edit clears stale speech and still commits exactly once.
+    await user.click(level)
+    await user.clear(level)
+    await user.type(level, '999')
+    expect(statusRegion).toBeEmptyDOMElement()
+    await user.tab()
+    expect(levelCommit).toHaveBeenCalledOnce()
+    expect(levelCommit).toHaveBeenLastCalledWith(999)
+    expect(frameCallbacks).toHaveLength(0)
+    expect(statusRegion).toBeEmptyDOMElement()
+
+    // Fast multi-character typing is equally silent, then restores on blur.
+    await user.clear(rank)
+    await user.type(rank, '55')
+    expect(rank).toHaveValue('55')
+    expect(rank).not.toHaveAttribute('aria-invalid')
+    expect(rank).not.toHaveAttribute('aria-describedby')
+    expect(statusRegion).toBeEmptyDOMElement()
+    expect(frameCallbacks).toHaveLength(0)
+    expect(skillCommit).not.toHaveBeenCalled()
+    await user.tab()
+    expect(rank).toHaveValue('2')
+    expect(document.activeElement).toBe(planetaryRank)
+    expect(statusRegion).toBeEmptyDOMElement()
+    expect(frameCallbacks).toHaveLength(1)
+    act(() => frameCallbacks.shift()?.(0))
+    expect(statusRegion).toHaveTextContent(
+      'Invalid rank. Restored to 2. Enter a rank from 0 to 4.',
+    )
+    expect(skillCommit).not.toHaveBeenCalled()
+
+    // Blank optional metadata commits null without rejection speech.
+    await user.click(rank)
+    await user.clear(rank)
+    expect(statusRegion).toBeEmptyDOMElement()
+    await user.tab()
+    expect(skillCommit).toHaveBeenCalledOnce()
+    expect(skillCommit).toHaveBeenLastCalledWith('outpostManagement', null)
+    expect(frameCallbacks).toHaveLength(0)
+
+    // Repeating an invalid blur updates the one stable region exactly once.
+    skillCommit.mockClear()
+    await user.click(rank)
+    await user.type(rank, '6')
+    await user.tab()
+    expect(rank).toHaveValue('2')
+    expect(statusRegion).toBeEmptyDOMElement()
+    expect(frameCallbacks).toHaveLength(1)
+    act(() => frameCallbacks.shift()?.(0))
+    expect(screen.getAllByRole('status')).toEqual([statusRegion])
+    expect(statusRegion).toHaveTextContent(
+      'Invalid rank. Restored to 2. Enter a rank from 0 to 4.',
+    )
+
+    // Valid correction clears the prior announcement and commits once.
+    await user.click(rank)
+    await user.clear(rank)
+    await user.type(rank, '4')
+    expect(statusRegion).toBeEmptyDOMElement()
+    await user.tab()
+    expect(skillCommit).toHaveBeenCalledOnce()
+    expect(skillCommit).toHaveBeenLastCalledWith('outpostManagement', 4)
+    expect(frameCallbacks).toHaveLength(0)
+
+    // A null prior value uses restoration wording that does not invent a rank.
+    await user.click(planetaryRank)
+    await user.type(planetaryRank, '5')
+    await user.tab()
+    expect(planetaryRank).toHaveValue('')
+    expect(frameCallbacks).toHaveLength(1)
+    act(() => frameCallbacks.shift()?.(0))
+    expect(statusRegion).toHaveTextContent(
+      'Invalid rank. Previous value restored. Enter a rank from 0 to 4.',
+    )
+
+    requestFrame.mockRestore()
+    cancelFrame.mockRestore()
+  })
+
   test('workspace exposes one main with labelled Navigation and Cargo regions', () => {
     localized('en-US', <main>
       <WorkspaceLayout
@@ -270,6 +398,39 @@ describe('release accessibility semantics', () => {
     expect(marker.querySelector('[aria-hidden="true"]')).toHaveTextContent('✷⇄✷')
   })
 
+  test('collapsed Cargo Links expose one localized full-name semantic summary', () => {
+    const alpha = makeOutpost('alpha', 'Alpha', 2)
+    const beta = makeOutpost('beta', 'Feynman I', 1)
+    alpha.cargoPads[0].outboundItems = [
+      { type: 'resource', id: 'lithium' },
+      { type: 'resource', id: 'copper' },
+    ]
+    beta.cargoPads[0].outboundItems = [{ type: 'product', id: 'adaptive-frame' }]
+    const resources = [
+      { id: 'lithium', name: 'Lithium', shortName: 'Li', category: 'inorganic' as const, rarity: 'common' as const, parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' as const },
+      { id: 'copper', name: 'Copper', shortName: 'Cu', category: 'inorganic' as const, rarity: 'common' as const, parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' as const },
+    ]
+    const products = [{ id: 'adaptive-frame', name: 'Adaptive Frame', shortName: 'AF', rarity: 'common' as const }]
+    localized('en-US', <CargoPadsEditor
+      outpost={alpha} maxCargoPads={6} allOutposts={[alpha, beta]}
+      cargoLinks={[{ id: 'link', endpointA: { outpostId: 'alpha', cargoPadId: 'alpha-pad-1' }, endpointB: { outpostId: 'beta', cargoPadId: 'beta-pad-1' } }]}
+      resources={resources} products={products} availableItems={[]} actuallyAvailableItems={[]}
+      onUnlinkCargoPad={noOp} onSetCargoLink={noOp} onAddCargoPad={noOp}
+      onMoveCargoPad={noOp} onMoveCargoPadUp={noOp} onMoveCargoPadDown={noOp}
+      onDeleteCargoPad={noOp} onToggleExport={noOp} onToggleCargoPadType={noOp}
+    />)
+
+    const interSystemDisclosure = screen.getByRole('button', { name: 'Expand Cargo Link 1' })
+    expect(interSystemDisclosure).toHaveAccessibleDescription(
+      'Destination Feynman I. Outbound: Lithium and Copper. Inbound: Adaptive Frame. Inter-System Cargo Link.',
+    )
+    const standardDisclosure = screen.getByRole('button', { name: 'Expand Cargo Link 2' })
+    expect(standardDisclosure).toHaveAccessibleDescription(
+      'Destination Unlinked. Outbound: No outbound cargo. Inbound: No inbound cargo. Standard Cargo Link.',
+    )
+    expect(document.querySelectorAll('.cargo-pad__summary-cargo [tabindex]')).toHaveLength(0)
+  })
+
   test('pointer drag handles leave Tab order while move buttons stay labelled buttons', async () => {
     const user = userEvent.setup()
     const outposts = [makeOutpost('one', 'Alpha', 3), makeOutpost('two', 'Beta')]
@@ -317,7 +478,12 @@ describe('release accessibility semantics', () => {
     localized('ja-JP', <ValidationSummary
       issues={[issue]} outposts={[]} referenceData={null} onNavigateToIssue={noOp}
     />)
-    await user.click(screen.getByRole('button', { name: '検証：1件の問題' }))
+    const trigger = screen.getByRole('button', { name: '検証：1件の問題' })
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    await user.click(trigger)
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    const panel = screen.getByRole('region', { name: '検証' })
+    expect(trigger).toHaveAttribute('aria-controls', panel.id)
     const row = screen.getByRole('listitem')
     const message = row.querySelector('.validation-summary-panel__message')
     const severity = within(row).getByText('警告:')
@@ -555,6 +721,62 @@ test('Search exposes localized options and preserves keyboard combobox behavior'
   await user.keyboard('{ArrowDown}{ArrowDown}{Enter}')
   expect(submitted).toHaveBeenCalledWith({ type: 'product', id: 'iron' })
   expect(input).toHaveAttribute('aria-expanded', 'false')
+})
+
+test('Search button and Enter share deterministic zero, one, and highlighted-match submission', async () => {
+  const user = userEvent.setup()
+  const matches: ItemSearchEntry[] = [
+    { item: { type: 'resource', id: 'iron' }, key: 'resource:iron', displayName: 'Iron', abbreviation: 'Fe', category: 'resource', normalizedName: 'iron', normalizedAbbreviation: 'fe', aliases: [], needsCategoryDisambiguator: false },
+    { item: { type: 'resource', id: 'copper' }, key: 'resource:copper', displayName: 'Copper', abbreviation: 'Cu', category: 'resource', normalizedName: 'copper', normalizedAbbreviation: 'cu', aliases: [], needsCategoryDisambiguator: false },
+  ]
+  const submitted = vi.fn()
+
+  function Harness() {
+    const inputRef = useRef<HTMLInputElement>(null)
+    const [currentMatches, setCurrentMatches] = useState<ItemSearchEntry[]>([])
+    const [highlighted, setHighlighted] = useState<string | null>(null)
+    return <>
+      <button onClick={() => { setCurrentMatches([]); setHighlighted(null) }}>zero</button>
+      <button onClick={() => { setCurrentMatches([matches[0]]); setHighlighted(null) }}>one</button>
+      <button onClick={() => { setCurrentMatches(matches); setHighlighted(null) }}>many</button>
+      <SearchForItems
+        inputRef={inputRef} draftQuery="item" matches={currentMatches}
+        highlightedMatchKey={highlighted} isAutocompleteOpen
+        submittedItemName={null} results={[]} isResultsOpen={false} palettePosition={null}
+        onDraftQueryChange={noOp} onHighlightChange={setHighlighted}
+        onAutocompleteOpenChange={noOp} onSubmit={submitted}
+        onResultsOpenChange={noOp} onPalettePositionChange={noOp} onSelectOutpost={noOp}
+      />
+    </>
+  }
+
+  localized('en-US', <Harness />)
+  const input = screen.getByRole('combobox')
+  const submit = screen.getByRole('button', { name: 'Search for item' })
+  expect(submit).toBeDisabled()
+  input.focus()
+  await user.keyboard('{Enter}')
+  expect(submitted).not.toHaveBeenCalled()
+
+  await user.click(screen.getByRole('button', { name: 'one' }))
+  expect(submit).toBeEnabled()
+  await user.click(submit)
+  expect(submitted).toHaveBeenLastCalledWith(matches[0].item)
+  submitted.mockClear()
+  input.focus()
+  await user.keyboard('{Enter}')
+  expect(submitted).toHaveBeenLastCalledWith(matches[0].item)
+
+  submitted.mockClear()
+  await user.click(screen.getByRole('button', { name: 'many' }))
+  expect(submit).toBeDisabled()
+  input.focus()
+  await user.keyboard('{Enter}')
+  expect(submitted).not.toHaveBeenCalled()
+  await user.keyboard('{ArrowDown}')
+  expect(submit).toBeEnabled()
+  await user.click(submit)
+  expect(submitted).toHaveBeenLastCalledWith(matches[0].item)
 })
 
 test('keyboard Search submission focuses the portalled results and restores Search on close', async () => {

@@ -62,7 +62,8 @@ import type {
 import { CargoPadEditor } from './CargoPadEditor'
 import './CargoPadsEditor.css'
 import { useLocalization } from '../../localization/LocalizationContext.ts'
-import { formatInteger } from '../../localization/formatters.ts'
+import { formatInteger, formatList } from '../../localization/formatters.ts'
+import { getReferenceDisplayName } from '../../localization/referenceNames.ts'
 
 interface CargoPadsEditorProps {
   outpost: Outpost
@@ -331,7 +332,12 @@ export function CargoPadsEditor({
 
     return {
       shortName: reference?.shortName ?? item.id,
-      name: reference?.name ?? item.id,
+      name: getReferenceDisplayName(
+        item.type,
+        item.id,
+        reference?.name ?? item.id,
+        locale,
+      ),
     }
   }
 
@@ -734,6 +740,19 @@ export function CargoPadsEditor({
                 getCargoItemDisplay,
               )
             : []
+        const semanticSummaryId = `cargo-pad-semantic-summary-${pad.id}`
+        const semanticSummary = t('cargo.pad.semanticSummary', {
+          destination: remoteOutpost?.name ?? t('cargo.destination.unlinked'),
+          outbound: outboundSummaryItems.length > 0
+            ? formatList(locale, outboundSummaryItems.map(({ name }) => name))
+            : t('cargo.pad.noOutboundCargo'),
+          inbound: remotePad && inboundSummaryItems.length > 0
+            ? formatList(locale, inboundSummaryItems.map(({ name }) => name))
+            : t('cargo.pad.noInboundCargo'),
+          linkType: t(pad.type === 'interstellar'
+            ? 'cargo.pad.linkType.interSystem'
+            : 'cargo.pad.linkType.standard'),
+        })
 
         return (
           <div
@@ -780,11 +799,18 @@ export function CargoPadsEditor({
                         toggleCargoPadCollapsed(pad.id)
                       }
                       aria-expanded={!isCollapsed}
+                      aria-describedby={isCollapsed ? semanticSummaryId : undefined}
                       aria-label={t(isCollapsed ? 'common.expandItem' : 'common.collapseItem', { item: displayPadLabel })}
                       title={t(isCollapsed ? 'common.expandItem' : 'common.collapseItem', { item: displayPadLabel })}
                     >
                       <span aria-hidden="true">{isCollapsed ? '▸' : '▾'}</span>
                     </button>
+
+                    {isCollapsed && (
+                      <span id={semanticSummaryId} className="ui-visually-hidden">
+                        {semanticSummary}
+                      </span>
+                    )}
 
                     {pad.type === 'interstellar' && (
                       <span

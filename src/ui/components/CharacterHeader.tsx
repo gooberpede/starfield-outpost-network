@@ -24,11 +24,12 @@
  *   - the semantic structure of the character strip changes.
  */
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import type { Character } from '../../domain/models'
 import { parseCharacterLevelDraft } from '../../domain/characterLevel'
 import { useLocalization } from '../../localization/LocalizationContext.ts'
+import { formatInteger } from '../../localization/formatters.ts'
 import { getSkillDisplayName } from '../../localization/officialTerms.ts'
 
 import './CharacterHeader.css'
@@ -48,17 +49,30 @@ interface CharacterHeaderProps {
 interface CharacterLevelFieldProps {
   level: number | null
   onCommit: (level: number | null) => void
+  onDraftChange: () => void
+  onReject: (message: string) => void
 }
 
-function CharacterLevelField({ level, onCommit }: CharacterLevelFieldProps) {
-  const { t } = useLocalization()
+function CharacterLevelField({
+  level,
+  onCommit,
+  onDraftChange,
+  onReject,
+}: CharacterLevelFieldProps) {
+  const { locale, t } = useLocalization()
   const [draftLevel, setDraftLevel] = useState(level === null ? '' : String(level))
+
   function commitDraft() {
-    const parsed = parseCharacterLevelDraft(draftLevel)
-    if (parsed === undefined) {
+    const parsedLevel = parseCharacterLevelDraft(draftLevel)
+    if (parsedLevel === undefined) {
       setDraftLevel(level === null ? '' : String(level))
-    } else if (parsed !== level) {
-      onCommit(parsed)
+      onReject(t(level === null
+        ? 'character.level.rejectedEmpty'
+        : 'character.level.rejectedRestored', level === null
+        ? undefined
+        : { value: formatInteger(locale, level) }))
+    } else if (parsedLevel !== level) {
+      onCommit(parsedLevel)
     }
   }
   return (
@@ -69,7 +83,10 @@ function CharacterLevelField({ level, onCommit }: CharacterLevelFieldProps) {
         type="text"
         inputMode="numeric"
         value={draftLevel}
-        onChange={(event) => setDraftLevel(event.target.value)}
+        onChange={(event) => {
+          setDraftLevel(event.target.value)
+          onDraftChange()
+        }}
         onBlur={commitDraft}
       />
     </label>
@@ -121,6 +138,8 @@ interface SkillRankFieldProps {
     skill: CharacterSkill,
     rank: number | null,
   ) => void
+  onDraftChange: () => void
+  onReject: (message: string) => void
 }
 
 /**
@@ -132,7 +151,10 @@ function SkillRankField({
   rank,
   skill,
   onCommit,
+  onDraftChange,
+  onReject,
 }: SkillRankFieldProps) {
+  const { locale, t } = useLocalization()
   const [draftRank, setDraftRank] =
     useState(
       rank === null
@@ -141,7 +163,8 @@ function SkillRankField({
     )
 
   function commitDraft() {
-    if (draftRank.trim() === '') {
+    const trimmedDraftRank = draftRank.trim()
+    if (trimmedDraftRank === '') {
       if (rank !== null) {
         onCommit(skill, null)
       }
@@ -150,7 +173,6 @@ function SkillRankField({
     }
 
     const parsedRank = Number(draftRank)
-
     if (
       Number.isInteger(parsedRank) &&
       parsedRank >= 0 &&
@@ -168,6 +190,11 @@ function SkillRankField({
         ? ''
         : String(rank),
     )
+    onReject(t(rank === null
+      ? 'character.skillRank.rejectedEmpty'
+      : 'character.skillRank.rejectedRestored', rank === null
+      ? undefined
+      : { value: formatInteger(locale, rank) }))
   }
 
   return (
@@ -179,13 +206,44 @@ function SkillRankField({
         type="text"
         inputMode="numeric"
         value={draftRank}
-        onChange={(event) =>
+        onChange={(event) => {
           setDraftRank(event.target.value)
-        }
+          onDraftChange()
+        }}
         onBlur={commitDraft}
       />
     </label>
   )
+}
+
+/** Defers blur-time rejection speech until the browser has settled focus. */
+function useDeferredRejectionAnnouncement() {
+  const [announcement, setAnnouncement] = useState('')
+  const pendingFrameRef = useRef<number | null>(null)
+
+  useEffect(() => () => {
+    if (pendingFrameRef.current !== null) {
+      window.cancelAnimationFrame(pendingFrameRef.current)
+    }
+  }, [])
+
+  function clearAnnouncement() {
+    setAnnouncement('')
+  }
+
+  function announceAfterFocusSettles(message: string) {
+    if (pendingFrameRef.current !== null) {
+      window.cancelAnimationFrame(pendingFrameRef.current)
+    }
+
+    setAnnouncement('')
+    pendingFrameRef.current = window.requestAnimationFrame(() => {
+      pendingFrameRef.current = null
+      setAnnouncement(message)
+    })
+  }
+
+  return { announcement, clearAnnouncement, announceAfterFocusSettles }
 }
 
 export function CharacterHeader({
@@ -195,6 +253,11 @@ export function CharacterHeader({
   onSkillCommit,
 }: CharacterHeaderProps) {
   const { locale } = useLocalization()
+  const {
+    announcement,
+    clearAnnouncement,
+    announceAfterFocusSettles,
+  } = useDeferredRejectionAnnouncement()
   return (
     <header className="character-header">
 
@@ -209,6 +272,8 @@ export function CharacterHeader({
           key={`level:${character.level ?? 'unknown'}`}
           level={character.level}
           onCommit={onLevelCommit}
+          onDraftChange={clearAnnouncement}
+          onReject={announceAfterFocusSettles}
         />
 
         <SkillRankField
@@ -217,6 +282,8 @@ export function CharacterHeader({
           rank={character.skills.outpostManagement}
           skill="outpostManagement"
           onCommit={onSkillCommit}
+          onDraftChange={clearAnnouncement}
+          onReject={announceAfterFocusSettles}
         />
 
         <SkillRankField
@@ -225,7 +292,12 @@ export function CharacterHeader({
           rank={character.skills.planetaryHabitation}
           skill="planetaryHabitation"
           onCommit={onSkillCommit}
+          onDraftChange={clearAnnouncement}
+          onReject={announceAfterFocusSettles}
         />
+      </div>
+      <div className="ui-visually-hidden" role="status" aria-live="polite" aria-atomic="true">
+        {announcement}
       </div>
     </header>
   )

@@ -21,6 +21,7 @@
 
 import {
   useEffect,
+  useId,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -76,6 +77,7 @@ export function ValidationSummary({
   onNavigateToIssue,
 }: ValidationSummaryProps) {
   const { locale, t } = useLocalization()
+  const panelId = useId()
   const [isOpen, setIsOpen] =
     useState(false)
   const [activeIssueKey, setActiveIssueKey] =
@@ -245,6 +247,7 @@ export function ValidationSummary({
             setIsOpen((current) => !current)
           }
           aria-expanded={isOpen}
+          aria-controls={panelId}
         >
           {t('validation.issueCount', { count: issues.length })}
         </button>
@@ -253,8 +256,11 @@ export function ValidationSummary({
 
       {isOpen && (
         <div
+          id={panelId}
           ref={panelRef}
           className="validation-summary-panel"
+          role="region"
+          aria-label={t('validation.heading')}
           onBlur={(event) => {
             if (
               event.relatedTarget &&

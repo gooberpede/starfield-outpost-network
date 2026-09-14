@@ -85,6 +85,8 @@ export function SearchForItems({
     session: PaletteDragSession
   } | null>(null)
   const visibleMatches = isAutocompleteOpen ? matches : []
+  const highlightedMatch = matches.find((match) => match.key === highlightedMatchKey)
+  const submissionCandidate = highlightedMatch ?? (matches.length === 1 ? matches[0] : null)
 
   function submit(item: CargoItem, focusResults = false) {
     focusResultsAfterSubmitRef.current = focusResults
@@ -121,11 +123,9 @@ export function SearchForItems({
     }
 
     if (event.key === 'Enter') {
-      const highlighted = matches.find((match) => match.key === highlightedMatchKey)
-      const candidate = highlighted ?? (matches.length === 1 ? matches[0] : null)
-      if (!candidate) return
+      if (!submissionCandidate) return
       event.preventDefault()
-      submit(candidate.item, true)
+      submit(submissionCandidate.item, true)
     }
   }
 
@@ -336,9 +336,8 @@ export function SearchForItems({
           type="button"
           aria-label={t('search.submit')}
           title={t('search.submit')}
-          onClick={() => {
-            if (matches.length === 1) submit(matches[0].item)
-          }}
+          disabled={!submissionCandidate}
+          onClick={() => submissionCandidate && submit(submissionCandidate.item)}
         ><span aria-hidden="true" className="item-search__icon" /></button>
       </div>
       {visibleMatches.length > 0 && <div className="item-search__listbox" id={listboxId} role="listbox">
