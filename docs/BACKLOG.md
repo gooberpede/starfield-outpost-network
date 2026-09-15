@@ -34,6 +34,10 @@ Keep this file focused on work that is genuinely deferred. Current implemented b
 - Preserve the middle-column status matrix's scoped horizontal overflow during any broader workspace scrolling review.
 - Restore sticky vertical behaviour for the status-matrix column header when the enclosing Outpost Details scrolling model supports it.
 - Preserve identical status-matrix column positions across outposts at any given workspace width.
+- Perform a dedicated 1366px-width visual/layout review. Treat this as product
+  polish rather than accessibility re-testing: inspect hierarchy, density,
+  wrapping, relative pane balance, and awkward-but-functional states that were
+  accepted during zoom/text-scaling verification.
 
 ---
 
@@ -166,6 +170,27 @@ Current behaviour remains whole-collection immutable before/after snapshots with
 one deliberate operation per history entry and a 1,000-entry collection-global
 session cap.
 
+### Additional keyboard shortcuts
+
+Consider expanding application-level keyboard shortcuts beyond the implemented
+Undo/Redo and Validation shortcuts.
+
+Candidate targets include:
+
+- Import;
+- Export;
+- Search and Search Results;
+- Cargo Links area and individual Cargo Links;
+- Outpost navigation;
+- Inorganic Resources;
+- Organic Resources;
+- Manufacturing;
+- Planned Supply.
+
+Shortcut design should be reviewed as a coherent set before implementation.
+Avoid conflicts with native browser, operating-system, and text-editing
+shortcuts, and do not add shortcuts merely because an action exists.
+
 ---
 
 ## Status bar
@@ -279,6 +304,20 @@ completed first. It means that work affecting distribution, usability, safety,
 and maintainability should increasingly be evaluated against the needs of a
 public-facing application rather than only the developer's own use.
 
+### Production performance and bundle review
+
+Before public release, perform a bounded production-performance review covering:
+
+- the existing Vite/Rollup large-chunk advisory;
+- compressed production bundle size;
+- first-load and startup behavior;
+- unusually large dependencies;
+- whether code splitting would materially improve startup without complicating
+  the application unnecessarily.
+
+Do not optimise solely to eliminate a warning. Measure the production build
+first and make changes only where they provide a practical benefit.
+
 ### Further localization coverage
 
 The semantic localization boundary now covers current tracker-authored UI,
@@ -306,38 +345,43 @@ change the canonical reference-data universe. Localization architecture and
 catalogue closure are complete at 331/331; the remaining release work is
 manual, native-speaker, and platform verification.
 
-### Accessibility audit
+### Accessibility follow-up
 
-Perform a systematic accessibility audit before public release.
+The whole-product accessibility audit and desktop correction batch were completed
+in September 2026. The final audit is recorded in
+`docs/audits/codex-whole-product-accessibility-audit.md`.
 
-The audit should review at least:
+No known BLOCKER, HIGH, MEDIUM, or LOW finding from that audit remains unresolved
+within the tested Windows/Chromium desktop scope.
 
-- keyboard-only navigation;
-- logical focus order;
-- visible focus treatment;
-- semantic controls and labels;
-- dialog focus trapping and focus restoration;
-- screen-reader naming and control descriptions;
-- colour contrast;
-- state communication that does not rely on colour alone;
-- zoom and text-scaling behaviour;
-- dense-grid usability;
-- keyboard alternatives for drag-and-drop interactions;
-- accessibility of compact/icon-only controls;
-- form validation and error communication.
+Deferred accessibility/platform follow-up:
 
-The application already contains several accessibility-conscious patterns, but
-public release should not rely on those individual decisions adding up to a
-complete accessibility review.
+- test practical target comfort and interaction with a touchpad and Windows
+  touchscreen when suitable hardware is available;
+- perform Safari/VoiceOver and iPhone/WebKit accessibility smoke testing when a
+  suitable environment is available;
+- consider browser-level accessibility regression tooling, such as bounded
+  axe-style checks, as a regression aid rather than proof of accessibility;
+- consider browser-level reflow regression coverage for representative
+  constrained widths and major application surfaces.
+
+Do not reopen the completed accessibility correction batch unless follow-up
+testing reveals a concrete defect.
 
 ### Apple/WebKit compatibility verification
 
 - Re-test the public production build in Safari/WebKit.
+- Perform a Safari/VoiceOver smoke test on macOS when a suitable environment is
+  available.
 - Verify Japanese font fallback on iPhone, iPad, and macOS Safari.
+- Perform an iPhone/WebKit accessibility and rendering sanity check.
 - Investigate the current iPhone blank-page behavior if it is reproducible
   against the public build.
-- Treat Apple mobile devices as compatibility and font-sanity targets, not a
-  mobile-support commitment.
+- Treat Apple mobile devices as compatibility, accessibility, and font-sanity
+  targets, not a mobile-support commitment.
+
+This work is deferred until suitable Apple/WebKit test environments are
+available and does not block the completed Windows/Chromium accessibility batch.
 
 ### Security audit
 
