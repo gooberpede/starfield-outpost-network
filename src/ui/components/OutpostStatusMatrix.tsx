@@ -396,10 +396,11 @@ export function OutpostStatusMatrix({
               actuallyAvailableItems,
             )
             return <div className="outpost-status-matrix__row" role="row" key={entry.productId}>
-              <div className="outpost-status-matrix__item outpost-status-matrix__item--span-source outpost-status-matrix__manufacturing-item" role="rowheader" title={display.name}>
+              <div className="outpost-status-matrix__item outpost-status-matrix__manufacturing-item" role="rowheader" title={display.name}>
                 {draftManufacturing && <button type="button" aria-label={t('common.removeItem', { item: display.name })}
                   title={t('common.removeItem', { item: display.name })} onClick={() => removeDraftProduct(entry.productId)}>-</button>}
                 <span>{display.name}</span></div>
+              <div role="cell" />
               <div className="outpost-status-matrix__cell--present" role="cell" />
               <div className="outpost-status-matrix__cell--producing" role="cell"><ReadOnlyState item={display}
                 lit={producingState === 'producing'}

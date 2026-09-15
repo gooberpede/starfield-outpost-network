@@ -267,11 +267,12 @@
   display: flex;
   align-items: center;
   gap: 0.35rem;
+  overflow: visible;
 }
 
 .outpost-status-matrix__manufacturing-item span {
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow: visible;
+  text-overflow: clip;
 }
 
 .outpost-status-matrix__state,
@@ -381,11 +382,24 @@
 }
 
 @media (forced-colors: active) {
+  .outpost-status-matrix__state {
+    border-color: CanvasText;
+    color: CanvasText;
+    background: Canvas;
+  }
+
+  .outpost-status-matrix__state--editable {
+    border-color: ButtonText;
+    color: ButtonText;
+    background: ButtonFace;
+  }
+
   .outpost-status-matrix__state--editable[aria-pressed='true'],
+  .outpost-status-matrix__state[data-state='lit'],
   .outpost-status-matrix__state[data-state='producing'] {
-    border: 2px solid Highlight;
-    color: HighlightText;
-    background: Highlight;
+    border: 3px double CanvasText;
+    color: CanvasText;
+    background: Canvas;
   }
 
   .outpost-status-matrix__state[data-state='dimmed'],
@@ -396,8 +410,12 @@
     opacity: 1;
   }
 
+  .outpost-status-matrix__state--editable:disabled {
+    border-style: dashed;
+  }
+
   .outpost-status-matrix__state:focus-visible,
   .outpost-status-matrix__compact-action:focus-visible {
-    outline-color: Highlight;
+    outline-color: CanvasText;
   }
 }

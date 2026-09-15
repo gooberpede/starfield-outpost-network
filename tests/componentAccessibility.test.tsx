@@ -295,6 +295,11 @@ describe('release accessibility semantics', () => {
     expect(manufacturedState).toHaveAccessibleDescription(
       'Adaptive Frame is being produced at this outpost.',
     )
+    const manufacturingLabel = within(table).getByRole('rowheader', { name: 'Adaptive Frame' })
+    expect(manufacturingLabel).not.toHaveClass('outpost-status-matrix__item--span-source')
+    expect(manufacturingLabel).toHaveAttribute('title', 'Adaptive Frame')
+    expect(manufacturingLabel.nextElementSibling).toHaveAttribute('role', 'cell')
+    expect(manufacturingLabel.nextElementSibling).toBeEmptyDOMElement()
 
     const xTechAdd = screen.getByRole('button', { name: 'Add X-Tech as present' })
     const manufacturingEdit = screen.getByRole('button', { name: 'edit' })

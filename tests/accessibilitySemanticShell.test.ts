@@ -33,6 +33,30 @@ test('selected-outpost container stacks editing columns at their combined practi
   assert.match(plannedSupplyCss, /\.planned-supply__overflow[\s\S]*overflow-x:\s*auto/)
 })
 
+test('Matrix Manufacturing labels stay within the sticky Item track', async () => {
+  const [matrix, matrixCss] = await Promise.all([
+    source('../src/ui/components/OutpostStatusMatrix.tsx'),
+    source('../src/ui/components/OutpostStatusMatrix.css'),
+  ])
+
+  assert.doesNotMatch(
+    matrix,
+    /outpost-status-matrix__item--span-source outpost-status-matrix__manufacturing-item/,
+  )
+  assert.match(
+    matrix,
+    /outpost-status-matrix__manufacturing-item" role="rowheader" title=\{display\.name\}[\s\S]*?<span>\{display\.name\}<\/span><\/div>\s*<div role="cell" \/>/,
+  )
+  assert.match(
+    matrixCss,
+    /\.outpost-status-matrix__manufacturing-item\s*\{[^}]*overflow:\s*visible;/,
+  )
+  assert.match(
+    matrixCss,
+    /\.outpost-status-matrix__manufacturing-item span\s*\{[^}]*overflow:\s*visible;[^}]*text-overflow:\s*clip;/,
+  )
+})
+
 test('dense controls retain forced-colors cues and practical target sizes', async () => {
   const [matrixCss, plannedSupplyCss, cargoCss, cargoPadsCss, searchCss, helpCss] = await Promise.all([
     source('../src/ui/components/OutpostStatusMatrix.css'),
@@ -43,7 +67,13 @@ test('dense controls retain forced-colors cues and practical target sizes', asyn
     source('../src/ui/components/ContextHelp.css'),
   ])
 
-  assert.match(matrixCss, /@media \(forced-colors: active\)[\s\S]*aria-pressed='true'/)
+  assert.match(
+    matrixCss,
+    /@media \(forced-colors: active\)[\s\S]*aria-pressed='true'[\s\S]*data-state='lit'[\s\S]*border:\s*3px double CanvasText;[\s\S]*color:\s*CanvasText;[\s\S]*background:\s*Canvas;/,
+  )
+  assert.match(matrixCss, /@media \(forced-colors: active\)[\s\S]*color:\s*ButtonText;[\s\S]*background:\s*ButtonFace;/)
+  assert.match(matrixCss, /@media \(forced-colors: active\)[\s\S]*:disabled[\s\S]*border-style:\s*dashed;/)
+  assert.match(matrixCss, /@media \(forced-colors: active\)[\s\S]*:focus-visible[\s\S]*outline-color:\s*CanvasText;/)
   assert.match(matrixCss, /\.outpost-status-matrix__compact-action[\s\S]*min-height:\s*1\.55rem/)
   assert.match(plannedSupplyCss, /@media \(forced-colors: active\)[\s\S]*data-state='planned'/)
   assert.match(plannedSupplyCss, /\.planned-supply__expand-toggle[\s\S]*width:\s*1\.5rem[\s\S]*height:\s*1\.5rem/)

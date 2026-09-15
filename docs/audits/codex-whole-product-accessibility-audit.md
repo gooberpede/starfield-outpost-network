@@ -194,61 +194,86 @@ No item below is reported as passed unless explicitly marked **Observed**.
 
 ### Keyboard-only
 
-- [ ] Traverse the full create/edit/export/import task flow without a mouse.
-- [ ] Confirm Tab order through locale, Search, network controls, Navigation, Outpost Details, Matrix, Planned Supply, Cargo, Validation, history, settings/About, and dialogs.
-- [ ] Verify corrected Matrix traversal does not require visiting every passive status chip.
-- [ ] Verify Search arrow/Enter/Escape, results focus hand-off, keyboard palette movement, close, and Search focus restoration.
-- [ ] Verify Matrix local horizontal scrolling can be reached and operated with keyboard at each zoom level.
-- [ ] Verify Planned Supply neutral/planned/unavailable states and focus visibility.
-- [ ] Verify Cargo disclosure, selectors, Inter-System state, exports, collapsed summary, reshuffle, move buttons, and Escape drag cancellation.
-- [ ] Verify Validation trigger, roving arrows, Home/End, activation, Escape return, and global shortcut.
-- [ ] Verify dialog initial focus, forward/reverse Tab containment, Escape, action activation, and focus restoration.
-- [ ] Verify Import's visible button opens the native picker and focus returns after cancel/success/failure.
+- [x] Traverse the full create/edit/export/import task flow without a mouse.
+- [x] Confirm Tab order through locale, Search, network controls, Navigation, Outpost Details, Matrix, Planned Supply, Cargo, Validation, history, settings/About, and dialogs.
+- [x] Verify corrected Matrix traversal does not require visiting every passive status chip.
+- [x] Verify Search arrow/Enter/Escape, results focus hand-off, keyboard palette movement, close, and Search focus restoration.
+- [x] Verify Matrix local horizontal scrolling can be reached and operated with keyboard at each zoom level.
+- [x] Verify Planned Supply neutral/planned/unavailable states and focus visibility.
+- [x] Verify Cargo disclosure, selectors, Inter-System state, exports, collapsed summary, reshuffle, move buttons, and Escape drag cancellation.
+- [x] Verify Validation trigger, roving arrows, Home/End, activation, Escape return, and global shortcut.
+- [x] Verify dialog initial focus, forward/reverse Tab containment, Escape, action activation, and focus restoration.
+- [x] Verify Import's visible button opens the native picker and focus returns after cancel/success/failure.
 
 ### Screen reader — Windows Narrator with primary Chromium browser
 
 - [ ] Confirm one main landmark and coherent heading navigation, with action buttons not included in heading names.
 - [ ] Confirm locale selector name/value and document language in `en-US` and `ja-JP`.
-- [ ] Confirm Search combobox instructions, option position/state, submission, results summary, flags, and focus changes.
+- [x] Confirm Search combobox instructions, option position/state, submission, results summary, flags, and focus changes.
 - [ ] Confirm Matrix table name, row/column associations, resource/source context, pressed/disabled states, Inputs/Logistics descriptions, and local scrolling.
 - [ ] Confirm Planned Supply category headings and three-state catalogue semantics.
 - [ ] Confirm collapsed Cargo summaries announce destination, outbound, inbound, and Inter-System state; confirm expanded selector labels and stale export descriptions.
-- [ ] Confirm Validation aggregate counts, per-row severity/context/message/remediation, navigation activation, and panel relationship.
-- [ ] Confirm dialogs announce name/description once and do not expose background content as active modal content.
-- [ ] Confirm import/export success announces once, failure announces once after native-picker focus returns, and dismiss remains separate.
-- [ ] Confirm the Inter-System passive marker is announced by its localized semantic name without reading the decorative glyph.
+- [x] Confirm Validation aggregate counts, per-row severity/context/message/remediation, navigation activation, and panel relationship.
+- [x] Confirm dialogs announce name/description once and do not expose background content as active modal content.
+- [x] Confirm import/export success announces once, failure announces once after native-picker focus returns, and dismiss remains separate.
+- [x] Confirm the Inter-System passive marker is announced by its localized semantic name without reading the decorative glyph.
 
 ### Zoom and reflow
 
 - [x] **Observed:** normal 1003 CSS-pixel viewport had no document-wide horizontal overflow and retained usable Matrix/Cargo surfaces.
 - [x] **Observed:** constrained widths of 683 and 640 CSS pixels caused page-wide overflow and effectively collapsed the Matrix.
-- [ ] Test true browser zoom at 100%, 125%, 150%, and 200% where practical on representative 1366px and 1920px displays.
+- [x] Test true browser zoom at 100%, 125%, 150%, and 200% where practical on representative 1366px and 1920px displays.
 - [ ] Confirm no text/control clipping, page-wide task-flow overflow, or sticky header/footer obstruction.
-- [ ] Confirm dialogs, Search Results, Validation, Matrix, Planned Supply, and Cargo remain reachable and scrollable.
-- [ ] Confirm focus rings remain visible at container edges and inside local scrollers.
+- [x] Confirm dialogs, Search Results, Validation, Matrix, Planned Supply, and Cargo remain reachable and scrollable.
+- [x] Confirm focus rings remain visible at container edges and inside local scrollers.
 
 ### High contrast / forced colors
 
-- [ ] Test Windows forced-colors/high-contrast mode after A11Y-05 correction.
+- [x] Test Windows forced-colors/high-contrast mode after A11Y-05 correction.
 - [ ] Confirm selected, planned, available, unavailable, stale, fuelled/unfuelled, validation severity, focus, borders, and icons remain distinguishable.
-- [ ] Confirm custom backgrounds do not obscure control boundaries or text.
+- [x] Confirm custom backgrounds do not obscure control boundaries or text.
 
 ### Locales
 
-- [ ] Repeat representative keyboard/Narrator smoke tests in `en-US` and `ja-JP`.
-- [ ] Confirm Japanese labels do not truncate, overlap focus rings, or change control roles/states/order.
-- [ ] Confirm switching locale while Search Results, Validation, Context Help, or a dialog is open leaves focus behavior coherent.
-- [ ] Rely on `en-GB` structural equivalence unless an override-specific semantic difference is discovered.
+- [x] Repeat representative keyboard/Narrator smoke tests in `en-US` and `ja-JP`.
+- [x] Confirm Japanese labels do not truncate, overlap focus rings, or change control roles/states/order.
+- [x] Confirm switching locale while Search Results, Validation, Context Help, or a dialog is open leaves focus behavior coherent.
+- [x] Rely on `en-GB` structural equivalence unless an override-specific semantic difference is discovered.
 
 ### Pointer/touch and transient UI
 
 - [ ] Confirm compact target sizes are practical with touchpad, mouse, and Windows touch where available.
-- [ ] Confirm essential tooltip/help content has keyboard, touch, and screen-reader equivalents.
-- [ ] Confirm Context Help opens by Enter/Space, only one panel remains open, outside click closes it, and Escape closes/restores focus.
-- [ ] Confirm no success/failure information is lost because of timing and no user action moves focus unexpectedly.
+- [x] Confirm essential tooltip/help content has keyboard, touch, and screen-reader equivalents.
+- [x] Confirm Context Help opens by Enter/Space, only one panel remains open, outside click closes it, and Escape closes/restores focus.
+- [x] Confirm no success/failure information is lost because of timing and no user action moves focus unexpectedly.
 
 ### Deferred platform coverage
 
 - [ ] Safari/VoiceOver and iPhone/WebKit smoke testing when a suitable environment becomes available; do not block this desktop correction batch on it.
+
+## Manual verification findings — 15 September 2026
+
+### Screen reader — Windows Narrator with primary Chromium browser
+
+- In the locale selector, Japanese language selection is not announced
+- Buttons in the Logistics column are not announced when clicked
+- Enabled buttons (both lit and unlit) in Planned Supply are announced twice when clicked
+- Contextual Help buttons: clicking the button announces the button state, but not the contents of the contextual help message
+- In the Cargo Links drop-down selector for the remote outpost cargo link, abbreviations for the exported items at the remote outpost are not expanded into their full name. For example, if the link shows 'MRg' then Narrator announces 'M-R-G', not 'Microsecond Regulator'
+- Validation popup navigation - Narrator seems to interfere with the message navigation controls
+- Landmarks - Most areas of the screen are defined landmarks, except for the Outpost Details area.
+
+### Zoom and reflow
+
+- At 125% and 200% zoom the product labels in Manufacturing could overlap or even entirely cover the labels in the Producing and Inputs columns.
+
+### High contrast / forced colors
+
+- In the Resource Matrix, buttons which were active and lit did not have visible text in them in High Contrast #2, High Contrast Black, or High Contrast White modes. The labels were legible in High Contrast #1 mode, however.
+
+### Untested items
+
+- checks relating to Safari/WebKit
+- checks relating to touchscreens and touchpads
 
 ## Outcome B — targeted corrections required
