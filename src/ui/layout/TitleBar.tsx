@@ -18,6 +18,7 @@
  *   - title-bar-specific presentation behaviour changes.
  */
 
+import { useId } from 'react'
 import './TitleBar.css'
 import { useLocalization } from '../../localization/LocalizationContext.ts'
 import {
@@ -31,6 +32,7 @@ interface TitleBarProps {
 }
 
 export function TitleBar({ onAbout }: TitleBarProps) {
+  const localeDescriptionId = useId()
   const {
     automaticLocale,
     locale,
@@ -49,6 +51,7 @@ export function TitleBar({ onAbout }: TitleBarProps) {
       <label className="title-bar__locale">
         <select
           aria-label={t('locale.selector.label')}
+          aria-describedby={localeDescriptionId}
           title={t('locale.selector.current', { locale: closedLabel })}
           value={localeOverride ?? 'automatic'}
           onChange={(event) => {
@@ -60,10 +63,19 @@ export function TitleBar({ onAbout }: TitleBarProps) {
             automaticLocale,
             t('locale.selector.automatic', { locale: automaticLabel }),
           ).map((option) => (
-            <option key={option.value} value={option.value}>{option.label}</option>
+            <option
+              key={option.value}
+              value={option.value}
+              lang={option.value === 'automatic' ? locale : option.value}
+            >
+              {option.label}
+            </option>
           ))}
         </select>
         <span aria-hidden="true" className="title-bar__locale-label">{closedLabel}</span>
+        <span id={localeDescriptionId} className="ui-visually-hidden">
+          {t('locale.selector.current', { locale: closedLabel })}
+        </span>
       </label>
       <button
         type="button"

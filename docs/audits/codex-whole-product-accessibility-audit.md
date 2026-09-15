@@ -207,12 +207,12 @@ No item below is reported as passed unless explicitly marked **Observed**.
 
 ### Screen reader — Windows Narrator with primary Chromium browser
 
-- [ ] Confirm one main landmark and coherent heading navigation, with action buttons not included in heading names.
-- [ ] Confirm locale selector name/value and document language in `en-US` and `ja-JP`.
+- [x] Confirm one main landmark and coherent heading navigation, with action buttons not included in heading names.
+- [x] Confirm locale selector name/value and document language in `en-US` and `ja-JP`.
 - [x] Confirm Search combobox instructions, option position/state, submission, results summary, flags, and focus changes.
-- [ ] Confirm Matrix table name, row/column associations, resource/source context, pressed/disabled states, Inputs/Logistics descriptions, and local scrolling.
-- [ ] Confirm Planned Supply category headings and three-state catalogue semantics.
-- [ ] Confirm collapsed Cargo summaries announce destination, outbound, inbound, and Inter-System state; confirm expanded selector labels and stale export descriptions.
+- [x] Confirm Matrix table name, row/column associations, resource/source context, pressed/disabled states, Inputs/Logistics descriptions, and local scrolling.
+- [x] Confirm Planned Supply category headings and three-state catalogue semantics.
+- [x] Confirm collapsed Cargo summaries announce destination, outbound, inbound, and Inter-System state; confirm expanded selector labels and stale export descriptions.
 - [x] Confirm Validation aggregate counts, per-row severity/context/message/remediation, navigation activation, and panel relationship.
 - [x] Confirm dialogs announce name/description once and do not expose background content as active modal content.
 - [x] Confirm import/export success announces once, failure announces once after native-picker focus returns, and dismiss remains separate.
@@ -223,14 +223,14 @@ No item below is reported as passed unless explicitly marked **Observed**.
 - [x] **Observed:** normal 1003 CSS-pixel viewport had no document-wide horizontal overflow and retained usable Matrix/Cargo surfaces.
 - [x] **Observed:** constrained widths of 683 and 640 CSS pixels caused page-wide overflow and effectively collapsed the Matrix.
 - [x] Test true browser zoom at 100%, 125%, 150%, and 200% where practical on representative 1366px and 1920px displays.
-- [ ] Confirm no text/control clipping, page-wide task-flow overflow, or sticky header/footer obstruction.
+- [x] Confirm no text/control clipping, page-wide task-flow overflow, or sticky header/footer obstruction.
 - [x] Confirm dialogs, Search Results, Validation, Matrix, Planned Supply, and Cargo remain reachable and scrollable.
 - [x] Confirm focus rings remain visible at container edges and inside local scrollers.
 
 ### High contrast / forced colors
 
 - [x] Test Windows forced-colors/high-contrast mode after A11Y-05 correction.
-- [ ] Confirm selected, planned, available, unavailable, stale, fuelled/unfuelled, validation severity, focus, borders, and icons remain distinguishable.
+- [x] Confirm selected, planned, available, unavailable, stale, fuelled/unfuelled, validation severity, focus, borders, and icons remain distinguishable.
 - [x] Confirm custom backgrounds do not obscure control boundaries or text.
 
 ### Locales
@@ -255,21 +255,32 @@ No item below is reported as passed unless explicitly marked **Observed**.
 
 ### Screen reader — Windows Narrator with primary Chromium browser
 
-- In the locale selector, Japanese language selection is not announced
-- Buttons in the Logistics column are not announced when clicked
-- Enabled buttons (both lit and unlit) in Planned Supply are announced twice when clicked
-- Contextual Help buttons: clicking the button announces the button state, but not the contents of the contextual help message
-- In the Cargo Links drop-down selector for the remote outpost cargo link, abbreviations for the exported items at the remote outpost are not expanded into their full name. For example, if the link shows 'MRg' then Narrator announces 'M-R-G', not 'Microsecond Regulator'
-- Validation popup navigation - Narrator seems to interfere with the message navigation controls
-- Landmarks - Most areas of the screen are defined landmarks, except for the Outpost Details area.
+- In the locale selector, Japanese language selection is not announced. -- FIXED
+- Buttons in the Logistics column are not announced when clicked. -- FIXED
+- Enabled buttons (both lit and unlit) in Planned Supply are announced twice 
+  when clicked. -- FIXED
+- Contextual Help buttons: clicking the button announces the button state, 
+  but not the contents of the contextual help message. -- FIXED
+- In the Cargo Links drop-down selector for the remote outpost cargo link, 
+  abbreviations for the exported items at the remote outpost are not expanded 
+  into their full name. For example, if the link shows 'MRg' then Narrator 
+  announces 'M-R-G', not 'Microsecond Regulator'. -- FIXED
+- Validation popup navigation - Narrator seems to interfere with the message 
+  navigation controls. -- NOT BROKEN
+- Landmarks - Most areas of the screen are defined landmarks, except for the 
+  Outpost Details area. -- FIXED
 
 ### Zoom and reflow
 
-- At 125% and 200% zoom the product labels in Manufacturing could overlap or even entirely cover the labels in the Producing and Inputs columns.
+- At 125% and 200% zoom the product labels in Manufacturing could overlap or 
+  even entirely cover the labels in the Producing and Inputs columns. -- FIXED
 
 ### High contrast / forced colors
 
-- In the Resource Matrix, buttons which were active and lit did not have visible text in them in High Contrast #2, High Contrast Black, or High Contrast White modes. The labels were legible in High Contrast #1 mode, however.
+- In the Resource Matrix, buttons which were active and lit did not have 
+  visible text in them in High Contrast #2, High Contrast Black, or High 
+  Contrast White modes. The labels were legible in High Contrast #1 mode, 
+  however. -- FIXED
 
 ### Untested items
 

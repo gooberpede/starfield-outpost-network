@@ -155,7 +155,7 @@ export function OutpostDetails({
   }
 
   return (
-    <section className="outpost-details">
+    <section className="outpost-details" aria-label={t('outpost.details.heading')}>
       <OutpostNameField
         key={`${outpost.id}:${outpost.name}`}
         name={outpost.name}

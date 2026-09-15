@@ -428,6 +428,7 @@ export function CargoPadsEditor({
     localPadId: string,
     destinationOutpostId: string,
     destinationPadId: string,
+    useFullItemNames = false,
   ): string {
     const destinationOutpost = allOutposts.find(
       (candidate) => candidate.id === destinationOutpostId,
@@ -455,26 +456,16 @@ export function CargoPadsEditor({
   * The full names remain available elsewhere in the editor and through
   * the compact cargo-pad summary tooltips.
   */
-  const outboundShortNames =
-    destinationPad.outboundItems.map((item) => {
-      if (item.type === 'resource') {
-        return (
-          resources.find(
-            (resource) => resource.id === item.id,
-          )?.shortName ?? item.id
-        )
-      }
-
-      return (
-        products.find(
-          (product) => product.id === item.id,
-        )?.shortName ?? item.id
-      )
-    })
+  const outboundItemNames = destinationPad.outboundItems.map((item) => {
+    const display = getCargoItemDisplay(item)
+    return useFullItemNames ? display.name : display.shortName
+  })
 
   const outboundLabel =
-    outboundShortNames.length > 0
-      ? outboundShortNames.join(' ')
+    outboundItemNames.length > 0
+      ? useFullItemNames
+        ? formatList(locale, outboundItemNames)
+        : outboundItemNames.join(' ')
       : t('cargo.destination.nothing')
 
     /*
@@ -919,6 +910,17 @@ export function CargoPadsEditor({
                         pad.id,
                         destinationOutpostId,
                         destinationPadId,
+                      )
+                    }
+                    getDestinationPadAccessibleLabel={(
+                      destinationOutpostId,
+                      destinationPadId,
+                    ) =>
+                      getDestinationPadLabel(
+                        pad.id,
+                        destinationOutpostId,
+                        destinationPadId,
+                        true,
                       )
                     }
                   />

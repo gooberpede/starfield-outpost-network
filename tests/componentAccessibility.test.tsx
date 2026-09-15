@@ -18,6 +18,8 @@ import type { SupportedLocale } from '../src/localization/types.ts'
 import { CargoPadEditor } from '../src/ui/components/CargoPadEditor.tsx'
 import { CargoPadsEditor } from '../src/ui/components/CargoPadsEditor.tsx'
 import { CharacterHeader } from '../src/ui/components/CharacterHeader.tsx'
+import { ContextHelp } from '../src/ui/components/ContextHelp.tsx'
+import { OutpostDetails } from '../src/ui/components/OutpostDetails.tsx'
 import { OutpostList } from '../src/ui/components/OutpostList.tsx'
 import { OutpostStatusMatrix } from '../src/ui/components/OutpostStatusMatrix.tsx'
 import { PlannedSupplyEditor } from '../src/ui/components/PlannedSupplyEditor.tsx'
@@ -25,6 +27,7 @@ import { SearchForItems } from '../src/ui/components/SearchForItems.tsx'
 import { ValidationSummary } from '../src/ui/components/ValidationSummary.tsx'
 import type { ItemSearchEntry } from '../src/ui/itemSearch.ts'
 import { StatusBar } from '../src/ui/layout/StatusBar.tsx'
+import { TitleBar } from '../src/ui/layout/TitleBar.tsx'
 import { WorkspaceLayout } from '../src/ui/layout/WorkspaceLayout.tsx'
 
 function localized(locale: SupportedLocale, children: ReactNode) {
@@ -65,6 +68,47 @@ function makeOutpost(id: string, name: string, padCount = 0): Outpost {
 const noOp = vi.fn()
 
 describe('release accessibility semantics', () => {
+  test('locale selector exposes its selected locale through a native semantic relationship', () => {
+    localized('ja-JP', <TitleBar onAbout={noOp} />)
+
+    const selector = screen.getByRole('combobox', { name: '言語と地域' })
+    const description = document.getElementById(selector.getAttribute('aria-describedby')!)
+    expect(selector).toHaveValue('ja-JP')
+    expect(screen.getByRole('option', { name: 'English (US)' })).toHaveAttribute('lang', 'en-US')
+    expect(screen.getByRole('option', { name: 'English (UK)' })).toHaveAttribute('lang', 'en-GB')
+    const japaneseOption = screen.getByRole('option', { name: '日本語' })
+    expect(japaneseOption).toHaveAttribute('lang', 'ja-JP')
+    expect(japaneseOption).toHaveProperty('selected', true)
+    expect(screen.getByRole('option', { name: '自動（EN-US）' })).toHaveAttribute('lang', 'ja-JP')
+    expect(description).toHaveTextContent('言語と地域：日本語')
+    expect(selector).toHaveAccessibleDescription('言語と地域：日本語')
+  })
+
+  test('Context Help associates opened localized content with its trigger', async () => {
+    const user = userEvent.setup()
+    localized('en-US', <ContextHelp context="Logistics" text="Cargo routes appear here." />)
+
+    const trigger = screen.getByRole('button', { name: 'Help for Logistics' })
+    expect(trigger).not.toHaveAttribute('aria-describedby')
+    await user.click(trigger)
+    const note = screen.getByRole('note')
+    expect(trigger).toHaveAttribute('aria-controls', note.id)
+    expect(trigger).toHaveAttribute('aria-describedby', note.id)
+    expect(trigger).toHaveAccessibleDescription('Cargo routes appear here.')
+  })
+
+  test('Outpost Details exposes a localized named region without adding a main', () => {
+    localized('en-US', <OutpostDetails
+      outpost={makeOutpost('one', 'Alpha')}
+      systems={[]} bodies={[]} biomeGroups={[]}
+      onNameCommit={noOp} onSystemChange={noOp} onBodyChange={noOp}
+      onBiomeGroupToggle={noOp}
+    />)
+
+    expect(screen.getByRole('region', { name: 'Outpost Details' })).toBeVisible()
+    expect(screen.queryByRole('main')).not.toBeInTheDocument()
+  })
+
   test('character numeric drafts validate only on blur and announce one frame later', async () => {
     const user = userEvent.setup()
     const levelCommit = vi.fn()
@@ -309,6 +353,78 @@ describe('release accessibility semantics', () => {
     expect(manufacturingEdit).not.toHaveClass('outpost-status-matrix__add-explicit')
   })
 
+  test('Matrix Logistics cells contain passive localized export and import meanings', () => {
+    const origin = makeOutpost('origin', 'Origin', 3)
+    const alpha = makeOutpost('alpha', 'Alpha', 2)
+    const beta = makeOutpost('beta', 'Beta', 1)
+    origin.manufacturing = [
+      { productId: 'no-export', quantity: 1 },
+      { productId: 'one-destination', quantity: 1 },
+      { productId: 'many-destinations', quantity: 1 },
+    ]
+    origin.cargoPads[0].outboundItems = [{ type: 'product', id: 'one-destination' }]
+    origin.cargoPads[1].outboundItems = [{ type: 'product', id: 'many-destinations' }]
+    origin.cargoPads[2].outboundItems = [{ type: 'product', id: 'many-destinations' }]
+    alpha.cargoPads[0].outboundItems = [{ type: 'product', id: 'imported-product' }]
+    const products = [
+      { id: 'no-export', name: 'No Export', shortName: 'NE', rarity: 'common' as const },
+      { id: 'one-destination', name: 'One Destination', shortName: 'OD', rarity: 'common' as const },
+      { id: 'many-destinations', name: 'Many Destinations', shortName: 'MD', rarity: 'common' as const },
+      { id: 'imported-product', name: 'Imported Product', shortName: 'IP', rarity: 'common' as const },
+    ]
+    const network = createDefaultNetwork()
+    network.outposts = [origin, alpha, beta]
+    network.cargoLinks = [
+      { id: 'one', endpointA: { outpostId: 'origin', cargoPadId: 'origin-pad-1' }, endpointB: { outpostId: 'alpha', cargoPadId: 'alpha-pad-1' } },
+      { id: 'many-alpha', endpointA: { outpostId: 'origin', cargoPadId: 'origin-pad-2' }, endpointB: { outpostId: 'alpha', cargoPadId: 'alpha-pad-2' } },
+      { id: 'many-beta', endpointA: { outpostId: 'origin', cargoPadId: 'origin-pad-3' }, endpointB: { outpostId: 'beta', cargoPadId: 'beta-pad-1' } },
+    ]
+    const referenceData: ReferenceData = {
+      biomes: [], bodyBiomes: [], inorganicOccurrences: [], species: [], planetSpecies: [],
+      organicOccurrences: [], organicFarmingProfiles: [], systems: [], bodies: [], resources: [],
+      products, bodyResources: [], productRecipes: [],
+    }
+    localized('en-US', <OutpostStatusMatrix
+      outpost={origin} network={network} resources={[]} products={products}
+      referenceData={referenceData} availableItems={[]} actuallyAvailableItems={[]}
+      onToggleResource={noOp} onToggleExplicitResourcePresence={noOp}
+      onToggleActiveProduction={noOp} onCommitManufacturing={noOp}
+    />)
+
+    const inactive = screen.getByRole('cell', { name: 'No Export is not being exported.' })
+    const single = screen.getByRole('cell', { name: 'One Destination is being exported to Alpha.' })
+    const multiple = screen.getByRole('cell', {
+      name: 'Many Destinations is being exported to Alpha and Beta.',
+    })
+    const imported = screen.getByRole('cell', { name: 'Imported Product is being imported.' })
+    expect(inactive).not.toHaveAttribute('aria-label')
+    expect(within(inactive).getByText('No Export is not being exported.'))
+      .toHaveClass('ui-visually-hidden')
+    expect(single).toHaveTextContent('OD')
+    expect(multiple).toHaveTextContent('MD')
+    expect(imported).toHaveTextContent('IP')
+    expect(within(single).getByText('One Destination is being exported to Alpha.'))
+      .toHaveClass('ui-visually-hidden')
+    expect(within(multiple).getByText('Many Destinations is being exported to Alpha and Beta.'))
+      .toHaveClass('ui-visually-hidden')
+    expect(within(imported).getByText('Imported Product is being imported.'))
+      .toHaveClass('ui-visually-hidden')
+    for (const logisticsCell of [inactive, single, multiple, imported]) {
+      expect(logisticsCell).not.toHaveAttribute('aria-label')
+      expect(logisticsCell).not.toHaveAttribute('tabindex')
+      expect(within(logisticsCell).queryByRole('button')).not.toBeInTheDocument()
+      expect(within(logisticsCell).queryByRole('checkbox')).not.toBeInTheDocument()
+    }
+    for (const [logisticsCell, abbreviation] of [
+      [single, 'OD'],
+      [multiple, 'MD'],
+      [imported, 'IP'],
+    ] as const) {
+      expect(within(logisticsCell).getByText(abbreviation)
+        .closest('.outpost-status-matrix__state')).toHaveAttribute('aria-hidden', 'true')
+    }
+  })
+
   test('Planned Supply retains neutral, planned, and unavailable semantics', async () => {
     const user = userEvent.setup()
     const products = [
@@ -316,13 +432,18 @@ describe('release accessibility semantics', () => {
       { id: 'planned', name: 'Planned', shortName: 'P', rarity: 'common' as const },
       { id: 'available', name: 'Available', shortName: 'A', rarity: 'common' as const },
     ]
-    const { container } = localized('en-US', <PlannedSupplyEditor
-      resources={[]}
-      products={products}
-      plannedSupply={[{ type: 'product', id: 'planned' }]}
-      actuallyAvailableItems={[{ type: 'product', id: 'available' }]}
-      onTogglePlannedSupply={noOp}
-    />)
+    function PlannedHarness() {
+      const [plannedSupply, setPlannedSupply] = useState([{ type: 'product' as const, id: 'planned' }])
+      return <PlannedSupplyEditor
+        resources={[]} products={products} plannedSupply={plannedSupply}
+        actuallyAvailableItems={[{ type: 'product', id: 'available' }]}
+        onTogglePlannedSupply={(item) => setPlannedSupply((current) =>
+          current.some((candidate) => candidate.id === item.id)
+            ? current.filter((candidate) => candidate.id !== item.id)
+            : [...current, item])}
+      />
+    }
+    const { container } = localized('en-US', <PlannedHarness />)
 
     await user.click(screen.getByRole('button', { name: 'Expand Planned Supply' }))
     const catalogue = container.querySelector('.planned-supply__catalogue')!
@@ -332,12 +453,40 @@ describe('release accessibility semantics', () => {
     expect(neutral).toHaveAttribute('data-state', 'neither')
     expect(neutral).toHaveAttribute('aria-pressed', 'false')
     expect(neutral).toHaveAttribute('aria-disabled', 'false')
+    expect(neutral).toHaveAccessibleName('Neutral')
     expect(planned).toHaveAttribute('data-state', 'planned')
     expect(planned).toHaveAttribute('aria-pressed', 'true')
     expect(planned).toHaveAttribute('aria-disabled', 'false')
+    expect(planned).toHaveAccessibleName('Planned')
     expect(available).toHaveAttribute('data-state', 'available')
     expect(available).toHaveAttribute('aria-disabled', 'true')
     expect(available).toHaveAttribute('aria-pressed', 'false')
+    expect(available).toHaveAccessibleName('Available')
+    expect(catalogue.querySelectorAll('[role="status"], [aria-live]')).toHaveLength(0)
+    await user.click(neutral!)
+    expect(neutral).toHaveAttribute('aria-pressed', 'true')
+    expect(neutral).toHaveAccessibleName('Neutral')
+  })
+
+  test('remote Cargo Link options keep abbreviations visible and expose full names', async () => {
+    const user = userEvent.setup()
+    const local = makeOutpost('local', 'Alpha', 1)
+    const remote = makeOutpost('remote', 'Beta', 1)
+    remote.cargoPads[0].outboundItems = [{ type: 'product', id: 'microsecond-regulator' }]
+    localized('en-US', <CargoPadsEditor
+      outpost={local} maxCargoPads={6} allOutposts={[local, remote]} cargoLinks={[]}
+      resources={[]} products={[{
+        id: 'microsecond-regulator', name: 'Microsecond Regulator', shortName: 'MRg', rarity: 'rare',
+      }]} availableItems={[]} actuallyAvailableItems={[]}
+      onUnlinkCargoPad={noOp} onSetCargoLink={noOp} onAddCargoPad={noOp}
+      onMoveCargoPad={noOp} onMoveCargoPadUp={noOp} onMoveCargoPadDown={noOp}
+      onDeleteCargoPad={noOp} onToggleExport={noOp} onToggleCargoPadType={noOp}
+    />)
+
+    await user.click(screen.getByRole('button', { name: 'Expand Cargo Link 1' }))
+    await user.selectOptions(screen.getByRole('combobox', { name: 'Destination outpost' }), 'remote')
+    const option = screen.getByRole('option', { name: 'Cargo Link 1: (Microsecond Regulator)' })
+    expect(option).toHaveTextContent('Cargo Link 1: (MRg)')
   })
 
   test('compact Add controls keep concise copy and full contextual names', async () => {

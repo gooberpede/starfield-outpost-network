@@ -98,6 +98,7 @@ export function ContextHelp({ text, context }: ContextHelpProps) {
         aria-label={t('help.contextLabel', { context })}
         aria-expanded={isOpen}
         aria-controls={isOpen ? panelId : undefined}
+        aria-describedby={isOpen ? panelId : undefined}
         onClick={toggleHelp}
       >
         ?

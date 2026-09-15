@@ -61,6 +61,10 @@ interface CargoPadEditorProps {
     outpostId: string,
     cargoPadId: string,
   ) => string
+  getDestinationPadAccessibleLabel?: (
+    outpostId: string,
+    cargoPadId: string,
+  ) => string
 }
 
 export function CargoPadEditor({
@@ -80,6 +84,7 @@ export function CargoPadEditor({
   onLinkedOutpostChange,
   onLinkedCargoPadChange,
   getDestinationPadLabel,
+  getDestinationPadAccessibleLabel,
 }: CargoPadEditorProps) {
   const { locale, t } = useLocalization()
   const fuelDescriptionId = useId()
@@ -197,6 +202,9 @@ export function CargoPadEditor({
               <option
                 key={destinationPad.id}
                 value={destinationPad.id}
+                aria-label={(getDestinationPadAccessibleLabel ?? getDestinationPadLabel)(
+                  destinationOutpost!.id, destinationPad.id,
+                )}
               >
                 {getDestinationPadLabel(
                   destinationOutpost!.id,

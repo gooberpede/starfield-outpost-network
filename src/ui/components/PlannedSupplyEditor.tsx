@@ -228,9 +228,7 @@ export function PlannedSupplyEditor({
         key={itemKey}
         type="button"
         title={item.name}
-        aria-label={isAvailable
-          ? item.name
-          : t(isPlanned ? 'plannedSupply.remove' : 'plannedSupply.add', { item: item.name })}
+        aria-label={item.name}
         aria-disabled={isAvailable}
         aria-pressed={!isAvailable && isPlanned}
         style={style}
@@ -261,7 +259,7 @@ export function PlannedSupplyEditor({
         key={`${type}:${item.id}`}
         type="button"
         title={item.name}
-        aria-label={t('plannedSupply.remove', { item: item.name })}
+        aria-label={item.name}
         aria-pressed="true"
         onClick={() => onTogglePlannedSupply(cargoItem)}
       >

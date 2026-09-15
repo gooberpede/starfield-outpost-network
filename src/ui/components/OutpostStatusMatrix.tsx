@@ -20,7 +20,6 @@ import {
   getCargoItemKey,
   getImportSummariesAtOutpost,
   getRoutedExportDestinationNamesAtOutpost,
-  getRoutedExportedItemKeysAtOutpost,
 } from '../../domain/logistics'
 import type {
   CargoItem,
@@ -75,11 +74,12 @@ interface Props {
 
 interface ItemDisplay { name: string; shortName: string }
 
-function ReadOnlyState({ item, lit, state, title = item.name }: {
+function ReadOnlyState({ item, lit, state, title = item.name, assistiveHidden = false }: {
   item: ItemDisplay
   lit: boolean
   state?: ManufacturingProducingState
   title?: string
+  assistiveHidden?: boolean
 }) {
   const { t } = useLocalization()
   const descriptionId = useId()
@@ -87,12 +87,45 @@ function ReadOnlyState({ item, lit, state, title = item.name }: {
     className="outpost-status-matrix__state"
     data-state={state ?? (lit ? 'lit' : 'dimmed')}
     title={title}
-    aria-label={t(lit ? 'matrix.state.active' : 'matrix.state.inactive', { item: item.name })}
-    aria-describedby={descriptionId}
+    aria-hidden={assistiveHidden || undefined}
+    aria-label={assistiveHidden
+      ? undefined
+      : t(lit ? 'matrix.state.active' : 'matrix.state.inactive', { item: item.name })}
+    aria-describedby={assistiveHidden ? undefined : descriptionId}
   >
     {item.shortName}
-    <span id={descriptionId} className="ui-visually-hidden">{title}</span>
+    {!assistiveHidden && (
+      <span id={descriptionId} className="ui-visually-hidden">{title}</span>
+    )}
   </span>
+}
+
+function LogisticsCell({ item, destinationNames, className }: {
+  item: ItemDisplay
+  destinationNames: readonly string[]
+  className?: string
+}) {
+  const { locale } = useLocalization()
+  const meaning = getExportTooltip(item.name, destinationNames, locale)
+
+  return <div className={className} role="cell">
+    <LogisticsMeaning
+      item={item}
+      meaning={meaning}
+      showState={destinationNames.length > 0}
+    />
+  </div>
+}
+
+function LogisticsMeaning({ item, meaning, showState = true }: {
+  item: ItemDisplay
+  meaning: string
+  showState?: boolean
+}) {
+  return <>
+    <span className="ui-visually-hidden">{meaning}</span>
+    {showState && <ReadOnlyState item={item} lit title={meaning} assistiveHidden />}
+  </>
 }
 
 function EditableState({ item, pressed, disabled = false, label, title = item.name, onClick }: {
@@ -126,7 +159,6 @@ export function OutpostStatusMatrix({
   const availableKeys = useMemo(() => new Set(
     availableItems.map(getCargoItemKey),
   ), [availableItems])
-  const exportedItemKeys = getRoutedExportedItemKeysAtOutpost(outpost.id, network)
   const exportDestinationNames = getRoutedExportDestinationNamesAtOutpost(outpost.id, network)
   const importSummaries = getImportSummariesAtOutpost(outpost.id, network)
   const availableInorganicIds = new Set(getOutpostAvailableInorganicResourceIds(
@@ -293,12 +325,8 @@ export function OutpostStatusMatrix({
               title={getProducingTooltip(display.name, producing, locale)}
               onClick={() => onToggleActiveProduction(route)} /></div>
             <div role="cell" />
-            <div role="cell">{exportedItemKeys.has(getCargoItemKey(cargoItem)) &&
-              <ReadOnlyState item={display} lit title={getExportTooltip(
-                display.name,
-                exportDestinationNames.get(getCargoItemKey(cargoItem)) ?? [],
-                locale,
-              )} />}</div>
+            <LogisticsCell item={display}
+              destinationNames={exportDestinationNames.get(getCargoItemKey(cargoItem)) ?? []} />
           </div>
         })}
       </div>}
@@ -352,12 +380,8 @@ export function OutpostStatusMatrix({
                   title={getInputTooltip(inputDisplay.name, available, locale)} />
               })}
             </div>
-            <div role="cell">{exportedItemKeys.has(getCargoItemKey(cargoItem)) &&
-              <ReadOnlyState item={display} lit title={getExportTooltip(
-                display.name,
-                exportDestinationNames.get(getCargoItemKey(cargoItem)) ?? [],
-                locale,
-              )} />}</div>
+            <LogisticsCell item={display}
+              destinationNames={exportDestinationNames.get(getCargoItemKey(cargoItem)) ?? []} />
           </div>
         })}
       </div>}
@@ -415,14 +439,11 @@ export function OutpostStatusMatrix({
                     lit={available}
                     title={getInputTooltip(inputDisplay.name, available, locale)} />
                 })}
-              </div><div className="outpost-status-matrix__cell--logistics" role="cell">
-                {exportedItemKeys.has(getCargoItemKey(cargoItem)) &&
-                  <ReadOnlyState item={display} lit title={getExportTooltip(
-                    display.name,
-                    exportDestinationNames.get(getCargoItemKey(cargoItem)) ?? [],
-                    locale,
-                  )} />}
-              </div>
+              </div><LogisticsCell
+                className="outpost-status-matrix__cell--logistics"
+                item={display}
+                destinationNames={exportDestinationNames.get(getCargoItemKey(cargoItem)) ?? []}
+              />
             </div>
           })}
       </div>
@@ -443,8 +464,8 @@ export function OutpostStatusMatrix({
               .sort((left, right) => collator.compare(resolveItem(left).name, resolveItem(right).name))
               .map((item) => {
                 const display = resolveItem(item)
-                return <ReadOnlyState key={getCargoItemKey(item)} item={display} lit
-                  title={getImportTooltip(display.name, locale)} />
+                return <LogisticsMeaning key={getCargoItemKey(item)} item={display}
+                  meaning={getImportTooltip(display.name, locale)} />
               })}</div>
           </div>)}
       </div>

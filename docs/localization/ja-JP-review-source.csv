@@ -184,6 +184,7 @@
 "outpost.body.select","Select body...","Outpost navigation or details UI.","LOW","","","天体を選択...","Tracker-authored"
 "outpost.defaultName","New Outpost","Outpost navigation or details UI.","LOW","","","新しい拠点","Tracker-authored"
 "outpost.delete","Delete Outpost","Outpost navigation or details UI.","LOW","","","拠点を削除","Tracker-authored"
+"outpost.details.heading","Outpost Details","Outpost navigation or details UI.","LOW","","","拠点の詳細","Tracker-authored"
 "outpost.name.label","Outpost name","Outpost navigation or details UI.","LOW","","","拠点名","Tracker-authored"
 "outpost.navigation.add","Add outpost","Outpost navigation or details UI.","MEDIUM","","","拠点を追加","Tracker-authored"
 "outpost.navigation.addButton","+ Add Outpost","Outpost navigation or details UI.","MEDIUM","","","＋ 拠点を追加","Tracker-authored"

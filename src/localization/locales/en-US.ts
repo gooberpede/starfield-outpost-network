@@ -55,6 +55,7 @@ export const enUSMessages = {
   'outpost.navigation.reshuffle': 'Reshuffle outposts',
   'outpost.navigation.finishReshuffle': 'Finish reshuffling outposts',
   'outpost.name.label': 'Outpost name',
+  'outpost.details.heading': 'Outpost Details',
   'outpost.system.label': 'System',
   'outpost.system.select': 'Select system...',
   'outpost.body.label': 'Body',

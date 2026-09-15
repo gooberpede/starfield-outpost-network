@@ -57,6 +57,7 @@ export const jaJPMessages = {
   'outpost.navigation.reshuffle': '拠点を並べ替え',
   'outpost.navigation.finishReshuffle': '拠点の並べ替えを完了',
   'outpost.name.label': '拠点名',
+  'outpost.details.heading': '拠点の詳細',
   'outpost.system.label': '星系',
   'outpost.system.select': '星系を選択...',
   'outpost.body.label': '天体',
