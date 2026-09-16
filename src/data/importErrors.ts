@@ -6,6 +6,11 @@ export type ImportErrorCode =
   | 'unsupported-network-schema'
   | 'invalid-structure'
   | 'invalid-identity'
+  | 'file-too-large'
+  | 'array-limit-exceeded'
+  | 'network-limit-exceeded'
+  | 'aggregate-limit-exceeded'
+  | 'string-too-long'
 
 export type ImportErrorParameters = Record<string, string | number>
 

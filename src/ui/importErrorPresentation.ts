@@ -27,6 +27,11 @@ export function getImportFailurePresentation(error: unknown): ImportFailurePrese
       'unsupported-network-schema': 'status.import.unsupportedNetworkSchema',
       'invalid-structure': 'status.import.invalidStructure',
       'invalid-identity': 'status.import.invalidIdentity',
+      'file-too-large': 'status.import.fileTooLarge',
+      'array-limit-exceeded': 'status.import.arrayLimitExceeded',
+      'network-limit-exceeded': 'status.import.tooManyNetworks',
+      'aggregate-limit-exceeded': 'status.import.aggregateLimitExceeded',
+      'string-too-long': 'status.import.stringTooLong',
     }
     return {
       reason: { key: keys[error.code], parameters: error.parameters },

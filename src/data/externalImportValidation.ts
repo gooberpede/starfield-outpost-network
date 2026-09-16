@@ -11,6 +11,71 @@ import { CURRENT_SCHEMA_VERSION } from './networkMigration.ts'
 
 type UnknownRecord = Record<string, unknown>
 
+export const MAX_EXTERNAL_IMPORT_BYTES = 4 * 1024 * 1024
+const MAX_ARRAY_MEMBERS = 25_000
+const MAX_STRING_LENGTH = 4_096
+const MAX_DIAGNOSTIC_PATH_LENGTH = 256
+const ARRAY_CEILINGS: Record<string, number> = {
+  networks: 64,
+  'networks[].network.outposts': 96,
+  'networks[].network.cargoLinks': 256,
+  'networks[].network.outposts[].cargoPads': 12,
+  'networks[].network.outposts[].manufacturing': 256,
+  'networks[].network.outposts[].plannedSupply': 256,
+  'networks[].network.outposts[].cargoPads[].outboundItems': 128,
+  'networks[].network.outposts[].cargoPads[].link.exports': 128,
+}
+
+/** Keep paths exact for the persisted schema and bounded for arbitrary nesting. */
+function appendDiagnosticPath(path: string, segment: string): string {
+  if (path.endsWith('…')) return path
+  if (path.length + segment.length <= MAX_DIAGNOSTIC_PATH_LENGTH) return path + segment
+  return `${(path + segment).slice(0, MAX_DIAGNOSTIC_PATH_LENGTH - 1)}…`
+}
+
+/** Checks every source member, including legacy and unknown fields migration drops. */
+export function validateExternalImportCapacity(value: unknown): void {
+  let members = 0
+  const pending: { value: unknown; path: string }[] = [{ value, path: '' }]
+  while (pending.length) {
+    const { value: current, path } = pending.pop()!
+    if (typeof current === 'string') {
+      if (current.length > MAX_STRING_LENGTH) {
+        throw new NetworkImportError('string-too-long', {
+          path, actual: current.length, maximum: MAX_STRING_LENGTH,
+        })
+      }
+    } else if (Array.isArray(current)) {
+      const segment = path.replace(/\[\d+\]/g, '[]')
+      const maximum = ARRAY_CEILINGS[segment]
+      if (maximum !== undefined && current.length > maximum) {
+        throw new NetworkImportError(path === 'networks' ? 'network-limit-exceeded' : 'array-limit-exceeded', {
+          path, actual: current.length, maximum,
+        })
+      }
+      members += current.length
+      if (members > MAX_ARRAY_MEMBERS) {
+        throw new NetworkImportError('aggregate-limit-exceeded', {
+          path, actual: members, maximum: MAX_ARRAY_MEMBERS,
+        })
+      }
+      for (let index = current.length - 1; index >= 0; index--) {
+        pending.push({ value: current[index], path: appendDiagnosticPath(path, `[${index}]`) })
+      }
+    } else if (isRecord(current)) {
+      for (const [key, entry] of Object.entries(current)) {
+        if (key.length > MAX_STRING_LENGTH) {
+          throw new NetworkImportError('string-too-long', {
+            path: appendDiagnosticPath(path, `${path ? '.' : ''}${key.slice(0, 64)}`),
+            actual: key.length, maximum: MAX_STRING_LENGTH,
+          })
+        }
+        pending.push({ value: entry, path: appendDiagnosticPath(path, `${path ? '.' : ''}${key}`) })
+      }
+    }
+  }
+}
+
 function isRecord(value: unknown): value is UnknownRecord {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }

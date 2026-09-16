@@ -1,5 +1,7 @@
 import { useRef } from 'react'
 import { deserializeNetworkCollection } from '../../data/serialization'
+import { MAX_EXTERNAL_IMPORT_BYTES } from '../../data/externalImportValidation.ts'
+import { NetworkImportError } from '../../data/importErrors.ts'
 import type { NetworkCollection } from '../../data/networkCollection'
 import { useLocalization } from '../../localization/LocalizationContext.ts'
 import type { MessageDescriptor } from '../../localization/types.ts'
@@ -27,6 +29,13 @@ export function NetworkImportButton({
     useRef<HTMLInputElement>(null)
 
   function importNetwork(file: File) {
+    if (file.size > MAX_EXTERNAL_IMPORT_BYTES) {
+      const failure = getImportFailurePresentation(new NetworkImportError('file-too-large', {
+        actual: file.size, maximum: MAX_EXTERNAL_IMPORT_BYTES,
+      }))
+      onImportError(file.name, failure.reason, failure.diagnostic)
+      return
+    }
     const reader = new FileReader()
 
     reader.onload = () => {

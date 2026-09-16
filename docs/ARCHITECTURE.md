@@ -1096,6 +1096,16 @@ Legacy bare-network files may be rejected externally. Browser-local migration
 continues to recover the earlier bare-network storage representation.
 
 External files and browser storage deliberately use different acceptance paths.
+External file import checks the selected file's byte size before reading it (maximum
+4,194,304 bytes). Its pre-migration capacity pass bounds saved networks to 64,
+outposts per network to 96, cargo pads per outpost to 12, links per network to
+256, manufacturing and Planned Supply entries per outpost to 256 each, and
+outbound items per pad to 128. The sum of the lengths of every array recursively
+in the source collection, including legacy fields, may be at most 25,000;
+every source string is limited to 4,096 JavaScript UTF-16 code units. Limits
+are inclusive and apply only to the external trust boundary. Accepted imports
+retain normal collection-wide Undo/Redo. Browser-storage recovery retains its
+existing forgiving migration policy.
 Browser-storage migration may salvage valid entries from partially damaged local
 state. External import validates every persisted nested member before migration,
 then validates the complete current runtime shape afterward. This prevents

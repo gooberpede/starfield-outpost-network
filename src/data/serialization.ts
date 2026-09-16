@@ -9,6 +9,7 @@ import type { NetworkCollection } from './networkCollection'
 import { NetworkImportError } from './importErrors.ts'
 import {
   validateExternalNetworkSource,
+  validateExternalImportCapacity,
   validateImportedCollection,
 } from './externalImportValidation.ts'
 
@@ -39,6 +40,7 @@ export function deserializeNetworkCollection(
   json: string,
 ): NetworkCollection {
   const data: unknown = JSON.parse(json)
+  validateExternalImportCapacity(data)
   if (typeof data !== 'object' || data === null ||
     !('networks' in data) || !Array.isArray(data.networks) ||
     !('schemaVersion' in data)) {
