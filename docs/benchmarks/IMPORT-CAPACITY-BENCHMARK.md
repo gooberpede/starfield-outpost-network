@@ -1,5 +1,12 @@
 # External import capacity benchmark
 
+> Implementation update (16 September 2026): The candidate external-import
+> envelope described below is implemented in the file import boundary. The
+> measurements and proposed/future wording remain the historical design basis;
+> see [the architecture](../ARCHITECTURE.md#18-json-importexport) for current
+> behavior and [browser validation](IMPORT-CAPACITY-BROWSER-VALIDATION.md) for
+> the completed named-browser gate.
+
 ## Scope and environment
 
 This is a design probe. No production import, validation, history, storage, or UI behavior changed. The attached 56,787 byte exported collection was read as an empirical baseline, but is not copied into the repository. It contains two networks, 23 outposts, 64 pads, 29 links, 20 manufacturing entries, five Planned Supply entries, and 47 outbound items.

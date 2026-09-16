@@ -1,5 +1,11 @@
 # Combined import capacity browser validation
 
+> Implementation update (16 September 2026): The named-browser validation gate
+> below is complete, and the candidate external-import envelope has since been
+> implemented. Statements below that production limits are pending describe
+> the validation phase; see [the architecture](../ARCHITECTURE.md#18-json-importexport)
+> for current behavior.
+
 ## Scope and evidence sequence
 
 This is a probe of the proposed envelope in [the import capacity benchmark](IMPORT-CAPACITY-BENCHMARK.md). It does not implement production limits or change import, history, storage, validation, or UI behavior.

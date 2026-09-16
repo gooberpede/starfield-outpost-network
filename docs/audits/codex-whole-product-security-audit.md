@@ -4,9 +4,13 @@ Audit date: 15 September 2026
 
 Scope: Current `starfield-outpost-network` repository, including browser application, import/export, persistence, domain validation, runtime reference data, build tooling, dependencies, and deployment assumptions.
 
-Disposition: **Outcome B — targeted security corrections required.** No release-blocking script-execution, secret-exposure, or dependency defect was found, but three medium-severity availability/data-integrity weaknesses should be corrected before public release.
+Original disposition (15 September 2026): **Outcome B — targeted security corrections required.** The three medium-severity findings below record the risks found at audit time.
 
-## Executive summary
+Current disposition (16 September 2026): **Targeted application-security corrections complete.** No BLOCKER, HIGH, MEDIUM, or LOW findings from this audit remain open. Informational deployment/hosting hardening remains intentionally deferred until the hosting model is selected.
+
+The original findings, probes, category conclusions, and release recommendation below are retained as the audit-time record. The current status of each finding is recorded under [Correction status](#correction-status); historical present-tense descriptions of vulnerable behavior do not describe the corrected application.
+
+## Original executive summary (15 September 2026)
 
 The product has a comparatively small and generally well-contained attack surface. It is a client-only React/Vite application with no backend, accounts, authentication, database, server secrets, privileged browser permissions, or runtime code-loading feature. User-authored and imported strings flow into ordinary React text, form values, accessible attributes, and tooltips. The audit found no HTML injection sink, JavaScript execution sink, user-controlled URL sink, or evidence that `__proto__`-style JSON keys are merged into application prototypes. The one external link is a fixed HTTPS attribution link with opener isolation, and the only query-string behavior is development-only.
 
@@ -112,7 +116,7 @@ The following passed on 15 September 2026:
 
 The first sandboxed `npm audit --json` attempt could not reach the advisory endpoint. It was rerun with network access and succeeded: **0 critical, high, moderate, low, or informational advisories across 254 installed dependencies**.
 
-## Findings
+## Original findings
 
 | ID | Area | Severity | Type | Issue | Evidence | Recommended direction |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -122,6 +126,21 @@ The first sandboxed `npm audit --json` attempt could not reach the advisory endp
 | SEC-04 | Production hosting controls | INFORMATIONAL | Deployment/hosting | No host is selected, so CSP and security headers do not yet exist or cannot be verified. The actual bundle also loads Google Fonts. | `index.html`; `src/index.css:1`; `vite.config.ts`; built `dist/index.html` and CSS. | Make the deployment baseline below an acceptance criterion for the selected host; either allow the exact font origins or self-host/remove the font dependency. |
 | SEC-05 | Runtime reference-data trust | INFORMATIONAL | Repository/deployment | Build-time source validation is strong, but the browser loader trusts `response.json()` through a generic type cast. Malformed same-origin catalogue files can crash the app. | `src/data/referenceDataLoader.ts:42-91`; reference builder and verification suites. | Treat generated catalogue integrity as a build/deploy invariant. If accidental partial/tampered deployments are realistic, add a compact runtime shape/version check and fail with a recoverable catalogue error; do not present this as protection from full same-origin compromise. |
 | SEC-06 | Development-server exposure | INFORMATIONAL | Development configuration | `server.host: true` binds the Vite development server beyond loopback when `npm run dev` is used. The dev server is not a production host. | `vite.config.ts:8-12`. | Document that the dev server is for trusted development networks, or bind loopback by default and require an explicit opt-in when LAN testing is needed. Never deploy the Vite dev server publicly. |
+
+## Correction status
+
+The original audit found 0 BLOCKER, 0 HIGH, 3 MEDIUM, 0 LOW, and 3 INFORMATIONAL findings. The original findings table and detailed analysis below describe the 15 September 2026 state. The following disposition reflects the corrected implementation on 16 September 2026.
+
+| Finding | Current status | Correction or remaining work |
+| --- | --- | --- |
+| SEC-01 — external import and identity | **Resolved** | External collection import validates the source structure before migration and the current shape and nonempty, unique identity scopes afterward. Malformed input is rejected atomically, including source defects that migration might otherwise discard. Stale reference IDs and structurally valid but domain-questionable user intent remain available for domain validation; ambiguous identities are not auto-repaired. |
+| SEC-02 — pathological external input | **Resolved** | A selected file is limited to 4,194,304 bytes before read. An early-exiting pre-migration traversal enforces scoped array ceilings, 25,000 aggregate array members across the source graph, and 4,096 UTF-16 code units per string or key. Diagnostic paths are bounded. The dense and broad candidate fixtures were validated in named browsers, and accepted imports retain normal Undo/Redo. See the [import capacity benchmark](../benchmarks/IMPORT-CAPACITY-BENCHMARK.md) and [browser validation](../benchmarks/IMPORT-CAPACITY-BROWSER-VALIDATION.md). |
+| SEC-03 — browser storage and recovery | **Resolved** | Storage reads and saves are guarded. A separate browser-storage envelope bounds raw length and pre-migration traversal. Incoherent multi-network sources fail as a whole rather than silently losing members. Failed recovery leaves the original stored source untouched and exposes a persistent status; normalized re-save failure is handled separately. In-memory edits and Undo/Redo survive save failures, with later save attempts able to clear the unsaved warning. Historical schemas 1–3 and the current schema remain recoverable when coherent; schema-1 exports can survive unresolved pad destinations without inventing a Cargo Link. Preference-storage exceptions are contained on a best-effort basis. See the [recovery probe](BROWSER-STORAGE-RECOVERY-PROBE.md) and [storage capacity benchmark](../benchmarks/BROWSER-STORAGE-CAPACITY-BENCHMARK.md). |
+| SEC-04 — production hosting controls | **Informational; intentionally deferred** | No production host is selected. Configure and verify CSP, related HTTP security headers, and the deployment baseline when the hosting model is chosen. This is deployment-stage work, not an open application-code MEDIUM finding. |
+| SEC-05 — runtime reference-data trust | **Informational; remains open** | The loader still casts same-origin JSON without runtime shape validation. Generated catalogue integrity remains a build/deploy invariant; a runtime shape/version check remains conditional on deployment risk, as described in the original finding. |
+| SEC-06 — development-server exposure | **Informational; remains open** | Vite still binds beyond loopback with `server.host: true`. Use the development server only on trusted development networks and never as a public production host; loopback-by-default remains an optional configuration follow-up. |
+
+**Final application-security disposition:** no outstanding BLOCKER, HIGH, MEDIUM, or LOW findings from this audit. The three informational items retain the statuses above; deployment/hosting hardening is revisited when hosting is selected.
 
 ### SEC-01 — incomplete external-import validation and identity ambiguity
 
@@ -179,7 +198,7 @@ For parse/migration failure, the loader creates a default collection and immedia
 
 **Correction direction:** contain get/stringify/set errors, distinguish load corruption from save failure, keep the last good in-memory state, and expose a persistent “not saved” condition. Before resetting corrupt content, retain or offer the raw value for recovery/export where feasible. Avoid loops that repeatedly attempt a known-failing write. Apply the same defensive pattern to preference storage proportionately.
 
-## Category conclusions
+## Original category conclusions
 
 ### JSON import/deserialization
 
@@ -287,7 +306,7 @@ Self-hosting the two font families would remove automatic cross-origin font requ
 - Advisory data reflects the service response on the audit date and can change.
 - Source provenance and generated-data validation were inspected and executed, but Bethesda game-file licensing and redistribution terms are not a security-audit conclusion.
 
-## Recommended correction slices
+## Original recommended correction slices
 
 1. **Complete external import validation (SEC-01).** Add the smallest complete structural validator at the file-import boundary, including nested discriminated values and unique/non-empty network, outpost, pad, and link identities. Make rejection atomic and add focused hostile-shape/duplicate-ID tests. Do not change the domain policy that preserves unknown reference IDs and incomplete plans.
 2. **Bound pathological imports and history pressure (SEC-02).** Define legitimate product ceilings, add a pre-read byte limit plus aggregate post-parse structural/string limits, benchmark near-limit validation/rendering, and decide how an exceptionally large replacement interacts with history retention.
@@ -296,7 +315,7 @@ Self-hosting the two font families would remove automatic cross-origin font requ
 
 No sanitizer, backend, authentication system, rate limiter, cryptographic document signing, service worker, sandbox library, or new dependency is justified by the current evidence. The correction slices can be implemented with narrow existing-code changes after a separate implementation brief authorizes them.
 
-## Release recommendation
+## Original release recommendation (15 September 2026)
 
 **Outcome B — targeted security corrections required.**
 
@@ -304,4 +323,6 @@ No credible script execution, exposed production secret, unsafe navigation, priv
 
 Before public release, the application should establish a complete external-import type/identity boundary, bounded import/resource policy, and recoverable storage-failure behavior. These are targeted changes rather than an architectural redesign. Hosting controls remain a release/deployment acceptance criterion once the deployment platform is selected.
 
-The answer to the audit's completion question is: **malicious imported or corrupt stored values cannot currently be shown to execute script, but small malformed/identity-colliding documents can disrupt or misdirect application behavior, unbounded documents can create practical local denial of service, and storage failures can prevent startup or cause data loss. Dependencies were clean on the audit date. Deployment choices must provide the stated browser security and integrity baseline.**
+As of 16 September 2026, those three application corrections are complete. The remaining deployment/hosting acceptance work is informational and deferred until a hosting model is selected; see [Correction status](#correction-status).
+
+The original answer to the audit's completion question was: **malicious imported or corrupt stored values could not be shown to execute script, but small malformed/identity-colliding documents could disrupt or misdirect application behavior, unbounded documents could create practical local denial of service, and storage failures could prevent startup or cause data loss. Dependencies were clean on the audit date. Deployment choices must provide the stated browser security and integrity baseline.** The first three risks are now resolved as recorded in [Correction status](#correction-status).

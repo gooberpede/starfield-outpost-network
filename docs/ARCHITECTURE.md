@@ -1136,6 +1136,12 @@ collections atomically while allowing unambiguous historical defaults and
 transformations. External import retains its stricter file byte, structure,
 and capacity policy unchanged.
 
+These import and persistence boundaries close the three MEDIUM findings in the
+[whole-product security audit](audits/codex-whole-product-security-audit.md).
+The original findings remain there as historical evidence. Deployment-stage
+CSP and related HTTP security headers remain informational work to revisit
+when the hosting model is selected.
+
 Structural import checks do not replace domain validation. Unknown reference IDs,
 incomplete plans, stale exports, and other representable semantic problems remain
 importable for the normal validation system to diagnose.
