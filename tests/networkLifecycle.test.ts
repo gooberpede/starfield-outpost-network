@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import { appendNetworkFromLatestCharacter, createDefaultNetworkCollection, deleteNetwork, getActiveSavedNetwork, getNextNetworkId, getPreviousNetworkId, migrateNetworkCollectionData, resetOnlyNetwork } from '../src/data/networkCollection.ts'
-import { loadNetworkCollection } from '../src/data/storage.ts'
+import { initializeNetworkCollection, loadNetworkCollection } from '../src/data/storage.ts'
 import { deserializeNetworkCollection, serializeNetworkCollection } from '../src/data/serialization.ts'
 import { NetworkImportError, type ImportErrorCode } from '../src/data/importErrors.ts'
 import { createNetworkExportFileName } from '../src/data/exportFileName.ts'
@@ -22,6 +22,7 @@ function installStorage(initialValue?: unknown) {
   const storage = new MemoryStorage()
   if (initialValue !== undefined) storage.setItem('starfield-outpost-network', JSON.stringify(initialValue))
   Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: storage })
+  return storage
 }
 
 function network(name: string, outpostId = `${name}-outpost`): OutpostNetwork {
@@ -55,6 +56,122 @@ test('browser storage retains bare-network migration and default recovery', () =
   assert.equal(getActiveSavedNetwork(migrated).network.character.capabilities.xTechExtraction, false)
   installStorage({ schemaVersion: 1, networks: [], activeNetworkId: '' })
   assert.equal(loadNetworkCollection().networks.length, 1)
+})
+
+/** Exercise the full browser path, including coherence, migration and normalized write. */
+function initializeHistoricalSource(source: unknown) {
+  const storage = installStorage(source)
+  const raw = storage.getItem('starfield-outpost-network')
+  const loaded = initializeNetworkCollection()
+  assert.deepEqual(loaded.status, { kind: 'saved' })
+  assert.equal(loaded.collection.schemaVersion, 1)
+  assert.ok(loaded.collection.networks.every(({ network }) => network.schemaVersion === 4))
+  const normalized = storage.getItem('starfield-outpost-network')
+  assert.equal(normalized, JSON.stringify(loaded.collection))
+  return { loaded: loaded.collection, raw, normalized }
+}
+
+test('schema-1 bare browser storage migrates pad-local exports and destination link', () => {
+  const legacy = network('Legacy pad link')
+  Reflect.deleteProperty(legacy, 'schemaVersion')
+  Reflect.deleteProperty(legacy, 'cargoLinks')
+  Reflect.deleteProperty(legacy.character, 'capabilities')
+  const outpost = legacy.outposts[0]
+  Reflect.deleteProperty(outpost, 'selectedBiomeIds')
+  Reflect.deleteProperty(outpost, 'explicitResourcePresence')
+  const pad = outpost.cargoPads[0]
+  Reflect.deleteProperty(pad, 'outboundItems')
+  Object.assign(pad, { link: {
+    exports: [{ type: 'resource', id: 'unknown-resource' }],
+    destination: { type: 'outpost', outpostId: 'remote', cargoPadId: 'remote-pad' },
+  } })
+
+  const { loaded, raw, normalized } = initializeHistoricalSource(legacy)
+  const migrated = getActiveSavedNetwork(loaded).network
+  assert.equal(loaded.networks.length, 1)
+  assert.deepEqual(migrated.outposts[0].selectedBiomeIds, [])
+  assert.deepEqual(migrated.outposts[0].cargoPads[0].outboundItems,
+    [{ type: 'resource', id: 'unknown-resource' }])
+  assert.equal(migrated.cargoLinks.length, 1)
+  assert.deepEqual(migrated.cargoLinks[0].endpointB,
+    { outpostId: 'remote', cargoPadId: 'remote-pad' })
+  assert.notEqual(normalized, raw)
+})
+
+test('schema-1 outpost-only destination preserves exports without inventing a pad link', () => {
+  const legacy = network('Unresolved destination')
+  legacy.schemaVersion = 1
+  Reflect.deleteProperty(legacy, 'cargoLinks')
+  Reflect.deleteProperty(legacy.character, 'capabilities')
+  const outpost = legacy.outposts[0]
+  Reflect.deleteProperty(outpost, 'selectedBiomeIds')
+  Reflect.deleteProperty(outpost, 'explicitResourcePresence')
+  const pad = outpost.cargoPads[0]
+  Reflect.deleteProperty(pad, 'outboundItems')
+  Object.assign(pad, { link: {
+    exports: [{ type: 'resource', id: 'iron' }],
+    destination: { type: 'outpost', outpostId: 'remote' },
+  } })
+
+  const { loaded } = initializeHistoricalSource(legacy)
+  const migrated = getActiveSavedNetwork(loaded).network
+  assert.deepEqual(migrated.outposts[0].cargoPads[0].outboundItems,
+    [{ type: 'resource', id: 'iron' }])
+  assert.deepEqual(migrated.cargoLinks, [])
+
+  // A present but malformed pad identity is not a historical omission.
+  const malformed = structuredClone(legacy)
+  Object.assign(malformed.outposts[0].cargoPads[0].link.destination, { cargoPadId: 17 })
+  const storage = installStorage(malformed)
+  const original = storage.getItem('starfield-outpost-network')
+  assert.equal(initializeNetworkCollection().status.kind, 'recovery-fallback')
+  assert.equal(storage.getItem('starfield-outpost-network'), original)
+})
+
+test('schema-2 browser storage migrates old production routes without later fields', () => {
+  const old = collection()
+  const legacy = old.networks[0].network
+  legacy.schemaVersion = 2
+  Reflect.deleteProperty(legacy.character, 'capabilities')
+  for (const outpost of legacy.outposts) {
+    Reflect.deleteProperty(outpost, 'selectedBiomeIds')
+    Reflect.deleteProperty(outpost, 'explicitResourcePresence')
+    Object.assign(outpost, { activeProduction: ['unknown-resource', 'adhesive'] })
+  }
+
+  const { loaded, raw, normalized } = initializeHistoricalSource(old)
+  const migrated = getActiveSavedNetwork(loaded).network
+  assert.deepEqual(migrated.outposts[0].selectedBiomeIds, [])
+  assert.deepEqual(migrated.outposts[0].activeProduction, [
+    { type: 'inorganic', resourceId: 'unknown-resource' },
+    { type: 'organic-unspecified', resourceId: 'adhesive' },
+  ])
+  assert.deepEqual(migrated.outposts[0].explicitResourcePresence, [])
+  assert.notEqual(normalized, raw)
+})
+
+test('schema-3 browser storage adds schema-4 capability and explicit presence', () => {
+  const old = collection()
+  const legacy = old.networks[0].network
+  legacy.schemaVersion = 3
+  Reflect.deleteProperty(legacy.character, 'capabilities')
+  for (const outpost of legacy.outposts) Reflect.deleteProperty(outpost, 'explicitResourcePresence')
+
+  const { loaded, raw, normalized } = initializeHistoricalSource(old)
+  const migrated = getActiveSavedNetwork(loaded).network
+  assert.equal(migrated.character.capabilities.xTechExtraction, true)
+  assert.deepEqual(migrated.outposts[0].explicitResourcePresence, [])
+  assert.deepEqual(migrated.outposts[0].activeProduction,
+    [{ type: 'inorganic', resourceId: 'iron' }])
+  assert.notEqual(normalized, raw)
+})
+
+test('current-schema browser storage initializes and writes without fallback', () => {
+  const current = collection('b')
+  const { loaded, raw, normalized } = initializeHistoricalSource(current)
+  assert.equal(loaded.activeNetworkId, 'b')
+  assert.equal(getActiveSavedNetwork(loaded).network.character.name, 'Last')
+  assert.equal(normalized, raw)
 })
 
 test('collection recovery preserves valid order and repairs active ID', () => {

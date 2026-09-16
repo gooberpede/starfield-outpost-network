@@ -33,8 +33,11 @@ export function createDefaultNetworkCollection(): NetworkCollection {
   }
 }
 
-/** Recovers valid entries in order and discards only malformed wrappers/documents. */
-export function migrateNetworkCollectionData(value: unknown): NetworkCollection {
+/** Historical lenient migration remains for external callers; storage requires all members. */
+export function migrateNetworkCollectionData(
+  value: unknown,
+  requireCompleteCollection = false,
+): NetworkCollection {
   if (!isRecord(value) || !Array.isArray(value.networks)) {
     throw new Error('Stored data is not a network collection.')
   }
@@ -52,6 +55,7 @@ export function migrateNetworkCollectionData(value: unknown): NetworkCollection 
   for (const candidate of value.networks) {
     if (!isRecord(candidate) || typeof candidate.id !== 'string' || !candidate.id ||
       seenIds.has(candidate.id)) {
+      if (requireCompleteCollection) throw new Error('Stored collection has an invalid network identity.')
       continue
     }
 
@@ -61,12 +65,14 @@ export function migrateNetworkCollectionData(value: unknown): NetworkCollection 
         network: migrateNetworkData(candidate.network),
       })
       seenIds.add(candidate.id)
-    } catch {
+    } catch (error) {
+      if (requireCompleteCollection) throw error
       // Another valid entry may still preserve the user's recoverable data.
     }
   }
 
   if (networks.length === 0) {
+    if (requireCompleteCollection) throw new Error('Stored collection has no networks.')
     return createDefaultNetworkCollection()
   }
 
@@ -84,9 +90,12 @@ export function migrateNetworkCollectionData(value: unknown): NetworkCollection 
 }
 
 /** Wraps the legacy single-network storage representation without altering it. */
-export function migrateStoredNetworkData(value: unknown): NetworkCollection {
+export function migrateStoredNetworkData(
+  value: unknown,
+  requireCompleteCollection = false,
+): NetworkCollection {
   if (isRecord(value) && Array.isArray(value.networks)) {
-    return migrateNetworkCollectionData(value)
+    return migrateNetworkCollectionData(value, requireCompleteCollection)
   }
 
   const id = crypto.randomUUID()

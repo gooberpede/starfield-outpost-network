@@ -1,5 +1,10 @@
 # Browser storage capacity benchmark
 
+> Implementation update (16 September 2026): The proposed inclusive browser
+> envelope below is implemented in `src/data/storageEnvelope.ts`, independently
+> of external import. The measurements and former-state descriptions below
+> remain the rationale rather than a description of current load behavior.
+
 ## Scope and environment
 
 Focused production-bound design probe on 16 September 2026. No production load, save, migration, import, history, or UI behavior changed. This follows [the browser-storage recovery audit](../audits/BROWSER-STORAGE-RECOVERY-PROBE.md) and uses the validated fixtures from the [import browser validation](IMPORT-CAPACITY-BROWSER-VALIDATION.md). The settled recovery policy remains authoritative: oversized or incoherent source data must not be overwritten merely because fallback occurred.

@@ -26,6 +26,8 @@ import { useLocalization } from '../../localization/LocalizationContext.ts'
 interface StatusBarProps {
   main: ReactNode
 
+  persistentWarning?: ReactNode
+
   interactionHint?: ReactNode
 
   message?: {
@@ -40,6 +42,7 @@ interface StatusBarProps {
 
 export function StatusBar({
   main,
+  persistentWarning,
   interactionHint,
   message,
 }: StatusBarProps) {
@@ -127,12 +130,20 @@ export function StatusBar({
         {main}
       </div>
 
-      {(interactionHint || message) && (
+      {(interactionHint || persistentWarning || message) && (
         <div className="status-bar__feedback">
           {interactionHint && (
             <span className="status-bar__interaction-hint">
               {interactionHint}
             </span>
+          )}
+
+          {persistentWarning && (
+            <div className="status-bar__message status-bar__message--error status-bar__persistent-warning"
+              role="alert"
+              title={typeof persistentWarning === 'string' ? persistentWarning : undefined}>
+              {persistentWarning}
+            </div>
           )}
 
           {message && (

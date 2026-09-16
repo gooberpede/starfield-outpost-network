@@ -7,11 +7,11 @@ export const APPLICATION_PREFERENCES_STORAGE_KEY =
 const defaultPreferences: ApplicationPreferences = { localeOverride: null }
 
 export function loadApplicationPreferences(
-  storage: Pick<Storage, 'getItem'> = localStorage,
+  storage?: Pick<Storage, 'getItem'>,
 ): ApplicationPreferences {
-  const stored = storage.getItem(APPLICATION_PREFERENCES_STORAGE_KEY)
-  if (!stored) return defaultPreferences
   try {
+    const stored = (storage ?? localStorage).getItem(APPLICATION_PREFERENCES_STORAGE_KEY)
+    if (!stored) return defaultPreferences
     const localeOverride = (JSON.parse(stored) as { localeOverride?: unknown }).localeOverride
     return {
       localeOverride: localeOverride === null || isSupportedLocale(localeOverride)
@@ -25,8 +25,11 @@ export function loadApplicationPreferences(
 
 export function saveApplicationPreferences(
   preferences: ApplicationPreferences,
-  storage: Pick<Storage, 'setItem'> = localStorage,
+  storage?: Pick<Storage, 'setItem'>,
 ): void {
-  storage.setItem(APPLICATION_PREFERENCES_STORAGE_KEY, JSON.stringify(preferences))
+  try {
+    (storage ?? localStorage).setItem(APPLICATION_PREFERENCES_STORAGE_KEY, JSON.stringify(preferences))
+  } catch {
+    // Preferences are best-effort and remain live in provider state.
+  }
 }
-

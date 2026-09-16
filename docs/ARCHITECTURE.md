@@ -1028,6 +1028,30 @@ The storage layer:
 - creates a one-entry blank collection on first run;
 - saves the whole current `NetworkCollection` from `session.collection`.
 
+Startup reads storage under an exception boundary, checks raw length before
+parsing, iteratively checks the browser-specific resource envelope, rejects
+incoherent source structures before deterministic migration, then validates the
+recovered current shape. A failed source produces a usable temporary collection
+and a persistent recovery warning, but remains untouched under the original
+gameplay key. The mount effect does not save that fallback; the first changed
+persisted collection (including an active-network switch or Undo/Redo) permits
+replacement. Outpost selection and rerenders do not. No backup key is used.
+
+Missing storage creates a default collection and attempts an initial save.
+Read exceptions instead yield an in-memory default with storage-unavailable
+status. Normalized re-save is separate from recovery: a failed write leaves a
+valid recovered collection live and the original stored bytes intact. Later
+serialization, envelope, quota, or storage failures leave the edit and history
+in memory with a persistent unsaved warning. Subsequent collection changes
+retry; success clears the warning. The status is session state, not part of
+the collection or history.
+
+The inclusive browser envelope is 4,194,304 raw UTF-16 code units; 65,536
+aggregate array members; 128 networks; 128 outposts/network; 16 pads/outpost;
+384 links/network; 256 outbound items/pad; 512 members for every other array;
+16,384 code units for each string and object key; and depth 64 from root depth
+zero. This is a persistence/resource boundary, never a gameplay editing cap.
+
 `session.collection` is the authoritative persisted collection. Active and
 inactive networks are not maintained through a separate mirrored state.
 
@@ -1052,7 +1076,9 @@ For example:
 - outbound cargo may be retained;
 - an ambiguous legacy link may remain unlinked.
 
-Migration should favour preservation over speculation.
+Migration should favour preservation over speculation. A malformed collection
+member or ambiguous identity now rejects the entire browser-storage recovery,
+preserving the raw source rather than silently dropping and rewriting a member.
 
 ---
 
@@ -1104,13 +1130,11 @@ outbound items per pad to 128. The sum of the lengths of every array recursively
 in the source collection, including legacy fields, may be at most 25,000;
 every source string is limited to 4,096 JavaScript UTF-16 code units. Limits
 are inclusive and apply only to the external trust boundary. Accepted imports
-retain normal collection-wide Undo/Redo. Browser-storage recovery retains its
-existing forgiving migration policy.
-Browser-storage migration may salvage valid entries from partially damaged local
-state. External import validates every persisted nested member before migration,
-then validates the complete current runtime shape afterward. This prevents
-migration defaults, filtering, or skipped objects from concealing malformed
-external data.
+retain normal collection-wide Undo/Redo. Browser storage instead has its own
+larger resource envelope and historical recovery path. It rejects incoherent
+collections atomically while allowing unambiguous historical defaults and
+transformations. External import retains its stricter file byte, structure,
+and capacity policy unchanged.
 
 Structural import checks do not replace domain validation. Unknown reference IDs,
 incomplete plans, stale exports, and other representable semantic problems remain

@@ -1,5 +1,11 @@
 # Browser storage and recovery probe
 
+> Implementation update (16 September 2026): The source-preserving recovery,
+> separate normalized re-save, atomic coherence checks, explicit persistence
+> status, mount suppression, and later retry described as desired below are now
+> implemented. Historical observations in this probe remain evidence of the
+> former behavior; see `docs/ARCHITECTURE.md` for the current contract.
+
 ## Scope and evidence
 
 Read-only production-code inspection and a bounded, ignored mock-storage probe on 16 September 2026. This report describes current behavior and a later correction; it changes no production behavior. Sources include `AGENTS.md`, `README.md`, the architecture, domain and UX documents, the whole-product security audit, the two import-capacity benchmark reports, storage/migration/import code, startup and reducer code, and the related tests. The current brief's settled recovery decisions supersede the older documentation's description of partial salvage as acceptable.

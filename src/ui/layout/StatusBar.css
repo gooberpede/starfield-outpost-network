@@ -123,6 +123,16 @@
   display: flex;
   gap: 1rem;
   align-items: center;
+  min-width: 0;
+  max-width: 75vw;
+}
+
+.status-bar__persistent-warning {
+  max-width: 42vw;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 
 .status-bar__interaction-hint {

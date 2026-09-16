@@ -13,9 +13,10 @@ import type {
 } from './domain/referenceData'
 import { loadReferenceData } from './data/referenceDataLoader'
 import {
-  loadNetworkCollection,
-  saveNetworkCollection,
+  initializeNetworkCollection,
+  trySaveNetworkCollection,
 } from './data/storage'
+import type { PersistenceStatus } from './data/storage'
 import {
   getActiveSavedNetwork,
   getNextNetworkId,
@@ -139,7 +140,10 @@ const SHOW_REFERENCE_DATA_STATUS = false
 
 function App() {
   const { locale, t } = useLocalization()
-  const [initialCollection] = useState(loadNetworkCollection)
+  const [initialLoad] = useState(initializeNetworkCollection)
+  const initialCollection = initialLoad.collection
+  const [persistenceStatus, setPersistenceStatus] = useState<PersistenceStatus>(initialLoad.status)
+  const lastPersistenceCollectionRef = useRef(initialCollection)
 
   const [session, dispatchEditingSession] =
     useReducer(
@@ -430,7 +434,15 @@ function App() {
   }, [])
 
   useEffect(() => {
-    saveNetworkCollection(collection)
+    // Only a changed persisted collection (including active-network switches and
+    // history traversal) authorizes replacing an unrecoverable original source.
+    if (collection === lastPersistenceCollectionRef.current) return
+    lastPersistenceCollectionRef.current = collection
+    const next = trySaveNetworkCollection(collection)
+    setPersistenceStatus((previous) => previous.kind === next.kind &&
+      (previous.kind === 'saved' ||
+        (next.kind !== 'saved' && previous.reason === next.reason))
+      ? previous : next)
   }, [collection])
 
   function selectOutpost(outpostId: string | null) {
@@ -2308,6 +2320,13 @@ function App() {
       />
       
       <StatusBar
+        persistentWarning={persistenceStatus.kind === 'saved' ? undefined :
+          t(persistenceStatus.kind === 'recovery-fallback'
+            ? 'status.storage.recovery' : persistenceStatus.kind === 'storage-unavailable' &&
+              persistenceStatus.reason === 'read-failed'
+              ? 'status.storage.unavailable' : persistenceStatus.kind === 'unsaved' &&
+                persistenceStatus.reason === 'capacity-exceeded'
+                ? 'status.storage.capacity' : 'status.storage.unsaved')}
         interactionHint={
           isOutpostDragging
             ? t('status.drag.reorder')
