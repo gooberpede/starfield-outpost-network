@@ -20,6 +20,7 @@
     "localization:inputs:extract": "node scripts/localization/localization-inputs.mjs",
     "localization:review": "node --experimental-strip-types scripts/generate-japanese-review-package.ts",
     "benchmark:history": "node --expose-gc --experimental-strip-types scripts/history-benchmark.ts",
+    "benchmark:import-capacity": "node scripts/import-capacity-benchmark.mjs",
     "build": "node scripts/localization/validate-localized-name-provenance.mjs && node scripts/localization/verify-reference-name-overlay.mjs && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
