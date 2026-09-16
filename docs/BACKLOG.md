@@ -241,6 +241,8 @@ Do not fold this broader status-bar review into unrelated feature work.
 
 Possible future improvements:
 
+- Review how otherwise valid imports with more than 12 Cargo Link structures at one outpost should be handled. Legitimate modded usage can exceed the candidate technical ceiling; recovery or exception behavior remains a product decision.
+- Bound and sanitize the character-name fragment in export filenames so long valid persisted names cannot consume the timestamp and `.json` filename budget. The exact fragment limit remains undecided.
 - richer import diagnostics;
 - clearer conflict/migration reporting;
 - explicit schema-version migration documentation;
