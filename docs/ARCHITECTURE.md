@@ -1095,6 +1095,26 @@ Import/export success and failure messages are presentation/session state.
 Legacy bare-network files may be rejected externally. Browser-local migration
 continues to recover the earlier bare-network storage representation.
 
+External files and browser storage deliberately use different acceptance paths.
+Browser-storage migration may salvage valid entries from partially damaged local
+state. External import validates every persisted nested member before migration,
+then validates the complete current runtime shape afterward. This prevents
+migration defaults, filtering, or skipped objects from concealing malformed
+external data.
+
+Structural import checks do not replace domain validation. Unknown reference IDs,
+incomplete plans, stale exports, and other representable semantic problems remain
+importable for the normal validation system to diagnose.
+
+Stable identity follows the namespace used to address each object: saved-network
+IDs are unique within the collection; outpost IDs and Cargo Link relationship IDs
+are each unique within their network as separate namespaces; cargo-pad IDs are
+unique within their parent outpost. Every identity in these scopes is non-empty.
+
+Expected import failures cross the data/UI boundary as locale-neutral error codes
+with structured parameters. The UI maps those codes to semantic localization
+descriptors; data and migration code do not own user-facing prose.
+
 ---
 
 # 19. Editing-session architecture

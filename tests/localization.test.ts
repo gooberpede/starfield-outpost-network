@@ -23,6 +23,7 @@ import { enUSMessages } from '../src/localization/locales/en-US.ts'
 import { enGBMessages } from '../src/localization/locales/en-GB.ts'
 import { setDocumentLanguage } from '../src/localization/documentLanguage.ts'
 import { getImportFailurePresentation } from '../src/ui/importErrorPresentation.ts'
+import { NetworkImportError } from '../src/data/importErrors.ts'
 import { getHistoryDisplayLabel } from '../src/ui/historyPresentation.ts'
 import {
   deserializeNetworkCollection,
@@ -270,6 +271,18 @@ test('known import failures use stable descriptors and retain diagnostics', () =
     key: 'status.import.unsupportedNetworkSchema', parameters: { version: '99' },
   })
   assert.equal(unsupported.diagnostic, 'Unsupported network schema version: 99')
+  const malformed = getImportFailurePresentation(new NetworkImportError(
+    'invalid-structure', { path: 'networks[0].network.outposts[0].manufacturing' },
+  ))
+  assert.deepEqual(malformed.reason, {
+    key: 'status.import.invalidStructure',
+    parameters: { path: 'networks[0].network.outposts[0].manufacturing' },
+  })
+  assert.deepEqual(malformed.details, {
+    code: 'invalid-structure',
+    parameters: { path: 'networks[0].network.outposts[0].manufacturing' },
+  })
+  assert.equal(malformed.diagnostic, undefined)
 })
 
 test('matrix export tooltip combines localized names with localized list formatting', () => {

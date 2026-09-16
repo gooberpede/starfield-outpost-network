@@ -241,6 +241,8 @@ export const jaJPMessages = {
   'status.import.invalidOutpost': '選択したファイルに無効な拠点が含まれています。',
   'status.import.invalidExplicitPresence': '選択したファイルに無効な明示的資源存在データが含まれています。',
   'status.import.invalidCargoPad': '選択したファイルに無効な貨物リンクが含まれています。',
+  'status.import.invalidStructure': '選択したファイルに形式が不正なネットワークデータが含まれています。',
+  'status.import.invalidIdentity': '選択したファイルに空または重複した固定識別子が含まれています。',
   'status.referenceData.failed': '参照データの読み込みに失敗しました。',
   'status.referenceData.error': '参照データエラー：{detail}',
   'status.referenceData.loaded': '参照データを読み込みました：星系{systems}件、天体{bodies}件、資源{resources}件、製造品{products}件。',

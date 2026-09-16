@@ -1152,6 +1152,12 @@ For example, if an old cargo link names a destination outpost but not the exact 
 
 Outbound cargo configuration may still be retained.
 
+This recovery principle applies to browser storage. External files must first
+pass strict structural and stable-identity checks so lossy recovery cannot make
+malformed input appear valid. Strict import does not reject recoverable semantic
+conditions: unknown reference IDs and domain-invalid but representable planning
+state continue into the ordinary validation system.
+
 ---
 
 # 50. Throughput

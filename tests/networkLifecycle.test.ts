@@ -3,9 +3,14 @@ import test from 'node:test'
 import { appendNetworkFromLatestCharacter, createDefaultNetworkCollection, deleteNetwork, getActiveSavedNetwork, getNextNetworkId, getPreviousNetworkId, migrateNetworkCollectionData, resetOnlyNetwork } from '../src/data/networkCollection.ts'
 import { loadNetworkCollection } from '../src/data/storage.ts'
 import { deserializeNetworkCollection, serializeNetworkCollection } from '../src/data/serialization.ts'
+import { NetworkImportError, type ImportErrorCode } from '../src/data/importErrors.ts'
 import { createNetworkExportFileName } from '../src/data/exportFileName.ts'
 import { createDefaultNetwork } from '../src/domain/defaults.ts'
 import type { OutpostNetwork } from '../src/domain/models'
+import {
+  collectionEditingSessionReducer,
+  createCollectionEditingSession,
+} from '../src/domain/collectionEditingSession.ts'
 
 class MemoryStorage {
   values = new Map<string, string>()
@@ -31,6 +36,13 @@ function network(name: string, outpostId = `${name}-outpost`): OutpostNetwork {
 
 function collection(activeNetworkId = 'a') {
   return { schemaVersion: 1, networks: [{ id: 'a', network: network('First', 'a-outpost') }, { id: 'b', network: network('Last', 'b-outpost') }, { id: 'c', network: network('Third', 'c-outpost') }], activeNetworkId }
+}
+
+function assertImportError(value: unknown, code: ImportErrorCode) {
+  assert.throws(
+    () => deserializeNetworkCollection(JSON.stringify(value)),
+    (error) => error instanceof NetworkImportError && error.code === code,
+  )
 }
 
 test('browser storage retains bare-network migration and default recovery', () => {
@@ -106,11 +118,241 @@ test('whole collection serialization preserves order, IDs, and active ID', () =>
 })
 
 test('external import rejects bare networks, duplicate IDs, and malformed entries', () => {
-  assert.throws(() => deserializeNetworkCollection(JSON.stringify(network('Bare'))), /collection/)
+  assertImportError(network('Bare'), 'invalid-collection')
   const duplicate = collection('a')
   duplicate.networks[1] = { ...duplicate.networks[1], id: 'a' }
-  assert.throws(() => deserializeNetworkCollection(JSON.stringify(duplicate)), /duplicate network ID/)
-  assert.throws(() => deserializeNetworkCollection(JSON.stringify({ schemaVersion: 1, networks: [{ id: '', network: network('Bad') }], activeNetworkId: '' })), /malformed/)
+  assertImportError(duplicate, 'invalid-identity')
+  assertImportError({ schemaVersion: 1, networks: [{ id: '', network: network('Bad') }], activeNetworkId: '' }, 'invalid-identity')
+})
+
+test('external import rejects malformed nested runtime structures before migration can clean them', () => {
+  const malformedValues: unknown[] = []
+
+  const manufacturing = collection()
+  Object.assign(manufacturing.networks[0].network.outposts[0], {
+    manufacturing: [{ productId: 'frame', quantity: 'two' }],
+  })
+  malformedValues.push(manufacturing)
+
+  const plannedSupply = collection()
+  Object.assign(plannedSupply.networks[0].network.outposts[0], {
+    plannedSupply: [{ type: 'resource' }],
+  })
+  malformedValues.push(plannedSupply)
+
+  const outboundItems = collection()
+  Object.assign(outboundItems.networks[0].network.outposts[0].cargoPads[0], {
+    outboundItems: [{ type: 'unknown', id: 'iron' }],
+  })
+  malformedValues.push(outboundItems)
+
+  const route = collection()
+  Object.assign(route.networks[0].network.outposts[0], {
+    activeProduction: [{ type: 'invalid', resourceId: 'iron' }],
+  })
+  malformedValues.push(route)
+
+  const cargoLink = collection()
+  Object.assign(cargoLink.networks[0].network.cargoLinks[0], { endpointA: null })
+  malformedValues.push(cargoLink)
+
+  const filteredId = collection()
+  Object.assign(filteredId.networks[0].network.outposts[0], {
+    selectedBiomeIds: ['biome', 42],
+  })
+  malformedValues.push(filteredId)
+
+  for (const value of malformedValues) assertImportError(value, 'invalid-structure')
+})
+
+test('external import rejects obsolete pad-level links in network-level link schemas', () => {
+  for (const sourceVersion of [2, 4]) {
+    const withPadLink = collection()
+    withPadLink.networks[0].network.schemaVersion = sourceVersion
+    const sourceNetwork = withPadLink.networks[0].network
+    sourceNetwork.cargoLinks = []
+    const sourceOutpost = sourceNetwork.outposts[0]
+    if (sourceVersion === 2) {
+      Reflect.deleteProperty(sourceNetwork.character, 'capabilities')
+      Reflect.deleteProperty(sourceOutpost, 'selectedBiomeIds')
+      Reflect.deleteProperty(sourceOutpost, 'explicitResourcePresence')
+    }
+    Object.assign(sourceOutpost.cargoPads[0], {
+      link: {
+        destination: { type: 'outpost', outpostId: 'remote', cargoPadId: 'remote-pad' },
+      },
+    })
+
+    assertImportError(withPadLink, 'invalid-structure')
+  }
+})
+
+test('external import rejects a current pad-level link before it can replace a top-level link ID', () => {
+  const withDuplicateRelationship = collection()
+  const sourceNetwork = withDuplicateRelationship.networks[0].network
+  const topLevelLink = sourceNetwork.cargoLinks[0]
+  Object.assign(sourceNetwork.outposts[0].cargoPads[0], {
+    link: {
+      destination: {
+        type: 'outpost',
+        outpostId: topLevelLink.endpointB.outpostId,
+        cargoPadId: topLevelLink.endpointB.cargoPadId,
+      },
+    },
+  })
+
+  assertImportError(withDuplicateRelationship, 'invalid-structure')
+  assert.equal(sourceNetwork.cargoLinks[0].id, 'link')
+})
+
+test('external import enforces stable identities in their natural namespaces', () => {
+  const emptyNetwork = collection()
+  emptyNetwork.networks[0].id = ''
+  assertImportError(emptyNetwork, 'invalid-identity')
+
+  const emptyOutpost = collection()
+  emptyOutpost.networks[0].network.outposts[0].id = ''
+  assertImportError(emptyOutpost, 'invalid-identity')
+
+  const emptyLink = collection()
+  emptyLink.networks[0].network.cargoLinks[0].id = ''
+  assertImportError(emptyLink, 'invalid-identity')
+
+  const emptyPad = collection()
+  emptyPad.networks[0].network.outposts[0].cargoPads[0].id = ''
+  assertImportError(emptyPad, 'invalid-identity')
+
+  const duplicateOutpost = collection()
+  duplicateOutpost.networks[0].network.outposts.push({
+    ...structuredClone(duplicateOutpost.networks[0].network.outposts[0]),
+    name: 'Duplicate',
+  })
+  assertImportError(duplicateOutpost, 'invalid-identity')
+
+  const duplicateLink = collection()
+  duplicateLink.networks[0].network.cargoLinks.push({
+    id: duplicateLink.networks[0].network.cargoLinks[0].id,
+    endpointA: { outpostId: 'another', cargoPadId: 'one' },
+    endpointB: { outpostId: 'remote', cargoPadId: 'two' },
+  })
+  assertImportError(duplicateLink, 'invalid-identity')
+
+  const duplicatePad = collection()
+  duplicatePad.networks[0].network.outposts[0].cargoPads.push({
+    ...duplicatePad.networks[0].network.outposts[0].cargoPads[0],
+  })
+  assertImportError(duplicatePad, 'invalid-identity')
+})
+
+test('external import keeps qualified and unrelated identity namespaces independent', () => {
+  const qualifiedPads = collection()
+  const firstNetwork = qualifiedPads.networks[0].network
+  firstNetwork.outposts.push({
+    ...structuredClone(firstNetwork.outposts[0]),
+    id: 'second-outpost',
+    name: 'Second',
+  })
+  assert.doesNotThrow(() => deserializeNetworkCollection(JSON.stringify(qualifiedPads)))
+
+  const unrelated = { schemaVersion: 1, networks: [{
+    id: 'shared',
+    network: network('Shared', 'shared'),
+  }], activeNetworkId: 'shared' }
+  unrelated.networks[0].network.outposts[0].cargoPads[0].id = 'shared'
+  unrelated.networks[0].network.cargoLinks[0] = {
+    id: 'shared',
+    endpointA: { outpostId: 'shared', cargoPadId: 'shared' },
+    endpointB: { outpostId: 'remote', cargoPadId: 'remote-pad' },
+  }
+  assert.doesNotThrow(() => deserializeNetworkCollection(JSON.stringify(unrelated)))
+})
+
+test('external import preserves unknown references and supported historical schemas', () => {
+  const unknown = collection()
+  const outpost = unknown.networks[0].network.outposts[0]
+  outpost.systemId = 'unknown-system'
+  outpost.bodyId = 'unknown-body'
+  outpost.selectedBiomeIds = ['unknown-biome']
+  outpost.localResources = ['unknown-resource']
+  outpost.activeProduction = [{ type: 'organic', resourceId: 'unknown-resource', speciesId: 'unknown-species' }]
+  outpost.manufacturing = [{ productId: 'unknown-product', quantity: 1 }]
+  outpost.plannedSupply = [{ type: 'product', id: 'unknown-product' }]
+  const imported = deserializeNetworkCollection(JSON.stringify(unknown))
+  assert.deepEqual(imported.networks[0].network.outposts[0].selectedBiomeIds, ['unknown-biome'])
+  assert.deepEqual(imported.networks[0].network.outposts[0].plannedSupply, [
+    { type: 'product', id: 'unknown-product' },
+  ])
+
+  const historical = collection()
+  const historicalNetwork = historical.networks[0].network
+  Object.assign(historicalNetwork, { schemaVersion: 3 })
+  Reflect.deleteProperty(historicalNetwork.character, 'capabilities')
+  for (const historicalOutpost of historicalNetwork.outposts) {
+    Reflect.deleteProperty(historicalOutpost, 'explicitResourcePresence')
+  }
+  const migrated = deserializeNetworkCollection(JSON.stringify(historical))
+  assert.equal(migrated.networks[0].network.schemaVersion, 4)
+  assert.equal(migrated.networks[0].network.character.capabilities.xTechExtraction, true)
+
+  const routes = collection()
+  const routesNetwork = routes.networks[0].network
+  Object.assign(routesNetwork, { schemaVersion: 2 })
+  Reflect.deleteProperty(routesNetwork.character, 'capabilities')
+  for (const routeOutpost of routesNetwork.outposts) {
+    Reflect.deleteProperty(routeOutpost, 'selectedBiomeIds')
+    Reflect.deleteProperty(routeOutpost, 'explicitResourcePresence')
+    Object.assign(routeOutpost, { activeProduction: ['unknown-resource'] })
+  }
+  const migratedRoutes = deserializeNetworkCollection(JSON.stringify(routes))
+  assert.deepEqual(migratedRoutes.networks[0].network.outposts[0].activeProduction, [
+    { type: 'inorganic', resourceId: 'unknown-resource' },
+  ])
+
+  const padLinks = collection()
+  const padLinksNetwork = padLinks.networks[0].network
+  Reflect.deleteProperty(padLinksNetwork, 'schemaVersion')
+  Reflect.deleteProperty(padLinksNetwork, 'cargoLinks')
+  Reflect.deleteProperty(padLinksNetwork.character, 'capabilities')
+  const legacyOutpost = padLinksNetwork.outposts[0]
+  Reflect.deleteProperty(legacyOutpost, 'selectedBiomeIds')
+  Reflect.deleteProperty(legacyOutpost, 'explicitResourcePresence')
+  const legacyPad = legacyOutpost.cargoPads[0]
+  Reflect.deleteProperty(legacyPad, 'outboundItems')
+  Object.assign(legacyPad, {
+    link: {
+      exports: [{ type: 'resource', id: 'unknown-resource' }],
+      destination: { type: 'outpost', outpostId: 'remote', cargoPadId: 'remote-pad' },
+    },
+  })
+  const migratedPadLinks = deserializeNetworkCollection(JSON.stringify(padLinks))
+  assert.deepEqual(migratedPadLinks.networks[0].network.outposts[0].cargoPads[0].outboundItems, [
+    { type: 'resource', id: 'unknown-resource' },
+  ])
+  assert.equal(migratedPadLinks.networks[0].network.cargoLinks.length, 1)
+})
+
+test('rejected external import leaves collection, context, history, and storage unchanged', () => {
+  installStorage(collection('b'))
+  const session = createCollectionEditingSession(collection('b'))
+  const before = structuredClone(session)
+  const storedBefore = localStorage.getItem('starfield-outpost-network')
+  const malformed = collection()
+  Object.assign(malformed.networks[0].network.outposts[0], {
+    manufacturing: [{ productId: 'frame', quantity: 'invalid' }],
+  })
+
+  let after = session
+  try {
+    const imported = deserializeNetworkCollection(JSON.stringify(malformed))
+    after = collectionEditingSessionReducer(session, {
+      type: 'replace-collection', collection: imported, timestamp: 1,
+    })
+  } catch (error) {
+    assert.ok(error instanceof NetworkImportError)
+  }
+
+  assert.deepEqual(after, before)
+  assert.equal(localStorage.getItem('starfield-outpost-network'), storedBefore)
 })
 
 test('external import repairs invalid active ID to the first entry', () => {

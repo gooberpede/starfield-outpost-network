@@ -1,8 +1,14 @@
 import type { MessageDescriptor } from '../localization/types.ts'
+import {
+  NetworkImportError,
+  type ImportErrorCode,
+  type ImportErrorParameters,
+} from '../data/importErrors.ts'
 
 export interface ImportFailurePresentation {
   reason: MessageDescriptor
   diagnostic?: string
+  details?: { code: ImportErrorCode; parameters: ImportErrorParameters }
 }
 
 /** Maps expected deserialization failures to stable presentation codes. */
@@ -11,6 +17,21 @@ export function getImportFailurePresentation(error: unknown): ImportFailurePrese
   if (error instanceof SyntaxError) return {
     reason: { key: 'status.import.invalidJson' },
     diagnostic,
+  }
+  if (error instanceof NetworkImportError) {
+    const keys: Record<NetworkImportError['code'], MessageDescriptor['key']> = {
+      'invalid-collection': 'status.import.invalidCollection',
+      'empty-collection': 'status.import.emptyCollection',
+      'malformed-network-entry': 'status.import.malformedEntry',
+      'unsupported-collection-schema': 'status.import.unsupportedCollectionSchema',
+      'unsupported-network-schema': 'status.import.unsupportedNetworkSchema',
+      'invalid-structure': 'status.import.invalidStructure',
+      'invalid-identity': 'status.import.invalidIdentity',
+    }
+    return {
+      reason: { key: keys[error.code], parameters: error.parameters },
+      details: { code: error.code, parameters: error.parameters },
+    }
   }
   const collectionVersion = diagnostic.match(/^Unsupported network collection schema version: (.+)$/)
   if (collectionVersion) return {

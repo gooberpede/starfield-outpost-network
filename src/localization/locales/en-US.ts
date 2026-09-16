@@ -241,6 +241,8 @@ export const enUSMessages = {
   'status.import.invalidOutpost': 'The selected file contains an invalid outpost.',
   'status.import.invalidExplicitPresence': 'The selected file contains invalid explicit resource presence data.',
   'status.import.invalidCargoPad': 'The selected file contains an invalid cargo link.',
+  'status.import.invalidStructure': 'The selected file contains malformed network data.',
+  'status.import.invalidIdentity': 'The selected file contains an empty or duplicate stable identifier.',
   'status.referenceData.failed': 'Failed to load reference data.',
   'status.referenceData.error': 'Reference data error: {detail}',
   'status.referenceData.loaded': 'Reference data loaded: {systems} systems, {bodies} bodies, {resources} resources, {products} products.',

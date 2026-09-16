@@ -6,6 +6,11 @@ import {
   migrateNetworkCollectionData,
 } from './networkCollection.ts'
 import type { NetworkCollection } from './networkCollection'
+import { NetworkImportError } from './importErrors.ts'
+import {
+  validateExternalNetworkSource,
+  validateImportedCollection,
+} from './externalImportValidation.ts'
 
 export function serializeNetwork(network: OutpostNetwork): string {
   return JSON.stringify(network, null, 2)
@@ -36,24 +41,39 @@ export function deserializeNetworkCollection(
   const data: unknown = JSON.parse(json)
   if (typeof data !== 'object' || data === null ||
     !('networks' in data) || !Array.isArray(data.networks) ||
-    !('schemaVersion' in data) || data.schemaVersion !== CURRENT_COLLECTION_SCHEMA_VERSION) {
-    throw new Error('The selected file is not a valid network collection.')
+    !('schemaVersion' in data)) {
+    throw new NetworkImportError('invalid-collection')
+  }
+  if (data.schemaVersion !== CURRENT_COLLECTION_SCHEMA_VERSION) {
+    throw new NetworkImportError('unsupported-collection-schema', {
+      version: typeof data.schemaVersion === 'string' || typeof data.schemaVersion === 'number'
+        ? data.schemaVersion : 'invalid',
+    })
   }
   if (data.networks.length === 0) {
-    throw new Error('The selected collection does not contain any networks.')
+    throw new NetworkImportError('empty-collection')
   }
-  const ids = new Set<string>()
-  for (const candidate of data.networks) {
+  if (!('activeNetworkId' in data) || typeof data.activeNetworkId !== 'string') {
+    throw new NetworkImportError('invalid-structure', { path: 'activeNetworkId' })
+  }
+  const networkIds = new Set<string>()
+  for (const [index, candidate] of data.networks.entries()) {
     if (typeof candidate !== 'object' || candidate === null ||
-      !('id' in candidate) || typeof candidate.id !== 'string' || !candidate.id ||
+      !('id' in candidate) || typeof candidate.id !== 'string' ||
       !('network' in candidate)) {
-      throw new Error('The selected collection contains a malformed network entry.')
+      throw new NetworkImportError('malformed-network-entry', { index })
     }
-    if (ids.has(candidate.id)) {
-      throw new Error(`The selected collection contains duplicate network ID "${candidate.id}".`)
+    if (!candidate.id || networkIds.has(candidate.id)) {
+      throw new NetworkImportError('invalid-identity', {
+        reason: candidate.id ? 'duplicate' : 'empty',
+        scope: 'network',
+        ...(candidate.id ? { id: candidate.id } : {}),
+      })
     }
-    ids.add(candidate.id)
-    migrateNetworkData(candidate.network)
+    networkIds.add(candidate.id)
+    validateExternalNetworkSource(candidate.network, `networks[${index}].network`)
   }
-  return migrateNetworkCollectionData(data)
+  const collection = migrateNetworkCollectionData(data)
+  validateImportedCollection(collection)
+  return collection
 }
