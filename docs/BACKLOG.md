@@ -93,6 +93,26 @@ Consider, when supported by domain evidence:
 - biome plausibility;
 - duplicate object-ID checks if stable-ID integrity becomes a practical risk.
 
+### Technical-capacity advisory validation
+
+Review whether normal live validation should warn when understandable parts of
+the current collection approach or exceed the supported technical capacity
+envelopes for external import and browser storage. These are engineering and
+support limits, not Starfield gameplay or skill-based limits and not domain
+validity rules. Any warning should remain advisory rather than restricting
+editing, preserving modded/high-capacity use where practical.
+
+Candidate dimensions include saved networks, outposts per network, Cargo Pads
+per outpost, Cargo Links per outpost and per network, manufacturing entries,
+Planned Supply entries, and outbound item selections per Cargo Pad/Cargo Link.
+Decide which, if any, warrant user-facing warnings and how the distinct import
+and storage envelopes should be communicated. Do not expose recursive array
+member counts, nesting depth, object-key length, raw serialized length, or
+other traversal guards as ordinary validation without a useful user-facing
+model. The separate import/recovery decision below concerns how to handle
+otherwise valid incoming data beyond the tested envelope; this item concerns
+feedback about the collection already being edited.
+
 ---
 
 ## Cargo and logistics modelling
@@ -188,8 +208,11 @@ Candidate targets include:
 - Planned Supply.
 
 Shortcut design should be reviewed as a coherent set before implementation.
-Avoid conflicts with native browser, operating-system, and text-editing
-shortcuts, and do not add shortcuts merely because an action exists.
+Consider landmark-like shortcut navigation between major application regions
+to reduce lengthy sequential Tab traversal, without implying screen-reader
+landmark semantics. Avoid conflicts with normal browser, operating-system,
+text-editing, and assistive-technology behavior, and do not add shortcuts
+merely because an action exists. Exact key combinations remain undecided.
 
 ---
 
@@ -241,9 +264,12 @@ Do not fold this broader status-bar review into unrelated feature work.
 
 Possible future improvements:
 
-- Review how otherwise valid imports with more than 12 Cargo Link structures at one outpost should be handled. Legitimate modded usage can exceed the candidate technical ceiling; recovery or exception behavior remains a product decision.
+- Review how otherwise valid imports with more than 12 Cargo Link structures at one outpost should be handled. Legitimate modded usage can exceed the implemented, tested external-import technical ceiling; recovery or exception behavior remains a product decision rather than an immediate security correction.
 - Bound and sanitize the character-name fragment in export filenames so long valid persisted names cannot consume the timestamp and `.json` filename budget. The exact fragment limit remains undecided.
-- richer import diagnostics;
+- richer import diagnostics or reporting beyond the implemented structured
+  error categories and concise localized failure messages, including capacity
+  and malformed-structure/identity failures, if the workflow warrants more
+  useful detail or context;
 - clearer conflict/migration reporting;
 - explicit schema-version migration documentation;
 - optional import preview if the workflow eventually warrants it.
@@ -324,9 +350,10 @@ first and make changes only where they provide a practical benefit.
 
 The semantic localization boundary now covers current tracker-authored UI,
 accessible text, help/tooltips, validation, status/transient feedback, and
-session history labels. `en-US` is complete, `en-GB` is a sparse override, and
-the current `ja-JP` tracker catalogue contains 331 messages with exact key and
-placeholder parity. It has a durable glossary, comparative machine-assisted
+session history labels. `en-US` remains the complete baseline, `en-GB` a sparse
+override, and `ja-JP` a complete tracker catalogue with exact key and
+placeholder parity maintained through the existing localization verification
+tooling. Japanese work has a durable glossary, comparative machine-assisted
 review, and closure verification, but no native-speaker review was available.
 Current list/number/percent/collation needs use `Intl`. Deferred localization
 work includes:
@@ -344,7 +371,7 @@ a separate design explicitly changes them.
 Official Japanese reference overlays and official terminology provenance are
 implemented. Free Lanes is settled as a terminology-only source and does not
 change the canonical reference-data universe. Localization architecture and
-catalogue closure are complete at 331/331; the remaining release work is
+catalogue closure are complete; the remaining release work is
 manual, native-speaker, and platform verification.
 
 ### Accessibility follow-up
@@ -385,28 +412,34 @@ testing reveals a concrete defect.
 This work is deferred until suitable Apple/WebKit test environments are
 available and does not block the completed Windows/Chromium accessibility batch.
 
-### Security audit
+### Security and deployment follow-up
 
-Perform a security-focused review before public release.
+The completed whole-product security audit has no outstanding BLOCKER, HIGH,
+MEDIUM, or LOW findings. Its three INFORMATIONAL items remain as the deferred
+decisions below; see `docs/audits/codex-whole-product-security-audit.md` for
+the audit record and current statuses.
 
-The application is currently a local browser application without a backend, so
-its attack surface is comparatively limited, but imported/user-provided data
-and eventual public hosting still justify a deliberate audit.
-
-Review at least:
-
-- JSON import parsing and malformed-file handling;
-- pathological or excessively large imported collections;
-- browser-storage assumptions and failure modes;
-- user-entered/imported text rendering and XSS exposure;
-- unsafe URL/link handling;
-- dependency vulnerabilities;
-- static asset and reference-data trust boundaries;
-- large-session/history memory or denial-of-service-style failure cases;
-- deployment and Content Security Policy considerations once hosting is chosen.
-
-Do not introduce speculative security infrastructure before the audit identifies
-a concrete need.
+- **Production hosting security baseline:** No production host has been
+  selected. When one is chosen, define and verify the deployed Content Security
+  Policy and related HTTP security headers. Account for the current external
+  Google Fonts dependency by permitting only the required origins or by
+  self-hosting/removing it if preferable. This is deployment-stage acceptance
+  work, not an unresolved application-code security defect; the final policy
+  remains to be designed against the selected host and build.
+- **Runtime reference-data trust:** Generated catalogues have strong build-time
+  validation, which remains the primary integrity boundary, but the browser
+  loader still trusts `response.json()` through generic typing. Malformed
+  same-origin files can cause runtime failure. Decide whether the production
+  deployment risk from stale, partial, or malformed catalogues warrants a
+  compact runtime shape/version check. Such a check would not protect against
+  full same-origin compromise.
+- **Development-server network exposure:** Vite intentionally listens on the
+  LAN to support development on one PC while Starfield is played on another.
+  Preserve that practical two-PC workflow. Before public release, document
+  that the development server is for trusted local-network development only
+  and must never serve as the public production host. Revisit configuration
+  only if a safer explicit LAN opt-in preserves the workflow without
+  unnecessary friction.
 
 ---
 
