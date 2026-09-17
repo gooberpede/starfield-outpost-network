@@ -1,7 +1,7 @@
 # Cloudflare Pages CSP and security headers
 
-**Date:** 17 September 2026
-**Scope:** Static Pages responses for `https://starfield-outpost-network.pages.dev/`. No deployment was made in this parcel.
+**Date:** 17 September 2026 (local implementation and deployed verification)
+**Scope:** Static Pages responses for `https://starfield-outpost-network.pages.dev/`. The initial implementation was left uncommitted and undeployed in the first pass; the live hostname now serves the policy. This verification made no deployment or configuration change.
 
 ## Pre-change live baseline
 
@@ -45,11 +45,29 @@ The contextual help panel had visible, nonzero positioned geometry; the Planned 
 
 `npm run preview` does not apply Pages `_headers`; the temporary server was used specifically to make the browser enforce the candidate CSP. Its results cannot substitute for a deployed Pages smoke test.
 
+## Deployed verification
+
+The Cloudflare-designated production `pages.dev` hostname was inspected on 17 September 2026. The exact deployment trigger or branch promotion was not inspected; no `staging` preview was used in this verification. This pass made no commit or push.
+
+| Check | Deployed evidence |
+| --- | --- |
+| Main document | `200 text/html`; one `Content-Security-Policy` value exactly matching the implemented policy above; `Permissions-Policy: camera=(), microphone=(), geolocation=()`; `X-Frame-Options: DENY`; `X-Robots-Tag: noindex, nofollow`. No duplicate or contradictory security value was observed. |
+| Platform defaults and caching | `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Cache-Control: public, max-age=0, must-revalidate`, and an ETag were observed. HSTS remains absent. No cache policy was changed. |
+| Representative static responses | The live hashed JS, hashed CSS, `/reference-data/inorganic-occurrences.json`, and `/robots.txt` all returned `200` with the same CSP, Permissions Policy, `DENY`, and noindex headers. The JSON had `application/json`; the other MIME types matched their assets. The live robots body remains `User-agent: *` / `Disallow: /`. |
+| All reference data | Fresh GETs of all 13 named `/reference-data/*.json` paths returned `200 application/json`. The deployed browser's request inventory listed all 13 same-origin fetches, and the reference-dependent app UI rendered. A conditional request with the current `inorganic-occurrences.json` ETag returned `304 Not Modified`, confirming normal revalidation rather than a failed fetch. |
+| Fonts | The deployed browser loaded the Google Fonts `css2` stylesheet and, on reload, listed three Barlow Semi Condensed WOFF2 resources from `fonts.gstatic.com`. The stylesheet and one referenced WOFF2 returned `200` in direct checks. There was no font-related CSP console error. The user visually confirmed that Google Fonts render correctly. |
+| App and console | Initial load and reload rendered the tracker normally in the Codex in-app browser. Its warning/error log was empty, including no genuine CSP violation. The user independently confirmed normal load and working JSON import and export. The earlier local export automation did not observe a download event, but the user's deployed manual export check completed. |
+| Framing | Both the live CSP `frame-ancestors 'none'` and `X-Frame-Options: DENY` were verified on the document response. A rendered iframe rejection was not measured: browser tooling refused the `data:` iframe probe under its URL security policy and explicitly prohibited an indirect workaround. |
+
+The user reported console warnings naming `run-ad-auction`, `join-ad-interest-group`, `private-aggregation`, and `attribution-reporting`. None of these features appears in the actual `Permissions-Policy` response. They are not CSP violation messages, and this deployed inspection found no header defect linked to them. Their originating browser/platform component was not independently identified.
+
+The local browser check in the preceding section exercised the React inline-style surfaces under the same policy now observed live; this deployed pass did not repeat every interactive style state. The user's import/export checks and the deployed load/reload/resource/font checks close the functional smoke requirement. Font fallback with Google unavailable remains untested.
+
 ## Deployment and follow-up classification
 
-- **BLOCKER:** None found in the local implementation checks.
-- **PRE-RELEASE:** This change was neither committed nor pushed, so neither `staging` nor `main` received it. After a reviewed deployment, inspect actual HTML and representative asset responses for the intended headers and no conflicting duplicates. Repeat load/reload, all 13 reference fetches, font requests/fallback, import/export download, inline-style interactions, and iframe rejection on the deployed preview or production hostname. Investigate the local browser's unobserved export download in a normal browser during that smoke test.
-- **OPTIONAL:** Test fallback typography with Google Fonts intentionally unavailable and verify browser behavior in WebKit/Safari as part of broader release verification.
-- **DEFER:** HSTS until the final custom domain, subdomain policy, and rollback plan are settled. HTTPS already serves the current host and HTTP redirects to HTTPS, while [Cloudflare warns](https://developers.cloudflare.com/ssl/edge-certificates/additional-options/http-strict-transport-security/) that HSTS can make a host inaccessible for its max-age if HTTPS is removed. No HSTS, cache rule, custom domain, paid service, Worker, Function, or analytics configuration was introduced.
+- **BLOCKER:** None. The deployed CSP/security-header parcel is complete on the inspected hostname; no real CSP or security-header defect remains on the evidence above.
+- **PRE-RELEASE:** No remaining CSP-specific correction. Preserve the existing noindex controls until the separate launch decision.
+- **OPTIONAL:** Visually confirm iframe refusal in a browser setup that permits a framing probe; test Google-font fallback with Google unavailable and WebKit/Safari as part of broader release verification. These unmeasured cases are not evidence of a current defect.
+- **DEFER:** HSTS until the final custom domain, subdomain policy, and rollback plan are settled. HTTPS already serves the current host and HTTP redirects to HTTPS, while [Cloudflare warns](https://developers.cloudflare.com/ssl/edge-certificates/additional-options/http-strict-transport-security/) that HSTS can make a host inaccessible for its max-age if HTTPS is removed. No HSTS, cache rule, custom domain, paid service, Worker, Function, or analytics configuration was introduced in this parcel.
 
-The current deployed site still has the **pre-change** headers recorded above. A future deployment must verify the proposed headers on the actual response before this parcel can be called deployed.
+No production code, Cloudflare configuration, headers, fonts, domain setting, or cache policy was changed during this deployed verification. No commit or push was performed.
