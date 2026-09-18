@@ -110,9 +110,15 @@ uses the `staging` Preview, and production validation uses
 
 ## Reference-data hosting follow-up
 
-The deployed missing-reference-JSON response can fall through to the SPA and
-return `200 text/html`. Reference-data coherence and missing-JSON fallback
-handling remain [future work](BACKLOG.md#security-and-deployment-follow-up).
+`npm run reference:build` deliberately regenerates runtime JSON, the manifest,
+and the bundle's expected dataset ID for local development. The production
+build verifies all 13 committed runtime JSON files against regenerated
+temporary output before refreshing those derived artifacts. A post-build check confirms matching files in
+`dist/reference-data`. A missing Pages JSON path may still fall through to
+`200 text/html`; the startup gate detects that MIME response and stops the
+editor. Reload retries the complete gate. Report opens a prefilled email with
+technical diagnostics only and sends nothing automatically. No Cloudflare
+routing correction is part of this mechanism.
 
 ## Future Sandbox
 

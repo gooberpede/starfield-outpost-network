@@ -496,6 +496,8 @@ scripts/build-reference-data.mjs
         ↓
 public/reference-data/*.json
         ↓
+scripts/verify-reference-deployment.mjs → manifest.json + bundled dataset ID
+        ↓
 src/data/referenceDataLoader.ts
 ```
 
@@ -1002,17 +1004,21 @@ third-party mods, arbitrary installed ESMs, or user-selected load orders.
 
 # 15. Reference-data loading
 
-Reference data is loaded through the data layer and then supplied to the application.
+The deliberate `npm run reference:build` workflow regenerates the 13 JSON
+files and refreshes the runtime manifest and bundled expected dataset ID, so
+local development can start immediately afterward. The production build regenerates all 13 required JSON files in a temporary
+directory and compares their exact bytes with the committed runtime files.
+Generator invariants and cross-file joins are build-time responsibilities.
+The build writes a deterministic deployment manifest and bundles its dataset
+ID. It never silently repairs committed files.
 
-`App.tsx` owns the currently loaded reference-data snapshot.
-
-A reference-data loading failure:
-
-- does not invalidate the persisted network;
-- may reduce what can be derived or validated;
-- is surfaced to the user through status/error presentation.
-
-The user can manually reload reference data.
+`ReferenceStartupGate` runs under `LocalizationProvider` before mounting
+`App`. The loader checks the manifest, build ID, all 13 response hashes, MIME
+types, size bounds, and lightweight shapes. Only a complete validated snapshot
+reaches `App`; no browser-side source regeneration occurs. Pending or failed
+checks keep normal network initialization, migration, and persistence inactive.
+The fatal screen offers a full retry and a user-initiated diagnostic email link.
+Its report uses only typed technical fields and never reads player state.
 
 Reference-data state is not part of Undo/Redo.
 
@@ -1426,8 +1432,6 @@ Purpose:
 Current contents include:
 
 - validation access;
-- reference-data status;
-- reference-data reload control;
 - transient success/error messages.
 
 Behaviour:
@@ -1718,7 +1722,7 @@ Error behaviour:
 - visible in the status bar;
 - remains until replaced or dismissed.
 
-Ongoing system conditions such as reference-data failure may also be presented as error status without being treated as completed action feedback.
+Reference-data failure is presented by the pre-App fatal state, outside the status bar.
 
 Status messages are not persisted.
 

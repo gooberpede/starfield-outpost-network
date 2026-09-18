@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "datasetId": "sha256:11c108f3828f471d3f45153571d38a587f1fb503ddcc22968888b7a9e9cf43a4",
+  "assets": [
+    {
+      "path": "biomes.json",
+      "sha256": "dd1481f64f055522624edb53cf2e55ddbe18fae1da9f9d5d80b35efc24df2917"
+    },
+    {
+      "path": "body-biomes.json",
+      "sha256": "bda7ab451509334fba6cf8676f5fbde6d2382a5aa59edd4e4c81d33355110570"
+    },
+    {
+      "path": "inorganic-occurrences.json",
+      "sha256": "dd69ad62590f30bff886bb1067511b3c2831b3eefc8f8571e0c92a88cc4d0e4f"
+    },
+    {
+      "path": "species.json",
+      "sha256": "ff14fc28df710388e2c13669f249454f29e6127248a912bcc5e126782d3a429b"
+    },
+    {
+      "path": "planet-species.json",
+      "sha256": "ddb72a04a144794142440374ab162f04af4b29b2f067352b5efc39ab11ac79b0"
+    },
+    {
+      "path": "organic-occurrences.json",
+      "sha256": "45a483d9ddf398386262b4bd273c1d11ca8aed6e0244bd9023d66b741521b90e"
+    },
+    {
+      "path": "organic-farming-profiles.json",
+      "sha256": "5cc3b9bf298b4cb67d55ac3c5201b0d1d602ba7a8dfe8e2028d105790b83eca9"
+    },
+    {
+      "path": "systems.json",
+      "sha256": "0069d4deb036f1045e09906201d86119c76f9fc43e6e28d2a1bddb37d331575b"
+    },
+    {
+      "path": "bodies.json",
+      "sha256": "a0a884b484effda2ef022b6ce45ed0e5e18a8c2d132f91c194a9ee5f304bd06e"
+    },
+    {
+      "path": "resources.json",
+      "sha256": "ff041d1caaf599c3edb42bbb091f1c69855b4585b6fb5a1847124fb363255d41"
+    },
+    {
+      "path": "products.json",
+      "sha256": "73416197ea0f9994c75a79f75b7b62d9ee66bf373695b9d48e222f19a3bc96f0"
+    },
+    {
+      "path": "body-resources.json",
+      "sha256": "1e5475ce35c1580edee1c299c5f557f91132be08dfd1efefb5be2a810be6d8d6"
+    },
+    {
+      "path": "product-recipes.json",
+      "sha256": "532c451f593c77baccc4cec19a69138a6fd2e7a52b6509b652309112e0c284da"
+    }
+  ]
+}

@@ -422,14 +422,11 @@ current policy; the [whole-product security audit](audits/codex-whole-product-se
 records the earlier point-in-time findings.
 
 - **HSTS:** Remains a deferred production-hardening decision; it is not enabled.
-- **Reference-data coherence and missing-JSON fallback:** Generated catalogues
-  have strong build-time validation, but the browser loader still trusts
-  `response.json()` through generic typing. Stale, partial, or malformed files
-  can cause runtime failure. On Pages, a missing runtime reference JSON path
-  can instead fall through to the SPA response as `200 text/html`. Review
-  coherence, missing-file response behavior, and whether a compact runtime
-  shape/version check is warranted. Such a check would not protect against
-  full same-origin compromise.
+- **Reference-data recovery enhancement:** The build and browser now enforce
+  reference-data coherence, including detection of Pages `200 text/html`
+  fallback. A future separate parcel may add a raw, read-only emergency
+  browser-storage backup action to the fatal screen. A targeted Pages routing
+  correction can also be evaluated as defense in depth.
 - **Cloudflare build Node engine mismatch (non-blocking):** Successful staging
   and production Pages builds currently use Node.js `22.16.0` and npm `10.9.2`.
   npm reports `EBADENGINE` because `jsdom@30.0.1` requires Node

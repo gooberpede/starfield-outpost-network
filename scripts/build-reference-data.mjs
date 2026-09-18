@@ -111,40 +111,7 @@ const INORGANIC_OCCURRENCES_SOURCE_FILE = resolve(
   'biome-inorganic-resources.csv',
 )
 
-const SYSTEMS_OUTPUT_FILE = resolve(
-  PROJECT_ROOT,
-  'public',
-  'reference-data',
-  'systems.json',
-)
-
-const BODIES_OUTPUT_FILE = resolve(
-  PROJECT_ROOT,
-  'public',
-  'reference-data',
-  'bodies.json',
-)
-
-const RESOURCES_OUTPUT_FILE = resolve(
-  PROJECT_ROOT,
-  'public',
-  'reference-data',
-  'resources.json',
-)
-
-const PRODUCTS_OUTPUT_FILE = resolve(
-  PROJECT_ROOT,
-  'public',
-  'reference-data',
-  'products.json',
-)
-
-const PRODUCT_RECIPES_OUTPUT_FILE = resolve(
-  PROJECT_ROOT,
-  'public',
-  'reference-data',
-  'product-recipes.json',
-)
+const DEFAULT_OUTPUT_DIRECTORY = resolve(PROJECT_ROOT, 'public', 'reference-data')
 
 const PLANETARY_BODY_TYPE_BY_SOURCE_VALUE = new Map([
   ['Planet', 'planet'],
@@ -380,7 +347,7 @@ async function writeJson(path, data) {
  * Every generated dataset is rebuilt from canonical source data so the
  * runtime JSON remains reproducible rather than hand-maintained.
  */
-async function main() {
+export async function buildReferenceData(outputDirectory = DEFAULT_OUTPUT_DIRECTORY) {
   console.log('Loading Planet Directory...')
 
   const planetRows =
@@ -466,32 +433,32 @@ async function main() {
 
   for (const [key, data] of Object.entries(biomeData)) {
     const filename = key.replace(/[A-Z]/g, (letter) => '-' + letter.toLowerCase())
-    await writeJson(resolve(PROJECT_ROOT, 'public', 'reference-data', filename + '.json'), data)
+    await writeJson(resolve(outputDirectory, filename + '.json'), data)
     console.log(filename + '.json: ' + data.length)
   }
 
   await writeJson(
-    SYSTEMS_OUTPUT_FILE,
+    resolve(outputDirectory, 'systems.json'),
     systems,
   )
 
   await writeJson(
-    BODIES_OUTPUT_FILE,
+    resolve(outputDirectory, 'bodies.json'),
     bodies,
   )
 
   await writeJson(
-    RESOURCES_OUTPUT_FILE,
+    resolve(outputDirectory, 'resources.json'),
     resources,
   )
 
   await writeJson(
-    PRODUCTS_OUTPUT_FILE,
+    resolve(outputDirectory, 'products.json'),
     products,
   )
 
   await writeJson(
-    PRODUCT_RECIPES_OUTPUT_FILE,
+    resolve(outputDirectory, 'product-recipes.json'),
     productRecipes,
   )
 
@@ -505,7 +472,7 @@ async function main() {
   )
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main().catch((error) => {
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) buildReferenceData().catch((error) => {
   console.error('Reference-data build failed.')
 
   console.error(

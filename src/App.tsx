@@ -11,7 +11,6 @@ import type {
   ReferenceData,
   BodyBiomeId,
 } from './domain/referenceData'
-import { loadReferenceData } from './data/referenceDataLoader'
 import {
   initializeNetworkCollection,
   trySaveNetworkCollection,
@@ -134,11 +133,7 @@ type StatusMessage =
       deferAnnouncementUntilWindowFocus?: boolean
     }
 
-// Reference-data diagnostics are hidden while the current catalogue is stable.
-// Re-enable when reference-data development or debugging resumes.
-const SHOW_REFERENCE_DATA_STATUS = false
-
-function App() {
+function App({ referenceData }: { referenceData: ReferenceData }) {
   const { locale, t } = useLocalization()
   const [initialLoad] = useState(initializeNetworkCollection)
   const initialCollection = initialLoad.collection
@@ -177,11 +172,6 @@ function App() {
           outpostManagementRank,
         )
 
-  const [referenceData, setReferenceData] =
-    useState<ReferenceData | null>(null)
-
-  const [referenceDataError, setReferenceDataError] =
-    useState<string | null>(null)
 
   /**
    * Holds short-lived user feedback for completed application actions such as
@@ -371,67 +361,6 @@ function App() {
   const biomeGroups = referenceData
     ? getBiomeButtonGroups(referenceData, selectedOutpost?.bodyId ?? null)
     : []
-
-  /**
-   * Loads the latest reference-data snapshot from the external JSON files.
-   *
-   * This is used both during application startup and by the manual reload
-   * control, so the loading and error-handling behavior stays consistent.
-   */
-  async function reloadReferenceData() {
-    try {
-      const loadedReferenceData =
-        await loadReferenceData()
-
-      setReferenceData(loadedReferenceData)
-      setReferenceDataError(null)
-    } catch (error) {
-      setReferenceData(null)
-
-      setReferenceDataError(
-        error instanceof Error
-          ? error.message
-          : String(error),
-      )
-    }
-  }
-
-  /**
-   * Loads the external reference-data snapshot when the application starts.
-   *
-   * Reference data is kept separately from the player's saved network so
-   * the catalogue can be refreshed or replaced without modifying their
-   * recorded outposts.
-   */
-  useEffect(() => {
-    let cancelled = false
-
-    void loadReferenceData()
-      .then((loadedReferenceData) => {
-        if (cancelled) {
-          return
-        }
-
-        setReferenceData(loadedReferenceData)
-        setReferenceDataError(null)
-      })
-      .catch((error: unknown) => {
-        if (cancelled) {
-          return
-        }
-
-        setReferenceData(null)
-        setReferenceDataError(
-          error instanceof Error
-            ? error.message
-            : String(error),
-        )
-      })
-
-    return () => {
-      cancelled = true
-    }
-  }, [])
 
   useEffect(() => {
     // Only a changed persisted collection (including active-network switches and
@@ -2348,27 +2277,6 @@ function App() {
               }}
             />
 
-            {SHOW_REFERENCE_DATA_STATUS && (
-              <>
-                {referenceData && (
-                  <span>
-                    {t('status.referenceData.loaded', {
-                      systems: referenceData.systems.length,
-                      bodies: referenceData.bodies.length,
-                      resources: referenceData.resources.length,
-                      products: referenceData.products.length,
-                    })}
-                  </span>
-                )}
-
-                <button
-                  type="button"
-                  onClick={() => void reloadReferenceData()}
-                >
-                  {t('status.referenceData.reload')}
-                </button>
-              </>
-            )}
           </>
         }
         message={
@@ -2386,12 +2294,7 @@ function App() {
                     ? () => setStatusMessage(null)
                     : undefined,
               }
-            : referenceDataError
-              ? {
-                  kind: 'error',
-                  content: <span title={referenceDataError}>{t('status.referenceData.failed')}</span>,
-                }
-              : undefined
+            : undefined
         }
       />
 
