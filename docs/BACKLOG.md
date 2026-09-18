@@ -414,32 +414,28 @@ available and does not block the completed Windows/Chromium accessibility batch.
 
 ### Security and deployment follow-up
 
-The completed whole-product security audit has no outstanding BLOCKER, HIGH,
-MEDIUM, or LOW findings. Its three INFORMATIONAL items remain as the deferred
-decisions below; see `docs/audits/codex-whole-product-security-audit.md` for
-the audit record and current statuses.
+The Dev/Prod Cloudflare Pages model, staging auto-deploy, manual production
+gate, deployed CSP/security headers, and bare production `pages.dev` redirect
+are established. The redirect excludes preview subdomains. Vite now uses its
+default local-only development server. See [Deployment](DEPLOYMENT.md) for
+current policy; the [whole-product security audit](audits/codex-whole-product-security-audit.md)
+records the earlier point-in-time findings.
 
-- **Production hosting security baseline:** No production host has been
-  selected. When one is chosen, define and verify the deployed Content Security
-  Policy and related HTTP security headers. Account for the current external
-  Google Fonts dependency by permitting only the required origins or by
-  self-hosting/removing it if preferable. This is deployment-stage acceptance
-  work, not an unresolved application-code security defect; the final policy
-  remains to be designed against the selected host and build.
-- **Runtime reference-data trust:** Generated catalogues have strong build-time
-  validation, which remains the primary integrity boundary, but the browser
-  loader still trusts `response.json()` through generic typing. Malformed
-  same-origin files can cause runtime failure. Decide whether the production
-  deployment risk from stale, partial, or malformed catalogues warrants a
-  compact runtime shape/version check. Such a check would not protect against
+- **HSTS:** Remains a deferred production-hardening decision; it is not enabled.
+- **Reference-data coherence and missing-JSON fallback:** Generated catalogues
+  have strong build-time validation, but the browser loader still trusts
+  `response.json()` through generic typing. Stale, partial, or malformed files
+  can cause runtime failure. On Pages, a missing runtime reference JSON path
+  can instead fall through to the SPA response as `200 text/html`. Review
+  coherence, missing-file response behavior, and whether a compact runtime
+  shape/version check is warranted. Such a check would not protect against
   full same-origin compromise.
-- **Development-server network exposure:** Vite intentionally listens on the
-  LAN to support development on one PC while Starfield is played on another.
-  Preserve that practical two-PC workflow. Before public release, document
-  that the development server is for trusted local-network development only
-  and must never serve as the public production host. Revisit configuration
-  only if a safer explicit LAN opt-in preserves the workflow without
-  unnecessary friction.
+- **Cloudflare build Node engine mismatch (non-blocking):** Successful staging
+  and production Pages builds currently use Node.js `22.16.0` and npm `10.9.2`.
+  npm reports `EBADENGINE` because `jsdom@30.0.1` requires Node
+  `^22.22.2 || ^24.15.0 || >=26.0.0` and `undici@8.10.2` requires
+  `>=22.19.0`. Resolve this hosting/toolchain mismatch before it becomes a
+  real incompatibility; no fix is prescribed yet.
 
 ---
 

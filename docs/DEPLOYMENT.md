@@ -11,8 +11,8 @@ site from `main`. The application is a static Vite/React build with browser
 
 | Environment | Git branch | Origin | Deployment trigger | Browser data and indexing |
 | --- | --- | --- | --- | --- |
-| Dev / Integration | `staging` | Cloudflare Pages branch preview URL, separate from production | Automatic on pushes to `staging` | Disposable, origin-specific `localStorage`; previews remain non-indexed. Used for integration, browser, release-candidate, and Cloudflare-specific checks. |
-| Production | `main` | `https://starfieldoutposts.com` | Manual release after `main` is pushed; automatic production deployments are disabled | Intended durable public origin for users' browser `localStorage`. The site is pre-release and non-indexed until an explicit public-launch decision. |
+| Dev / Integration | `staging` | `https://staging.starfield-outpost-network.pages.dev` | Automatic on pushes to `staging` (verified) | Disposable, origin-specific `localStorage`; previews remain non-indexed. Used for integration, browser, release-candidate, and Cloudflare-specific checks. |
+| Production | `main` | `https://starfieldoutposts.com` | Manual release after `main` is pushed; automatic production deployments are disabled (verified) | Single durable production origin for users' browser `localStorage`. The site is pre-release and non-indexed until an explicit public-launch decision. |
 
 Browser data is local to each origin and browser profile. Staging data does not
 become production data when a commit is promoted. JSON export/import is the
@@ -40,23 +40,27 @@ release check should be resolved before promotion.
 - The static site uses Cloudflare Pages Free. No paid hosting feature is part
   of this deployment model.
 
-These branch controls were verified against the saved Pages project settings
-on 18 September 2026. They govern automatic deployments; production release
-still requires a deliberate manual deployment.
+These branch controls and the staging auto-deploy and manual production gate
+were verified on 18 September 2026. Production release still requires a
+deliberate manual deployment.
 
 ## Domain and origin policy
 
-`starfieldoutposts.com` is the registered domain, held at Cloudflare Registrar,
-and the intended long-term public origin. The generated production hostname
-`https://starfield-outpost-network.pages.dev` also exists. Its bare hostname
-may later redirect to `https://starfieldoutposts.com`, but no redirect is
-configured as part of this policy. Branch preview subdomains must remain
-available and must not be caught by a wildcard `pages.dev` redirect.
+`https://starfieldoutposts.com` is the single durable production and user-data
+origin. The bare generated production hostname
+`https://starfield-outpost-network.pages.dev` now returns a verified 301
+Permanent Redirect to that domain. It preserves path suffixes and query strings
+(including `/robots.txt?test=1`). The rule excludes subdomains: the `staging`
+preview alias does not redirect, and any future `sandbox` preview alias must
+remain usable.
 
-The custom domain, bare `pages.dev` hostname, and branch previews are distinct
-browser origins. Their `localStorage` contents do not migrate automatically,
-and a redirect would not transfer them. Do not ask users to keep durable data
-on a staging preview or the generated production `pages.dev` hostname.
+The custom domain and bare production `pages.dev` hostname serve the same
+production deployment but are different browser origins. The redirect
+converges visitors on the custom domain; it does not transfer `localStorage`.
+Preview aliases are separate deployments and origins with independent
+`localStorage`, cookies, service-worker scope where applicable, and other
+origin-scoped state. Staging browser data is not production data. The bare
+production `pages.dev` hostname is no longer a user-data origin.
 
 ## Cost constraints
 
@@ -77,9 +81,9 @@ analytics/telemetry service.
   from `fonts.googleapis.com` and font binaries from `fonts.gstatic.com` are
   allowed. Object content, framing, and workers are denied. Camera,
   microphone, and geolocation are denied. Cloudflare's `nosniff` and referrer
-  policy defaults are retained. HSTS is deferred until final-domain and
-  rollback implications are settled. See the [CSP and security headers
-  benchmark](benchmarks/CLOUDFLARE-CSP-SECURITY-HEADERS.md).
+  policy defaults are retained. The header parcel is deployed; HSTS is not
+  enabled and remains a deferred production-hardening decision. See the
+  [CSP and security headers benchmark](benchmarks/CLOUDFLARE-CSP-SECURITY-HEADERS.md).
 - External Google Fonts remain accepted for V1. Self-hosting or removal needs
   a concrete reason from later testing.
 - Cloudflare Web Analytics / RUM remains disabled: there is no telemetry
@@ -99,8 +103,16 @@ policy.
 
 ## Local development
 
-The Vite dev server is local-only; production/staging testing happens through
-Cloudflare.
+Vite uses its default local-only development server; no special two-PC LAN
+hosting workflow is required. Deployed browser and Cloudflare-specific testing
+uses the `staging` Preview, and production validation uses
+`https://starfieldoutposts.com`.
+
+## Reference-data hosting follow-up
+
+The deployed missing-reference-JSON response can fall through to the SPA and
+return `200 text/html`. Reference-data coherence and missing-JSON fallback
+handling remain [future work](BACKLOG.md#security-and-deployment-follow-up).
 
 ## Future Sandbox
 

@@ -27,6 +27,15 @@ Starfield Outpost Network is a local browser application built with:
 - browser `localStorage` for normal persistence;
 - JSON import/export for portable backups and interchange.
 
+The static Vite build is hosted on Cloudflare Pages Free, with `staging` as an
+automatically deployed Preview and `main` as the source of manually deployed
+production releases. `https://starfieldoutposts.com` is the durable production
+and browser-data origin; the bare production `pages.dev` hostname redirects to
+it while preview subdomains remain separate. The deployed CSP/security headers
+constrain the client and its same-origin reference-data requests. Vite's
+development server uses its default local-only binding. See
+[Deployment](DEPLOYMENT.md) for operational and security policy.
+
 The codebase is divided broadly into:
 
 ```text
@@ -1138,9 +1147,9 @@ and capacity policy unchanged.
 
 These import and persistence boundaries close the three MEDIUM findings in the
 [whole-product security audit](audits/codex-whole-product-security-audit.md).
-The original findings remain there as historical evidence. Deployment-stage
-CSP and related HTTP security headers remain informational work to revisit
-when the hosting model is selected.
+The original findings remain there as historical evidence. CSP and related
+HTTP security headers are now deployed on Cloudflare Pages; see
+[Deployment](DEPLOYMENT.md) for the current policy.
 
 Structural import checks do not replace domain validation. Unknown reference IDs,
 incomplete plans, stale exports, and other representable semantic problems remain
