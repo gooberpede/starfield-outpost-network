@@ -7,7 +7,7 @@ import { createDefaultNetworkCollection } from '../src/data/networkCollection.ts
 import { serializeNetworkCollection } from '../src/data/serialization.ts'
 import { createCollectionEditingSession } from '../src/domain/collectionEditingSession.ts'
 import { createDefaultNetwork } from '../src/domain/defaults.ts'
-import type { Outpost } from '../src/domain/models.ts'
+import type { CargoItem, Outpost } from '../src/domain/models.ts'
 import type { ReferenceData } from '../src/domain/referenceData.ts'
 import type { ValidationIssue } from '../src/domain/validation/types.ts'
 import { translate } from '../src/localization/catalog.ts'
@@ -433,7 +433,7 @@ describe('release accessibility semantics', () => {
       { id: 'available', name: 'Available', shortName: 'A', rarity: 'common' as const },
     ]
     function PlannedHarness() {
-      const [plannedSupply, setPlannedSupply] = useState([{ type: 'product' as const, id: 'planned' }])
+      const [plannedSupply, setPlannedSupply] = useState<CargoItem[]>([{ type: 'product', id: 'planned' }])
       return <PlannedSupplyEditor
         resources={[]} products={products} plannedSupply={plannedSupply}
         actuallyAvailableItems={[{ type: 'product', id: 'available' }]}
@@ -1004,10 +1004,7 @@ test('provider locale switches do not mutate network selection, outpost context,
   const user = userEvent.setup()
   const collection = createDefaultNetworkCollection()
   collection.networks[0].network.outposts = [makeOutpost('selected-outpost', 'Selected')]
-  const session = createCollectionEditingSession(collection, {
-    networkId: collection.activeNetworkId,
-    outpostId: 'selected-outpost',
-  })
+  const session = createCollectionEditingSession(collection)
   const collectionBefore = structuredClone(session.collection)
   const historyBefore = structuredClone(session.history)
   const serializedBefore = serializeNetworkCollection(session.collection)

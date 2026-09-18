@@ -142,7 +142,7 @@ test('atomic X-Tech removal is one undoable entry and Undo restores both fields'
     schemaVersion: 1, networks: [{ id: 'network', network }], activeNetworkId: 'network',
   })
   session = collectionEditingSessionReducer(session, {
-    type: 'apply-active-network', label: 'Remove X-Tech', timestamp: 1,
+    type: 'apply-active-network', label: { key: 'history.benchmark', parameters: { label: 'Remove X-Tech' } }, timestamp: 1,
     update: (current) => ({
       ...current,
       outposts: current.outposts.map((outpost) =>

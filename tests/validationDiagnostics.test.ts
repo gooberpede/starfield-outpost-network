@@ -191,9 +191,9 @@ test('manufacturing diagnostic presentation localizes names from stable IDs', ()
 
 test('invalid skill diagnostics resolve Bethesda official-term names', () => {
   const issue: ValidationIssue = {
-    ruleId: 'valid-skill-level',
-    category: 'character',
-    severity: 'warning',
+    ruleId: 'invalid-skill-level',
+    category: 'structural',
+    severity: 'error',
     messageKey: 'validation.invalidSkillLevel',
     skillId: 'outpostEngineering',
     parameters: { level: 5, minimum: 0, maximum: 4 },

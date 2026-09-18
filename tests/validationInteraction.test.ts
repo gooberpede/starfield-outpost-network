@@ -17,7 +17,7 @@ test('only issues with a valid outpost invoke the navigation callback', () => {
   const navigatedIssues: ValidationIssue[] = []
   const actionableIssue: ValidationIssue = {
     ruleId: 'test-rule', category: 'supply', severity: 'warning',
-    message: 'Test issue.', outpostId: 'outpost-2',
+    messageKey: 'validation.plannedSupplyUnresolved', outpostId: 'outpost-2',
   }
   const validOutpostIds = new Set(['outpost-2'])
 
@@ -49,9 +49,9 @@ test('only issues with a valid outpost invoke the navigation callback', () => {
 })
 
 test('validation issue identity follows stable target metadata', () => {
-  const issue = {
-    ruleId: 'test-rule', category: 'supply' as const, severity: 'warning' as const,
-    message: 'Test issue.', outpostId: 'outpost-2', cargoPadId: 'pad-1',
+  const issue: ValidationIssue = {
+    ruleId: 'test-rule', category: 'supply', severity: 'warning',
+    messageKey: 'validation.plannedSupplyUnresolved', outpostId: 'outpost-2', cargoPadId: 'pad-1',
   }
   assert.equal(getValidationIssueIdentity(issue), getValidationIssueIdentity({ ...issue }))
   assert.notEqual(

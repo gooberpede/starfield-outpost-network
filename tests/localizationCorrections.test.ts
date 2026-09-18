@@ -168,7 +168,7 @@ test('body-biome and grouped labels localize through stable biome identity', () 
     ['Localized Plains 1', 'Localized Plains 2'],
   )
   assert.ok(seenIds.every((id) => id === 'stable-plains'))
-  assert.ok(!seenIds.includes(groups[0].key))
+  assert.ok(!seenIds.some((id) => id === groups[0].key))
 
   const issue: ValidationIssue = {
     ruleId: 'duplicate-biome-selection',

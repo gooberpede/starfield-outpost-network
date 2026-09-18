@@ -1,22 +1,26 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import type { NetworkCollection } from '../src/data/networkCollection'
-import { collectionEditingSessionReducer as reduce, createCollectionEditingSession, formatNetworkHistoryLabel, getHistoryPresentationReset, MAX_HISTORY_ENTRIES, normalizeHistoryState } from '../src/domain/collectionEditingSession.ts'
+import { collectionEditingSessionReducer as reduce, createCollectionEditingSession, formatNetworkHistoryLabel, getHistoryPresentationReset, MAX_HISTORY_ENTRIES, normalizeHistoryState, type HistoryLabelDescriptor } from '../src/domain/collectionEditingSession.ts'
 import { createDefaultNetwork } from '../src/domain/defaults.ts'
 import type { OutpostNetwork } from '../src/domain/models'
 
 function network(name: string, ...ids: string[]): OutpostNetwork {
   const blank = createDefaultNetwork()
-  return { ...blank, character: { ...blank.character, name }, outposts: ids.map((id) => ({ id, name: id, systemId: '', bodyId: '', selectedBiomeIds: [], localResources: [], activeProduction: [], manufacturing: [], plannedSupply: [], cargoPads: [] })) }
+  return { ...blank, character: { ...blank.character, name }, outposts: ids.map((id) => ({ id, name: id, systemId: '', bodyId: '', selectedBiomeIds: [], localResources: [], explicitResourcePresence: [], activeProduction: [], manufacturing: [], plannedSupply: [], cargoPads: [] })) }
 }
 function collection(): NetworkCollection {
   return { schemaVersion: 1, networks: [{ id: 'a', network: network('A', 'a1', 'a2') }, { id: 'b', network: network('B', 'b1', 'b2') }], activeNetworkId: 'a' }
 }
 
+function historyLabel(label: string): HistoryLabelDescriptor {
+  return { key: 'history.benchmark', parameters: { label } }
+}
+
 function editCharacterName(name: string, timestamp: number) {
   return {
     type: 'apply-active-network' as const,
-    label: name,
+    label: historyLabel(name),
     timestamp,
     update: (value: OutpostNetwork) => ({
       ...value,
@@ -56,7 +60,7 @@ test('manual navigation remembers outposts and creates no history', () => {
 test('ordinary edit Undo/Redo restores action context despite later navigation', () => {
   let session = createCollectionEditingSession(collection())
   session = reduce(session, { type: 'select-outpost', outpostId: 'a2' })
-  session = reduce(session, { type: 'apply-active-network', label: 'Rename', timestamp: 1, update: (value) => ({ ...value, character: { ...value.character, name: 'Changed' } }) })
+  session = reduce(session, { type: 'apply-active-network', label: historyLabel('Rename'), timestamp: 1, update: (value) => ({ ...value, character: { ...value.character, name: 'Changed' } }) })
   session = reduce(session, { type: 'switch-network', networkId: 'b' })
   session = reduce(session, { type: 'undo' })
   assert.deepEqual(session.context, { networkId: 'a', outpostId: 'a2' })
@@ -69,7 +73,7 @@ test('ordinary edit Undo/Redo restores action context despite later navigation',
 
 test('new action after Undo clears Redo', () => {
   let session = createCollectionEditingSession(collection())
-  const edit = (name: string, timestamp: number) => ({ type: 'apply-active-network' as const, label: name, timestamp, update: (value: OutpostNetwork) => ({ ...value, character: { ...value.character, name } }) })
+  const edit = (name: string, timestamp: number) => ({ type: 'apply-active-network' as const, label: historyLabel(name), timestamp, update: (value: OutpostNetwork) => ({ ...value, character: { ...value.character, name } }) })
   session = reduce(session, edit('First', 1))
   session = reduce(session, { type: 'undo' })
   session = reduce(session, edit('Branched', 2))
@@ -187,12 +191,12 @@ test('mixed edits and collection replacement share the cap and preserve context'
 test('Add/Delete Outpost Undo/Redo restores before and after selections', () => {
   let session = createCollectionEditingSession(collection())
   session = reduce(session, { type: 'select-outpost', outpostId: 'a2' })
-  session = reduce(session, { type: 'apply-active-network', label: 'Add outpost', timestamp: 1, outpostId: 'a3', update: (value) => ({ ...value, outposts: [...value.outposts, network('x', 'a3').outposts[0]] }) })
+  session = reduce(session, { type: 'apply-active-network', label: historyLabel('Add outpost'), timestamp: 1, outpostId: 'a3', update: (value) => ({ ...value, outposts: [...value.outposts, network('x', 'a3').outposts[0]] }) })
   session = reduce(session, { type: 'undo' })
   assert.equal(session.context.outpostId, 'a2')
   session = reduce(session, { type: 'redo' })
   assert.equal(session.context.outpostId, 'a3')
-  session = reduce(session, { type: 'apply-active-network', label: 'Delete outpost', timestamp: 2, outpostId: 'a2', update: (value) => ({ ...value, outposts: value.outposts.filter(({ id }) => id !== 'a3') }) })
+  session = reduce(session, { type: 'apply-active-network', label: historyLabel('Delete outpost'), timestamp: 2, outpostId: 'a2', update: (value) => ({ ...value, outposts: value.outposts.filter(({ id }) => id !== 'a3') }) })
   session = reduce(session, { type: 'undo' })
   assert.equal(session.context.outpostId, 'a3')
   session = reduce(session, { type: 'redo' })
@@ -251,7 +255,7 @@ test('history label formatting is concise for one network and prefixed for many'
 test('presentation reset detection distinguishes ordinary traversal from boundaries', () => {
   let session = createCollectionEditingSession(collection())
   session = reduce(session, {
-    type: 'apply-active-network', label: 'Ordinary edit', timestamp: 1,
+    type: 'apply-active-network', label: historyLabel('Ordinary edit'), timestamp: 1,
     update: (value) => ({ ...value, character: { ...value.character, level: 10 } }),
   })
   assert.deepEqual(getHistoryPresentationReset(session, 'undo'), {
@@ -268,7 +272,7 @@ test('presentation reset detection distinguishes ordinary traversal from boundar
 
   let topologySession = createCollectionEditingSession(collection())
   topologySession = reduce(topologySession, {
-    type: 'apply-active-network', label: 'Add outpost', timestamp: 2,
+    type: 'apply-active-network', label: historyLabel('Add outpost'), timestamp: 2,
     outpostId: 'a3',
     update: (value) => ({
       ...value,
@@ -296,7 +300,7 @@ test('presentation reset detection distinguishes ordinary traversal from boundar
 test('outpost context changes reset Cargo without remounting Navigation', () => {
   let session = createCollectionEditingSession(collection())
   session = reduce(session, {
-    type: 'apply-active-network', label: 'Edit A', timestamp: 1,
+    type: 'apply-active-network', label: historyLabel('Edit A'), timestamp: 1,
     update: (value) => ({ ...value, character: { ...value.character, level: 20 } }),
   })
   session = reduce(session, { type: 'select-outpost', outpostId: 'a2' })
@@ -310,7 +314,7 @@ test('outpost context changes reset Cargo without remounting Navigation', () => 
 test('membership detection ignores reorder but distinguishes outposts and cargo pads', () => {
   let reorderSession = createCollectionEditingSession(collection())
   reorderSession = reduce(reorderSession, {
-    type: 'apply-active-network', label: 'Reorder outposts', timestamp: 1,
+    type: 'apply-active-network', label: historyLabel('Reorder outposts'), timestamp: 1,
     update: (value) => ({ ...value, outposts: [...value.outposts].reverse() }),
   })
   assert.deepEqual(getHistoryPresentationReset(reorderSession, 'undo'), {
@@ -326,7 +330,7 @@ test('membership detection ignores reorder but distinguishes outposts and cargo 
   ]
   let padReorderSession = createCollectionEditingSession(padReorderCollection)
   padReorderSession = reduce(padReorderSession, {
-    type: 'apply-active-network', label: 'Reorder cargo pads', timestamp: 2,
+    type: 'apply-active-network', label: historyLabel('Reorder cargo pads'), timestamp: 2,
     update: (value) => ({
       ...value,
       outposts: value.outposts.map((outpost) => outpost.id === 'a1' ? {
@@ -343,7 +347,7 @@ test('membership detection ignores reorder but distinguishes outposts and cargo 
 
   let padSession = createCollectionEditingSession(collection())
   padSession = reduce(padSession, {
-    type: 'apply-active-network', label: 'Add cargo pad', timestamp: 3,
+    type: 'apply-active-network', label: historyLabel('Add cargo pad'), timestamp: 3,
     update: (value) => ({
       ...value,
       outposts: value.outposts.map((outpost) => outpost.id === 'a1' ? {

@@ -120,8 +120,22 @@ test('schema-1 outpost-only destination preserves exports without inventing a pa
   assert.deepEqual(migrated.cargoLinks, [])
 
   // A present but malformed pad identity is not a historical omission.
-  const malformed = structuredClone(legacy)
-  Object.assign(malformed.outposts[0].cargoPads[0].link.destination, { cargoPadId: 17 })
+  const malformed: unknown = structuredClone(legacy)
+  const isRecord = (value: unknown): value is Record<string, unknown> =>
+    typeof value === 'object' && value !== null
+  if (!isRecord(malformed) || !Array.isArray(malformed.outposts)) {
+    throw new Error('Expected historical outposts')
+  }
+  const malformedOutpost: unknown = malformed.outposts[0]
+  if (!isRecord(malformedOutpost) || !Array.isArray(malformedOutpost.cargoPads)) {
+    throw new Error('Expected historical cargo pads')
+  }
+  const malformedPad: unknown = malformedOutpost.cargoPads[0]
+  if (!isRecord(malformedPad) || !isRecord(malformedPad.link) ||
+    !isRecord(malformedPad.link.destination)) {
+    throw new Error('Expected historical pad destination')
+  }
+  malformedPad.link.destination.cargoPadId = 17
   const storage = installStorage(malformed)
   const original = storage.getItem('starfield-outpost-network')
   assert.equal(initializeNetworkCollection().status.kind, 'recovery-fallback')

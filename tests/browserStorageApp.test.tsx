@@ -1,14 +1,21 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { expect, test, vi } from 'vitest'
 import App from '../src/App.tsx'
+import type { ReferenceData } from '../src/domain/referenceData.ts'
 import { LocalizationContext } from '../src/localization/LocalizationContext.ts'
 import { translate } from '../src/localization/catalog.ts'
+
+const referenceData: ReferenceData = {
+  systems: [], bodies: [], bodyResources: [], resources: [], products: [],
+  productRecipes: [], biomes: [], bodyBiomes: [], inorganicOccurrences: [],
+  species: [], planetSpecies: [], organicOccurrences: [], organicFarmingProfiles: [],
+}
 
 function mount() {
   return render(<LocalizationContext value={{
     locale: 'en-US', automaticLocale: 'en-US', localeOverride: 'en-US',
     setLocaleOverride: vi.fn(), t: (key, parameters) => translate('en-US', key, parameters),
-  }}><App /></LocalizationContext>)
+  }}><App referenceData={referenceData} /></LocalizationContext>)
 }
 
 test('failed source survives mount and passive render; an edit allows replacement', async () => {
@@ -21,7 +28,7 @@ test('failed source survives mount and passive render; an edit allows replacemen
   view.rerender(<LocalizationContext value={{
     locale: 'en-US', automaticLocale: 'en-US', localeOverride: 'en-US',
     setLocaleOverride: vi.fn(), t: (key, parameters) => translate('en-US', key, parameters),
-  }}><App /></LocalizationContext>)
+  }}><App referenceData={referenceData} /></LocalizationContext>)
   expect(write).not.toHaveBeenCalled()
   fireEvent.click(screen.getByRole('button', { name: /Validation: 0 issues/ }))
   expect(write).not.toHaveBeenCalled()
@@ -37,7 +44,7 @@ test('failed source survives mount and passive render; an edit allows replacemen
 test('quota failure keeps editor mounted and warning persists until retry succeeds', async () => {
   const nativeSet = Storage.prototype.setItem
   let fail = true
-  const write = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(function (key, value) {
+  const write = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(function (this: Storage, key, value) {
     if (key === 'starfield-outpost-network' && fail) throw new DOMException('quota', 'QuotaExceededError')
     nativeSet.call(this, key, value)
   })

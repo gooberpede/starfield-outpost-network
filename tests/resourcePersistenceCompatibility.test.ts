@@ -9,7 +9,6 @@ import type { OutpostNetwork } from '../src/domain/models.ts'
 import {
   deserializeNetwork,
   deserializeNetworkCollection,
-  serializeNetwork,
   serializeNetworkCollection,
 } from '../src/data/serialization.ts'
 
@@ -33,7 +32,8 @@ function resourceIds(network: OutpostNetwork): string[] {
 }
 
 test('legacy stable resource IDs survive import, edit, Undo/Redo, export, and reload', () => {
-  const network: OutpostNetwork = {
+  // Schema 3 is external input; migration supplies today's required fields.
+  const historicalNetwork = {
     schemaVersion: 3,
     character: {
       name: 'Legacy',
@@ -69,13 +69,13 @@ test('legacy stable resource IDs survive import, edit, Undo/Redo, export, and re
     cargoLinks: [],
   }
 
-  const imported = deserializeNetwork(serializeNetwork(network))
+  const imported = deserializeNetwork(JSON.stringify(historicalNetwork))
   assert.deepEqual(resourceIds(imported), stableIds)
   const collection = { schemaVersion: 1, networks: [{ id: 'network', network: imported }], activeNetworkId: 'network' }
   let session = createCollectionEditingSession(collection)
   session = collectionEditingSessionReducer(session, {
     type: 'apply-active-network',
-    label: 'Rename character',
+    label: { key: 'history.benchmark', parameters: { label: 'Rename character' } },
     timestamp: 1,
     update: (current) => ({ ...current, character: { ...current.character, name: 'Edited' } }),
   })

@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "vite",
     "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "typecheck:tests": "tsc -p tests/tsconfig.json --pretty false",
     "test:components": "vitest run",
     "reference:build": "node scripts/localization/validate-localized-name-provenance.mjs && node scripts/build-reference-data.mjs && node --experimental-strip-types scripts/generate-reference-manifest.mjs",
     "reference:test": "node --experimental-strip-types --test scripts/biome-aware-outposts.test.mjs scripts/biome-reference-data.test.mjs scripts/body-resource-availability.test.mjs scripts/inorganic-resource-data.test.mjs scripts/item-reference-data.test.mjs scripts/verify-reference-deployment.test.mjs scripts/localization/*.test.mjs",

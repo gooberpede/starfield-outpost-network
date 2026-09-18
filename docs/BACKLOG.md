@@ -282,44 +282,12 @@ Browser storage remains the default persistence mechanism unless explicitly rede
 
 ## Repository maintenance and test infrastructure
 
-### Bring the TypeScript test fixtures back into static type agreement
+### TypeScript test fixture type agreement — complete
 
-The Node test suite currently runs successfully through:
-
-```text
-node --experimental-strip-types --test tests/*.test.ts
-```
-
-but the test files are not part of the production TypeScript build and are not
-currently required to pass full static type checking.
-
-A temporary attempt to add the tests to the TypeScript build exposed a large
-existing set of type errors, including:
-
-* fixtures missing newly required domain fields such as character
-  `capabilities`;
-* fixtures missing outpost `explicitResourcePresence`;
-* stale object shapes such as older Cargo Link fields;
-* callbacks losing inferred parameter types because their surrounding fixture
-  types are already invalid;
-* NodeNext module-resolution complaints about the suite's existing
-  extensionless imports.
-
-The editor configuration should continue to provide Node typings without
-silently making the existing test suite part of the production `tsc -b` build.
-
-Future maintenance should:
-
-* bring test fixtures into agreement with the current domain model;
-* prefer shared/default fixture builders where that reduces stale duplicated
-  object literals without obscuring what individual tests are proving;
-* remove obsolete fixture fields and update outdated domain shapes;
-* decide on a deliberate module-resolution strategy for tests;
-* once the suite is clean, consider adding an explicit test type-check command
-  and eventually making it part of routine verification/CI.
-
-Do not mix this cleanup into unrelated feature work merely to make tests
-statically type-check.
+Current-domain fixtures and test API calls now pass semantic TypeScript checking.
+Historical and malformed payloads remain migration/import boundary inputs.
+Run `npm run typecheck:tests` to check both `.ts` and `.tsx` tests with Bundler
+resolution. This test project remains separate from the production `tsc -b` build.
 
 ---
 

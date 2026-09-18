@@ -274,7 +274,7 @@ function namedNetwork(name: string, ...outpostIds: string[]): OutpostNetwork {
     character: { ...blank.character, name },
     outposts: outpostIds.map((id) => ({
       id, name: id, systemId: '', bodyId: '', selectedBiomeIds: [],
-      localResources: [], activeProduction: [], manufacturing: [],
+      localResources: [], explicitResourcePresence: [], activeProduction: [], manufacturing: [],
       plannedSupply: [], cargoPads: [],
     })),
   }
@@ -294,7 +294,7 @@ test('keyboard traversal uses the contextual history commands', () => {
     type: 'select-outpost', outpostId: 'a2',
   })
   session = collectionEditingSessionReducer(session, {
-    type: 'apply-active-network', label: 'Rename', timestamp: 1,
+    type: 'apply-active-network', label: { key: 'history.benchmark', parameters: { label: 'Rename' } }, timestamp: 1,
     update: (network) => ({
       ...network,
       character: { ...network.character, name: 'After' },

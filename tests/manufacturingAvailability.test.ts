@@ -44,7 +44,7 @@ const referenceData: ReferenceData = {
 function makeOutpost(id: string, overrides: Partial<Outpost> = {}): Outpost {
   return {
     id, name: id, systemId: 'system', bodyId: 'body', selectedBiomeIds: [],
-    localResources: [], activeProduction: [], manufacturing: [], plannedSupply: [],
+    localResources: [], explicitResourcePresence: [], activeProduction: [], manufacturing: [], plannedSupply: [],
     cargoPads: [], ...overrides,
   }
 }
@@ -172,7 +172,7 @@ test('inbound intermediates satisfy recipes and missing recipes never imply feas
     cargoPads: [{ id: 'factory-pad', label: 'Pad 1', type: 'regular', outboundItems: [] }],
   })
   const network = makeNetwork([source, factory], [{
-    id: 'link', type: 'regular',
+    id: 'link',
     endpointA: { outpostId: 'source', cargoPadId: 'source-pad' },
     endpointB: { outpostId: 'factory', cargoPadId: 'factory-pad' },
   }])
@@ -194,7 +194,7 @@ test('fulfilling a fabricator retires its product placeholder in the same undo s
     schemaVersion: 1, networks: [{ id: 'only', network: initial }], activeNetworkId: 'only',
   })
   session = collectionEditingSessionReducer(session, {
-    type: 'apply-active-network', label: 'Supply fabricator', timestamp: 1,
+    type: 'apply-active-network', label: { key: 'history.benchmark', parameters: { label: 'Supply fabricator' } }, timestamp: 1,
     update: (network) => retireFulfilledPlannedSupply({
       ...network,
       outposts: network.outposts.map((outpost) => ({
