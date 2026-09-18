@@ -374,6 +374,12 @@ change the canonical reference-data universe. Localization architecture and
 catalogue closure are complete; the remaining release work is
 manual, native-speaker, and platform verification.
 
+**Post-localization bundle review:** after planned locale onboarding is 
+complete, remeasure bundle composition and startup performance, with 
+particular attention to statically bundled locale catalogues and reference-
+name overlays. Consider lazy locale loading only if measurements show 
+meaningful benefit.
+
 ### Accessibility follow-up
 
 The whole-product accessibility audit and desktop correction batch were completed
