@@ -81,8 +81,10 @@ analytics/telemetry service.
   from `fonts.googleapis.com` and font binaries from `fonts.gstatic.com` are
   allowed. Object content, framing, and workers are denied. Camera,
   microphone, and geolocation are denied. Cloudflare's `nosniff` and referrer
-  policy defaults are retained. The header parcel is deployed; HSTS is not
-  enabled and remains a deferred production-hardening decision. See the
+  policy defaults are retained. An initial 24-hour HSTS policy
+  (`Strict-Transport-Security: max-age=86400`) is defined in `public/_headers`
+  without `includeSubDomains` or `preload`; staging and production deployment
+  verification remain pending. See the
   [CSP and security headers benchmark](benchmarks/CLOUDFLARE-CSP-SECURITY-HEADERS.md).
 - External Google Fonts remain accepted for V1. Self-hosting or removal needs
   a concrete reason from later testing.

@@ -421,19 +421,21 @@ default local-only development server. See [Deployment](DEPLOYMENT.md) for
 current policy; the [whole-product security audit](audits/codex-whole-product-security-audit.md)
 records the earlier point-in-time findings.
 
-- **HSTS:** Remains a deferred production-hardening decision; it is not enabled.
+- **HSTS:** An initial 24-hour policy (`max-age=86400`) is implemented in
+  `public/_headers`. `includeSubDomains` and `preload` are intentionally omitted.
+  Staging and production deployment verification remain pending; verify the
+  production custom-domain response before considering a longer policy.
 - **Reference-data recovery enhancement:** The build and browser now enforce
   reference-data coherence, including detection of Pages `200 text/html`
   fallback. A future separate parcel may add a raw, read-only emergency
   browser-storage backup action to the fatal screen. A targeted Pages routing
   correction can also be evaluated as defense in depth.
-- **Node 24 runtime alignment (staging verification pending):**
+- **Node 24 runtime alignment (verified):**
   The repository pins Node.js `24.21.0` in `.node-version` and declares
   `>=24 <25` in `package.json`. The local installation is aligned at `24.21.0`,
-  and the build, test suites, and lint pass under that exact version. After the
-  next staging push, verify that Pages selects `24.21.0`, builds and deploys
-  successfully, and emits neither `EBADENGINE` warnings for `jsdom` or `undici`
-  nor the Node 22 Maintenance LTS warning.
+  and the build, test suites, and lint pass under that exact version. Cloudflare
+  staging selected `24.21.0` and built and deployed successfully without
+  `EBADENGINE` or Node EOL warnings.
 
 ---
 
