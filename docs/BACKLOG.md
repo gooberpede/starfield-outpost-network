@@ -427,12 +427,12 @@ records the earlier point-in-time findings.
   fallback. A future separate parcel may add a raw, read-only emergency
   browser-storage backup action to the fatal screen. A targeted Pages routing
   correction can also be evaluated as defense in depth.
-- **Cloudflare build Node engine mismatch (non-blocking):** Successful staging
-  and production Pages builds currently use Node.js `22.16.0` and npm `10.9.2`.
-  npm reports `EBADENGINE` because `jsdom@30.0.1` requires Node
-  `^22.22.2 || ^24.15.0 || >=26.0.0` and `undici@8.10.2` requires
-  `>=22.19.0`. Resolve this hosting/toolchain mismatch before it becomes a
-  real incompatibility; no fix is prescribed yet.
+- **Cloudflare build Node engine mismatch (staging verification pending):**
+  The repository now pins Node.js `22.23.2` in `.node-version` and declares
+  `>=22.22.2 <23` in `package.json`. After the next staging push, verify that
+  Pages selects the pinned version, builds successfully, and no longer emits
+  `EBADENGINE` warnings for `jsdom` or `undici`. Earlier Pages builds used
+  Node.js `22.16.0` and npm `10.9.2`.
 
 ---
 
