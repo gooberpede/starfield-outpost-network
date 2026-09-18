@@ -427,12 +427,13 @@ records the earlier point-in-time findings.
   fallback. A future separate parcel may add a raw, read-only emergency
   browser-storage backup action to the fatal screen. A targeted Pages routing
   correction can also be evaluated as defense in depth.
-- **Cloudflare build Node engine mismatch (staging verification pending):**
-  The repository now pins Node.js `22.23.2` in `.node-version` and declares
-  `>=22.22.2 <23` in `package.json`. After the next staging push, verify that
-  Pages selects the pinned version, builds successfully, and no longer emits
-  `EBADENGINE` warnings for `jsdom` or `undici`. Earlier Pages builds used
-  Node.js `22.16.0` and npm `10.9.2`.
+- **Node 24 runtime alignment (staging verification pending):**
+  The repository pins Node.js `24.21.0` in `.node-version` and declares
+  `>=24 <25` in `package.json`. The local installation is aligned at `24.21.0`,
+  and the build, test suites, and lint pass under that exact version. After the
+  next staging push, verify that Pages selects `24.21.0`, builds and deploys
+  successfully, and emits neither `EBADENGINE` warnings for `jsdom` or `undici`
+  nor the Node 22 Maintenance LTS warning.
 
 ---
 
