@@ -110,17 +110,22 @@ hosting workflow is required. Deployed browser and Cloudflare-specific testing
 uses the `staging` Preview, and production validation uses
 `https://starfieldoutposts.com`.
 
-## Reference-data hosting follow-up
+## Reference-data hosting
 
 `npm run reference:build` deliberately regenerates runtime JSON, the manifest,
 and the bundle's expected dataset ID for local development. The production
 build verifies all 13 committed runtime JSON files against regenerated
-temporary output before refreshing those derived artifacts. A post-build check confirms matching files in
-`dist/reference-data`. A missing Pages JSON path may still fall through to
-`200 text/html`; the startup gate detects that MIME response and stops the
-editor. Reload retries the complete gate. Report opens a prefilled email with
-technical diagnostics only and sends nothing automatically. No Cloudflare
-routing correction is part of this mechanism.
+temporary output before refreshing those derived artifacts. A post-build check
+confirms matching files in `dist/reference-data`. The intentionally present
+`public/reference-data/404.html` is copied to `dist/reference-data/404.html`.
+Missing `/reference-data/*` paths return genuine 404 responses on both staging
+and the production custom domain; unrelated missing paths retain SPA fallback.
+This uses static Pages hosting without a Worker, Pages Function, `_redirects`
+workaround, top-level `404.html`, or dashboard routing rule. The client startup
+gate independently rejects non-2xx responses
+and wrong MIME types, then stops the editor on failure. Reload retries the
+complete gate. Report opens a prefilled email with technical diagnostics only
+and sends nothing automatically.
 
 ## Future Sandbox
 
@@ -142,3 +147,12 @@ checks; that would be a separate design and configuration decision.
    relevant changed behavior, browser persistence, and import/export where the
    release affects them. Check the pre-release indexing/security headers until
    the launch policy changes.
+
+The nested reference-data 404 behavior has been verified on staging and the
+production custom domain. On staging, the manifest and 13 required JSON assets
+returned 200 with `application/json`. On both origins, missing reference-data
+JSON and arbitrary nested paths returned 404, while an unrelated missing path
+received the SPA shell.
+Staging returned 304 for a cache revalidation of that SPA response; production
+returned 200. Staging also passed normal startup, saved-data, locale-switching,
+and blocked-then-unblocked required-asset checks.

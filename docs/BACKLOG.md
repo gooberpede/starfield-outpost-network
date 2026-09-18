@@ -423,13 +423,12 @@ records the earlier point-in-time findings.
 
 - **HSTS:** An initial 24-hour policy (`max-age=86400`) is implemented in
   `public/_headers`. `includeSubDomains` and `preload` are intentionally omitted.
-  Staging and production deployment verification remain pending; verify the
-  production custom-domain response before considering a longer policy.
-- **Reference-data recovery enhancement:** The build and browser now enforce
-  reference-data coherence, including detection of Pages `200 text/html`
-  fallback. A future separate parcel may add a raw, read-only emergency
-  browser-storage backup action to the fatal screen. A targeted Pages routing
-  correction can also be evaluated as defense in depth.
+  The initial rollout has been verified in staging and production, including
+  the production custom-domain response. Defer any policy lengthening or review
+  until the next backlog grooming, not before 20 September 2026.
+- **Fatal-state recovery review:** Before public release, review whether to add
+  a raw, read-only browser-storage backup/export action to the reference-data
+  fatal screen.
 - **Node 24 runtime alignment (verified):**
   The repository pins Node.js `24.21.0` in `.node-version` and declares
   `>=24 <25` in `package.json`. The local installation is aligned at `24.21.0`,

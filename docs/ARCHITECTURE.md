@@ -1013,12 +1013,20 @@ The build writes a deterministic deployment manifest and bundles its dataset
 ID. It never silently repairs committed files.
 
 `ReferenceStartupGate` runs under `LocalizationProvider` before mounting
-`App`. The loader checks the manifest, build ID, all 13 response hashes, MIME
-types, size bounds, and lightweight shapes. Only a complete validated snapshot
-reaches `App`; no browser-side source regeneration occurs. Pending or failed
-checks keep normal network initialization, migration, and persistence inactive.
+`App`. The loader verifies the manifest and all 13 required runtime JSON assets:
+HTTP status, JSON MIME type, size bounds, hashes, parsing, dataset/manifest
+coherence, and lightweight shapes. Only a complete validated snapshot reaches
+`App`; no browser-side source regeneration occurs. Pending or failed checks keep
+normal network initialization, migration, and persistence inactive, preserving
+saved user data.
 The fatal screen offers a full retry and a user-initiated diagnostic email link.
 Its report uses only typed technical fields and never reads player state.
+
+On Cloudflare Pages, the directory-local `public/reference-data/404.html` gives
+missing `/reference-data/*` paths genuine HTTP 404 responses while unrelated
+paths retain SPA fallback. This is defense in depth; the client-side startup
+gate remains the primary integrity boundary and rejects non-2xx responses and
+wrong MIME types even if hosting behavior changes.
 
 Reference-data state is not part of Undo/Redo.
 
