@@ -1271,6 +1271,86 @@ No macOS desktop visual test is currently available.
 
 ---
 
+## 19.4 French terminology profile — `fr-FR`
+
+### Role/status
+
+- Tracker status: **Not onboarded; terminology and glossary ready**
+- Catalogue model: no runtime catalogue
+- Bethesda support class: Interface/Text + Voice
+- Bethesda string-table token: `fr` (strict UTF-8)
+
+### Official reference names and runtime exposure
+
+No French reference-name overlay is committed or registered. `fr-FR` is not in
+the runtime catalogue registry, locale selector, browser-language resolution,
+or persisted locale preference contract.
+
+### Official terminology
+
+The 37 qualified evidence identities across 19 terms are resolved in
+`official-terminology-values-fr-FR.csv`. Direct official terms include
+`Avant-poste`, `Liaison`, `Liaison intersystème`, the five official skill names,
+`X-Tech`, and `Noyau d'énergie X-Tech`. Contextual variants and tracker-owned
+choices are governed by `FRENCH-GLOSSARY.md`.
+
+Notable constraints:
+
+- use the official standalone `Noyau d'énergie X-Tech` for the named concept;
+  dialogue variants such as `noyau de X-Tech` remain contextual;
+- keep product name `Starfield` invariant despite the qualified string's
+  ordinary-language French value `Cosmos étoilé`;
+- `SFBGS050.esm` remains terminology evidence only;
+- French grammar is sentence-owned; do not assemble prose from glossary terms.
+
+### Known limitations
+
+The semantic catalogue, official reference-name overlay, composed-fauna proof,
+search review, layout/accessibility review, and release verification remain
+future work. This profile does not make French a supported locale.
+
+---
+
+## 19.5 German terminology profile — `de-DE`
+
+### Role/status
+
+- Tracker status: **Not onboarded; terminology and glossary ready**
+- Catalogue model: no runtime catalogue
+- Bethesda support class: Interface/Text + Voice
+- Bethesda string-table token: `de` (strict UTF-8)
+
+### Official reference names and runtime exposure
+
+No German reference-name overlay is committed or registered. `de-DE` is not in
+the runtime catalogue registry, locale selector, browser-language resolution,
+or persisted locale preference contract.
+
+### Official terminology
+
+The 37 qualified evidence identities across 19 terms are resolved in
+`official-terminology-values-de-DE.csv`. Direct official terms include
+`Außenposten`, `Frachtlink`, `Intersystem-Frachtlink`, the five official skill
+names, `X-Tech`, and `X-Tech-Energiekern`. Contextual inflection and
+tracker-owned choices are governed by `GERMAN-GLOSSARY.md`.
+
+Notable constraints:
+
+- preserve official compounds and noun capitalization; article/case changes do
+  not create competing glossary terms;
+- keep product name `Starfield` invariant despite the qualified string's
+  ordinary-language German value `Sternenmeer`;
+- `SFBGS050.esm` remains terminology evidence only;
+- do not shorten correct German labels merely to avoid layout pressure.
+
+### Known limitations
+
+The semantic catalogue, official reference-name overlay, composed-fauna proof,
+search review, layout/accessibility review, and release verification remain
+future work. This profile does not make German a supported locale.
+
+---
+
 # 20. Future-locale planning notes
 
 These are planning considerations only, not implementation commitments.

@@ -139,5 +139,10 @@ export function validateOfficialTerminologyValues(evidenceRows, valueRows, local
   }
   const missing = [...evidence.keys()].filter((id) => !seen.has(id))
   if (missing.length) throw new Error(`${locale} terminology values are missing EvidenceId ${missing[0]}.`)
+  const expectedOrder = evidenceRows.map(({ EvidenceId }) => EvidenceId)
+  const actualOrder = valueRows.map(({ EvidenceId }) => EvidenceId)
+  if (JSON.stringify(actualOrder) !== JSON.stringify(expectedOrder)) {
+    throw new Error(`${locale} terminology values must follow deterministic evidence order.`)
+  }
   return { locale, values: valueRows.length }
 }

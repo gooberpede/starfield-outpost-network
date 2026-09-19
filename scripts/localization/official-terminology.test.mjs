@@ -19,6 +19,12 @@ const rows = parseOfficialTerminologyCsv(
 const japaneseValues = parseOfficialTerminologyValuesCsv(
   await readFile(new URL('official-terminology-values-ja-JP.csv', directory), 'utf8'),
 )
+const frenchValues = parseOfficialTerminologyValuesCsv(
+  await readFile(new URL('official-terminology-values-fr-FR.csv', directory), 'utf8'),
+)
+const germanValues = parseOfficialTerminologyValuesCsv(
+  await readFile(new URL('official-terminology-values-de-DE.csv', directory), 'utf8'),
+)
 
 test('Free Lanes is terminology evidence but not canonical tracker content', () => {
   assert.equal(policy.canonicalContentPlugins.includes('SFBGS050.esm'), false)
@@ -58,18 +64,40 @@ test('X-Tech Power Core retains its exact qualified official identity', () => {
 
 test('locale values are complete, unique, and keyed to evidence identity', () => {
   assert.doesNotThrow(() => validateOfficialTerminologyValues(rows, japaneseValues, 'ja-JP'))
+  assert.doesNotThrow(() => validateOfficialTerminologyValues(rows, frenchValues, 'fr-FR'))
+  assert.doesNotThrow(() => validateOfficialTerminologyValues(rows, germanValues, 'de-DE'))
   assert.throws(() => validateOfficialTerminologyValues(rows, japaneseValues.slice(1), 'ja-JP'), /missing EvidenceId/)
   assert.throws(() => validateOfficialTerminologyValues(rows, [...japaneseValues, japaneseValues[0]], 'ja-JP'), /duplicate EvidenceId/)
+  assert.throws(
+    () => validateOfficialTerminologyValues(rows, [frenchValues[1], frenchValues[0], ...frenchValues.slice(2)], 'fr-FR'),
+    /deterministic evidence order/,
+  )
+  assert.throws(
+    () => validateOfficialTerminologyValues(rows, frenchValues, 'de-DE'),
+    /has locale fr-FR/,
+  )
 })
 
-test('locale-oriented terminology verification preserves Japanese closure', async () => {
-  const result = await verifyOfficialTerminology('ja-JP')
-  assert.deepEqual(result, { rows: 37, terms: 19, locale: 'ja-JP', values: 37 })
+test('locale-oriented terminology verification closes Japanese, French, and German values', async () => {
+  for (const locale of ['ja-JP', 'fr-FR', 'de-DE']) {
+    const result = await verifyOfficialTerminology(locale)
+    assert.deepEqual(result, { rows: 37, terms: 19, locale, values: 37 })
+  }
 })
 
-test('tooling-known locales without terminology artifacts fail clearly', async () => {
-  await assert.rejects(verifyOfficialTerminology('fr-FR'), /TERMINOLOGY_VALUES_MISSING:.*fr-FR/)
-  await assert.rejects(verifyOfficialTerminology('de-DE'), /TERMINOLOGY_VALUES_MISSING:.*de-DE/)
+test('French and German recommendations preserve direct official terminology', () => {
+  const expectations = [
+    [frenchValues, 'fr-FR', 'Avant-poste', 'Liaison', 'Liaison intersystème', "Noyau d'énergie X-Tech"],
+    [germanValues, 'de-DE', 'Außenposten', 'Frachtlink', 'Intersystem-Frachtlink', 'X-Tech-Energiekern'],
+  ]
+  for (const [values, locale, outpost, cargoLink, interSystem, powerCore] of expectations) {
+    const byId = new Map(values.map((row) => [row.EvidenceId, row]))
+    assert.equal(byId.get('term.outpost.standalone').RecommendedDefault, outpost, locale)
+    assert.equal(byId.get('term.cargo-link.standalone').RecommendedDefault, cargoLink, locale)
+    assert.equal(byId.get('term.inter-system-cargo-link.standalone').RecommendedDefault, interSystem, locale)
+    assert.equal(byId.get('term.x-tech-power-core.item-name').RecommendedDefault, powerCore, locale)
+    assert.equal(byId.get('term.starfield.product-title').RecommendedDefault, 'Starfield', locale)
+  }
 })
 
 test('unsupported terminology locales fail closed', async () => {
