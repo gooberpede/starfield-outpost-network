@@ -132,8 +132,9 @@
 
 .outpost-status-matrix__section-heading,
 .outpost-status-matrix__section-bar {
+  box-sizing: border-box;
   margin: 0;
-  padding: 0.12rem 0.5rem;
+  padding-block: 0.12rem;
   border-bottom: 1px solid color-mix(in srgb, var(--ui-rule) 72%, transparent);
   color: var(--ui-text);
   background: color-mix(in srgb, var(--ui-panel) 28%, var(--ui-background));
@@ -155,6 +156,12 @@
   grid-column: 1 / -1;
 }
 
+.outpost-status-matrix__section-heading > div,
+.outpost-status-matrix__section-bar-content {
+  box-sizing: border-box;
+  padding-inline: 0.5rem;
+}
+
 .outpost-status-matrix__section-heading h3 {
   margin: 0;
   font: inherit;
@@ -170,10 +177,6 @@
 .outpost-status-matrix__section-bar-content h3 {
   margin: 0;
   font: inherit;
-}
-
-.outpost-status-matrix__section-bar--matrix {
-  padding-inline: 0;
 }
 
 .outpost-status-matrix__section-heading-cell {

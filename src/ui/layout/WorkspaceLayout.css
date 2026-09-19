@@ -21,13 +21,18 @@
  */
 
 .workspace-layout {
+  --workspace-gutter:
+    clamp(2px, calc(8.761vw - 6.537rem), 1.25rem);
+  --workspace-major-gap:
+    clamp(0.43rem, calc(4.38vw - 2.893rem), 1rem);
+
   display: grid;
   grid-template-columns:
     minmax(17.5rem, 3fr)
     minmax(0, 22fr);
-  gap: 1rem;
+  gap: var(--workspace-major-gap);
   align-items: stretch;
-  padding-inline: var(--page-gutter);
+  padding-inline: var(--workspace-gutter);
 }
 
 .workspace-layout--navigation-collapsed {
@@ -100,7 +105,7 @@
   grid-template-columns:
     minmax(0, 3fr)
     minmax(18rem, 1fr);
-  gap: 1rem;
+  gap: var(--workspace-major-gap);
   align-items: start;
 }
 

@@ -85,6 +85,13 @@
   border-color: var(--ui-structural-dark);
 }
 
+.cargo-pads__actions button[aria-pressed='true'],
+.cargo-pads__actions button[aria-pressed='true']:hover {
+  border-color: var(--ui-structural-dark);
+  color: var(--ui-highlight);
+  background: var(--ui-structural-dark);
+}
+
 .cargo-pads__actions button:focus-visible,
 .cargo-pads__move-controls button:focus-visible {
   outline: 2px solid var(--ui-structural-dark);

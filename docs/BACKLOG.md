@@ -34,11 +34,6 @@ Keep this file focused on work that is genuinely deferred. Current implemented b
 - Preserve the middle-column status matrix's scoped horizontal overflow during any broader workspace scrolling review.
 - Restore sticky vertical behaviour for the status-matrix column header when the enclosing Outpost Details scrolling model supports it.
 - Preserve identical status-matrix column positions across outposts at any given workspace width.
-- Perform a dedicated 1366px-width visual/layout review. Treat this as product
-  polish rather than accessibility re-testing: inspect hierarchy, density,
-  wrapping, relative pane balance, and awkward-but-functional states that were
-  accepted during zoom/text-scaling verification.
-
 ---
 
 ## Outpost Details follow-up
