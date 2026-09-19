@@ -44,14 +44,6 @@ focused batches and may include:
 
 - throughput-oriented fabricator quantity UI if quantitative modelling is adopted.
 
-### Verify duplicate outpost-name rules in Starfield
-
-Determine whether the game permits two or more player outposts to share the 
-same name. If duplicate names are disallowed in-game, continue permitting 
-them in the tracker but add a specific validation warning identifying the 
-conflicting outposts. If duplicates are allowed in-game, no validation rule 
-is needed.
-
 ---
 
 ## Cargo Pads
@@ -150,8 +142,6 @@ Keep tracker behaviour tolerant of incomplete networks; do not turn advisory fea
 
 Future planner/data work may include:
 
-- Confirm in-game whether coastal outposts can overlap Ocean biomes. Ocean remains 
-  selectable regardless, because Ocean biomes can contain unique inorganic resources.
 - recommended resource combinations by biome;
 - avoiding finicky biome-boundary sites by default;
 - power planning and generator calculations beyond the implemented qualitative
@@ -234,7 +224,13 @@ Do not fold this broader status-bar review into unrelated feature work.
 Possible future improvements:
 
 - Review how otherwise valid imports with more than 12 Cargo Link structures at one outpost should be handled. Legitimate modded usage can exceed the implemented, tested external-import technical ceiling; recovery or exception behavior remains a product decision rather than an immediate security correction.
-- Bound and sanitize the character-name fragment in export filenames so long valid persisted names cannot consume the timestamp and `.json` filename budget. The exact fragment limit remains undecided.
+- Keep the tracker's defensive persisted-name and export-filename safeguards
+  distinct from Starfield's 25-character gameplay limit. Review the much
+  higher application ceiling for unusually long character names; 196
+  characters is a tentative ceiling, not a settled product rule. Bound and
+  sanitize the export-filename fragment so a long persisted name cannot
+  consume the timestamp and `.json` filename budget, and prevent absurdly long
+  names from dominating transient/status-bar feedback.
 - richer import diagnostics or reporting beyond the implemented structured
   error categories and concise localized failure messages, including capacity
   and malformed-structure/identity failures, if the workflow warrants more
@@ -249,17 +245,6 @@ Browser storage remains the default persistence mechanism unless explicitly rede
 
 ---
 
-## Repository maintenance and test infrastructure
-
-### TypeScript test fixture type agreement — complete
-
-Current-domain fixtures and test API calls now pass semantic TypeScript checking.
-Historical and malformed payloads remain migration/import boundary inputs.
-Run `npm run typecheck:tests` to check both `.ts` and `.tsx` tests with Bundler
-resolution. This test project remains separate from the production `tsc -b` build.
-
----
-
 ## Public release readiness
 
 Public release is now an intended product milestone.
@@ -269,53 +254,77 @@ completed first. It means that work affecting distribution, usability, safety,
 and maintainability should increasingly be evaluated against the needs of a
 public-facing application rather than only the developer's own use.
 
-### Production performance and bundle review
-
-Before public release, perform a bounded production-performance review covering:
-
-- the existing Vite/Rollup large-chunk advisory;
-- compressed production bundle size;
-- first-load and startup behavior;
-- unusually large dependencies;
-- whether code splitting would materially improve startup without complicating
-  the application unnecessarily.
-
-Do not optimise solely to eliminate a warning. Measure the production build
-first and make changes only where they provide a practical benefit.
-
 ### Further localization coverage
 
-The semantic localization boundary now covers current tracker-authored UI,
-accessible text, help/tooltips, validation, status/transient feedback, and
-session history labels. `en-US` remains the complete baseline, `en-GB` a sparse
-override, and `ja-JP` a complete tracker catalogue with exact key and
-placeholder parity maintained through the existing localization verification
-tooling. Japanese work has a durable glossary, comparative machine-assisted
-review, and closure verification, but no native-speaker review was available.
-Current list/number/percent/collation needs use `Intl`. Deferred localization
-work includes:
+Localization is the remaining major V1 development phase. V1 targets the full
+Starfield text/interface language set:
 
-- final Japanese release verification;
-- native-speaker review when available;
-- adopting richer ICU/FormatJS-style formatting only if future real catalogue
-  content requires nested plural/select or translator-controlled rich text;
-- applying locale-aware date/time formatting if user-visible date/time display
-  is introduced later.
+- English;
+- French;
+- German;
+- Spanish (Spain);
+- Japanese;
+- Italian;
+- Polish;
+- Portuguese (Brazil);
+- Simplified Chinese.
 
-Export filename timestamps and persisted/schema formats remain invariant unless
-a separate design explicitly changes them.
+The tracker currently has a complete `en-US` baseline, a sparse `en-GB`
+override, and a complete `ja-JP` catalogue. Seven substantial locale
+onboardings remain for V1: French, German, Spanish (Spain), Italian, Polish,
+Portuguese (Brazil), and Simplified Chinese. Implement them in manageable,
+coherent parcels rather than one giant batch. Do not settle final locale tags
+in this backlog. Each parcel should preserve the existing localization
+architecture, exact key/placeholder parity tooling, review process, and
+reference-name provenance/overlay approach where applicable.
 
-Official Japanese reference overlays and official terminology provenance are
-implemented. Free Lanes is settled as a terminology-only source and does not
-change the canonical reference-data universe. Localization architecture and
-catalogue closure are complete; the remaining release work is
-manual, native-speaker, and platform verification.
+The semantic localization boundary includes tracker-authored UI, accessibility
+text, help/tooltips, validation, status/transient feedback, and session history
+labels. Current list, number, percent, and collation needs use `Intl`. Adopt
+richer ICU/FormatJS-style formatting only if real future catalogue content
+requires it. Apply locale-aware date/time formatting if user-visible date/time
+display is introduced later. Persisted/schema formats and export filename
+timestamps remain invariant unless separately redesigned.
+
+Japanese follow-up remains non-blocking: perform final Japanese release
+verification and seek native-speaker review when available. Native-speaker
+review is not currently a hard V1 release gate.
 
 **Post-localization bundle review:** after planned locale onboarding is 
 complete, remeasure bundle composition and startup performance, with 
 particular attention to statically bundled locale catalogues and reference-
 name overlays. Consider lazy locale loading only if measurements show 
 meaningful benefit.
+
+### Pre-release polish
+
+- **Character-name game-validity advisory:** Add a likely `INFO` validator for
+  Starfield's 25-character character-name maximum. The tracker may preserve
+  longer names; this is a gameplay-validity advisory, not an application
+  storage or import error, and it is separate from the higher defensive
+  application/export constraint described under import and export.
+- **Localized Sol system name:** Investigate why the system selector presents
+  the raw/canonical `SOL` form instead of localized `Sol` in both English
+  variants. Correct the reference-name presentation or localization overlay
+  path while preserving canonical IDs and reference keys; do not assume source
+  data should be mutated.
+- **Status-bar content occlusion:** Correct the layout/accessibility defect that
+  allows keyboard-targeted outpost-name and Planned Supply controls to remain
+  focused while visually hidden beneath the status bar. Focused content should
+  scroll into a visible region above the bar, and normal layout/scroll geometry
+  should reserve sufficient bottom space. The exact CSS and focus mechanism is
+  intentionally open.
+- **About and application versioning:** Expand the About dialog to show the
+  application version, support/contact details, and a Ko-Fi link while
+  retaining appropriate existing attribution/about content. Establish an
+  application versioning scheme before public release; SemVer is the likely
+  direction and `package.json` the likely canonical source, but the exact
+  source/display mechanism remains open. A public project/site link may also be
+  included. External links should follow established accessibility and
+  localization conventions.
+- **Fatal-state recovery review:** Review, without presuming approval, whether
+  the reference-data fatal screen should expose a raw, read-only browser-storage
+  backup/export action.
 
 ### Accessibility follow-up
 
@@ -367,17 +376,11 @@ records the earlier point-in-time findings.
 - **HSTS:** An initial 24-hour policy (`max-age=86400`) is implemented in
   `public/_headers`. `includeSubDomains` and `preload` are intentionally omitted.
   The initial rollout has been verified in staging and production, including
-  the production custom-domain response. Defer any policy lengthening or review
-  until the next backlog grooming, not before 20 September 2026.
-- **Fatal-state recovery review:** Before public release, review whether to add
-  a raw, read-only browser-storage backup/export action to the reference-data
-  fatal screen.
-- **Node 24 runtime alignment (verified):**
-  The repository pins Node.js `24.21.0` in `.node-version` and declares
-  `>=24 <25` in `package.json`. The local installation is aligned at `24.21.0`,
-  and the build, test suites, and lint pass under that exact version. Cloudflare
-  staging selected `24.21.0` and built and deployed successfully without
-  `EBADENGINE` or Node EOL warnings.
+  the production custom-domain response. Review or lengthen the policy only at
+  an appropriate later grooming point.
+- **Public-launch indexing:** Remove the temporary pre-release `noindex` and
+  robots controls as part of the public-launch parcel. Keep detailed deployment
+  procedure in [Deployment](DEPLOYMENT.md).
 
 ---
 
