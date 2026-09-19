@@ -68,3 +68,89 @@ test('quota failure keeps editor mounted and warning persists until retry succee
   view.unmount()
   write.mockRestore()
 })
+
+function dispatchShortcut(key: string, options: KeyboardEventInit = {}) {
+  const event = new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true, ...options })
+  const remainedUncancelled = fireEvent(document, event)
+  return { event, remainedUncancelled }
+}
+
+test('global shortcuts provide predictable focus outcomes', async () => {
+  mount()
+  dispatchShortcut('n', { ctrlKey: true, altKey: true })
+  await waitFor(() => {
+    expect(document.querySelectorAll('.outpost-list__selection')).toHaveLength(1)
+    expect(screen.getByRole('button', { current: 'page' })).toHaveFocus()
+  })
+  dispatchShortcut('n', { ctrlKey: true, altKey: true })
+  await waitFor(() => {
+    expect(document.querySelectorAll('.outpost-list__selection')).toHaveLength(2)
+    expect(screen.getByRole('button', { current: 'page' })).toHaveFocus()
+  })
+
+  dispatchShortcut('ArrowUp', { ctrlKey: true, altKey: true })
+  await waitFor(() => expect(screen.getByRole('button', { current: 'page' })).toHaveFocus())
+  dispatchShortcut('ArrowDown', { ctrlKey: true, altKey: true })
+  await waitFor(() => expect(screen.getByRole('button', { current: 'page' })).toHaveFocus())
+
+  const search = screen.getByRole('combobox', { name: /Search for resources or products/ })
+  fireEvent.change(search, { target: { value: 'iron' } })
+  dispatchShortcut('/')
+  expect(search).toHaveFocus()
+  expect(search).toHaveProperty('selectionStart', 0)
+  expect(search).toHaveProperty('selectionEnd', 4)
+
+  screen.getByRole('button', { current: 'page' }).focus()
+  dispatchShortcut('v', { ctrlKey: true, altKey: true })
+  await waitFor(() => expect(screen.getByRole('button', { name: /Validation: 0 issues/ })).toHaveFocus())
+
+  const selectedBeforeUndo = screen.getByRole('button', { current: 'page' })
+  selectedBeforeUndo.focus()
+  dispatchShortcut('z', { ctrlKey: true })
+  await waitFor(() => {
+    expect(selectedBeforeUndo).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { current: 'page' })).toHaveFocus()
+  })
+})
+
+test('Help dialog is complete, modal, and restores focus to its trigger', async () => {
+  mount()
+  const help = screen.getByRole('button', { name: 'Help' })
+  help.focus()
+  fireEvent.click(help)
+  expect(screen.getByRole('dialog', { name: 'Keyboard Shortcuts' })).toBeVisible()
+  expect(screen.getByRole('button', { name: 'Close' })).toHaveFocus()
+  fireEvent.keyDown(screen.getByRole('dialog'), { key: 'Escape' })
+  await waitFor(() => expect(help).toHaveFocus())
+})
+
+test.each([
+  ['About', () => fireEvent.click(screen.getByRole('button', { name: 'About' }))],
+  ['confirmation', () => fireEvent.click(screen.getByRole('button', { name: 'Reset Network' }))],
+])('every application shortcut is inert and unprevented behind the %s modal', async (_name, openModal) => {
+  mount()
+  fireEvent.click(screen.getByRole('button', { name: '+ Add Outpost' }))
+  fireEvent.click(screen.getByRole('button', { name: '+ Add Outpost' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Undo' }))
+  const countBefore = document.querySelectorAll('.outpost-list__selection').length
+  const selectedBefore = screen.getByRole('button', { current: 'page' })
+  const search = screen.getByRole('combobox', { name: /Search for resources or products/ })
+  openModal()
+  expect(screen.getByRole('dialog')).toBeVisible()
+
+  for (const [key, options] of [
+    ['z', { ctrlKey: true }], ['y', { ctrlKey: true }], ['z', { ctrlKey: true, shiftKey: true }],
+    ['/', {}], ['n', { ctrlKey: true, altKey: true }],
+    ['ArrowUp', { ctrlKey: true, altKey: true }], ['ArrowDown', { ctrlKey: true, altKey: true }],
+    ['v', { ctrlKey: true, altKey: true }],
+  ] as const) {
+    const { remainedUncancelled, event } = dispatchShortcut(key, options)
+    expect(remainedUncancelled).toBe(true)
+    expect(event.defaultPrevented).toBe(false)
+  }
+
+  expect(document.querySelectorAll('.outpost-list__selection')).toHaveLength(countBefore)
+  expect(screen.getByRole('button', { current: 'page' })).toBe(selectedBefore)
+  expect(search).not.toHaveFocus()
+  expect(screen.getByRole('button', { name: /Validation: 0 issues/ })).toHaveAttribute('aria-expanded', 'false')
+})

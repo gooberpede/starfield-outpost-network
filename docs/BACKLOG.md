@@ -187,14 +187,16 @@ session cap.
 
 ### Additional keyboard shortcuts
 
-Consider expanding application-level keyboard shortcuts beyond the implemented
-Undo/Redo and Validation shortcuts.
+The central shortcut registry, shared recognition policy, and discoverability
+through the title-area Help dialog are implemented. Future application-level
+shortcuts must enter through that registry and its shared behavior and test
+contract.
 
 Candidate targets include:
 
 - Import;
 - Export;
-- Search and Search Results;
+- Search Results and broader Matrix focus;
 - Cargo Links area and individual Cargo Links;
 - Outpost navigation;
 - Inorganic Resources;
@@ -202,7 +204,7 @@ Candidate targets include:
 - Manufacturing;
 - Planned Supply.
 
-Shortcut design should be reviewed as a coherent set before implementation.
+Parcel 3 should review these candidates as a coherent set before implementation.
 Consider landmark-like shortcut navigation between major application regions
 to reduce lengthy sequential Tab traversal, without implying screen-reader
 landmark semantics. Avoid conflicts with normal browser, operating-system,

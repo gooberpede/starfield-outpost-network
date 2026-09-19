@@ -50,6 +50,7 @@ import { StatusBar } from './ui/layout/StatusBar'
 import { ValidationSummary } from './ui/components/ValidationSummary'
 import { ConfirmDialog } from './ui/components/ConfirmDialog'
 import { AboutDialog } from './ui/components/AboutDialog'
+import { KeyboardShortcutsDialog } from './ui/components/KeyboardShortcutsDialog'
 import {
   getAdjacentOutpostId,
   handleHistoryShortcut,
@@ -199,6 +200,12 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
 
   const [isAboutDialogOpen, setIsAboutDialogOpen] =
     useState(false)
+  const [isShortcutsDialogOpen, setIsShortcutsDialogOpen] =
+    useState(false)
+  const isModalOpen = isDeleteNetworkDialogOpen || isAboutDialogOpen || isShortcutsDialogOpen
+  const selectedOutpostNavigationRef = useRef<HTMLButtonElement>(null)
+  const focusSelectedOutpostAfterShortcutRef = useRef(false)
+  const historyFocusRepairRef = useRef<HTMLElement | null>(null)
 
   // Search is current-network presentation state and deliberately sits above
   // the outpost-keyed Matrix so ordinary navigation cannot remount it away.
@@ -311,6 +318,24 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
    */
   const effectiveSelectedOutpostId =
     selectedOutpost?.id ?? ''
+
+  useLayoutEffect(() => {
+    if (focusSelectedOutpostAfterShortcutRef.current) {
+      focusSelectedOutpostAfterShortcutRef.current = false
+      selectedOutpostNavigationRef.current?.focus()
+    }
+
+    const previousFocus = historyFocusRepairRef.current
+    if (!previousFocus) return
+    historyFocusRepairRef.current = null
+    if (
+      !previousFocus.isConnected ||
+      previousFocus.matches(':disabled') ||
+      previousFocus.closest('[hidden], [aria-hidden="true"]')
+    ) {
+      selectedOutpostNavigationRef.current?.focus()
+    }
+  }, [collection, effectiveSelectedOutpostId])
 
   /**
    * Materials currently available at the selected outpost through active
@@ -629,7 +654,6 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
 
   useEffect(() => {
     function handleGlobalAppShortcut(event: KeyboardEvent) {
-      const isModalOpen = isDeleteNetworkDialogOpen || isAboutDialogOpen
       const handledHistoryShortcut = handleHistoryShortcut(event, {
         isModalOpen,
         canUndo: history.past.length > 0,
@@ -667,6 +691,7 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
 
       handleOutpostShortcut(event, (shortcut) => {
         if (shortcut === 'add') {
+          focusSelectedOutpostAfterShortcutRef.current = true
           addOutpost()
           return true
         }
@@ -678,9 +703,10 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
         )
         if (!adjacentOutpostId) return false
 
+        focusSelectedOutpostAfterShortcutRef.current = true
         selectOutpost(adjacentOutpostId)
         return true
-      })
+      }, isModalOpen)
     }
 
     document.addEventListener('keydown', handleGlobalAppShortcut)
@@ -1410,6 +1436,8 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
    * Moves the editing session backward by one undoable user action.
    */
   function undo() {
+    historyFocusRepairRef.current = document.activeElement instanceof HTMLElement
+      ? document.activeElement : null
     const presentationReset = getHistoryPresentationReset(session, 'undo')
     dispatchEditingSession({
       type: 'undo',
@@ -1421,6 +1449,8 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
    * Moves the editing session forward by one previously undone user action.
    */
   function redo() {
+    historyFocusRepairRef.current = document.activeElement instanceof HTMLElement
+      ? document.activeElement : null
     const presentationReset = getHistoryPresentationReset(session, 'redo')
     dispatchEditingSession({
       type: 'redo',
@@ -1947,7 +1977,10 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
 
   return (
     <main>
-      <TitleBar onAbout={() => setIsAboutDialogOpen(true)} />
+      <TitleBar
+        onHelp={() => setIsShortcutsDialogOpen(true)}
+        onAbout={() => setIsAboutDialogOpen(true)}
+      />
 
       {/*
       * Network-level working controls remain visible while the user scrolls
@@ -2103,6 +2136,7 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
               setIsNavigationOpen(false)
             }}
             hideNavigationControlRef={hideNavigationControlRef}
+            selectedSelectionRef={selectedOutpostNavigationRef}
           />
         }
 
@@ -2275,6 +2309,7 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
                   selectOutpost(issue.outpostId)
                 }
               }}
+              isModalOpen={isModalOpen}
             />
 
           </>
@@ -2318,6 +2353,10 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
 
       {isAboutDialogOpen && (
         <AboutDialog onClose={() => setIsAboutDialogOpen(false)} />
+      )}
+
+      {isShortcutsDialogOpen && (
+        <KeyboardShortcutsDialog onClose={() => setIsShortcutsDialogOpen(false)} />
       )}
 
     </main>

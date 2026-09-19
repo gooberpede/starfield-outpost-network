@@ -88,6 +88,10 @@ test('Ctrl+Alt+V handling ignores repeats and editable targets', () => {
   assert.equal(shouldHandleValidationShortcut({ ...shortcut, repeat: true }), false)
   assert.equal(shouldHandleValidationShortcut({ ...shortcut, ctrlKey: false }), false)
   assert.equal(shouldHandleValidationShortcut({ ...shortcut, shiftKey: true }), false)
+  assert.equal(shouldHandleValidationShortcut({ ...shortcut, isComposing: true }), false)
+  assert.equal(shouldHandleValidationShortcut({
+    ...shortcut, getModifierState: (name) => name === 'AltGraph',
+  }), false)
 
   for (const tagName of ['INPUT', 'textarea', 'Select']) {
     const target = { tagName } as unknown as EventTarget
@@ -122,6 +126,13 @@ test('handled shortcuts prevent default and toggle while ignored events remain u
 
   assert.equal(
     handleValidationShortcut({ ...event, repeat: true }, () => { isOpen = !isOpen }),
+    false,
+  )
+  assert.equal(isOpen, false)
+  assert.equal(preventedCount, 2)
+
+  assert.equal(
+    handleValidationShortcut(event, () => { isOpen = !isOpen }, true),
     false,
   )
   assert.equal(isOpen, false)

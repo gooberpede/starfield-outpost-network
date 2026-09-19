@@ -28,10 +28,11 @@ import {
 import type { SupportedLocale } from '../../localization/types.ts'
 
 interface TitleBarProps {
+  onHelp?: () => void
   onAbout: () => void
 }
 
-export function TitleBar({ onAbout }: TitleBarProps) {
+export function TitleBar({ onHelp, onAbout }: TitleBarProps) {
   const localeDescriptionId = useId()
   const {
     automaticLocale,
@@ -77,6 +78,9 @@ export function TitleBar({ onAbout }: TitleBarProps) {
           {t('locale.selector.current', { locale: closedLabel })}
         </span>
       </label>
+      <button type="button" className="title-bar__help" onClick={onHelp}>
+        {t('common.help')}
+      </button>
       <button
         type="button"
         className="title-bar__about"

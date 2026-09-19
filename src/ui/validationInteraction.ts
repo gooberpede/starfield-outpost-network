@@ -7,7 +7,10 @@
  */
 
 import type { ValidationIssue } from '../domain/validation/types'
-import { isEditableShortcutTarget } from './keyboardShortcuts.ts'
+import {
+  getShortcutForAction,
+  type ShortcutEvent,
+} from './keyboardShortcuts.ts'
 
 export {
   isEditableShortcutTarget as isEditableValidationTarget,
@@ -77,34 +80,16 @@ export function isValidationActivationKey(key: string): boolean {
   return key === 'Enter' || key === ' '
 }
 
-export function shouldHandleValidationShortcut(event: Pick<
-  KeyboardEvent,
-  'altKey' | 'ctrlKey' | 'key' | 'metaKey' | 'repeat' | 'shiftKey' | 'target'
->): boolean {
-  return event.ctrlKey &&
-    event.altKey &&
-    !event.metaKey &&
-    !event.shiftKey &&
-    event.key.toLowerCase() === 'v' &&
-    !event.repeat &&
-    !isEditableShortcutTarget(event.target)
+export function shouldHandleValidationShortcut(event: ShortcutEvent): boolean {
+  return getShortcutForAction(event, ['toggle-validation']) !== null
 }
 
 export function handleValidationShortcut(
-  event: Pick<
-    KeyboardEvent,
-    | 'altKey'
-    | 'ctrlKey'
-    | 'key'
-    | 'metaKey'
-    | 'preventDefault'
-    | 'repeat'
-    | 'shiftKey'
-    | 'target'
-  >,
+  event: ShortcutEvent & Pick<KeyboardEvent, 'preventDefault'>,
   onHandled: () => void,
+  isModalOpen = false,
 ): boolean {
-  if (!shouldHandleValidationShortcut(event)) return false
+  if (isModalOpen || !shouldHandleValidationShortcut(event)) return false
 
   event.preventDefault()
   onHandled()

@@ -43,6 +43,7 @@ interface OutpostListProps {
   onDragActiveChange: (isActive: boolean) => void
   onHideNavigation: () => void
   hideNavigationControlRef: Ref<HTMLButtonElement>
+  selectedSelectionRef?: Ref<HTMLButtonElement>
 }
 
 interface ActiveDrag {
@@ -62,6 +63,7 @@ export function OutpostList({
   onDragActiveChange,
   onHideNavigation,
   hideNavigationControlRef,
+  selectedSelectionRef,
 }: OutpostListProps) {
   const { t } = useLocalization()
   const [isReshuffling, setIsReshuffling] = useState(false)
@@ -279,14 +281,17 @@ export function OutpostList({
             )}
 
             <button
+              ref={outpost.id === selectedOutpostId ? selectedSelectionRef : undefined}
               type="button"
               className={`outpost-list__selection${
                 outpost.id === selectedOutpostId
                   ? ' outpost-list__selection--selected'
                   : ''
               }`}
-              onClick={() => onSelectOutpost(outpost.id)}
-              disabled={outpost.id === selectedOutpostId}
+              onClick={() => {
+                if (outpost.id !== selectedOutpostId) onSelectOutpost(outpost.id)
+              }}
+              aria-disabled={outpost.id === selectedOutpostId}
               aria-current={
                 outpost.id === selectedOutpostId ? 'page' : undefined
               }

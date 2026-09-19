@@ -2,6 +2,8 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 
 import {
+  formatAccessibleShortcutChord,
+  formatShortcutChord,
   getAdjacentOutpostId,
   getHistoryShortcut,
   getOutpostShortcut,
@@ -11,7 +13,11 @@ import {
   isEditableShortcutTarget,
   isTextEditingShortcutTarget,
   isSearchFocusShortcut,
+  matchesShortcut,
+  shortcutRegistry,
 } from '../src/ui/keyboardShortcuts.ts'
+import { enUSMessages } from '../src/localization/locales/en-US.ts'
+import { jaJPMessages } from '../src/localization/locales/ja-JP.ts'
 import type { NetworkCollection } from '../src/data/networkCollection.ts'
 import {
   collectionEditingSessionReducer,
@@ -29,6 +35,47 @@ const shortcut = {
   repeat: false,
   target: null,
 }
+
+test('registry has unique IDs and chords with only the intentional Redo alias', () => {
+  assert.equal(new Set(shortcutRegistry.map(({ id }) => id)).size, shortcutRegistry.length)
+  const chordKeys = shortcutRegistry.map(({ chord }) => JSON.stringify(chord))
+  assert.equal(new Set(chordKeys).size, shortcutRegistry.length)
+  assert.deepEqual(
+    shortcutRegistry.filter(({ aliasOf }) => aliasOf).map(({ action, aliasOf }) => ({ action, aliasOf })),
+    [{ action: 'redo', aliasOf: 'redo-ctrl-y' }],
+  )
+  assert.deepEqual(new Set(shortcutRegistry.map(({ action }) => action)), new Set([
+    'undo', 'redo', 'focus-search', 'add-outpost', 'previous-outpost', 'next-outpost', 'toggle-validation',
+  ]))
+})
+
+test('registry formatters provide visual and accessible chords', () => {
+  const undo = shortcutRegistry.find(({ id }) => id === 'undo-ctrl-z')!
+  const next = shortcutRegistry.find(({ id }) => id === 'next-outpost-ctrl-alt-arrow-down')!
+  assert.equal(formatShortcutChord(undo), 'Ctrl + Z')
+  assert.equal(formatShortcutChord(next), 'Ctrl + Alt + Arrow Down')
+  assert.equal(formatAccessibleShortcutChord(undo), 'Control plus Z')
+  assert.equal(formatAccessibleShortcutChord(next, 'ja-JP'), 'Control、Alt、矢印 Down')
+})
+
+test('registry label and group keys exist in complete locales', () => {
+  for (const definition of shortcutRegistry) {
+    assert.ok(enUSMessages[definition.labelKey])
+    assert.ok(enUSMessages[definition.groupKey])
+    assert.ok(jaJPMessages[definition.labelKey])
+    assert.ok(jaJPMessages[definition.groupKey])
+  }
+})
+
+test('shared policy rejects composition and AltGraph while honoring match strategy', () => {
+  const add = shortcutRegistry.find(({ id }) => id === 'add-outpost-ctrl-alt-n')!
+  assert.equal(matchesShortcut({ ...shortcut, isComposing: true }, add), false)
+  assert.equal(matchesShortcut({ ...shortcut, getModifierState: (name) => name === 'AltGraph' }, add), false)
+  assert.equal(matchesShortcut({ ...shortcut, key: 'ñ' }, add), false)
+  assert.equal(matchesShortcut({ ...shortcut, key: 'Process', isComposing: true }, add), false)
+  assert.equal(matchesShortcut(shortcut, { ...add, chord: { ...add.chord, match: 'code', key: 'KeyN' } }), false)
+  assert.equal(matchesShortcut({ ...shortcut, code: 'KeyN' }, { ...add, chord: { ...add.chord, match: 'code', key: 'KeyN' } }), true)
+})
 
 test('outpost shortcuts recognize add, previous, and next', () => {
   assert.equal(getOutpostShortcut(shortcut), 'add')
@@ -90,6 +137,8 @@ test('default is prevented only when the application performs an action', () => 
   }
 
   assert.equal(handleOutpostShortcut(event, () => true), true)
+  assert.equal(preventedCount, 1)
+  assert.equal(handleOutpostShortcut(event, () => true, true), false)
   assert.equal(preventedCount, 1)
   assert.equal(handleOutpostShortcut(event, () => false), false)
   assert.equal(preventedCount, 1)

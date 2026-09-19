@@ -216,7 +216,7 @@
 }
 
 .outpost-list__selection--selected,
-.outpost-list__selection--selected:disabled {
+.outpost-list__selection--selected[aria-disabled="true"] {
   padding-left: 0.7rem;
   border-color: transparent;
   color: var(--ui-structural-dark);

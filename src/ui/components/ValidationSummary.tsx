@@ -68,6 +68,7 @@ interface ValidationSummaryProps {
   outposts: Outpost[]
   referenceData: ReferenceData | null
   onNavigateToIssue: (issue: ValidationIssue) => void
+  isModalOpen?: boolean
 }
 
 export function ValidationSummary({
@@ -75,6 +76,7 @@ export function ValidationSummary({
   outposts,
   referenceData,
   onNavigateToIssue,
+  isModalOpen = false,
 }: ValidationSummaryProps) {
   const { locale, t } = useLocalization()
   const panelId = useId()
@@ -151,12 +153,12 @@ export function ValidationSummary({
           focusIssueAfterOpenRef.current = true
           setIsOpen(true)
         }
-      })
+      }, isModalOpen)
     }
 
     document.addEventListener('keydown', handleGlobalShortcut)
     return () => document.removeEventListener('keydown', handleGlobalShortcut)
-  }, [isOpen])
+  }, [isModalOpen, isOpen])
 
   useLayoutEffect(() => {
     if (!isOpen || !focusIssueAfterOpenRef.current) return

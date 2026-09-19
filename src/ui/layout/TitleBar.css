@@ -54,6 +54,7 @@
 }
 
 .title-bar__about,
+.title-bar__help,
 .title-bar__locale {
   flex: 0 0 auto;
   min-height: 1.85rem;
@@ -89,12 +90,14 @@
 }
 
 .title-bar__about:hover,
+.title-bar__help:hover,
 .title-bar__locale:hover {
   border-color: var(--ui-structural-dark);
   color: var(--ui-structural-dark);
 }
 
 .title-bar__about:focus-visible,
+.title-bar__help:focus-visible,
 .title-bar__locale:has(select:focus-visible) {
   outline: 2px solid var(--ui-structural-dark);
   outline-offset: 2px;
