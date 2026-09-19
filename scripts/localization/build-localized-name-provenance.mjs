@@ -86,7 +86,7 @@ export async function buildLocalizedNameProvenance(options) {
   if (config.localizationInputManifest) {
     const intakeManifestPath = resolveLocal(config.localizationInputManifest)
     intakeManifest = JSON.parse(await readFile(intakeManifestPath, 'utf8'))
-    for (const locale of policy.locales) localizationInputs.push(...await localizationInputsFromManifest(intakeManifest, intakeManifestPath, locale, authoritativePluginNames))
+    for (const locale of policy.provenanceLocales) localizationInputs.push(...await localizationInputsFromManifest(intakeManifest, intakeManifestPath, locale, authoritativePluginNames))
   }
   const sources = await loadSources()
   const { targets: c2Targets, statistics: c2Statistics } = buildC2Targets(sources)

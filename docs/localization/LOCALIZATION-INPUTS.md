@@ -193,8 +193,9 @@ rule-order ties, 35 recursive-OMOD fauna, four Shattered Space targets, and zero
 ambiguities or unsupported cases. `localized-name-c6-fauna-ja-preview.csv` is a
 verified handoff for later overlay generation and is not consumed at runtime.
 
-String-table decoding is locale-policy driven: English uses Windows-1252 and
-Japanese uses UTF-8. Unsupported locales fail with
+String-table decoding is driven by
+`reference-source/localization-locale-metadata.json`: English uses Windows-1252,
+while Japanese, French, and German use strict UTF-8. Unsupported locales fail with
 `UNSUPPORTED_LOCALE_ENCODING`; encodings are never guessed from bytes. Direct
 Japanese runtime or Creation Kit confirmation of exact displayed U+0020
 separator fidelity remains an explicit hardening task.
@@ -265,8 +266,10 @@ reference-name provenance:
 
 - `reference-source/official-terminology-policy.json` explicitly distinguishes
   canonical content plugins from terminology evidence plugins;
-- `reference-source/official-terminology-provenance.csv` stores one row per
-  evidence occurrence, including source-use and qualified string identity;
+- `reference-source/official-terminology-provenance.csv` stores locale-neutral
+  evidence identity, source-use, and qualified string identity;
+- `reference-source/official-terminology-values-<locale>.csv` stores resolved
+  values and recommended defaults keyed back to `EvidenceId`;
 - `SFBGS050.esm` is terminology evidence only and cannot contribute tracker
   reference entities or generated reference names.
 
@@ -283,8 +286,8 @@ Contextual evidence remains subject to language-specific editorial review.
 
 ## Official reference-name overlay generation
 
-The Japanese official reference-name generator consumes the committed
-`localized-name-provenance.csv` identities and the exact Japanese tables named
+The locale-oriented official reference-name generator consumes the committed
+`localized-name-provenance.csv` identities and the exact locale tables named
 by `localized-name-provenance-manifest.json`. It never discovers FormIDs or
 providers and never reverse-matches English. Before reading a local table it
 requires its member identity, size, and SHA-256 to match the committed
@@ -293,7 +296,7 @@ provenance manifest.
 The installed-game generation command is:
 
 ```text
-npm run localization:reference-names:build
+npm run localization:reference-names:build -- --locale ja-JP
 ```
 
 Normal mode materializes the result in memory and fails with semantic drift
@@ -301,14 +304,14 @@ categories without changing tracked files. After review, explicit acceptance
 mode writes the deterministic outputs:
 
 ```text
-npm run localization:reference-names:build -- --write
+npm run localization:reference-names:build -- --locale ja-JP --write
 ```
 
 The outputs are
 `src/localization/generated/ja-JP-reference-names.ts` and
-`reference-source/localized-reference-names-manifest.json`. The TypeScript
+`reference-source/localized-reference-names-ja-JP-manifest.json`. The TypeScript
 module is the only committed text-bearing output. The sidecar records upstream
-and generated hashes, official table identities, game/tool versions, counts,
+and generated hashes, tracker locale, Bethesda token, encoding, official table identities, game/tool versions, counts,
 and composition/separator policy without local paths or Bethesda table text.
 
 Direct and template rows resolve one exact qualified value. Composed fauna are
@@ -324,7 +327,7 @@ is all 76 surfaced resources plus source-only `aqueous-hematite` and
 Repository-only integrity checking requires no installed game files:
 
 ```text
-npm run localization:reference-names:verify
+npm run localization:reference-names:verify -- --locale ja-JP
 ```
 
 It validates exact coverage against committed provenance, hashes, kinds,

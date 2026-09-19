@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "locales": [
+    {
+      "trackerLocale": "en-US",
+      "bethesdaToken": "en",
+      "stringTableEncoding": "windows-1252",
+      "catalogueRole": "full",
+      "runtimeAvailable": true
+    },
+    {
+      "trackerLocale": "en-GB",
+      "bethesdaToken": "en",
+      "stringTableEncoding": "windows-1252",
+      "catalogueRole": "sparse",
+      "runtimeAvailable": true
+    },
+    {
+      "trackerLocale": "ja-JP",
+      "bethesdaToken": "ja",
+      "stringTableEncoding": "utf-8",
+      "catalogueRole": "full",
+      "runtimeAvailable": true
+    },
+    {
+      "trackerLocale": "fr-FR",
+      "bethesdaToken": "fr",
+      "stringTableEncoding": "utf-8",
+      "catalogueRole": "tooling-only",
+      "runtimeAvailable": false
+    },
+    {
+      "trackerLocale": "de-DE",
+      "bethesdaToken": "de",
+      "stringTableEncoding": "utf-8",
+      "catalogueRole": "tooling-only",
+      "runtimeAvailable": false
+    }
+  ]
+}

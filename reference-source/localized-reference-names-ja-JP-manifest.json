@@ -1,6 +1,8 @@
 {
-  "schemaVersion": 1,
-  "locale": "ja-JP",
+  "schemaVersion": 2,
+  "trackerLocale": "ja-JP",
+  "bethesdaToken": "ja",
+  "encoding": "utf-8",
   "gameVersion": "1.16.244.0",
   "provenanceSha256": "7C3D3464C8DC3BC6CDF521C676F0E2CEF01F79CE287AAF253E80390BEFF67608",
   "provenanceManifestSha256": "332C69FFE2B2B8F99F395B54C6C787EE8FD9B9EB881A1EB8B1DBA2D00C9610B0",
@@ -10,7 +12,7 @@
     "ShatteredSpace.esm",
     "SFBGS00D.esm"
   ],
-  "japaneseLocalizationInputs": [
+  "localizationInputs": [
     {
       "plugin": "SFBGS00D.esm",
       "tableType": "dlstrings",
@@ -100,8 +102,8 @@
     "literal": " ",
     "betweenNonEmptyComponents": true
   },
-  "generatedModuleSha256": "37A238593885852254C9452714B8D31DF306DB9EE236DD60B1CE9CCF37B81D71",
+  "generatedModuleSha256": "22F218E9DA2B5318FF22A85E70409D6F2384053CF5456577203886EFCFD1922B",
   "generator": {
-    "toolVersion": "1.0.0"
+    "toolVersion": "2.0.0"
   }
 }

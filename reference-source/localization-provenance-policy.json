@@ -18,11 +18,7 @@
     }
   ],
   "optionalCompatibilityPlugins": ["SFBGS050.esm"],
-  "locales": ["en", "ja"],
-  "encodingPolicy": {
-    "en": "windows-1252",
-    "ja": "utf-8"
-  },
+  "provenanceLocales": ["en", "ja"],
   "expectedClosure": {
     "resolvedEntities": 3561,
     "provenanceRows": 4818,

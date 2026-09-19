@@ -6,7 +6,7 @@ import test from 'node:test'
 
 import {
   COMPOSED_SEPARATOR, classifyReferenceNameSidecarDrift, compareReferenceNameOverlays, materializeReferenceNames,
-  normalizeReferenceKind, serializeReferenceNameModule, sha256Text,
+  normalizeReferenceKind, serializeReferenceNameModule, sha256Text, validateReferenceNameSidecar,
 } from './reference-name-materializer.mjs'
 import { verifyCommittedReferenceNameOverlay } from './verify-reference-name-overlay.mjs'
 
@@ -44,19 +44,32 @@ test('kind normalization merges flora and fauna into species and rejects collisi
   ], tables), /DUPLICATE_RUNTIME_KEY/)
 })
 
-test('serialization is byte-identical and drift reports keys and Japanese values', () => {
+test('serialization is byte-identical and drift reports locale-neutral value changes', () => {
   const overlay = materializeReferenceNames([completeRow()], tables)
   assert.equal(serializeReferenceNameModule(overlay), serializeReferenceNameModule(structuredClone(overlay)))
   const changed = structuredClone(overlay); changed.resource.fixture = '変更'; changed.resource.added = '追加'
-  assert.deepEqual(compareReferenceNameOverlays(changed, overlay).map((item) => item.type), ['added-key', 'changed-japanese-value'])
+  assert.deepEqual(compareReferenceNameOverlays(changed, overlay).map((item) => item.type), ['added-key', 'changed-localized-value'])
+  assert.match(serializeReferenceNameModule(overlay, 'fr-FR'), /frFRReferenceNames/)
   assert.equal(sha256Text(serializeReferenceNameModule(overlay)).length, 64)
 })
 
-test('sidecar drift distinguishes provenance, Japanese input identity, and generated hashes', () => {
+test('sidecar drift distinguishes provenance, locale input identity, and generated hashes', () => {
   const before = { provenanceSha256: 'A', provenanceManifestIdentity: 'B', generatedModuleSha256: 'C' }
   assert.ok(classifyReferenceNameSidecarDrift({ ...before, provenanceSha256: 'D' }, before).includes('changed upstream provenance hash'))
-  assert.ok(classifyReferenceNameSidecarDrift({ ...before, provenanceManifestIdentity: 'D' }, before).includes('changed Japanese input manifest/table identity'))
+  assert.ok(classifyReferenceNameSidecarDrift({ ...before, provenanceManifestIdentity: 'D' }, before).includes('changed locale input manifest/table identity'))
   assert.ok(classifyReferenceNameSidecarDrift({ ...before, generatedModuleSha256: 'D' }, before).includes('changed generated hash'))
+})
+
+test('per-locale sidecars require exact input identity and composition policy', () => {
+  const sidecar = {
+    schemaVersion: 2, trackerLocale: 'ja-JP', bethesdaToken: 'ja', encoding: 'utf-8',
+    localizationInputs: [{ plugin: 'Starfield.esm', tableType: 'strings', memberName: 'strings/starfield_ja.strings', size: 1, sha256: 'A'.repeat(64) }],
+    compositionPolicy: { assembly: 'precomposed-at-build-time' }, separatorPolicy: { value: 'U+0020', literal: ' ' },
+  }
+  const expected = { trackerLocale: 'ja-JP', bethesdaToken: 'ja', encoding: 'utf-8' }
+  assert.doesNotThrow(() => validateReferenceNameSidecar(sidecar, expected))
+  assert.throws(() => validateReferenceNameSidecar({ ...sidecar, localizationInputs: [] }, expected), /INPUTS_INVALID/)
+  assert.throws(() => validateReferenceNameSidecar({ ...sidecar, trackerLocale: 'fr-FR' }, expected), /LOCALE_MISMATCH/)
 })
 
 test('repository-only verifier detects generated module tampering', async () => {
@@ -66,11 +79,16 @@ test('repository-only verifier detects generated module tampering', async () => 
     await mkdir(path.join(root, 'reference-source'), { recursive: true })
     await mkdir(path.join(root, 'public/reference-data'), { recursive: true })
     const repositoryRoot = path.resolve(import.meta.dirname, '../..')
-    for (const relative of ['src/localization/generated/ja-JP-reference-names.ts', 'reference-source/localized-name-provenance.csv', 'reference-source/localized-reference-names-manifest.json', 'public/reference-data/resources.json']) {
+    for (const relative of ['src/localization/generated/ja-JP-reference-names.ts', 'reference-source/localized-name-provenance.csv', 'reference-source/localized-name-provenance-manifest.json', 'reference-source/localized-reference-names-ja-JP-manifest.json', 'public/reference-data/resources.json']) {
       await writeFile(path.join(root, relative), await readFile(path.join(repositoryRoot, relative)))
     }
     const modulePath = path.join(root, 'src/localization/generated/ja-JP-reference-names.ts')
     await writeFile(modulePath, `${await readFile(modulePath, 'utf8')}\n`)
     await assert.rejects(verifyCommittedReferenceNameOverlay(root), /GENERATED_MODULE_HASH_MISMATCH/)
   } finally { await rm(root, { recursive: true, force: true }) }
+})
+
+test('repository verifier fails clearly for a tooling-known locale without committed artifacts', async () => {
+  const repositoryRoot = path.resolve(import.meta.dirname, '../..')
+  await assert.rejects(verifyCommittedReferenceNameOverlay(repositoryRoot, 'fr-FR'), /REFERENCE_NAME_ARTIFACT_MISSING: fr-FR/)
 })

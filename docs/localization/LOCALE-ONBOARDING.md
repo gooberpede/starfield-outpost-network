@@ -250,13 +250,9 @@ All tracker-authored message keys originate there.
 
 A new full locale should achieve exact key parity with `en-US`.
 
-Current baseline count after Japanese release hardening:
-
-```text
-331 semantic messages
-```
-
-This count can grow. The invariant is parity, not the historical number.
+The baseline count changes as product copy evolves. The durable invariant is
+exact key and placeholder parity with the current `en-US` catalogue, not a
+historical message count.
 
 ---
 
@@ -341,9 +337,9 @@ Future locale tooling should aim to reproduce the same canonical population, unl
 
 ---
 
-## 6.3 Desired future command shape
+## 6.3 Locale-oriented command shape
 
-Where practical, future work should generalize existing locale-specific generation into an explicit locale parameter, for example:
+Reference-name generation and repository verification select an explicit tracker locale:
 
 ```text
 npm run localization:reference-names:build -- --locale fr-FR
@@ -351,7 +347,9 @@ npm run localization:reference-names:build -- --locale fr-FR --write
 npm run localization:reference-names:verify -- --locale fr-FR
 ```
 
-Do not force this refactor merely for elegance if the existing implementation can be extended cleanly. The goal is repeatability, not command-line aesthetics.
+Each complete generated locale has one module and one versioned sidecar named
+with that tracker locale. French and German have no committed overlays until
+their later reference-name work closes.
 
 ---
 
@@ -663,7 +661,7 @@ which would report a concise closure summary, for example:
 ```text
 Locale: ja-JP
 
-Semantic messages:        331 / 331
+Semantic messages:        exact en-US key/placeholder parity
 Reference names:         3561 / 3561
 Provenance rows:         4818
 Unresolved references:      0
@@ -926,7 +924,7 @@ Use the following structure for each onboarded locale.
 
 ### Semantic catalogue
 
-- Current tracker-authored baseline: **331 keys**
+- Current tracker-authored baseline: **the current `en-US` key set**
 - Every full locale must match this key/placeholder contract.
 - The exact count is expected to grow over time; parity is the invariant.
 
@@ -1009,7 +1007,7 @@ Do not create locale-specific stable identities for spelling variants.
 Current closure:
 
 ```text
-331 / 331 tracker-authored semantic messages
+exact parity with the current `en-US` tracker-authored messages
 0 empty Japanese values
 exact key/placeholder parity
 ```

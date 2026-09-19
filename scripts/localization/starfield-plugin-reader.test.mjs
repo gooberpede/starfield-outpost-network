@@ -190,7 +190,7 @@ test('manifest records stable plugin identity, hash, version, and declared load 
     const manifest = await createProvenanceManifest({
       plugins: [{ filename: 'Fixture.esm', path: pluginPath }],
       localizationInputs: [{ plugin: 'Fixture.esm', locale: 'en', tableType: 'strings', path: tablePath }],
-      policy: { authoritativePlugins: [{ filename: 'Fixture.esm', moduleClass: 'full' }], optionalCompatibilityPlugins: [], locales: ['en'], encodingPolicy: { en: 'windows-1252' } },
+      policy: { authoritativePlugins: [{ filename: 'Fixture.esm', moduleClass: 'full' }], optionalCompatibilityPlugins: [], provenanceLocales: ['en'] },
       mastersByPlugin: new Map([['Fixture.esm', []]]),
       gameVersion: 'fixture-version',
       generatedAt: '2026-09-12T00:00:00.000Z',

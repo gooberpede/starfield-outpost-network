@@ -11,7 +11,7 @@ import {
   formatPercent,
   getCollator,
 } from '../src/localization/formatters.ts'
-import { createJapaneseReviewCsv, createJapaneseReviewRows } from '../src/localization/japaneseReviewPackage.ts'
+import { createReviewCsv, createReviewRows, englishSourceSha256 } from '../src/localization/reviewPackage.ts'
 import { getLocaleSelectorOptions, resolveBrowserLocale, resolveEffectiveLocale } from '../src/localization/locale.ts'
 import { enGBMessages } from '../src/localization/locales/en-GB.ts'
 import { enUSMessages } from '../src/localization/locales/en-US.ts'
@@ -136,21 +136,23 @@ test('document language and existing formatters work under Japanese', () => {
 })
 
 test('committed Japanese review package is deterministic and catalogue-derived', async () => {
-  const rows = createJapaneseReviewRows()
+  const rows = createReviewRows('ja-JP', jaJPMessages)
   assert.equal(rows.length, Object.keys(enUSMessages).length)
   assert.equal(new Set(rows.map(({ Key }) => Key)).size, rows.length)
   assert.deepEqual(rows.map(({ Key }) => Key), rows.map(({ Key }) => Key).sort())
   for (const row of rows) {
-    assert.equal(row.English, enUSMessages[row.Key])
-    assert.equal(row.CodexJapanese, jaJPMessages[row.Key])
-    assert.equal(row.Parameters, parametersOf(row.English).join('; '))
+    assert.equal(row.Locale, 'ja-JP')
+    assert.equal(row.EnglishSource, enUSMessages[row.Key])
+    assert.equal(row.EnglishSourceSha256, englishSourceSha256(row.EnglishSource))
+    assert.equal(row.CodexTranslation, jaJPMessages[row.Key])
+    assert.equal(row.Parameters, parametersOf(row.EnglishSource).join('; '))
     assert.match(row.Context, /\S/)
     assert.match(row.Risk, /^(?:LOW|MEDIUM|HIGH)$/)
   }
 
   const committed = await readFile(
-    new URL('../docs/localization/ja-JP-review-source.csv', import.meta.url),
+    new URL('../docs/localization/ja-JP-review.csv', import.meta.url),
     'utf8',
   )
-  assert.equal(committed, createJapaneseReviewCsv())
+  assert.equal(committed, createReviewCsv('ja-JP', jaJPMessages))
 })

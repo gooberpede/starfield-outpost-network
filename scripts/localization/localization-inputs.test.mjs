@@ -146,8 +146,22 @@ test('decodes string tables with an explicit locale policy', () => {
   assert.equal(readStringTable(englishPath, 'strings', { locale: 'en' }).get(1), 'Crèche')
   assert.equal(readStringTable(japanesePath, 'strings', { locale: 'ja-JP' }).get(1), '遊牧の')
   assert.equal(encodingForLocale('en-US'), 'windows-1252')
+  assert.equal(encodingForLocale('fr'), 'utf-8')
+  assert.equal(encodingForLocale('fr-FR'), 'utf-8')
+  assert.equal(encodingForLocale('de'), 'utf-8')
+  assert.equal(encodingForLocale('de-DE'), 'utf-8')
+  assert.equal(encodingForLocale('ja-JP'), 'utf-8')
   assert.throws(
     () => encodingForLocale('xx'),
     (error) => error instanceof StringTableError && error.code === 'UNSUPPORTED_LOCALE_ENCODING',
   )
+})
+
+test('malformed UTF-8 fails without byte sniffing or fallback', () => {
+  const frenchPath = tempFile('fixture_fr.strings')
+  const malformed = tableBytes(1, 'xx')
+  malformed[16] = 0xC3
+  malformed[17] = 0x28
+  writeFileSync(frenchPath, malformed)
+  assert.throws(() => readStringTable(frenchPath, 'strings', { locale: 'fr' }), /encoded data was not valid|decoding/i)
 })

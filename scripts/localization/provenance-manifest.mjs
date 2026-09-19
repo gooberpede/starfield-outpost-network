@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto'
 import { createReadStream } from 'node:fs'
 import { stat } from 'node:fs/promises'
 import path from 'node:path'
+import { encodingForKnownLocale } from './locale-metadata.mjs'
 
 export const PROVENANCE_TOOL_VERSION = '8.0.0-c8'
 
@@ -65,8 +66,8 @@ export async function createProvenanceManifest({
     optionalCompatibilityPlugins: [...policy.optionalCompatibilityPlugins].sort(),
     localizationArchives: archives.sort((a, b) => a.plugin.localeCompare(b.plugin) || a.filename.localeCompare(b.filename)),
     localizationInputs: tables.sort((a, b) => a.plugin.localeCompare(b.plugin) || a.locale.localeCompare(b.locale) || a.tableType.localeCompare(b.tableType)),
-    locales: [...policy.locales],
+    locales: [...policy.provenanceLocales],
     tableTypes: [...new Set(tables.map((table) => table.tableType))].sort(),
-    encodingPolicy: policy.encodingPolicy,
+    encodingPolicy: Object.fromEntries(policy.provenanceLocales.map((locale) => [locale, encodingForKnownLocale(locale)])),
   }
 }

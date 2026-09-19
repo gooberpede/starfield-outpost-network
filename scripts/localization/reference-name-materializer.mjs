@@ -5,7 +5,7 @@
  */
 import { createHash } from 'node:crypto'
 
-export const REFERENCE_NAME_TOOL_VERSION = '1.0.0'
+export const REFERENCE_NAME_TOOL_VERSION = '2.0.0'
 export const RUNTIME_KIND_ORDER = Object.freeze(['biome', 'body', 'species', 'official-term', 'product', 'resource', 'system'])
 export const EXPECTED_REFERENCE_NAME_COUNTS = Object.freeze({
   biome: 428, body: 1776, species: 1121, 'official-term': 5, product: 30, resource: 78, system: 123,
@@ -80,17 +80,23 @@ export function assertExpectedReferenceNameCounts(overlay) {
   return counts
 }
 
-export function serializeReferenceNameModule(overlay) {
-  return '// Generated file. Do not edit manually.\n' +
-    '// Source: committed localization provenance + official Japanese Bethesda string tables.\n\n' +
-    `export const jaJPReferenceNames = ${JSON.stringify(overlay, null, 2)} as const\n`
+function exportNameForLocale(locale) {
+  const [language, region] = locale.split('-')
+  if (!language || !region) throw new Error(`UNSUPPORTED_REFERENCE_NAME_LOCALE: ${locale}.`)
+  return `${language.toLowerCase()}${region.toUpperCase()}ReferenceNames`
 }
 
-export function parseGeneratedReferenceNameModule(source) {
-  const prefix = 'export const jaJPReferenceNames = '
+export function serializeReferenceNameModule(overlay, locale = 'ja-JP') {
+  return '// Generated file. Do not edit manually.\n' +
+    `// Source: committed localization provenance + official ${locale} Bethesda string tables.\n\n` +
+    `export const ${exportNameForLocale(locale)} = ${JSON.stringify(overlay, null, 2)} as const\n`
+}
+
+export function parseGeneratedReferenceNameModule(source, locale = 'ja-JP') {
+  const prefix = `export const ${exportNameForLocale(locale)} = `
   const start = source.indexOf(prefix)
   const end = source.lastIndexOf(' as const')
-  if (start < 0 || end < 0) throw new Error('GENERATED_MODULE_INVALID: Expected jaJPReferenceNames export.')
+  if (start < 0 || end < 0) throw new Error(`GENERATED_MODULE_INVALID: Expected ${exportNameForLocale(locale)} export.`)
   return JSON.parse(source.slice(start + prefix.length, end))
 }
 
@@ -115,7 +121,7 @@ export function compareReferenceNameOverlays(fresh, committed) {
     for (const id of [...new Set([...Object.keys(next), ...Object.keys(before)])].sort()) {
       if (!(id in before) && !movedIds.has(id)) drift.push({ type: 'added-key', key: `${kind}:${id}` })
       else if (!(id in next) && !movedIds.has(id)) drift.push({ type: 'removed-key', key: `${kind}:${id}` })
-      else if (next[id] !== before[id]) drift.push({ type: 'changed-japanese-value', key: `${kind}:${id}`, before: before[id], after: next[id] })
+      else if (next[id] !== before[id]) drift.push({ type: 'changed-localized-value', key: `${kind}:${id}`, before: before[id], after: next[id] })
     }
   }
   for (const kind of Object.keys(committed)) if (!RUNTIME_KIND_ORDER.includes(kind)) drift.push({ type: 'changed-kind-mapping', key: kind })
@@ -125,8 +131,31 @@ export function compareReferenceNameOverlays(fresh, committed) {
 export function classifyReferenceNameSidecarDrift(fresh, committed) {
   const categories = []
   if (committed.provenanceSha256 !== fresh.provenanceSha256) categories.push('changed upstream provenance hash')
-  if (committed.provenanceManifestIdentity !== fresh.provenanceManifestIdentity) categories.push('changed Japanese input manifest/table identity')
+  if (committed.provenanceManifestIdentity !== fresh.provenanceManifestIdentity) categories.push('changed locale input manifest/table identity')
   if (committed.generatedModuleSha256 !== fresh.generatedModuleSha256) categories.push('changed generated hash')
   if (JSON.stringify(committed) !== JSON.stringify(fresh)) categories.push('sidecar metadata drift')
   return categories
+}
+
+export function validateReferenceNameSidecar(sidecar, expected) {
+  if (sidecar.schemaVersion !== 2 || sidecar.trackerLocale !== expected.trackerLocale ||
+    sidecar.bethesdaToken !== expected.bethesdaToken || sidecar.encoding !== expected.encoding) {
+    throw new Error('REFERENCE_NAME_SIDECAR_LOCALE_MISMATCH.')
+  }
+  if (!Array.isArray(sidecar.localizationInputs) || sidecar.localizationInputs.length === 0) {
+    throw new Error('REFERENCE_NAME_SIDECAR_INPUTS_INVALID.')
+  }
+  for (const input of sidecar.localizationInputs) {
+    const keys = ['plugin', 'tableType', 'memberName', 'size', 'sha256']
+    if (keys.some((key) => input[key] === undefined) || Object.keys(input).some((key) => !keys.includes(key)) ||
+      typeof input.memberName !== 'string' || /^[A-Za-z]:[\\/]|^\//.test(input.memberName) ||
+      !/^[0-9A-F]{64}$/.test(input.sha256)) throw new Error('REFERENCE_NAME_SIDECAR_INPUTS_INVALID.')
+  }
+  if (sidecar.compositionPolicy?.assembly !== 'precomposed-at-build-time' ||
+    sidecar.separatorPolicy?.value !== 'U+0020' || sidecar.separatorPolicy?.literal !== ' ') {
+    throw new Error('REFERENCE_NAME_SIDECAR_COMPOSITION_INVALID.')
+  }
+  if (expected.toolVersion && sidecar.generator?.toolVersion !== expected.toolVersion) {
+    throw new Error('REFERENCE_NAME_SIDECAR_TOOL_VERSION_MISMATCH.')
+  }
 }

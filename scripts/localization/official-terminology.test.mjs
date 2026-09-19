@@ -4,13 +4,20 @@ import test from 'node:test'
 
 import {
   parseOfficialTerminologyCsv,
+  parseOfficialTerminologyValuesCsv,
   validateOfficialTerminology,
+  validateOfficialTerminologyValues,
 } from './official-terminology.mjs'
+import { verifyOfficialTerminology } from './verify-official-terminology.mjs'
+import { localizationVerificationCommands } from './verify-localization.mjs'
 
 const directory = new URL('../../reference-source/', import.meta.url)
 const policy = JSON.parse(await readFile(new URL('official-terminology-policy.json', directory), 'utf8'))
 const rows = parseOfficialTerminologyCsv(
   await readFile(new URL('official-terminology-provenance.csv', directory), 'utf8'),
+)
+const japaneseValues = parseOfficialTerminologyValuesCsv(
+  await readFile(new URL('official-terminology-values-ja-JP.csv', directory), 'utf8'),
 )
 
 test('Free Lanes is terminology evidence but not canonical tracker content', () => {
@@ -36,14 +43,46 @@ test('X-Tech Power Core retains its exact qualified official identity', () => {
     NameSourcePlugin: 'SFBGS050.esm',
     StringTable: 'strings',
     StringID: '000011E5',
-    OfficialEnglish: 'X-Tech Power Core',
-    OfficialJapanese: 'X-テックパワーコア',
     Context: 'Free Lanes inventory/build-enabling item',
     ContextNotes: '',
     Confidence: 'HIGH',
-    RecommendedDefaultForJaJP: 'X-テックパワーコア',
     Notes: 'Official terminology evidence only; do not ingest as a runtime reference entity.',
   })
+  assert.deepEqual(japaneseValues.find(({ EvidenceId }) => EvidenceId === row.EvidenceId), {
+    EvidenceId: row.EvidenceId,
+    Locale: 'ja-JP',
+    OfficialValue: 'X-テックパワーコア',
+    RecommendedDefault: 'X-テックパワーコア',
+  })
+})
+
+test('locale values are complete, unique, and keyed to evidence identity', () => {
+  assert.doesNotThrow(() => validateOfficialTerminologyValues(rows, japaneseValues, 'ja-JP'))
+  assert.throws(() => validateOfficialTerminologyValues(rows, japaneseValues.slice(1), 'ja-JP'), /missing EvidenceId/)
+  assert.throws(() => validateOfficialTerminologyValues(rows, [...japaneseValues, japaneseValues[0]], 'ja-JP'), /duplicate EvidenceId/)
+})
+
+test('locale-oriented terminology verification preserves Japanese closure', async () => {
+  const result = await verifyOfficialTerminology('ja-JP')
+  assert.deepEqual(result, { rows: 37, terms: 19, locale: 'ja-JP', values: 37 })
+})
+
+test('tooling-known locales without terminology artifacts fail clearly', async () => {
+  await assert.rejects(verifyOfficialTerminology('fr-FR'), /TERMINOLOGY_VALUES_MISSING:.*fr-FR/)
+  await assert.rejects(verifyOfficialTerminology('de-DE'), /TERMINOLOGY_VALUES_MISSING:.*de-DE/)
+})
+
+test('unsupported terminology locales fail closed', async () => {
+  await assert.rejects(verifyOfficialTerminology('es-ES'), /UNSUPPORTED_LOCALE/)
+  assert.throws(() => localizationVerificationCommands('es-ES'), /UNSUPPORTED_LOCALE/)
+})
+
+test('locale closure passes its locale to terminology and reference-name verification', () => {
+  assert.deepEqual(localizationVerificationCommands('fr-FR'), [
+    ['validate-localized-name-provenance.mjs'],
+    ['verify-official-terminology.mjs', '--locale', 'fr-FR'],
+    ['verify-reference-name-overlay.mjs', '--locale', 'fr-FR'],
+  ])
 })
 
 test('required supported terms are evidenced and Cargo Pad exists only as retired absence history', () => {

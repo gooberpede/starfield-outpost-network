@@ -5,25 +5,45 @@ import path from 'node:path'
 import { parse } from 'csv-parse/sync'
 
 import {
-  RUNTIME_KIND_ORDER, assertExpectedReferenceNameCounts, normalizeReferenceKind,
-  parseGeneratedReferenceNameModule, sha256Text,
+  REFERENCE_NAME_TOOL_VERSION, RUNTIME_KIND_ORDER, assertExpectedReferenceNameCounts, normalizeReferenceKind,
+  parseGeneratedReferenceNameModule, sha256Text, validateReferenceNameSidecar,
 } from './reference-name-materializer.mjs'
-import { validateProvenanceRowShapes } from './provenance-build-integration.mjs'
+import { stableManifestIdentity, validateProvenanceRowShapes } from './provenance-build-integration.mjs'
+import { bethesdaTokenForLocale, encodingForKnownLocale, localeMetadataFor, referenceNameArtifactNames } from './locale-metadata.mjs'
 
 const ROOT = path.resolve(import.meta.dirname, '../..')
 
-export async function verifyCommittedReferenceNameOverlay(root = ROOT) {
-  const modulePath = path.join(root, 'src/localization/generated/ja-JP-reference-names.ts')
+async function readArtifact(filePath, locale) {
+  try { return await readFile(filePath) } catch {
+    throw new Error(`REFERENCE_NAME_ARTIFACT_MISSING: ${locale} requires ${filePath}.`)
+  }
+}
+
+export async function verifyCommittedReferenceNameOverlay(root = ROOT, localeValue = 'ja-JP') {
+  const locale = localeMetadataFor(localeValue)
+  const artifactNames = referenceNameArtifactNames(locale.trackerLocale)
+  const modulePath = path.join(root, artifactNames.module)
   const provenancePath = path.join(root, 'reference-source/localized-name-provenance.csv')
-  const sidecarPath = path.join(root, 'reference-source/localized-reference-names-manifest.json')
-  const [moduleSource, provenanceBytes, sidecarSource, resourcesSource] = await Promise.all([
-    readFile(modulePath, 'utf8'), readFile(provenancePath), readFile(sidecarPath, 'utf8'),
+  const provenanceManifestPath = path.join(root, 'reference-source/localized-name-provenance-manifest.json')
+  const sidecarPath = path.join(root, artifactNames.sidecar)
+  const [moduleBytes, provenanceBytes, sidecarBytes, resourcesSource, provenanceManifestBytes] = await Promise.all([
+    readArtifact(modulePath, locale.trackerLocale), readFile(provenancePath), readArtifact(sidecarPath, locale.trackerLocale),
     readFile(path.join(root, 'public/reference-data/resources.json'), 'utf8'),
+    readFile(provenanceManifestPath),
   ])
-  const overlay = parseGeneratedReferenceNameModule(moduleSource)
+  const moduleSource = moduleBytes.toString('utf8')
+  const sidecarSource = sidecarBytes.toString('utf8')
+  const overlay = parseGeneratedReferenceNameModule(moduleSource, locale.trackerLocale)
   const provenance = parse(provenanceBytes, { bom: true, columns: true, skip_empty_lines: true, trim: true })
   validateProvenanceRowShapes(provenance)
   const sidecar = JSON.parse(sidecarSource)
+  const provenanceManifest = JSON.parse(provenanceManifestBytes.toString('utf8'))
+  validateReferenceNameSidecar(sidecar, {
+    trackerLocale: locale.trackerLocale,
+    bethesdaToken: bethesdaTokenForLocale(locale.trackerLocale),
+    encoding: encodingForKnownLocale(locale.trackerLocale),
+    toolVersion: REFERENCE_NAME_TOOL_VERSION,
+  })
   const unknownKinds = Object.keys(overlay).filter((kind) => !RUNTIME_KIND_ORDER.includes(kind))
   if (unknownKinds.length) throw new Error(`UNKNOWN_REFERENCE_KIND: ${unknownKinds.join(', ')}.`)
   const counts = assertExpectedReferenceNameCounts(overlay)
@@ -51,6 +71,15 @@ export async function verifyCommittedReferenceNameOverlay(root = ROOT) {
   const extra = [...generatedKeys].filter((key) => !provenanceKeys.has(key))
   if (missing.length || extra.length) throw new Error(`REFERENCE_NAME_COVERAGE_FAILED: ${JSON.stringify({ missing, extra })}`)
   if (sidecar.provenanceSha256 !== sha256Text(provenanceBytes)) throw new Error('UPSTREAM_PROVENANCE_HASH_MISMATCH.')
+  if (sidecar.provenanceManifestSha256 !== sha256Text(provenanceManifestBytes) ||
+    sidecar.provenanceManifestIdentity !== stableManifestIdentity(provenanceManifest)) {
+    throw new Error('UPSTREAM_PROVENANCE_MANIFEST_MISMATCH.')
+  }
+  const expectedInputs = provenanceManifest.localizationInputs
+    .filter((item) => item.locale === sidecar.bethesdaToken)
+    .map(({ plugin, tableType, memberName, size, sha256 }) => ({ plugin, tableType, memberName, size, sha256 }))
+    .sort((left, right) => left.plugin.localeCompare(right.plugin) || left.tableType.localeCompare(right.tableType))
+  if (JSON.stringify(sidecar.localizationInputs) !== JSON.stringify(expectedInputs)) throw new Error('REFERENCE_NAME_SIDECAR_INPUT_IDENTITY_MISMATCH.')
   if (sidecar.generatedModuleSha256 !== sha256Text(moduleSource)) throw new Error('GENERATED_MODULE_HASH_MISMATCH.')
   if (sidecar.entityCount !== generatedKeys.size || sidecar.provenanceRowCount !== provenance.length || JSON.stringify(sidecar.perKindCounts) !== JSON.stringify(counts)) {
     throw new Error('REFERENCE_NAME_SIDECAR_COUNT_MISMATCH.')
@@ -66,7 +95,11 @@ export async function verifyCommittedReferenceNameOverlay(root = ROOT) {
 }
 
 if (process.argv[1] && process.argv[1].endsWith('verify-reference-name-overlay.mjs')) {
-  verifyCommittedReferenceNameOverlay().then((result) => process.stdout.write(
-    `Verified committed Japanese reference-name overlay: ${result.entityCount} entities, ${result.provenanceRows} provenance rows, resources 78/76+2.\n`,
+  const args = process.argv.slice(2)
+  const localeIndex = args.indexOf('--locale')
+  const locale = localeIndex >= 0 ? args[localeIndex + 1] : 'ja-JP'
+  if (!locale || args.some((arg, index) => arg.startsWith('--') && (arg !== '--locale' || index !== localeIndex))) throw new Error('Usage: verify-reference-name-overlay.mjs [--locale <tracker-locale>]')
+  verifyCommittedReferenceNameOverlay(ROOT, locale).then((result) => process.stdout.write(
+    `Verified committed ${locale} reference-name overlay: ${result.entityCount} entities, ${result.provenanceRows} provenance rows, resources 78/76+2.\n`,
   )).catch((error) => { process.stderr.write(`${error.stack ?? error}\n`); process.exitCode = 1 })
 }

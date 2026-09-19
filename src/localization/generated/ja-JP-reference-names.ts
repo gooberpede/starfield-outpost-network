@@ -1,5 +1,5 @@
 // Generated file. Do not edit manually.
-// Source: committed localization provenance + official Japanese Bethesda string tables.
+// Source: committed localization provenance + official ja-JP Bethesda string tables.
 
 export const jaJPReferenceNames = {
   "biome": {

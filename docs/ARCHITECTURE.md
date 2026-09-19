@@ -641,8 +641,12 @@ exact key and placeholder parity with `en-US`; runtime fallback remains only as
 defensive resilience. The semantic
 catalogue is the boundary for tracker-authored visible copy, accessible names,
 tooltips/help, validation presentation, transient status, and history labels.
-The registry owns locale metadata and catalogue registration so feature
-components do not contain per-locale branching. Baseline keys are derived from
+The registry owns runtime catalogue registration so feature components do not
+contain per-locale branching. The tooling metadata contract at
+`reference-source/localization-locale-metadata.json` maps tracker tags to
+Bethesda tokens, encodings, catalogue roles, and runtime availability.
+Tooling-known `fr-FR` and `de-DE` remain excluded from runtime registration,
+selection, preferences, and browser resolution. Baseline keys are derived from
 the complete catalogue, while interpolation validates both missing and
 unexpected named parameters at runtime and in tests.
 
@@ -671,8 +675,8 @@ validation order, and history chronology retain their domain or user sequence.
 
 Japanese tracker-catalogue work closed after Parcels B1-B4 supplied the Codex
 first draft, an independent English-source translation, keyed comparative
-adjudication, and final integration verification. The resulting 331-message
-catalogue has exact key and placeholder parity with `en-US`. Official Japanese
+adjudication, and final integration verification. The resulting catalogue has
+exact key and placeholder parity with the current `en-US` baseline. Official Japanese
 reference-name overlays and official terminology provenance are implemented;
 the Free Lanes source remains terminology evidence only and does not extend the
 canonical content universe. The remaining limitation is native-speaker and
@@ -896,8 +900,9 @@ browser.
 
 This build-time boundary does not run in the browser, participate in application
 persistence, or resolve runtime display text. The shared string-table reader
-selects decoding from a project-owned locale policy (currently Windows-1252 for
-English and UTF-8 for Japanese) and fails unknown locales explicitly. Adding a
+selects decoding from the project-owned locale metadata contract (Windows-1252
+for English and strict UTF-8 for Japanese, French, and German) and fails unknown
+locales explicitly. Adding a
 language requires an encoding mapping, manifested tables, and representative
 composed-name verification; it does not require another CCT architecture audit
 unless evidence contradicts the fixed model. Direct Japanese runtime or
@@ -914,20 +919,23 @@ committed qualified provenance
     -> deterministic stable-ID overlay + reproducibility sidecar
 ```
 
-Japanese is the first generated locale. Direct and template identities become
+Japanese is the first generated locale. Each generated locale has one module
+and a matching versioned, locale-named sidecar. Direct and template identities become
 one value, while composed fauna are assembled before runtime in fixed semantic
 slot order with a literal U+0020 separator. The committed module contains no
 FormID keys and requires no installed files at runtime. Its sidecar binds the
-module to provenance, provenance-manifest identity, official Japanese table
-hashes, closure counts, and generator policy. Repository-only verification
+module to provenance, provenance-manifest identity, official locale table
+hashes, token/encoding metadata, closure counts, and generator policy. Repository-only verification
 checks these artifacts without reading Bethesda inputs; installed-game
 generation remains an explicit verify-by-default, `--write`-to-accept workflow.
 
 Official semantic terminology has a separate evidence boundary. The
 `reference-source/official-terminology-policy.json` allowlists distinguish
 canonical tracker content from plugins that may only prove official wording,
-and `reference-source/official-terminology-provenance.csv` stores one qualified
-row per evidence occurrence. `SFBGS050.esm` is admitted only as terminology
+and `reference-source/official-terminology-provenance.csv` stores one qualified,
+locale-neutral row per evidence occurrence. Per-locale value artifacts key
+official values and recommended defaults back to stable `EvidenceId` values.
+`SFBGS050.esm` is admitted only as terminology
 evidence: it proves terms such as `X-Tech Power Core`, but cannot add runtime
 reference entities or participate in canonical reference-name generation.
 Repository verification reads only these committed artifacts. A future locale
