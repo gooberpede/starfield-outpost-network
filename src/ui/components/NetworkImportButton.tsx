@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import type { Ref } from 'react'
 import { deserializeNetworkCollection } from '../../data/serialization'
 import { MAX_EXTERNAL_IMPORT_BYTES } from '../../data/externalImportValidation.ts'
 import { NetworkImportError } from '../../data/importErrors.ts'
@@ -8,6 +9,7 @@ import type { MessageDescriptor } from '../../localization/types.ts'
 import { getImportFailurePresentation } from '../importErrorPresentation.ts'
 
 interface NetworkImportButtonProps {
+  actionRef?: Ref<HTMLButtonElement>
   onImport: (
     collection: NetworkCollection,
     fileName: string,
@@ -21,6 +23,7 @@ interface NetworkImportButtonProps {
 }
 
 export function NetworkImportButton({
+  actionRef,
   onImport,
   onImportError,
 }: NetworkImportButtonProps) {
@@ -74,6 +77,7 @@ export function NetworkImportButton({
   return (
     <>
       <button
+        ref={actionRef}
         type="button"
         onClick={() =>
           fileInputRef.current?.click()

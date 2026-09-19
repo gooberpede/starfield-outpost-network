@@ -113,6 +113,66 @@ test('global shortcuts provide predictable focus outcomes', async () => {
   })
 })
 
+test('final workspace and Cargo shortcuts use their visible action and focus contracts', async () => {
+  mount()
+  dispatchShortcut('n', { ctrlKey: true, altKey: true })
+  await waitFor(() => expect(screen.getByRole('button', { current: 'page' })).toBeVisible())
+
+  dispatchShortcut('b', { ctrlKey: true, altKey: true })
+  expect(screen.getByRole('button', { current: 'page' })).toHaveFocus()
+
+  dispatchShortcut('t', { ctrlKey: true, altKey: true })
+  expect(screen.getByRole('textbox', { name: 'Outpost name' })).toHaveFocus()
+
+  dispatchShortcut('g', { ctrlKey: true, altKey: true })
+  expect(document.querySelector('.outpost-status-matrix')).toHaveFocus()
+  dispatchShortcut('p', { ctrlKey: true, altKey: true })
+  expect(screen.getByRole('button', { name: 'Expand Planned Supply' })).toHaveFocus()
+  dispatchShortcut('c', { ctrlKey: true, altKey: true })
+  expect(document.querySelector('.cargo-pads')).toHaveFocus()
+  dispatchShortcut('3', { code: 'Digit3', ctrlKey: true, altKey: true })
+  expect(screen.getByRole('button', { name: 'edit' })).toHaveFocus()
+
+  dispatchShortcut('a', { ctrlKey: true, altKey: true })
+  await waitFor(() => expect(screen.getByRole('button', { name: /Expand Cargo Link 1/ })).toHaveFocus())
+  dispatchShortcut(',', { code: 'Comma', ctrlKey: true, altKey: true })
+  await waitFor(() => expect(screen.getByRole('button', { name: /Collapse Cargo Link 1/ })).toBeVisible())
+  dispatchShortcut('.', { code: 'Period', ctrlKey: true, altKey: true })
+  await waitFor(() => expect(screen.getByRole('button', { name: /Expand Cargo Link 1/ })).toBeVisible())
+
+  dispatchShortcut('b', { ctrlKey: true, altKey: true })
+  dispatchShortcut('w', { ctrlKey: true, altKey: true })
+  await waitFor(() => expect(screen.getByRole('button', { name: 'Show outpost navigation' })).toHaveFocus())
+  dispatchShortcut('w', { ctrlKey: true, altKey: true })
+  await waitFor(() => expect(screen.getByRole('heading', { name: 'Outposts' })).toBeVisible())
+  expect(screen.getByRole('button', { current: 'page' })).not.toHaveFocus()
+
+  const hiddenResults = dispatchShortcut('j', { ctrlKey: true, altKey: true })
+  expect(hiddenResults.event.defaultPrevented).toBe(false)
+})
+
+test('Import and Export shortcuts invoke the existing controls once and reject repeats', () => {
+  const inputClick = vi.spyOn(HTMLInputElement.prototype, 'click').mockImplementation(() => undefined)
+  const anchorClick = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => undefined)
+  vi.stubGlobal('URL', {
+    ...URL,
+    createObjectURL: vi.fn(() => 'blob:test'),
+    revokeObjectURL: vi.fn(),
+  })
+  mount()
+
+  dispatchShortcut('o', { ctrlKey: true, altKey: true })
+  dispatchShortcut('o', { ctrlKey: true, altKey: true, repeat: true })
+  expect(inputClick).toHaveBeenCalledTimes(1)
+
+  dispatchShortcut('s', { ctrlKey: true, altKey: true })
+  dispatchShortcut('s', { ctrlKey: true, altKey: true, repeat: true })
+  expect(anchorClick).toHaveBeenCalledTimes(1)
+  inputClick.mockRestore()
+  anchorClick.mockRestore()
+  vi.unstubAllGlobals()
+})
+
 test('Help dialog is complete, modal, and restores focus to its trigger', async () => {
   mount()
   const help = screen.getByRole('button', { name: 'Help' })
@@ -143,6 +203,15 @@ test.each([
     ['/', {}], ['n', { ctrlKey: true, altKey: true }],
     ['ArrowUp', { ctrlKey: true, altKey: true }], ['ArrowDown', { ctrlKey: true, altKey: true }],
     ['v', { ctrlKey: true, altKey: true }],
+    ['o', { ctrlKey: true, altKey: true }], ['s', { ctrlKey: true, altKey: true }],
+    ['a', { ctrlKey: true, altKey: true }], [',', { code: 'Comma', ctrlKey: true, altKey: true }],
+    ['.', { code: 'Period', ctrlKey: true, altKey: true }], ['b', { ctrlKey: true, altKey: true }],
+    ['w', { ctrlKey: true, altKey: true }], ['t', { ctrlKey: true, altKey: true }],
+    ['g', { ctrlKey: true, altKey: true }], ['c', { ctrlKey: true, altKey: true }],
+    ['p', { ctrlKey: true, altKey: true }], ['j', { ctrlKey: true, altKey: true }],
+    ['1', { code: 'Digit1', ctrlKey: true, altKey: true }],
+    ['2', { code: 'Digit2', ctrlKey: true, altKey: true }],
+    ['3', { code: 'Digit3', ctrlKey: true, altKey: true }],
   ] as const) {
     const { remainedUncancelled, event } = dispatchShortcut(key, options)
     expect(remainedUncancelled).toBe(true)

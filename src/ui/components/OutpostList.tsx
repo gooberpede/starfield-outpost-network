@@ -44,6 +44,8 @@ interface OutpostListProps {
   onHideNavigation: () => void
   hideNavigationControlRef: Ref<HTMLButtonElement>
   selectedSelectionRef?: Ref<HTMLButtonElement>
+  firstSelectionRef?: Ref<HTMLButtonElement>
+  regionRef?: Ref<HTMLElement>
 }
 
 interface ActiveDrag {
@@ -64,6 +66,8 @@ export function OutpostList({
   onHideNavigation,
   hideNavigationControlRef,
   selectedSelectionRef,
+  firstSelectionRef,
+  regionRef,
 }: OutpostListProps) {
   const { t } = useLocalization()
   const [isReshuffling, setIsReshuffling] = useState(false)
@@ -197,6 +201,9 @@ export function OutpostList({
 
   return (
     <section
+      ref={regionRef}
+      tabIndex={-1}
+      aria-label={t('outpost.navigation.heading')}
       className={`outpost-list${
         isReshuffling ? ' outpost-list--reshuffling' : ''
       }`}
@@ -281,7 +288,7 @@ export function OutpostList({
             )}
 
             <button
-              ref={outpost.id === selectedOutpostId ? selectedSelectionRef : undefined}
+              ref={outpost.id === selectedOutpostId ? selectedSelectionRef : index === 0 ? firstSelectionRef : undefined}
               type="button"
               className={`outpost-list__selection${
                 outpost.id === selectedOutpostId

@@ -47,7 +47,11 @@
 
 import {
   useEffect,
+  useImperativeHandle,
+  useLayoutEffect,
+  useRef,
   useState,
+  type RefObject,
 } from 'react'
 import type { DragEvent } from 'react'
 
@@ -66,6 +70,7 @@ import { formatInteger, formatList } from '../../localization/formatters.ts'
 import { getReferenceDisplayName } from '../../localization/referenceNames.ts'
 
 interface CargoPadsEditorProps {
+  commandRef?: RefObject<CargoPadsEditorCommands | null>
   outpost: Outpost
   maxCargoPads: number | null
   allOutposts: Outpost[]
@@ -103,12 +108,19 @@ interface CargoPadsEditorProps {
   actuallyAvailableItems: CargoItem[]
 }
 
+export interface CargoPadsEditorCommands {
+  addFromShortcut: () => boolean
+  setAllExpanded: (expanded: boolean) => boolean
+  focusRegion: () => boolean
+}
+
 interface ActiveDrag {
   cargoPadId: string
   insertionIndex: number | null
 }
 
 export function CargoPadsEditor({
+  commandRef,
   outpost,
   maxCargoPads,
   allOutposts,
@@ -149,6 +161,11 @@ export function CargoPadsEditor({
   const [activeDrag, setActiveDrag] = useState<ActiveDrag | null>(null)
   const [previousCargoPadCount, setPreviousCargoPadCount] =
     useState(outpost.cargoPads.length)
+  const regionRef = useRef<HTMLElement>(null)
+  const localCommandRef = useRef<CargoPadsEditorCommands>(null)
+  const effectiveCommandRef = commandRef ?? localCommandRef
+  const lastDisclosureRef = useRef<HTMLButtonElement>(null)
+  const focusAddedPadRef = useRef(false)
 
   const isDragActive = activeDrag !== null
   const canReshuffle = outpost.cargoPads.length >= 2
@@ -189,6 +206,12 @@ export function CargoPadsEditor({
     }
   }, [isDragActive])
 
+  useLayoutEffect(() => {
+    if (!focusAddedPadRef.current) return
+    focusAddedPadRef.current = false
+    lastDisclosureRef.current?.focus()
+  }, [outpost.cargoPads.length])
+
   const areAllCargoPadsExpanded =
     outpost.cargoPads.length > 0 &&
     outpost.cargoPads.every(
@@ -209,12 +232,13 @@ export function CargoPadsEditor({
    * Expands or collapses every cargo pad on the selected outpost while
    * preserving the presentation state of pads belonging to other outposts.
    */
-  function toggleAllCargoPads() {
+  function setAllCargoPadsExpanded(expanded: boolean) {
+    if (outpost.cargoPads.length === 0) return false
     setExpandedPadIds((current) => {
       const updated = { ...current }
 
       for (const pad of outpost.cargoPads) {
-        if (areAllCargoPadsExpanded) {
+        if (!expanded) {
           delete updated[pad.id]
         } else {
           updated[pad.id] = true
@@ -223,6 +247,11 @@ export function CargoPadsEditor({
 
       return updated
     })
+    return true
+  }
+
+  function toggleAllCargoPads() {
+    setAllCargoPadsExpanded(!areAllCargoPadsExpanded)
   }
 
   function startDrag(
@@ -613,8 +642,23 @@ export function CargoPadsEditor({
     })
   }
 
+  useImperativeHandle(effectiveCommandRef, () => ({
+    addFromShortcut: () => {
+      focusAddedPadRef.current = true
+      addCargoPad()
+      return true
+    },
+    setAllExpanded: setAllCargoPadsExpanded,
+    focusRegion: () => {
+      const region = regionRef.current
+      if (!region) return false
+      region.focus()
+      return true
+    },
+  }))
+
   return (
-    <section className="cargo-pads">
+    <section ref={regionRef} tabIndex={-1} className="cargo-pads" aria-label={t('cargo.heading')}>
       <div className="cargo-pads__heading">
         <h2>{t('cargo.heading')}</h2>
         <span className="cargo-pads__count">
@@ -785,6 +829,7 @@ export function CargoPadsEditor({
                 <div className="cargo-pad__summary-top">
                   <div className="cargo-pad__identity">
                     <button
+                      ref={index === outpost.cargoPads.length - 1 ? lastDisclosureRef : undefined}
                       type="button"
                       onClick={() =>
                         toggleCargoPadCollapsed(pad.id)

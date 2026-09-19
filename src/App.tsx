@@ -41,6 +41,7 @@ import { OutpostStatusMatrix } from './ui/components/OutpostStatusMatrix'
 import { SearchForItems } from './ui/components/SearchForItems'
 import { PlannedSupplyEditor } from './ui/components/PlannedSupplyEditor'
 import { CargoPadsEditor } from './ui/components/CargoPadsEditor'
+import type { CargoPadsEditorCommands } from './ui/components/CargoPadsEditor'
 import { NetworkExportButton } from './ui/components/NetworkExportButton'
 import { NetworkImportButton } from './ui/components/NetworkImportButton'
 import { TitleBar } from './ui/layout/TitleBar'
@@ -53,6 +54,7 @@ import { AboutDialog } from './ui/components/AboutDialog'
 import { KeyboardShortcutsDialog } from './ui/components/KeyboardShortcutsDialog'
 import {
   getAdjacentOutpostId,
+  getShortcutForAction,
   handleHistoryShortcut,
   handleOutpostShortcut,
   handleSearchFocusShortcut,
@@ -204,6 +206,8 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
     useState(false)
   const isModalOpen = isDeleteNetworkDialogOpen || isAboutDialogOpen || isShortcutsDialogOpen
   const selectedOutpostNavigationRef = useRef<HTMLButtonElement>(null)
+  const firstOutpostNavigationRef = useRef<HTMLButtonElement>(null)
+  const navigationRegionRef = useRef<HTMLElement>(null)
   const focusSelectedOutpostAfterShortcutRef = useRef(false)
   const historyFocusRepairRef = useRef<HTMLElement | null>(null)
 
@@ -218,6 +222,16 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
   const [searchPalettePosition, setSearchPalettePosition] =
     useState<PalettePosition | null>(null)
   const searchInputRef = useRef<HTMLInputElement>(null)
+  const searchResultsRef = useRef<HTMLElement>(null)
+  const importActionRef = useRef<HTMLButtonElement>(null)
+  const exportActionRef = useRef<HTMLButtonElement>(null)
+  const outpostDetailsInputRef = useRef<HTMLInputElement>(null)
+  const resourceMatrixRef = useRef<HTMLElement>(null)
+  const firstInorganicPresentRef = useRef<HTMLButtonElement>(null)
+  const firstOrganicPresentRef = useRef<HTMLSpanElement>(null)
+  const manufacturingActionRef = useRef<HTMLButtonElement>(null)
+  const plannedSupplyDisclosureRef = useRef<HTMLButtonElement>(null)
+  const cargoCommandsRef = useRef<CargoPadsEditorCommands>(null)
 
   /**
    * Clears successful action feedback automatically after a short display
@@ -297,6 +311,18 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
     if (focusTarget === 'hide') hideNavigationControlRef.current?.focus()
     else showNavigationControlRef.current?.focus()
   }, [isNavigationOpen])
+
+  function showNavigation(focusPanelControl: boolean) {
+    navigationFocusTargetRef.current = focusPanelControl ? 'hide' : null
+    setIsNavigationOpen(true)
+  }
+
+  function hideNavigation() {
+    navigationFocusTargetRef.current = navigationRegionRef.current?.contains(document.activeElement)
+      ? 'show'
+      : null
+    setIsNavigationOpen(false)
+  }
 
   /**
    * Navigation and Cargo use separate remount epochs because outpost-local
@@ -674,6 +700,63 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
         },
       })
       if (handledSearchFocus) return
+
+      const command = getShortcutForAction(event, [
+        'import', 'export', 'add-cargo-link', 'expand-all-cargo-links',
+        'collapse-all-cargo-links', 'focus-navigation', 'toggle-navigation',
+        'focus-outpost-details', 'focus-resource-matrix', 'focus-cargo-links',
+        'focus-planned-supply', 'focus-search-results', 'focus-first-inorganic',
+        'focus-first-organic', 'focus-manufacturing-action',
+      ])
+      if (command && !isModalOpen) {
+        let handled = false
+        const focus = (target: HTMLElement | null, unavailable = false) => {
+          if (!target || unavailable) return false
+          target.focus()
+          return true
+        }
+        const click = (target: HTMLButtonElement | null) => {
+          if (!target || target.disabled) return false
+          target.click()
+          return true
+        }
+        switch (command.action) {
+          case 'import': handled = click(importActionRef.current); break
+          case 'export': handled = click(exportActionRef.current); break
+          case 'add-cargo-link': handled = cargoCommandsRef.current?.addFromShortcut() ?? false; break
+          case 'expand-all-cargo-links': handled = cargoCommandsRef.current?.setAllExpanded(true) ?? false; break
+          case 'collapse-all-cargo-links': handled = cargoCommandsRef.current?.setAllExpanded(false) ?? false; break
+          case 'focus-navigation': {
+            if (isNavigationOpen) handled = focus(selectedOutpostNavigationRef.current ?? firstOutpostNavigationRef.current ?? navigationRegionRef.current)
+            break
+          }
+          case 'toggle-navigation': {
+            if (isNavigationOpen) hideNavigation()
+            else showNavigation(false)
+            handled = true
+            break
+          }
+          case 'focus-outpost-details': handled = focus(outpostDetailsInputRef.current); break
+          case 'focus-resource-matrix': handled = focus(resourceMatrixRef.current); break
+          case 'focus-cargo-links': handled = cargoCommandsRef.current?.focusRegion() ?? false; break
+          case 'focus-planned-supply': handled = focus(plannedSupplyDisclosureRef.current); break
+          case 'focus-search-results': {
+            const palette = searchResultsRef.current
+            if (palette) {
+              if (!palette.contains(document.activeElement)) palette.focus()
+              handled = true
+            }
+            break
+          }
+          case 'focus-first-inorganic': handled = focus(firstInorganicPresentRef.current, firstInorganicPresentRef.current?.disabled); break
+          case 'focus-first-organic': handled = focus(firstOrganicPresentRef.current); break
+          case 'focus-manufacturing-action': handled = focus(manufacturingActionRef.current); break
+        }
+        if (handled) {
+          event.preventDefault()
+          return
+        }
+      }
 
       if (!event.defaultPrevented && !isModalOpen && event.key === 'Escape') {
         if (isSearchAutocompleteOpen) {
@@ -2040,10 +2123,12 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
             </button>
 
             <NetworkExportButton
+              actionRef={exportActionRef}
               collection={collection}
               onExport={reportNetworkExport}
             />
             <NetworkImportButton
+              actionRef={importActionRef}
               onImport={importNetwork}
               onImportError={reportNetworkImportError}
             />
@@ -2114,10 +2199,7 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
       */}
       <WorkspaceLayout
         isNavigationOpen={isNavigationOpen}
-        onShowNavigation={() => {
-          navigationFocusTargetRef.current = 'hide'
-          setIsNavigationOpen(true)
-        }}
+        onShowNavigation={() => showNavigation(true)}
         showNavigationControlRef={showNavigationControlRef}
         left={
           <OutpostList
@@ -2131,17 +2213,17 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
             onMoveOutpostDown={moveOutpostDown}
             onAddOutpost={addOutpost}
             onDragActiveChange={setIsOutpostDragging}
-            onHideNavigation={() => {
-              navigationFocusTargetRef.current = 'show'
-              setIsNavigationOpen(false)
-            }}
+            onHideNavigation={hideNavigation}
             hideNavigationControlRef={hideNavigationControlRef}
             selectedSelectionRef={selectedOutpostNavigationRef}
+            firstSelectionRef={firstOutpostNavigationRef}
+            regionRef={navigationRegionRef}
           />
         }
 
         top={
           selectedOutpost ? <OutpostDetails
+            nameInputRef={outpostDetailsInputRef}
             outpost={selectedOutpost}
             systems={referenceData?.systems ?? []}
             bodies={referenceData?.bodies ?? []}
@@ -2162,6 +2244,10 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
             )}
 
             {referenceData && selectedOutpost && <OutpostStatusMatrix
+              regionRef={resourceMatrixRef}
+              firstInorganicPresentRef={firstInorganicPresentRef}
+              firstOrganicPresentRef={firstOrganicPresentRef}
+              manufacturingActionRef={manufacturingActionRef}
               key={selectedOutpost.id}
               outpost={selectedOutpost}
               network={network}
@@ -2172,6 +2258,7 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
               actuallyAvailableItems={actuallyAvailableItems}
               headingControl={<SearchForItems
                 inputRef={searchInputRef}
+                resultsRef={searchResultsRef}
                 draftQuery={searchDraftQuery}
                 matches={searchMatches}
                 highlightedMatchKey={effectiveHighlightedSearchMatchKey}
@@ -2196,6 +2283,7 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
             />}
 
             {selectedOutpost && <PlannedSupplyEditor
+              disclosureRef={plannedSupplyDisclosureRef}
               resources={resources}
               products={products}
               plannedSupply={selectedOutpost.plannedSupply ?? []}
@@ -2207,6 +2295,7 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
 
         right={
           selectedOutpost ? <CargoPadsEditor
+            commandRef={cargoCommandsRef}
             key={`${activeSavedNetwork.id}:${effectiveSelectedOutpostId}:${cargoPresentationEpoch}`}
             outpost={selectedOutpost}
             maxCargoPads={maxCargoPads}

@@ -3,13 +3,16 @@ import { getActiveSavedNetwork } from '../../data/networkCollection'
 import { serializeNetworkCollection } from '../../data/serialization'
 import { createNetworkExportFileName } from '../../data/exportFileName'
 import { useLocalization } from '../../localization/LocalizationContext.ts'
+import type { Ref } from 'react'
 
 interface NetworkExportButtonProps {
+  actionRef?: Ref<HTMLButtonElement>
   collection: NetworkCollection
   onExport: (fileName: string) => void
 }
 
 export function NetworkExportButton({
+  actionRef,
   collection,
   onExport,
 }: NetworkExportButtonProps) {
@@ -42,6 +45,7 @@ export function NetworkExportButton({
 
   return (
     <button
+      ref={actionRef}
       type="button"
       onClick={exportNetwork}
       title={t('transfer.export.tooltip')}

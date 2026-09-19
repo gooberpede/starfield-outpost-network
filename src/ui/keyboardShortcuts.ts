@@ -1,15 +1,15 @@
 /** Declarative metadata and pure policy for application command shortcuts. */
 import type { MessageKey, SupportedLocale } from '../localization/types.ts'
 
-export type ShortcutActionId = 'undo' | 'redo' | 'focus-search' | 'add-outpost' | 'previous-outpost' | 'next-outpost' | 'toggle-validation'
-export type ShortcutId = 'undo-ctrl-z' | 'redo-ctrl-y' | 'redo-ctrl-shift-z' | 'focus-search-slash' | 'add-outpost-ctrl-alt-n' | 'previous-outpost-ctrl-alt-arrow-up' | 'next-outpost-ctrl-alt-arrow-down' | 'toggle-validation-ctrl-alt-v'
+export type ShortcutActionId = 'undo' | 'redo' | 'focus-search' | 'focus-search-results' | 'add-outpost' | 'previous-outpost' | 'next-outpost' | 'toggle-validation' | 'import' | 'export' | 'add-cargo-link' | 'expand-all-cargo-links' | 'collapse-all-cargo-links' | 'focus-navigation' | 'toggle-navigation' | 'focus-outpost-details' | 'focus-resource-matrix' | 'focus-cargo-links' | 'focus-planned-supply' | 'focus-first-inorganic' | 'focus-first-organic' | 'focus-manufacturing-action'
+export type ShortcutId = 'undo-ctrl-z' | 'redo-ctrl-y' | 'redo-ctrl-shift-z' | 'focus-search-slash' | 'add-outpost-ctrl-alt-n' | 'previous-outpost-ctrl-alt-arrow-up' | 'next-outpost-ctrl-alt-arrow-down' | 'toggle-validation-ctrl-alt-v' | 'import-ctrl-alt-o' | 'export-ctrl-alt-s' | 'add-cargo-link-ctrl-alt-a' | 'expand-all-cargo-links-ctrl-alt-comma' | 'collapse-all-cargo-links-ctrl-alt-period' | 'focus-navigation-ctrl-alt-b' | 'toggle-navigation-ctrl-alt-w' | 'focus-outpost-details-ctrl-alt-t' | 'focus-resource-matrix-ctrl-alt-g' | 'focus-cargo-links-ctrl-alt-c' | 'focus-planned-supply-ctrl-alt-p' | 'focus-search-results-ctrl-alt-j' | 'focus-first-inorganic-ctrl-alt-digit1' | 'focus-first-organic-ctrl-alt-digit2' | 'focus-manufacturing-action-ctrl-alt-digit3'
 export type ShortcutFocusPolicy = 'text-editing' | 'broad-editable'
-export type ShortcutGroupId = 'history' | 'search' | 'outpost-navigation' | 'validation'
+export type ShortcutGroupId = 'history' | 'search' | 'outpost-navigation' | 'workspace' | 'resource-matrix' | 'cargo-links' | 'import-export' | 'validation'
 
 export interface ShortcutDefinition {
   id: ShortcutId
   action: ShortcutActionId
-  chord: { key: string; match: 'key' | 'code'; ctrl: boolean; alt: boolean; shift: boolean | 'optional'; meta: boolean }
+  chord: { key: string; displayKey?: string; match: 'key' | 'code'; ctrl: boolean; alt: boolean; shift: boolean | 'optional'; meta: boolean }
   labelKey: MessageKey
   group: ShortcutGroupId
   groupKey: MessageKey
@@ -23,9 +23,24 @@ export const shortcutRegistry: readonly ShortcutDefinition[] = [
   { id: 'redo-ctrl-y', action: 'redo', chord: { key: 'y', match: 'key', ctrl: true, alt: false, shift: false, meta: false }, labelKey: 'shortcuts.action.redo', group: 'history', groupKey: 'shortcuts.group.history', scope: 'application', focusPolicy: 'text-editing' },
   { id: 'redo-ctrl-shift-z', action: 'redo', chord: { key: 'z', match: 'key', ctrl: true, alt: false, shift: true, meta: false }, labelKey: 'shortcuts.action.redo', group: 'history', groupKey: 'shortcuts.group.history', scope: 'application', focusPolicy: 'text-editing', aliasOf: 'redo-ctrl-y' },
   { id: 'focus-search-slash', action: 'focus-search', chord: { key: '/', match: 'key', ctrl: false, alt: false, shift: 'optional', meta: false }, labelKey: 'shortcuts.action.focusSearch', group: 'search', groupKey: 'shortcuts.group.search', scope: 'application', focusPolicy: 'text-editing' },
+  { id: 'focus-search-results-ctrl-alt-j', action: 'focus-search-results', chord: { key: 'j', match: 'key', ctrl: true, alt: true, shift: false, meta: false }, labelKey: 'shortcuts.action.focusSearchResults', group: 'search', groupKey: 'shortcuts.group.search', scope: 'application', focusPolicy: 'broad-editable' },
   { id: 'add-outpost-ctrl-alt-n', action: 'add-outpost', chord: { key: 'n', match: 'key', ctrl: true, alt: true, shift: false, meta: false }, labelKey: 'shortcuts.action.addOutpost', group: 'outpost-navigation', groupKey: 'shortcuts.group.outpostNavigation', scope: 'application', focusPolicy: 'broad-editable' },
   { id: 'previous-outpost-ctrl-alt-arrow-up', action: 'previous-outpost', chord: { key: 'ArrowUp', match: 'key', ctrl: true, alt: true, shift: false, meta: false }, labelKey: 'shortcuts.action.previousOutpost', group: 'outpost-navigation', groupKey: 'shortcuts.group.outpostNavigation', scope: 'application', focusPolicy: 'broad-editable' },
   { id: 'next-outpost-ctrl-alt-arrow-down', action: 'next-outpost', chord: { key: 'ArrowDown', match: 'key', ctrl: true, alt: true, shift: false, meta: false }, labelKey: 'shortcuts.action.nextOutpost', group: 'outpost-navigation', groupKey: 'shortcuts.group.outpostNavigation', scope: 'application', focusPolicy: 'broad-editable' },
+  { id: 'toggle-navigation-ctrl-alt-w', action: 'toggle-navigation', chord: { key: 'w', match: 'key', ctrl: true, alt: true, shift: false, meta: false }, labelKey: 'shortcuts.action.toggleNavigation', group: 'workspace', groupKey: 'shortcuts.group.workspace', scope: 'application', focusPolicy: 'broad-editable' },
+  { id: 'focus-navigation-ctrl-alt-b', action: 'focus-navigation', chord: { key: 'b', match: 'key', ctrl: true, alt: true, shift: false, meta: false }, labelKey: 'shortcuts.action.focusNavigation', group: 'workspace', groupKey: 'shortcuts.group.workspace', scope: 'application', focusPolicy: 'broad-editable' },
+  { id: 'focus-outpost-details-ctrl-alt-t', action: 'focus-outpost-details', chord: { key: 't', match: 'key', ctrl: true, alt: true, shift: false, meta: false }, labelKey: 'shortcuts.action.focusOutpostDetails', group: 'workspace', groupKey: 'shortcuts.group.workspace', scope: 'application', focusPolicy: 'broad-editable' },
+  { id: 'focus-planned-supply-ctrl-alt-p', action: 'focus-planned-supply', chord: { key: 'p', match: 'key', ctrl: true, alt: true, shift: false, meta: false }, labelKey: 'shortcuts.action.focusPlannedSupply', group: 'workspace', groupKey: 'shortcuts.group.workspace', scope: 'application', focusPolicy: 'broad-editable' },
+  { id: 'focus-resource-matrix-ctrl-alt-g', action: 'focus-resource-matrix', chord: { key: 'g', match: 'key', ctrl: true, alt: true, shift: false, meta: false }, labelKey: 'shortcuts.action.focusResourceMatrix', group: 'resource-matrix', groupKey: 'shortcuts.group.resourceMatrix', scope: 'application', focusPolicy: 'broad-editable' },
+  { id: 'focus-first-inorganic-ctrl-alt-digit1', action: 'focus-first-inorganic', chord: { key: 'Digit1', displayKey: '1', match: 'code', ctrl: true, alt: true, shift: false, meta: false }, labelKey: 'shortcuts.action.focusFirstInorganic', group: 'resource-matrix', groupKey: 'shortcuts.group.resourceMatrix', scope: 'application', focusPolicy: 'broad-editable' },
+  { id: 'focus-first-organic-ctrl-alt-digit2', action: 'focus-first-organic', chord: { key: 'Digit2', displayKey: '2', match: 'code', ctrl: true, alt: true, shift: false, meta: false }, labelKey: 'shortcuts.action.focusFirstOrganic', group: 'resource-matrix', groupKey: 'shortcuts.group.resourceMatrix', scope: 'application', focusPolicy: 'broad-editable' },
+  { id: 'focus-manufacturing-action-ctrl-alt-digit3', action: 'focus-manufacturing-action', chord: { key: 'Digit3', displayKey: '3', match: 'code', ctrl: true, alt: true, shift: false, meta: false }, labelKey: 'shortcuts.action.focusManufacturingAction', group: 'resource-matrix', groupKey: 'shortcuts.group.resourceMatrix', scope: 'application', focusPolicy: 'broad-editable' },
+  { id: 'focus-cargo-links-ctrl-alt-c', action: 'focus-cargo-links', chord: { key: 'c', match: 'key', ctrl: true, alt: true, shift: false, meta: false }, labelKey: 'shortcuts.action.focusCargoLinks', group: 'cargo-links', groupKey: 'shortcuts.group.cargoLinks', scope: 'application', focusPolicy: 'broad-editable' },
+  { id: 'add-cargo-link-ctrl-alt-a', action: 'add-cargo-link', chord: { key: 'a', match: 'key', ctrl: true, alt: true, shift: false, meta: false }, labelKey: 'shortcuts.action.addCargoLink', group: 'cargo-links', groupKey: 'shortcuts.group.cargoLinks', scope: 'application', focusPolicy: 'broad-editable' },
+  { id: 'expand-all-cargo-links-ctrl-alt-comma', action: 'expand-all-cargo-links', chord: { key: 'Comma', displayKey: ',', match: 'code', ctrl: true, alt: true, shift: false, meta: false }, labelKey: 'shortcuts.action.expandAllCargoLinks', group: 'cargo-links', groupKey: 'shortcuts.group.cargoLinks', scope: 'application', focusPolicy: 'broad-editable' },
+  { id: 'collapse-all-cargo-links-ctrl-alt-period', action: 'collapse-all-cargo-links', chord: { key: 'Period', displayKey: '.', match: 'code', ctrl: true, alt: true, shift: false, meta: false }, labelKey: 'shortcuts.action.collapseAllCargoLinks', group: 'cargo-links', groupKey: 'shortcuts.group.cargoLinks', scope: 'application', focusPolicy: 'broad-editable' },
+  { id: 'import-ctrl-alt-o', action: 'import', chord: { key: 'o', match: 'key', ctrl: true, alt: true, shift: false, meta: false }, labelKey: 'shortcuts.action.import', group: 'import-export', groupKey: 'shortcuts.group.importExport', scope: 'application', focusPolicy: 'broad-editable' },
+  { id: 'export-ctrl-alt-s', action: 'export', chord: { key: 's', match: 'key', ctrl: true, alt: true, shift: false, meta: false }, labelKey: 'shortcuts.action.export', group: 'import-export', groupKey: 'shortcuts.group.importExport', scope: 'application', focusPolicy: 'broad-editable' },
   { id: 'toggle-validation-ctrl-alt-v', action: 'toggle-validation', chord: { key: 'v', match: 'key', ctrl: true, alt: true, shift: false, meta: false }, labelKey: 'shortcuts.action.toggleValidation', group: 'validation', groupKey: 'shortcuts.group.validation', scope: 'application', focusPolicy: 'broad-editable' },
 ]
 
@@ -73,7 +88,8 @@ export function getShortcutChordTokens(definition: ShortcutDefinition): string[]
   if (definition.chord.ctrl) tokens.push('Ctrl')
   if (definition.chord.alt) tokens.push('Alt')
   if (definition.chord.shift === true) tokens.push('Shift')
-  tokens.push(definition.chord.key.length === 1 ? definition.chord.key.toLocaleUpperCase() : definition.chord.key.replace('Arrow', 'Arrow '))
+  const key = definition.chord.displayKey ?? definition.chord.key
+  tokens.push(key.length === 1 ? key.toLocaleUpperCase() : key.replace('Arrow', 'Arrow '))
   return tokens
 }
 

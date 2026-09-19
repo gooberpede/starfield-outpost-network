@@ -45,8 +45,14 @@ test('registry has unique IDs and chords with only the intentional Redo alias', 
     [{ action: 'redo', aliasOf: 'redo-ctrl-y' }],
   )
   assert.deepEqual(new Set(shortcutRegistry.map(({ action }) => action)), new Set([
-    'undo', 'redo', 'focus-search', 'add-outpost', 'previous-outpost', 'next-outpost', 'toggle-validation',
+    'undo', 'redo', 'focus-search', 'focus-search-results', 'add-outpost', 'previous-outpost',
+    'next-outpost', 'toggle-navigation', 'focus-navigation', 'focus-outpost-details',
+    'focus-planned-supply', 'focus-resource-matrix', 'focus-first-inorganic',
+    'focus-first-organic', 'focus-manufacturing-action', 'focus-cargo-links',
+    'add-cargo-link', 'expand-all-cargo-links', 'collapse-all-cargo-links', 'import',
+    'export', 'toggle-validation',
   ]))
+  assert.equal(shortcutRegistry.length, 23)
 })
 
 test('registry formatters provide visual and accessible chords', () => {
@@ -56,6 +62,22 @@ test('registry formatters provide visual and accessible chords', () => {
   assert.equal(formatShortcutChord(next), 'Ctrl + Alt + Arrow Down')
   assert.equal(formatAccessibleShortcutChord(undo), 'Control plus Z')
   assert.equal(formatAccessibleShortcutChord(next, 'ja-JP'), 'Control、Alt、矢印 Down')
+})
+
+test('physical shortcuts use code matching and human-friendly display tokens', () => {
+  const physical = shortcutRegistry.filter(({ chord }) => chord.match === 'code')
+  assert.deepEqual(physical.map(({ chord }) => [chord.key, chord.displayKey]), [
+    ['Digit1', '1'], ['Digit2', '2'], ['Digit3', '3'], ['Comma', ','], ['Period', '.'],
+  ])
+  for (const definition of physical) {
+    const event = { ...shortcut, key: definition.chord.displayKey!, code: definition.chord.key }
+    assert.equal(matchesShortcut(event, definition), true)
+    assert.equal(matchesShortcut({ ...event, code: `Numpad${definition.chord.displayKey}` }, definition), false)
+    assert.equal(matchesShortcut({ ...event, code: 'WrongPhysicalCode' }, definition), false)
+    assert.equal(matchesShortcut({ ...event, shiftKey: true }, definition), false)
+    assert.equal(formatShortcutChord(definition).endsWith(definition.chord.displayKey!), true)
+  }
+  assert.equal(shortcutRegistry.filter(({ chord }) => chord.match === 'key' && /^[a-z]$/i.test(chord.key)).length, 15)
 })
 
 test('registry label and group keys exist in complete locales', () => {

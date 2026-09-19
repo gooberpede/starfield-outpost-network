@@ -29,6 +29,7 @@ import './SearchForItems.css'
 
 interface Props {
   inputRef: RefObject<HTMLInputElement | null>
+  resultsRef?: RefObject<HTMLElement | null>
   draftQuery: string
   matches: ItemSearchEntry[]
   highlightedMatchKey: string | null
@@ -62,7 +63,7 @@ const flagMessageKeys: Record<ItemSearchResultFlag,
 }
 
 export function SearchForItems({
-  inputRef, draftQuery, matches, highlightedMatchKey, isAutocompleteOpen,
+  inputRef, resultsRef, draftQuery, matches, highlightedMatchKey, isAutocompleteOpen,
   submittedItemName, results, isResultsOpen, palettePosition,
   onDraftQueryChange, onHighlightChange, onAutocompleteOpenChange, onSubmit,
   onResultsOpenChange, onPalettePositionChange, onSelectOutpost,
@@ -238,7 +239,10 @@ export function SearchForItems({
   const palette = isResultsOpen && submittedItemName && palettePosition
     ? createPortal(
         <section
-          ref={paletteRef}
+          ref={(node) => {
+            paletteRef.current = node
+            if (resultsRef) resultsRef.current = node
+          }}
           className="item-search-results"
           role="region"
           tabIndex={-1}

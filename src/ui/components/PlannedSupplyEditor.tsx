@@ -20,6 +20,7 @@
 import {
   useState,
   type CSSProperties,
+  type Ref,
 } from 'react'
 
 import type {
@@ -37,6 +38,7 @@ import { compareLocalizedItems } from '../localizedCollation.ts'
 import './PlannedSupplyEditor.css'
 
 interface PlannedSupplyEditorProps {
+  disclosureRef?: Ref<HTMLButtonElement>
   resources: Resource[]
   products: Product[]
   plannedSupply: CargoItem[]
@@ -182,6 +184,7 @@ function groupByRarity<T extends CatalogueItem>(
 }
 
 export function PlannedSupplyEditor({
+  disclosureRef,
   resources,
   products,
   plannedSupply,
@@ -386,6 +389,7 @@ export function PlannedSupplyEditor({
     <section className="planned-supply">
       <div className="planned-supply__heading">
         <button
+          ref={disclosureRef}
           className="planned-supply__expand-toggle"
           type="button"
           title={

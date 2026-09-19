@@ -185,34 +185,6 @@ Current behaviour remains whole-collection immutable before/after snapshots with
 one deliberate operation per history entry and a 1,000-entry collection-global
 session cap.
 
-### Additional keyboard shortcuts
-
-The central shortcut registry, shared recognition policy, and discoverability
-through the title-area Help dialog are implemented. Future application-level
-shortcuts must enter through that registry and its shared behavior and test
-contract.
-
-Candidate targets include:
-
-- Import;
-- Export;
-- Search Results and broader Matrix focus;
-- Cargo Links area and individual Cargo Links;
-- Outpost navigation;
-- Inorganic Resources;
-- Organic Resources;
-- Manufacturing;
-- Planned Supply.
-
-Parcel 3 should review these candidates as a coherent set before implementation.
-Consider landmark-like shortcut navigation between major application regions
-to reduce lengthy sequential Tab traversal, without implying screen-reader
-landmark semantics. Avoid conflicts with normal browser, operating-system,
-text-editing, and assistive-technology behavior, and do not add shortcuts
-merely because an action exists. Exact key combinations remain undecided.
-
----
-
 ## Status bar
 
 The current status bar supports validation, transient action feedback,

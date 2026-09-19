@@ -13,7 +13,9 @@ import './KeyboardShortcutsDialog.css'
 
 interface KeyboardShortcutsDialogProps { onClose: () => void }
 
-const groupOrder: readonly ShortcutGroupId[] = ['history', 'search', 'outpost-navigation', 'validation']
+const leftGroups: readonly ShortcutGroupId[] = ['history', 'search', 'outpost-navigation', 'workspace']
+const rightGroups: readonly ShortcutGroupId[] = ['resource-matrix', 'cargo-links', 'import-export', 'validation']
+const groupOrder = [...leftGroups, ...rightGroups]
 
 export function KeyboardShortcutsDialog({ onClose }: KeyboardShortcutsDialogProps) {
   const { locale, t } = useLocalization()
@@ -41,12 +43,15 @@ export function KeyboardShortcutsDialog({ onClose }: KeyboardShortcutsDialogProp
       </header>
       <p id={descriptionId} className="shortcuts-dialog__intro">{t('shortcuts.introduction')}</p>
       <div className="shortcuts-dialog__groups">
-        {groups.map(({ group, groupKey, actions }) => <section key={group}>
-          <h3>{t(groupKey)}</h3>
-          <dl>
-            {actions.map((action) => <ShortcutRow key={action} action={action} locale={locale} />)}
-          </dl>
-        </section>)}
+        {[leftGroups, rightGroups].map((column, index) => <div className="shortcuts-dialog__column" key={index}>
+          {column.map((groupId) => {
+            const group = groups.find(({ group }) => group === groupId)!
+            return <section key={group.group}>
+              <h3>{t(group.groupKey)}</h3>
+              <dl>{group.actions.map((action) => <ShortcutRow key={action} action={action} locale={locale} />)}</dl>
+            </section>
+          })}
+        </div>)}
       </div>
       <div className="shortcuts-dialog__actions">
         <button ref={closeButtonRef} type="button" onClick={onClose}>{t('common.close')}</button>

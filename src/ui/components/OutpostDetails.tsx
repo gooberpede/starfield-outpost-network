@@ -16,6 +16,7 @@
 
 import {
   useState,
+  type Ref,
 } from 'react'
 
 import type {
@@ -49,6 +50,7 @@ import { compareLocalizedItems } from '../localizedCollation.ts'
 import './OutpostDetails.css'
 
 interface OutpostDetailsProps {
+  nameInputRef?: Ref<HTMLInputElement>
   outpost: Outpost
   systems: StarSystemReference[]
   bodies: PlanetaryBodyReference[]
@@ -66,6 +68,7 @@ interface OutpostDetailsProps {
 }
 
 interface OutpostNameFieldProps {
+  inputRef?: Ref<HTMLInputElement>
   name: string
   onCommit: (name: string) => void
 }
@@ -75,6 +78,7 @@ interface OutpostNameFieldProps {
  * identity and authoritative name so navigation and Undo/Redo reset the draft.
  */
 function OutpostNameField({
+  inputRef,
   name,
   onCommit,
 }: OutpostNameFieldProps) {
@@ -84,6 +88,7 @@ function OutpostNameField({
 
   return (
     <input
+      ref={inputRef}
       className="outpost-details__name"
       type="text"
       aria-label={t('outpost.name.label')}
@@ -101,6 +106,7 @@ function OutpostNameField({
 }
 
 export function OutpostDetails({
+  nameInputRef,
   outpost,
   systems,
   bodies,
@@ -157,6 +163,7 @@ export function OutpostDetails({
   return (
     <section className="outpost-details" aria-label={t('outpost.details.heading')}>
       <OutpostNameField
+        inputRef={nameInputRef}
         key={`${outpost.id}:${outpost.name}`}
         name={outpost.name}
         onCommit={onNameCommit}

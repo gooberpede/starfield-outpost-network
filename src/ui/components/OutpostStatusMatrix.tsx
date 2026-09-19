@@ -3,7 +3,7 @@
  * Architecture: Route rows are derived from reference data plus persisted recovery state.
  * Change this file when: matrix row or input presentation semantics change.
  */
-import { useId, useMemo, useState, type ReactNode } from 'react'
+import { useId, useMemo, useState, type ReactNode, type Ref } from 'react'
 import {
   getAvailableOrganicProductionRoutes,
   getOutpostAvailableInorganicResourceIds,
@@ -58,6 +58,10 @@ import {
 } from '../statusStates.ts'
 
 interface Props {
+  regionRef?: Ref<HTMLElement>
+  firstInorganicPresentRef?: Ref<HTMLButtonElement>
+  firstOrganicPresentRef?: Ref<HTMLSpanElement>
+  manufacturingActionRef?: Ref<HTMLButtonElement>
   headingControl?: ReactNode
   outpost: Outpost
   network: OutpostNetwork
@@ -74,16 +78,19 @@ interface Props {
 
 interface ItemDisplay { name: string; shortName: string }
 
-function ReadOnlyState({ item, lit, state, title = item.name, assistiveHidden = false }: {
+function ReadOnlyState({ item, lit, state, title = item.name, assistiveHidden = false, focusRef }: {
   item: ItemDisplay
   lit: boolean
   state?: ManufacturingProducingState
   title?: string
   assistiveHidden?: boolean
+  focusRef?: Ref<HTMLSpanElement>
 }) {
   const { t } = useLocalization()
   const descriptionId = useId()
   return <span
+    ref={focusRef}
+    tabIndex={focusRef ? -1 : undefined}
     className="outpost-status-matrix__state"
     data-state={state ?? (lit ? 'lit' : 'dimmed')}
     title={title}
@@ -128,10 +135,11 @@ function LogisticsMeaning({ item, meaning, showState = true }: {
   </>
 }
 
-function EditableState({ item, pressed, disabled = false, label, title = item.name, onClick }: {
-  item: ItemDisplay; pressed: boolean; disabled?: boolean; label: string; title?: string; onClick: () => void
+function EditableState({ item, pressed, disabled = false, label, title = item.name, onClick, focusRef }: {
+  item: ItemDisplay; pressed: boolean; disabled?: boolean; label: string; title?: string; onClick: () => void; focusRef?: Ref<HTMLButtonElement>
 }) {
   return <button
+    ref={focusRef}
     className="outpost-status-matrix__state outpost-status-matrix__state--editable"
     type="button" aria-pressed={pressed} aria-label={label}
     title={title} disabled={disabled} onClick={onClick}
@@ -139,6 +147,7 @@ function EditableState({ item, pressed, disabled = false, label, title = item.na
 }
 
 export function OutpostStatusMatrix({
+  regionRef, firstInorganicPresentRef, firstOrganicPresentRef, manufacturingActionRef,
   headingControl,
   outpost, network, resources, referenceData, products, actuallyAvailableItems,
   availableItems,
@@ -243,7 +252,7 @@ export function OutpostStatusMatrix({
     setIsAddingProduct(false)
   }
 
-  return <section className="outpost-status-matrix" aria-labelledby="resource-matrix-heading">
+  return <section ref={regionRef} tabIndex={-1} className="outpost-status-matrix" aria-labelledby="resource-matrix-heading">
     <div className="outpost-status-matrix__heading-strip">
       <h2 id="resource-matrix-heading">{t('matrix.heading')}</h2>
       {headingControl}
@@ -287,7 +296,7 @@ export function OutpostStatusMatrix({
             </button>
           </div>}
         </div>
-        {inorganicRows.map((resourceId) => {
+        {inorganicRows.map((resourceId, index) => {
           const resource = resourcesById.get(resourceId)
           const display = {
             name: getReferenceDisplayName('resource', resourceId, resource?.name, locale),
@@ -303,6 +312,7 @@ export function OutpostStatusMatrix({
             <div className="outpost-status-matrix__item" role="rowheader" title={display.name}>{display.name}</div>
             <div role="cell" />
             <div role="cell"><EditableState item={display} pressed={present}
+              focusRef={index === 0 ? firstInorganicPresentRef : undefined}
               disabled={explicit && !present && !canAddExplicit}
               label={t('matrix.action.togglePresent', { item: display.name })}
               title={explicit
@@ -335,7 +345,7 @@ export function OutpostStatusMatrix({
         <div className="outpost-status-matrix__section-heading" role="row">
           <div role="cell" aria-colspan={6}><h3 id="matrix-organic">{t('matrix.section.organic')}</h3></div>
         </div>
-        {organicRows.map((route) => {
+        {organicRows.map((route, index) => {
           const resource = resourcesById.get(route.resourceId)
           const display = {
             name: getReferenceDisplayName('resource', route.resourceId, resource?.name, locale),
@@ -353,6 +363,7 @@ export function OutpostStatusMatrix({
             <div className="outpost-status-matrix__item" role="rowheader" title={display.name}>{display.name}</div>
             <div className="outpost-status-matrix__item" role="cell" title={source}>{source}</div>
             <div role="cell"><ReadOnlyState
+              focusRef={index === 0 ? firstOrganicPresentRef : undefined}
               item={display}
               lit={present}
               title={getOrganicPresentTooltip(
@@ -391,10 +402,10 @@ export function OutpostStatusMatrix({
           <div className="outpost-status-matrix__section-bar-content" role="cell" aria-colspan={6}>
             <h3 id="matrix-manufacturing">{t('matrix.section.manufacturing')}</h3>
             <div className="outpost-status-matrix__actions">{draftManufacturing ? <>
-              <button className="outpost-status-matrix__compact-action" type="button" onClick={() => { onCommitManufacturing(draftManufacturing); setDraftManufacturing(null); setIsAddingProduct(false) }}>{t('common.save')}</button>
+              <button ref={manufacturingActionRef} className="outpost-status-matrix__compact-action" type="button" onClick={() => { onCommitManufacturing(draftManufacturing); setDraftManufacturing(null); setIsAddingProduct(false) }}>{t('common.save')}</button>
               <button className="outpost-status-matrix__compact-action" type="button" onClick={() => { setDraftManufacturing(null); setIsAddingProduct(false) }}>{t('common.cancel.lower')}</button>
               <button className="outpost-status-matrix__compact-action" type="button" aria-label={t('matrix.manufacturing.add')} onClick={() => setIsAddingProduct(true)}>+</button>
-            </> : <button className="outpost-status-matrix__compact-action" type="button" onClick={beginManufacturingEdit}>{t('common.edit')}</button>}</div>
+            </> : <button ref={manufacturingActionRef} className="outpost-status-matrix__compact-action" type="button" onClick={beginManufacturingEdit}>{t('common.edit')}</button>}</div>
           </div>
         </div>
         {draftManufacturing && isAddingProduct && <div className="outpost-status-matrix__full-row" role="row"><div role="cell" aria-colspan={6}>
