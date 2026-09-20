@@ -30,11 +30,11 @@ Bethesda’s support matrix currently lists:
 | English | Interface/Text + Voice | Yes | Supported |
 | French | Interface/Text + Voice | Yes | Supported |
 | German | Interface/Text + Voice | Yes | Supported |
-| Spanish (Spain) | Interface/Text + Voice | Yes | Terminology/glossary staged; runtime inactive |
+| Spanish (Spain) | Interface/Text + Voice | Yes | Semantic catalogue complete; runtime inactive; reference names pending |
 | Japanese | Interface/Text + Voice | Yes | Supported |
-| Italian | Interface/Text | Yes | Terminology/glossary staged; runtime inactive |
+| Italian | Interface/Text | Yes | Semantic catalogue complete; runtime inactive; reference names pending |
 | Polish | Interface/Text | Yes | Not onboarded |
-| Portuguese (Brazil) | Interface/Text | Yes | Terminology/glossary staged; runtime inactive |
+| Portuguese (Brazil) | Interface/Text | Yes | Semantic catalogue complete; runtime inactive; reference names pending |
 | Simplified Chinese | Interface/Text | Yes | Not onboarded |
 
 Authority:
@@ -1517,7 +1517,7 @@ unchanged.
 
 ---
 
-## 19.6 Spanish, Italian, and Brazilian Portuguese terminology stage
+## 19.6 Spanish, Italian, and Brazilian Portuguese semantic-catalogue stage
 
 `es-ES`, `it-IT`, and `pt-BR` are registered tooling locales with
 `runtimeAvailable: false`. Their 37-row official terminology artifacts resolve
@@ -1528,15 +1528,18 @@ the shared 19-term evidence contract, and their approved glossaries are:
 - `docs/localization/PORTUGUESE-BRAZIL-GLOSSARY.md`.
 
 The glossaries classify official Bethesda, tracker-owned, and context-sensitive
-terminology. Review-package constraints are complete for all three locales and
-encode phrase, key-scoped, or semantic-concept strategies with allowed variants
-where grammar requires them. They do not create semantic catalogues, review
-drafts, XLIFF handoffs, reference-name overlays, runtime registrations, locale
-selector entries, or browser mappings.
+terminology. Each locale has a completely adjudicated 414-key review CSV, a
+deterministic current-handoff XLIFF, and a generated semantic catalogue with
+exact key, placeholder, plural, protected-token, and accidental-English
+validation. Review evidence preserves the independent Codex and DeepL witnesses,
+including explicit repairs for invalid DeepL token output.
 
 Regional targets are strict: Spanish means Spain Spanish, Portuguese means
-Brazilian Portuguese, and Italian means standard `it-IT`. The next stage is an
-independent 414-key semantic-catalogue drafting and review batch per locale.
+Brazilian Portuguese, and Italian means standard `it-IT`. All three remain
+`runtimeAvailable: false`; they have no reference-name overlays, fauna evidence,
+runtime registrations, locale-selector entries, or browser mappings. The next
+stage is official reference-name and fauna-evidence closure before runtime
+integration.
 
 ---
 

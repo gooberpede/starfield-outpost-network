@@ -346,9 +346,10 @@ export function pluralParametersOf(template: string): string[] {
 export function hasValidPluralSyntax(template: string): boolean {
   const withoutSupportedPlural = template.replace(
     /\{\w+, plural, one \{[^{}]*\} other \{[^{}]*\}\}/g,
-    '',
+    '{plural}',
   )
-  return !/,\s*(?:plural|pluriel)\b/i.test(withoutSupportedPlural)
+  return !/\{[^{}]*,/.test(withoutSupportedPlural) &&
+    !/\b(?:plural|one|other)\s*\{/i.test(withoutSupportedPlural)
 }
 
 export function protectedTokensOf(template: string): string[] {
@@ -361,6 +362,45 @@ export function protectedTokensOf(template: string): string[] {
     }
   }
   return found
+}
+
+const accidentalEnglishInvariantTokens = [
+  ...protectedTokenCandidates, 'Starfield', 'X-Tech', 'Tec-X', 'HTTP', 'hash',
+] as const
+
+const accidentalEnglishAllowedWords: Readonly<Record<string, ReadonlySet<string>>> = {
+  'es-ES': new Set(['domesticable', 'error', 'fauna', 'flora', 'normal', 'norm', 'original', 'solar', 'local']),
+  'it-IT': new Set(['browser', 'fauna', 'file', 'flora', 'info', 'normal', 'norm', 'schema', 'standard', 'locale', 'local']),
+  'pt-BR': new Set(['fauna', 'flora', 'item', 'normal', 'norm', 'original', 'solar', 'local', 'status', 'standard']),
+}
+
+const suspiciousShortEnglishWords = new Set([
+  'all', 'any', 'both', 'down', 'each', 'for', 'from', 'hide', 'into', 'off', 'of',
+  'only', 'or', 'same', 'than', 'that', 'the', 'this', 'to', 'up', 'with',
+])
+
+function wordsOf(value: string): string[] {
+  return [...value.normalize('NFC').matchAll(/[\p{L}\p{N}]+(?:[-’'][\p{L}\p{N}]+)*/gu)]
+    .map((match) => match[0].toLocaleLowerCase('en-US'))
+}
+
+/**
+ * Finds suspicious ordinary English tokens copied from the source into a staged
+ * full-locale draft. Source intersection avoids pretending to be a general
+ * language detector; the locale allowlist covers genuine shared vocabulary.
+ */
+export function accidentalEnglishResidueOf(english: string, translation: string, locale: string): string[] {
+  const allowed = accidentalEnglishAllowedWords[locale]
+  if (!allowed) return []
+  const stripInvariants = (value: string) => {
+    let result = value.replace(/\{\w+(?:, plural, one \{[^{}]*\} other \{[^{}]*\})?\}/g, ' ')
+    for (const token of accidentalEnglishInvariantTokens) result = result.replaceAll(token, ' ')
+    return result.replace(/\b[\w-]+\.(?:json|csv|xliff|ts|tsx|js|mjs)\b/gi, ' ')
+  }
+  const sourceWords = new Set(wordsOf(stripInvariants(english)))
+  const suspicious = wordsOf(stripInvariants(translation)).filter((word) =>
+    (word.length >= 4 || suspiciousShortEnglishWords.has(word)) && sourceWords.has(word) && !allowed.has(word))
+  return [...new Set(suspicious)].sort()
 }
 
 function riskOf(key: MessageKey): ReviewRisk {
@@ -409,6 +449,7 @@ export function comparisonStatus(codex: string, deepL: string): ReviewComparison
 
 function translationTokenIssue(english: string, translation: string): string | undefined {
   if (!hasValidPluralSyntax(translation)) return 'PLURAL_SYNTAX'
+  if (JSON.stringify(pluralParametersOf(translation)) !== JSON.stringify(pluralParametersOf(english))) return 'PLURAL_SYNTAX'
   if (JSON.stringify(parametersOf(translation)) !== JSON.stringify(parametersOf(english))) return 'PLACEHOLDERS'
   if (protectedTokensOf(english).some((token) => !translation.includes(token))) return 'PROTECTED_TOKEN'
   return undefined
@@ -418,6 +459,8 @@ export function createReviewRows(locale: string, translations: Partial<MessageCa
   return (Object.keys(enUSMessages) as MessageKey[]).sort().map((key) => {
     const english = enUSMessages[key]
     const codex = translations[key] ?? ''
+    const residue = codex ? accidentalEnglishResidueOf(english, codex, locale) : []
+    if (residue.length) throw new Error(`REVIEW_ACCIDENTAL_ENGLISH: ${locale}:${key}: ${residue.join(', ')}`)
     return {
       Key: key, Locale: locale, EnglishSource: english, EnglishSourceSha256: englishSourceSha256(english),
       Context: contextOf(key), Risk: riskOf(key),

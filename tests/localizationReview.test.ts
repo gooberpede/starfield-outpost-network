@@ -4,15 +4,21 @@ import test from 'node:test'
 
 import { enUSMessages } from '../src/localization/locales/en-US.ts'
 import { deDEMessages } from '../src/localization/locales/de-DE.ts'
+import { esESMessages } from '../src/localization/locales/es-ES.ts'
 import { frFRMessages } from '../src/localization/locales/fr-FR.ts'
+import { itITMessages } from '../src/localization/locales/it-IT.ts'
 import { jaJPMessages } from '../src/localization/locales/ja-JP.ts'
+import { ptBRMessages } from '../src/localization/locales/pt-BR.ts'
 import {
-  comparisonStatus, createReviewCsv, createReviewRows, englishSourceSha256, hasValidPluralSyntax,
+  accidentalEnglishResidueOf, comparisonStatus, createReviewCsv, createReviewRows, englishSourceSha256, hasValidPluralSyntax,
   createReviewXliff, finalCatalogueFromReview, importReviewXliff,
   parametersOf, parseAndValidateReviewCsv, protectedTokensOf, serializeReviewRows,
 } from '../src/localization/reviewPackage.ts'
 import { deDEReviewDraft } from '../src/localization/reviewDrafts/de-DE.ts'
+import { esESReviewDraft } from '../src/localization/reviewDrafts/es-ES.ts'
 import { frFRReviewDraft } from '../src/localization/reviewDrafts/fr-FR.ts'
+import { itITReviewDraft } from '../src/localization/reviewDrafts/it-IT.ts'
+import { ptBRReviewDraft } from '../src/localization/reviewDrafts/pt-BR.ts'
 import { adjudicateReviewRows } from '../src/localization/reviewAdjudication.ts'
 import { supportedLocaleIds } from '../src/localization/types.ts'
 import { reviewRouteForLocale } from '../scripts/localization/review-routing.ts'
@@ -28,12 +34,13 @@ test('review rows are deterministic, locale-specific, and hash exact English sou
   }
 })
 
-test('staged review locales have approved constraints but still fail clearly until independent drafts exist', () => {
+test('staged review locales route to independent drafts without becoming runtime locales', () => {
   for (const locale of ['es-ES', 'it-IT', 'pt-BR']) {
-    assert.throws(
-      () => reviewRouteForLocale(locale),
-      new RegExp(`REVIEW_DRAFT_MISSING: ${locale}.*src/localization/reviewDrafts/${locale}\\.ts`),
-    )
+    const route = reviewRouteForLocale(locale)
+    assert.equal(route.locale, locale)
+    assert.equal(route.source.createXliff, true)
+    assert.equal(Object.keys(route.source.translations).length, Object.keys(enUSMessages).length)
+    assert.ok(!supportedLocaleIds.includes(locale as never))
     const rows = createReviewRows(locale)
     assert.equal(rows.length, Object.keys(enUSMessages).length)
     assert.ok(rows.filter((row) => row.OfficialTermConstraints).length > 100)
@@ -49,6 +56,51 @@ test('French and German Codex drafts are complete and token-safe', () => {
     assert.ok(rows.filter((row) => row.Risk === 'HIGH').length > 100)
     assert.ok(rows.filter((row) => row.OfficialTermConstraints).length > 100)
   }
+})
+
+test('Spanish, Italian, and Brazilian Portuguese Codex drafts are complete and token-safe', () => {
+  const invariantKeys = new Set([
+    'about.attribution', 'cargo.destination.linkedLocator', 'cargo.destination.padContents',
+    'history.benchmark', 'matrix.action.toggle', 'matrix.column.item', 'outpost.solar.label',
+    'power.label.normal', 'power.label.unknown', 'power.quality.normal', 'power.tooltip.unknown',
+    'validation.context.separator', 'validation.severity.error',
+  ])
+  for (const [locale, draft] of [
+    ['es-ES', esESReviewDraft], ['it-IT', itITReviewDraft], ['pt-BR', ptBRReviewDraft],
+  ] as const) {
+    const rows = parseAndValidateReviewCsv(createReviewCsv(locale, draft), locale)
+    assert.equal(rows.length, Object.keys(enUSMessages).length)
+    assert.ok(rows.every((row) => row.CodexTranslation.trim()), locale)
+    assert.ok(rows.every((row) => !row.DeepLTranslation && row.ComparisonStatus === 'MISSING'), locale)
+    assert.ok(rows.every((row) => !row.AdjudicationDecision && !row.FinalTranslation && !row.ReviewerNote), locale)
+    assert.ok(rows.filter((row) => row.Risk === 'HIGH').length > 100)
+    assert.ok(rows.filter((row) => row.OfficialTermConstraints).length > 100)
+    assert.ok(rows.filter((row) => row.CodexTranslation === row.EnglishSource)
+      .every((row) => invariantKeys.has(row.Key)), locale)
+  }
+  assert.match(ptBRReviewDraft['matrix.tooltip.xTech.add'], /Tec-X/)
+  assert.doesNotMatch(ptBRReviewDraft['matrix.tooltip.xTech.add'], /X-Tech/)
+})
+
+test('staged draft English-residue detection reports ordinary source words and exempts invariants', () => {
+  assert.deepEqual(
+    accidentalEnglishResidueOf('Finish reshuffling cargo links', 'Finish reordenación de enlaces de cargamento', 'es-ES'),
+    ['finish'],
+  )
+  assert.deepEqual(
+    accidentalEnglishResidueOf('Export all networks to JSON', 'Exportar all networks a JSON', 'es-ES'),
+    ['all', 'networks'],
+  )
+  assert.deepEqual(accidentalEnglishResidueOf('Add cargo link ({count} of {limit})',
+    'Añadir enlace de cargamento ({count} of {limit})', 'es-ES'), ['of'])
+  assert.deepEqual(
+    accidentalEnglishResidueOf('Starfield JSON FormID He-3 Ctrl Esc Shift ID X-Tech',
+      'Starfield JSON FormID He-3 Ctrl Esc Shift ID X-Tech', 'it-IT'),
+    [],
+  )
+  assert.deepEqual(accidentalEnglishResidueOf('{item}: normal', '{item}: normal', 'pt-BR'), [])
+  assert.deepEqual(accidentalEnglishResidueOf('HTTP status and flora source', 'Status HTTP e origem da flora', 'pt-BR'), [])
+  assert.deepEqual(accidentalEnglishResidueOf('Manifest schema version', 'Versione dello schema del manifesto', 'it-IT'), [])
 })
 
 test('French and German review constraints cover every applicable approved glossary concept', () => {
@@ -135,6 +187,79 @@ test('committed French and German XLIFF files match their current deterministic 
       )
     }
     assert.equal(xliff, createReviewXliff(frozenRows, locale))
+  }
+})
+
+test('Spanish, Italian, and Brazilian Portuguese review evidence preserves deterministic handoffs', async () => {
+  for (const [locale, draft] of [
+    ['es-ES', esESReviewDraft], ['it-IT', itITReviewDraft], ['pt-BR', ptBRReviewDraft],
+  ] as const) {
+    const rows = createReviewRows(locale, draft)
+    const [csv, xliff] = await Promise.all([
+      readFile(new URL(`../docs/localization/${locale}-review.csv`, import.meta.url), 'utf8'),
+      readFile(new URL(`../docs/localization/${locale}-deepl.xliff`, import.meta.url), 'utf8'),
+    ])
+    const frozenRows = createReviewRows(locale, draft)
+    const committedRows = parseAndValidateReviewCsv(csv, locale)
+    for (const [index, row] of committedRows.entries()) {
+      const frozen = frozenRows[index]
+      assert.deepEqual(
+        [row.Key, row.Locale, row.EnglishSource, row.EnglishSourceSha256, row.Context, row.Risk,
+          row.Parameters, row.ProtectedTokens, row.OfficialTermConstraints, row.CodexTranslation],
+        [frozen.Key, frozen.Locale, frozen.EnglishSource, frozen.EnglishSourceSha256, frozen.Context,
+          frozen.Risk, frozen.Parameters, frozen.ProtectedTokens, frozen.OfficialTermConstraints,
+          frozen.CodexTranslation],
+      )
+      assert.ok(row.DeepLTranslation, `${locale}:${row.Key}:DeepLTranslation`)
+      assert.notEqual(row.ComparisonStatus, 'MISSING', `${locale}:${row.Key}:ComparisonStatus`)
+      assert.ok(row.AdjudicationDecision, `${locale}:${row.Key}:AdjudicationDecision`)
+      assert.ok(row.FinalTranslation, `${locale}:${row.Key}:FinalTranslation`)
+      assert.ok(row.ReviewerNote, `${locale}:${row.Key}:ReviewerNote`)
+    }
+    assert.equal(xliff, createReviewXliff(rows, locale), locale)
+  }
+})
+
+test('Spanish, Italian, and Brazilian Portuguese final catalogues are complete, safe, and review-derived', async () => {
+  const englishKeys = Object.keys(enUSMessages).sort()
+  for (const [locale, catalogue] of [
+    ['es-ES', esESMessages], ['it-IT', itITMessages], ['pt-BR', ptBRMessages],
+  ] as const) {
+    assert.deepEqual(Object.keys(catalogue).sort(), englishKeys, locale)
+    const review = await readFile(new URL(`../docs/localization/${locale}-review.csv`, import.meta.url), 'utf8')
+    const rows = parseAndValidateReviewCsv(review, locale)
+    assert.deepEqual(finalCatalogueFromReview(review, locale), catalogue)
+    assert.deepEqual(
+      adjudicateReviewRows(rows).map(({ AdjudicationDecision, FinalTranslation, ReviewerNote }) => ({ AdjudicationDecision, FinalTranslation, ReviewerNote })),
+      rows.map(({ AdjudicationDecision, FinalTranslation, ReviewerNote }) => ({ AdjudicationDecision, FinalTranslation, ReviewerNote })),
+    )
+    for (const key of englishKeys as (keyof typeof enUSMessages)[]) {
+      const value = catalogue[key]
+      assert.match(value, /\S/, `${locale}:${key}`)
+      assert.deepEqual(parametersOf(value), parametersOf(enUSMessages[key]), `${locale}:${key}:parameters`)
+      assert.equal(hasValidPluralSyntax(value), true, `${locale}:${key}:plural`)
+      for (const token of protectedTokensOf(enUSMessages[key])) assert.ok(value.includes(token), `${locale}:${key}:${token}`)
+      assert.deepEqual(accidentalEnglishResidueOf(enUSMessages[key], value, locale), [], `${locale}:${key}:English residue`)
+    }
+    assert.ok(rows.filter(({ ComparisonStatus }) => ComparisonStatus === 'INVALID_TOKENS')
+      .every(({ AdjudicationDecision }) => AdjudicationDecision === 'INVALID_DEEPL_REPAIRED'))
+  }
+  assert.deepEqual(supportedLocaleIds, ['en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE'])
+})
+
+test('Spanish and Brazilian Portuguese skill labels preserve verified official names', async () => {
+  const expectations = [
+    ['es-ES', 'character.skill.outpostEngineering', 'Ingeniería de puestos'],
+    ['es-ES', 'character.skill.outpostManagement', 'Gestión de puestos'],
+    ['pt-BR', 'character.skill.researchMethods', 'Métodos de Pesquisa'],
+  ] as const
+  const catalogues = { 'es-ES': esESMessages, 'pt-BR': ptBRMessages }
+  for (const [locale, key, expected] of expectations) {
+    assert.equal(catalogues[locale][key], expected)
+    const review = await readFile(new URL(`../docs/localization/${locale}-review.csv`, import.meta.url), 'utf8')
+    const row = parseAndValidateReviewCsv(review, locale).find(({ Key }) => Key === key)
+    assert.equal(row?.AdjudicationDecision, 'CODEX')
+    assert.equal(row?.FinalTranslation, expected)
   }
 })
 
@@ -287,8 +412,38 @@ test('review validation rejects duplicate, missing, stale, placeholder, and prot
   assert.throws(() => parseAndValidateReviewCsv(serializeReviewRows(staleConstraints), 'de-DE'), /REVIEW_CONSTRAINTS_STALE/)
 })
 
+test('review validation requires source plural parameters and supported plural structure', () => {
+  const rows = createReviewRows('de-DE')
+  const target = rows.findIndex(({ Key }) => Key === 'cargo.pad.count')
+  const withPlural = (translation: string) => serializeReviewRows(rows.map((row, index) =>
+    index === target ? { ...row, CodexTranslation: translation } : row))
+
+  assert.doesNotThrow(() => parseAndValidateReviewCsv(
+    withPlural('{count} {count, plural, one {Frachtlink} other {Frachtlinks}}'), 'de-DE'))
+  assert.throws(() => parseAndValidateReviewCsv(
+    withPlural('{count} {count, plurale, one {Frachtlink} other {Frachtlinks}}'), 'de-DE'),
+  /REVIEW_INVALID_PLURAL_SYNTAX/)
+  assert.throws(() => parseAndValidateReviewCsv(
+    withPlural('{count} {count, plural, eins {Frachtlink} other {Frachtlinks}}'), 'de-DE'),
+  /REVIEW_INVALID_PLURAL_SYNTAX/)
+  assert.throws(() => parseAndValidateReviewCsv(
+    withPlural('{count} {count, plural, one {Frachtlink}}'), 'de-DE'),
+  /REVIEW_INVALID_PLURAL_SYNTAX/)
+  assert.throws(() => parseAndValidateReviewCsv(
+    withPlural('{total} {total, plural, one {Frachtlink} other {Frachtlinks}}'), 'de-DE'),
+  /REVIEW_INVALID_PLURAL_SYNTAX/)
+
+  const ordinary = rows.findIndex(({ Key }) => Key === 'common.removeItem')
+  assert.doesNotThrow(() => parseAndValidateReviewCsv(serializeReviewRows(rows.map((row, index) =>
+    index === ordinary ? { ...row, CodexTranslation: 'Entferne {item}' } : row)), 'de-DE'))
+})
+
 test('comparison state is explicit and final catalogues require approved current rows', () => {
-  assert.equal(hasValidPluralSyntax('{count, Plural, ein {Problem} weitere {Probleme}}'), false)
+  assert.equal(hasValidPluralSyntax('{count, plural, one {problema} other {problemi}}'), true)
+  assert.equal(hasValidPluralSyntax('{count, plurale, un {problema} altri {problemi}}'), false)
+  assert.equal(hasValidPluralSyntax('{count, plural, uno {problema} other {problemi}}'), false)
+  assert.equal(hasValidPluralSyntax('{count, plural, one {problema}}'), false)
+  assert.equal(hasValidPluralSyntax('Valore: {count}'), true)
   assert.equal(comparisonStatus('same', 'same'), 'IDENTICAL')
   assert.equal(comparisonStatus('', 'value'), 'MISSING')
   assert.equal(comparisonStatus('one', 'two'), 'SUBSTANTIVE')

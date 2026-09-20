@@ -1,7 +1,10 @@
 /** Explicit semantic-review source routing for each locale with a completed draft. */
 import type { MessageCatalogue } from '../../src/localization/types.ts'
 import { deDEReviewDraft } from '../../src/localization/reviewDrafts/de-DE.ts'
+import { esESReviewDraft } from '../../src/localization/reviewDrafts/es-ES.ts'
 import { frFRReviewDraft } from '../../src/localization/reviewDrafts/fr-FR.ts'
+import { itITReviewDraft } from '../../src/localization/reviewDrafts/it-IT.ts'
+import { ptBRReviewDraft } from '../../src/localization/reviewDrafts/pt-BR.ts'
 import { jaJPMessages } from '../../src/localization/locales/ja-JP.ts'
 
 import { localeMetadataFor, localizationArtifactNames } from './locale-metadata.mjs'
@@ -15,6 +18,9 @@ const reviewSourcesByLocale: Readonly<Record<string, ReviewSource>> = {
   'ja-JP': { translations: jaJPMessages, createXliff: false },
   'fr-FR': { translations: frFRReviewDraft, createXliff: true },
   'de-DE': { translations: deDEReviewDraft, createXliff: true },
+  'es-ES': { translations: esESReviewDraft, createXliff: true },
+  'it-IT': { translations: itITReviewDraft, createXliff: true },
+  'pt-BR': { translations: ptBRReviewDraft, createXliff: true },
 }
 
 export function reviewRouteForLocale(localeValue: string): {
