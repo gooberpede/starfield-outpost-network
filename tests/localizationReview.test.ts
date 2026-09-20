@@ -28,13 +28,15 @@ test('review rows are deterministic, locale-specific, and hash exact English sou
   }
 })
 
-test('staged review locales have deterministic routes and fail clearly until independent drafts exist', () => {
+test('staged review locales have approved constraints but still fail clearly until independent drafts exist', () => {
   for (const locale of ['es-ES', 'it-IT', 'pt-BR']) {
     assert.throws(
       () => reviewRouteForLocale(locale),
       new RegExp(`REVIEW_DRAFT_MISSING: ${locale}.*src/localization/reviewDrafts/${locale}\\.ts`),
     )
-    assert.throws(() => createReviewRows(locale), new RegExp(`REVIEW_CONSTRAINTS_MISSING:.*${locale}`))
+    const rows = createReviewRows(locale)
+    assert.equal(rows.length, Object.keys(enUSMessages).length)
+    assert.ok(rows.filter((row) => row.OfficialTermConstraints).length > 100)
   }
   assert.throws(() => reviewRouteForLocale('xx-XX'), /UNSUPPORTED_LOCALE/)
 })
@@ -83,6 +85,35 @@ test('French and German review constraints cover every applicable approved gloss
     assert.match(byKey.get('help.organic.availablePlanet')!.OfficialTermConstraints, /term\.planet=/)
     assert.doesNotMatch(byKey.get('help.organic.availablePlanet')!.OfficialTermConstraints, /term\.planetary-body=/)
   }
+})
+
+test('Spanish, Italian, and Brazilian Portuguese constraints cover every concept and express contextual strategies', () => {
+  const expectedConstraintIds = [
+    'glossary.active-production', 'glossary.destination', 'glossary.file-import-export',
+    'glossary.inorganic', 'glossary.inputs', 'glossary.lock-order', 'glossary.logistics',
+    'glossary.manufacturing', 'glossary.network', 'glossary.organic', 'glossary.planned-supply',
+    'glossary.present', 'glossary.producing', 'glossary.reshuffle', 'glossary.resource-matrix',
+    'glossary.source', 'glossary.undo-redo', 'glossary.validation',
+    'glossary.validation-error', 'glossary.validation-info', 'glossary.validation-warning',
+    'product.starfield', 'skill.outpost-engineering', 'skill.outpost-management',
+    'skill.planetary-habitation', 'skill.research-methods', 'skill.special-projects',
+    'term.biome', 'term.cargo-link', 'term.inter-system-cargo-link', 'term.outpost',
+    'term.planet', 'term.planetary-body', 'term.star-system', 'term.x-tech',
+    'term.x-tech-power-core',
+  ]
+  for (const locale of ['es-ES', 'it-IT', 'pt-BR']) {
+    const rows = createReviewRows(locale)
+    const byKey = new Map(rows.map((row) => [row.Key, row]))
+    const constraintIds = new Set(rows.flatMap(({ OfficialTermConstraints }) =>
+      OfficialTermConstraints.split('; ').filter(Boolean).map((constraint) => constraint.split('=')[0])))
+    assert.deepEqual([...constraintIds].sort(), expectedConstraintIds, locale)
+    assert.match(byKey.get('matrix.column.present')!.OfficialTermConstraints, /strategy=key-scoped.*variants=/)
+    assert.match(byKey.get('matrix.column.inputs')!.OfficialTermConstraints, /strategy=semantic-concept.*variants=/)
+    assert.match(byKey.get('outpost.body.select')!.OfficialTermConstraints, /term\.planetary-body=.*strategy=semantic-concept/)
+    assert.match(byKey.get('outpost.navigation.reshuffleButton')!.OfficialTermConstraints, /strategy=key-scoped/)
+    assert.match(byKey.get('matrix.heading')!.OfficialTermConstraints, /strategy=phrase/)
+  }
+  assert.throws(() => createReviewRows('xx-XX'), /REVIEW_CONSTRAINTS_MISSING/)
 })
 
 test('committed French and German XLIFF files match their current deterministic handoff representations', async () => {

@@ -80,8 +80,14 @@ const contextByKey: Partial<Record<MessageKey, string>> = {
 
 type ConstraintMatcher = (key: MessageKey, source: string) => boolean
 type Constraint = { id: string; matches: ConstraintMatcher }
+type ConstraintStrategy = 'phrase' | 'key-scoped' | 'semantic-concept'
+type ConstraintValue = string | {
+  value: string
+  strategy: ConstraintStrategy
+  variants?: readonly string[]
+}
 
-const constraintValuesByLocale: Readonly<Record<string, Readonly<Record<string, string>>>> = {
+const constraintValuesByLocale: Readonly<Record<string, Readonly<Record<string, ConstraintValue>>>> = {
   'fr-FR': {
     'term.inter-system-cargo-link': 'Liaison intersystème', 'term.cargo-link': 'Liaison',
     'term.outpost': 'Avant-poste', 'term.biome': 'Biome', 'term.planet': 'Planète',
@@ -119,6 +125,83 @@ const constraintValuesByLocale: Readonly<Record<string, Readonly<Record<string, 
     'glossary.destination': 'Ziel', 'glossary.file-import-export': 'Importieren / Exportieren',
     'glossary.undo-redo': 'Rückgängig / Wiederholen', 'glossary.validation-error': 'Fehler',
     'glossary.validation-warning': 'Warnung', 'glossary.validation-info': 'Information',
+  },
+  'es-ES': {
+    'term.inter-system-cargo-link': { value: 'Enlace de cargamento intersistema', strategy: 'phrase' },
+    'term.cargo-link': { value: 'Enlace de cargamento', strategy: 'phrase' },
+    'term.outpost': { value: 'Puesto', strategy: 'semantic-concept', variants: ['puesto', 'puestos'] },
+    'term.biome': { value: 'Bioma', strategy: 'semantic-concept', variants: ['bioma', 'biomas'] },
+    'term.planet': { value: 'Planeta', strategy: 'semantic-concept', variants: ['planeta', 'planetas'] },
+    'term.planetary-body': { value: 'Cuerpo celeste', strategy: 'semantic-concept', variants: ['cuerpo celeste', 'cuerpos celestes'] },
+    'term.star-system': { value: 'Sistema estelar', strategy: 'semantic-concept', variants: ['sistema estelar', 'sistemas estelares'] },
+    'skill.outpost-management': { value: 'Gestión de puestos', strategy: 'phrase' },
+    'skill.outpost-engineering': { value: 'Ingeniería de puestos', strategy: 'phrase' },
+    'skill.planetary-habitation': { value: 'Asentamiento planetario', strategy: 'phrase' },
+    'skill.research-methods': { value: 'Mét. de investigación', strategy: 'phrase' },
+    'skill.special-projects': { value: 'Proyectos especiales', strategy: 'phrase' },
+    'term.x-tech-power-core': { value: 'Núcleo de energía de X-Tech', strategy: 'semantic-concept', variants: ['núcleo de energía de X-Tech', 'núcleo de X-Tech'] },
+    'term.x-tech': { value: 'X-Tech', strategy: 'phrase' }, 'product.starfield': { value: 'Starfield', strategy: 'phrase' },
+    'glossary.planned-supply': { value: 'Suministro planificado', strategy: 'semantic-concept' },
+    'glossary.present': { value: 'Presencia', strategy: 'key-scoped', variants: ['presencia', 'disponible', 'presente'] },
+    'glossary.producing': { value: 'En producción', strategy: 'key-scoped', variants: ['en producción', 'producir', 'dejar de producir'] },
+    'glossary.inputs': { value: 'Materiales de entrada', strategy: 'semantic-concept', variants: ['materiales de entrada', 'materiales necesarios', 'recursos necesarios'] },
+    'glossary.logistics': { value: 'Logística', strategy: 'key-scoped' }, 'glossary.manufacturing': { value: 'Fabricación', strategy: 'semantic-concept' },
+    'glossary.validation': { value: 'Validación', strategy: 'semantic-concept' }, 'glossary.resource-matrix': { value: 'Matriz de recursos', strategy: 'phrase' },
+    'glossary.reshuffle': { value: 'Reordenar', strategy: 'key-scoped', variants: ['reordenar', 'terminar de reordenar'] },
+    'glossary.lock-order': { value: 'Bloquear el orden', strategy: 'key-scoped' },
+    'glossary.inorganic': { value: 'Inorgánico', strategy: 'semantic-concept', variants: ['inorgánico', 'inorgánica', 'inorgánicos', 'inorgánicas'] },
+    'glossary.organic': { value: 'Orgánico', strategy: 'semantic-concept', variants: ['orgánico', 'orgánica', 'orgánicos', 'orgánicas'] },
+    'glossary.network': { value: 'Red', strategy: 'semantic-concept' }, 'glossary.active-production': { value: 'Producción activa', strategy: 'semantic-concept' },
+    'glossary.source': { value: 'Origen', strategy: 'semantic-concept' }, 'glossary.destination': { value: 'Destino', strategy: 'semantic-concept' },
+    'glossary.file-import-export': { value: 'Importar / Exportar', strategy: 'key-scoped' }, 'glossary.undo-redo': { value: 'Deshacer / Rehacer', strategy: 'key-scoped' },
+    'glossary.validation-error': { value: 'Error', strategy: 'semantic-concept' }, 'glossary.validation-warning': { value: 'Advertencia', strategy: 'semantic-concept' },
+    'glossary.validation-info': { value: 'Información', strategy: 'semantic-concept' },
+  },
+  'it-IT': {
+    'term.inter-system-cargo-link': { value: 'Collegamento merci intersistema', strategy: 'phrase' }, 'term.cargo-link': { value: 'Collegamento merci', strategy: 'phrase' },
+    'term.outpost': { value: 'Avamposto', strategy: 'semantic-concept', variants: ['avamposto', 'avamposti'] }, 'term.biome': { value: 'Bioma', strategy: 'semantic-concept', variants: ['bioma', 'biomi'] },
+    'term.planet': { value: 'Pianeta', strategy: 'semantic-concept', variants: ['pianeta', 'pianeti'] }, 'term.planetary-body': { value: 'Corpo celeste', strategy: 'semantic-concept', variants: ['corpo celeste', 'corpi celesti'] },
+    'term.star-system': { value: 'Sistema stellare', strategy: 'semantic-concept', variants: ['sistema stellare', 'sistemi stellari'] },
+    'skill.outpost-management': { value: 'Gestione avamposto', strategy: 'phrase' }, 'skill.outpost-engineering': { value: 'Ingegneria avamposti', strategy: 'phrase' },
+    'skill.planetary-habitation': { value: 'Insediamento planetario', strategy: 'phrase' }, 'skill.research-methods': { value: 'Metodi di ricerca', strategy: 'phrase' },
+    'skill.special-projects': { value: 'Progetti speciali', strategy: 'phrase' }, 'term.x-tech-power-core': { value: 'Nucleo energetico di X-Tech', strategy: 'semantic-concept', variants: ['nucleo energetico di X-Tech', 'nucleo energetico X-Tech'] },
+    'term.x-tech': { value: 'X-Tech', strategy: 'phrase' }, 'product.starfield': { value: 'Starfield', strategy: 'phrase' },
+    'glossary.planned-supply': { value: 'Fornitura pianificata', strategy: 'semantic-concept' }, 'glossary.present': { value: 'Presenza', strategy: 'key-scoped', variants: ['presenza', 'presente', 'disponibile'] },
+    'glossary.producing': { value: 'In produzione', strategy: 'key-scoped', variants: ['in produzione', 'produrre', 'interrompere la produzione'] },
+    'glossary.inputs': { value: 'Materiali richiesti', strategy: 'semantic-concept', variants: ['materiali richiesti', 'risorse richieste', 'materiali necessari'] },
+    'glossary.logistics': { value: 'Logistica', strategy: 'key-scoped' }, 'glossary.manufacturing': { value: 'Fabbricazione', strategy: 'semantic-concept' },
+    'glossary.validation': { value: 'Convalida', strategy: 'semantic-concept' }, 'glossary.resource-matrix': { value: 'Matrice delle risorse', strategy: 'phrase' },
+    'glossary.reshuffle': { value: 'Riordina', strategy: 'key-scoped', variants: ['riordina', 'termina riordino'] }, 'glossary.lock-order': { value: "Blocca l'ordine", strategy: 'key-scoped' },
+    'glossary.inorganic': { value: 'Inorganico', strategy: 'semantic-concept', variants: ['inorganico', 'inorganica', 'inorganici', 'inorganiche'] },
+    'glossary.organic': { value: 'Organico', strategy: 'semantic-concept', variants: ['organico', 'organica', 'organici', 'organiche'] },
+    'glossary.network': { value: 'Rete', strategy: 'semantic-concept' }, 'glossary.active-production': { value: 'Produzione attiva', strategy: 'semantic-concept' },
+    'glossary.source': { value: 'Origine', strategy: 'semantic-concept' }, 'glossary.destination': { value: 'Destinazione', strategy: 'semantic-concept' },
+    'glossary.file-import-export': { value: 'Importa / Esporta', strategy: 'key-scoped' }, 'glossary.undo-redo': { value: 'Annulla / Ripeti', strategy: 'key-scoped' },
+    'glossary.validation-error': { value: 'Errore', strategy: 'semantic-concept' }, 'glossary.validation-warning': { value: 'Avviso', strategy: 'semantic-concept' },
+    'glossary.validation-info': { value: 'Informazione', strategy: 'semantic-concept' },
+  },
+  'pt-BR': {
+    'term.inter-system-cargo-link': { value: 'Vínculo de carga entre sistemas', strategy: 'phrase' }, 'term.cargo-link': { value: 'Vínculo de carga', strategy: 'phrase' },
+    'term.outpost': { value: 'Entreposto', strategy: 'semantic-concept', variants: ['entreposto', 'entrepostos'] }, 'term.biome': { value: 'Bioma', strategy: 'semantic-concept', variants: ['bioma', 'biomas'] },
+    'term.planet': { value: 'Planeta', strategy: 'semantic-concept', variants: ['planeta', 'planetas'] }, 'term.planetary-body': { value: 'Corpo celeste', strategy: 'semantic-concept', variants: ['corpo celeste', 'corpos celestes'] },
+    'term.star-system': { value: 'Sistema estelar', strategy: 'semantic-concept', variants: ['sistema estelar', 'sistemas estelares'] },
+    'skill.outpost-management': { value: 'Gestão de Entrepostos', strategy: 'phrase' }, 'skill.outpost-engineering': { value: 'Engenh. de Entrepostos', strategy: 'phrase' },
+    'skill.planetary-habitation': { value: 'Habitação Planetária', strategy: 'phrase' }, 'skill.research-methods': { value: 'Métodos de Pesquisa', strategy: 'phrase' },
+    'skill.special-projects': { value: 'Projetos Especiais', strategy: 'phrase' }, 'term.x-tech-power-core': { value: 'Núcleo de energia Tec-X', strategy: 'semantic-concept' },
+    'term.x-tech': { value: 'Tec-X', strategy: 'phrase' }, 'product.starfield': { value: 'Starfield', strategy: 'phrase' },
+    'glossary.planned-supply': { value: 'Suprimento planejado', strategy: 'semantic-concept' }, 'glossary.present': { value: 'Presença', strategy: 'key-scoped', variants: ['presença', 'presente', 'disponível'] },
+    'glossary.producing': { value: 'Em produção', strategy: 'key-scoped', variants: ['em produção', 'produzir', 'parar de produzir'] },
+    'glossary.inputs': { value: 'Insumos', strategy: 'semantic-concept', variants: ['insumos', 'recursos necessários', 'materiais necessários'] },
+    'glossary.logistics': { value: 'Logística', strategy: 'key-scoped' }, 'glossary.manufacturing': { value: 'Fabricação', strategy: 'semantic-concept' },
+    'glossary.validation': { value: 'Validação', strategy: 'semantic-concept' }, 'glossary.resource-matrix': { value: 'Matriz de recursos', strategy: 'phrase' },
+    'glossary.reshuffle': { value: 'Reordenar', strategy: 'key-scoped', variants: ['reordenar', 'concluir reordenação'] }, 'glossary.lock-order': { value: 'Bloquear a ordem', strategy: 'key-scoped' },
+    'glossary.inorganic': { value: 'Inorgânico', strategy: 'semantic-concept', variants: ['inorgânico', 'inorgânica', 'inorgânicos', 'inorgânicas'] },
+    'glossary.organic': { value: 'Orgânico', strategy: 'semantic-concept', variants: ['orgânico', 'orgânica', 'orgânicos', 'orgânicas'] },
+    'glossary.network': { value: 'Rede', strategy: 'semantic-concept' }, 'glossary.active-production': { value: 'Produção ativa', strategy: 'semantic-concept' },
+    'glossary.source': { value: 'Origem', strategy: 'semantic-concept' }, 'glossary.destination': { value: 'Destino', strategy: 'semantic-concept' },
+    'glossary.file-import-export': { value: 'Importar / Exportar', strategy: 'key-scoped' }, 'glossary.undo-redo': { value: 'Desfazer / Refazer', strategy: 'key-scoped' },
+    'glossary.validation-error': { value: 'Erro', strategy: 'semantic-concept' }, 'glossary.validation-warning': { value: 'Aviso', strategy: 'semantic-concept' },
+    'glossary.validation-info': { value: 'Informação', strategy: 'semantic-concept' },
   },
 }
 const constraintExemptLocales = new Set(['ja-JP'])
@@ -310,7 +393,9 @@ function constraintsOf(key: MessageKey, locale: string): string {
     .map((constraint) => {
       const value = localeValues[constraint.id]
       if (!value) throw new Error(`REVIEW_CONSTRAINTS_MISSING: ${locale}:${constraint.id}.`)
-      return `${constraint.id}=${value}`
+      if (typeof value === 'string') return `${constraint.id}=${value}`
+      const variants = value.variants?.length ? `, variants=${value.variants.join(' | ')}` : ''
+      return `${constraint.id}=${value.value} [strategy=${value.strategy}${variants}]`
     })
     .join('; ')
 }

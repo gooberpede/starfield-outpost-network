@@ -1,0 +1,64 @@
+"EvidenceId","Locale","OfficialValue","RecommendedDefault"
+"term.outpost.standalone","es-ES","Puesto","Puesto"
+"term.cargo-link.standalone","es-ES","Enlace de cargamento","Enlace de cargamento"
+"term.inter-system-cargo-link.standalone","es-ES","Enlace de cargamento intersistema","Enlace de cargamento intersistema"
+"term.inter-system.context-label","es-ES","Enlace de cargamento: intersistema","Intersistema"
+"term.biome.ui-label","es-ES","Biomas:","Bioma"
+"term.biome.narrative-ecosystem","es-ES","Qué bioma más fascinante...","Bioma"
+"term.biome.narrative-loanword","es-ES","Solo usaba plantas, hongos, algas... pero tenía un catálogo de especias y sabores de varios biomas.","Bioma"
+"term.biome.shattered-space-environment","es-ES","En un bioma como este habrá muchos materiales orgánicos.","Bioma"
+"term.biome.free-lanes-structured-label","es-ES","Nombre: filtro de exoballena
+
+Experimento: 097
+
+Bioma: océanos
+
+Rasgo deseado: alimentación por filtración","Bioma"
+"term.planet.outpost-context","es-ES","Monta un puesto en un planeta.","Planeta"
+"term.planetary-body.exact-phrase","es-ES","La directiva de la misión solicita que se identifiquen y analicen asteroides y cuerpos planetarios que contengan minerales raros.",""
+"term.planetary-body.celestial-context","es-ES","Llevo años estudiando los cuerpos celestes. ","Cuerpo celeste"
+"term.star-system.target-context","es-ES","Sistema objetivo",""
+"term.star-system.full-phrase","es-ES","Indum. Así se llama el sistema estelar.","Sistema estelar"
+"skill.outpost-management.name","es-ES","Gestión de puestos","Gestión de puestos"
+"skill.outpost-engineering.name","es-ES","Ingeniería de puestos","Ingeniería de puestos"
+"skill.planetary-habitation.name","es-ES","Asentamiento planetario","Asentamiento planetario"
+"skill.research-methods.name","es-ES","Mét. de investigación","Mét. de investigación"
+"skill.special-projects.name","es-ES","Proyectos especiales","Proyectos especiales"
+"term.x-tech.resource-name","es-ES","X-Tech","X-Tech"
+"term.x-tech.free-lanes-context","es-ES","General Tolliver Royce: ¿Dónde está esa arma secreta que me prometiste? ¿Y quién es el chaval?
+
+Almirante Ode Balewa: General Royce, te presento a nuestra arma secreta: Anwar Sinaga.
+
+General Tolliver Royce: ¿Es una especie de broma? ¡Tengo granos más viejos que este crío! Espera... ¿Sinaga? ¿Eres hijo de Gita?
+
+Anwar Sinaga: Sí, señor.
+
+General Tolliver Royce: Serví con ella, una científica brillante. Y aún mejor persona. ¿Qué te trae por aquí?
+
+Almirante Ode Balewa: El joven Anwar ayuda al Departamento de Robótica. Fue él quien sugirió el diseño actual.
+
+Anwar Sinaga: Sí, en los últimos años he estado experimentando con nuestros nuevos soldados robóticos de armazón ligero. Al contrario que el modelo A estándar, estos robots se construyeron con potenciales usos militares.
+
+General Tolliver Royce: Conozco los soldados de hojalata, chaval. Torpes, lentos y tontos como Chunks. No confiaría en uno para cubrirme las espaldas.
+
+Anwar Sinaga: Correcto. Pero las modificaciones que he aplicado remediarán algunos problemas. También veo potencial a la incorporación de una nueva aleación, a la que llamamos X-Tech, a su producción. No hay más que teoría por ahora, pero creo que puede tener muchos usos, desde materiales hasta de mejoría de circuitos.
+
+Almirante Ode Balewa: Sea como fuere, es más compasivo. Piensa en ello, general. Con estas máquinas, no habrá que sacrificar ni una vida humana para ganar esta guerra.
+
+General Tolliver Royce: Ja, eso díselo a los soldados a los que van a disparar.","X-Tech"
+"term.x-tech-power-core.item-name","es-ES","Núcleo de energía de X-Tech","Núcleo de energía de X-Tech"
+"term.x-tech-power-core.extractor-reward","es-ES","Como prometí, un núcleo de energía de X-Tech para que construyas tu propio extractor donde quieras, y el prototipo del disruptor NovaBlast.","Núcleo de energía de X-Tech"
+"term.x-tech-power-core.handover","es-ES","Mientras tanto, aquí tienes el núcleo de energía de X-Tech prometido. Úsalo con cabeza.","Núcleo de energía de X-Tech"
+"term.x-tech-power-core.singular-reward","es-ES","Ahora te debo un núcleo de X-Tech para que hagas lo que desees.","Núcleo de energía de X-Tech"
+"term.x-tech-power-core.reward-summary","es-ES","Como prometimos, un núcleo de energía de X-Tech. Úsalo con cabeza.","Núcleo de energía de X-Tech"
+"term.x-tech-power-core.outpost-context","es-ES","En cuanto a mi parte del trato, un extractor de X-Tech para tu puesto personal. Espero que le des buen uso.","Núcleo de energía de X-Tech"
+"term.starfield.product-title","es-ES","Firmamento","Starfield"
+"term.moon.satellite-context","es-ES","Si me sacas de esta maldita luna, ¡cuenta conmigo!","Luna"
+"term.orbital.adjectival-context","es-ES","Entrando en patrón orbital.",""
+"term.outpost.free-lanes-context","es-ES","¿Has terminado ese puesto?","Puesto"
+"term.planet.free-lanes-context","es-ES","Parece que, en cuanto agotan los recursos de un planeta, se van a otro a hacer lo mismo.","Planeta"
+"term.star-system.free-lanes-context","es-ES","Viaja al sistema de Algorab.","Sistema estelar"
+"term.cargo-pad.base-game-absence","es-ES","",""
+"term.cargo-pad.shattered-space-absence","es-ES","",""
+"term.cargo-pad.trackers-alliance-absence","es-ES","",""
+"term.cargo-pad.free-lanes-absence","es-ES","",""

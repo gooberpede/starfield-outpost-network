@@ -1,0 +1,64 @@
+"EvidenceId","Locale","OfficialValue","RecommendedDefault"
+"term.outpost.standalone","it-IT","Avamposto","Avamposto"
+"term.cargo-link.standalone","it-IT","Collegamento merci","Collegamento merci"
+"term.inter-system-cargo-link.standalone","it-IT","Collegamento merci intersistema","Collegamento merci intersistema"
+"term.inter-system.context-label","it-IT","Collegamento merci - Intersistema","Intersistema"
+"term.biome.ui-label","it-IT","Biomi:","Bioma"
+"term.biome.narrative-ecosystem","it-IT","Che bioma affascinante...","Bioma"
+"term.biome.narrative-loanword","it-IT","Usava solo piante, funghi, alghe... ma aveva una varietà di spezie e sapori da molti biomi.","Bioma"
+"term.biome.shattered-space-environment","it-IT","Un bioma come questo deve abbondare di materiali organici.","Bioma"
+"term.biome.free-lanes-structured-label","it-IT","Nome: exobalena filtratrice
+
+Esperimento: 097
+
+Bioma: oceani
+
+Tratto desiderato: nutrimento filtrato","Bioma"
+"term.planet.outpost-context","it-IT","Fonda un avamposto su un pianeta","Pianeta"
+"term.planetary-body.exact-phrase","it-IT","Le attuali direttive di missione richiedono l’identificazione e il tracciamento di asteroidi e corpi celesti che contengono minerali rari.",""
+"term.planetary-body.celestial-context","it-IT","Ho studiato i corpi celesti per anni. ","Corpo celeste"
+"term.star-system.target-context","it-IT","Sistema",""
+"term.star-system.full-phrase","it-IT","Indo. Ecco il nome del sistema stellare.","Sistema stellare"
+"skill.outpost-management.name","it-IT","Gestione avamposto","Gestione avamposto"
+"skill.outpost-engineering.name","it-IT","Ingegneria avamposti","Ingegneria avamposti"
+"skill.planetary-habitation.name","it-IT","Insediamento planetario","Insediamento planetario"
+"skill.research-methods.name","it-IT","Metodi di ricerca","Metodi di ricerca"
+"skill.special-projects.name","it-IT","Progetti speciali","Progetti speciali"
+"term.x-tech.resource-name","it-IT","X-Tech","X-Tech"
+"term.x-tech.free-lanes-context","it-IT","Generale Tolliver Royce: Dunque, dov’è quest’arma segreta? E chi è quel ragazzino?
+
+Ammiraglio Ode Balewa: Generale Royce, ti presento la nostra arma segreta. Anwar Sinaga.
+
+Generale Tolliver Royce: È una specie scherzo? Ho brufoli più vecchi di questo giovanotto! Aspetta... Sinaga? Sei il figlio di Gita?
+
+Anwar Sinaga: Sissignore.
+
+Generale Tolliver Royce: Ho prestato servizio con lei. Scienziata brillante. E persona ancora migliore. Cosa ti porta qui?
+
+Ammiraglio Ode Balewa: Il giovane Anwar sta aiutando il nostro dipartimento di robotica. È lui che ha suggerito il progetto più recente. 
+
+Anwar Sinaga: Sì, negli ultimi anni ho sperimentato con i nostri nuovi soldati robotici leggeri. A differenza del Modello A standard, questi robot sono costruiti per applicazioni militari. 
+
+Generale Tolliver Royce: Conosco i soldatini di stagno, giovane. Goffi, lenti e stupidi come dei Chunks. Mai ne vorrei uno per guardarmi le spalle.
+
+Anwar Sinaga: Giusto. Ma le modifiche che ho apportato dovrebbero risolvere alcuni di questi problemi. Inoltre ci sono le opportunità offerte da una nuova lega, che ho chiamato X-Tech, che è stata introdotta nella loro produzione. Al momento è ancora tutto teorico, ma credo ci siano molte potenziali applicazioni, dai materiali al potenziamento dei circuiti.
+
+Ammiraglio Ode Balewa: In ogni caso, è molto più umano. Generale, se usiamo queste macchine potremo vincere questa guerra senza sacrificare una singola vita.
+
+Generale Tolliver Royce: Ah, ditelo ai soldati a cui spareranno.","X-Tech"
+"term.x-tech-power-core.item-name","it-IT","Nucleo energetico di X-Tech","Nucleo energetico di X-Tech"
+"term.x-tech-power-core.extractor-reward","it-IT","Come promesso, un nucleo energetico di X-Tech che ti permetterà di costruire un estrattore dove desideri, più il prototipo di Disruptor della Novablast.","Nucleo energetico di X-Tech"
+"term.x-tech-power-core.handover","it-IT","Nel frattempo, ecco il nucleo energetico di X-Tech, come promesso. Usalo bene.","Nucleo energetico di X-Tech"
+"term.x-tech-power-core.singular-reward","it-IT","Ora, ti devo un nucleo energetico di X-Tech da usare come preferisci...","Nucleo energetico di X-Tech"
+"term.x-tech-power-core.reward-summary","it-IT","Un nucleo energetico X-Tech, come promesso. Usalo bene.","Nucleo energetico di X-Tech"
+"term.x-tech-power-core.outpost-context","it-IT","Per quanto riguarda la mia parte dell’accordo, un nucleo energetico di X-Tech per il tuo avamposto personale. Confido che ne farai buon uso.","Nucleo energetico di X-Tech"
+"term.starfield.product-title","it-IT","Campo stellare","Starfield"
+"term.moon.satellite-context","it-IT","Se intendi portarmi via da questa maledetta luna, ci sto!","Luna"
+"term.orbital.adjectival-context","it-IT","Ingresso nella traiettoria orbitale.",""
+"term.outpost.free-lanes-context","it-IT","Hai completato quell’avamposto?","Avamposto"
+"term.planet.free-lanes-context","it-IT","A quanto pare, una volta esaurite le risorse di un pianeta, si spostano semplicemente su quello successivo.","Pianeta"
+"term.star-system.free-lanes-context","it-IT","Raggiungi il sistema Algorab","Sistema stellare"
+"term.cargo-pad.base-game-absence","it-IT","",""
+"term.cargo-pad.shattered-space-absence","it-IT","",""
+"term.cargo-pad.trackers-alliance-absence","it-IT","",""
+"term.cargo-pad.free-lanes-absence","it-IT","",""

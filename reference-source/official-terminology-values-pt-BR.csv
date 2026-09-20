@@ -1,0 +1,64 @@
+"EvidenceId","Locale","OfficialValue","RecommendedDefault"
+"term.outpost.standalone","pt-BR","Entreposto","Entreposto"
+"term.cargo-link.standalone","pt-BR","Vínculo de Carga","Vínculo de carga"
+"term.inter-system-cargo-link.standalone","pt-BR","Vínculo de Carga Entre Sistemas","Vínculo de carga entre sistemas"
+"term.inter-system.context-label","pt-BR","Vínculo de Carga - Entre Sistemas","Entre sistemas"
+"term.biome.ui-label","pt-BR","Biomas:","Bioma"
+"term.biome.narrative-ecosystem","pt-BR","Que bioma fascinante...","Bioma"
+"term.biome.narrative-loanword","pt-BR","Ele usava plantas, cogumelos, algas... mas tinha um catálogo de temperos e sabores de vários biomas.","Bioma"
+"term.biome.shattered-space-environment","pt-BR","Biomas assim têm grande abundância de materiais orgânicos.","Bioma"
+"term.biome.free-lanes-structured-label","pt-BR","Nome: Filtrador Exobaleia
+
+Experimento: 097
+
+Bioma: Oceanos
+
+Atributo Desejado: Alimentação por filtragem","Bioma"
+"term.planet.outpost-context","pt-BR","Monte um entreposto em um planeta","Planeta"
+"term.planetary-body.exact-phrase","pt-BR","As diretrizes da missão atual exigem a identificação e o monitoramento de asteroides e corpos planetários providos de minerais raros.",""
+"term.planetary-body.celestial-context","pt-BR","Eu estudei os corpos celestes por anos. ","Corpo celeste"
+"term.star-system.target-context","pt-BR","Sistema de Destino",""
+"term.star-system.full-phrase","pt-BR","Indum. É o nome do sistema estelar.","Sistema estelar"
+"skill.outpost-management.name","pt-BR","Gestão de Entrepostos","Gestão de Entrepostos"
+"skill.outpost-engineering.name","pt-BR","Engenh. de Entrepostos","Engenh. de Entrepostos"
+"skill.planetary-habitation.name","pt-BR","Habitação Planetária","Habitação Planetária"
+"skill.research-methods.name","pt-BR","Métodos de Pesquisa","Métodos de Pesquisa"
+"skill.special-projects.name","pt-BR","Projetos Especiais","Projetos Especiais"
+"term.x-tech.resource-name","pt-BR","Tec-X","Tec-X"
+"term.x-tech.free-lanes-context","pt-BR","General Tolliver Royce: Então, cadê a tal arma secreta que você me prometeu? E quem é o garoto?
+
+Almirante Ode Balewa: General Royce, conheça nossa arma secreta. Anwar Sinaga. 
+
+General Tolliver Royce: Tá brincando comigo? Eu tenho espinhas mais velhas do que esse garoto! Espera... Sinaga? Você é filho da Gita?
+
+Anwar Sinaga: Sim, senhor.
+
+General Tolliver Royce: Eu servi com ela. Cientista brilhante. Melhor ainda como pessoa. O que o traz aqui?
+
+Almirante Ode Balewa: O jovem Anwar está ajudando nosso departamento de robótica. Foi ele quem sugeriu o design mais recente. 
+
+Anwar Sinaga: Sim, nos últimos anos tenho feito experimentos com nossos novos soldados robóticos de estrutura leve. Diferente do Modelo A padrão, esses robôs foram projetados com aplicações militares em mente. 
+
+General Tolliver Royce: Tô sabendo desses soldadinhos de lata, garoto. Desajeitados, lentos e burros como um Chunks. Não confiaria neles nem pra me dar direções.
+
+Anwar Sinaga: Correto. Mas as modificações que eu fiz devem resolver algumas dessas questões. Também há oportunidades de inserir essa nova liga, que tenho chamando de Tec-X, na fabricação deles. Ainda está tudo no campo teórico, mas acredito que há muitas aplicações possíveis, de materiais a aprimoramentos de circuitos.
+
+Almirante Ode Balewa: Acima de tudo, é mais humano. Pense bem, general. Com essas máquinas, não vamos precisar sacrificar uma única vida humana pra vencer essa guerra.
+
+General Tolliver Royce: Rá, diga isso pros soldados que vão levar bala deles.","Tec-X"
+"term.x-tech-power-core.item-name","pt-BR","Núcleo de Energia Tec-X","Núcleo de energia Tec-X"
+"term.x-tech-power-core.extractor-reward","pt-BR","Conforme prometido, um núcleo de energia Tec-X para que você possa construir seu próprio extrator onde quiser, e o protótipo do subversor Novablast.","Núcleo de energia Tec-X"
+"term.x-tech-power-core.handover","pt-BR","Enquanto isso, aqui está o núcleo de energia Tec-X, como prometido. Use com sabedoria.","Núcleo de energia Tec-X"
+"term.x-tech-power-core.singular-reward","pt-BR","Agora, eu te devo um núcleo de energia Tec-X para usar como quiser...","Núcleo de energia Tec-X"
+"term.x-tech-power-core.reward-summary","pt-BR","Um núcleo de energia Tec-X, como prometido. Use com sabedoria.","Núcleo de energia Tec-X"
+"term.x-tech-power-core.outpost-context","pt-BR","Quanto à minha parte do acordo, aqui está um núcleo de energia Tec-X pro seu entreposto pessoal. Espero que faça bom uso dele.","Núcleo de energia Tec-X"
+"term.starfield.product-title","pt-BR","Campo Estelar","Starfield"
+"term.moon.satellite-context","pt-BR","Vai me tirar dessa lua horrorosa? Tô dentro!","Lua"
+"term.orbital.adjectival-context","pt-BR","Entrando em padrão orbital.",""
+"term.outpost.free-lanes-context","pt-BR","Terminou aquele entreposto?","Entreposto"
+"term.planet.free-lanes-context","pt-BR","Parece que, quando eles esgotam os recursos de um planeta, simplesmente vão para o próximo.","Planeta"
+"term.star-system.free-lanes-context","pt-BR","Vá para o sistema Algorab","Sistema estelar"
+"term.cargo-pad.base-game-absence","pt-BR","",""
+"term.cargo-pad.shattered-space-absence","pt-BR","",""
+"term.cargo-pad.trackers-alliance-absence","pt-BR","",""
+"term.cargo-pad.free-lanes-absence","pt-BR","",""

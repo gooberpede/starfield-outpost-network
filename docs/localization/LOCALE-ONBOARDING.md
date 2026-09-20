@@ -30,11 +30,11 @@ Bethesda’s support matrix currently lists:
 | English | Interface/Text + Voice | Yes | Supported |
 | French | Interface/Text + Voice | Yes | Supported |
 | German | Interface/Text + Voice | Yes | Supported |
-| Spanish (Spain) | Interface/Text + Voice | Yes | Not onboarded |
+| Spanish (Spain) | Interface/Text + Voice | Yes | Terminology/glossary staged; runtime inactive |
 | Japanese | Interface/Text + Voice | Yes | Supported |
-| Italian | Interface/Text | Yes | Not onboarded |
+| Italian | Interface/Text | Yes | Terminology/glossary staged; runtime inactive |
 | Polish | Interface/Text | Yes | Not onboarded |
-| Portuguese (Brazil) | Interface/Text | Yes | Not onboarded |
+| Portuguese (Brazil) | Interface/Text | Yes | Terminology/glossary staged; runtime inactive |
 | Simplified Chinese | Interface/Text | Yes | Not onboarded |
 
 Authority:
@@ -779,6 +779,12 @@ borrow another locale's terminology. Each semantic locale also registers one
 explicit independent draft source. A known locale without that draft fails with
 `REVIEW_DRAFT_MISSING` until editorial drafting begins.
 
+Constraints may be invariant phrases, key-scoped instructions, or semantic
+concepts with explicit grammatical variants. Phrase matching is appropriate
+only when the approved surface form is genuinely invariant. Inflected terms,
+articles, contractions, state/action pairs, and command wording must use
+key-scoped or semantic constraints rather than naïve global substring rules.
+
 Create the Codex draft before reading the independent DeepL draft. Export the
 same frozen rows as XLIFF 1.2, retaining the semantic key as `trans-unit` ID and
 `resname`. Put disambiguation and terminology guidance in XLIFF metadata rather
@@ -1508,6 +1514,29 @@ a geometry change.
 The generated corpus contains ASCII apostrophes and hyphens, umlauts, and `ß`;
 no unusual hyphen code point was found, and ordinary search punctuation remains
 unchanged.
+
+---
+
+## 19.6 Spanish, Italian, and Brazilian Portuguese terminology stage
+
+`es-ES`, `it-IT`, and `pt-BR` are registered tooling locales with
+`runtimeAvailable: false`. Their 37-row official terminology artifacts resolve
+the shared 19-term evidence contract, and their approved glossaries are:
+
+- `docs/localization/SPANISH-GLOSSARY.md`;
+- `docs/localization/ITALIAN-GLOSSARY.md`;
+- `docs/localization/PORTUGUESE-BRAZIL-GLOSSARY.md`.
+
+The glossaries classify official Bethesda, tracker-owned, and context-sensitive
+terminology. Review-package constraints are complete for all three locales and
+encode phrase, key-scoped, or semantic-concept strategies with allowed variants
+where grammar requires them. They do not create semantic catalogues, review
+drafts, XLIFF handoffs, reference-name overlays, runtime registrations, locale
+selector entries, or browser mappings.
+
+Regional targets are strict: Spanish means Spain Spanish, Portuguese means
+Brazilian Portuguese, and Italian means standard `it-IT`. The next stage is an
+independent 414-key semantic-catalogue drafting and review batch per locale.
 
 ---
 

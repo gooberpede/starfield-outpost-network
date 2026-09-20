@@ -25,6 +25,10 @@ const frenchValues = parseOfficialTerminologyValuesCsv(
 const germanValues = parseOfficialTerminologyValuesCsv(
   await readFile(new URL('official-terminology-values-de-DE.csv', directory), 'utf8'),
 )
+const stagedValues = Object.fromEntries(await Promise.all(['es-ES', 'it-IT', 'pt-BR'].map(async (locale) => [
+  locale,
+  parseOfficialTerminologyValuesCsv(await readFile(new URL(`official-terminology-values-${locale}.csv`, directory), 'utf8')),
+])))
 
 test('Free Lanes is terminology evidence but not canonical tracker content', () => {
   assert.equal(policy.canonicalContentPlugins.includes('SFBGS050.esm'), false)
@@ -66,6 +70,9 @@ test('locale values are complete, unique, and keyed to evidence identity', () =>
   assert.doesNotThrow(() => validateOfficialTerminologyValues(rows, japaneseValues, 'ja-JP'))
   assert.doesNotThrow(() => validateOfficialTerminologyValues(rows, frenchValues, 'fr-FR'))
   assert.doesNotThrow(() => validateOfficialTerminologyValues(rows, germanValues, 'de-DE'))
+  for (const locale of ['es-ES', 'it-IT', 'pt-BR']) {
+    assert.doesNotThrow(() => validateOfficialTerminologyValues(rows, stagedValues[locale], locale))
+  }
   assert.throws(() => validateOfficialTerminologyValues(rows, japaneseValues.slice(1), 'ja-JP'), /missing EvidenceId/)
   assert.throws(() => validateOfficialTerminologyValues(rows, [...japaneseValues, japaneseValues[0]], 'ja-JP'), /duplicate EvidenceId/)
   assert.throws(
@@ -100,9 +107,10 @@ test('French and German recommendations preserve direct official terminology', (
   }
 })
 
-test('staged terminology locales resolve deterministic paths and fail on missing values', async () => {
+test('staged terminology locales resolve complete deterministic official values without fallback', async () => {
   for (const locale of ['es-ES', 'it-IT', 'pt-BR']) {
-    await assert.rejects(verifyOfficialTerminology(locale), new RegExp(`TERMINOLOGY_VALUES_MISSING:.*${locale}`))
+    assert.deepEqual(await verifyOfficialTerminology(locale), { rows: 37, terms: 19, locale, values: 37 })
+    assert.ok(stagedValues[locale].every((row) => row.Locale === locale))
     assert.deepEqual(localizationVerificationCommands(locale), [
       ['validate-localized-name-provenance.mjs'],
       ['verify-official-terminology.mjs', '--locale', locale],
@@ -110,6 +118,24 @@ test('staged terminology locales resolve deterministic paths and fail on missing
     ])
   }
   assert.throws(() => localizationVerificationCommands('xx-XX'), /UNSUPPORTED_LOCALE/)
+})
+
+test('Spanish, Italian, and Brazilian Portuguese recommendations keep evidence separate from tracker defaults', () => {
+  const expectations = {
+    'es-ES': ['Puesto', 'Enlace de cargamento', 'Núcleo de energía de X-Tech', 'Firmamento'],
+    'it-IT': ['Avamposto', 'Collegamento merci', 'Nucleo energetico di X-Tech', 'Campo stellare'],
+    'pt-BR': ['Entreposto', 'Vínculo de carga', 'Núcleo de energia Tec-X', 'Campo Estelar'],
+  }
+  for (const [locale, [outpost, cargoLink, powerCore, officialStarfieldValue]] of Object.entries(expectations)) {
+    const byId = new Map(stagedValues[locale].map((row) => [row.EvidenceId, row]))
+    assert.equal(byId.get('term.outpost.standalone').RecommendedDefault, outpost)
+    assert.equal(byId.get('term.cargo-link.standalone').RecommendedDefault, cargoLink)
+    assert.equal(byId.get('term.x-tech-power-core.item-name').RecommendedDefault, powerCore)
+    assert.equal(byId.get('term.starfield.product-title').OfficialValue, officialStarfieldValue)
+    assert.equal(byId.get('term.starfield.product-title').RecommendedDefault, 'Starfield')
+    assert.ok(rows.filter(({ EvidenceKind }) => EvidenceKind === 'absence')
+      .every(({ EvidenceId }) => !byId.get(EvidenceId).OfficialValue && !byId.get(EvidenceId).RecommendedDefault))
+  }
 })
 
 test('locale closure passes its locale to terminology and reference-name verification', () => {
