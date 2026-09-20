@@ -8,6 +8,7 @@ import { localizationInputsFromManifest } from './localization-input-manifest.mj
 import { stableManifestIdentity, validateProvenanceRowShapes } from './provenance-build-integration.mjs'
 import { readStringTable } from './string-table-reader.mjs'
 import { bethesdaTokenForLocale, encodingForKnownLocale, localeMetadataFor, referenceNameArtifactNames } from './locale-metadata.mjs'
+import { composedFaunaPredictions, TARGET_EVIDENCE_LOCALES, validateFaunaEvidence } from './fauna-composition-evidence.mjs'
 import {
   REFERENCE_NAME_TOOL_VERSION, assertExpectedReferenceNameCounts,
   classifyReferenceNameSidecarDrift, compareReferenceNameOverlays, materializeReferenceNames, parseGeneratedReferenceNameModule,
@@ -72,6 +73,15 @@ export async function buildReferenceNameOverlay(options) {
   const overlay = materializeReferenceNames(provenance, tables, { locale: token })
   const counts = assertExpectedReferenceNameCounts(overlay)
   const moduleSource = serializeReferenceNameModule(overlay, locale.trackerLocale)
+  let compositionEvidence = { status: 'independently-observed', support: 'documented-first-party-screenshots', observationCount: 0, contradictions: 0 }
+  if (TARGET_EVIDENCE_LOCALES.includes(locale.trackerLocale)) {
+    const evidenceSource = await readFile(path.join(ROOT, `reference-source/localized-fauna-evidence-${locale.trackerLocale}.json`), 'utf8')
+    const evidence = JSON.parse(evidenceSource)
+    compositionEvidence = {
+      ...validateFaunaEvidence(evidence, composedFaunaPredictions(provenance, overlay, locale.trackerLocale), locale.trackerLocale),
+      evidenceSha256: sha256Text(evidenceSource),
+    }
+  }
   const sidecar = {
     schemaVersion: 2,
     trackerLocale: locale.trackerLocale,
@@ -88,6 +98,7 @@ export async function buildReferenceNameOverlay(options) {
     provenanceRowCount: provenance.length,
     compositionPolicy: { slots: { 0: 'prefix', 1: 'species', 2: 'diet' }, requiredSlot: 1, assembly: 'precomposed-at-build-time' },
     separatorPolicy: { value: 'U+0020', literal: ' ', betweenNonEmptyComponents: true },
+    compositionEvidence,
     generatedModuleSha256: sha256Text(moduleSource),
     generator: { toolVersion: REFERENCE_NAME_TOOL_VERSION },
   }

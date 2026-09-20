@@ -1341,9 +1341,23 @@ No macOS desktop visual test is currently available.
 
 ### Official reference names and runtime exposure
 
-No French reference-name overlay is committed or registered. `fr-FR` is not in
-the runtime catalogue registry, locale selector, browser-language resolution,
-or persisted locale preference contract.
+The committed French reference-name overlay closes the fixed canonical
+population: 3,561 entities resolved from all 4,818 qualified provenance rows,
+including 922 predicted composed-fauna names. Its sidecar records the exact
+official table identities and strict UTF-8 decoding. The overlay remains
+unregistered: `fr-FR` is not in the runtime catalogue registry, locale
+selector, browser-language resolution, or persisted locale preference contract.
+
+Composed fauna use semantic order `prefix + species + diet` and one U+0020
+separator between present components. Four distinct first-party Jemison
+screenshots cover `prefix + species`, `species + diet`, and
+`prefix + species + diet`; every observed rendered name matches the predicted
+content, order, spacing, brackets, abbreviation punctuation, and hyphenation.
+The scanner's uppercase rendering is presentation-only. French composition is
+therefore `provisionally-accepted`, with the explicit limitation that the sample
+comes from one planet and does not prove every possible elision or agreement
+case. Any future contradiction reopens the policy rather than creating an
+entity-specific exception.
 
 ### Official terminology
 
@@ -1368,9 +1382,11 @@ The frozen 414-key semantic review CSV contains independent Codex and DeepL
 drafts, comparison status, final editorial translations, and reviewer notes.
 The complete 414-key `fr-FR` source catalogue has exact key, placeholder,
 plural-syntax, and protected-token parity with `en-US`. It remains intentionally
-unregistered. The official reference-name overlay, composed-fauna proof, search
-review, layout/accessibility review, and release verification remain future
-work. This profile does not make French a supported locale.
+unregistered. Search review, layout/accessibility review, runtime integration,
+and release verification remain future work. The generated corpus contains ASCII apostrophes and hyphens,
+non-breaking spaces, accented letters, and ligatures including `œ`; search
+normalization remains deliberately unchanged. This profile does not make
+French a supported locale.
 
 ---
 
@@ -1385,9 +1401,23 @@ work. This profile does not make French a supported locale.
 
 ### Official reference names and runtime exposure
 
-No German reference-name overlay is committed or registered. `de-DE` is not in
-the runtime catalogue registry, locale selector, browser-language resolution,
-or persisted locale preference contract.
+The committed German reference-name overlay closes the fixed canonical
+population: 3,561 entities resolved from all 4,818 qualified provenance rows,
+including 922 predicted composed-fauna names. Its sidecar records the exact
+official table identities and strict UTF-8 decoding. The overlay remains
+unregistered: `de-DE` is not in the runtime catalogue registry, locale selector,
+browser-language resolution, or persisted locale preference contract.
+
+Composed fauna use semantic order `prefix + species + diet` and one U+0020
+separator between present components. Five distinct first-party Jemison
+screenshots cover `prefix + species`, `species + diet`, and
+`prefix + species + diet`; every observed rendered name matches the predicted
+content, order, spacing, brackets, umlauts, and compound forms. The scanner's
+uppercase rendering is presentation-only. German composition is therefore
+`provisionally-accepted`, with the explicit limitation that the sample comes
+from one planet and does not prove every possible compound. Any future
+contradiction reopens the policy rather than creating an entity-specific
+exception.
 
 ### Official terminology
 
@@ -1412,9 +1442,11 @@ The frozen 414-key semantic review CSV contains independent Codex and DeepL
 drafts, comparison status, final editorial translations, and reviewer notes.
 The complete 414-key `de-DE` source catalogue has exact key, placeholder,
 plural-syntax, and protected-token parity with `en-US`. It remains intentionally
-unregistered. The official reference-name overlay, composed-fauna proof, search
-review, layout/accessibility review, and release verification remain future
-work. This profile does not make German a supported locale.
+unregistered. Search review, layout/accessibility review, runtime integration,
+and release verification remain future work. The generated corpus contains ASCII apostrophes and hyphens,
+umlauts, and `ß`; no unusual hyphen code point was found, and search
+normalization remains deliberately unchanged. This profile does not make
+German a supported locale.
 
 ---
 

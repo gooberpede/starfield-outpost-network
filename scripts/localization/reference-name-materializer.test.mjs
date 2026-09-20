@@ -65,11 +65,13 @@ test('per-locale sidecars require exact input identity and composition policy', 
     schemaVersion: 2, trackerLocale: 'ja-JP', bethesdaToken: 'ja', encoding: 'utf-8',
     localizationInputs: [{ plugin: 'Starfield.esm', tableType: 'strings', memberName: 'strings/starfield_ja.strings', size: 1, sha256: 'A'.repeat(64) }],
     compositionPolicy: { assembly: 'precomposed-at-build-time' }, separatorPolicy: { value: 'U+0020', literal: ' ' },
+    compositionEvidence: { status: 'independently-observed', support: 'documented-first-party-screenshots', observationCount: 1, contradictions: 0 },
   }
   const expected = { trackerLocale: 'ja-JP', bethesdaToken: 'ja', encoding: 'utf-8' }
   assert.doesNotThrow(() => validateReferenceNameSidecar(sidecar, expected))
   assert.throws(() => validateReferenceNameSidecar({ ...sidecar, localizationInputs: [] }, expected), /INPUTS_INVALID/)
   assert.throws(() => validateReferenceNameSidecar({ ...sidecar, trackerLocale: 'fr-FR' }, expected), /LOCALE_MISMATCH/)
+  assert.throws(() => validateReferenceNameSidecar({ ...sidecar, compositionEvidence: { status: 'accepted', observationCount: 0 } }, expected), /COMPOSITION_EVIDENCE_INVALID/)
 })
 
 test('repository-only verifier detects generated module tampering', async () => {
@@ -86,9 +88,4 @@ test('repository-only verifier detects generated module tampering', async () => 
     await writeFile(modulePath, `${await readFile(modulePath, 'utf8')}\n`)
     await assert.rejects(verifyCommittedReferenceNameOverlay(root), /GENERATED_MODULE_HASH_MISMATCH/)
   } finally { await rm(root, { recursive: true, force: true }) }
-})
-
-test('repository verifier fails clearly for a tooling-known locale without committed artifacts', async () => {
-  const repositoryRoot = path.resolve(import.meta.dirname, '../..')
-  await assert.rejects(verifyCommittedReferenceNameOverlay(repositoryRoot, 'fr-FR'), /REFERENCE_NAME_ARTIFACT_MISSING: fr-FR/)
 })

@@ -5,7 +5,7 @@
  */
 import { createHash } from 'node:crypto'
 
-export const REFERENCE_NAME_TOOL_VERSION = '2.0.0'
+export const REFERENCE_NAME_TOOL_VERSION = '3.0.0'
 export const RUNTIME_KIND_ORDER = Object.freeze(['biome', 'body', 'species', 'official-term', 'product', 'resource', 'system'])
 export const EXPECTED_REFERENCE_NAME_COUNTS = Object.freeze({
   biome: 428, body: 1776, species: 1121, 'official-term': 5, product: 30, resource: 78, system: 123,
@@ -154,6 +154,11 @@ export function validateReferenceNameSidecar(sidecar, expected) {
   if (sidecar.compositionPolicy?.assembly !== 'precomposed-at-build-time' ||
     sidecar.separatorPolicy?.value !== 'U+0020' || sidecar.separatorPolicy?.literal !== ' ') {
     throw new Error('REFERENCE_NAME_SIDECAR_COMPOSITION_INVALID.')
+  }
+  if (!['independently-observed', 'pending-opportunistic-screenshots', 'provisionally-accepted'].includes(sidecar.compositionEvidence?.status) ||
+    !['documented-first-party-screenshots', 'inherited-from-current-model', 'independently-observed'].includes(sidecar.compositionEvidence?.support) ||
+    !Number.isInteger(sidecar.compositionEvidence?.observationCount) || sidecar.compositionEvidence.observationCount < 0) {
+    throw new Error('REFERENCE_NAME_SIDECAR_COMPOSITION_EVIDENCE_INVALID.')
   }
   if (expected.toolVersion && sidecar.generator?.toolVersion !== expected.toolVersion) {
     throw new Error('REFERENCE_NAME_SIDECAR_TOOL_VERSION_MISMATCH.')

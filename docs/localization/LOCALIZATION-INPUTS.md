@@ -293,10 +293,10 @@ providers and never reverse-matches English. Before reading a local table it
 requires its member identity, size, and SHA-256 to match the committed
 provenance manifest.
 
-The installed-game generation command is:
+Installed-game generation is locale-oriented; for example:
 
 ```text
-npm run localization:reference-names:build -- --locale ja-JP
+npm run localization:reference-names:build -- --locale fr-FR
 ```
 
 Normal mode materializes the result in memory and fails with semantic drift
@@ -304,12 +304,12 @@ categories without changing tracked files. After review, explicit acceptance
 mode writes the deterministic outputs:
 
 ```text
-npm run localization:reference-names:build -- --locale ja-JP --write
+npm run localization:reference-names:build -- --locale fr-FR --write
 ```
 
-The outputs are
-`src/localization/generated/ja-JP-reference-names.ts` and
-`reference-source/localized-reference-names-ja-JP-manifest.json`. The TypeScript
+The locale-specific outputs follow the pattern
+`src/localization/generated/<locale>-reference-names.ts` and
+`reference-source/localized-reference-names-<locale>-manifest.json`. The TypeScript
 module is the only committed text-bearing output. The sidecar records upstream
 and generated hashes, tracker locale, Bethesda token, encoding, official table identities, game/tool versions, counts,
 and composition/separator policy without local paths or Bethesda table text.
@@ -328,6 +328,8 @@ Repository-only integrity checking requires no installed game files:
 
 ```text
 npm run localization:reference-names:verify -- --locale ja-JP
+npm run localization:reference-names:verify -- --locale fr-FR
+npm run localization:reference-names:verify -- --locale de-DE
 ```
 
 It validates exact coverage against committed provenance, hashes, kinds,
@@ -335,3 +337,25 @@ non-empty Japanese values, resource reconciliation, and sidecar counts. The
 normal production build runs this verifier. A future locale can reuse the same
 provenance, kind normalization, materialization, and serialization boundaries
 with an explicit locale encoding and manifested official tables.
+
+French and German additionally have project-owned evidence records at
+`reference-source/localized-fauna-evidence-<locale>.json`. They retain the
+reviewed screenshot identity, exact observed and predicted text, composition
+details, and explicit match result. A local, ignored matching index can be
+generated after the overlays exist:
+
+```text
+npm run localization:fauna-evidence:build -- --locale fr-FR
+npm run localization:fauna-evidence:build -- --locale de-DE
+```
+
+Each index contains the stable fauna ID, canonical English name, predicted
+localized name, component shape, known planetary-body IDs, and qualified component sources for all 922
+composed fauna. Evidence observations must identify a canonical fauna and state
+an explicit match or mismatch. Any mismatch prevents provisional acceptance;
+the tooling does not silently add per-fauna grammar exceptions.
+
+The current French and German evidence records are provisionally accepted from
+distinct Jemison observations covering every component shape. This remains a
+practical evidence standard rather than mathematical proof; later contradictory
+gameplay evidence must reopen the affected locale policy.

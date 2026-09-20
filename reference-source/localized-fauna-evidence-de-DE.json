@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "locale": "de-DE",
+  "status": "provisionally-accepted",
+  "support": "independently-observed",
+  "evidenceSource": {
+    "archiveFilename": "screenshots-fr-de.zip",
+    "sha256": "59D5852B9F9144F02EAEA8EC0F766579A7480C9A1A19A1B65C2A17F481710A47",
+    "locationContext": "Jemison",
+    "reviewedDate": "2026-09-20"
+  },
+  "observations": [
+    {
+      "id": "de-jemison-00048A34",
+      "locale": "de-DE",
+      "faunaId": "00048A34",
+      "observedText": "[SPITZE] PAPAGEIHABICHT",
+      "predictedText": "[Spitze] Papageihabicht",
+      "matchesPrediction": true,
+      "componentOrder": "prefix, species",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around prefix",
+      "grammarNotes": "The scanner renders the label in uppercase; the German compound is unchanged.",
+      "screenshotReference": "screenshots-fr-de.zip/20260920130854_1.jpg"
+    },
+    {
+      "id": "de-jemison-0019B89F",
+      "locale": "de-DE",
+      "faunaId": "0019B89F",
+      "observedText": "[RUDEL] KORALLENKÄFER",
+      "predictedText": "[Rudel] Korallenkäfer",
+      "matchesPrediction": true,
+      "componentOrder": "prefix, species",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around prefix",
+      "grammarNotes": "The scanner renders the label in uppercase; the umlaut and compound match.",
+      "screenshotReference": "screenshots-fr-de.zip/20260920130931_1.jpg"
+    },
+    {
+      "id": "de-jemison-0019B89C",
+      "locale": "de-DE",
+      "faunaId": "0019B89C",
+      "observedText": "[HERDE] HAUERKOPF [HERBIVOR]",
+      "predictedText": "[Herde] Hauerkopf [Herbivor]",
+      "matchesPrediction": true,
+      "componentOrder": "prefix, species, diet",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around prefix and diet",
+      "grammarNotes": "The scanner renders the label in uppercase; no compounding or inflection change is visible.",
+      "screenshotReference": "screenshots-fr-de.zip/20260920130957_1.jpg"
+    },
+    {
+      "id": "de-jemison-0019B899",
+      "locale": "de-DE",
+      "faunaId": "0019B899",
+      "observedText": "CARASCHNECKE [PLÜNDERN]",
+      "predictedText": "Caraschnecke [Plündern]",
+      "matchesPrediction": true,
+      "componentOrder": "species, diet",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around diet",
+      "grammarNotes": "The scanner renders the label in uppercase; the umlaut and composition match.",
+      "screenshotReference": "screenshots-fr-de.zip/20260920131026_1.jpg"
+    },
+    {
+      "id": "de-jemison-0019B89E",
+      "locale": "de-DE",
+      "faunaId": "0019B89E",
+      "observedText": "[JAGEND] HAUERFROSCH",
+      "predictedText": "[Jagend] Hauerfrosch",
+      "matchesPrediction": true,
+      "componentOrder": "prefix, species",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around prefix",
+      "grammarNotes": "The scanner renders the label in uppercase; the German compound is unchanged.",
+      "screenshotReference": "screenshots-fr-de.zip/20260920131130_1.jpg"
+    }
+  ]
+}

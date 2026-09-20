@@ -10,6 +10,7 @@ import {
 } from './reference-name-materializer.mjs'
 import { stableManifestIdentity, validateProvenanceRowShapes } from './provenance-build-integration.mjs'
 import { bethesdaTokenForLocale, encodingForKnownLocale, localeMetadataFor, referenceNameArtifactNames } from './locale-metadata.mjs'
+import { composedFaunaPredictions, TARGET_EVIDENCE_LOCALES, validateFaunaEvidence } from './fauna-composition-evidence.mjs'
 
 const ROOT = path.resolve(import.meta.dirname, '../..')
 
@@ -84,6 +85,24 @@ export async function verifyCommittedReferenceNameOverlay(root = ROOT, localeVal
   if (sidecar.entityCount !== generatedKeys.size || sidecar.provenanceRowCount !== provenance.length || JSON.stringify(sidecar.perKindCounts) !== JSON.stringify(counts)) {
     throw new Error('REFERENCE_NAME_SIDECAR_COUNT_MISMATCH.')
   }
+  if (TARGET_EVIDENCE_LOCALES.includes(locale.trackerLocale)) {
+    const evidenceSource = await readFile(path.join(root, `reference-source/localized-fauna-evidence-${locale.trackerLocale}.json`), 'utf8')
+    const evidence = JSON.parse(evidenceSource)
+    const summary = {
+      ...validateFaunaEvidence(evidence, composedFaunaPredictions(provenance, overlay, locale.trackerLocale), locale.trackerLocale),
+      evidenceSha256: sha256Text(evidenceSource),
+    }
+    if (JSON.stringify(sidecar.compositionEvidence) !== JSON.stringify(summary)) throw new Error('REFERENCE_NAME_SIDECAR_EVIDENCE_MISMATCH.')
+  }
+  const terminologyValues = parse(await readFile(path.join(root, `reference-source/official-terminology-values-${locale.trackerLocale}.csv`)), {
+    bom: true, columns: true, skip_empty_lines: true, trim: true,
+  })
+  const recommendedByTermId = new Map(terminologyValues
+    .filter((row) => row.EvidenceId.startsWith('skill.') && row.EvidenceId.endsWith('.name'))
+    .map((row) => [row.EvidenceId.slice(0, -'.name'.length), row.RecommendedDefault]))
+  for (const [termId, value] of Object.entries(overlay['official-term'])) {
+    if (recommendedByTermId.get(termId) !== value) throw new Error(`OFFICIAL_TERMINOLOGY_MISMATCH: ${termId}.`)
+  }
   const provenanceResources = new Set(provenance.filter((row) => row.EntityKind === 'resource').map((row) => row.EntityId))
   const runtimeResources = new Set(JSON.parse(resourcesSource).map((resource) => resource.id))
   const sourceOnly = [...provenanceResources].filter((id) => !runtimeResources.has(id)).sort()
@@ -91,7 +110,7 @@ export async function verifyCommittedReferenceNameOverlay(root = ROOT, localeVal
   if (provenanceResources.size !== 78 || runtimeResources.size !== 76 || missingResources.length || JSON.stringify(sourceOnly) !== JSON.stringify(['aqueous-hematite', 'caelumite'])) {
     throw new Error(`RESOURCE_CATALOGUE_RECONCILIATION_FAILED: ${JSON.stringify({ provenance: provenanceResources.size, runtime: runtimeResources.size, missingResources, sourceOnly })}`)
   }
-  return { entityCount: generatedKeys.size, provenanceRows: provenance.length, counts, sourceOnly }
+  return { entityCount: generatedKeys.size, provenanceRows: provenance.length, counts, sourceOnly, evidenceStatus: sidecar.compositionEvidence.status }
 }
 
 if (process.argv[1] && process.argv[1].endsWith('verify-reference-name-overlay.mjs')) {
@@ -100,6 +119,6 @@ if (process.argv[1] && process.argv[1].endsWith('verify-reference-name-overlay.m
   const locale = localeIndex >= 0 ? args[localeIndex + 1] : 'ja-JP'
   if (!locale || args.some((arg, index) => arg.startsWith('--') && (arg !== '--locale' || index !== localeIndex))) throw new Error('Usage: verify-reference-name-overlay.mjs [--locale <tracker-locale>]')
   verifyCommittedReferenceNameOverlay(ROOT, locale).then((result) => process.stdout.write(
-    `Verified committed ${locale} reference-name overlay: ${result.entityCount} entities, ${result.provenanceRows} provenance rows, resources 78/76+2.\n`,
+    `Verified committed ${locale} reference-name overlay: ${result.entityCount} entities, ${result.provenanceRows} provenance rows, resources 78/76+2; composition evidence ${result.evidenceStatus}.\n`,
   )).catch((error) => { process.stderr.write(`${error.stack ?? error}\n`); process.exitCode = 1 })
 }

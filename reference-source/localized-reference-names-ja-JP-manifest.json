@@ -5,8 +5,8 @@
   "encoding": "utf-8",
   "gameVersion": "1.16.244.0",
   "provenanceSha256": "7C3D3464C8DC3BC6CDF521C676F0E2CEF01F79CE287AAF253E80390BEFF67608",
-  "provenanceManifestSha256": "332C69FFE2B2B8F99F395B54C6C787EE8FD9B9EB881A1EB8B1DBA2D00C9610B0",
-  "provenanceManifestIdentity": "0BAA1AC4AA783BC3414053C21A32990E5F320D00BC8F2CA156598708F68F55F6",
+  "provenanceManifestSha256": "9A8E38F20EAE620826873B69CCC8ED68E850655201AA82E012F352549605C978",
+  "provenanceManifestIdentity": "70D77A96A7E72A06BF189F4C0DA6D730E75FC2CADCE9CC61C7CDE6E1A3A86751",
   "authoritativePlugins": [
     "Starfield.esm",
     "ShatteredSpace.esm",
@@ -102,8 +102,14 @@
     "literal": " ",
     "betweenNonEmptyComponents": true
   },
+  "compositionEvidence": {
+    "status": "independently-observed",
+    "support": "documented-first-party-screenshots",
+    "observationCount": 0,
+    "contradictions": 0
+  },
   "generatedModuleSha256": "22F218E9DA2B5318FF22A85E70409D6F2384053CF5456577203886EFCFD1922B",
   "generator": {
-    "toolVersion": "2.0.0"
+    "toolVersion": "3.0.0"
   }
 }

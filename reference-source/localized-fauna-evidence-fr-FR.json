@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "locale": "fr-FR",
+  "status": "provisionally-accepted",
+  "support": "independently-observed",
+  "evidenceSource": {
+    "archiveFilename": "screenshots-fr-de.zip",
+    "sha256": "59D5852B9F9144F02EAEA8EC0F766579A7480C9A1A19A1B65C2A17F481710A47",
+    "locationContext": "Jemison",
+    "reviewedDate": "2026-09-20"
+  },
+  "observations": [
+    {
+      "id": "fr-jemison-00048A34",
+      "locale": "fr-FR",
+      "faunaId": "00048A34",
+      "observedText": "[ALPHA] PERROQUET-BUSE",
+      "predictedText": "[Alpha] Perroquet-buse",
+      "matchesPrediction": true,
+      "componentOrder": "prefix, species",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around prefix; ASCII hyphen within species",
+      "grammarNotes": "The scanner renders the label in uppercase; lexical content, order, spacing, and punctuation match.",
+      "screenshotReference": "screenshots-fr-de.zip/20260920124920_1.jpg"
+    },
+    {
+      "id": "fr-jemison-0019B89F",
+      "locale": "fr-FR",
+      "faunaId": "0019B89F",
+      "observedText": "[MEUTE] MANTE CORAIL",
+      "predictedText": "[Meute] Mante corail",
+      "matchesPrediction": true,
+      "componentOrder": "prefix, species",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around prefix",
+      "grammarNotes": "The scanner renders the label in uppercase; no elision or agreement change is visible.",
+      "screenshotReference": "screenshots-fr-de.zip/20260920125006_1.jpg"
+    },
+    {
+      "id": "fr-jemison-0019B89C",
+      "locale": "fr-FR",
+      "faunaId": "0019B89C",
+      "observedText": "[TROUPEAU] COUPEREUX [HERBIV.]",
+      "predictedText": "[Troupeau] Coupereux [Herbiv.]",
+      "matchesPrediction": true,
+      "componentOrder": "prefix, species, diet",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around prefix and diet; diet abbreviation retains period",
+      "grammarNotes": "The scanner renders the label in uppercase; no additional agreement or elision is visible.",
+      "screenshotReference": "screenshots-fr-de.zip/20260920125036_1.jpg"
+    },
+    {
+      "id": "fr-jemison-0019B899",
+      "locale": "fr-FR",
+      "faunaId": "0019B899",
+      "observedText": "CARASCARGOT [CHAROGNE]",
+      "predictedText": "Carascargot [Charogne]",
+      "matchesPrediction": true,
+      "componentOrder": "species, diet",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around diet",
+      "grammarNotes": "The scanner renders the label in uppercase; lexical content and composition match.",
+      "screenshotReference": "screenshots-fr-de.zip/20260920125039_1.jpg"
+    }
+  ]
+}

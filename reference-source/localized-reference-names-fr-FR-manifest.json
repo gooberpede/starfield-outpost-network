@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 2,
+  "trackerLocale": "fr-FR",
+  "bethesdaToken": "fr",
+  "encoding": "utf-8",
+  "gameVersion": "1.16.244.0",
+  "provenanceSha256": "7C3D3464C8DC3BC6CDF521C676F0E2CEF01F79CE287AAF253E80390BEFF67608",
+  "provenanceManifestSha256": "9A8E38F20EAE620826873B69CCC8ED68E850655201AA82E012F352549605C978",
+  "provenanceManifestIdentity": "70D77A96A7E72A06BF189F4C0DA6D730E75FC2CADCE9CC61C7CDE6E1A3A86751",
+  "authoritativePlugins": [
+    "Starfield.esm",
+    "ShatteredSpace.esm",
+    "SFBGS00D.esm"
+  ],
+  "localizationInputs": [
+    {
+      "plugin": "SFBGS00D.esm",
+      "tableType": "dlstrings",
+      "memberName": "strings/sfbgs00d_fr.dlstrings",
+      "size": 102346,
+      "sha256": "11E9BAC99ACB164EDF8F177DDE5F81A0D9E2E096A65C493B4F9354BD23D86FA0"
+    },
+    {
+      "plugin": "SFBGS00D.esm",
+      "tableType": "ilstrings",
+      "memberName": "strings/sfbgs00d_fr.ilstrings",
+      "size": 490637,
+      "sha256": "EA8899DDAA08AFB4CBCC21B7FC90F2135D779B8926EB64943C1DEA0E068BA460"
+    },
+    {
+      "plugin": "SFBGS00D.esm",
+      "tableType": "strings",
+      "memberName": "strings/sfbgs00d_fr.strings",
+      "size": 123213,
+      "sha256": "EC345F7813E67D3FFE305A742F881DCA55477028D7B5DCD75A31DF9E8771CD65"
+    },
+    {
+      "plugin": "ShatteredSpace.esm",
+      "tableType": "dlstrings",
+      "memberName": "strings/shatteredspace_fr.dlstrings",
+      "size": 193424,
+      "sha256": "60A722FB4C0FCA3E6620A6D73DF2E43FB635C1A924B2D98FB7FD94DF3977D853"
+    },
+    {
+      "plugin": "ShatteredSpace.esm",
+      "tableType": "ilstrings",
+      "memberName": "strings/shatteredspace_fr.ilstrings",
+      "size": 1425708,
+      "sha256": "0BAB4843917820D67BDFE1191A7B8542A444E26636BF2DF72FC6BD90188C28BB"
+    },
+    {
+      "plugin": "ShatteredSpace.esm",
+      "tableType": "strings",
+      "memberName": "strings/shatteredspace_fr.strings",
+      "size": 216329,
+      "sha256": "B2EA1EB138276CC5C6378A76B6AF65AB9E900D1667A851E5991AD8ED49B7043C"
+    },
+    {
+      "plugin": "Starfield.esm",
+      "tableType": "dlstrings",
+      "memberName": "strings/starfield_fr.dlstrings",
+      "size": 1190953,
+      "sha256": "2CE837F97270228B5139B4AFCC9084D46B4D145F3545E7A33C28ADEE4EE15FB1"
+    },
+    {
+      "plugin": "Starfield.esm",
+      "tableType": "ilstrings",
+      "memberName": "strings/starfield_fr.ilstrings",
+      "size": 10529019,
+      "sha256": "D5B776F09E185EF9E9F12A58644E4E4C220BC916B0B5AEE35F2A7BE554A17A49"
+    },
+    {
+      "plugin": "Starfield.esm",
+      "tableType": "strings",
+      "memberName": "strings/starfield_fr.strings",
+      "size": 1763205,
+      "sha256": "E32FFEFD3E5FB21999335FAA6E6AE1538D5A159A04DD46EBA3AE92A848E6593E"
+    }
+  ],
+  "entityCount": 3561,
+  "perKindCounts": {
+    "biome": 428,
+    "body": 1776,
+    "species": 1121,
+    "official-term": 5,
+    "product": 30,
+    "resource": 78,
+    "system": 123
+  },
+  "provenanceRowCount": 4818,
+  "compositionPolicy": {
+    "slots": {
+      "0": "prefix",
+      "1": "species",
+      "2": "diet"
+    },
+    "requiredSlot": 1,
+    "assembly": "precomposed-at-build-time"
+  },
+  "separatorPolicy": {
+    "value": "U+0020",
+    "literal": " ",
+    "betweenNonEmptyComponents": true
+  },
+  "compositionEvidence": {
+    "status": "provisionally-accepted",
+    "support": "independently-observed",
+    "observationCount": 4,
+    "contradictions": 0,
+    "evidenceSha256": "1DF9E8561DB8995CAB325437058B4DE31A48B04F9DE39413AE3F841811740FD8"
+  },
+  "generatedModuleSha256": "610AB5D02C52729B6BFD2A999FA81DB25DD4857032255B0086AFFC167C1E68FF",
+  "generator": {
+    "toolVersion": "3.0.0"
+  }
+}
