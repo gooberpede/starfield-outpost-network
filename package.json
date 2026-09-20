@@ -24,6 +24,7 @@
     "localization:inputs:inspect": "node scripts/localization/localization-inputs.mjs --inspect",
     "localization:inputs:extract": "node scripts/localization/localization-inputs.mjs",
     "localization:review": "node --experimental-strip-types scripts/generate-review-package.ts",
+    "localization:review:adjudicate": "node --experimental-strip-types scripts/adjudicate-review-package.ts",
     "benchmark:history": "node --expose-gc --experimental-strip-types scripts/history-benchmark.ts",
     "benchmark:import-capacity": "node scripts/import-capacity-benchmark.mjs",
     "reference:verify": "node --experimental-strip-types scripts/verify-reference-deployment.mjs",

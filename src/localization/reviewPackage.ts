@@ -11,6 +11,13 @@ export type ReviewComparisonStatus =
   | 'SUBSTANTIVE'
   | 'MISSING'
   | 'INVALID_TOKENS'
+export type ReviewDecision =
+  | ''
+  | 'AGREED'
+  | 'CODEX'
+  | 'DEEPL'
+  | 'CUSTOM'
+  | 'INVALID_DEEPL_REPAIRED'
 
 export interface ReviewRow {
   Key: MessageKey
@@ -25,6 +32,7 @@ export interface ReviewRow {
   CodexTranslation: string
   DeepLTranslation: string
   ComparisonStatus: ReviewComparisonStatus
+  AdjudicationDecision: ReviewDecision
   FinalTranslation: string
   ReviewerNote: string
 }
@@ -32,7 +40,7 @@ export interface ReviewRow {
 export const REVIEW_COLUMNS = [
   'Key', 'Locale', 'EnglishSource', 'EnglishSourceSha256', 'Context', 'Risk',
   'Parameters', 'ProtectedTokens', 'OfficialTermConstraints', 'CodexTranslation',
-  'DeepLTranslation', 'ComparisonStatus', 'FinalTranslation', 'ReviewerNote',
+  'DeepLTranslation', 'ComparisonStatus', 'AdjudicationDecision', 'FinalTranslation', 'ReviewerNote',
 ] as const satisfies readonly (keyof ReviewRow)[]
 
 const contextByNamespace: Record<string, string> = {
@@ -47,8 +55,152 @@ const contextByNamespace: Record<string, string> = {
   search: 'Item search control, result, state flag, or accessibility instruction.',
 }
 
+const contextByKey: Partial<Record<MessageKey, string>> = {
+  'matrix.heading': 'Heading for the Resource Matrix, a tabular view of resource presence, active production, recipe inputs, and routed logistics.',
+  'matrix.column.present': 'Compact Resource Matrix column label meaning the item/resource exists or can exist at this outpost/location; not temporal “currently”.',
+  'matrix.column.producing': 'Compact Resource Matrix state meaning this outpost is configured to extract, harvest, or manufacture the item; no throughput is implied.',
+  'matrix.column.inputs': 'Compact Resource Matrix column for items required by configured recipes or organic production; not data-entry fields.',
+  'matrix.column.logistics': 'Compact Resource Matrix column for items actually assigned to routed cargo exports; not merely items that could be exported.',
+  'matrix.section.inorganic': 'Resource Matrix section heading for mineral/inorganic resources.',
+  'matrix.section.organic': 'Resource Matrix section heading for resources obtained from flora or fauna.',
+  'matrix.section.manufacturing': 'Resource Matrix section heading for configured product manufacturing; no throughput is modeled.',
+  'plannedSupply.heading': 'Feature heading for virtual future supply intent. It is not current inventory, a reservation, or an actual delivery.',
+  'outpost.navigation.lockOrder': 'Button that exits outpost reordering mode and prevents further reordering; “lock” is an ordering action, not security or login.',
+  'outpost.navigation.reshuffleButton': 'Button that enters manual outpost reordering mode; it does not randomize the order.',
+  'cargo.lockOrder': 'Button that exits cargo-link reordering mode and prevents further reordering; “lock” is an ordering action, not security or login.',
+  'cargo.reshuffleButton': 'Button that enters manual cargo-link reordering mode; it does not randomize the order.',
+  'validation.heading': 'Heading for domain validation results containing errors, warnings, and informational findings; not form submission validation alone.',
+  'search.results.flag.present': 'Search-result state flag meaning the item/resource exists or can exist at the outpost; not temporal “currently”.',
+  'search.results.flag.producing': 'Search-result state flag meaning configured active production, without a throughput claim.',
+  'search.results.flag.missingInputs': 'Search-result state flag meaning required recipe or organic-production inputs are unavailable.',
+  'shortcuts.action.focusFirstInorganic': 'Keyboard-shortcut action label that focuses the first inorganic-resource control.',
+  'shortcuts.action.focusFirstOrganic': 'Keyboard-shortcut action label that focuses the first organic-resource control.',
+  'shortcuts.action.focusManufacturingAction': 'Keyboard-shortcut action label that focuses the manufacturing action control.',
+}
+
+type ConstraintMatcher = (key: MessageKey, source: string) => boolean
+type Constraint = { id: string; fr: string; de: string; matches: ConstraintMatcher }
+
+function sourceHas(...terms: string[]): ConstraintMatcher {
+  const patterns = terms.map((term) => new RegExp(`(^|[^A-Za-z])${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:s)?(?=$|[^A-Za-z])`, 'i'))
+  return (_key, source) => patterns.some((pattern) => pattern.test(source))
+}
+
+function keyIs(...keys: MessageKey[]): ConstraintMatcher {
+  const expected = new Set<MessageKey>(keys)
+  return (key) => expected.has(key)
+}
+
+function keyStarts(...prefixes: string[]): ConstraintMatcher {
+  return (key) => prefixes.some((prefix) => key.startsWith(prefix))
+}
+
+function anyOf(...matchers: ConstraintMatcher[]): ConstraintMatcher {
+  return (key, source) => matchers.some((matches) => matches(key, source))
+}
+
+const planetaryBodyKeys: readonly MessageKey[] = [
+  'outpost.body.label', 'outpost.body.select', 'outpost.referenceData.empty',
+  'history.changeBody', 'history.clearBody', 'validation.bodySystemMismatch',
+  'validation.outpostBodyNotEligible', 'validation.selectedBiomeInvalid',
+  'validation.unknownBody', 'validation.unknownBiome', 'status.referenceData.loaded',
+]
+
+const terminologyConstraints: readonly Constraint[] = [
+  { id: 'term.inter-system-cargo-link', fr: 'Liaison intersystème', de: 'Intersystem-Frachtlink', matches: sourceHas('Inter-System Cargo Link') },
+  { id: 'term.cargo-link', fr: 'Liaison', de: 'Frachtlink', matches: sourceHas('Cargo Link') },
+  { id: 'term.outpost', fr: 'Avant-poste', de: 'Außenposten', matches: sourceHas('Outpost') },
+  { id: 'term.biome', fr: 'Biome', de: 'Biom', matches: sourceHas('Biome') },
+  { id: 'term.planet', fr: 'Planète', de: 'Planet', matches: keyIs(
+    'help.organic.unavailablePlanet', 'help.organic.availablePlanet',
+  ) },
+  { id: 'term.planetary-body', fr: 'Corps céleste', de: 'Himmelskörper', matches: keyIs(...planetaryBodyKeys) },
+  { id: 'term.star-system', fr: 'Système stellaire', de: 'Sternsystem', matches: anyOf(
+    sourceHas('Star System'),
+    keyIs('outpost.system.label', 'outpost.system.select', 'history.changeSystem', 'history.clearSystem', 'status.referenceData.loaded'),
+  ) },
+  { id: 'skill.outpost-management', fr: "Gestion d'avant-poste", de: 'Außenposten-Verwaltung', matches: sourceHas('Outpost Management') },
+  { id: 'skill.outpost-engineering', fr: 'Ingénierie avant-poste', de: 'Außenposten-Technik', matches: sourceHas('Outpost Engineering') },
+  { id: 'skill.planetary-habitation', fr: 'Habitat planétaire', de: 'Planetenbesiedlung', matches: sourceHas('Planetary Habitation') },
+  { id: 'skill.research-methods', fr: 'Méthodologie', de: 'Forschungsmethoden', matches: sourceHas('Research Methods') },
+  { id: 'skill.special-projects', fr: 'Projets spéciaux', de: 'Spezialprojekte', matches: sourceHas('Special Projects') },
+  { id: 'term.x-tech-power-core', fr: "Noyau d'énergie X-Tech", de: 'X-Tech-Energiekern', matches: sourceHas('X-Tech Power Core') },
+  { id: 'term.x-tech', fr: 'X-Tech', de: 'X-Tech', matches: sourceHas('X-Tech') },
+  { id: 'product.starfield', fr: 'Starfield', de: 'Starfield', matches: sourceHas('Starfield') },
+  { id: 'glossary.planned-supply', fr: 'Approvisionnement planifié', de: 'Geplante Versorgung', matches: sourceHas('Planned Supply') },
+  { id: 'glossary.present', fr: 'Présence', de: 'Vorhanden', matches: anyOf(
+    keyIs('matrix.column.present', 'matrix.action.togglePresent', 'search.results.flag.present',
+      'help.present', 'help.inorganicPresentRecorded', 'help.inorganicPresentPossible',
+      'matrix.action.xTech.add', 'matrix.tooltip.xTech.add', 'matrix.tooltip.xTech.present',
+      'validation.xTechCapabilityPresent', 'validation.xTechRequiresPresence'),
+  ) },
+  { id: 'glossary.producing', fr: 'En production', de: 'In Produktion', matches: keyIs(
+    'matrix.column.producing', 'matrix.action.toggleProducing', 'matrix.action.toggleProducingSource',
+    'search.results.flag.producing', 'help.producing', 'history.startProducing', 'history.stopProducing',
+    'matrix.tooltip.producing.active', 'matrix.tooltip.producing.inactive',
+  ) },
+  { id: 'glossary.inputs', fr: 'Intrants', de: 'Einsatzstoffe', matches: anyOf(
+    keyIs('matrix.column.inputs', 'search.results.flag.missingInputs', 'matrix.tooltip.manufacturing.blocked'),
+    keyStarts('matrix.tooltip.input.', 'validation.manufacturingInput', 'validation.organicInput'),
+  ) },
+  { id: 'glossary.logistics', fr: 'Logistique', de: 'Logistik', matches: keyIs('matrix.column.logistics', 'help.logistics') },
+  { id: 'glossary.manufacturing', fr: 'Fabrication', de: 'Fertigung', matches: anyOf(
+    sourceHas('Manufacturing'),
+    keyStarts('matrix.manufacturing.', 'validation.duplicateManufacturing', 'validation.unknownManufacturing'),
+    keyIs('matrix.section.manufacturing', 'plannedSupply.section.products', 'history.editManufacturing'),
+  ) },
+  { id: 'glossary.validation', fr: 'Validation', de: 'Validierung', matches: keyIs(
+    'validation.heading', 'validation.none', 'validation.open', 'validation.close', 'validation.issueCount',
+    'shortcuts.group.validation', 'shortcuts.action.toggleValidation',
+  ) },
+  { id: 'glossary.resource-matrix', fr: 'Matrice des ressources', de: 'Ressourcenmatrix', matches: sourceHas('Resource Matrix') },
+  { id: 'glossary.reshuffle', fr: 'Réorganiser', de: 'Neu anordnen', matches: keyIs(
+    'outpost.navigation.reshuffleButton', 'outpost.navigation.reshuffle', 'outpost.navigation.finishReshuffle',
+    'cargo.reshuffleButton', 'cargo.reshuffle', 'cargo.finishReshuffle',
+  ) },
+  { id: 'glossary.lock-order', fr: "Verrouiller l'ordre", de: 'Reihenfolge sperren', matches: keyIs(
+    'outpost.navigation.lockOrder', 'cargo.lockOrder',
+  ) },
+  { id: 'glossary.inorganic', fr: 'Inorganique', de: 'Anorganisch', matches: keyIs(
+    'matrix.section.inorganic', 'plannedSupply.section.inorganic', 'shortcuts.action.focusFirstInorganic',
+  ) },
+  { id: 'glossary.organic', fr: 'Organique', de: 'Organisch', matches: keyIs(
+    'matrix.section.organic', 'plannedSupply.section.organic', 'shortcuts.action.focusFirstOrganic',
+  ) },
+  { id: 'glossary.network', fr: 'Réseau', de: 'Netzwerk', matches: sourceHas('Network') },
+  { id: 'glossary.active-production', fr: 'Production active', de: 'Aktive Produktion', matches: anyOf(
+    sourceHas('Active Production'), keyIs('validation.duplicateActiveProduction', 'validation.unknownProductionResource',
+      'validation.unknownProductionSpecies'),
+  ) },
+  { id: 'glossary.source', fr: 'Source', de: 'Quelle', matches: keyIs(
+    'matrix.column.source', 'matrix.source.unspecified', 'matrix.action.toggleProducingSource',
+    'validation.unspecifiedOrganicSource', 'validation.unresolvedCargoExport', 'validation.remediation.organicSources',
+  ) },
+  { id: 'glossary.destination', fr: 'Destination', de: 'Ziel', matches: anyOf(
+    keyStarts('cargo.destination.'), keyIs('cargo.pad.noDestination', 'cargo.pad.linkedTo', 'cargo.pad.semanticSummary',
+      'matrix.tooltip.export.active'),
+  ) },
+  { id: 'glossary.file-import-export', fr: 'Importer / Exporter', de: 'Importieren / Exportieren', matches: anyOf(
+    keyStarts('transfer.', 'status.import.', 'status.export.'),
+    keyIs('shortcuts.group.importExport', 'shortcuts.action.import', 'shortcuts.action.export', 'history.importNetworks'),
+  ) },
+  { id: 'glossary.undo-redo', fr: 'Annuler / Rétablir', de: 'Rückgängig / Wiederholen', matches: anyOf(
+    keyStarts('history.undo', 'history.redo'), keyIs('shortcuts.action.undo', 'shortcuts.action.redo', 'network.delete.undoHint'),
+  ) },
+  { id: 'glossary.validation-error', fr: 'Erreur', de: 'Fehler', matches: keyIs(
+    'validation.counts', 'validation.filter.error', 'validation.severity.error', 'help.validation',
+  ) },
+  { id: 'glossary.validation-warning', fr: 'Avertissement', de: 'Warnung', matches: keyIs(
+    'validation.counts', 'validation.filter.warning', 'validation.severity.warning', 'help.validation',
+  ) },
+  { id: 'glossary.validation-info', fr: 'Information', de: 'Information', matches: keyIs(
+    'validation.counts', 'validation.filter.info', 'validation.severity.info', 'help.validation',
+  ) },
+]
+
 const protectedTokenCandidates = [
-  'Cosmos icons created by gravisio - Flaticon', 'He-3', 'JSON', 'Esc', 'Shift', 'ID',
+  'Cosmos icons created by gravisio - Flaticon', 'FormID', 'He-3', 'JSON',
+  'Ctrl', 'Esc', 'Shift', 'ID',
 ] as const
 
 export function englishSourceSha256(source: string): string {
@@ -58,6 +210,20 @@ export function englishSourceSha256(source: string): string {
 export function parametersOf(template: string): string[] {
   const normalized = template.replace(/\{(\w+), plural, one \{[^{}]*\} other \{[^{}]*\}\}/g, '{$1}')
   return [...new Set([...normalized.matchAll(/\{(\w+)\}/g)].map((match) => match[1]))].sort()
+}
+
+export function pluralParametersOf(template: string): string[] {
+  return [...template.matchAll(/\{(\w+), plural, one \{[^{}]*\} other \{[^{}]*\}\}/g)]
+    .map((match) => match[1])
+    .sort()
+}
+
+export function hasValidPluralSyntax(template: string): boolean {
+  const withoutSupportedPlural = template.replace(
+    /\{\w+, plural, one \{[^{}]*\} other \{[^{}]*\}\}/g,
+    '',
+  )
+  return !/,\s*(?:plural|pluriel)\b/i.test(withoutSupportedPlural)
 }
 
 export function protectedTokensOf(template: string): string[] {
@@ -73,11 +239,32 @@ export function protectedTokensOf(template: string): string[] {
 }
 
 function riskOf(key: MessageKey): ReviewRisk {
-  if (key.startsWith('validation.') || key.startsWith('help.') ||
+  if (key.startsWith('validation.') || key.startsWith('help.') || key.startsWith('shortcuts.') ||
+    parametersOf(enUSMessages[key]).length > 1 || contextByKey[key] ||
     ['network.reset.explanation', 'network.delete.explanation', 'network.delete.undoHint', 'plannedSupply.heading', 'search.results.dragInstructions'].includes(key)) return 'HIGH'
   if (['cargo.', 'matrix.', 'history.', 'status.', 'power.', 'search.', 'plannedSupply.', 'transfer.'].some((prefix) => key.startsWith(prefix)) ||
     key.includes('.navigation.') || key.includes('.tooltip')) return 'MEDIUM'
   return 'LOW'
+}
+
+function contextOf(key: MessageKey): string {
+  const base = contextByKey[key] ?? contextByNamespace[key.split('.')[0]] ?? 'Tracker-authored application message.'
+  const role = key.includes('tooltip') ? ' This is explanatory tooltip text.'
+    : key.includes('label') ? ' This is a form or control label.'
+      : key.includes('heading') || key.includes('title') ? ' This is a visible heading.'
+        : key.includes('description') || key.includes('instructions') ? ' This is accessible or instructional text.'
+          : ''
+  return `${base}${role}`
+}
+
+function constraintsOf(key: MessageKey, locale: string): string {
+  const source = enUSMessages[key]
+  const targetField = locale === 'fr-FR' ? 'fr' : locale === 'de-DE' ? 'de' : undefined
+  if (!targetField) return ''
+  return terminologyConstraints
+    .filter((constraint) => constraint.matches(key, source))
+    .map((constraint) => `${constraint.id}=${constraint[targetField]}`)
+    .join('; ')
 }
 
 export function comparisonStatus(codex: string, deepL: string): ReviewComparisonStatus {
@@ -87,18 +274,133 @@ export function comparisonStatus(codex: string, deepL: string): ReviewComparison
   return typographic(codex) === typographic(deepL) ? 'TYPOGRAPHIC_ONLY' : 'SUBSTANTIVE'
 }
 
+function translationTokenIssue(english: string, translation: string): string | undefined {
+  if (!hasValidPluralSyntax(translation)) return 'PLURAL_SYNTAX'
+  if (JSON.stringify(parametersOf(translation)) !== JSON.stringify(parametersOf(english))) return 'PLACEHOLDERS'
+  if (protectedTokensOf(english).some((token) => !translation.includes(token))) return 'PROTECTED_TOKEN'
+  return undefined
+}
+
 export function createReviewRows(locale: string, translations: Partial<MessageCatalogue> = {}): ReviewRow[] {
   return (Object.keys(enUSMessages) as MessageKey[]).sort().map((key) => {
     const english = enUSMessages[key]
     const codex = translations[key] ?? ''
     return {
       Key: key, Locale: locale, EnglishSource: english, EnglishSourceSha256: englishSourceSha256(english),
-      Context: contextByNamespace[key.split('.')[0]] ?? 'Tracker-authored application message.', Risk: riskOf(key),
+      Context: contextOf(key), Risk: riskOf(key),
       Parameters: parametersOf(english).join('; '), ProtectedTokens: protectedTokensOf(english).join('; '),
-      OfficialTermConstraints: '', CodexTranslation: codex, DeepLTranslation: '',
-      ComparisonStatus: 'MISSING', FinalTranslation: '', ReviewerNote: '',
+      OfficialTermConstraints: constraintsOf(key, locale), CodexTranslation: codex, DeepLTranslation: '',
+      ComparisonStatus: 'MISSING', AdjudicationDecision: '', FinalTranslation: '', ReviewerNote: '',
     }
   })
+}
+
+function xmlEscape(value: string): string {
+  return value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;').replaceAll("'", '&apos;')
+}
+
+function xmlUnescape(value: string): string {
+  return value.replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&quot;', '"')
+    .replaceAll('&apos;', "'").replaceAll('&amp;', '&')
+}
+
+function xliffTemplate(value: string): string {
+  const tokenPattern = /\{\w+, plural, one \{[^{}]*\} other \{[^{}]*\}\}|\{\w+\}/g
+  let cursor = 0
+  let index = 0
+  let result = ''
+  for (const match of value.matchAll(tokenPattern)) {
+    const offset = match.index ?? 0
+    result += xmlEscape(value.slice(cursor, offset))
+    index += 1
+    const plural = match[0].match(/^\{(\w+), plural, one \{([^{}]*)\} other \{([^{}]*)\}\}$/)
+    if (plural) {
+      result += `<ph id="p${index}-open" equiv-text="${xmlEscape(`{${plural[1]}, plural, one {`)}">${xmlEscape(`{${plural[1]}, plural, one {`)}</ph>`
+      result += xmlEscape(plural[2])
+      result += `<ph id="p${index}-other" equiv-text="} other {">} other {</ph>`
+      result += xmlEscape(plural[3])
+      result += `<ph id="p${index}-close" equiv-text="}}">}}</ph>`
+    } else {
+      result += `<ph id="p${index}" equiv-text="${xmlEscape(match[0])}">${xmlEscape(match[0])}</ph>`
+    }
+    cursor = offset + match[0].length
+  }
+  return result + xmlEscape(value.slice(cursor))
+}
+
+/** Creates the current XLIFF 1.2 handoff representation from semantic source and review metadata. */
+export function createReviewXliff(rows: readonly ReviewRow[], locale: string): string {
+  const body = rows.map((row) => [
+    `      <trans-unit id="${xmlEscape(row.Key)}" resname="${xmlEscape(row.Key)}">`,
+    `        <source>${xliffTemplate(row.EnglishSource)}</source>`,
+    '        <target state="new"></target>',
+    `        <context-group purpose="information"><context context-type="x-message-key">${xmlEscape(row.Key)}</context><context context-type="x-risk">${row.Risk}</context></context-group>`,
+    `        <prop-group><prop prop-type="x-english-source-sha256">${row.EnglishSourceSha256}</prop><prop prop-type="x-parameters">${xmlEscape(row.Parameters)}</prop><prop prop-type="x-protected-tokens">${xmlEscape(row.ProtectedTokens)}</prop></prop-group>`,
+    `        <note from="context">${xmlEscape(row.Context)}</note>`,
+    `        <note from="terminology">${xmlEscape(row.OfficialTermConstraints || 'No row-specific terminology constraint.')}</note>`,
+    '      </trans-unit>',
+  ].join('\n')).join('\n')
+  return [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">',
+    `  <file original="semantic-catalogue" source-language="en-US" target-language="${xmlEscape(locale)}" datatype="plaintext">`,
+    '    <body>', body, '    </body>', '  </file>', '</xliff>', '',
+  ].join('\n')
+}
+
+function attributeOf(source: string, name: string): string | undefined {
+  const match = source.match(new RegExp(`\\b${name}="([^"]*)"`))
+  return match ? xmlUnescape(match[1]) : undefined
+}
+
+function xliffText(source: string): string {
+  const withPlaceholders = source.replace(/<ph\b([^>]*)>([\s\S]*?)<\/ph>/g, (_match, attributes: string, body: string) =>
+    body ? body.replace(/<[^>]+>/g, '') : attributeOf(attributes, 'equiv-text') ?? '')
+    .replace(/<ph\b([^>]*)\/>/g, (_match, attributes: string) => attributeOf(attributes, 'equiv-text') ?? '')
+  return xmlUnescape(withPlaceholders.replace(/<[^>]+>/g, ''))
+}
+
+/** Imports a DeepL-produced XLIFF by stable key and returns a validated review CSV. */
+export function importReviewXliff(
+  reviewSource: string,
+  xliffSource: string,
+  locale: string,
+  options: { recordInvalidTokens?: boolean } = {},
+): string {
+  const fileMatch = xliffSource.match(/<file\b([^>]*)>/)
+  if (!fileMatch || attributeOf(fileMatch[1], 'target-language') !== locale) throw new Error('XLIFF_LOCALE_MISMATCH')
+  const translations = new Map<string, { target: string; source: string; sourceHash?: string }>()
+  for (const match of xliffSource.matchAll(/<trans-unit\b([^>]*)>([\s\S]*?)<\/trans-unit>/g)) {
+    const key = attributeOf(match[1], 'resname') ?? attributeOf(match[1], 'id')
+    if (!key) throw new Error('XLIFF_MISSING_KEY')
+    if (translations.has(key)) throw new Error(`XLIFF_DUPLICATE_KEY: ${key}`)
+    const target = match[2].match(/<target\b[^>]*>([\s\S]*?)<\/target>/)
+    const source = match[2].match(/<source\b[^>]*>([\s\S]*?)<\/source>/)
+    const hash = match[2].match(/<prop\b[^>]*prop-type="x-english-source-sha256"[^>]*>([\s\S]*?)<\/prop>/)
+    translations.set(key, {
+      target: target ? xliffText(target[1]).trim() : '',
+      source: source ? xliffText(source[1]) : '',
+      sourceHash: hash ? xmlUnescape(hash[1].trim()) : undefined,
+    })
+  }
+  const rows = parseAndValidateReviewCsv(reviewSource, locale)
+  const expectedKeys = new Set(rows.map((row) => row.Key))
+  for (const key of translations.keys()) if (!expectedKeys.has(key as MessageKey)) throw new Error(`XLIFF_UNKNOWN_KEY: ${key}`)
+  for (const row of rows) {
+    const unit = translations.get(row.Key)
+    if (!unit) throw new Error(`XLIFF_MISSING_KEY: ${row.Key}`)
+    if (unit.source !== row.EnglishSource || unit.sourceHash !== row.EnglishSourceSha256) throw new Error(`XLIFF_STALE_SOURCE: ${row.Key}`)
+    const translated = unit.target
+    if (!translated) throw new Error(`XLIFF_MISSING_TRANSLATION: ${row.Key}`)
+    const tokenIssue = translationTokenIssue(row.EnglishSource, translated)
+    if (tokenIssue && !options.recordInvalidTokens) {
+      throw new Error(`XLIFF_INVALID_${tokenIssue}: ${row.Key}`)
+    }
+    row.DeepLTranslation = translated
+    row.ComparisonStatus = tokenIssue ? 'INVALID_TOKENS' : comparisonStatus(row.CodexTranslation, translated)
+  }
+  return serializeReviewRows(rows)
 }
 
 function csvCell(value: string): string { return `"${value.replaceAll('"', '""')}"` }
@@ -124,24 +426,78 @@ export function parseAndValidateReviewCsv(source: string, locale: string): Revie
     const english = enUSMessages[row.Key]
     if (english === undefined) throw new Error(`REVIEW_UNKNOWN_KEY: ${row.Key}`)
     if (row.EnglishSource !== english || row.EnglishSourceSha256 !== englishSourceSha256(english)) throw new Error(`REVIEW_STALE_SOURCE: ${row.Key}`)
-    const expectedComparison = comparisonStatus(row.CodexTranslation, row.DeepLTranslation)
+    if (row.OfficialTermConstraints !== constraintsOf(row.Key, locale)) throw new Error(`REVIEW_CONSTRAINTS_STALE: ${row.Key}`)
+    const expectedComparison = row.DeepLTranslation && translationTokenIssue(english, row.DeepLTranslation)
+      ? 'INVALID_TOKENS'
+      : comparisonStatus(row.CodexTranslation, row.DeepLTranslation)
     if (row.ComparisonStatus !== expectedComparison) throw new Error(`REVIEW_COMPARISON_STATUS_INVALID: ${row.Key}`)
-    for (const field of ['CodexTranslation', 'DeepLTranslation', 'FinalTranslation'] as const) {
+    for (const field of ['CodexTranslation', 'FinalTranslation'] as const) {
       if (!row[field]) continue
-      if (JSON.stringify(parametersOf(row[field])) !== JSON.stringify(parametersOf(english))) throw new Error(`REVIEW_INVALID_PLACEHOLDERS: ${row.Key}:${field}`)
-      if (protectedTokensOf(english).some((token) => !row[field].includes(token))) throw new Error(`REVIEW_INVALID_PROTECTED_TOKEN: ${row.Key}:${field}`)
+      const issue = translationTokenIssue(english, row[field])
+      if (issue) throw new Error(`REVIEW_INVALID_${issue}: ${row.Key}:${field}`)
     }
+    if (row.DeepLTranslation && row.ComparisonStatus !== 'INVALID_TOKENS') {
+      const issue = translationTokenIssue(english, row.DeepLTranslation)
+      if (issue) throw new Error(`REVIEW_INVALID_${issue}: ${row.Key}:DeepLTranslation`)
+    }
+    validateAdjudication(row)
   }
   const missing = (Object.keys(enUSMessages) as MessageKey[]).filter((key) => !seen.has(key))
   if (missing.length) throw new Error(`REVIEW_MISSING_KEY: ${missing[0]}`)
   return rows
 }
 
+const reviewDecisions = new Set<ReviewDecision>([
+  '', 'AGREED', 'CODEX', 'DEEPL', 'CUSTOM', 'INVALID_DEEPL_REPAIRED',
+])
+
+const genericReviewerNotes = new Set([
+  'Reviewed against the English source, UI context, risk metadata, and approved terminology.',
+  'Low-risk spot-check completed against the English source and UI role.',
+])
+
+function validateAdjudication(row: ReviewRow): void {
+  if (!reviewDecisions.has(row.AdjudicationDecision)) {
+    throw new Error(`REVIEW_DECISION_INVALID: ${row.Key}`)
+  }
+  const hasApproval = Boolean(row.FinalTranslation || row.AdjudicationDecision || row.ReviewerNote)
+  if (!hasApproval) return
+  if (!row.FinalTranslation || !row.AdjudicationDecision) {
+    throw new Error(`REVIEW_DECISION_REQUIRED: ${row.Key}`)
+  }
+  if (row.ReviewerNote.trim().length < 40 || genericReviewerNotes.has(row.ReviewerNote.trim())) {
+    throw new Error(`REVIEW_RATIONALE_REQUIRED: ${row.Key}`)
+  }
+  if (row.AdjudicationDecision === 'AGREED') {
+    if (row.ComparisonStatus !== 'IDENTICAL' || row.CodexTranslation !== row.DeepLTranslation ||
+        row.FinalTranslation !== row.CodexTranslation) {
+      throw new Error(`REVIEW_DECISION_CONTRADICTS_EVIDENCE: ${row.Key}`)
+    }
+  } else if (row.AdjudicationDecision === 'CODEX') {
+    if (row.FinalTranslation !== row.CodexTranslation) {
+      throw new Error(`REVIEW_DECISION_CONTRADICTS_EVIDENCE: ${row.Key}`)
+    }
+  } else if (row.AdjudicationDecision === 'DEEPL') {
+    if (row.ComparisonStatus === 'INVALID_TOKENS' || row.FinalTranslation !== row.DeepLTranslation) {
+      throw new Error(`REVIEW_DECISION_CONTRADICTS_EVIDENCE: ${row.Key}`)
+    }
+  } else if (row.AdjudicationDecision === 'CUSTOM') {
+    if (row.ComparisonStatus === 'INVALID_TOKENS' || row.FinalTranslation === row.CodexTranslation ||
+        row.FinalTranslation === row.DeepLTranslation) {
+      throw new Error(`REVIEW_DECISION_CONTRADICTS_EVIDENCE: ${row.Key}`)
+    }
+  } else if (row.AdjudicationDecision === 'INVALID_DEEPL_REPAIRED') {
+    if (row.ComparisonStatus !== 'INVALID_TOKENS') {
+      throw new Error(`REVIEW_DECISION_CONTRADICTS_EVIDENCE: ${row.Key}`)
+    }
+  }
+}
+
 export function finalCatalogueFromReview(source: string, locale: string): MessageCatalogue {
   const rows = parseAndValidateReviewCsv(source, locale)
   const result = {} as MessageCatalogue
   for (const row of rows) {
-    if (!row.FinalTranslation || ['MISSING', 'INVALID_TOKENS'].includes(row.ComparisonStatus)) throw new Error(`REVIEW_ROW_NOT_APPROVED: ${row.Key}`)
+    if (!row.FinalTranslation || !row.AdjudicationDecision || !row.ReviewerNote) throw new Error(`REVIEW_ROW_NOT_APPROVED: ${row.Key}`)
     result[row.Key] = row.FinalTranslation
   }
   return result

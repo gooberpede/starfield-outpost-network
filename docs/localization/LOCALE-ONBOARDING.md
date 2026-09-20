@@ -753,6 +753,65 @@ Translate tracker-authored messages.
 
 Reach exact key/placeholder parity.
 
+Freeze one deterministic RFC 4180 review CSV per locale from the exact `en-US`
+source. Every row records its stable semantic key, exact-source SHA-256, UI
+context, `LOW`/`MEDIUM`/`HIGH` review risk, placeholders, protected tokens, and
+official/glossary constraints. Changed English source invalidates only the
+affected row; approval must never survive source drift silently.
+
+Create the Codex draft before reading the independent DeepL draft. Export the
+same frozen rows as XLIFF 1.2, retaining the semantic key as `trans-unit` ID and
+`resname`. Put disambiguation and terminology guidance in XLIFF metadata rather
+than expanding or rewriting the true English source. Inline XLIFF placeholder
+codes protect named parameters and plural syntax while leaving plural branch
+wording translatable.
+
+Import returned XLIFF by stable key, never row position. Reject locale mismatch,
+unknown/duplicate/missing keys, stale source text or hash, empty translations,
+and placeholder/protected-token corruption. Compare the independent drafts as
+`IDENTICAL`, `TYPOGRAPHIC_ONLY`, `SUBSTANTIVE`, `MISSING`, or
+`INVALID_TOKENS`, then editorially adjudicate every substantive difference,
+every high-risk row, and every terminology-constrained row.
+
+Independent machine-translation sources are evidence, not authorities. Neither
+source is a default winner: every substantive disagreement requires an explicit
+editorial decision, recorded decision provenance, and a decision-specific
+rationale against source meaning, UI context, risk, grammar, and approved
+terminology.
+
+Strict import remains the default. If a translation provider returns otherwise
+complete XLIFF but has converted protected inline codes into translated brace
+text, first prove that strict import rejects it. The explicit
+`--record-invalid-tokens` evidence mode may then retain the provider wording as
+`INVALID_TOKENS` for adjudication; such text must never flow directly into a
+catalogue. The final row requires a separately token-valid translation and a
+reviewer note describing the repair or independent fallback.
+
+The committed generated source XLIFF is the deterministic **current handoff
+representation** of the frozen semantic source and current review metadata. It
+may change when context or glossary-constraint metadata is corrected, so it is
+not immutable proof of the exact bytes historically submitted to a translation
+provider. A translated XLIFF returned by a provider is an exchange file: import
+its values into the review CSV. The review CSV is the durable evidence of the
+actual returned provider wording and the resulting editorial decisions. Do not
+retain additional provider output unless it supplies evidence not captured
+there.
+If sentence-level review disproves a tracker-owned glossary choice, update the
+glossary once and apply the correction consistently; do not diverge one message
+at a time. Official Bethesda-backed terminology remains authoritative subject
+to its documented contextual limits.
+
+The current commands are:
+
+```sh
+npm run localization:review -- --locale fr-FR
+npm run localization:review -- --locale de-DE
+npm run localization:review -- --locale fr-FR --import-xliff path/to/translated-fr-FR.xliff
+npm run localization:review -- --locale de-DE --import-xliff path/to/translated-de-DE.xliff
+npm run localization:review:adjudicate -- --locale fr-FR
+npm run localization:review:adjudicate -- --locale de-DE
+```
+
 Do not begin reference-name work by embedding official names directly into semantic UI messages.
 
 ## Step 3 — official Bethesda strings
@@ -1275,8 +1334,8 @@ No macOS desktop visual test is currently available.
 
 ### Role/status
 
-- Tracker status: **Not onboarded; terminology and glossary ready**
-- Catalogue model: no runtime catalogue
+- Tracker status: **Not onboarded; semantic catalogue complete and inactive**
+- Catalogue model: complete source catalogue, not registered at runtime
 - Bethesda support class: Interface/Text + Voice
 - Bethesda string-table token: `fr` (strict UTF-8)
 
@@ -1305,9 +1364,13 @@ Notable constraints:
 
 ### Known limitations
 
-The semantic catalogue, official reference-name overlay, composed-fauna proof,
-search review, layout/accessibility review, and release verification remain
-future work. This profile does not make French a supported locale.
+The frozen 414-key semantic review CSV contains independent Codex and DeepL
+drafts, comparison status, final editorial translations, and reviewer notes.
+The complete 414-key `fr-FR` source catalogue has exact key, placeholder,
+plural-syntax, and protected-token parity with `en-US`. It remains intentionally
+unregistered. The official reference-name overlay, composed-fauna proof, search
+review, layout/accessibility review, and release verification remain future
+work. This profile does not make French a supported locale.
 
 ---
 
@@ -1315,8 +1378,8 @@ future work. This profile does not make French a supported locale.
 
 ### Role/status
 
-- Tracker status: **Not onboarded; terminology and glossary ready**
-- Catalogue model: no runtime catalogue
+- Tracker status: **Not onboarded; semantic catalogue complete and inactive**
+- Catalogue model: complete source catalogue, not registered at runtime
 - Bethesda support class: Interface/Text + Voice
 - Bethesda string-table token: `de` (strict UTF-8)
 
@@ -1345,9 +1408,13 @@ Notable constraints:
 
 ### Known limitations
 
-The semantic catalogue, official reference-name overlay, composed-fauna proof,
-search review, layout/accessibility review, and release verification remain
-future work. This profile does not make German a supported locale.
+The frozen 414-key semantic review CSV contains independent Codex and DeepL
+drafts, comparison status, final editorial translations, and reviewer notes.
+The complete 414-key `de-DE` source catalogue has exact key, placeholder,
+plural-syntax, and protected-token parity with `en-US`. It remains intentionally
+unregistered. The official reference-name overlay, composed-fauna proof, search
+review, layout/accessibility review, and release verification remain future
+work. This profile does not make German a supported locale.
 
 ---
 
