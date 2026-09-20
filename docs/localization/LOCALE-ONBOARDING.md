@@ -28,8 +28,8 @@ Bethesda’s support matrix currently lists:
 | Starfield language | Bethesda support | Tracker target | Tracker status |
 | --- | --- | --- | --- |
 | English | Interface/Text + Voice | Yes | Supported |
-| French | Interface/Text + Voice | Yes | Runtime integrated; release QA pending |
-| German | Interface/Text + Voice | Yes | Runtime integrated; release QA pending |
+| French | Interface/Text + Voice | Yes | Supported |
+| German | Interface/Text + Voice | Yes | Supported |
 | Spanish (Spain) | Interface/Text + Voice | Yes | Not onboarded |
 | Japanese | Interface/Text + Voice | Yes | Supported |
 | Italian | Interface/Text | Yes | Not onboarded |
@@ -568,6 +568,14 @@ Look specifically for:
 Fix structural layout problems cross-locale where possible.
 
 Do not add locale-specific breakpoints merely because one language exposed the defect first.
+
+Localization QA findings must not autonomously change physical UI geometry or
+visual styling. This includes control, column, panel, dialog, header, and
+status-bar dimensions; grid/flex proportions; padding, margins, and gaps; breakpoints;
+wrapping geometry; colors, borders, and shadows; and typography metrics that
+alter layout. Record the defect and user impact, and candidate mitigations where
+useful, but treat any physical change as a separate reviewed UI task rather than
+an approved consequence of locale onboarding.
 
 ---
 
@@ -1334,7 +1342,7 @@ No macOS desktop visual test is currently available.
 
 ### Role/status
 
-- Tracker status: **Runtime integrated; layout/accessibility release closure pending**
+- Tracker status: **Supported**
 - Catalogue model: complete source catalogue, registered at runtime
 - Bethesda support class: Interface/Text + Voice
 - Bethesda string-table token: `fr` (strict UTF-8)
@@ -1377,18 +1385,35 @@ Notable constraints:
 - `SFBGS050.esm` remains terminology evidence only;
 - French grammar is sentence-owned; do not assemble prose from glossary terms.
 
-### Known limitations
+### Closure and known limitations
 
 The frozen 414-key semantic review CSV contains independent Codex and DeepL
 drafts, comparison status, final editorial translations, and reviewer notes.
-The complete 414-key `fr-FR` source catalogue has exact key, placeholder,
-plural-syntax, and protected-token parity with `en-US`. Search retains exact,
-prefix, and substring priority, then applies search-only decomposition and
-combining-mark removal before canonical-English and curated aliases. It does
-not add `oe`/`œ` equivalence. Broad layout/accessibility review and final
-release verification remain future work. The generated corpus contains ASCII apostrophes and hyphens,
-non-breaking spaces, accented letters, and ligatures including `œ`; search
-ordinary whitespace normalization keeps non-breaking-space names searchable.
+The complete semantic catalogue has exact key, placeholder, plural-syntax, and
+protected-token parity with `en-US`; official terminology, reference-name
+coverage, and automated localization closure are complete. Search and
+locale-aware collation are active. Search
+retains exact, prefix, and substring priority, then applies search-only
+decomposition and combining-mark removal before canonical-English and curated
+aliases; it does not add `oe`/`œ` equivalence. Localized accessible speech for
+keyboard shortcuts is complete.
+
+Runtime registration, `fr-*` browser-family mapping, and persisted locale
+preference support are complete. Windows/Chromium manual QA is complete at
+1366px, 1600px, and 200% zoom/reflow, including keyboard-only, Windows Narrator,
+import/export announcement, typography/glyph, and locale-switch regression
+checks. Native-speaker review was unavailable and remains desirable but
+non-blocking. Apple/WebKit verification remains the shared deferred platform
+item and is not certified by this status.
+
+The Search placeholder truncates at constrained desktop width, including
+1366px. The control remains understandable and usable, so this is non-blocking;
+any mitigation belongs to a separately reviewed UI task and does not approve a
+geometry change.
+
+The generated corpus contains ASCII apostrophes and hyphens, non-breaking
+spaces, accented letters, and ligatures including `œ`; ordinary search
+whitespace normalization keeps non-breaking-space names searchable.
 
 ---
 
@@ -1396,7 +1421,7 @@ ordinary whitespace normalization keeps non-breaking-space names searchable.
 
 ### Role/status
 
-- Tracker status: **Runtime integrated; layout/accessibility release closure pending**
+- Tracker status: **Supported**
 - Catalogue model: complete source catalogue, registered at runtime
 - Bethesda support class: Interface/Text + Voice
 - Bethesda string-table token: `de` (strict UTF-8)
@@ -1439,19 +1464,38 @@ Notable constraints:
 - `SFBGS050.esm` remains terminology evidence only;
 - do not shorten correct German labels merely to avoid layout pressure.
 
-### Known limitations
+### Closure and known limitations
 
 The frozen 414-key semantic review CSV contains independent Codex and DeepL
 drafts, comparison status, final editorial translations, and reviewer notes.
-The complete 414-key `de-DE` source catalogue has exact key, placeholder,
-plural-syntax, and protected-token parity with `en-US`. Search retains exact,
-prefix, and substring priority, then applies search-only decomposition and
-combining-mark removal before canonical-English and curated aliases. It does
-not infer `ae`/`oe`/`ue` digraphs or `ss`/`ß` aliases. Broad
-layout/accessibility review and final release verification remain future work.
-The generated corpus contains ASCII apostrophes and hyphens,
-umlauts, and `ß`; no unusual hyphen code point was found, and search
-ordinary punctuation remains unchanged.
+The complete semantic catalogue has exact key, placeholder, plural-syntax, and
+protected-token parity with `en-US`; official terminology, reference-name
+coverage, and automated localization closure are complete. Search and
+locale-aware collation are active. Search
+retains exact, prefix, and substring priority, then applies search-only
+decomposition and combining-mark removal before canonical-English and curated
+aliases; it does not infer `ae`/`oe`/`ue` digraphs or `ss`/`ß` aliases.
+Localized accessible speech for keyboard shortcuts is complete.
+
+Runtime registration, `de-*` browser-family mapping, and persisted locale
+preference support are complete. Windows/Chromium manual QA is complete at
+1366px, 1600px, and 200% zoom/reflow, including keyboard-only, Windows Narrator,
+import/export announcement, typography/glyph, and locale-switch regression
+checks. Native-speaker review was unavailable and remains desirable but
+non-blocking. Apple/WebKit verification remains the shared deferred platform
+item and is not certified by this status.
+
+The Search placeholder truncates at constrained desktop width. The localized
+Solar/Wind `Very Poor` value, `Sehr schlecht`, also exceeds the current fixed
+control's visible capacity and is clipped or truncated. Both issues are visual
+and non-blocking; the controls remain functional and no accessibility blocker
+was found. The accepted translation must not be shortened merely to fit, and
+any mitigation belongs to a separately reviewed UI task rather than approving
+a geometry change.
+
+The generated corpus contains ASCII apostrophes and hyphens, umlauts, and `ß`;
+no unusual hyphen code point was found, and ordinary search punctuation remains
+unchanged.
 
 ---
 

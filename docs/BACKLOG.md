@@ -175,6 +175,12 @@ Current behaviour remains whole-collection immutable before/after snapshots with
 one deliberate operation per history entry and a 1,000-entry collection-global
 session cap.
 
+- **Cargo Link Undo presentation state:** Deleting a Cargo Link and then using
+  Undo can collapse other, unrelated expanded Cargo Links. Investigate this as
+  a presentation/history regression and preserve unrelated presentation state
+  where that is consistent with the existing history/presentation contract;
+  do not change history semantics unnecessarily.
+
 ## Status bar
 
 The current status bar supports validation, transient action feedback,
@@ -269,14 +275,17 @@ Starfield text/interface language set:
 - Portuguese (Brazil);
 - Simplified Chinese.
 
-The tracker currently has a complete `en-US` baseline, a sparse `en-GB`
-override, and a complete `ja-JP` catalogue. Seven substantial locale
-onboardings remain for V1: French, German, Spanish (Spain), Italian, Polish,
-Portuguese (Brazil), and Simplified Chinese. Implement them in manageable,
-coherent parcels rather than one giant batch. Do not settle final locale tags
-in this backlog. Each parcel should preserve the existing localization
-architecture, exact key/placeholder parity tooling, review process, and
-reference-name provenance/overlay approach where applicable.
+The supported Bethesda-language targets now comprise English, Japanese, French,
+and German. `en-GB` remains a sparse English override rather than a separate
+Bethesda language. Five substantial locale onboardings remain for V1: Spanish
+(Spain), Italian, Polish, Portuguese (Brazil), and Simplified Chinese. Implement
+them in manageable, coherent parcels rather than one giant batch. Spanish
+(Spain), Italian, and Portuguese (Brazil) may plausibly form a later three-
+locale tranche; Polish and Simplified Chinese likely deserve separate focused
+tranches. These are strategic options, not irrevocably settled batches. Do not
+settle final locale tags in this backlog. Each parcel should preserve the
+existing localization architecture, exact key/placeholder parity tooling,
+review process, and reference-name provenance/overlay approach where applicable.
 
 The semantic localization boundary includes tracker-authored UI, accessibility
 text, help/tooltips, validation, status/transient feedback, and session history
@@ -286,9 +295,19 @@ requires it. Apply locale-aware date/time formatting if user-visible date/time
 display is introduced later. Persisted/schema formats and export filename
 timestamps remain invariant unless separately redesigned.
 
-Japanese follow-up remains non-blocking: perform final Japanese release
-verification and seek native-speaker review when available. Native-speaker
-review is not currently a hard V1 release gate.
+Native-speaker review for supported non-English locales remains desirable when
+available but is not a hard V1 release gate. French and German remain Supported
+without it.
+
+**Post-program XLIFF cleanup:** while locale onboarding remains active, working
+`.xliff` files under `docs/localization/` are acceptable. After all planned
+localization work is complete, move working/handoff XLIFF files to an ignored
+`.local-work/localization/...` location and update generator defaults, scripts,
+documentation, and tests that assume `docs/localization/`. Keep durable review
+evidence in review CSVs, glossaries, locale profiles, manifests, final
+catalogues, and reference overlays. Current deterministic XLIFF representations
+remain current handoffs, not historical proof of the exact bytes originally
+sent to DeepL. Do not perform this move during active onboarding.
 
 **Post-localization bundle review:** after planned locale onboarding is 
 complete, remeasure bundle composition and startup performance, with 
@@ -308,12 +327,24 @@ meaningful benefit.
   variants. Correct the reference-name presentation or localization overlay
   path while preserving canonical IDs and reference keys; do not assume source
   data should be mutated.
-- **Status-bar content occlusion:** Correct the layout/accessibility defect that
-  allows keyboard-targeted outpost-name and Planned Supply controls to remain
-  focused while visually hidden beneath the status bar. Focused content should
-  scroll into a visible region above the bar, and normal layout/scroll geometry
-  should reserve sufficient bottom space. The exact CSS and focus mechanism is
-  intentionally open.
+- **Fixed-chrome content occlusion:** Focused or programmatically navigated
+  controls can disappear beneath the fixed header or footer/status bar,
+  especially at high magnification. Keyboard-focused or programmatically
+  navigated content should remain visible within the usable viewport between
+  fixed page chrome. The exact mitigation is intentionally open; this item does
+  not approve a geometry change.
+- **Localized Search placeholder truncation:** Localized Search placeholders can
+  truncate at constrained desktop widths. French and German remain usable and
+  accessible, but visible placeholder copy is partially clipped. Review later
+  whether shorter locale-specific placeholder copy or a separately approved
+  UI-geometry change is preferable.
+- **German `Sehr schlecht` control capacity:** The accepted German Solar/Wind
+  translation of `Very Poor`, `Sehr schlecht`, exceeds the current fixed
+  control's visible capacity. This is visual only; no functionality or
+  accessibility blocker was found. A later mitigation may use approved copy
+  treatment, a redundant tooltip/accessible description, or a separately
+  reviewed control-geometry change. Do not shorten the translation merely to
+  fit the current control.
 - **About and application versioning:** Expand the About dialog to show the
   application version, support/contact details, and a Ko-Fi link while
   retaining appropriate existing attribution/about content. Establish an
@@ -337,6 +368,17 @@ within the tested Windows/Chromium desktop scope.
 
 Deferred accessibility/platform follow-up:
 
+- investigate why Resource Matrix shortcuts successfully move programmatic
+  focus while the visible focus border or indicator sometimes fails to appear,
+  making a working shortcut seem non-functional. Consider `:focus-visible`,
+  programmatic focus state, scroll/focus timing, destination focus styling, and
+  whether the expected element receives visible focus treatment. Preserve the
+  shortcut bindings and matrix geometry; do not prescribe a redesign;
+- investigate intermittent Windows Narrator announcements of the Solar control
+  when focus ownership is ambiguous. Check actual DOM focus ownership,
+  programmatic focus transitions, accessibility-tree ordering, nearby labels,
+  and focus restoration/repair without assuming the Solar control is the root
+  cause;
 - test practical target comfort and interaction with a touchpad and Windows
   touchscreen when suitable hardware is available;
 - perform Safari/VoiceOver and iPhone/WebKit accessibility smoke testing when a
