@@ -35,6 +35,27 @@
       "stringTableEncoding": "utf-8",
       "catalogueRole": "full",
       "runtimeAvailable": true
+    },
+    {
+      "trackerLocale": "es-ES",
+      "bethesdaToken": "es",
+      "stringTableEncoding": "utf-8",
+      "catalogueRole": "full",
+      "runtimeAvailable": false
+    },
+    {
+      "trackerLocale": "it-IT",
+      "bethesdaToken": "it",
+      "stringTableEncoding": "utf-8",
+      "catalogueRole": "full",
+      "runtimeAvailable": false
+    },
+    {
+      "trackerLocale": "pt-BR",
+      "bethesdaToken": "ptbr",
+      "stringTableEncoding": "utf-8",
+      "catalogueRole": "full",
+      "runtimeAvailable": false
     }
   ]
 }

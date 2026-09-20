@@ -151,6 +151,9 @@ test('decodes string tables with an explicit locale policy', () => {
   assert.equal(encodingForLocale('de'), 'utf-8')
   assert.equal(encodingForLocale('de-DE'), 'utf-8')
   assert.equal(encodingForLocale('ja-JP'), 'utf-8')
+  for (const locale of ['es', 'es-ES', 'it', 'it-IT', 'ptbr', 'pt-BR']) {
+    assert.equal(encodingForLocale(locale), 'utf-8')
+  }
   assert.throws(
     () => encodingForLocale('xx'),
     (error) => error instanceof StringTableError && error.code === 'UNSUPPORTED_LOCALE_ENCODING',
@@ -158,10 +161,12 @@ test('decodes string tables with an explicit locale policy', () => {
 })
 
 test('malformed UTF-8 fails without byte sniffing or fallback', () => {
-  const frenchPath = tempFile('fixture_fr.strings')
-  const malformed = tableBytes(1, 'xx')
-  malformed[16] = 0xC3
-  malformed[17] = 0x28
-  writeFileSync(frenchPath, malformed)
-  assert.throws(() => readStringTable(frenchPath, 'strings', { locale: 'fr' }), /encoded data was not valid|decoding/i)
+  for (const locale of ['fr', 'de', 'ja', 'es', 'it', 'ptbr']) {
+    const tablePath = tempFile(`fixture_${locale}.strings`)
+    const malformed = tableBytes(1, 'xx')
+    malformed[16] = 0xC3
+    malformed[17] = 0x28
+    writeFileSync(tablePath, malformed)
+    assert.throws(() => readStringTable(tablePath, 'strings', { locale }), /encoded data was not valid|decoding/i)
+  }
 })

@@ -9,14 +9,14 @@ import {
   validateOfficialTerminology,
   validateOfficialTerminologyValues,
 } from './official-terminology.mjs'
-import { localeMetadataFor } from './locale-metadata.mjs'
+import { localeMetadataFor, localizationArtifactNames } from './locale-metadata.mjs'
 
 const ROOT = path.resolve(import.meta.dirname, '../..')
 
 export async function verifyOfficialTerminology(localeValue = 'ja-JP', root = ROOT) {
   const locale = localeMetadataFor(localeValue).trackerLocale
   const directory = path.join(root, 'reference-source')
-  const valuePath = path.join(directory, `official-terminology-values-${locale}.csv`)
+  const valuePath = path.join(root, localizationArtifactNames(locale).terminologyValues)
   const [policySource, provenanceSource, valuesSource] = await Promise.all([
     readFile(path.join(directory, 'official-terminology-policy.json'), 'utf8'),
     readFile(path.join(directory, 'official-terminology-provenance.csv'), 'utf8'),

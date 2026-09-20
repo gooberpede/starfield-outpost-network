@@ -13,13 +13,17 @@ const args = process.argv.slice(2)
 const localeIndex = args.indexOf('--locale')
 const locale = localeIndex >= 0 ? args[localeIndex + 1] : undefined
 if (!TARGET_EVIDENCE_LOCALES.includes(locale) || args.some((arg, index) => arg.startsWith('--') && (arg !== '--locale' || index !== localeIndex))) {
-  throw new Error('Usage: build-fauna-evidence-support.mjs --locale <fr-FR|de-DE>')
+  throw new Error(`Usage: build-fauna-evidence-support.mjs --locale <${TARGET_EVIDENCE_LOCALES.join('|')}>`)
 }
 const provenance = parse(await readFile(path.join(ROOT, 'reference-source/localized-name-provenance.csv')), {
   bom: true, columns: true, skip_empty_lines: true, trim: true,
 })
 const modulePath = path.join(ROOT, referenceNameArtifactNames(locale).module)
-const overlay = parseGeneratedReferenceNameModule(await readFile(modulePath, 'utf8'), locale)
+const moduleSource = await readFile(modulePath, 'utf8').catch((error) => {
+  if (error?.code === 'ENOENT') throw new Error(`REFERENCE_NAME_ARTIFACT_MISSING: ${locale} requires ${modulePath}.`)
+  throw error
+})
+const overlay = parseGeneratedReferenceNameModule(moduleSource, locale)
 const occurrences = JSON.parse(await readFile(path.join(ROOT, 'public/reference-data/planet-species.json'), 'utf8'))
 const species = JSON.parse(await readFile(path.join(ROOT, 'public/reference-data/species.json'), 'utf8'))
 const canonicalNames = new Map(species.filter((item) => item.type === 'fauna').map((item) => [item.id, item.name]))

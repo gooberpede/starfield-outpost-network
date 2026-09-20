@@ -100,9 +100,16 @@ test('French and German recommendations preserve direct official terminology', (
   }
 })
 
-test('unsupported terminology locales fail closed', async () => {
-  await assert.rejects(verifyOfficialTerminology('es-ES'), /UNSUPPORTED_LOCALE/)
-  assert.throws(() => localizationVerificationCommands('es-ES'), /UNSUPPORTED_LOCALE/)
+test('staged terminology locales resolve deterministic paths and fail on missing values', async () => {
+  for (const locale of ['es-ES', 'it-IT', 'pt-BR']) {
+    await assert.rejects(verifyOfficialTerminology(locale), new RegExp(`TERMINOLOGY_VALUES_MISSING:.*${locale}`))
+    assert.deepEqual(localizationVerificationCommands(locale), [
+      ['validate-localized-name-provenance.mjs'],
+      ['verify-official-terminology.mjs', '--locale', locale],
+      ['verify-reference-name-overlay.mjs', '--locale', locale],
+    ])
+  }
+  assert.throws(() => localizationVerificationCommands('xx-XX'), /UNSUPPORTED_LOCALE/)
 })
 
 test('locale closure passes its locale to terminology and reference-name verification', () => {

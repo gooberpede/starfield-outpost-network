@@ -89,3 +89,13 @@ test('repository-only verifier detects generated module tampering', async () => 
     await assert.rejects(verifyCommittedReferenceNameOverlay(root), /GENERATED_MODULE_HASH_MISMATCH/)
   } finally { await rm(root, { recursive: true, force: true }) }
 })
+
+test('staged reference overlays fail clearly until deterministic artifacts are committed', async () => {
+  const repositoryRoot = path.resolve(import.meta.dirname, '../..')
+  for (const locale of ['es-ES', 'it-IT', 'pt-BR']) {
+    await assert.rejects(
+      verifyCommittedReferenceNameOverlay(repositoryRoot, locale),
+      new RegExp(`REFERENCE_NAME_ARTIFACT_MISSING: ${locale}.*${locale}-reference-names`),
+    )
+  }
+})

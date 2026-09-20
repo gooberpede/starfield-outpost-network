@@ -1,8 +1,11 @@
 /** Validate and serialize the project-owned evidence record for composed fauna names. */
 import { parse } from 'csv-parse/sync'
+import { LOCALIZATION_LOCALE_METADATA } from './locale-metadata.mjs'
 
 export const FAUNA_EVIDENCE_SCHEMA_VERSION = 1
-export const TARGET_EVIDENCE_LOCALES = Object.freeze(['fr-FR', 'de-DE'])
+export const TARGET_EVIDENCE_LOCALES = Object.freeze(LOCALIZATION_LOCALE_METADATA
+  .filter((locale) => locale.catalogueRole === 'full' && !['en', 'ja'].includes(locale.bethesdaToken))
+  .map((locale) => locale.trackerLocale))
 export const EXPECTED_FAUNA_SHAPES = Object.freeze({
   'prefix+species': 267,
   'prefix+species+diet': 335,

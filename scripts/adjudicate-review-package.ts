@@ -7,19 +7,22 @@ import {
   parseAndValidateReviewCsv,
   serializeReviewRows,
 } from '../src/localization/reviewPackage.ts'
+import { reviewRouteForLocale } from './localization/review-routing.ts'
 
 const args = process.argv.slice(2)
 const localeIndex = args.indexOf('--locale')
-const locale = args[localeIndex + 1]
-if (locale !== 'fr-FR' && locale !== 'de-DE') throw new Error('Expected --locale fr-FR or --locale de-DE.')
+const localeValue = localeIndex >= 0 ? args[localeIndex + 1] : undefined
+if (!localeValue) throw new Error('Missing value for --locale.')
+const { locale, artifacts, source: reviewSource } = reviewRouteForLocale(localeValue)
+if (!reviewSource.createXliff) throw new Error(`REVIEW_ADJUDICATION_UNAVAILABLE: ${locale} does not use semantic draft adjudication.`)
 
-const reviewPath = path.resolve(`docs/localization/${locale}-review.csv`)
+const reviewPath = path.resolve(artifacts.review)
 const source = await readFile(reviewPath, 'utf8')
 const adjudicated = adjudicateReviewRows(parseAndValidateReviewCsv(source, locale))
 const review = serializeReviewRows(adjudicated)
 const catalogue = finalCatalogueFromReview(review, locale)
-const exportName = locale === 'fr-FR' ? 'frFRMessages' : 'deDEMessages'
-const cataloguePath = path.resolve(`src/localization/locales/${locale}.ts`)
+const exportName = artifacts.catalogueExport
+const cataloguePath = path.resolve(artifacts.catalogue)
 const entries = Object.entries(catalogue)
   .map(([key, value]) => `  ${JSON.stringify(key)}: ${JSON.stringify(value)},`)
   .join('\n')

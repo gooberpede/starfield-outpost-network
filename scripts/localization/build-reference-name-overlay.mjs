@@ -62,10 +62,22 @@ export async function buildReferenceNameOverlay(options) {
   validateProvenanceRowShapes(provenance)
   const provenanceManifestBytes = await readFile(PROVENANCE_MANIFEST_PATH)
   const provenanceManifest = JSON.parse(provenanceManifestBytes)
-  const config = JSON.parse(await readFile(options.configPath, 'utf8'))
+  const configSource = await readFile(options.configPath, 'utf8').catch((error) => {
+    if (error?.code === 'ENOENT') {
+      throw new Error(`REFERENCE_NAME_INPUT_CONFIG_MISSING: ${locale.trackerLocale} requires ${options.configPath}.`)
+    }
+    throw error
+  })
+  const config = JSON.parse(configSource)
   if (!config.localizationInputManifest) throw new Error('LOCALIZATION_INPUT_MANIFEST_MISSING: Configure localizationInputManifest.')
   const intakePath = path.resolve(path.dirname(options.configPath), config.localizationInputManifest)
-  const intake = JSON.parse(await readFile(intakePath, 'utf8'))
+  const intakeSource = await readFile(intakePath, 'utf8').catch((error) => {
+    if (error?.code === 'ENOENT') {
+      throw new Error(`LOCALIZATION_INPUT_MANIFEST_MISSING: ${locale.trackerLocale} requires ${intakePath}.`)
+    }
+    throw error
+  })
+  const intake = JSON.parse(intakeSource)
   const tableIdentities = compareLocaleInputIdentity(intake, provenanceManifest, token)
   const plugins = provenanceManifest.authoritativePlugins.map((item) => item.filename)
   const inputs = await localizationInputsFromManifest(intake, intakePath, token, plugins)

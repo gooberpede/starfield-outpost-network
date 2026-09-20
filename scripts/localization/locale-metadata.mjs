@@ -40,3 +40,28 @@ export function referenceNameArtifactNames(locale) {
     trackerLocale,
   }
 }
+
+function moduleIdentifierForLocale(locale) {
+  const { trackerLocale } = localeMetadataFor(locale)
+  const [language, ...subtags] = trackerLocale.split('-')
+  return `${language.toLowerCase()}${subtags.map((part) => part.length === 2 ? part.toUpperCase() : part[0].toUpperCase() + part.slice(1).toLowerCase()).join('')}`
+}
+
+/** Deterministic paths shared by staged and runtime-available full locales. */
+export function localizationArtifactNames(locale) {
+  const metadata = localeMetadataFor(locale)
+  const { trackerLocale } = metadata
+  if (metadata.catalogueRole !== 'full') {
+    throw new Error(`LOCALE_ARTIFACTS_UNAVAILABLE: ${trackerLocale} is a sparse locale.`)
+  }
+  return {
+    trackerLocale,
+    review: `docs/localization/${trackerLocale}-review.csv`,
+    xliff: `docs/localization/${trackerLocale}-deepl.xliff`,
+    reviewDraft: `src/localization/reviewDrafts/${trackerLocale}.ts`,
+    catalogue: `src/localization/locales/${trackerLocale}.ts`,
+    catalogueExport: `${moduleIdentifierForLocale(trackerLocale)}Messages`,
+    terminologyValues: `reference-source/official-terminology-values-${trackerLocale}.csv`,
+    ...referenceNameArtifactNames(trackerLocale),
+  }
+}

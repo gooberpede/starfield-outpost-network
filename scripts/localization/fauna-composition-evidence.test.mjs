@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 
-import { composedFaunaPredictions, parseFaunaPredictions, serializeFaunaPredictions, validateFaunaEvidence } from './fauna-composition-evidence.mjs'
+import { composedFaunaPredictions, parseFaunaPredictions, serializeFaunaPredictions, TARGET_EVIDENCE_LOCALES, validateFaunaEvidence } from './fauna-composition-evidence.mjs'
 import { parseGeneratedReferenceNameModule } from './reference-name-materializer.mjs'
 
 const fixtureRows = [
@@ -17,6 +17,10 @@ const prediction = {
   })),
 }
 const predictions = [prediction]
+
+test('fauna evidence eligibility includes staged full locales without accepting their evidence', () => {
+  assert.deepEqual(TARGET_EVIDENCE_LOCALES, ['fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR'])
+})
 
 test('fauna prediction support preserves stable identity, semantic order, and qualified sources', () => {
   assert.equal(prediction.faunaId, '00000001')

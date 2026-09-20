@@ -755,6 +755,12 @@ Add locale metadata and decide whether it is:
 
 Record the locale in the status inventory and create its Locale Profile.
 
+Locale metadata may be registered before runtime onboarding. A full locale with
+`runtimeAvailable: false` is known to build/review tooling but must remain absent
+from runtime catalogue, reference-name, preference, selector, and browser-language
+registries. Tooling paths are derived from the tracker locale; missing staged
+artifacts are actionable failures, not evidence that the locale is release-ready.
+
 ## Step 2 — semantic catalogue
 
 Translate tracker-authored messages.
@@ -766,6 +772,12 @@ source. Every row records its stable semantic key, exact-source SHA-256, UI
 context, `LOW`/`MEDIUM`/`HIGH` review risk, placeholders, protected tokens, and
 official/glossary constraints. Changed English source invalidates only the
 affected row; approval must never survive source drift silently.
+
+Glossary constraints are keyed by tracker locale. Every applicable constraint
+must have an approved value for the target locale; tooling must fail rather than
+borrow another locale's terminology. Each semantic locale also registers one
+explicit independent draft source. A known locale without that draft fails with
+`REVIEW_DRAFT_MISSING` until editorial drafting begins.
 
 Create the Codex draft before reading the independent DeepL draft. Export the
 same frozen rows as XLIFF 1.2, retaining the semantic key as `trans-unit` ID and

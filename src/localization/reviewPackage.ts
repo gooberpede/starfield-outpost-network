@@ -79,7 +79,49 @@ const contextByKey: Partial<Record<MessageKey, string>> = {
 }
 
 type ConstraintMatcher = (key: MessageKey, source: string) => boolean
-type Constraint = { id: string; fr: string; de: string; matches: ConstraintMatcher }
+type Constraint = { id: string; matches: ConstraintMatcher }
+
+const constraintValuesByLocale: Readonly<Record<string, Readonly<Record<string, string>>>> = {
+  'fr-FR': {
+    'term.inter-system-cargo-link': 'Liaison intersystème', 'term.cargo-link': 'Liaison',
+    'term.outpost': 'Avant-poste', 'term.biome': 'Biome', 'term.planet': 'Planète',
+    'term.planetary-body': 'Corps céleste', 'term.star-system': 'Système stellaire',
+    'skill.outpost-management': "Gestion d'avant-poste", 'skill.outpost-engineering': 'Ingénierie avant-poste',
+    'skill.planetary-habitation': 'Habitat planétaire', 'skill.research-methods': 'Méthodologie',
+    'skill.special-projects': 'Projets spéciaux', 'term.x-tech-power-core': "Noyau d'énergie X-Tech",
+    'term.x-tech': 'X-Tech', 'product.starfield': 'Starfield',
+    'glossary.planned-supply': 'Approvisionnement planifié', 'glossary.present': 'Présence',
+    'glossary.producing': 'En production', 'glossary.inputs': 'Intrants',
+    'glossary.logistics': 'Logistique', 'glossary.manufacturing': 'Fabrication',
+    'glossary.validation': 'Validation', 'glossary.resource-matrix': 'Matrice des ressources',
+    'glossary.reshuffle': 'Réorganiser', 'glossary.lock-order': "Verrouiller l'ordre",
+    'glossary.inorganic': 'Inorganique', 'glossary.organic': 'Organique', 'glossary.network': 'Réseau',
+    'glossary.active-production': 'Production active', 'glossary.source': 'Source',
+    'glossary.destination': 'Destination', 'glossary.file-import-export': 'Importer / Exporter',
+    'glossary.undo-redo': 'Annuler / Rétablir', 'glossary.validation-error': 'Erreur',
+    'glossary.validation-warning': 'Avertissement', 'glossary.validation-info': 'Information',
+  },
+  'de-DE': {
+    'term.inter-system-cargo-link': 'Intersystem-Frachtlink', 'term.cargo-link': 'Frachtlink',
+    'term.outpost': 'Außenposten', 'term.biome': 'Biom', 'term.planet': 'Planet',
+    'term.planetary-body': 'Himmelskörper', 'term.star-system': 'Sternsystem',
+    'skill.outpost-management': 'Außenposten-Verwaltung', 'skill.outpost-engineering': 'Außenposten-Technik',
+    'skill.planetary-habitation': 'Planetenbesiedlung', 'skill.research-methods': 'Forschungsmethoden',
+    'skill.special-projects': 'Spezialprojekte', 'term.x-tech-power-core': 'X-Tech-Energiekern',
+    'term.x-tech': 'X-Tech', 'product.starfield': 'Starfield',
+    'glossary.planned-supply': 'Geplante Versorgung', 'glossary.present': 'Vorhanden',
+    'glossary.producing': 'In Produktion', 'glossary.inputs': 'Einsatzstoffe',
+    'glossary.logistics': 'Logistik', 'glossary.manufacturing': 'Fertigung',
+    'glossary.validation': 'Validierung', 'glossary.resource-matrix': 'Ressourcenmatrix',
+    'glossary.reshuffle': 'Neu anordnen', 'glossary.lock-order': 'Reihenfolge sperren',
+    'glossary.inorganic': 'Anorganisch', 'glossary.organic': 'Organisch', 'glossary.network': 'Netzwerk',
+    'glossary.active-production': 'Aktive Produktion', 'glossary.source': 'Quelle',
+    'glossary.destination': 'Ziel', 'glossary.file-import-export': 'Importieren / Exportieren',
+    'glossary.undo-redo': 'Rückgängig / Wiederholen', 'glossary.validation-error': 'Fehler',
+    'glossary.validation-warning': 'Warnung', 'glossary.validation-info': 'Information',
+  },
+}
+const constraintExemptLocales = new Set(['ja-JP'])
 
 function sourceHas(...terms: string[]): ConstraintMatcher {
   const patterns = terms.map((term) => new RegExp(`(^|[^A-Za-z])${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:s)?(?=$|[^A-Za-z])`, 'i'))
@@ -107,93 +149,93 @@ const planetaryBodyKeys: readonly MessageKey[] = [
 ]
 
 const terminologyConstraints: readonly Constraint[] = [
-  { id: 'term.inter-system-cargo-link', fr: 'Liaison intersystème', de: 'Intersystem-Frachtlink', matches: sourceHas('Inter-System Cargo Link') },
-  { id: 'term.cargo-link', fr: 'Liaison', de: 'Frachtlink', matches: sourceHas('Cargo Link') },
-  { id: 'term.outpost', fr: 'Avant-poste', de: 'Außenposten', matches: sourceHas('Outpost') },
-  { id: 'term.biome', fr: 'Biome', de: 'Biom', matches: sourceHas('Biome') },
-  { id: 'term.planet', fr: 'Planète', de: 'Planet', matches: keyIs(
+  { id: 'term.inter-system-cargo-link', matches: sourceHas('Inter-System Cargo Link') },
+  { id: 'term.cargo-link', matches: sourceHas('Cargo Link') },
+  { id: 'term.outpost', matches: sourceHas('Outpost') },
+  { id: 'term.biome', matches: sourceHas('Biome') },
+  { id: 'term.planet', matches: keyIs(
     'help.organic.unavailablePlanet', 'help.organic.availablePlanet',
   ) },
-  { id: 'term.planetary-body', fr: 'Corps céleste', de: 'Himmelskörper', matches: keyIs(...planetaryBodyKeys) },
-  { id: 'term.star-system', fr: 'Système stellaire', de: 'Sternsystem', matches: anyOf(
+  { id: 'term.planetary-body', matches: keyIs(...planetaryBodyKeys) },
+  { id: 'term.star-system', matches: anyOf(
     sourceHas('Star System'),
     keyIs('outpost.system.label', 'outpost.system.select', 'history.changeSystem', 'history.clearSystem', 'status.referenceData.loaded'),
   ) },
-  { id: 'skill.outpost-management', fr: "Gestion d'avant-poste", de: 'Außenposten-Verwaltung', matches: sourceHas('Outpost Management') },
-  { id: 'skill.outpost-engineering', fr: 'Ingénierie avant-poste', de: 'Außenposten-Technik', matches: sourceHas('Outpost Engineering') },
-  { id: 'skill.planetary-habitation', fr: 'Habitat planétaire', de: 'Planetenbesiedlung', matches: sourceHas('Planetary Habitation') },
-  { id: 'skill.research-methods', fr: 'Méthodologie', de: 'Forschungsmethoden', matches: sourceHas('Research Methods') },
-  { id: 'skill.special-projects', fr: 'Projets spéciaux', de: 'Spezialprojekte', matches: sourceHas('Special Projects') },
-  { id: 'term.x-tech-power-core', fr: "Noyau d'énergie X-Tech", de: 'X-Tech-Energiekern', matches: sourceHas('X-Tech Power Core') },
-  { id: 'term.x-tech', fr: 'X-Tech', de: 'X-Tech', matches: sourceHas('X-Tech') },
-  { id: 'product.starfield', fr: 'Starfield', de: 'Starfield', matches: sourceHas('Starfield') },
-  { id: 'glossary.planned-supply', fr: 'Approvisionnement planifié', de: 'Geplante Versorgung', matches: sourceHas('Planned Supply') },
-  { id: 'glossary.present', fr: 'Présence', de: 'Vorhanden', matches: anyOf(
+  { id: 'skill.outpost-management', matches: sourceHas('Outpost Management') },
+  { id: 'skill.outpost-engineering', matches: sourceHas('Outpost Engineering') },
+  { id: 'skill.planetary-habitation', matches: sourceHas('Planetary Habitation') },
+  { id: 'skill.research-methods', matches: sourceHas('Research Methods') },
+  { id: 'skill.special-projects', matches: sourceHas('Special Projects') },
+  { id: 'term.x-tech-power-core', matches: sourceHas('X-Tech Power Core') },
+  { id: 'term.x-tech', matches: sourceHas('X-Tech') },
+  { id: 'product.starfield', matches: sourceHas('Starfield') },
+  { id: 'glossary.planned-supply', matches: sourceHas('Planned Supply') },
+  { id: 'glossary.present', matches: anyOf(
     keyIs('matrix.column.present', 'matrix.action.togglePresent', 'search.results.flag.present',
       'help.present', 'help.inorganicPresentRecorded', 'help.inorganicPresentPossible',
       'matrix.action.xTech.add', 'matrix.tooltip.xTech.add', 'matrix.tooltip.xTech.present',
       'validation.xTechCapabilityPresent', 'validation.xTechRequiresPresence'),
   ) },
-  { id: 'glossary.producing', fr: 'En production', de: 'In Produktion', matches: keyIs(
+  { id: 'glossary.producing', matches: keyIs(
     'matrix.column.producing', 'matrix.action.toggleProducing', 'matrix.action.toggleProducingSource',
     'search.results.flag.producing', 'help.producing', 'history.startProducing', 'history.stopProducing',
     'matrix.tooltip.producing.active', 'matrix.tooltip.producing.inactive',
   ) },
-  { id: 'glossary.inputs', fr: 'Intrants', de: 'Einsatzstoffe', matches: anyOf(
+  { id: 'glossary.inputs', matches: anyOf(
     keyIs('matrix.column.inputs', 'search.results.flag.missingInputs', 'matrix.tooltip.manufacturing.blocked'),
     keyStarts('matrix.tooltip.input.', 'validation.manufacturingInput', 'validation.organicInput'),
   ) },
-  { id: 'glossary.logistics', fr: 'Logistique', de: 'Logistik', matches: keyIs('matrix.column.logistics', 'help.logistics') },
-  { id: 'glossary.manufacturing', fr: 'Fabrication', de: 'Fertigung', matches: anyOf(
+  { id: 'glossary.logistics', matches: keyIs('matrix.column.logistics', 'help.logistics') },
+  { id: 'glossary.manufacturing', matches: anyOf(
     sourceHas('Manufacturing'),
     keyStarts('matrix.manufacturing.', 'validation.duplicateManufacturing', 'validation.unknownManufacturing'),
     keyIs('matrix.section.manufacturing', 'plannedSupply.section.products', 'history.editManufacturing'),
   ) },
-  { id: 'glossary.validation', fr: 'Validation', de: 'Validierung', matches: keyIs(
+  { id: 'glossary.validation', matches: keyIs(
     'validation.heading', 'validation.none', 'validation.open', 'validation.close', 'validation.issueCount',
     'shortcuts.group.validation', 'shortcuts.action.toggleValidation',
   ) },
-  { id: 'glossary.resource-matrix', fr: 'Matrice des ressources', de: 'Ressourcenmatrix', matches: sourceHas('Resource Matrix') },
-  { id: 'glossary.reshuffle', fr: 'Réorganiser', de: 'Neu anordnen', matches: keyIs(
+  { id: 'glossary.resource-matrix', matches: sourceHas('Resource Matrix') },
+  { id: 'glossary.reshuffle', matches: keyIs(
     'outpost.navigation.reshuffleButton', 'outpost.navigation.reshuffle', 'outpost.navigation.finishReshuffle',
     'cargo.reshuffleButton', 'cargo.reshuffle', 'cargo.finishReshuffle',
   ) },
-  { id: 'glossary.lock-order', fr: "Verrouiller l'ordre", de: 'Reihenfolge sperren', matches: keyIs(
+  { id: 'glossary.lock-order', matches: keyIs(
     'outpost.navigation.lockOrder', 'cargo.lockOrder',
   ) },
-  { id: 'glossary.inorganic', fr: 'Inorganique', de: 'Anorganisch', matches: keyIs(
+  { id: 'glossary.inorganic', matches: keyIs(
     'matrix.section.inorganic', 'plannedSupply.section.inorganic', 'shortcuts.action.focusFirstInorganic',
   ) },
-  { id: 'glossary.organic', fr: 'Organique', de: 'Organisch', matches: keyIs(
+  { id: 'glossary.organic', matches: keyIs(
     'matrix.section.organic', 'plannedSupply.section.organic', 'shortcuts.action.focusFirstOrganic',
   ) },
-  { id: 'glossary.network', fr: 'Réseau', de: 'Netzwerk', matches: sourceHas('Network') },
-  { id: 'glossary.active-production', fr: 'Production active', de: 'Aktive Produktion', matches: anyOf(
+  { id: 'glossary.network', matches: sourceHas('Network') },
+  { id: 'glossary.active-production', matches: anyOf(
     sourceHas('Active Production'), keyIs('validation.duplicateActiveProduction', 'validation.unknownProductionResource',
       'validation.unknownProductionSpecies'),
   ) },
-  { id: 'glossary.source', fr: 'Source', de: 'Quelle', matches: keyIs(
+  { id: 'glossary.source', matches: keyIs(
     'matrix.column.source', 'matrix.source.unspecified', 'matrix.action.toggleProducingSource',
     'validation.unspecifiedOrganicSource', 'validation.unresolvedCargoExport', 'validation.remediation.organicSources',
   ) },
-  { id: 'glossary.destination', fr: 'Destination', de: 'Ziel', matches: anyOf(
+  { id: 'glossary.destination', matches: anyOf(
     keyStarts('cargo.destination.'), keyIs('cargo.pad.noDestination', 'cargo.pad.linkedTo', 'cargo.pad.semanticSummary',
       'matrix.tooltip.export.active'),
   ) },
-  { id: 'glossary.file-import-export', fr: 'Importer / Exporter', de: 'Importieren / Exportieren', matches: anyOf(
+  { id: 'glossary.file-import-export', matches: anyOf(
     keyStarts('transfer.', 'status.import.', 'status.export.'),
     keyIs('shortcuts.group.importExport', 'shortcuts.action.import', 'shortcuts.action.export', 'history.importNetworks'),
   ) },
-  { id: 'glossary.undo-redo', fr: 'Annuler / Rétablir', de: 'Rückgängig / Wiederholen', matches: anyOf(
+  { id: 'glossary.undo-redo', matches: anyOf(
     keyStarts('history.undo', 'history.redo'), keyIs('shortcuts.action.undo', 'shortcuts.action.redo', 'network.delete.undoHint'),
   ) },
-  { id: 'glossary.validation-error', fr: 'Erreur', de: 'Fehler', matches: keyIs(
+  { id: 'glossary.validation-error', matches: keyIs(
     'validation.counts', 'validation.filter.error', 'validation.severity.error', 'help.validation',
   ) },
-  { id: 'glossary.validation-warning', fr: 'Avertissement', de: 'Warnung', matches: keyIs(
+  { id: 'glossary.validation-warning', matches: keyIs(
     'validation.counts', 'validation.filter.warning', 'validation.severity.warning', 'help.validation',
   ) },
-  { id: 'glossary.validation-info', fr: 'Information', de: 'Information', matches: keyIs(
+  { id: 'glossary.validation-info', matches: keyIs(
     'validation.counts', 'validation.filter.info', 'validation.severity.info', 'help.validation',
   ) },
 ]
@@ -259,11 +301,17 @@ function contextOf(key: MessageKey): string {
 
 function constraintsOf(key: MessageKey, locale: string): string {
   const source = enUSMessages[key]
-  const targetField = locale === 'fr-FR' ? 'fr' : locale === 'de-DE' ? 'de' : undefined
-  if (!targetField) return ''
-  return terminologyConstraints
-    .filter((constraint) => constraint.matches(key, source))
-    .map((constraint) => `${constraint.id}=${constraint[targetField]}`)
+  const applicable = terminologyConstraints.filter((constraint) => constraint.matches(key, source))
+  if (!applicable.length) return ''
+  const localeValues = constraintValuesByLocale[locale]
+  if (!localeValues && constraintExemptLocales.has(locale)) return ''
+  if (!localeValues) throw new Error(`REVIEW_CONSTRAINTS_MISSING: No approved glossary constraints exist for ${locale}.`)
+  return applicable
+    .map((constraint) => {
+      const value = localeValues[constraint.id]
+      if (!value) throw new Error(`REVIEW_CONSTRAINTS_MISSING: ${locale}:${constraint.id}.`)
+      return `${constraint.id}=${value}`
+    })
     .join('; ')
 }
 

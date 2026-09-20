@@ -15,6 +15,7 @@ import { deDEReviewDraft } from '../src/localization/reviewDrafts/de-DE.ts'
 import { frFRReviewDraft } from '../src/localization/reviewDrafts/fr-FR.ts'
 import { adjudicateReviewRows } from '../src/localization/reviewAdjudication.ts'
 import { supportedLocaleIds } from '../src/localization/types.ts'
+import { reviewRouteForLocale } from '../scripts/localization/review-routing.ts'
 
 test('review rows are deterministic, locale-specific, and hash exact English sources', () => {
   const first = createReviewCsv('fr-FR')
@@ -25,6 +26,17 @@ test('review rows are deterministic, locale-specific, and hash exact English sou
     assert.equal(row.Locale, 'fr-FR')
     assert.equal(row.EnglishSourceSha256, englishSourceSha256(enUSMessages[row.Key]))
   }
+})
+
+test('staged review locales have deterministic routes and fail clearly until independent drafts exist', () => {
+  for (const locale of ['es-ES', 'it-IT', 'pt-BR']) {
+    assert.throws(
+      () => reviewRouteForLocale(locale),
+      new RegExp(`REVIEW_DRAFT_MISSING: ${locale}.*src/localization/reviewDrafts/${locale}\\.ts`),
+    )
+    assert.throws(() => createReviewRows(locale), new RegExp(`REVIEW_CONSTRAINTS_MISSING:.*${locale}`))
+  }
+  assert.throws(() => reviewRouteForLocale('xx-XX'), /UNSUPPORTED_LOCALE/)
 })
 
 test('French and German Codex drafts are complete and token-safe', () => {

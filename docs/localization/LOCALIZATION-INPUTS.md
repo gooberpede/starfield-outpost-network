@@ -195,7 +195,10 @@ verified handoff for later overlay generation and is not consumed at runtime.
 
 String-table decoding is driven by
 `reference-source/localization-locale-metadata.json`: English uses Windows-1252,
-while Japanese, French, and German use strict UTF-8. Unsupported locales fail with
+while Japanese, French, German, Spanish (`es`), Italian (`it`), and Brazilian
+Portuguese (`ptbr`) use strict UTF-8. The last three are tooling-only contracts
+with `runtimeAvailable: false`; metadata registration does not activate them.
+Unsupported locales fail with
 `UNSUPPORTED_LOCALE_ENCODING`; encodings are never guessed from bytes. Direct
 Japanese runtime or Creation Kit confirmation of exact displayed U+0020
 separator fidelity remains an explicit hardening task.

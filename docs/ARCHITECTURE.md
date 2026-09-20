@@ -645,6 +645,11 @@ The registry owns runtime catalogue registration so feature components do not
 contain per-locale branching. The tooling metadata contract at
 `reference-source/localization-locale-metadata.json` maps tracker tags to
 Bethesda tokens, encodings, catalogue roles, and runtime availability.
+Spanish (`es-ES`/`es`), Italian (`it-IT`/`it`), and Brazilian Portuguese
+(`pt-BR`/`ptbr`) are currently registered there as non-runtime full-locale
+contracts. Tooling derives review, XLIFF, terminology, and reference-overlay
+paths from those tracker tags and fails closed while required artifacts are
+absent. Runtime support remains controlled by the separate typed registries.
 Browser language families map `fr-*` to the single supported `fr-FR` catalogue
 and `de-*` to the single supported `de-DE` catalogue; this is fallback reuse,
 not a claim of separately translated regional variants. Baseline keys are derived from
