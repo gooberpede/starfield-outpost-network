@@ -8,6 +8,12 @@ export const DEFAULT_LOCALE: SupportedLocale = 'en-US'
 /** Data-driven selector metadata comes from the central locale registry. */
 export const supportedLocales = Object.values(localeRegistry)
 
+const languageFamilyLocales: Readonly<Record<string, SupportedLocale>> = {
+  ja: 'ja-JP',
+  fr: 'fr-FR',
+  de: 'de-DE',
+}
+
 export function isSupportedLocale(value: unknown): value is SupportedLocale {
   return supportedLocales.some(({ id }) => id === value)
 }
@@ -17,7 +23,9 @@ export function resolveBrowserLocale(
 ): SupportedLocale {
   for (const language of languages ?? []) {
     const normalized = language.trim().toLowerCase()
-    if (normalized === 'ja' || normalized.startsWith('ja-')) return 'ja-JP'
+    const languageFamily = normalized.split('-', 1)[0]
+    const familyLocale = languageFamilyLocales[languageFamily]
+    if (familyLocale) return familyLocale
     if (normalized === 'en-us' || normalized.startsWith('en-us-')) return 'en-US'
     if (normalized === 'en' || normalized.startsWith('en-')) return 'en-GB'
   }

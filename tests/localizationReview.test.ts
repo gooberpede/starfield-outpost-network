@@ -133,7 +133,7 @@ test('complete Japanese, French, and German catalogues satisfy the full-locale c
     assert.ok(rows.filter(({ OfficialTermConstraints }) => OfficialTermConstraints).every(({ ReviewerNote }) => ReviewerNote))
     assert.ok(rows.filter(({ ComparisonStatus }) => ComparisonStatus === 'INVALID_TOKENS').every(({ ReviewerNote }) => ReviewerNote))
   }
-  assert.deepEqual(supportedLocaleIds, ['en-US', 'en-GB', 'ja-JP'])
+  assert.deepEqual(supportedLocaleIds, ['en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE'])
 })
 
 test('French and German catalogues apply inclusive body and validation severity terminology', () => {

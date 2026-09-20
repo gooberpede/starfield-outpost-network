@@ -62,6 +62,9 @@ test('registry formatters provide visual and accessible chords', () => {
   assert.equal(formatShortcutChord(next), 'Ctrl + Alt + Arrow Down')
   assert.equal(formatAccessibleShortcutChord(undo), 'Control plus Z')
   assert.equal(formatAccessibleShortcutChord(next, 'ja-JP'), 'Control、Alt、矢印 Down')
+  assert.equal(formatAccessibleShortcutChord(next, 'fr-FR'), 'Contrôle plus Alt plus Flèche bas')
+  assert.equal(formatAccessibleShortcutChord(next, 'de-DE'), 'Steuerung plus Alt plus Pfeil nach unten')
+  assert.equal(formatShortcutChord(next), 'Ctrl + Alt + Arrow Down')
 })
 
 test('physical shortcuts use code matching and human-friendly display tokens', () => {

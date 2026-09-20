@@ -30,6 +30,24 @@ test('localized alphabetical sorting uses the active locale and stable ID fallba
       .map(({ id }) => id),
     ['a', 'b'],
   )
+
+  for (const [locale, values, expected] of [
+    ['fr-FR', [{ id: 'e2', name: 'Étoile 10' }, { id: 'e1', name: 'Etain 2' }], ['e1', 'e2']],
+    ['de-DE', [{ id: 'u2', name: 'Übergang 10' }, { id: 'u1', name: 'Uber 2' }], ['u1', 'u2']],
+  ] as const) {
+    assert.deepEqual(
+      [...values].sort((left, right) => compareLocalizedItems(left, right, locale))
+        .map(({ id }) => id),
+      expected,
+    )
+  }
+
+  assert.deepEqual(
+    [{ id: 'b', name: 'Égal' }, { id: 'a', name: 'Egal' }]
+      .sort((left, right) => compareLocalizedItems(left, right, 'fr-FR'))
+      .map(({ id }) => id),
+    ['a', 'b'],
+  )
 })
 
 test('localized system collation does not reorder domain and chronology boundaries', () => {

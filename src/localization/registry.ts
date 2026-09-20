@@ -1,5 +1,7 @@
 import { enGBMessages } from './locales/en-GB.ts'
 import { enUSMessages } from './locales/en-US.ts'
+import { frFRMessages } from './locales/fr-FR.ts'
+import { deDEMessages } from './locales/de-DE.ts'
 import { jaJPMessages } from './locales/ja-JP.ts'
 import type { LocaleMetadata, LocaleOverrides, SupportedLocale } from './types.ts'
 
@@ -17,5 +19,11 @@ export const localeRegistry: Record<SupportedLocale, LocaleRegistration> = {
   },
   'ja-JP': {
     id: 'ja-JP', shortLabel: '日本語', displayName: '日本語', messages: jaJPMessages,
+  },
+  'fr-FR': {
+    id: 'fr-FR', shortLabel: 'FR-FR', displayName: 'Français (France)', messages: frFRMessages,
+  },
+  'de-DE': {
+    id: 'de-DE', shortLabel: 'DE-DE', displayName: 'Deutsch (Deutschland)', messages: deDEMessages,
   },
 }

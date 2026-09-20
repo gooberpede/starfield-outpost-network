@@ -635,7 +635,7 @@ between invalid-skill and habitation validation.
 
 Localization is application presentation infrastructure under
 `src/localization/`. `en-US` is the complete baseline and fallback catalogue;
-`ja-JP` is a complete release-oriented catalogue, while regional variants such
+`ja-JP`, `fr-FR`, and `de-DE` are complete runtime catalogues, while regional variants such
 as `en-GB` may supply sparse overrides. Tests require complete locales to have
 exact key and placeholder parity with `en-US`; runtime fallback remains only as
 defensive resilience. The semantic
@@ -645,8 +645,9 @@ The registry owns runtime catalogue registration so feature components do not
 contain per-locale branching. The tooling metadata contract at
 `reference-source/localization-locale-metadata.json` maps tracker tags to
 Bethesda tokens, encodings, catalogue roles, and runtime availability.
-Tooling-known `fr-FR` and `de-DE` remain excluded from runtime registration,
-selection, preferences, and browser resolution. Baseline keys are derived from
+Browser language families map `fr-*` to the single supported `fr-FR` catalogue
+and `de-*` to the single supported `de-DE` catalogue; this is fallback reuse,
+not a claim of separately translated regional variants. Baseline keys are derived from
 the complete catalogue, while interpolation validates both missing and
 unexpected named parameters at runtime and in tests.
 
@@ -660,11 +661,11 @@ the effective locale changes.
 Reference display names use a separate sparse overlay keyed by stable reference
 kind and ID. Resolution is locale override, canonical runtime name, then raw ID.
 The overlay never changes reference identity or generated reference datasets.
-The generated Japanese official-name overlay is registered at this seam for
+The generated Japanese, French, and German official-name overlays are registered at this seam for
 resource, product, system, body, biome, species, and `official-term` names.
 Character skill slots map to five namespaced `official-term` IDs; their canonical
 English semantic labels remain the fallback, and game FormIDs do not enter
-runtime or persisted state. Japanese tracker-authored copy therefore remains
+runtime or persisted state. Tracker-authored copy therefore remains
 independent of Bethesda-owned reference names.
 
 Locale-aware collation is a presentation concern for genuinely alphabetical
@@ -702,6 +703,12 @@ kept separately from localized user-facing copy.
 `formatters.ts` is the narrow locale-formatting boundary for lists, integers,
 decimals, percentages, and display-name collation. Export filename timestamps,
 schema values, IDs, and other technical identity remain invariant.
+French and German item search keeps locale-normalized exact, prefix, and
+substring ranking, then applies Unicode decomposition and combining-mark
+removal as a localized fallback before canonical-English and curated aliases.
+It does not infer German digraphs, `ss`/`ß`, or French `oe`/`œ` equivalence.
+Accessible shortcut descriptions use locale-aware modifier, connector, and
+arrow speech while visible key tokens and bindings remain invariant.
 
 ## 14.2 Build-time localized-string provenance boundary
 

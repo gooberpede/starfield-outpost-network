@@ -1,6 +1,7 @@
 import { useId, useMemo, useRef } from 'react'
 import type { MouseEvent } from 'react'
 import { useLocalization } from '../../localization/LocalizationContext.ts'
+import type { SupportedLocale } from '../../localization/types.ts'
 import {
   formatAccessibleShortcutChord,
   getShortcutChordTokens,
@@ -60,7 +61,7 @@ export function KeyboardShortcutsDialog({ onClose }: KeyboardShortcutsDialogProp
   </div>
 }
 
-function ShortcutRow({ action, locale }: { action: ShortcutActionId; locale: 'en-US' | 'en-GB' | 'ja-JP' }) {
+function ShortcutRow({ action, locale }: { action: ShortcutActionId; locale: SupportedLocale }) {
   const { t } = useLocalization()
   const definitions = shortcutRegistry.filter((definition) => definition.action === action)
   return <div className="shortcuts-dialog__row">

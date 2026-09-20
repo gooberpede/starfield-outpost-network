@@ -2,6 +2,8 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 
 import { jaJPReferenceNames } from '../src/localization/generated/ja-JP-reference-names.ts'
+import { frFRReferenceNames } from '../src/localization/generated/fr-FR-reference-names.ts'
+import { deDEReferenceNames } from '../src/localization/generated/de-DE-reference-names.ts'
 import { getSkillDisplayName, officialTermBySkill } from '../src/localization/officialTerms.ts'
 import { getReferenceDisplayName } from '../src/localization/referenceNames.ts'
 
@@ -40,6 +42,23 @@ test('runtime lookup registers representative Japanese reference-name families',
 
   for (const [kind, id, canonical, japanese] of cases) {
     assert.equal(getReferenceDisplayName(kind, id, canonical, 'ja-JP'), japanese)
+  }
+})
+
+test('runtime lookup registers complete French and German reference-name overlays', () => {
+  const cases = [
+    ['resource', 'aluminium', 'Aluminum', frFRReferenceNames.resource.aluminium, deDEReferenceNames.resource.aluminium],
+    ['product', 'adaptive-frame', 'Adaptive Frame', frFRReferenceNames.product['adaptive-frame'], deDEReferenceNames.product['adaptive-frame']],
+    ['system', '119226', 'Kavnyk', frFRReferenceNames.system['119226'], deDEReferenceNames.system['119226']],
+    ['body', '01000801', "Va'ruun'kai", frFRReferenceNames.body['01000801'], deDEReferenceNames.body['01000801']],
+    ['biome', '01012244', 'Rocky Desert', frFRReferenceNames.biome['01012244'], deDEReferenceNames.biome['01012244']],
+    ['species', '01039BE3', 'Hailpod', frFRReferenceNames.species['01039BE3'], deDEReferenceNames.species['01039BE3']],
+    ['official-term', 'skill.outpost-management', 'Outpost Management', frFRReferenceNames['official-term']['skill.outpost-management'], deDEReferenceNames['official-term']['skill.outpost-management']],
+  ] as const
+
+  for (const [kind, id, canonical, french, german] of cases) {
+    assert.equal(getReferenceDisplayName(kind, id, canonical, 'fr-FR'), french)
+    assert.equal(getReferenceDisplayName(kind, id, canonical, 'de-DE'), german)
   }
 })
 

@@ -4,6 +4,7 @@ import test from 'node:test'
 import type { ReferenceData } from '../src/domain/referenceData.ts'
 import {
   buildItemSearchCatalogue,
+  foldLocalizedItemSearchText,
   getItemSearchMatches,
   getUniquelyResolvedSearchItem,
 } from '../src/ui/itemSearch.ts'
@@ -18,6 +19,9 @@ const references: ReferenceData = {
     { id: 'carboxylic-acids', name: 'Carboxylic Acids', shortName: 'R-COOH', category: 'inorganic', rarity: 'rare', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
     { id: 'wire-resource', name: 'Wire Fibre', shortName: 'WF', category: 'organic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: null },
     { id: 'x-tech', name: 'X-Tech', shortName: 'XT', category: 'inorganic', rarity: 'unique', parentId: null, sortOrder: 3, plannedSupplyPlacement: 'special' },
+    { id: 'aqueous-hematite', name: 'Aqueous Hematite', shortName: 'HnCn', category: 'inorganic', rarity: 'unique', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
+    { id: 'helium-3', name: 'Helium-3', shortName: 'He-3', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
+    { id: 'ionic-liquids', name: 'Ionic Liquids', shortName: 'IL', category: 'inorganic', rarity: 'exotic', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
   ],
   products: [
     { id: 'zero-wire', name: 'Zero Wire', shortName: 'ZW', rarity: 'common' },
@@ -80,6 +84,28 @@ test('Japanese display and matching preserve the submitted stable identity', () 
   ), { type: 'product', id: 'adaptive-frame' })
   assert.equal(getItemSearchMatches(catalogue, 'adaptive', 'ja-JP')[0].displayName, '順応型フレーム')
   assert.equal(getItemSearchMatches(catalogue, 'Aluminum', 'ja-JP').length, 1)
+})
+
+test('French and German search fold diacritics only as localized fallback aliases', () => {
+  const french = buildItemSearchCatalogue(references, 'fr-FR')
+  assert.equal(getItemSearchMatches(french, 'Hématite aqueuse', 'fr-FR')[0].item.id, 'aqueous-hematite')
+  assert.equal(getItemSearchMatches(french, 'hematite aqueuse', 'fr-FR')[0].item.id, 'aqueous-hematite')
+  assert.equal(getItemSearchMatches(french, 'helium 3', 'fr-FR')[0].item.id, 'helium-3')
+  assert.equal(getItemSearchMatches(french, 'Aluminum', 'fr-FR')[0].displayName, 'Aluminium')
+
+  const german = buildItemSearchCatalogue(references, 'de-DE')
+  assert.equal(getItemSearchMatches(german, 'wassriger hamatit', 'de-DE')[0].item.id, 'aqueous-hematite')
+  assert.equal(getItemSearchMatches(german, 'flussigkeiten', 'de-DE')[0].item.id, 'ionic-liquids')
+
+  for (const [accented, plain] of [
+    ['é', 'e'], ['è', 'e'], ['ê', 'e'], ['ë', 'e'], ['à', 'a'], ['â', 'a'],
+    ['ç', 'c'], ['î', 'i'], ['ï', 'i'], ['ô', 'o'], ['ù', 'u'], ['û', 'u'],
+    ['ü', 'u'], ['ÿ', 'y'], ['ä', 'a'], ['ö', 'o'],
+  ] as const) {
+    assert.equal(foldLocalizedItemSearchText(accented, 'fr-FR'), plain)
+  }
+  assert.equal(foldLocalizedItemSearchText('œ', 'fr-FR'), 'œ')
+  assert.equal(foldLocalizedItemSearchText('ß', 'de-DE'), 'ß')
 })
 
 test('localized matches outrank canonical and alternate aliases', () => {

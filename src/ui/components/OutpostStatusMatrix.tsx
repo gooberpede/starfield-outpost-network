@@ -52,6 +52,7 @@ import './OutpostStatusMatrix.css'
 import { useLocalization } from '../../localization/LocalizationContext.ts'
 import { getReferenceDisplayName } from '../../localization/referenceNames.ts'
 import { getCollator } from '../../localization/formatters.ts'
+import { compareLocalizedItems } from '../localizedCollation.ts'
 import {
   getManufacturingProducingState,
   type ManufacturingProducingState,
@@ -175,10 +176,11 @@ export function OutpostStatusMatrix({
   ))
   const inorganicIds = getInorganicMatrixResourceIds(outpost, referenceData)
   const ordinaryInorganicRows = inorganicIds.filter((id) => !usesExplicitPresence(id)).sort((left, right) =>
-    getReferenceDisplayName('resource', left, resourcesById.get(left)?.name, locale)
-      .localeCompare(getReferenceDisplayName(
-        'resource', right, resourcesById.get(right)?.name, locale,
-      ), locale))
+    compareLocalizedItems(
+      { id: left, name: getReferenceDisplayName('resource', left, resourcesById.get(left)?.name, locale) },
+      { id: right, name: getReferenceDisplayName('resource', right, resourcesById.get(right)?.name, locale) },
+      locale,
+    ))
   const inorganicRows = [
     ...ordinaryInorganicRows,
     ...inorganicIds.filter((id) => usesExplicitPresence(id)),
@@ -232,13 +234,18 @@ export function OutpostStatusMatrix({
     outpost.activeProduction.some((candidate) => getProductionRouteKey(candidate) === getProductionRouteKey(route))
   const displayedManufacturing = draftManufacturing ?? outpost.manufacturing
   const sortedManufacturing = [...displayedManufacturing].sort((left, right) =>
-    collator.compare(
-      getReferenceDisplayName('product', left.productId, productsById.get(left.productId)?.name, locale),
-      getReferenceDisplayName('product', right.productId, productsById.get(right.productId)?.name, locale),
+    compareLocalizedItems(
+      { id: left.productId, name: getReferenceDisplayName('product', left.productId, productsById.get(left.productId)?.name, locale) },
+      { id: right.productId, name: getReferenceDisplayName('product', right.productId, productsById.get(right.productId)?.name, locale) },
+      locale,
     ))
   const draftProductIds = new Set((draftManufacturing ?? []).map((entry) => entry.productId))
   const addableProducts = products.filter((product) => !draftProductIds.has(product.id))
-    .sort((left, right) => collator.compare(left.name, right.name))
+    .sort((left, right) => compareLocalizedItems(
+      { id: left.id, name: getReferenceDisplayName('product', left.id, left.name, locale) },
+      { id: right.id, name: getReferenceDisplayName('product', right.id, right.name, locale) },
+      locale,
+    ))
   const beginManufacturingEdit = () => setDraftManufacturing(
     outpost.manufacturing.map((entry) => ({ ...entry })),
   )
@@ -472,7 +479,11 @@ export function OutpostStatusMatrix({
             <div className="outpost-status-matrix__cell--producing" role="cell" />
             <div className="outpost-status-matrix__cell--inputs" role="cell" />
             <div className="outpost-status-matrix__cell--logistics outpost-status-matrix__state-list" role="cell">{[...summary.items]
-              .sort((left, right) => collator.compare(resolveItem(left).name, resolveItem(right).name))
+              .sort((left, right) => compareLocalizedItems(
+                { id: getCargoItemKey(left), name: resolveItem(left).name },
+                { id: getCargoItemKey(right), name: resolveItem(right).name },
+                locale,
+              ))
               .map((item) => {
                 const display = resolveItem(item)
                 return <LogisticsMeaning key={getCargoItemKey(item)} item={display}

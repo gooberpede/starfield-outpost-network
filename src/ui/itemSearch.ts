@@ -3,6 +3,7 @@ import type { CargoItem } from '../domain/models.ts'
 import type { ReferenceData } from '../domain/referenceData.ts'
 import { getReferenceDisplayName } from '../localization/referenceNames.ts'
 import { getReferenceSearchAlternates } from '../localization/searchAliases.ts'
+import { getCollator } from '../localization/formatters.ts'
 import type { SupportedLocale } from '../localization/types.ts'
 
 export type ItemSearchAliasKind = 'canonical-en' | 'alternate'
@@ -20,6 +21,7 @@ export interface ItemSearchEntry {
   abbreviation: string
   category: CargoItem['type']
   normalizedName: string
+  foldedNormalizedName?: string
   normalizedAbbreviation: string
   aliases: ItemSearchAlias[]
   needsCategoryDisambiguator: boolean
@@ -31,6 +33,16 @@ export function normalizeItemSearchText(value: string, locale: SupportedLocale):
     .normalize('NFC')
     .replace(/\s+/gu, ' ')
     .toLocaleLowerCase(locale)
+}
+
+/** Adds a search-only convenience form without changing display text or exact-match ranking. */
+export function foldLocalizedItemSearchText(
+  value: string,
+  locale: SupportedLocale,
+): string {
+  const normalized = normalizeItemSearchText(value, locale)
+  if (locale !== 'fr-FR' && locale !== 'de-DE') return normalized
+  return normalized.normalize('NFD').replace(/\p{M}/gu, '').normalize('NFC')
 }
 
 export function buildItemSearchCatalogue(
@@ -79,6 +91,7 @@ export function buildItemSearchCatalogue(
       abbreviation,
       category: item.type,
       normalizedName: normalizeItemSearchText(displayName, locale),
+      foldedNormalizedName: foldLocalizedItemSearchText(displayName, locale),
       normalizedAbbreviation: normalizeItemSearchText(abbreviation, locale),
       aliases,
       needsCategoryDisambiguator: false,
@@ -107,20 +120,26 @@ export function buildItemSearchCatalogue(
   }))
 }
 
-function getMatchTier(entry: ItemSearchEntry, query: string): number | null {
+function getMatchTier(entry: ItemSearchEntry, query: string, foldedQuery: string): number | null {
   if (entry.normalizedName === query) return 1
   if (entry.normalizedAbbreviation === query) return 2
   if (entry.normalizedName.startsWith(query)) return 3
   if (entry.normalizedAbbreviation.startsWith(query)) return 4
   if (entry.normalizedName.includes(query)) return 5
+  const foldedName = entry.foldedNormalizedName ?? entry.normalizedName
+  if (foldedName !== entry.normalizedName) {
+    if (foldedName === foldedQuery) return 6
+    if (foldedName.startsWith(foldedQuery)) return 7
+    if (foldedName.includes(foldedQuery)) return 8
+  }
   const canonicalAlias = entry.aliases.find(({ kind }) => kind === 'canonical-en')
-  if (canonicalAlias?.normalizedValue === query) return 6
-  if (canonicalAlias?.normalizedValue.startsWith(query)) return 7
-  if (canonicalAlias?.normalizedValue.includes(query)) return 8
+  if (canonicalAlias?.normalizedValue === query) return 9
+  if (canonicalAlias?.normalizedValue.startsWith(query)) return 10
+  if (canonicalAlias?.normalizedValue.includes(query)) return 11
   const alternateAliases = entry.aliases.filter(({ kind }) => kind === 'alternate')
-  if (alternateAliases.some(({ normalizedValue }) => normalizedValue === query)) return 9
-  if (alternateAliases.some(({ normalizedValue }) => normalizedValue.startsWith(query))) return 10
-  if (alternateAliases.some(({ normalizedValue }) => normalizedValue.includes(query))) return 11
+  if (alternateAliases.some(({ normalizedValue }) => normalizedValue === query)) return 12
+  if (alternateAliases.some(({ normalizedValue }) => normalizedValue.startsWith(query))) return 13
+  if (alternateAliases.some(({ normalizedValue }) => normalizedValue.includes(query))) return 14
   return null
 }
 
@@ -131,11 +150,12 @@ export function getItemSearchMatches(
 ): ItemSearchEntry[] {
   const query = normalizeItemSearchText(draftQuery, locale)
   if (!query) return []
-  const collator = new Intl.Collator(locale, { sensitivity: 'base', numeric: true })
+  const foldedQuery = foldLocalizedItemSearchText(draftQuery, locale)
+  const collator = getCollator(locale)
   const categoryOrder = { resource: 0, product: 1 } as const
 
   return catalogue
-    .map((entry) => ({ entry, tier: getMatchTier(entry, query) }))
+    .map((entry) => ({ entry, tier: getMatchTier(entry, query, foldedQuery) }))
     .filter((candidate): candidate is { entry: ItemSearchEntry; tier: number } =>
       candidate.tier !== null)
     .sort((left, right) =>

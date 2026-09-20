@@ -13,8 +13,10 @@ test('locale metadata maps tracker identities, Bethesda tokens, encodings, and r
   assert.equal(encodingForKnownLocale('ja-JP'), 'utf-8')
   assert.equal(encodingForKnownLocale('fr-FR'), 'utf-8')
   assert.equal(encodingForKnownLocale('de-DE'), 'utf-8')
-  assert.equal(localeMetadataFor('fr-FR').runtimeAvailable, false)
-  assert.equal(localeMetadataFor('de-DE').runtimeAvailable, false)
+  assert.equal(localeMetadataFor('fr-FR').runtimeAvailable, true)
+  assert.equal(localeMetadataFor('de-DE').runtimeAvailable, true)
+  assert.equal(localeMetadataFor('fr-FR').catalogueRole, 'full')
+  assert.equal(localeMetadataFor('de-DE').catalogueRole, 'full')
   assert.deepEqual(referenceNameArtifactNames('fr-FR'), {
     trackerLocale: 'fr-FR', module: 'src/localization/generated/fr-FR-reference-names.ts',
     sidecar: 'reference-source/localized-reference-names-fr-FR-manifest.json',

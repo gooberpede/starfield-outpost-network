@@ -43,22 +43,35 @@ test('locale resolution honours explicit choice and deterministic English mappin
   assert.equal(resolveEffectiveLocale(null, ['en-GB']), 'en-GB')
   assert.equal(resolveEffectiveLocale(null, ['en-AU']), 'en-GB')
   assert.equal(resolveEffectiveLocale(null, ['en-NZ']), 'en-GB')
-  assert.equal(resolveEffectiveLocale(null, ['fr-FR']), 'en-US')
+  assert.equal(resolveEffectiveLocale(null, ['fr-FR']), 'fr-FR')
   assert.equal(resolveBrowserLocale([]), 'en-US')
   assert.deepEqual(getBrowserLanguages({ language: 'en-AU' }), ['en-AU'])
   assert.deepEqual(getBrowserLanguages({}), [])
+})
+
+test('browser locale resolution maps supported French and German language families in order', () => {
+  for (const language of ['fr', 'fr-FR', 'fr-CA', 'fr-BE', 'FR-fr-x-private']) {
+    assert.equal(resolveBrowserLocale([language]), 'fr-FR', language)
+  }
+  for (const language of ['de', 'de-DE', 'de-AT', 'de-CH', 'de-LI', 'DE-de-x-private']) {
+    assert.equal(resolveBrowserLocale([language]), 'de-DE', language)
+  }
+  assert.equal(resolveBrowserLocale(['fr-CA', 'en-US']), 'fr-FR')
+  assert.equal(resolveBrowserLocale(['de-CH', 'en-US']), 'de-DE')
+  assert.equal(resolveBrowserLocale(['xx-YY', 'de-AT', 'en-US']), 'de-DE')
+  assert.equal(resolveBrowserLocale(['xx-YY', 'en-US']), 'en-US')
 })
 
 test('application preferences persist separately and recover invalid values as Automatic', () => {
   const storage = new MemoryStorage()
   assert.deepEqual(loadApplicationPreferences(storage), { localeOverride: null })
 
-  for (const localeOverride of [null, 'en-US', 'en-GB', 'ja-JP'] as const) {
+  for (const localeOverride of [null, 'en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE'] as const) {
     saveApplicationPreferences({ localeOverride }, storage)
     assert.deepEqual(loadApplicationPreferences(storage), { localeOverride })
   }
 
-  storage.setItem(APPLICATION_PREFERENCES_STORAGE_KEY, JSON.stringify({ localeOverride: 'fr-FR' }))
+  storage.setItem(APPLICATION_PREFERENCES_STORAGE_KEY, JSON.stringify({ localeOverride: 'xx-YY' }))
   assert.deepEqual(loadApplicationPreferences(storage), { localeOverride: null })
   storage.setItem(APPLICATION_PREFERENCES_STORAGE_KEY, 'invalid json')
   assert.deepEqual(loadApplicationPreferences(storage), { localeOverride: null })
@@ -79,6 +92,8 @@ test('selector model exposes the effective closed label and dynamic Automatic ro
     { value: 'en-US', label: 'English (US)' },
     { value: 'en-GB', label: 'English (UK)' },
     { value: 'ja-JP', label: '日本語' },
+    { value: 'fr-FR', label: 'Français (France)' },
+    { value: 'de-DE', label: 'Deutsch (Deutschland)' },
   ])
   assert.equal(resolveEffectiveLocale('en-US', ['en-GB']), 'en-US')
 
@@ -205,7 +220,7 @@ test('collection import and export are locale-independent for every supported pr
   ]
   const fixture = serializeNetworkCollection(collection)
 
-  const results = (['en-US', 'en-GB', 'ja-JP'] as const).map((localeOverride) => {
+  const results = (['en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE'] as const).map((localeOverride) => {
     saveApplicationPreferences({ localeOverride }, storage)
     const imported = deserializeNetworkCollection(fixture)
     return {
@@ -223,7 +238,7 @@ test('collection import and export are locale-independent for every supported pr
     assert.deepEqual(result.outpostIds, ['stable-outpost'])
   }
   assert.deepEqual(results.map(({ localeOverride }) => localeOverride), [
-    'en-US', 'en-GB', 'ja-JP',
+    'en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE',
   ])
 })
 
@@ -243,6 +258,8 @@ test('skill history labels use official names in the locale active at render tim
 test('locale-aware list formatting owns conjunction and punctuation', () => {
   assert.equal(formatList('en-US', ['Aluminum', 'Iron']), 'Aluminum and Iron')
   assert.equal(formatList('en-GB', ['Aluminium', 'Iron']), 'Aluminium and Iron')
+  assert.equal(formatList('fr-FR', ['Aluminium', 'Fer']), 'Aluminium et Fer')
+  assert.equal(formatList('de-DE', ['Aluminium', 'Eisen']), 'Aluminium und Eisen')
 })
 
 test('locale-aware number helpers and collator use Intl presentation', () => {
@@ -250,6 +267,13 @@ test('locale-aware number helpers and collator use Intl presentation', () => {
   assert.equal(formatDecimal('en-US', 2 / 3), '0.67')
   assert.equal(formatPercent('en-US', 0.25), '25%')
   assert.ok(getCollator('en-US').compare('Pad 2', 'Pad 10') < 0)
+  assert.equal(formatInteger('fr-FR', 1234), new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 }).format(1234))
+  assert.equal(formatDecimal('de-DE', 2 / 3), '0,67')
+  assert.equal(formatPercent('fr-FR', 0.25), '25 %')
+  assert.equal(new Intl.PluralRules('fr-FR').select(1), 'one')
+  assert.equal(new Intl.PluralRules('de-DE').select(2), 'other')
+  assert.ok(getCollator('fr-FR').compare('Item 2', 'Item 10') < 0)
+  assert.ok(getCollator('de-DE').compare('Item 2', 'Item 10') < 0)
 })
 
 test('document language follows initial and switched effective locale', () => {
@@ -258,6 +282,10 @@ test('document language follows initial and switched effective locale', () => {
   assert.equal(target.documentElement.lang, 'en-US')
   setDocumentLanguage('en-GB', target)
   assert.equal(target.documentElement.lang, 'en-GB')
+  setDocumentLanguage('fr-FR', target)
+  assert.equal(target.documentElement.lang, 'fr-FR')
+  setDocumentLanguage('de-DE', target)
+  assert.equal(target.documentElement.lang, 'de-DE')
 })
 
 test('known import failures use stable descriptors and retain diagnostics', () => {

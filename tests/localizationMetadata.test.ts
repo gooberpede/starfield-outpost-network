@@ -13,12 +13,12 @@ const metadata = JSON.parse(await readFile(
   new URL('../reference-source/localization-locale-metadata.json', import.meta.url), 'utf8',
 )) as LocaleMetadataDocument
 
-test('tooling-known locales remain separate from runtime-supported locales', () => {
+test('runtime-supported locales agree with locale metadata and selector registration', () => {
   const runtimeLocales = metadata.locales.filter(({ runtimeAvailable }) => runtimeAvailable)
     .map(({ trackerLocale }) => trackerLocale)
   assert.deepEqual(runtimeLocales, [...supportedLocaleIds])
-  assert.equal(getLocaleSelectorOptions('en-US').some(({ value }) => value === ('fr-FR' as never)), false)
-  assert.equal(getLocaleSelectorOptions('en-US').some(({ value }) => value === ('de-DE' as never)), false)
-  assert.equal(resolveBrowserLocale(['fr-FR']), 'en-US')
-  assert.equal(resolveBrowserLocale(['de-DE']), 'en-US')
+  assert.equal(getLocaleSelectorOptions('en-US').some(({ value }) => value === 'fr-FR'), true)
+  assert.equal(getLocaleSelectorOptions('en-US').some(({ value }) => value === 'de-DE'), true)
+  assert.equal(resolveBrowserLocale(['fr-FR']), 'fr-FR')
+  assert.equal(resolveBrowserLocale(['de-DE']), 'de-DE')
 })

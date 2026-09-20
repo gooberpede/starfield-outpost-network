@@ -98,8 +98,26 @@ export function formatShortcutChord(definition: ShortcutDefinition): string {
 }
 
 export function formatAccessibleShortcutChord(definition: ShortcutDefinition, locale: SupportedLocale = 'en-US'): string {
-  const separator = locale === 'ja-JP' ? '、' : ' plus '
-  return getShortcutChordTokens(definition).map((token) => token.replace('Ctrl', 'Control').replace('Arrow', locale === 'ja-JP' ? '矢印' : 'Arrow')).join(separator)
+  const speech = {
+    'en-US': { separator: ' plus ', ctrl: 'Control', shift: 'Shift', arrows: { Up: 'Arrow Up', Down: 'Arrow Down', Left: 'Arrow Left', Right: 'Arrow Right' } },
+    'en-GB': { separator: ' plus ', ctrl: 'Control', shift: 'Shift', arrows: { Up: 'Arrow Up', Down: 'Arrow Down', Left: 'Arrow Left', Right: 'Arrow Right' } },
+    'ja-JP': { separator: '、', ctrl: 'Control', shift: 'Shift', arrows: { Up: '矢印 Up', Down: '矢印 Down', Left: '矢印 Left', Right: '矢印 Right' } },
+    'fr-FR': { separator: ' plus ', ctrl: 'Contrôle', shift: 'Majuscule', arrows: { Up: 'Flèche haut', Down: 'Flèche bas', Left: 'Flèche gauche', Right: 'Flèche droite' } },
+    'de-DE': { separator: ' plus ', ctrl: 'Steuerung', shift: 'Umschalttaste', arrows: { Up: 'Pfeil nach oben', Down: 'Pfeil nach unten', Left: 'Pfeil nach links', Right: 'Pfeil nach rechts' } },
+  } satisfies Record<SupportedLocale, {
+    separator: string
+    ctrl: string
+    shift: string
+    arrows: Record<'Up' | 'Down' | 'Left' | 'Right', string>
+  }>
+  const localeSpeech = speech[locale]
+  return getShortcutChordTokens(definition).map((token) => {
+    if (token === 'Ctrl') return localeSpeech.ctrl
+    if (token === 'Shift') return localeSpeech.shift
+    const arrowDirection = token.match(/^Arrow (Up|Down|Left|Right)$/)?.[1] as
+      | 'Up' | 'Down' | 'Left' | 'Right' | undefined
+    return arrowDirection ? localeSpeech.arrows[arrowDirection] : token
+  }).join(localeSpeech.separator)
 }
 
 export type OutpostShortcut = 'add' | 'previous' | 'next'

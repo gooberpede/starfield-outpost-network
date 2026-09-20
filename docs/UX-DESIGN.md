@@ -857,6 +857,17 @@ numeric codes, counters, and short technical flags retain the mono token.
 Japanese headings and labels reduce Latin-oriented tracking rather than
 spacing kana and kanji as condensed uppercase text.
 
+French and German are selectable as `Français (France)` and
+`Deutsch (Deutschland)`. Automatic selection shows the existing short effective
+tag convention (`FR-FR` or `DE-DE`) and maps any browser `fr-*` or `de-*`
+preference to the one supported catalogue for that language family. Locale
+switching remains presentation-only. Search accepts unaccented French/German
+fallback input through combining-mark removal while preserving correctly
+accented exact-match priority, canonical English aliases, and one row per stable
+entity. German digraph aliases and `oe`/`œ` equivalence are not inferred.
+Screen-reader shortcut descriptions localize modifier, connector, and arrow
+speech; visible shortcut tokens and bindings remain unchanged.
+
 Genuinely alphabetical localized lists use the active-locale collator with a
 stable-ID fallback. Body/orbit sequence, biome occurrence order, resource
 topology, persisted outpost order, validation order, source-class order, and

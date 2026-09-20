@@ -28,8 +28,8 @@ Bethesda’s support matrix currently lists:
 | Starfield language | Bethesda support | Tracker target | Tracker status |
 | --- | --- | --- | --- |
 | English | Interface/Text + Voice | Yes | Supported |
-| French | Interface/Text + Voice | Yes | Not onboarded |
-| German | Interface/Text + Voice | Yes | Not onboarded |
+| French | Interface/Text + Voice | Yes | Runtime integrated; release QA pending |
+| German | Interface/Text + Voice | Yes | Runtime integrated; release QA pending |
 | Spanish (Spain) | Interface/Text + Voice | Yes | Not onboarded |
 | Japanese | Interface/Text + Voice | Yes | Supported |
 | Italian | Interface/Text | Yes | Not onboarded |
@@ -1334,8 +1334,8 @@ No macOS desktop visual test is currently available.
 
 ### Role/status
 
-- Tracker status: **Not onboarded; semantic catalogue complete and inactive**
-- Catalogue model: complete source catalogue, not registered at runtime
+- Tracker status: **Runtime integrated; layout/accessibility release closure pending**
+- Catalogue model: complete source catalogue, registered at runtime
 - Bethesda support class: Interface/Text + Voice
 - Bethesda string-table token: `fr` (strict UTF-8)
 
@@ -1344,9 +1344,10 @@ No macOS desktop visual test is currently available.
 The committed French reference-name overlay closes the fixed canonical
 population: 3,561 entities resolved from all 4,818 qualified provenance rows,
 including 922 predicted composed-fauna names. Its sidecar records the exact
-official table identities and strict UTF-8 decoding. The overlay remains
-unregistered: `fr-FR` is not in the runtime catalogue registry, locale
-selector, browser-language resolution, or persisted locale preference contract.
+official table identities and strict UTF-8 decoding. The overlay is statically
+registered through the stable-ID runtime lookup. `fr-FR` is selectable and
+persistable; automatic resolution maps every browser `fr-*` tag to this one
+supported French catalogue.
 
 Composed fauna use semantic order `prefix + species + diet` and one U+0020
 separator between present components. Four distinct first-party Jemison
@@ -1381,12 +1382,13 @@ Notable constraints:
 The frozen 414-key semantic review CSV contains independent Codex and DeepL
 drafts, comparison status, final editorial translations, and reviewer notes.
 The complete 414-key `fr-FR` source catalogue has exact key, placeholder,
-plural-syntax, and protected-token parity with `en-US`. It remains intentionally
-unregistered. Search review, layout/accessibility review, runtime integration,
-and release verification remain future work. The generated corpus contains ASCII apostrophes and hyphens,
+plural-syntax, and protected-token parity with `en-US`. Search retains exact,
+prefix, and substring priority, then applies search-only decomposition and
+combining-mark removal before canonical-English and curated aliases. It does
+not add `oe`/`œ` equivalence. Broad layout/accessibility review and final
+release verification remain future work. The generated corpus contains ASCII apostrophes and hyphens,
 non-breaking spaces, accented letters, and ligatures including `œ`; search
-normalization remains deliberately unchanged. This profile does not make
-French a supported locale.
+ordinary whitespace normalization keeps non-breaking-space names searchable.
 
 ---
 
@@ -1394,8 +1396,8 @@ French a supported locale.
 
 ### Role/status
 
-- Tracker status: **Not onboarded; semantic catalogue complete and inactive**
-- Catalogue model: complete source catalogue, not registered at runtime
+- Tracker status: **Runtime integrated; layout/accessibility release closure pending**
+- Catalogue model: complete source catalogue, registered at runtime
 - Bethesda support class: Interface/Text + Voice
 - Bethesda string-table token: `de` (strict UTF-8)
 
@@ -1404,9 +1406,10 @@ French a supported locale.
 The committed German reference-name overlay closes the fixed canonical
 population: 3,561 entities resolved from all 4,818 qualified provenance rows,
 including 922 predicted composed-fauna names. Its sidecar records the exact
-official table identities and strict UTF-8 decoding. The overlay remains
-unregistered: `de-DE` is not in the runtime catalogue registry, locale selector,
-browser-language resolution, or persisted locale preference contract.
+official table identities and strict UTF-8 decoding. The overlay is statically
+registered through the stable-ID runtime lookup. `de-DE` is selectable and
+persistable; automatic resolution maps every browser `de-*` tag to this one
+supported German catalogue.
 
 Composed fauna use semantic order `prefix + species + diet` and one U+0020
 separator between present components. Five distinct first-party Jemison
@@ -1441,12 +1444,14 @@ Notable constraints:
 The frozen 414-key semantic review CSV contains independent Codex and DeepL
 drafts, comparison status, final editorial translations, and reviewer notes.
 The complete 414-key `de-DE` source catalogue has exact key, placeholder,
-plural-syntax, and protected-token parity with `en-US`. It remains intentionally
-unregistered. Search review, layout/accessibility review, runtime integration,
-and release verification remain future work. The generated corpus contains ASCII apostrophes and hyphens,
+plural-syntax, and protected-token parity with `en-US`. Search retains exact,
+prefix, and substring priority, then applies search-only decomposition and
+combining-mark removal before canonical-English and curated aliases. It does
+not infer `ae`/`oe`/`ue` digraphs or `ss`/`ß` aliases. Broad
+layout/accessibility review and final release verification remain future work.
+The generated corpus contains ASCII apostrophes and hyphens,
 umlauts, and `ß`; no unusual hyphen code point was found, and search
-normalization remains deliberately unchanged. This profile does not make
-German a supported locale.
+ordinary punctuation remains unchanged.
 
 ---
 

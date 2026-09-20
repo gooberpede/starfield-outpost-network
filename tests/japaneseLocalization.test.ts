@@ -34,7 +34,7 @@ test('Japanese is registered, self-labelled, and selected by Japanese browser lo
   for (const language of ['ja', 'ja-JP', 'ja-Hira', 'JA-jp', 'Ja-jP-x-private']) {
     assert.equal(resolveBrowserLocale([language]), 'ja-JP', language)
   }
-  assert.equal(resolveBrowserLocale(['fr-FR', 'ja-JP']), 'ja-JP')
+  assert.equal(resolveBrowserLocale(['xx-YY', 'ja-JP']), 'ja-JP')
   assert.equal(resolveBrowserLocale(['en-US', 'ja-JP']), 'en-US')
   assert.equal(resolveBrowserLocale(['en-AU']), 'en-GB')
   assert.equal(resolveBrowserLocale(['en-US']), 'en-US')
@@ -43,6 +43,8 @@ test('Japanese is registered, self-labelled, and selected by Japanese browser lo
     { value: 'en-US', label: 'English (US)' },
     { value: 'en-GB', label: 'English (UK)' },
     { value: 'ja-JP', label: '日本語' },
+    { value: 'fr-FR', label: 'Français (France)' },
+    { value: 'de-DE', label: 'Deutsch (Deutschland)' },
   ])
 })
 
