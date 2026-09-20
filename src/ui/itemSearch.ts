@@ -41,8 +41,11 @@ export function foldLocalizedItemSearchText(
   locale: SupportedLocale,
 ): string {
   const normalized = normalizeItemSearchText(value, locale)
-  if (locale !== 'fr-FR' && locale !== 'de-DE') return normalized
-  return normalized.normalize('NFD').replace(/\p{M}/gu, '').normalize('NFC')
+  if (!['fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR'].includes(locale)) {
+    return normalized
+  }
+  const folded = normalized.normalize('NFD').replace(/\p{M}/gu, '').normalize('NFC')
+  return locale === 'it-IT' ? folded.replaceAll('’', "'") : folded
 }
 
 export function buildItemSearchCatalogue(

@@ -104,6 +104,9 @@ export function formatAccessibleShortcutChord(definition: ShortcutDefinition, lo
     'ja-JP': { separator: '、', ctrl: 'Control', shift: 'Shift', arrows: { Up: '矢印 Up', Down: '矢印 Down', Left: '矢印 Left', Right: '矢印 Right' } },
     'fr-FR': { separator: ' plus ', ctrl: 'Contrôle', shift: 'Majuscule', arrows: { Up: 'Flèche haut', Down: 'Flèche bas', Left: 'Flèche gauche', Right: 'Flèche droite' } },
     'de-DE': { separator: ' plus ', ctrl: 'Steuerung', shift: 'Umschalttaste', arrows: { Up: 'Pfeil nach oben', Down: 'Pfeil nach unten', Left: 'Pfeil nach links', Right: 'Pfeil nach rechts' } },
+    'es-ES': { separator: ' más ', ctrl: 'Control', shift: 'Mayús', arrows: { Up: 'Flecha arriba', Down: 'Flecha abajo', Left: 'Flecha izquierda', Right: 'Flecha derecha' } },
+    'it-IT': { separator: ' più ', ctrl: 'Control', shift: 'Maiusc', arrows: { Up: 'Freccia su', Down: 'Freccia giù', Left: 'Freccia sinistra', Right: 'Freccia destra' } },
+    'pt-BR': { separator: ' mais ', ctrl: 'Control', shift: 'Shift', arrows: { Up: 'Seta para cima', Down: 'Seta para baixo', Left: 'Seta para a esquerda', Right: 'Seta para a direita' } },
   } satisfies Record<SupportedLocale, {
     separator: string
     ctrl: string

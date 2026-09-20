@@ -3,6 +3,9 @@ import { enUSMessages } from './locales/en-US.ts'
 import { frFRMessages } from './locales/fr-FR.ts'
 import { deDEMessages } from './locales/de-DE.ts'
 import { jaJPMessages } from './locales/ja-JP.ts'
+import { esESMessages } from './locales/es-ES.ts'
+import { itITMessages } from './locales/it-IT.ts'
+import { ptBRMessages } from './locales/pt-BR.ts'
 import type { LocaleMetadata, LocaleOverrides, SupportedLocale } from './types.ts'
 
 export interface LocaleRegistration extends LocaleMetadata {
@@ -25,5 +28,14 @@ export const localeRegistry: Record<SupportedLocale, LocaleRegistration> = {
   },
   'de-DE': {
     id: 'de-DE', shortLabel: 'DE-DE', displayName: 'Deutsch (Deutschland)', messages: deDEMessages,
+  },
+  'es-ES': {
+    id: 'es-ES', shortLabel: 'ES-ES', displayName: 'Español (España)', messages: esESMessages,
+  },
+  'it-IT': {
+    id: 'it-IT', shortLabel: 'IT-IT', displayName: 'Italiano (Italia)', messages: itITMessages,
+  },
+  'pt-BR': {
+    id: 'pt-BR', shortLabel: 'PT-BR', displayName: 'Português (Brasil)', messages: ptBRMessages,
   },
 }

@@ -2,6 +2,9 @@ import type { SupportedLocale } from './types.ts'
 import { deDEReferenceNames } from './generated/de-DE-reference-names.ts'
 import { frFRReferenceNames } from './generated/fr-FR-reference-names.ts'
 import { jaJPReferenceNames } from './generated/ja-JP-reference-names.ts'
+import { esESReferenceNames } from './generated/es-ES-reference-names.ts'
+import { itITReferenceNames } from './generated/it-IT-reference-names.ts'
+import { ptBRReferenceNames } from './generated/pt-BR-reference-names.ts'
 
 export type ReferenceNameKind =
   | 'resource'
@@ -18,6 +21,9 @@ const referenceNameOverrides: Partial<Record<SupportedLocale, Partial<Record<Ref
   'ja-JP': jaJPReferenceNames,
   'fr-FR': frFRReferenceNames,
   'de-DE': deDEReferenceNames,
+  'es-ES': esESReferenceNames,
+  'it-IT': itITReferenceNames,
+  'pt-BR': ptBRReferenceNames,
 }
 
 /** Stable IDs select sparse locale overlays; canonical names remain fallback. */

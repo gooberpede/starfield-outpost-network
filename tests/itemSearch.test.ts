@@ -7,6 +7,7 @@ import {
   foldLocalizedItemSearchText,
   getItemSearchMatches,
   getUniquelyResolvedSearchItem,
+  normalizeItemSearchText,
 } from '../src/ui/itemSearch.ts'
 
 const references: ReferenceData = {
@@ -106,6 +107,90 @@ test('French and German search fold diacritics only as localized fallback aliase
   }
   assert.equal(foldLocalizedItemSearchText('œ', 'fr-FR'), 'œ')
   assert.equal(foldLocalizedItemSearchText('ß', 'de-DE'), 'ß')
+})
+
+test('Spanish, Italian, and Brazilian Portuguese use narrow search-only folding', () => {
+  const spanish = buildItemSearchCatalogue(references, 'es-ES')
+  const italian = buildItemSearchCatalogue(references, 'it-IT')
+  const portuguese = buildItemSearchCatalogue(references, 'pt-BR')
+
+  for (const [catalogue, locale, localized, folded, id, english] of [
+    [spanish, 'es-ES', 'Líquidos iónicos', 'liquidos ionicos', 'ionic-liquids', 'Ionic Liquids'],
+    [italian, 'it-IT', 'Ematite acquosa', 'ematite acquosa', 'aqueous-hematite', 'Aqueous Hematite'],
+    [portuguese, 'pt-BR', 'Líquidos Iônicos', 'liquidos ionicos', 'ionic-liquids', 'Ionic Liquids'],
+  ] as const) {
+    const exact = getItemSearchMatches(catalogue, localized, locale)
+    const normalized = getItemSearchMatches(catalogue, folded, locale)
+    const canonical = getItemSearchMatches(catalogue, english, locale)
+    assert.deepEqual(exact.map(({ item }) => item.id), [id])
+    assert.deepEqual(normalized.map(({ item }) => item.id), [id])
+    assert.deepEqual(canonical.map(({ item }) => item.id), [id])
+    assert.equal(exact[0].displayName, localized)
+    assert.equal(normalized[0].displayName, localized)
+    assert.equal(canonical[0].displayName, localized)
+  }
+
+  assert.equal(foldLocalizedItemSearchText('Telaraña', 'es-ES'), 'telarana')
+  assert.equal(foldLocalizedItemSearchText('Telarana', 'es-ES'), 'telarana')
+  assert.equal(foldLocalizedItemSearchText('L’Astraea', 'it-IT'), "l'astraea")
+  assert.equal(foldLocalizedItemSearchText("L'Astraea", 'it-IT'), "l'astraea")
+  assert.equal(foldLocalizedItemSearchText('Césio, Ímã', 'pt-BR'), 'cesio, ima')
+  assert.equal(foldLocalizedItemSearchText('R-COOH', 'pt-BR'), 'r-cooh')
+})
+
+test('exact localized spelling outranks folded localized fallback matches', () => {
+  const collisionReferences: ReferenceData = {
+    ...references,
+    resources: [
+      ...references.resources,
+      { ...references.resources[0], id: 'plain-spanish', name: 'Liquidos ionicos', shortName: 'PLI' },
+    ],
+  }
+  const catalogue = buildItemSearchCatalogue(collisionReferences, 'es-ES')
+  assert.deepEqual(
+    getItemSearchMatches(catalogue, 'Líquidos iónicos', 'es-ES').map(({ item }) => item.id),
+    ['ionic-liquids'],
+  )
+  assert.deepEqual(
+    getItemSearchMatches(catalogue, 'liquidos ionicos', 'es-ES').map(({ item }) => item.id),
+    ['plain-spanish', 'ionic-liquids'],
+  )
+})
+
+test('Spanish ñ and Italian curly apostrophes retain exact priority over search aliases', () => {
+  const base = buildItemSearchCatalogue(references, 'en-US')[0]
+  const entry = (displayName: string, id: string, locale: 'es-ES' | 'it-IT') => ({
+    ...base,
+    item: { type: 'resource' as const, id },
+    key: `resource:${id}`,
+    displayName,
+    normalizedName: normalizeItemSearchText(displayName, locale),
+    foldedNormalizedName: foldLocalizedItemSearchText(displayName, locale),
+    normalizedAbbreviation: `unmatched-${id}`,
+    aliases: [],
+  })
+
+  const spanish = [
+    entry('Telaraña', 'enye', 'es-ES'),
+    entry('Telarana', 'plain-n', 'es-ES'),
+  ]
+  assert.deepEqual(
+    getItemSearchMatches(spanish, 'Telaraña', 'es-ES').map(({ item }) => item.id),
+    ['enye'],
+  )
+  assert.deepEqual(
+    getItemSearchMatches(spanish, 'Telarana', 'es-ES').map(({ item }) => item.id),
+    ['plain-n', 'enye'],
+  )
+
+  const italian = [entry('L’Astraea', 'curly-apostrophe', 'it-IT')]
+  for (const query of ['L’Astraea', "L'Astraea"]) {
+    assert.deepEqual(
+      getItemSearchMatches(italian, query, 'it-IT').map(({ item }) => item.id),
+      ['curly-apostrophe'],
+    )
+    assert.equal(getItemSearchMatches(italian, query, 'it-IT')[0].displayName, 'L’Astraea')
+  }
 })
 
 test('localized matches outrank canonical and alternate aliases', () => {

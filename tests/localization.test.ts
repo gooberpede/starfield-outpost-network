@@ -62,11 +62,31 @@ test('browser locale resolution maps supported French and German language famili
   assert.equal(resolveBrowserLocale(['xx-YY', 'en-US']), 'en-US')
 })
 
+test('browser locale resolution conservatively maps Spanish, Italian, and Brazilian Portuguese', () => {
+  for (const language of ['es', 'es-ES', 'es-ES-x-private', 'ES-es-u-nu-latn']) {
+    assert.equal(resolveBrowserLocale([language]), 'es-ES', language)
+  }
+  for (const language of ['it', 'it-IT', 'it-IT-x-private', 'IT-it-u-nu-latn']) {
+    assert.equal(resolveBrowserLocale([language]), 'it-IT', language)
+  }
+  for (const language of ['pt', 'pt-BR', 'pt-BR-x-private', 'PT-br-u-nu-latn']) {
+    assert.equal(resolveBrowserLocale([language]), 'pt-BR', language)
+  }
+
+  assert.equal(resolveBrowserLocale(['es-MX', 'en-US']), 'en-US')
+  assert.equal(resolveBrowserLocale(['es-AR', 'fr-FR']), 'fr-FR')
+  assert.equal(resolveBrowserLocale(['it-CH', 'de-DE']), 'de-DE')
+  assert.equal(resolveBrowserLocale(['pt-PT', 'en-US']), 'en-US')
+  assert.equal(resolveBrowserLocale(['pt-PT', 'es-ES']), 'es-ES')
+})
+
 test('application preferences persist separately and recover invalid values as Automatic', () => {
   const storage = new MemoryStorage()
   assert.deepEqual(loadApplicationPreferences(storage), { localeOverride: null })
 
-  for (const localeOverride of [null, 'en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE'] as const) {
+  for (const localeOverride of [
+    null, 'en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR',
+  ] as const) {
     saveApplicationPreferences({ localeOverride }, storage)
     assert.deepEqual(loadApplicationPreferences(storage), { localeOverride })
   }
@@ -94,7 +114,13 @@ test('selector model exposes the effective closed label and dynamic Automatic ro
     { value: 'ja-JP', label: '日本語' },
     { value: 'fr-FR', label: 'Français (France)' },
     { value: 'de-DE', label: 'Deutsch (Deutschland)' },
+    { value: 'es-ES', label: 'Español (España)' },
+    { value: 'it-IT', label: 'Italiano (Italia)' },
+    { value: 'pt-BR', label: 'Português (Brasil)' },
   ])
+  assert.equal(getLocaleSelectorOptions('es-ES')[0].label, 'Automatic (ES-ES)')
+  assert.equal(getLocaleSelectorOptions('it-IT')[0].label, 'Automatic (IT-IT)')
+  assert.equal(getLocaleSelectorOptions('pt-BR')[0].label, 'Automatic (PT-BR)')
   assert.equal(resolveEffectiveLocale('en-US', ['en-GB']), 'en-US')
 
   const session = createCollectionEditingSession(createDefaultNetworkCollection())
@@ -286,6 +312,12 @@ test('document language follows initial and switched effective locale', () => {
   assert.equal(target.documentElement.lang, 'fr-FR')
   setDocumentLanguage('de-DE', target)
   assert.equal(target.documentElement.lang, 'de-DE')
+  setDocumentLanguage('es-ES', target)
+  assert.equal(target.documentElement.lang, 'es-ES')
+  setDocumentLanguage('it-IT', target)
+  assert.equal(target.documentElement.lang, 'it-IT')
+  setDocumentLanguage('pt-BR', target)
+  assert.equal(target.documentElement.lang, 'pt-BR')
 })
 
 test('known import failures use stable descriptors and retain diagnostics', () => {

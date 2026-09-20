@@ -23,14 +23,14 @@ test('locale metadata maps tracker identities, Bethesda tokens, encodings, and r
     sidecar: 'reference-source/localized-reference-names-fr-FR-manifest.json',
   })
 
-  const staged = [
+  const newlyRuntimeIntegrated = [
     ['es-ES', 'es'], ['it-IT', 'it'], ['pt-BR', 'ptbr'],
   ]
-  for (const [trackerLocale, bethesdaToken] of staged) {
+  for (const [trackerLocale, bethesdaToken] of newlyRuntimeIntegrated) {
     assert.equal(bethesdaTokenForLocale(trackerLocale), bethesdaToken)
     assert.equal(encodingForKnownLocale(bethesdaToken), 'utf-8')
     assert.equal(encodingForKnownLocale(trackerLocale), 'utf-8')
-    assert.equal(localeMetadataFor(trackerLocale).runtimeAvailable, false)
+    assert.equal(localeMetadataFor(trackerLocale).runtimeAvailable, true)
     assert.equal(localeMetadataFor(trackerLocale).catalogueRole, 'full')
     assert.deepEqual(localizationArtifactNames(trackerLocale), {
       trackerLocale,

@@ -4,6 +4,9 @@ import test from 'node:test'
 import { jaJPReferenceNames } from '../src/localization/generated/ja-JP-reference-names.ts'
 import { frFRReferenceNames } from '../src/localization/generated/fr-FR-reference-names.ts'
 import { deDEReferenceNames } from '../src/localization/generated/de-DE-reference-names.ts'
+import { esESReferenceNames } from '../src/localization/generated/es-ES-reference-names.ts'
+import { itITReferenceNames } from '../src/localization/generated/it-IT-reference-names.ts'
+import { ptBRReferenceNames } from '../src/localization/generated/pt-BR-reference-names.ts'
 import { getSkillDisplayName, officialTermBySkill } from '../src/localization/officialTerms.ts'
 import { getReferenceDisplayName } from '../src/localization/referenceNames.ts'
 
@@ -59,6 +62,24 @@ test('runtime lookup registers complete French and German reference-name overlay
   for (const [kind, id, canonical, french, german] of cases) {
     assert.equal(getReferenceDisplayName(kind, id, canonical, 'fr-FR'), french)
     assert.equal(getReferenceDisplayName(kind, id, canonical, 'de-DE'), german)
+  }
+})
+
+test('runtime lookup registers complete Spanish, Italian, and Brazilian Portuguese overlays', () => {
+  const cases = [
+    ['resource', 'aluminium', 'Aluminum', esESReferenceNames.resource.aluminium, itITReferenceNames.resource.aluminium, ptBRReferenceNames.resource.aluminium],
+    ['product', 'adaptive-frame', 'Adaptive Frame', esESReferenceNames.product['adaptive-frame'], itITReferenceNames.product['adaptive-frame'], ptBRReferenceNames.product['adaptive-frame']],
+    ['system', '119226', 'Kavnyk', esESReferenceNames.system['119226'], itITReferenceNames.system['119226'], ptBRReferenceNames.system['119226']],
+    ['body', '01000801', "Va'ruun'kai", esESReferenceNames.body['01000801'], itITReferenceNames.body['01000801'], ptBRReferenceNames.body['01000801']],
+    ['biome', '01012244', 'Rocky Desert', esESReferenceNames.biome['01012244'], itITReferenceNames.biome['01012244'], ptBRReferenceNames.biome['01012244']],
+    ['species', '01039BE3', 'Hailpod', esESReferenceNames.species['01039BE3'], itITReferenceNames.species['01039BE3'], ptBRReferenceNames.species['01039BE3']],
+    ['official-term', 'skill.outpost-management', 'Outpost Management', esESReferenceNames['official-term']['skill.outpost-management'], itITReferenceNames['official-term']['skill.outpost-management'], ptBRReferenceNames['official-term']['skill.outpost-management']],
+  ] as const
+
+  for (const [kind, id, canonical, spanish, italian, portuguese] of cases) {
+    assert.equal(getReferenceDisplayName(kind, id, canonical, 'es-ES'), spanish)
+    assert.equal(getReferenceDisplayName(kind, id, canonical, 'it-IT'), italian)
+    assert.equal(getReferenceDisplayName(kind, id, canonical, 'pt-BR'), portuguese)
   }
 })
 

@@ -34,13 +34,13 @@ test('review rows are deterministic, locale-specific, and hash exact English sou
   }
 })
 
-test('staged review locales route to independent drafts without becoming runtime locales', () => {
+test('new runtime locales retain independent review-draft routes', () => {
   for (const locale of ['es-ES', 'it-IT', 'pt-BR']) {
     const route = reviewRouteForLocale(locale)
     assert.equal(route.locale, locale)
     assert.equal(route.source.createXliff, true)
     assert.equal(Object.keys(route.source.translations).length, Object.keys(enUSMessages).length)
-    assert.ok(!supportedLocaleIds.includes(locale as never))
+    assert.ok(supportedLocaleIds.includes(locale as typeof supportedLocaleIds[number]))
     const rows = createReviewRows(locale)
     assert.equal(rows.length, Object.keys(enUSMessages).length)
     assert.ok(rows.filter((row) => row.OfficialTermConstraints).length > 100)
@@ -244,7 +244,36 @@ test('Spanish, Italian, and Brazilian Portuguese final catalogues are complete, 
     assert.ok(rows.filter(({ ComparisonStatus }) => ComparisonStatus === 'INVALID_TOKENS')
       .every(({ AdjudicationDecision }) => AdjudicationDecision === 'INVALID_DEEPL_REPAIRED'))
   }
-  assert.deepEqual(supportedLocaleIds, ['en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE'])
+  assert.deepEqual(supportedLocaleIds, [
+    'en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR',
+  ])
+})
+
+test('Spanish outpost-constrained rows honor the approved Puesto terminology', async () => {
+  const review = await readFile(new URL('../docs/localization/es-ES-review.csv', import.meta.url), 'utf8')
+  const rows = parseAndValidateReviewCsv(review, 'es-ES')
+  const constrained = rows.filter(({ OfficialTermConstraints }) =>
+    OfficialTermConstraints.includes('term.outpost='))
+
+  assert.ok(constrained.length > 0)
+  for (const row of constrained) {
+    assert.doesNotMatch(row.FinalTranslation, /puestos? avanzados?/iu, row.Key)
+    assert.equal(esESMessages[row.Key], row.FinalTranslation, row.Key)
+    if (/\boutposts?\b/iu.test(row.EnglishSource) && !row.EnglishSource.includes('{outpost}')) {
+      assert.match(row.FinalTranslation, /\bpuestos?\b/iu, row.Key)
+    }
+  }
+})
+
+test('new runtime locales use adjectival compact Good power ratings', () => {
+  for (const [locale, catalogue, expected] of [
+    ['es-ES', esESMessages, 'Bueno'],
+    ['it-IT', itITMessages, 'Buono'],
+    ['pt-BR', ptBRMessages, 'Bom'],
+  ] as const) {
+    assert.equal(catalogue['power.label.good'], expected, locale)
+    assert.equal(catalogue['power.label.good'], catalogue['power.quality.good'], locale)
+  }
 })
 
 test('Spanish and Brazilian Portuguese skill labels preserve verified official names', async () => {
@@ -301,7 +330,9 @@ test('complete Japanese, French, and German catalogues satisfy the full-locale c
     assert.ok(rows.filter(({ OfficialTermConstraints }) => OfficialTermConstraints).every(({ ReviewerNote }) => ReviewerNote))
     assert.ok(rows.filter(({ ComparisonStatus }) => ComparisonStatus === 'INVALID_TOKENS').every(({ ReviewerNote }) => ReviewerNote))
   }
-  assert.deepEqual(supportedLocaleIds, ['en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE'])
+  assert.deepEqual(supportedLocaleIds, [
+    'en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR',
+  ])
 })
 
 test('French and German catalogues apply inclusive body and validation severity terminology', () => {

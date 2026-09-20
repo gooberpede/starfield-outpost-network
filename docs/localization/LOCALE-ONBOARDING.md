@@ -1517,10 +1517,17 @@ unchanged.
 
 ---
 
-## 19.6 Spanish, Italian, and Brazilian Portuguese reference-evidence stage
+## 19.6 Spanish, Italian, and Brazilian Portuguese runtime-integration stage
 
-`es-ES`, `it-IT`, and `pt-BR` are registered tooling locales with
-`runtimeAvailable: false`. Their 37-row official terminology artifacts resolve
+These locales are runtime integrated but are not yet **Supported**:
+
+| Locale | Semantic catalogue | Official reference overlay | Fauna composition | Runtime | Release closure |
+|---|---|---|---|---|---|
+| `es-ES` | Complete | Complete | Provisionally accepted | Integrated | Layout/accessibility pending |
+| `it-IT` | Complete | Complete | Provisionally accepted | Integrated | Layout/accessibility pending |
+| `pt-BR` | Complete | Complete | Provisionally accepted | Integrated | Layout/accessibility pending |
+
+Their 37-row official terminology artifacts resolve
 the shared 19-term evidence contract, and their approved glossaries are:
 
 - `docs/localization/SPANISH-GLOSSARY.md`;
@@ -1554,19 +1561,32 @@ additional Jemison frames repeat a scanner-truncated three-component label.
 Later contradictory gameplay evidence must reopen only the affected locale's
 composition policy.
 
-The official-name corpora support the planned later search treatment without
-changing runtime search in this stage. Spanish contains accents, `ñ`, diaeresis,
+Runtime Search uses the shared priority model: exact localized spelling remains
+ahead of lower-ranked search-only normalization, canonical English aliases, and
+curated alternates. Spanish contains accents, `ñ`, diaeresis,
 ASCII apostrophes, and ASCII hyphens; Italian contains accented vowels, curly
 apostrophes, and ASCII hyphens; Brazilian Portuguese contains acute,
 circumflex, grave, tilde, and cedilla forms plus ASCII apostrophes and hyphens.
 No non-ASCII hyphen variants or ligatures were found, and decomposition folding
 adds no collision among the 108 resource/product names in any of the three
 locales. Italian's official corpus contains curly but not straight apostrophes,
-supporting the separately planned search-only equivalence.
+supporting the active search-only straight/curly-apostrophe equivalence.
 
-All three locales remain `runtimeAvailable: false` and absent from runtime
-registries, locale selection, browser mapping, collation/search activation, and
-localized shortcut speech. The next stage is reviewed runtime integration.
+All three locales have `runtimeAvailable: true`; their complete semantic
+catalogues and reference overlays are registered together. They appear in the
+locale selector, persist through the existing preference store, use exact
+`document.lang` tags, active-locale collation and formatting, localized shortcut
+speech, and locale-specific search folding. Canonical English reference names
+remain search aliases and stable IDs remain persisted identity.
+
+Automatic browser mapping is deliberately conservative. Bare `es`, `it`, and
+`pt` map to the corresponding locale, as do the exact regional tag and its
+descendants. Explicit other regions such as `es-MX`, `it-CH`, and `pt-PT` do not
+map to these catalogues; negotiation continues through later browser
+preferences before applying the ordinary application fallback.
+
+The next stage is manual layout, accessibility, and release-closure QA. Until
+that pass is complete, none of these three locales has **Supported** status.
 
 ---
 

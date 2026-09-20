@@ -215,7 +215,7 @@ export const itITMessages = {
   "plannedSupply.section.inorganic": "Risorse inorganiche",
   "plannedSupply.section.organic": "Risorse organiche",
   "plannedSupply.section.products": "Prodotti fabbricati",
-  "power.label.good": "Merce",
+  "power.label.good": "Buono",
   "power.label.none": "Nessuna",
   "power.label.normal": "Normale",
   "power.label.poor": "Scadente",

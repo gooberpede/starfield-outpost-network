@@ -14,6 +14,12 @@ const languageFamilyLocales: Readonly<Record<string, SupportedLocale>> = {
   de: 'de-DE',
 }
 
+const conservativeRegionalLocales: Readonly<Record<string, SupportedLocale>> = {
+  es: 'es-ES',
+  it: 'it-IT',
+  pt: 'pt-BR',
+}
+
 export function isSupportedLocale(value: unknown): value is SupportedLocale {
   return supportedLocales.some(({ id }) => id === value)
 }
@@ -26,6 +32,14 @@ export function resolveBrowserLocale(
     const languageFamily = normalized.split('-', 1)[0]
     const familyLocale = languageFamilyLocales[languageFamily]
     if (familyLocale) return familyLocale
+    const conservativeLocale = conservativeRegionalLocales[languageFamily]
+    if (conservativeLocale) {
+      const target = conservativeLocale.toLowerCase()
+      if (normalized === languageFamily || normalized === target || normalized.startsWith(`${target}-`)) {
+        return conservativeLocale
+      }
+      continue
+    }
     if (normalized === 'en-us' || normalized.startsWith('en-us-')) return 'en-US'
     if (normalized === 'en' || normalized.startsWith('en-')) return 'en-GB'
   }

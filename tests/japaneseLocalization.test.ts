@@ -45,6 +45,9 @@ test('Japanese is registered, self-labelled, and selected by Japanese browser lo
     { value: 'ja-JP', label: '日本語' },
     { value: 'fr-FR', label: 'Français (France)' },
     { value: 'de-DE', label: 'Deutsch (Deutschland)' },
+    { value: 'es-ES', label: 'Español (España)' },
+    { value: 'it-IT', label: 'Italiano (Italia)' },
+    { value: 'pt-BR', label: 'Português (Brasil)' },
   ])
 })
 

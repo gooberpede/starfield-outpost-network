@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 
 import { compareLocalizedItems } from '../src/ui/localizedCollation.ts'
+import { getCollator } from '../src/localization/formatters.ts'
 import { sortValidationIssues } from '../src/ui/validationPresentation.ts'
 import type { ValidationIssue } from '../src/domain/validation/types.ts'
 
@@ -34,6 +35,9 @@ test('localized alphabetical sorting uses the active locale and stable ID fallba
   for (const [locale, values, expected] of [
     ['fr-FR', [{ id: 'e2', name: 'Étoile 10' }, { id: 'e1', name: 'Etain 2' }], ['e1', 'e2']],
     ['de-DE', [{ id: 'u2', name: 'Übergang 10' }, { id: 'u1', name: 'Uber 2' }], ['u1', 'u2']],
+    ['es-ES', [{ id: 'n2', name: 'Ñandú 10' }, { id: 'n1', name: 'Naranja 2' }], ['n1', 'n2']],
+    ['it-IT', [{ id: 'e2', name: 'Èpsilon 10' }, { id: 'e1', name: 'Edera 2' }], ['e1', 'e2']],
+    ['pt-BR', [{ id: 'a2', name: 'Árvore 10' }, { id: 'a1', name: 'Amora 2' }], ['a1', 'a2']],
   ] as const) {
     assert.deepEqual(
       [...values].sort((left, right) => compareLocalizedItems(left, right, locale))
@@ -48,6 +52,8 @@ test('localized alphabetical sorting uses the active locale and stable ID fallba
       .map(({ id }) => id),
     ['a', 'b'],
   )
+
+  assert.notEqual(getCollator('es-ES').compare('n', 'ñ'), 0)
 })
 
 test('localized system collation does not reorder domain and chronology boundaries', () => {

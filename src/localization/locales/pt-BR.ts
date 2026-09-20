@@ -215,7 +215,7 @@ export const ptBRMessages = {
   "plannedSupply.section.inorganic": "Recursos inorgânicos",
   "plannedSupply.section.organic": "Recursos orgânicos",
   "plannedSupply.section.products": "Produtos fabricados",
-  "power.label.good": "Bem",
+  "power.label.good": "Bom",
   "power.label.none": "Nenhum",
   "power.label.normal": "Normal.",
   "power.label.poor": "Ruim",
