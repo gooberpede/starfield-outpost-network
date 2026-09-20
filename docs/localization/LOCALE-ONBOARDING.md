@@ -1517,7 +1517,7 @@ unchanged.
 
 ---
 
-## 19.6 Spanish, Italian, and Brazilian Portuguese semantic-catalogue stage
+## 19.6 Spanish, Italian, and Brazilian Portuguese reference-evidence stage
 
 `es-ES`, `it-IT`, and `pt-BR` are registered tooling locales with
 `runtimeAvailable: false`. Their 37-row official terminology artifacts resolve
@@ -1535,11 +1535,38 @@ validation. Review evidence preserves the independent Codex and DeepL witnesses,
 including explicit repairs for invalid DeepL token output.
 
 Regional targets are strict: Spanish means Spain Spanish, Portuguese means
-Brazilian Portuguese, and Italian means standard `it-IT`. All three remain
-`runtimeAvailable: false`; they have no reference-name overlays, fauna evidence,
-runtime registrations, locale-selector entries, or browser mappings. The next
-stage is official reference-name and fauna-evidence closure before runtime
-integration.
+Brazilian Portuguese, and Italian means standard `it-IT`. Each locale now has a
+complete official Bethesda reference-name overlay covering 3,561 canonical
+entities from 4,818 qualified provenance rows with no unresolved identities.
+The generated overlays retain the established 428 biome, 1,776 body, 1,121
+species, 5 official-term, 30 product, 78 resource, and 123 system counts.
+
+First-party gameplay screenshots provisionally support the literal U+0020
+composition model for all three locales without contradiction. Spanish evidence
+comes from Codos and Jemison and includes full prefix + species and species +
+diet labels plus two scanner-truncated prefix + species + diet labels whose
+visible order and separators match. Italian evidence comes from Jemison and
+Ternion III and includes full prefix + species and species + diet labels; no
+supplied Italian label exercises all three components, and one screenshot has
+no visible fauna label. Brazilian Portuguese evidence comes from Montara Luna
+and Jemison and includes full examples of all three component shapes; two
+additional Jemison frames repeat a scanner-truncated three-component label.
+Later contradictory gameplay evidence must reopen only the affected locale's
+composition policy.
+
+The official-name corpora support the planned later search treatment without
+changing runtime search in this stage. Spanish contains accents, `ñ`, diaeresis,
+ASCII apostrophes, and ASCII hyphens; Italian contains accented vowels, curly
+apostrophes, and ASCII hyphens; Brazilian Portuguese contains acute,
+circumflex, grave, tilde, and cedilla forms plus ASCII apostrophes and hyphens.
+No non-ASCII hyphen variants or ligatures were found, and decomposition folding
+adds no collision among the 108 resource/product names in any of the three
+locales. Italian's official corpus contains curly but not straight apostrophes,
+supporting the separately planned search-only equivalence.
+
+All three locales remain `runtimeAvailable: false` and absent from runtime
+registries, locale selection, browser mapping, collation/search activation, and
+localized shortcut speech. The next stage is reviewed runtime integration.
 
 ---
 

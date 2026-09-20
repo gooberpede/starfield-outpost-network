@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "locale": "es-ES",
+  "status": "provisionally-accepted",
+  "support": "independently-observed",
+  "evidenceSource": {
+    "archiveFilename": "screenshots-es-it-ptbr.zip",
+    "sha256": "35F8CA50A0B8F59C81A3701DD12F31E756612E5943FF60BE4FFD28FFC0E555BD",
+    "locationContext": "Codos and Jemison",
+    "reviewedDate": "2026-09-20",
+    "limitations": "Five fully visible rendered labels cover prefix + species and species + diet. Two additional mapped labels visibly confirm prefix + species + diet order and U+0020 separators but are excluded from exact-match observations because the scanner truncates their diet components."
+  },
+  "observations": [
+    {
+      "id": "es-codos-001EC761",
+      "locale": "es-ES",
+      "faunaId": "001EC761",
+      "observedText": "ESCARABAJO [GEÓFAGO]",
+      "predictedText": "Escarabajo [Geófago]",
+      "matchesPrediction": true,
+      "componentOrder": "species, diet",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around diet",
+      "grammarNotes": "The scanner renders the label in uppercase; the accent, lexical content, order, spacing, and punctuation match.",
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920225514_1.jpg"
+    },
+    {
+      "id": "es-jemison-0019B89E-a",
+      "locale": "es-ES",
+      "faunaId": "0019B89E",
+      "observedText": "[CAZA] SAPO MARFIL",
+      "predictedText": "[Caza] Sapo marfil",
+      "matchesPrediction": true,
+      "componentOrder": "prefix, species",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around prefix",
+      "grammarNotes": "The scanner renders the label in uppercase; no article, agreement change, or reordered adjective is visible.",
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920230040_1.jpg"
+    },
+    {
+      "id": "es-jemison-0019B89F",
+      "locale": "es-ES",
+      "faunaId": "0019B89F",
+      "observedText": "[MANADA] BICHO CORAL",
+      "predictedText": "[Manada] Bicho coral",
+      "matchesPrediction": true,
+      "componentOrder": "prefix, species",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around prefix",
+      "grammarNotes": "The scanner renders the label in uppercase; lexical content and simple composition match.",
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920230046_1.jpg"
+    },
+    {
+      "id": "es-jemison-0019B899",
+      "locale": "es-ES",
+      "faunaId": "0019B899",
+      "observedText": "ESNACOL [RAPIÑAD.]",
+      "predictedText": "Esnacol [Rapiñad.]",
+      "matchesPrediction": true,
+      "componentOrder": "species, diet",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around diet; diet abbreviation retains period and ñ",
+      "grammarNotes": "The scanner renders the label in uppercase; no inflection or punctuation change is visible.",
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920230058_1.jpg"
+    },
+    {
+      "id": "es-jemison-0019B89E-b",
+      "locale": "es-ES",
+      "faunaId": "0019B89E",
+      "observedText": "[CAZA] SAPO MARFIL",
+      "predictedText": "[Caza] Sapo marfil",
+      "matchesPrediction": true,
+      "componentOrder": "prefix, species",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around prefix",
+      "grammarNotes": "A second independent frame shows the same uppercase rendered label and composition.",
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920230130_1.jpg"
+    }
+  ],
+  "partialObservations": [
+    {
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920225431_1.jpg",
+      "faunaId": "003D23F0",
+      "observedVisibleText": "[REBAÑO] JAULA CEREBRAL [PACED...",
+      "predictedText": "[Rebaño] Jaula cerebral [Pacedor]",
+      "componentShape": "prefix+species+diet",
+      "finding": "The visible portion confirms component order and U+0020 separators, but scanner truncation prevents an exact full-label comparison."
+    },
+    {
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920230154_1.jpg",
+      "faunaId": "0019B89B",
+      "observedVisibleText": "[BANDADA] MURCIÉLAGO MARINO [G...",
+      "predictedText": "[Bandada] Murciélago marino [Geófago]",
+      "componentShape": "prefix+species+diet",
+      "finding": "The visible portion confirms component order, accents, and U+0020 separators, but scanner truncation prevents an exact full-label comparison."
+    }
+  ]
+}

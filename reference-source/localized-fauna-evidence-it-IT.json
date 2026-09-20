@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "locale": "it-IT",
+  "status": "provisionally-accepted",
+  "support": "independently-observed",
+  "evidenceSource": {
+    "archiveFilename": "screenshots-es-it-ptbr.zip",
+    "sha256": "35F8CA50A0B8F59C81A3701DD12F31E756612E5943FF60BE4FFD28FFC0E555BD",
+    "locationContext": "Jemison and Ternion III",
+    "reviewedDate": "2026-09-20",
+    "limitations": "Seven fully visible rendered labels cover prefix + species and species + diet across two planets. No supplied Italian label exercises prefix + species + diet, and one screenshot contains fauna silhouettes without a visible rendered label."
+  },
+  "observations": [
+    {
+      "id": "it-jemison-0019B89E",
+      "locale": "it-IT",
+      "faunaId": "0019B89E",
+      "observedText": "[CACCIA] RANAZANNA",
+      "predictedText": "[Caccia] Ranazanna",
+      "matchesPrediction": true,
+      "componentOrder": "prefix, species",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around prefix",
+      "grammarNotes": "The scanner renders the label in uppercase; no article, elision, contraction, or inflection is visible.",
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920230725_1.jpg"
+    },
+    {
+      "id": "it-jemison-0019B899-a",
+      "locale": "it-IT",
+      "faunaId": "0019B899",
+      "observedText": "LUMACARAPACE [SPAZZINO]",
+      "predictedText": "Lumacarapace [Spazzino]",
+      "matchesPrediction": true,
+      "componentOrder": "species, diet",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around diet",
+      "grammarNotes": "The scanner renders the label in uppercase; lexical content and composition match without mutation.",
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920230727_1.jpg"
+    },
+    {
+      "id": "it-jemison-0019B899-b",
+      "locale": "it-IT",
+      "faunaId": "0019B899",
+      "observedText": "LUMACARAPACE [SPAZZINO]",
+      "predictedText": "Lumacarapace [Spazzino]",
+      "matchesPrediction": true,
+      "componentOrder": "species, diet",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around diet",
+      "grammarNotes": "A second independent frame shows the same uppercase rendered label and composition.",
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920230741_1.jpg"
+    },
+    {
+      "id": "it-jemison-00048A34",
+      "locale": "it-IT",
+      "faunaId": "00048A34",
+      "observedText": "[SUPER] PAPPAFALCO",
+      "predictedText": "[Super] Pappafalco",
+      "matchesPrediction": true,
+      "componentOrder": "prefix, species",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around prefix",
+      "grammarNotes": "The scanner renders the label in uppercase; no apostrophe, article, elision, or agreement change is visible.",
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920230844_1.jpg"
+    },
+    {
+      "id": "it-jemison-0019B89F",
+      "locale": "it-IT",
+      "faunaId": "0019B89F",
+      "observedText": "[BRANCO] CORALLINSETTO",
+      "predictedText": "[Branco] Corallinsetto",
+      "matchesPrediction": true,
+      "componentOrder": "prefix, species",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around prefix",
+      "grammarNotes": "The scanner renders the label in uppercase; the compound remains unchanged.",
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920230935_1.jpg"
+    },
+    {
+      "id": "it-ternion-iii-001A6178",
+      "locale": "it-IT",
+      "faunaId": "001A6178",
+      "observedText": "[BRANCO] DORSOLAMA",
+      "predictedText": "[Branco] Dorsolama",
+      "matchesPrediction": true,
+      "componentOrder": "prefix, species",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around prefix",
+      "grammarNotes": "The scanner renders the label in uppercase; no article, contraction, or component mutation is visible.",
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920231155_1.jpg"
+    },
+    {
+      "id": "it-ternion-iii-001A6171",
+      "locale": "it-IT",
+      "faunaId": "001A6171",
+      "observedText": "PRELEVATORE [BRUCANTE]",
+      "predictedText": "Prelevatore [Brucante]",
+      "matchesPrediction": true,
+      "componentOrder": "species, diet",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around diet",
+      "grammarNotes": "The scanner renders the label in uppercase; lexical content and simple composition match.",
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920231240_1.jpg"
+    }
+  ],
+  "unresolvedScreenshots": [
+    {
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920231148_1.jpg",
+      "finding": "Fauna silhouettes are visible on Ternion III, but no localized fauna label is rendered, so no canonical identity or composition comparison is recorded."
+    }
+  ]
+}

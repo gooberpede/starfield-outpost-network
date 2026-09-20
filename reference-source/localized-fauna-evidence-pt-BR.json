@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "locale": "pt-BR",
+  "status": "provisionally-accepted",
+  "support": "independently-observed",
+  "evidenceSource": {
+    "archiveFilename": "screenshots-es-it-ptbr.zip",
+    "sha256": "35F8CA50A0B8F59C81A3701DD12F31E756612E5943FF60BE4FFD28FFC0E555BD",
+    "locationContext": "Montara Luna and Jemison",
+    "reviewedDate": "2026-09-20",
+    "limitations": "Six fully visible rendered labels cover all three component shapes across two planets. Two additional frames map to the same three-component Jemison fauna but are excluded from exact-match observations because the scanner truncates the label."
+  },
+  "observations": [
+    {
+      "id": "ptbr-montara-luna-00197D42",
+      "locale": "pt-BR",
+      "faunaId": "00197D42",
+      "observedText": "[BANDO] EQUIMANDRA [PASTADOR]",
+      "predictedText": "[Bando] Equimandra [Pastador]",
+      "matchesPrediction": true,
+      "componentOrder": "prefix, species, diet",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around prefix and diet",
+      "grammarNotes": "The scanner renders the label in uppercase; no article, contraction, agreement change, or component mutation is visible.",
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920231820_1.jpg"
+    },
+    {
+      "id": "ptbr-montara-luna-00197D44",
+      "locale": "pt-BR",
+      "faunaId": "00197D44",
+      "observedText": "[MATILHA] OCTOVERME",
+      "predictedText": "[Matilha] Octoverme",
+      "matchesPrediction": true,
+      "componentOrder": "prefix, species",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around prefix",
+      "grammarNotes": "The scanner renders the label in uppercase; lexical content and simple composition match.",
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920231835_1.jpg"
+    },
+    {
+      "id": "ptbr-montara-luna-00197D3F",
+      "locale": "pt-BR",
+      "faunaId": "00197D3F",
+      "observedText": "CENTICAVEIRA [PASTADOR]",
+      "predictedText": "Centicaveira [Pastador]",
+      "matchesPrediction": true,
+      "componentOrder": "species, diet",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around diet",
+      "grammarNotes": "The scanner renders the label in uppercase; no agreement or punctuation change is visible.",
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920231854_1.jpg"
+    },
+    {
+      "id": "ptbr-jemison-0019B898",
+      "locale": "pt-BR",
+      "faunaId": "0019B898",
+      "observedText": "BESOURO [PASTADOR]",
+      "predictedText": "Besouro [Pastador]",
+      "matchesPrediction": true,
+      "componentOrder": "species, diet",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around diet",
+      "grammarNotes": "The scanner renders the label in uppercase; lexical content and simple composition match.",
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920232210_1.jpg"
+    },
+    {
+      "id": "ptbr-jemison-00048A34",
+      "locale": "pt-BR",
+      "faunaId": "00048A34",
+      "observedText": "[PREDADOR] GAVIGAIO",
+      "predictedText": "[Predador] Gavigaio",
+      "matchesPrediction": true,
+      "componentOrder": "prefix, species",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around prefix",
+      "grammarNotes": "The scanner renders the label in uppercase; no article, contraction, agreement change, or hyphenation is visible.",
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920232453_1.jpg"
+    },
+    {
+      "id": "ptbr-jemison-0019B89D",
+      "locale": "pt-BR",
+      "faunaId": "0019B89D",
+      "observedText": "[PREDADOR] CROCONUDO",
+      "predictedText": "[Predador] Croconudo",
+      "matchesPrediction": true,
+      "componentOrder": "prefix, species",
+      "separator": "one U+0020 between non-empty components",
+      "punctuation": "square brackets around prefix",
+      "grammarNotes": "The scanner renders the label in uppercase; the component string remains unchanged.",
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920232536_1.jpg"
+    }
+  ],
+  "partialObservations": [
+    {
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920232526_1.jpg",
+      "faunaId": "0019B89A",
+      "observedVisibleText": "[REBANHO] ANDARILHO DOS RECIFE...",
+      "predictedText": "[Rebanho] Andarilho dos Recifes [Sucat.]",
+      "componentShape": "prefix+species+diet",
+      "finding": "The visible portion confirms prefix-first order and U+0020 separators, but scanner truncation hides the end of the species and the diet component."
+    },
+    {
+      "screenshotReference": "screenshots-es-it-ptbr.zip/20260920232543_1.jpg",
+      "faunaId": "0019B89A",
+      "observedVisibleText": "[REBANHO] ANDARILHO DOS RECIFE...",
+      "predictedText": "[Rebanho] Andarilho dos Recifes [Sucat.]",
+      "componentShape": "prefix+species+diet",
+      "finding": "A second independent frame confirms the same visible prefix and order, but scanner truncation again prevents an exact full-label comparison."
+    }
+  ]
+}
