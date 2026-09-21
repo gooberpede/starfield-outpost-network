@@ -276,15 +276,15 @@ Starfield text/interface language set:
 - Simplified Chinese.
 
 The supported Bethesda-language targets now comprise English, French, German,
-Spanish (Spain), Japanese, Italian, and Portuguese (Brazil). `en-GB` remains a
-sparse English override rather than a separate Bethesda language. The only
-substantial V1 locale onboardings remaining are Polish and Simplified Chinese;
-both likely deserve focused individual onboarding. Do not choose or begin the
-next locale as an incidental part of closure work. Final locale-selector
-ordering will be reviewed after all planned V1 locales are onboarded. Each
-remaining parcel should preserve the existing localization architecture, exact
-key/placeholder parity tooling, review process, and reference-name
-provenance/overlay approach where applicable.
+Spanish (Spain), Japanese, Italian, Polish, and Portuguese (Brazil). `en-GB`
+remains a sparse English override rather than a separate Bethesda language.
+Simplified Chinese (`zh-Hans`, Bethesda token `zhhans`) is not onboarded and is
+the only substantial V1 locale onboarding remaining. Do not begin it as an
+incidental part of closure work. Final locale-selector ordering will be reviewed
+after Simplified Chinese is onboarded. The remaining parcel should preserve the
+existing localization architecture, exact key/placeholder parity tooling,
+review process, and reference-name provenance/overlay approach where
+applicable.
 
 The semantic localization boundary includes tracker-authored UI, accessibility
 text, help/tooltips, validation, status/transient feedback, and session history
@@ -346,6 +346,12 @@ meaningful benefit.
   approved copy treatment, a redundant tooltip/accessible description, or a
   separately reviewed control-geometry change. Do not shorten correct
   translations merely to fit the current control.
+- **Shared localized compact-layout capacity:** Longer Polish Solar/Wind
+  headings and Resource Matrix header labels create visible alignment and
+  spacing pressure. Controls remain usable and meaning remains available, so
+  this is non-blocking shared cross-locale capacity/layout debt rather than a
+  Polish defect. Consider it alongside the existing localized control-capacity
+  work; do not introduce Polish-specific geometry fixes.
 - **About and application versioning:** Expand the About dialog to show the
   application version, support/contact details, and a Ko-Fi link while
   retaining appropriate existing attribution/about content. Establish an

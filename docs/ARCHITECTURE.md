@@ -648,16 +648,17 @@ contain per-locale branching. The tooling metadata contract at
 Bethesda tokens, encodings, catalogue roles, and runtime availability.
 Spanish (`es-ES`/`es`), Italian (`it-IT`/`it`), Brazilian Portuguese
 (`pt-BR`/`ptbr`), and Polish (`pl-PL`/`pl`) are full runtime locales with
-complete semantic catalogues and official reference overlays. Polish release
-closure remains pending. Tooling derives review, XLIFF, terminology, and
-reference-overlay paths from tracker tags; runtime support remains controlled
-by the separate typed registries. Browser mapping for these regional catalogues
-is conservative: bare language tags, the exact supported regional tag, and its
-descendants map to the catalogue, while an explicit other region continues to
-later browser preferences. Browser language families map `fr-*` to the single
-supported `fr-FR` catalogue and `de-*` to the single supported `de-DE`
-catalogue; this is fallback reuse, not a claim of separately translated
-regional variants. Baseline keys are derived from
+complete semantic catalogues and official reference overlays. Polish is a full
+supported runtime locale with locale-aware search and the same stable-ID
+presentation boundary as the other supported locales. Tooling derives review,
+XLIFF, terminology, and reference-overlay paths from tracker tags; runtime
+support remains controlled by the separate typed registries. Browser mapping
+for these regional catalogues is conservative: bare language tags, the exact
+supported regional tag, and its descendants map to the catalogue, while an
+explicit other region continues to later browser preferences. Browser language
+families map `fr-*` to the single supported `fr-FR` catalogue and `de-*` to the
+single supported `de-DE` catalogue; this is fallback reuse, not a claim of
+separately translated regional variants. Baseline keys are derived from
 the complete catalogue, while interpolation validates both missing and
 unexpected named parameters at runtime and in tests.
 

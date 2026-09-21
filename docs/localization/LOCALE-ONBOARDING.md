@@ -33,7 +33,7 @@ Bethesda’s support matrix currently lists:
 | Spanish (Spain) | Interface/Text + Voice | Yes | Supported |
 | Japanese | Interface/Text + Voice | Yes | Supported |
 | Italian | Interface/Text | Yes | Supported |
-| Polish | Interface/Text | Yes | Runtime integrated; release closure pending |
+| Polish | Interface/Text | Yes | Supported |
 | Portuguese (Brazil) | Interface/Text | Yes | Supported |
 | Simplified Chinese | Interface/Text | Yes | Not onboarded |
 
@@ -47,9 +47,9 @@ The tracker is text/UI software, so Bethesda’s distinction between voice-suppo
 
 There is no required onboarding order. Japanese was deliberately onboarded early because it was likely to expose architectural weaknesses involving non-Latin script, font fallback, string length, composition, search, collation, and layout. Future additions do **not** need to proceed hardest-first.
 
-Polish is runtime integrated with release closure pending. Simplified Chinese
-remains the final V1 target that is not onboarded. Final locale-selector ordering
-will be reviewed after both locale workstreams are complete.
+Polish is supported. Simplified Chinese remains the final V1 target that is not
+onboarded. Final locale-selector ordering will be reviewed after Simplified
+Chinese is onboarded.
 
 ---
 
@@ -1683,7 +1683,79 @@ Narrator-certified. Native-language naturalness was not independently verified
 by a native speaker. Native-speaker review remains desirable when available but
 is not a hard V1 support gate. Apple/WebKit remains deferred and this status
 does not claim Safari, VoiceOver, or iPhone certification. Working XLIFF files
-remain in place until Polish and Simplified Chinese are complete.
+remain in place until Simplified Chinese onboarding is complete.
+
+## 19.7 Polish — `pl-PL`
+
+Polish is **Supported**. Tracker locale `pl-PL`, Bethesda token `pl`, strict
+UTF-8 decoding, and selector label `Polski (Polska)` are registered. The
+semantic catalogue and official terminology/glossary are complete. The official
+reference overlay resolves 3,561 entities from 4,818 qualified provenance rows
+with 0 unresolved identities and remains a presentation layer over stable IDs.
+The semantic catalogue passed independent Codex review, DeepL comparative
+adjudication, final generation, and automated localization closure.
+
+The fauna model contains 922 predictions from 2,179 components:
+
+- 267 `prefix + species`;
+- 335 `prefix + species + diet`;
+- 320 `species + diet`.
+
+Polish fauna composition is provisionally accepted from eight first-party
+Jemison and Codos screenshots. All three modeled composition shapes are
+represented; all eight were full matches under scanner casing, with 0
+truncated, 0 ambiguous/unmapped, and 0 contradictory examples. Seven unique
+fauna across two bodies do not represent every possible Polish grammatical
+context. This limitation does not weaken the accepted status; later
+contradictory first-party evidence should reopen the policy.
+
+Runtime registration, persisted locale selection, exact `document.lang`,
+locale-aware collation, and localized shortcut speech are complete. Automatic
+browser mapping accepts bare `pl`, exact `pl-PL`, and descendants of `pl-PL`.
+Explicit other regional Polish tags such as `pl-UA` and `pl-LT` continue to
+later browser preferences rather than selecting Poland Polish.
+
+Search ranks exact Polish localized spelling highest, then supports lower-ranked
+NFD folding for `ą -> a`, `ć -> c`, `ę -> e`, `ń -> n`, `ó -> o`, `ś -> s`,
+`ź -> z`, and `ż -> z`, plus the narrow Polish search-only equivalence
+`ł -> l`. Canonical English aliases remain searchable while display remains
+Polish. Search does not broadly strip punctuation, perform fuzzy matching, or
+provide a general transliteration framework. The current resource/product
+corpus produces 0 new distinct-name collisions under both NFD folding and NFD
+folding plus `ł -> l`.
+
+Polish uses the application's narrow `one` / `other` plural syntax with
+count-neutral wording for `cargo.pad.count`, `validation.issueCount`,
+`validation.plannedSupplyUnresolved`, and `search.results.found`. Counts 1, 2,
+5, 12, 22, and 25 were verified across representative Polish plural categories.
+`validation.counts` retains safe non-ICU count wording. Polish does not require
+a richer plural formatter for the current catalogue; genuinely new message
+requirements may reopen that architectural decision.
+
+The existing Latin UI font stack is accepted. Polish diacritics render across
+body text, condensed/uppercase headings, controls, tables, and technical
+contexts without missing glyphs. Windows/Chromium layout QA passed at 1366px
+and 1600px. True browser-controlled 200% zoom/reflow and keyboard-only checks
+passed. Longer Polish Solar/Wind headings and Resource Matrix header
+labels retain shared, non-blocking alignment/spacing pressure recorded in
+`docs/BACKLOG.md`; controls remain usable and their meaning remains available.
+No Polish-specific geometry change is approved by this status.
+
+The Polish Narrator localization smoke passed: representative localized names,
+states, messages, and live-region feedback were exposed successfully. Export,
+valid-import, and invalid-import visible feedback and announcements all passed
+in Polish, including the non-destructive invalid-import path. This is not
+platform-wide Narrator certification. Narrator may omit shortcut-chord
+announcements, intercept
+`Ctrl+Alt+ArrowUp` / `Ctrl+Alt+ArrowDown`, and make the `/` Search shortcut
+unavailable; these reproduced shared global issues remain non-blocking
+accessibility backlog items rather than Polish defects.
+
+Native-speaker editorial review was unavailable and remains desirable but is
+not a hard V1 support gate; Narrator testing by a non-speaker is not a
+substitute. Apple/WebKit verification remains deferred, so this status does not
+claim Safari, VoiceOver, or iPhone/iPad certification. Working XLIFF files and
+locale-selector order remain unchanged until Simplified Chinese is onboarded.
 
 ---
 
@@ -1693,9 +1765,8 @@ These are planning considerations only, not implementation commitments.
 
 ## Latin-script locales
 
-French, German, Spanish (Spain), Italian, and Portuguese (Brazil) have verified
-the baseline Latin typography stack. Polish uses the existing Latin stack at
-runtime, with final typography verification deferred to release closure.
+French, German, Spanish (Spain), Italian, Polish, and Portuguese (Brazil) have
+verified the baseline Latin typography stack.
 
 Potential issues include:
 
@@ -1707,65 +1778,11 @@ Potential issues include:
 - translated official terminology;
 - overflow at established breakpoints.
 
-## Polish
-
-Polish is runtime integrated with its complete semantic catalogue and official
-reference overlay. Tracker locale `pl-PL`, Bethesda token `pl`, strict UTF-8
-decoding, and selector label `Polski (Polska)` are registered. Polish remains
-runtime-available rather than **Supported** until the two manual closure gates
-below are completed.
-
-Automated closure confirms exact 414-key and placeholder parity, non-empty
-values, protected tokens, plural syntax, absence of unapproved English residue,
-official terminology, deterministic catalogue/reference artifacts, exact
-provenance closure, and provisionally accepted fauna composition evidence.
-The count-neutral Polish messages render safely for representative `one`,
-`few`, and `many` counts without relying on one noun form across categories.
-
-Windows/Chromium runtime verification passed at 1366px and 1600px for the
-header and network controls, Navigation, Outpost Details, Resource Matrix,
-Planned Supply, Cargo, Search and Search Results, Validation, Help, About, and
-status feedback. No Polish-specific semantic, functional, accessibility,
-typography, glyph, clipping, dialog, or document-overflow blocker was found.
-Keyboard focus, modal Escape/focus restoration, the Search shortcut, and both
-reorder modes passed; automated coverage retains the complete registered
-shortcut contract. Export produced localized visible and polite live-region
-feedback. The user's preceding Polish runtime smoke also passed valid import,
-invalid-JSON rejection, localized import feedback, and data preservation; the
-automated import/export invariance suite confirms stable IDs and serialized
-domain state are locale-independent.
-
-Runtime Search uses lower-ranked decomposition folding plus the narrow
-search-only `ł` to `l` equivalence. Browser mapping accepts bare `pl`, exact
-`pl-PL`, and descendants of `pl-PL`; explicit other regional `pl-*` tags
-continue to later preferences. Exact localized spelling ranks ahead of folded
-matches, English aliases retain Polish display text, one row is emitted per
-stable entity, punctuation is not broadly stripped, and Polish `Intl.Collator`
-ordering including numeric segments is verified. Locale switching and reload
-preserve the Polish preference, selected network/outpost context, user-authored
-data, history/domain identity, and exact `document.lang` presentation boundary.
-
-The complete Polish diacritic set renders in the existing Latin typography
-stack across body text, condensed/uppercase headings, controls, tables, and
-technical contexts. Longer Solar/Wind headings and Resource Matrix header labels
-retain the known shared layout pressure recorded in `docs/BACKLOG.md`; they
-remain usable and are not Polish-specific geometry work.
-
-Remaining support gates are true browser-controlled 200% zoom/reflow and audible
-Windows Narrator smoke for representative localized names, states, shortcut,
-dialog, compact control, status, and import/export announcements. Known shared
-Narrator shortcut interception/announcement and compact-control questions remain
-global non-blocking follow-up unless Polish proves materially different. Native-
-speaker editorial review was not performed and remains desirable rather than a
-support gate. Apple/WebKit remains deferred and is not implied by eventual
-Windows/Chromium support. Working XLIFF files and locale-selector order remain
-unchanged until Simplified Chinese is complete.
-
 ## Simplified Chinese
 
-Simplified Chinese is a remaining V1 target, is not onboarded, and is likely to
-be one of the more demanding remaining locales. This document does not choose
-it ahead of Polish.
+Simplified Chinese (`zh-Hans`, Bethesda token `zhhans`) is the only remaining V1
+target and is not onboarded. It is likely to be one of the more demanding
+locales. Final locale-selector ordering remains deferred until it is onboarded.
 
 Likely areas requiring explicit verification include:
 
