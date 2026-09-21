@@ -88,6 +88,9 @@ type ConstraintValue = string | {
 }
 
 const constraintValuesByLocale: Readonly<Record<string, Readonly<Record<string, ConstraintValue>>>> = {
+  // Polish is registered for staged review plumbing, but values remain intentionally absent
+  // until the terminology/glossary batch supplies reviewed contextual constraints.
+  'pl-PL': {},
   'fr-FR': {
     'term.inter-system-cargo-link': 'Liaison intersystème', 'term.cargo-link': 'Liaison',
     'term.outpost': 'Avant-poste', 'term.biome': 'Biome', 'term.planet': 'Planète',
@@ -372,6 +375,8 @@ const accidentalEnglishAllowedWords: Readonly<Record<string, ReadonlySet<string>
   'es-ES': new Set(['domesticable', 'error', 'fauna', 'flora', 'normal', 'norm', 'original', 'solar', 'local']),
   'it-IT': new Set(['browser', 'fauna', 'file', 'flora', 'info', 'normal', 'norm', 'schema', 'standard', 'locale', 'local']),
   'pt-BR': new Set(['fauna', 'flora', 'item', 'normal', 'norm', 'original', 'solar', 'local', 'status', 'standard']),
+  // These are ordinary Polish cognates, not broad technical-English exemptions.
+  'pl-PL': new Set(['status', 'system']),
 }
 
 const suspiciousShortEnglishWords = new Set([

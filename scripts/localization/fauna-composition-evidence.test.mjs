@@ -19,7 +19,7 @@ const prediction = {
 const predictions = [prediction]
 
 test('fauna evidence eligibility includes every non-English full locale', () => {
-  assert.deepEqual(TARGET_EVIDENCE_LOCALES, ['fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR'])
+  assert.deepEqual(TARGET_EVIDENCE_LOCALES, ['fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR', 'pl-PL'])
 })
 
 test('fauna prediction support preserves stable identity, semantic order, and qualified sources', () => {

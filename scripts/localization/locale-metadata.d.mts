@@ -16,6 +16,7 @@ export interface LocalizationArtifactNames {
   terminologyValues: string
   module: string
   sidecar: string
+  faunaEvidence: string
 }
 
 export const LOCALIZATION_LOCALE_METADATA: readonly LocalizationLocaleMetadata[]
@@ -26,5 +27,6 @@ export function referenceNameArtifactNames(locale: string): {
   trackerLocale: string
   module: string
   sidecar: string
+  faunaEvidence: string
 }
 export function localizationArtifactNames(locale: string): LocalizationArtifactNames

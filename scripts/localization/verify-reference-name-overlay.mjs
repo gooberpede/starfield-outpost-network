@@ -86,7 +86,8 @@ export async function verifyCommittedReferenceNameOverlay(root = ROOT, localeVal
     throw new Error('REFERENCE_NAME_SIDECAR_COUNT_MISMATCH.')
   }
   if (TARGET_EVIDENCE_LOCALES.includes(locale.trackerLocale)) {
-    const evidenceSource = await readFile(path.join(root, `reference-source/localized-fauna-evidence-${locale.trackerLocale}.json`), 'utf8')
+    const evidencePath = path.join(root, artifactNames.faunaEvidence)
+    const evidenceSource = (await readArtifact(evidencePath, locale.trackerLocale)).toString('utf8')
     const evidence = JSON.parse(evidenceSource)
     const summary = {
       ...validateFaunaEvidence(evidence, composedFaunaPredictions(provenance, overlay, locale.trackerLocale), locale.trackerLocale),

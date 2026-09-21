@@ -87,7 +87,12 @@ export async function buildReferenceNameOverlay(options) {
   const moduleSource = serializeReferenceNameModule(overlay, locale.trackerLocale)
   let compositionEvidence = { status: 'independently-observed', support: 'documented-first-party-screenshots', observationCount: 0, contradictions: 0 }
   if (TARGET_EVIDENCE_LOCALES.includes(locale.trackerLocale)) {
-    const evidenceSource = await readFile(path.join(ROOT, `reference-source/localized-fauna-evidence-${locale.trackerLocale}.json`), 'utf8')
+    const evidenceSource = await readFile(path.join(ROOT, artifactNames.faunaEvidence), 'utf8').catch((error) => {
+      if (error?.code === 'ENOENT') {
+        throw new Error(`FAUNA_EVIDENCE_MISSING: ${locale.trackerLocale} requires ${artifactNames.faunaEvidence}.`)
+      }
+      throw error
+    })
     const evidence = JSON.parse(evidenceSource)
     compositionEvidence = {
       ...validateFaunaEvidence(evidence, composedFaunaPredictions(provenance, overlay, locale.trackerLocale), locale.trackerLocale),

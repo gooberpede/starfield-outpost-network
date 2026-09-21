@@ -37,6 +37,7 @@ export function referenceNameArtifactNames(locale) {
   return {
     module: `src/localization/generated/${trackerLocale}-reference-names.ts`,
     sidecar: `reference-source/localized-reference-names-${trackerLocale}-manifest.json`,
+    faunaEvidence: `reference-source/localized-fauna-evidence-${trackerLocale}.json`,
     trackerLocale,
   }
 }

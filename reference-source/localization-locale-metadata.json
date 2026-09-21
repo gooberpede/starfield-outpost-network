@@ -56,6 +56,13 @@
       "stringTableEncoding": "utf-8",
       "catalogueRole": "full",
       "runtimeAvailable": true
+    },
+    {
+      "trackerLocale": "pl-PL",
+      "bethesdaToken": "pl",
+      "stringTableEncoding": "utf-8",
+      "catalogueRole": "full",
+      "runtimeAvailable": false
     }
   ]
 }

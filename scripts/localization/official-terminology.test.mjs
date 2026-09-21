@@ -120,6 +120,18 @@ test('staged terminology locales resolve complete deterministic official values 
   assert.throws(() => localizationVerificationCommands('xx-XX'), /UNSUPPORTED_LOCALE/)
 })
 
+test('Polish terminology routing fails closed until the locale artifact exists', async () => {
+  await assert.rejects(
+    () => verifyOfficialTerminology('pl-PL'),
+    /TERMINOLOGY_VALUES_MISSING:.*official-terminology-values-pl-PL\.csv/,
+  )
+  assert.deepEqual(localizationVerificationCommands('pl-PL'), [
+    ['validate-localized-name-provenance.mjs'],
+    ['verify-official-terminology.mjs', '--locale', 'pl-PL'],
+    ['verify-reference-name-overlay.mjs', '--locale', 'pl-PL'],
+  ])
+})
+
 test('Spanish, Italian, and Brazilian Portuguese recommendations keep evidence separate from tracker defaults', () => {
   const expectations = {
     'es-ES': ['Puesto', 'Enlace de cargamento', 'Núcleo de energía de X-Tech', 'Firmamento'],

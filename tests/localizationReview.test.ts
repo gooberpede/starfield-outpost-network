@@ -23,6 +23,13 @@ import { adjudicateReviewRows } from '../src/localization/reviewAdjudication.ts'
 import { supportedLocaleIds } from '../src/localization/types.ts'
 import { reviewRouteForLocale } from '../scripts/localization/review-routing.ts'
 
+function validateCodexTranslation(key: keyof typeof enUSMessages, translation: string): void {
+  const rows = createReviewRows('de-DE').map((row) => row.Key === key
+    ? { ...row, CodexTranslation: translation }
+    : row)
+  parseAndValidateReviewCsv(serializeReviewRows(rows), 'de-DE')
+}
+
 test('review rows are deterministic, locale-specific, and hash exact English sources', () => {
   const first = createReviewCsv('fr-FR')
   assert.equal(first, createReviewCsv('fr-FR'))
@@ -46,6 +53,10 @@ test('new runtime locales retain independent review-draft routes', () => {
     assert.ok(rows.filter((row) => row.OfficialTermConstraints).length > 100)
   }
   assert.throws(() => reviewRouteForLocale('xx-XX'), /UNSUPPORTED_LOCALE/)
+  assert.throws(
+    () => reviewRouteForLocale('pl-PL'),
+    /REVIEW_DRAFT_MISSING: pl-PL.*src\/localization\/reviewDrafts\/pl-PL\.ts.*onboarding is incomplete/,
+  )
 })
 
 test('French and German Codex drafts are complete and token-safe', () => {
@@ -101,6 +112,75 @@ test('staged draft English-residue detection reports ordinary source words and e
   assert.deepEqual(accidentalEnglishResidueOf('{item}: normal', '{item}: normal', 'pt-BR'), [])
   assert.deepEqual(accidentalEnglishResidueOf('HTTP status and flora source', 'Status HTTP e origem da flora', 'pt-BR'), [])
   assert.deepEqual(accidentalEnglishResidueOf('Manifest schema version', 'Versione dello schema del manifesto', 'it-IT'), [])
+  assert.deepEqual(
+    accidentalEnglishResidueOf('Finish reshuffling cargo links', 'Finish zmianę kolejności połączeń', 'pl-PL'),
+    ['finish'],
+  )
+  assert.deepEqual(
+    accidentalEnglishResidueOf('Network status in the Starfield system', 'Status sieci w systemie Starfield', 'pl-PL'),
+    [],
+  )
+  assert.deepEqual(
+    accidentalEnglishResidueOf('Export all networks to JSON', 'Eksportuj all networks do JSON', 'pl-PL'),
+    ['all', 'networks'],
+  )
+})
+
+test('staged Polish constraints fail closed until reviewed values exist', () => {
+  assert.throws(
+    () => createReviewRows('pl-PL'),
+    /REVIEW_CONSTRAINTS_MISSING: pl-PL:/,
+  )
+})
+
+test('Polish plural contract documents native categories while preserving one/other syntax', () => {
+  const counts = [1, 2, 5, 12, 22, 25]
+  assert.deepEqual(counts.map((count) => new Intl.PluralRules('pl-PL').select(count)), [
+    'one', 'few', 'many', 'many', 'few', 'many',
+  ])
+  const neutral = '{count}: {count, plural, one {liczba połączeń} other {liczba połączeń}}'
+  assert.equal(hasValidPluralSyntax(neutral), true)
+  assert.doesNotThrow(() => validateCodexTranslation('cargo.pad.count', neutral))
+  assert.throws(() => validateCodexTranslation(
+    'cargo.pad.count',
+    '{count, plural, one {Liczba połączeń: {count}} other {Liczba połączeń: {count}}}',
+  ), /REVIEW_INVALID_PLURAL_SYNTAX/)
+  assert.equal(hasValidPluralSyntax('{count, plural, one {jeden} few {kilka} many {wiele} other {inne}}'), false)
+  assert.throws(() => validateCodexTranslation(
+    'cargo.pad.count',
+    '{count} {count, plural, one {jedno} few {kilka} many {wiele} other {inne}}',
+  ), /REVIEW_INVALID_PLURAL_SYNTAX/)
+})
+
+test('Polish onboarding placeholder-risk families preserve required structural tokens', () => {
+  for (const [key, translation] of [
+    ['common.removeItem', '{item}'],
+    ['history.addLocalResource', '{resource} — {outpost}'],
+    ['validation.manufacturingInputUnavailable', '{product} — {input}'],
+    ['history.changeSystem', '{outpost} — {system}'],
+    ['history.changeBody', '{outpost} — {body}'],
+    ['history.clearSkill', '{skill}'],
+    ['history.renameOutpost', '{previousName} — {name}'],
+  ] as const) assert.doesNotThrow(() => validateCodexTranslation(key, translation), key)
+
+  assert.throws(
+    () => validateCodexTranslation('history.addLocalResource', '{outpost}'),
+    /REVIEW_INVALID_PLACEHOLDERS/,
+  )
+  assert.throws(
+    () => validateCodexTranslation('validation.manufacturingInputUnavailable', '{produkt} — {input}'),
+    /REVIEW_INVALID_PLACEHOLDERS/,
+  )
+  assert.doesNotThrow(() => validateCodexTranslation(
+    'history.addLocalResource', '{resource} — {outpost} — {outpost}',
+  ))
+  assert.throws(
+    () => validateCodexTranslation('transfer.export.tooltip', 'Eksportuj wszystkie sieci do Json'),
+    /REVIEW_INVALID_PROTECTED_TOKEN/,
+  )
+  assert.throws(() => validateCodexTranslation(
+    'cargo.pad.count', '{count} {count, plural, one {pozycja} other {pozycje}',
+  ), /REVIEW_INVALID_PLURAL_SYNTAX/)
 })
 
 test('French and German review constraints cover every applicable approved glossary concept', () => {

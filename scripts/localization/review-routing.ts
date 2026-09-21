@@ -34,9 +34,10 @@ export function reviewRouteForLocale(localeValue: string): {
   }
   const source = reviewSourcesByLocale[metadata.trackerLocale]
   if (!source) {
+    const staged = !metadata.runtimeAvailable ? ' Staged locale onboarding is incomplete.' : ''
     throw new Error(
       `REVIEW_DRAFT_MISSING: ${metadata.trackerLocale} requires an independent draft at ` +
-      `${localizationArtifactNames(metadata.trackerLocale).reviewDraft}.`,
+      `${localizationArtifactNames(metadata.trackerLocale).reviewDraft}.${staged}`,
     )
   }
   return { locale: metadata.trackerLocale, artifacts: localizationArtifactNames(metadata.trackerLocale), source }
