@@ -354,7 +354,10 @@ test('Polish draft and frozen DeepL handoff source remain complete, safe, and de
   assert.equal((committedXliff.match(/<trans-unit /g) ?? []).length, englishKeys.length)
   assert.equal((committedXliff.match(/x-english-source-sha256/g) ?? []).length, englishKeys.length)
 
-  await assert.rejects(readFile(new URL('../src/localization/generated/pl-PL-reference-names.ts', import.meta.url), 'utf8'), /ENOENT/)
+  assert.match(
+    await readFile(new URL('../src/localization/generated/pl-PL-reference-names.ts', import.meta.url), 'utf8'),
+    /export const plPLReferenceNames/,
+  )
 })
 
 test('Polish DeepL evidence is fully imported and invalid candidates remain explicit', async () => {

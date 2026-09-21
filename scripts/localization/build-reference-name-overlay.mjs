@@ -94,8 +94,13 @@ export async function buildReferenceNameOverlay(options) {
       throw error
     })
     const evidence = JSON.parse(evidenceSource)
+    const occurrences = JSON.parse(await readFile(path.join(ROOT, 'public/reference-data/planet-species.json'), 'utf8'))
+    const groupedOccurrences = Map.groupBy(occurrences, (item) => item.speciesId)
+    const bodyIdsByFauna = new Map([...groupedOccurrences].map(([faunaId, faunaOccurrences]) => [
+      faunaId, new Set(faunaOccurrences.map((occurrence) => occurrence.bodyId)),
+    ]))
     compositionEvidence = {
-      ...validateFaunaEvidence(evidence, composedFaunaPredictions(provenance, overlay, locale.trackerLocale), locale.trackerLocale),
+      ...validateFaunaEvidence(evidence, composedFaunaPredictions(provenance, overlay, locale.trackerLocale, { bodyIdsByFauna }), locale.trackerLocale),
       evidenceSha256: sha256Text(evidenceSource),
     }
   }

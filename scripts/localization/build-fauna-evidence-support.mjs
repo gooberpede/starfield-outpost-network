@@ -28,10 +28,10 @@ const occurrences = JSON.parse(await readFile(path.join(ROOT, 'public/reference-
 const species = JSON.parse(await readFile(path.join(ROOT, 'public/reference-data/species.json'), 'utf8'))
 const canonicalNames = new Map(species.filter((item) => item.type === 'fauna').map((item) => [item.id, item.name]))
 const bodiesBySpecies = Map.groupBy(occurrences, (item) => item.speciesId)
-const predictions = composedFaunaPredictions(provenance, overlay, locale, { canonicalNames }).map((item) => ({
-  ...item,
-  bodyIds: [...new Set((bodiesBySpecies.get(item.faunaId) ?? []).map((occurrence) => occurrence.bodyId))].sort(),
-}))
+const bodyIdsByFauna = new Map([...bodiesBySpecies].map(([faunaId, faunaOccurrences]) => [
+  faunaId, new Set(faunaOccurrences.map((occurrence) => occurrence.bodyId)),
+]))
+const predictions = composedFaunaPredictions(provenance, overlay, locale, { canonicalNames, bodyIdsByFauna })
 const outputPath = path.join(ROOT, '.local-work/localization/fauna-evidence', `${locale}-predictions.csv`)
 await mkdir(path.dirname(outputPath), { recursive: true })
 await writeFile(outputPath, serializeFaunaPredictions(predictions), 'utf8')

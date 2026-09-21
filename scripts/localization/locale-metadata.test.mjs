@@ -73,9 +73,10 @@ test('locale metadata identities are unique and unsupported values fail closed',
   assert.throws(() => localeMetadataFor('xx-XX'), /UNSUPPORTED_LOCALE/)
 })
 
-test('staged Polish reference overlay routing fails closed at deterministic targets', async () => {
-  await assert.rejects(
-    () => verifyCommittedReferenceNameOverlay(undefined, 'pl-PL'),
-    /REFERENCE_NAME_ARTIFACT_MISSING: pl-PL.*pl-PL-reference-names\.ts/,
-  )
+test('staged Polish reference overlay routing verifies deterministic artifacts while runtime stays inactive', async () => {
+  const result = await verifyCommittedReferenceNameOverlay(undefined, 'pl-PL')
+  assert.equal(result.entityCount, 3561)
+  assert.equal(result.provenanceRows, 4818)
+  assert.equal(result.evidenceStatus, 'provisionally-accepted')
+  assert.equal(localeMetadataFor('pl-PL').runtimeAvailable, false)
 })

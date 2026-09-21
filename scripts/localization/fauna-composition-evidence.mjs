@@ -12,7 +12,7 @@ export const EXPECTED_FAUNA_SHAPES = Object.freeze({
   'species+diet': 320,
 })
 
-export function composedFaunaPredictions(provenance, overlay, locale, { canonicalNames = new Map() } = {}) {
+export function composedFaunaPredictions(provenance, overlay, locale, { canonicalNames = new Map(), bodyIdsByFauna = new Map() } = {}) {
   const grouped = new Map()
   for (const row of provenance.filter((item) => item.EntityKind === 'fauna' && item.DisplayNameSourceKind === 'composed')) {
     grouped.set(row.EntityId, [...(grouped.get(row.EntityId) ?? []), row])
@@ -22,6 +22,7 @@ export function composedFaunaPredictions(provenance, overlay, locale, { canonica
     faunaId,
     canonicalEnglish: canonicalNames.get(faunaId) ?? rows.map((row) => row.CanonicalEnglish).join(' '),
     predictedLocalizedName: overlay.species?.[faunaId],
+    ...(bodyIdsByFauna.has(faunaId) ? { bodyIds: [...bodyIdsByFauna.get(faunaId)].sort() } : {}),
     componentShape: [...rows].sort((left, right) => Number(left.ComponentOrder) - Number(right.ComponentOrder))
       .map((row) => row.ComponentRole).join('+'),
     components: [...rows].sort((left, right) => Number(left.ComponentOrder) - Number(right.ComponentOrder)).map((row) => ({
@@ -56,14 +57,28 @@ export function validateFaunaEvidence(evidence, predictions, locale) {
   let contradictions = 0
   const seen = new Set()
   for (const observation of evidence.observations) {
+    const prediction = byId.get(observation.faunaId)
     if (!observation.id || seen.has(observation.id) || !byId.has(observation.faunaId) ||
       observation.locale !== locale || !observation.observedText || !observation.predictedText ||
       typeof observation.matchesPrediction !== 'boolean' || !observation.componentOrder || !observation.separator ||
       !Object.hasOwn(observation, 'punctuation') || !Object.hasOwn(observation, 'grammarNotes') ||
       !observation.screenshotReference) throw new Error('FAUNA_EVIDENCE_INVALID: malformed observation.')
     seen.add(observation.id)
-    if (observation.predictedText !== byId.get(observation.faunaId).predictedLocalizedName) {
+    if (observation.predictedText !== prediction.predictedLocalizedName) {
       throw new Error(`FAUNA_EVIDENCE_INVALID: ${observation.id} has stale predicted text.`)
+    }
+    if (observation.componentShape && observation.componentShape !== prediction.componentShape) {
+      throw new Error(`FAUNA_EVIDENCE_INVALID: ${observation.id} has stale component shape.`)
+    }
+    if (observation.bodyId && prediction.bodyIds && !prediction.bodyIds.includes(observation.bodyId)) {
+      throw new Error(`FAUNA_EVIDENCE_INVALID: ${observation.id} is not mapped to ${observation.bodyId}.`)
+    }
+    if (observation.matchStatus === 'scanner-case-only' &&
+      observation.observedText.toLocaleLowerCase(locale) !== observation.predictedText.toLocaleLowerCase(locale)) {
+      throw new Error(`FAUNA_EVIDENCE_INVALID: ${observation.id} is not a scanner-case-only match.`)
+    }
+    if (observation.truncated === true && observation.matchStatus !== 'truncated-but-consistent') {
+      throw new Error(`FAUNA_EVIDENCE_INVALID: ${observation.id} has inconsistent truncation status.`)
     }
     if (!observation.matchesPrediction) contradictions += 1
   }

@@ -242,6 +242,33 @@
     },
     {
       "plugin": "SFBGS00D.esm",
+      "locale": "pl",
+      "tableType": "dlstrings",
+      "archiveFilename": "SFBGS00D - Main.ba2",
+      "memberName": "strings/sfbgs00d_pl.dlstrings",
+      "size": 96684,
+      "sha256": "28D25A289D0EB3903895A6C551DAF8799EC7160931C1DEA2029533B724AB5530"
+    },
+    {
+      "plugin": "SFBGS00D.esm",
+      "locale": "pl",
+      "tableType": "ilstrings",
+      "archiveFilename": "SFBGS00D - Main.ba2",
+      "memberName": "strings/sfbgs00d_pl.ilstrings",
+      "size": 470025,
+      "sha256": "D2CBDA7E3414F921AD7E76BBD44938355ED8A1D24017EF72E6F51291B54CBF2D"
+    },
+    {
+      "plugin": "SFBGS00D.esm",
+      "locale": "pl",
+      "tableType": "strings",
+      "archiveFilename": "SFBGS00D - Main.ba2",
+      "memberName": "strings/sfbgs00d_pl.strings",
+      "size": 120870,
+      "sha256": "5E44A1C6E216A12B0E6E08FFD2D4C90D7E0B20E3FDE2448450331B3C9E266372"
+    },
+    {
+      "plugin": "SFBGS00D.esm",
       "locale": "ptbr",
       "tableType": "dlstrings",
       "archiveFilename": "SFBGS00D - Main.ba2",
@@ -428,6 +455,33 @@
       "memberName": "strings/shatteredspace_ja.strings",
       "size": 222250,
       "sha256": "4B8B4EBCDE180216AE23CDA3ACF66566AFBB98FB32830C0AEAB99EA9FB470479"
+    },
+    {
+      "plugin": "ShatteredSpace.esm",
+      "locale": "pl",
+      "tableType": "dlstrings",
+      "archiveFilename": "ShatteredSpace - Main02.ba2",
+      "memberName": "strings/shatteredspace_pl.dlstrings",
+      "size": 178824,
+      "sha256": "C8506895E4D581AED5DFEAA59537761B14AAF503386AE823152A17F08E49945F"
+    },
+    {
+      "plugin": "ShatteredSpace.esm",
+      "locale": "pl",
+      "tableType": "ilstrings",
+      "archiveFilename": "ShatteredSpace - Main02.ba2",
+      "memberName": "strings/shatteredspace_pl.ilstrings",
+      "size": 1358524,
+      "sha256": "9C8151E211E96F625945A194AEF240AAF776DCCD3031DB7DEA7D008F9C8FB7ED"
+    },
+    {
+      "plugin": "ShatteredSpace.esm",
+      "locale": "pl",
+      "tableType": "strings",
+      "archiveFilename": "ShatteredSpace - Main02.ba2",
+      "memberName": "strings/shatteredspace_pl.strings",
+      "size": 198654,
+      "sha256": "B0478D2AFF23A89DE507671CA3F0235909BFA2C5BC83D55F4499D28DD95476CF"
     },
     {
       "plugin": "ShatteredSpace.esm",
@@ -620,6 +674,33 @@
     },
     {
       "plugin": "Starfield.esm",
+      "locale": "pl",
+      "tableType": "dlstrings",
+      "archiveFilename": "Starfield - Localization.ba2",
+      "memberName": "strings/starfield_pl.dlstrings",
+      "size": 1108928,
+      "sha256": "960A5D6EE766395BB6011CD405C2FE6D1582A59756DEF49D88757E50E1C58F7E"
+    },
+    {
+      "plugin": "Starfield.esm",
+      "locale": "pl",
+      "tableType": "ilstrings",
+      "archiveFilename": "Starfield - Localization.ba2",
+      "memberName": "strings/starfield_pl.ilstrings",
+      "size": 9677004,
+      "sha256": "8C33E2C1B59E0ACEFDF77269A71738C6670F345DDA05CDE26B965DD53A4A2E22"
+    },
+    {
+      "plugin": "Starfield.esm",
+      "locale": "pl",
+      "tableType": "strings",
+      "archiveFilename": "Starfield - Localization.ba2",
+      "memberName": "strings/starfield_pl.strings",
+      "size": 1693159,
+      "sha256": "227E0C977363EADEDE6AD4BE4B3AB0297B955BA4F76BD906AD7223D1AD64DF90"
+    },
+    {
+      "plugin": "Starfield.esm",
       "locale": "ptbr",
       "tableType": "dlstrings",
       "archiveFilename": "Starfield - Localization.ba2",
@@ -653,6 +734,7 @@
     "fr",
     "it",
     "ja",
+    "pl",
     "ptbr"
   ],
   "tableTypes": [
@@ -667,6 +749,7 @@
     "fr": "utf-8",
     "it": "utf-8",
     "ja": "utf-8",
+    "pl": "utf-8",
     "ptbr": "utf-8"
   }
 }

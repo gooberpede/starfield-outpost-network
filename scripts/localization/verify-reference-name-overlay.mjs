@@ -89,8 +89,13 @@ export async function verifyCommittedReferenceNameOverlay(root = ROOT, localeVal
     const evidencePath = path.join(root, artifactNames.faunaEvidence)
     const evidenceSource = (await readArtifact(evidencePath, locale.trackerLocale)).toString('utf8')
     const evidence = JSON.parse(evidenceSource)
+    const occurrences = JSON.parse(await readFile(path.join(root, 'public/reference-data/planet-species.json'), 'utf8'))
+    const groupedOccurrences = Map.groupBy(occurrences, (item) => item.speciesId)
+    const bodyIdsByFauna = new Map([...groupedOccurrences].map(([faunaId, faunaOccurrences]) => [
+      faunaId, new Set(faunaOccurrences.map((occurrence) => occurrence.bodyId)),
+    ]))
     const summary = {
-      ...validateFaunaEvidence(evidence, composedFaunaPredictions(provenance, overlay, locale.trackerLocale), locale.trackerLocale),
+      ...validateFaunaEvidence(evidence, composedFaunaPredictions(provenance, overlay, locale.trackerLocale, { bodyIdsByFauna }), locale.trackerLocale),
       evidenceSha256: sha256Text(evidenceSource),
     }
     if (JSON.stringify(sidecar.compositionEvidence) !== JSON.stringify(summary)) throw new Error('REFERENCE_NAME_SIDECAR_EVIDENCE_MISMATCH.')

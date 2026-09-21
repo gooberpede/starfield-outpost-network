@@ -29,7 +29,7 @@
     "benchmark:history": "node --expose-gc --experimental-strip-types scripts/history-benchmark.ts",
     "benchmark:import-capacity": "node scripts/import-capacity-benchmark.mjs",
     "reference:verify": "node --experimental-strip-types scripts/verify-reference-deployment.mjs",
-    "build": "node scripts/localization/validate-localized-name-provenance.mjs && node scripts/localization/verify-reference-name-overlay.mjs --locale ja-JP && node scripts/localization/verify-reference-name-overlay.mjs --locale fr-FR && node scripts/localization/verify-reference-name-overlay.mjs --locale de-DE && node scripts/localization/verify-reference-name-overlay.mjs --locale es-ES && node scripts/localization/verify-reference-name-overlay.mjs --locale it-IT && node scripts/localization/verify-reference-name-overlay.mjs --locale pt-BR && npm run reference:verify && tsc -b && vite build && node --experimental-strip-types scripts/verify-reference-dist.mjs",
+    "build": "node scripts/localization/validate-localized-name-provenance.mjs && node scripts/localization/verify-reference-name-overlay.mjs --locale ja-JP && node scripts/localization/verify-reference-name-overlay.mjs --locale fr-FR && node scripts/localization/verify-reference-name-overlay.mjs --locale de-DE && node scripts/localization/verify-reference-name-overlay.mjs --locale es-ES && node scripts/localization/verify-reference-name-overlay.mjs --locale it-IT && node scripts/localization/verify-reference-name-overlay.mjs --locale pt-BR && node scripts/localization/verify-reference-name-overlay.mjs --locale pl-PL && npm run reference:verify && tsc -b && vite build && node --experimental-strip-types scripts/verify-reference-dist.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },

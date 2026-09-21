@@ -92,7 +92,7 @@ test('repository-only verifier detects generated module tampering', async () => 
 
 test('inactive reference overlays verify after deterministic artifacts are committed', async () => {
   const repositoryRoot = path.resolve(import.meta.dirname, '../..')
-  for (const locale of ['es-ES', 'it-IT', 'pt-BR']) {
+  for (const locale of ['es-ES', 'it-IT', 'pt-BR', 'pl-PL']) {
     const result = await verifyCommittedReferenceNameOverlay(repositoryRoot, locale)
     assert.equal(result.entityCount, 3561)
     assert.equal(result.provenanceRows, 4818)

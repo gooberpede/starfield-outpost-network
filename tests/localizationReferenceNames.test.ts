@@ -7,6 +7,7 @@ import { deDEReferenceNames } from '../src/localization/generated/de-DE-referenc
 import { esESReferenceNames } from '../src/localization/generated/es-ES-reference-names.ts'
 import { itITReferenceNames } from '../src/localization/generated/it-IT-reference-names.ts'
 import { ptBRReferenceNames } from '../src/localization/generated/pt-BR-reference-names.ts'
+import { plPLReferenceNames } from '../src/localization/generated/pl-PL-reference-names.ts'
 import { getSkillDisplayName, officialTermBySkill } from '../src/localization/officialTerms.ts'
 import { getReferenceDisplayName } from '../src/localization/referenceNames.ts'
 
@@ -25,6 +26,35 @@ test('generated Japanese reference-name module imports with representative offic
   assert.equal(jaJPReferenceNames.species['0008D0D8'], 'グリロバハンター')
   assert.equal(jaJPReferenceNames.species['000065E6'], '遊牧の グロウバック スカベンジャー')
   assert.equal(jaJPReferenceNames['official-term']['skill.outpost-management'], '拠点管理')
+})
+
+test('generated Polish reference-name module preserves representative official values', () => {
+  assert.equal(plPLReferenceNames.resource.aluminium, 'Glin')
+  assert.equal(plPLReferenceNames.resource['x-tech'], 'X-Tech')
+  assert.equal(plPLReferenceNames.product['adaptive-frame'], 'Panel adaptatywny')
+  assert.equal(plPLReferenceNames.species['00048A34'], 'Drapież. Papugosokół')
+  assert.equal(plPLReferenceNames.species['0019B89C'], 'Trzodn. Kosigłów Roślinożerca')
+  assert.equal(plPLReferenceNames['official-term']['skill.outpost-management'], 'Zarządzanie placówką')
+})
+
+test('Polish reference corpus retains official punctuation and has no new search-fold collisions', () => {
+  const allValues = Object.values(plPLReferenceNames).flatMap((names) => Object.values(names))
+  const lowerCorpus = allValues.join('').toLocaleLowerCase('pl-PL')
+  for (const letter of ['ą', 'ć', 'ę', 'ł', 'ń', 'ó', 'ś', 'ź', 'ż']) assert.match(lowerCorpus, new RegExp(letter))
+  assert.equal(allValues.filter((value) => value.includes("'")).length, 3)
+  assert.equal(allValues.filter((value) => value.includes('-')).length, 902)
+  assert.equal(allValues.filter((value) => /[‘’‐‑‒–—―]/u.test(value)).length, 0)
+
+  const searchable = [...Object.values(plPLReferenceNames.resource), ...Object.values(plPLReferenceNames.product)]
+  const collisionCount = (normalize: (value: string) => string) => {
+    const originalsByFold = new Map<string, string[]>()
+    for (const value of searchable) originalsByFold.set(normalize(value), [...(originalsByFold.get(normalize(value)) ?? []), value])
+    return [...originalsByFold.values()].filter((values) =>
+      new Set(values.map((value) => value.toLocaleLowerCase('pl-PL').normalize('NFC'))).size > 1).length
+  }
+  const nfdFold = (value: string) => value.toLocaleLowerCase('pl-PL').normalize('NFD').replace(/\p{M}/gu, '')
+  assert.equal(collisionCount(nfdFold), 0)
+  assert.equal(collisionCount((value) => nfdFold(value).replaceAll('ł', 'l')), 0)
 })
 
 test('runtime lookup registers representative Japanese reference-name families', () => {
