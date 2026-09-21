@@ -584,8 +584,15 @@ export function importReviewXliff(
   locale: string,
   options: { recordInvalidTokens?: boolean } = {},
 ): string {
+  const xliffMatch = xliffSource.match(/<xliff\b([^>]*)>/)
+  if (!xliffMatch || attributeOf(xliffMatch[1], 'version') !== '1.2') {
+    throw new Error('XLIFF_VERSION_MISMATCH')
+  }
   const fileMatch = xliffSource.match(/<file\b([^>]*)>/)
-  if (!fileMatch || attributeOf(fileMatch[1], 'target-language') !== locale) throw new Error('XLIFF_LOCALE_MISMATCH')
+  if (!fileMatch || attributeOf(fileMatch[1], 'source-language') !== 'en-US') {
+    throw new Error('XLIFF_SOURCE_LOCALE_MISMATCH')
+  }
+  if (attributeOf(fileMatch[1], 'target-language') !== locale) throw new Error('XLIFF_LOCALE_MISMATCH')
   const translations = new Map<string, { target: string; source: string; sourceHash?: string }>()
   for (const match of xliffSource.matchAll(/<trans-unit\b([^>]*)>([\s\S]*?)<\/trans-unit>/g)) {
     const key = attributeOf(match[1], 'resname') ?? attributeOf(match[1], 'id')

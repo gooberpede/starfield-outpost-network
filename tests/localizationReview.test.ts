@@ -8,6 +8,7 @@ import { esESMessages } from '../src/localization/locales/es-ES.ts'
 import { frFRMessages } from '../src/localization/locales/fr-FR.ts'
 import { itITMessages } from '../src/localization/locales/it-IT.ts'
 import { jaJPMessages } from '../src/localization/locales/ja-JP.ts'
+import { plPLMessages } from '../src/localization/locales/pl-PL.ts'
 import { ptBRMessages } from '../src/localization/locales/pt-BR.ts'
 import {
   accidentalEnglishResidueOf, comparisonStatus, createReviewCsv, createReviewRows, englishSourceSha256, hasValidPluralSyntax,
@@ -18,6 +19,7 @@ import { deDEReviewDraft } from '../src/localization/reviewDrafts/de-DE.ts'
 import { esESReviewDraft } from '../src/localization/reviewDrafts/es-ES.ts'
 import { frFRReviewDraft } from '../src/localization/reviewDrafts/fr-FR.ts'
 import { itITReviewDraft } from '../src/localization/reviewDrafts/it-IT.ts'
+import { plPLReviewDraft } from '../src/localization/reviewDrafts/pl-PL.ts'
 import { ptBRReviewDraft } from '../src/localization/reviewDrafts/pt-BR.ts'
 import { adjudicateReviewRows } from '../src/localization/reviewAdjudication.ts'
 import { supportedLocaleIds } from '../src/localization/types.ts'
@@ -53,10 +55,11 @@ test('new runtime locales retain independent review-draft routes', () => {
     assert.ok(rows.filter((row) => row.OfficialTermConstraints).length > 100)
   }
   assert.throws(() => reviewRouteForLocale('xx-XX'), /UNSUPPORTED_LOCALE/)
-  assert.throws(
-    () => reviewRouteForLocale('pl-PL'),
-    /REVIEW_DRAFT_MISSING: pl-PL.*src\/localization\/reviewDrafts\/pl-PL\.ts.*onboarding is incomplete/,
-  )
+  const polishRoute = reviewRouteForLocale('pl-PL')
+  assert.equal(polishRoute.locale, 'pl-PL')
+  assert.equal(polishRoute.source.createXliff, true)
+  assert.equal(polishRoute.source.translations, plPLReviewDraft)
+  assert.equal(supportedLocaleIds.includes('pl-PL' as typeof supportedLocaleIds[number]), false)
 })
 
 test('French and German Codex drafts are complete and token-safe', () => {
@@ -126,7 +129,7 @@ test('staged draft English-residue detection reports ordinary source words and e
   )
 })
 
-test('staged Polish constraints are populated without creating a semantic draft', () => {
+test('Polish constraints can be generated independently of a supplied semantic draft', () => {
   const rows = createReviewRows('pl-PL')
   assert.ok(rows.some(({ OfficialTermConstraints }) => OfficialTermConstraints))
   assert.ok(rows.every(({ CodexTranslation }) => CodexTranslation === ''))
@@ -276,6 +279,142 @@ test('Polish review constraints are complete, contextual, deterministic, and fai
   assert.equal(new Set(classifiedIds.map((match) => match[1])).size, 19)
   assert.match(glossary, /\*\*`ciało planetarne`\*\*/)
   assert.match(glossary, /`Starfield` is invariant/)
+})
+
+test('Polish draft and frozen DeepL handoff source remain complete, safe, and deterministic', async () => {
+  const englishKeys = Object.keys(enUSMessages).sort()
+  assert.deepEqual(Object.keys(plPLReviewDraft).sort(), englishKeys)
+
+  const rows = createReviewRows('pl-PL', plPLReviewDraft)
+  assert.equal(rows.length, englishKeys.length)
+  for (const row of rows) {
+    assert.match(row.CodexTranslation, /\S/, row.Key)
+    assert.deepEqual(parametersOf(row.CodexTranslation), parametersOf(row.EnglishSource), `${row.Key}:parameters`)
+    assert.equal(hasValidPluralSyntax(row.CodexTranslation), true, `${row.Key}:plural`)
+    assert.deepEqual(accidentalEnglishResidueOf(row.EnglishSource, row.CodexTranslation, 'pl-PL'), [], `${row.Key}:English residue`)
+    for (const token of protectedTokensOf(row.EnglishSource)) {
+      assert.ok(row.CodexTranslation.includes(token), `${row.Key}:${token}`)
+    }
+  }
+  assert.ok(rows.filter(({ OfficialTermConstraints }) => OfficialTermConstraints).length > 100)
+  assert.deepEqual([
+    plPLReviewDraft['character.skill.outpostManagement'],
+    plPLReviewDraft['character.skill.outpostEngineering'],
+    plPLReviewDraft['character.skill.planetaryHabitation'],
+    plPLReviewDraft['character.skill.researchMethods'],
+    plPLReviewDraft['character.skill.specialProjects'],
+  ], ['Zarządzanie placówką', 'Inżynieria placówek', 'Zasiedlanie planet', 'Metody badawcze', 'Projekty specjalne'])
+  assert.equal(plPLReviewDraft['cargo.interstellar'], 'Międzyukładowe połączenie towarowe')
+  assert.equal(plPLReviewDraft['cargo.pad.linkType.standard'], 'Standardowe połączenie towarowe')
+  assert.equal(plPLReviewDraft['outpost.body.label'], 'Ciało planetarne')
+  assert.match(plPLReviewDraft['matrix.tooltip.xTech.add'], /rdzenie mocy X-Techu/)
+  assert.ok(Object.values(plPLReviewDraft).every((value) => !value.includes('W gwiazdy')))
+
+  assert.equal(plPLReviewDraft['plannedSupply.heading'], 'Planowane zaopatrzenie')
+  assert.equal(plPLReviewDraft['matrix.column.present'], 'Obecność')
+  assert.equal(plPLReviewDraft['matrix.column.producing'], 'W produkcji')
+  assert.equal(plPLReviewDraft['matrix.column.inputs'], 'Wymagane materiały')
+  assert.equal(plPLReviewDraft['matrix.column.logistics'], 'Logistyka')
+  assert.equal(plPLReviewDraft['matrix.state.active'], '{item}: stan aktywny')
+  assert.equal(plPLReviewDraft['matrix.state.inactive'], '{item}: stan nieaktywny')
+  assert.equal(plPLReviewDraft['matrix.section.manufacturing'], 'Wytwarzanie')
+  assert.equal(plPLReviewDraft['matrix.heading'], 'Macierz zasobów')
+  assert.equal(plPLReviewDraft['outpost.navigation.reshuffleButton'], 'Zmień kolejność')
+  assert.equal(plPLReviewDraft['outpost.navigation.lockOrder'], 'Zakończ zmianę kolejności')
+  assert.equal(
+    plPLReviewDraft['validation.counts'],
+    'Błędy: {errors} · Ostrzeżenia: {warnings} · Informacje: {info}',
+  )
+
+  for (const key of ['cargo.pad.count', 'validation.issueCount', 'validation.plannedSupplyUnresolved', 'search.results.found'] as const) {
+    assert.match(plPLReviewDraft[key], /Liczba|liczba/)
+    const branches = [...plPLReviewDraft[key].matchAll(/one \{([^{}]*)\} other \{([^{}]*)\}/g)]
+    assert.equal(branches.length, 1, key)
+    assert.equal(branches[0][1], branches[0][2], key)
+  }
+
+  const [committedCsv, committedXliff] = await Promise.all([
+    readFile(new URL('../docs/localization/pl-PL-review.csv', import.meta.url), 'utf8'),
+    readFile(new URL('../docs/localization/pl-PL-deepl.xliff', import.meta.url), 'utf8'),
+  ])
+  const committedRows = parseAndValidateReviewCsv(committedCsv, 'pl-PL')
+  for (const [index, row] of committedRows.entries()) {
+    const frozen = rows[index]
+    assert.deepEqual(
+      [row.Key, row.Locale, row.EnglishSource, row.EnglishSourceSha256, row.Context, row.Risk,
+        row.Parameters, row.ProtectedTokens, row.OfficialTermConstraints, row.CodexTranslation],
+      [frozen.Key, frozen.Locale, frozen.EnglishSource, frozen.EnglishSourceSha256, frozen.Context,
+        frozen.Risk, frozen.Parameters, frozen.ProtectedTokens, frozen.OfficialTermConstraints,
+        frozen.CodexTranslation],
+    )
+  }
+  assert.equal(committedXliff, createReviewXliff(rows, 'pl-PL'))
+  assert.match(committedXliff, /xliff version="1\.2"/)
+  assert.match(committedXliff, /target-language="pl-PL"/)
+  assert.equal((committedXliff.match(/<trans-unit /g) ?? []).length, englishKeys.length)
+  assert.equal((committedXliff.match(/x-english-source-sha256/g) ?? []).length, englishKeys.length)
+
+  await assert.rejects(readFile(new URL('../src/localization/generated/pl-PL-reference-names.ts', import.meta.url), 'utf8'), /ENOENT/)
+})
+
+test('Polish DeepL evidence is fully imported and invalid candidates remain explicit', async () => {
+  const review = await readFile(new URL('../docs/localization/pl-PL-review.csv', import.meta.url), 'utf8')
+  const rows = parseAndValidateReviewCsv(review, 'pl-PL')
+  assert.equal(rows.length, 414)
+  assert.ok(rows.every(({ DeepLTranslation }) => DeepLTranslation.trim()))
+  assert.deepEqual(
+    Object.fromEntries(['IDENTICAL', 'TYPOGRAPHIC_ONLY', 'SUBSTANTIVE', 'INVALID_TOKENS']
+      .map((status) => [status, rows.filter(({ ComparisonStatus }) => ComparisonStatus === status).length])),
+    { IDENTICAL: 112, TYPOGRAPHIC_ONLY: 0, SUBSTANTIVE: 220, INVALID_TOKENS: 82 },
+  )
+  assert.deepEqual(
+    Object.fromEntries(['PLACEHOLDERS', 'PROTECTED_TOKEN', 'PLURAL_SYNTAX']
+      .map((issue) => [issue, rows.filter(({ ReviewerNote }) =>
+        ReviewerNote.includes(`failed ${issue} validation`)).length])),
+    { PLACEHOLDERS: 64, PROTECTED_TOKEN: 14, PLURAL_SYNTAX: 4 },
+  )
+  assert.ok(rows.filter(({ ComparisonStatus }) => ComparisonStatus === 'INVALID_TOKENS')
+    .every(({ AdjudicationDecision, ReviewerNote }) =>
+      AdjudicationDecision === 'INVALID_DEEPL_REPAIRED' && /failed .* validation/.test(ReviewerNote)))
+})
+
+test('final Polish catalogue is review-derived, complete, safe, and runtime-inactive', async () => {
+  const review = await readFile(new URL('../docs/localization/pl-PL-review.csv', import.meta.url), 'utf8')
+  const rows = parseAndValidateReviewCsv(review, 'pl-PL')
+  const englishKeys = Object.keys(enUSMessages).sort()
+  assert.deepEqual(Object.keys(plPLMessages).sort(), englishKeys)
+  assert.deepEqual(finalCatalogueFromReview(review, 'pl-PL'), plPLMessages)
+  assert.deepEqual(adjudicateReviewRows(rows), rows)
+  assert.ok(rows.every(({ AdjudicationDecision, FinalTranslation, ReviewerNote }) =>
+    AdjudicationDecision && FinalTranslation && ReviewerNote.length >= 40))
+
+  for (const key of englishKeys as (keyof typeof enUSMessages)[]) {
+    const value = plPLMessages[key]
+    assert.match(value, /\S/, key)
+    assert.deepEqual(parametersOf(value), parametersOf(enUSMessages[key]), `${key}:parameters`)
+    assert.equal(hasValidPluralSyntax(value), true, `${key}:plural`)
+    assert.deepEqual(accidentalEnglishResidueOf(enUSMessages[key], value, 'pl-PL'), [], `${key}:English residue`)
+    for (const token of protectedTokensOf(enUSMessages[key])) assert.ok(value.includes(token), `${key}:${token}`)
+  }
+
+  const renderCount = (key: 'cargo.pad.count' | 'validation.issueCount' | 'validation.plannedSupplyUnresolved' | 'search.results.found', count: number) =>
+    plPLMessages[key]
+      .replace(/\{count, plural, one \{([^{}]*)\} other \{([^{}]*)\}\}/g,
+        (_match, one: string, other: string) => new Intl.PluralRules('pl-PL').select(count) === 'one' ? one : other)
+      .replaceAll('{count}', String(count))
+      .replace('{itemList}', 'A, B')
+      .replace('{searchItem}', 'Żelazo')
+  for (const key of ['cargo.pad.count', 'validation.issueCount', 'validation.plannedSupplyUnresolved', 'search.results.found'] as const) {
+    for (const count of [1, 2, 5, 12, 22, 25]) assert.doesNotMatch(renderCount(key, count), /\{(?:count|itemList|searchItem)/, `${key}:${count}`)
+  }
+
+  assert.equal(plPLMessages['validation.counts'], 'Błędy: {errors} · Ostrzeżenia: {warnings} · Informacje: {info}')
+  assert.equal(plPLMessages['matrix.state.active'], '{item}: stan aktywny')
+  assert.equal(plPLMessages['matrix.state.inactive'], '{item}: stan nieaktywny')
+  assert.equal(plPLMessages['cargo.interstellar'], 'Międzyukładowe połączenie towarowe')
+  assert.equal(plPLMessages['outpost.body.label'], 'Ciało planetarne')
+  assert.ok(Object.values(plPLMessages).every((value) => !value.includes('W gwiazdy')))
+  assert.equal(supportedLocaleIds.includes('pl-PL' as typeof supportedLocaleIds[number]), false)
 })
 
 test('committed French and German XLIFF files match their current deterministic handoff representations', async () => {
@@ -490,6 +629,14 @@ test('XLIFF 1.2 export is deterministic, contextual, and re-imports by stable ke
   assert.throws(
     () => importReviewXliff(createReviewCsv('fr-FR', frFRReviewDraft), translated.replace('target-language="fr-FR"', 'target-language="de-DE"'), 'fr-FR'),
     /XLIFF_LOCALE_MISMATCH/,
+  )
+  assert.throws(
+    () => importReviewXliff(createReviewCsv('fr-FR', frFRReviewDraft), translated.replace('xliff version="1.2"', 'xliff version="2.0"'), 'fr-FR'),
+    /XLIFF_VERSION_MISMATCH/,
+  )
+  assert.throws(
+    () => importReviewXliff(createReviewCsv('fr-FR', frFRReviewDraft), translated.replace('source-language="en-US"', 'source-language="de-DE"'), 'fr-FR'),
+    /XLIFF_SOURCE_LOCALE_MISMATCH/,
   )
   assert.throws(
     () => importReviewXliff(createReviewCsv('fr-FR', frFRReviewDraft), translated.replace('Close About dialog</source>', 'Close the About dialog</source>'), 'fr-FR'),

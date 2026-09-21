@@ -4,6 +4,7 @@ import { deDEReviewDraft } from '../../src/localization/reviewDrafts/de-DE.ts'
 import { esESReviewDraft } from '../../src/localization/reviewDrafts/es-ES.ts'
 import { frFRReviewDraft } from '../../src/localization/reviewDrafts/fr-FR.ts'
 import { itITReviewDraft } from '../../src/localization/reviewDrafts/it-IT.ts'
+import { plPLReviewDraft } from '../../src/localization/reviewDrafts/pl-PL.ts'
 import { ptBRReviewDraft } from '../../src/localization/reviewDrafts/pt-BR.ts'
 import { jaJPMessages } from '../../src/localization/locales/ja-JP.ts'
 
@@ -21,6 +22,7 @@ const reviewSourcesByLocale: Readonly<Record<string, ReviewSource>> = {
   'es-ES': { translations: esESReviewDraft, createXliff: true },
   'it-IT': { translations: itITReviewDraft, createXliff: true },
   'pt-BR': { translations: ptBRReviewDraft, createXliff: true },
+  'pl-PL': { translations: plPLReviewDraft, createXliff: true },
 }
 
 export function reviewRouteForLocale(localeValue: string): {
