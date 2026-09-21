@@ -1710,21 +1710,56 @@ Potential issues include:
 ## Polish
 
 Polish is runtime integrated with its complete semantic catalogue and official
-reference overlay. It is not yet **Supported** because the final layout,
-accessibility, and release-closure matrix remains pending.
+reference overlay. Tracker locale `pl-PL`, Bethesda token `pl`, strict UTF-8
+decoding, and selector label `Polski (Polska)` are registered. Polish remains
+runtime-available rather than **Supported** until the two manual closure gates
+below are completed.
 
-Release-closure concerns still requiring focused verification include:
+Automated closure confirms exact 414-key and placeholder parity, non-empty
+values, protected tokens, plural syntax, absence of unapproved English residue,
+official terminology, deterministic catalogue/reference artifacts, exact
+provenance closure, and provisionally accepted fauna composition evidence.
+The count-neutral Polish messages render safely for representative `one`,
+`few`, and `many` counts without relying on one noun form across categories.
 
-- inflection and grammatical case in tracker-authored parameterized messages;
-- string length;
-- official terminology consistency;
-- diacritic rendering;
-- whether current message composition assumes English-like grammar.
+Windows/Chromium runtime verification passed at 1366px and 1600px for the
+header and network controls, Navigation, Outpost Details, Resource Matrix,
+Planned Supply, Cargo, Search and Search Results, Validation, Help, About, and
+status feedback. No Polish-specific semantic, functional, accessibility,
+typography, glyph, clipping, dialog, or document-overflow blocker was found.
+Keyboard focus, modal Escape/focus restoration, the Search shortcut, and both
+reorder modes passed; automated coverage retains the complete registered
+shortcut contract. Export produced localized visible and polite live-region
+feedback. The user's preceding Polish runtime smoke also passed valid import,
+invalid-JSON rejection, localized import feedback, and data preservation; the
+automated import/export invariance suite confirms stable IDs and serialized
+domain state are locale-independent.
 
 Runtime Search uses lower-ranked decomposition folding plus the narrow
 search-only `ł` to `l` equivalence. Browser mapping accepts bare `pl`, exact
 `pl-PL`, and descendants of `pl-PL`; explicit other regional `pl-*` tags
-continue to later preferences. Polish remains runtime-available, not Supported.
+continue to later preferences. Exact localized spelling ranks ahead of folded
+matches, English aliases retain Polish display text, one row is emitted per
+stable entity, punctuation is not broadly stripped, and Polish `Intl.Collator`
+ordering including numeric segments is verified. Locale switching and reload
+preserve the Polish preference, selected network/outpost context, user-authored
+data, history/domain identity, and exact `document.lang` presentation boundary.
+
+The complete Polish diacritic set renders in the existing Latin typography
+stack across body text, condensed/uppercase headings, controls, tables, and
+technical contexts. Longer Solar/Wind headings and Resource Matrix header labels
+retain the known shared layout pressure recorded in `docs/BACKLOG.md`; they
+remain usable and are not Polish-specific geometry work.
+
+Remaining support gates are true browser-controlled 200% zoom/reflow and audible
+Windows Narrator smoke for representative localized names, states, shortcut,
+dialog, compact control, status, and import/export announcements. Known shared
+Narrator shortcut interception/announcement and compact-control questions remain
+global non-blocking follow-up unless Polish proves materially different. Native-
+speaker editorial review was not performed and remains desirable rather than a
+support gate. Apple/WebKit remains deferred and is not implied by eventual
+Windows/Chromium support. Working XLIFF files and locale-selector order remain
+unchanged until Simplified Chinese is complete.
 
 ## Simplified Chinese
 
