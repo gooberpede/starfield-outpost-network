@@ -338,13 +338,14 @@ meaningful benefit.
   accessible, but visible placeholder copy is partially clipped. Review later
   whether shorter locale-specific placeholder copy or a separately approved
   UI-geometry change is preferable.
-- **German `Sehr schlecht` control capacity:** The accepted German Solar/Wind
-  translation of `Very Poor`, `Sehr schlecht`, exceeds the current fixed
-  control's visible capacity. This is visual only; no functionality or
-  accessibility blocker was found. A later mitigation may use approved copy
-  treatment, a redundant tooltip/accessible description, or a separately
-  reviewed control-geometry change. Do not shorten the translation merely to
-  fit the current control.
+- **Localized `Very Poor` control capacity:** The accepted German, Spanish, and
+  Italian Solar/Wind translations (`Sehr schlecht`, `Muy deficiente`, and
+  `Molto scarso`) exceed the current fixed control's visible capacity. This is
+  visual only; no functionality or accessibility blocker was found, and the
+  complete localized value is exposed semantically. A later mitigation may use
+  approved copy treatment, a redundant tooltip/accessible description, or a
+  separately reviewed control-geometry change. Do not shorten correct
+  translations merely to fit the current control.
 - **About and application versioning:** Expand the About dialog to show the
   application version, support/contact details, and a Ko-Fi link while
   retaining appropriate existing attribution/about content. Establish an

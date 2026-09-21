@@ -1013,13 +1013,15 @@ test('provider locale switches do not mutate network selection, outpost context,
     const { locale, setLocaleOverride } = useLocalization()
     return <div>
       <output>{locale}</output>
-      {(['en-US', 'en-GB', 'ja-JP'] as const).map((candidate) =>
+      {(['en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR'] as const).map((candidate) =>
         <button key={candidate} onClick={() => setLocaleOverride(candidate)}>{candidate}</button>)}
     </div>
   }
 
   render(<LocalizationProvider><Switcher /></LocalizationProvider>)
-  for (const locale of ['en-US', 'en-GB', 'ja-JP']) {
+  for (const locale of [
+    'en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR',
+  ]) {
     await user.click(screen.getByRole('button', { name: locale }))
     expect(screen.getByText(locale, { selector: 'output' })).toBeVisible()
     expect(session.collection).toEqual(collectionBefore)

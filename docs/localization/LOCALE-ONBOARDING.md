@@ -30,11 +30,11 @@ Bethesda’s support matrix currently lists:
 | English | Interface/Text + Voice | Yes | Supported |
 | French | Interface/Text + Voice | Yes | Supported |
 | German | Interface/Text + Voice | Yes | Supported |
-| Spanish (Spain) | Interface/Text + Voice | Yes | Semantic catalogue complete; runtime inactive; reference names pending |
+| Spanish (Spain) | Interface/Text + Voice | Yes | Release closure pending native 200% zoom and Narrator smoke |
 | Japanese | Interface/Text + Voice | Yes | Supported |
-| Italian | Interface/Text | Yes | Semantic catalogue complete; runtime inactive; reference names pending |
+| Italian | Interface/Text | Yes | Release closure pending native 200% zoom and Narrator smoke |
 | Polish | Interface/Text | Yes | Not onboarded |
-| Portuguese (Brazil) | Interface/Text | Yes | Semantic catalogue complete; runtime inactive; reference names pending |
+| Portuguese (Brazil) | Interface/Text | Yes | Release closure pending native 200% zoom and Narrator smoke |
 | Simplified Chinese | Interface/Text | Yes | Not onboarded |
 
 Authority:
@@ -1517,15 +1517,15 @@ unchanged.
 
 ---
 
-## 19.6 Spanish, Italian, and Brazilian Portuguese runtime-integration stage
+## 19.6 Spanish, Italian, and Brazilian Portuguese release-closure profiles
 
-These locales are runtime integrated but are not yet **Supported**:
+These locales are release-closure candidates but are not yet **Supported**:
 
 | Locale | Semantic catalogue | Official reference overlay | Fauna composition | Runtime | Release closure |
 |---|---|---|---|---|---|
-| `es-ES` | Complete | Complete | Provisionally accepted | Integrated | Layout/accessibility pending |
-| `it-IT` | Complete | Complete | Provisionally accepted | Integrated | Layout/accessibility pending |
-| `pt-BR` | Complete | Complete | Provisionally accepted | Integrated | Layout/accessibility pending |
+| `es-ES` | Complete | Complete | Provisionally accepted | Integrated | Native 200% zoom and Narrator smoke pending |
+| `it-IT` | Complete | Complete | Provisionally accepted | Integrated | Native 200% zoom and Narrator smoke pending |
+| `pt-BR` | Complete | Complete | Provisionally accepted | Integrated | Native 200% zoom and Narrator smoke pending |
 
 Their 37-row official terminology artifacts resolve
 the shared 19-term evidence contract, and their approved glossaries are:
@@ -1585,8 +1585,82 @@ descendants. Explicit other regions such as `es-MX`, `it-CH`, and `pt-PT` do not
 map to these catalogues; negotiation continues through later browser
 preferences before applying the ordinary application fallback.
 
-The next stage is manual layout, accessibility, and release-closure QA. Until
-that pass is complete, none of these three locales has **Supported** status.
+### Spanish (Spain) — `es-ES`
+
+- Tracker status: **Release closure pending**. The 414-key semantic catalogue, 37-row
+  terminology contract, 3,561-entity reference overlay, and 922 composed-fauna
+  predictions are complete. Fauna composition remains provisionally accepted
+  from the recorded Codos/Jemison evidence.
+- Runtime selection, conservative `es`/`es-ES` browser mapping, persisted
+  preference, exact `document.lang`, Spanish collation/formatting, localized
+  shortcut speech, canonical-English search aliases, accent folding, and exact
+  `ñ` priority are complete.
+- Windows/Chromium QA passed at 1366px, 1600px, and 200%-equivalent reflow.
+  Keyboard-only dialogs, Search/Search Results, Resource Matrix, Planned
+  Supply, Validation, and focus restoration passed. Import/export visual and
+  live-region feedback includes the localized filename; invalid JSON remains
+  non-destructive. Accented glyphs, `ü`, `ñ`/`Ñ`, `¿`, and `¡` rendered without
+  missing glyphs.
+- `Muy deficiente` is visibly clipped by the frozen Solar/Wind control at
+  desktop widths, while the complete localized value remains available in its
+  accessible name. This is non-blocking presentation pressure and does not
+  authorize shorter copy or geometry changes.
+
+### Italian — `it-IT`
+
+- Tracker status: **Release closure pending**. The 414-key semantic catalogue, 37-row
+  terminology contract, 3,561-entity reference overlay, and 922 composed-fauna
+  predictions are complete. Fauna composition remains provisionally accepted
+  from the recorded Jemison/Ternion III evidence.
+- Runtime selection, conservative `it`/`it-IT` browser mapping, persisted
+  preference, exact `document.lang`, Italian collation/formatting, localized
+  shortcut speech, canonical-English search aliases, accent folding, and
+  straight/curly-apostrophe equivalence are complete. Exact localized spelling
+  retains priority. The apostrophe equivalence is covered by a focused
+  synthetic item-search case because the official names containing U+2019 in
+  the current overlay are outside the resource/product Search population.
+- Windows/Chromium QA passed at 1366px, 1600px, and 200%-equivalent reflow.
+  Keyboard-only dialogs, Search/Search Results, Resource Matrix, Planned
+  Supply, Validation, and focus restoration passed. Import/export visual and
+  live-region feedback includes the localized filename; invalid JSON remains
+  non-destructive. Accented vowels plus curly and straight apostrophes rendered
+  without missing glyphs or malformed elision.
+- `Molto scarso` is visibly clipped by the frozen Solar/Wind control at desktop
+  widths, while the complete localized value remains available in its
+  accessible name. This is non-blocking presentation pressure and does not
+  authorize shorter copy or geometry changes.
+
+### Portuguese (Brazil) — `pt-BR`
+
+- Tracker status: **Release closure pending**. The 414-key semantic catalogue, 37-row
+  terminology contract, 3,561-entity reference overlay, and 922 composed-fauna
+  predictions are complete. Fauna composition remains provisionally accepted
+  from the recorded Montara Luna/Jemison evidence.
+- Runtime selection, conservative `pt`/`pt-BR` browser mapping, persisted
+  preference, exact `document.lang`, Brazilian Portuguese collation/formatting,
+  localized shortcut speech, canonical-English search aliases, diacritic
+  folding, and exact localized priority are complete.
+- Windows/Chromium QA passed at 1366px, 1600px, and 200%-equivalent reflow.
+  Keyboard-only dialogs, Search/Search Results, Resource Matrix, Planned
+  Supply, Validation, and focus restoration passed. Import/export visual and
+  live-region feedback includes the localized filename; invalid JSON remains
+  non-destructive. Acute, circumflex, grave, tilde, cedilla, diaeresis, and
+  uppercase accented forms rendered without missing glyphs. `Muito ruim`
+  remains usable in the frozen Solar/Wind control.
+
+For all three profiles, automated catalogue, terminology, provenance,
+reference-name, search, collation, browser-mapping, document-language, and
+runtime regression gates pass. Accessible names, descriptions, dialog names,
+shortcut speech, and live regions expose complete localized semantics without
+obvious English fallback. Audible Narrator verification and true
+browser-controlled 200% zoom could not be exercised in the release-closure
+environment. The established Windows/Chromium semantic baseline,
+constrained-width 200%-equivalent reflow, and automated/component coverage
+passed, but the two explicit manual gates must be completed before Supported
+status is recorded. Native-speaker review was unavailable and is desirable but
+non-blocking. Apple/WebKit remains deferred. Working XLIFF files remain in place
+until all planned localization is complete, and Polish plus Simplified Chinese
+remain outstanding.
 
 ---
 
