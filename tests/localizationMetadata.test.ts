@@ -31,4 +31,9 @@ test('runtime-supported locales agree with locale metadata and selector registra
   assert.equal(resolveBrowserLocale(['pt-BR']), 'pt-BR')
   assert.equal(resolveBrowserLocale(['pl-PL']), 'pl-PL')
   assert.equal(supportedLocaleIds.includes('pl-PL'), true)
+  assert.equal(metadata.locales.some(({ trackerLocale, runtimeAvailable }) =>
+    trackerLocale === 'zh-Hans' && runtimeAvailable === false), true)
+  assert.equal(getLocaleSelectorOptions('en-US').some(({ value }) => value === ('zh-Hans' as string)), false)
+  assert.equal(resolveBrowserLocale(['zh', 'zh-Hans', 'zh-CN']), 'en-US')
+  assert.equal(resolveBrowserLocale(['zh-Hant', 'fr-FR']), 'fr-FR')
 })

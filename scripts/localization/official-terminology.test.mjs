@@ -123,6 +123,15 @@ test('staged terminology locales resolve complete deterministic official values 
   assert.throws(() => localizationVerificationCommands('xx-XX'), /UNSUPPORTED_LOCALE/)
 })
 
+test('Simplified Chinese terminology and locale closure route to deterministic missing staged artifacts', async () => {
+  assert.deepEqual(localizationVerificationCommands('zh-Hans'), [
+    ['validate-localized-name-provenance.mjs'],
+    ['verify-official-terminology.mjs', '--locale', 'zh-Hans'],
+    ['verify-reference-name-overlay.mjs', '--locale', 'zh-Hans'],
+  ])
+  await assert.rejects(() => verifyOfficialTerminology('zh-Hans'), /TERMINOLOGY_VALUES_MISSING:.*official-terminology-values-zh-Hans\.csv/)
+})
+
 test('Polish terminology closes deterministically under strict UTF-8', async () => {
   assert.deepEqual(await verifyOfficialTerminology('pl-PL'), { rows: 37, terms: 19, locale: 'pl-PL', values: 37 })
   assert.deepEqual(localizationVerificationCommands('pl-PL'), [

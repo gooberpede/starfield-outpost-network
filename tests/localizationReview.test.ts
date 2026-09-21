@@ -32,6 +32,13 @@ function validateCodexTranslation(key: keyof typeof enUSMessages, translation: s
   parseAndValidateReviewCsv(serializeReviewRows(rows), 'de-DE')
 }
 
+function validateSimplifiedChineseTranslation(key: keyof typeof enUSMessages, translation: string): void {
+  const rows = createReviewRows('zh-Hans').map((row) => row.Key === key
+    ? { ...row, CodexTranslation: translation }
+    : row)
+  parseAndValidateReviewCsv(serializeReviewRows(rows), 'zh-Hans')
+}
+
 test('review rows are deterministic, locale-specific, and hash exact English sources', () => {
   const first = createReviewCsv('fr-FR')
   assert.equal(first, createReviewCsv('fr-FR'))
@@ -127,6 +134,114 @@ test('staged draft English-residue detection reports ordinary source words and e
     accidentalEnglishResidueOf('Export all networks to JSON', 'Eksportuj all networks do JSON', 'pl-PL'),
     ['all', 'networks'],
   )
+})
+
+test('Simplified Chinese residue checks catch copied English across Han boundaries and preserve invariants', () => {
+  for (const translation of [
+    'Validation status',
+    '验证 Validation status',
+    '资源Validation状态',
+    '资源Validation状态检查',
+  ]) {
+    assert.ok(accidentalEnglishResidueOf('Validation status', translation, 'zh-Hans').includes('validation'))
+  }
+  assert.deepEqual(
+    accidentalEnglishResidueOf(
+      'Starfield JSON FormID X-Tech HTTP HTTPS Ctrl Alt Shift config.json',
+      '合法中文Starfield JSON FormID X-Tech HTTP HTTPS Ctrl Alt Shift config.json文本',
+      'zh-Hans',
+    ),
+    [],
+  )
+  assert.throws(
+    () => createReviewRows('zh-Hans', { 'about.closeDialog': 'Close About dialog' }),
+    /REVIEW_ACCIDENTAL_ENGLISH: zh-Hans:about\.closeDialog: about, close, dialog/,
+  )
+  assert.throws(
+    () => createReviewRows('zh-Hans', { 'about.closeDialog': 'Texto' }),
+    /REVIEW_CHINESE_PROSE_MISSING: zh-Hans:about\.closeDialog/,
+  )
+  assert.doesNotThrow(() => createReviewRows('zh-Hans', { 'about.closeDialog': '关闭“关于”对话框' }))
+})
+
+test('Simplified Chinese staging keeps review routing explicit before glossary values exist', () => {
+  assert.throws(
+    () => reviewRouteForLocale('zh-Hans'),
+    /REVIEW_DRAFT_MISSING: zh-Hans requires an independent draft at src\/localization\/reviewDrafts\/zh-Hans\.ts\. Staged locale onboarding is incomplete\./,
+  )
+  assert.ok(createReviewRows('zh-Hans').every(({ OfficialTermConstraints }) => !OfficialTermConstraints))
+})
+
+test('Simplified Chinese plural and placeholder contracts preserve shared structure', () => {
+  assert.deepEqual([0, 1, 2, 10].map((count) => new Intl.PluralRules('zh-Hans').select(count)), [
+    'other', 'other', 'other', 'other',
+  ])
+  const neutral = '{count}: {count, plural, one {货运链接} other {货运链接}}'
+  assert.equal(hasValidPluralSyntax(neutral), true)
+  assert.equal(parametersOf(neutral).includes('count'), true)
+  assert.equal(hasValidPluralSyntax('{count, plural, one {一个} other {多个} few {少量}}'), false)
+
+  for (const placeholder of [
+    'item', 'resource', 'product', 'outpost', 'system', 'body', 'skill', 'name', 'previousName',
+    'count', 'itemList', 'contents', 'destination',
+  ]) {
+    assert.deepEqual(parametersOf(`中文{${placeholder}}文本`), [placeholder])
+  }
+
+  for (const [key, translation] of [
+    ['common.removeItem', '移除 {item}'],
+    ['history.addLocalResource', '将本地资源 {resource} 添加到 {outpost}'],
+    ['validation.manufacturingInputUnavailable', '{product} 需要 {input}'],
+    ['history.changeSystem', '将 {outpost} 的星系更改为 {system}'],
+    ['history.changeBody', '将 {outpost} 的天体更改为 {body}'],
+    ['history.clearSkill', '清除 {skill}'],
+    ['history.renameOutpost', '将哨站 {previousName} 重命名为 {name}'],
+    ['cargo.destination.padContentsLinked', '{pad}：({contents}) — 已链接至 {destination}'],
+    ['validation.plannedSupplyUnresolved',
+      '{count} {count, plural, one {计划供应中的项目} other {计划供应中的项目}}：{itemList}。'],
+  ] as const) assert.doesNotThrow(() => validateSimplifiedChineseTranslation(key, translation), key)
+
+  assert.throws(() => validateSimplifiedChineseTranslation('common.removeItem', '移除项目'), /REVIEW_INVALID_PLACEHOLDERS/)
+  assert.throws(() => validateSimplifiedChineseTranslation('common.removeItem', '移除 {物品}'), /REVIEW_INVALID_PLACEHOLDERS/)
+  assert.throws(() => validateSimplifiedChineseTranslation('common.removeItem', '移除 {item} {unknown}'), /REVIEW_INVALID_PLACEHOLDERS/)
+  assert.throws(() => validateSimplifiedChineseTranslation(
+    'cargo.pad.count',
+    '{count} {count, plural, one {货运链接} few {货运链接} other {货运链接}}',
+  ), /REVIEW_INVALID_PLURAL_SYNTAX/)
+  assert.throws(() => validateSimplifiedChineseTranslation('transfer.export.tooltip', '导出所有网络到 Json'),
+    /REVIEW_INVALID_PROTECTED_TOKEN/)
+})
+
+test('Simplified Chinese DeepL quality failures remain evidence but cannot become final text', () => {
+  const review = createReviewCsv('zh-Hans')
+  const xliff = createReviewXliff(createReviewRows('zh-Hans'), 'zh-Hans')
+  const sourceAsTarget = xliff.replace(/<target state="new"><\/target>/g, (_target, offset: number) => {
+    const unitStart = xliff.lastIndexOf('<trans-unit', offset)
+    const unitEnd = xliff.indexOf('</trans-unit>', offset)
+    const source = xliff.slice(unitStart, unitEnd).match(/<source>([\s\S]*?)<\/source>/)?.[1] ?? ''
+    return `<target state="translated">${source}</target>`
+  })
+  const withMissingChineseProse = sourceAsTarget.replace(
+    /(<trans-unit id="about\.closeDialog"[\s\S]*?<target[^>]*>)[\s\S]*?(<\/target>)/,
+    '$1Texto$2',
+  )
+  const importedSource = importReviewXliff(review, withMissingChineseProse, 'zh-Hans')
+  const imported = parseAndValidateReviewCsv(importedSource, 'zh-Hans')
+  assert.equal(imported.find(({ Key }) => Key === 'validation.heading')?.DeepLTranslation, 'Validation')
+  assert.equal(imported.find(({ Key }) => Key === 'about.closeDialog')?.DeepLTranslation, 'Texto')
+
+  const approveDeepL = (key: keyof typeof enUSMessages) => serializeReviewRows(imported.map((row) => row.Key === key
+    ? {
+        ...row,
+        AdjudicationDecision: 'DEEPL' as const,
+        FinalTranslation: row.DeepLTranslation,
+        ReviewerNote: 'The machine candidate is retained as evidence but must satisfy final Chinese quality validation.',
+      }
+    : row))
+  assert.throws(() => parseAndValidateReviewCsv(approveDeepL('validation.heading'), 'zh-Hans'),
+    /REVIEW_ACCIDENTAL_ENGLISH/)
+  assert.throws(() => parseAndValidateReviewCsv(approveDeepL('about.closeDialog'), 'zh-Hans'),
+    /REVIEW_CHINESE_PROSE_MISSING/)
 })
 
 test('Polish constraints can be generated independently of a supplied semantic draft', () => {

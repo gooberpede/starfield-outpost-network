@@ -88,6 +88,9 @@ type ConstraintValue = string | {
 }
 
 const constraintValuesByLocale: Readonly<Record<string, Readonly<Record<string, ConstraintValue>>>> = {
+  // Registered before glossary content exists; review routing still fails on
+  // the absent draft, while public validators can exercise the staged contract.
+  'zh-Hans': {},
   'pl-PL': {
     'term.inter-system-cargo-link': { value: 'Międzyukładowe połączenie towarowe', strategy: 'semantic-concept', variants: ['międzyukładowe połączenie towarowe', 'połączenie towarowe międzyukładowe'] },
     'term.cargo-link': { value: 'Połączenie towarowe', strategy: 'semantic-concept' },
@@ -403,7 +406,7 @@ export function protectedTokensOf(template: string): string[] {
 }
 
 const accidentalEnglishInvariantTokens = [
-  ...protectedTokenCandidates, 'Starfield', 'X-Tech', 'Tec-X', 'HTTP', 'hash',
+  ...protectedTokenCandidates, 'Starfield', 'X-Tech', 'Tec-X', 'HTTPS', 'HTTP', 'Alt', 'hash',
 ] as const
 
 const accidentalEnglishAllowedWords: Readonly<Record<string, ReadonlySet<string>>> = {
@@ -412,6 +415,7 @@ const accidentalEnglishAllowedWords: Readonly<Record<string, ReadonlySet<string>
   'pt-BR': new Set(['fauna', 'flora', 'item', 'normal', 'norm', 'original', 'solar', 'local', 'status', 'standard']),
   // These are ordinary Polish cognates, not broad technical-English exemptions.
   'pl-PL': new Set(['status', 'system']),
+  'zh-Hans': new Set(),
 }
 
 const suspiciousShortEnglishWords = new Set([
@@ -433,14 +437,43 @@ export function accidentalEnglishResidueOf(english: string, translation: string,
   const allowed = accidentalEnglishAllowedWords[locale]
   if (!allowed) return []
   const stripInvariants = (value: string) => {
-    let result = value.replace(/\{\w+(?:, plural, one \{[^{}]*\} other \{[^{}]*\})?\}/g, ' ')
+    let result = value
+      .replace(/\{\w+, plural, one \{([^{}]*)\} other \{([^{}]*)\}\}/g, '$1 $2')
+      .replace(/\{\w+\}/g, ' ')
     for (const token of accidentalEnglishInvariantTokens) result = result.replaceAll(token, ' ')
     return result.replace(/\b[\w-]+\.(?:json|csv|xliff|ts|tsx|js|mjs)\b/gi, ' ')
   }
-  const sourceWords = new Set(wordsOf(stripInvariants(english)))
-  const suspicious = wordsOf(stripInvariants(translation)).filter((word) =>
+  const sourceWords = new Set((locale === 'zh-Hans'
+    ? stripInvariants(english).match(/[A-Za-z]+/g)?.map((word) => word.toLocaleLowerCase('en-US')) ?? []
+    : wordsOf(stripInvariants(english))))
+  const translationWords = locale === 'zh-Hans'
+    ? stripInvariants(translation).match(/[A-Za-z]+/g)?.map((word) => word.toLocaleLowerCase('en-US')) ?? []
+    : wordsOf(stripInvariants(translation))
+  const suspicious = translationWords.filter((word) =>
     (word.length >= 4 || suspiciousShortEnglishWords.has(word)) && sourceWords.has(word) && !allowed.has(word))
   return [...new Set(suspicious)].sort()
+}
+
+/** Full Chinese prose must contain localized content after shared invariants are removed. */
+function lacksSimplifiedChineseProse(english: string, translation: string): boolean {
+  const stripInvariants = (value: string) => {
+    let result = value
+      .replace(/\{\w+, plural, one \{([^{}]*)\} other \{([^{}]*)\}\}/g, '$1 $2')
+      .replace(/\{\w+\}/g, ' ')
+    for (const token of accidentalEnglishInvariantTokens) result = result.replaceAll(token, ' ')
+    return result
+      .replace(/\b[\w-]+\.(?:json|csv|xliff|ts|tsx|js|mjs)\b/gi, ' ')
+      .replace(/\b(?:[A-Z]-?){2,}\b/g, ' ')
+  }
+  const sourceRequiresProse = /[A-Za-z]{2,}/.test(stripInvariants(english))
+  return sourceRequiresProse && !/[\p{Script=Han}]/u.test(stripInvariants(translation))
+}
+
+function translationQualityIssueOf(english: string, translation: string, locale: string): string | undefined {
+  const residue = accidentalEnglishResidueOf(english, translation, locale)
+  if (residue.length) return `ACCIDENTAL_ENGLISH: ${residue.join(', ')}`
+  if (locale === 'zh-Hans' && lacksSimplifiedChineseProse(english, translation)) return 'CHINESE_PROSE_MISSING'
+  return undefined
 }
 
 function riskOf(key: MessageKey): ReviewRisk {
@@ -469,6 +502,7 @@ function constraintsOf(key: MessageKey, locale: string): string {
   const localeValues = constraintValuesByLocale[locale]
   if (!localeValues && constraintExemptLocales.has(locale)) return ''
   if (!localeValues) throw new Error(`REVIEW_CONSTRAINTS_MISSING: No approved glossary constraints exist for ${locale}.`)
+  if (!Object.keys(localeValues).length) return ''
   return applicable
     .map((constraint) => {
       const value = localeValues[constraint.id]
@@ -487,7 +521,7 @@ export function comparisonStatus(codex: string, deepL: string): ReviewComparison
   return typographic(codex) === typographic(deepL) ? 'TYPOGRAPHIC_ONLY' : 'SUBSTANTIVE'
 }
 
-function translationTokenIssue(english: string, translation: string): string | undefined {
+function translationStructureIssueOf(english: string, translation: string): string | undefined {
   if (!hasValidPluralSyntax(translation)) return 'PLURAL_SYNTAX'
   if (JSON.stringify(pluralParametersOf(translation)) !== JSON.stringify(pluralParametersOf(english))) return 'PLURAL_SYNTAX'
   if (JSON.stringify(parametersOf(translation)) !== JSON.stringify(parametersOf(english))) return 'PLACEHOLDERS'
@@ -501,6 +535,9 @@ export function createReviewRows(locale: string, translations: Partial<MessageCa
     const codex = translations[key] ?? ''
     const residue = codex ? accidentalEnglishResidueOf(english, codex, locale) : []
     if (residue.length) throw new Error(`REVIEW_ACCIDENTAL_ENGLISH: ${locale}:${key}: ${residue.join(', ')}`)
+    if (codex && locale === 'zh-Hans' && lacksSimplifiedChineseProse(english, codex)) {
+      throw new Error(`REVIEW_CHINESE_PROSE_MISSING: ${locale}:${key}`)
+    }
     return {
       Key: key, Locale: locale, EnglishSource: english, EnglishSourceSha256: englishSourceSha256(english),
       Context: contextOf(key), Risk: riskOf(key),
@@ -616,7 +653,7 @@ export function importReviewXliff(
     if (unit.source !== row.EnglishSource || unit.sourceHash !== row.EnglishSourceSha256) throw new Error(`XLIFF_STALE_SOURCE: ${row.Key}`)
     const translated = unit.target
     if (!translated) throw new Error(`XLIFF_MISSING_TRANSLATION: ${row.Key}`)
-    const tokenIssue = translationTokenIssue(row.EnglishSource, translated)
+    const tokenIssue = translationStructureIssueOf(row.EnglishSource, translated)
     if (tokenIssue && !options.recordInvalidTokens) {
       throw new Error(`XLIFF_INVALID_${tokenIssue}: ${row.Key}`)
     }
@@ -650,17 +687,21 @@ export function parseAndValidateReviewCsv(source: string, locale: string): Revie
     if (english === undefined) throw new Error(`REVIEW_UNKNOWN_KEY: ${row.Key}`)
     if (row.EnglishSource !== english || row.EnglishSourceSha256 !== englishSourceSha256(english)) throw new Error(`REVIEW_STALE_SOURCE: ${row.Key}`)
     if (row.OfficialTermConstraints !== constraintsOf(row.Key, locale)) throw new Error(`REVIEW_CONSTRAINTS_STALE: ${row.Key}`)
-    const expectedComparison = row.DeepLTranslation && translationTokenIssue(english, row.DeepLTranslation)
+    const expectedComparison = row.DeepLTranslation && translationStructureIssueOf(english, row.DeepLTranslation)
       ? 'INVALID_TOKENS'
       : comparisonStatus(row.CodexTranslation, row.DeepLTranslation)
     if (row.ComparisonStatus !== expectedComparison) throw new Error(`REVIEW_COMPARISON_STATUS_INVALID: ${row.Key}`)
     for (const field of ['CodexTranslation', 'FinalTranslation'] as const) {
       if (!row[field]) continue
-      const issue = translationTokenIssue(english, row[field])
+      const issue = translationStructureIssueOf(english, row[field])
       if (issue) throw new Error(`REVIEW_INVALID_${issue}: ${row.Key}:${field}`)
+      if (locale === 'zh-Hans') {
+        const qualityIssue = translationQualityIssueOf(english, row[field], locale)
+        if (qualityIssue) throw new Error(`REVIEW_${qualityIssue}: ${row.Key}:${field}`)
+      }
     }
     if (row.DeepLTranslation && row.ComparisonStatus !== 'INVALID_TOKENS') {
-      const issue = translationTokenIssue(english, row.DeepLTranslation)
+      const issue = translationStructureIssueOf(english, row.DeepLTranslation)
       if (issue) throw new Error(`REVIEW_INVALID_${issue}: ${row.Key}:DeepLTranslation`)
     }
     validateAdjudication(row)

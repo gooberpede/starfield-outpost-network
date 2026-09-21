@@ -63,6 +63,13 @@
       "stringTableEncoding": "utf-8",
       "catalogueRole": "full",
       "runtimeAvailable": true
+    },
+    {
+      "trackerLocale": "zh-Hans",
+      "bethesdaToken": "zhhans",
+      "stringTableEncoding": "utf-8",
+      "catalogueRole": "full",
+      "runtimeAvailable": false
     }
   ]
 }

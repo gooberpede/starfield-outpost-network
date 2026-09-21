@@ -17,6 +17,8 @@ test('locale metadata maps tracker identities, Bethesda tokens, encodings, and r
   assert.equal(encodingForKnownLocale('de-DE'), 'utf-8')
   assert.equal(encodingForKnownLocale('pl'), 'utf-8')
   assert.equal(encodingForKnownLocale('pl-PL'), 'utf-8')
+  assert.equal(encodingForKnownLocale('zhhans'), 'utf-8')
+  assert.equal(encodingForKnownLocale('zh-Hans'), 'utf-8')
   assert.equal(localeMetadataFor('fr-FR').runtimeAvailable, true)
   assert.equal(localeMetadataFor('de-DE').runtimeAvailable, true)
   assert.equal(localeMetadataFor('fr-FR').catalogueRole, 'full')
@@ -66,6 +68,25 @@ test('locale metadata maps tracker identities, Bethesda tokens, encodings, and r
     sidecar: 'reference-source/localized-reference-names-pl-PL-manifest.json',
     faunaEvidence: 'reference-source/localized-fauna-evidence-pl-PL.json',
   })
+
+  assert.deepEqual(localeMetadataFor('zh-Hans'), {
+    trackerLocale: 'zh-Hans', bethesdaToken: 'zhhans', stringTableEncoding: 'utf-8',
+    catalogueRole: 'full', runtimeAvailable: false,
+  })
+  assert.deepEqual(localizationArtifactNames('zhhans'), {
+    trackerLocale: 'zh-Hans',
+    review: 'docs/localization/zh-Hans-review.csv',
+    xliff: 'docs/localization/zh-Hans-deepl.xliff',
+    reviewDraft: 'src/localization/reviewDrafts/zh-Hans.ts',
+    catalogue: 'src/localization/locales/zh-Hans.ts',
+    catalogueExport: 'zhHansMessages',
+    terminologyValues: 'reference-source/official-terminology-values-zh-Hans.csv',
+    module: 'src/localization/generated/zh-Hans-reference-names.ts',
+    sidecar: 'reference-source/localized-reference-names-zh-Hans-manifest.json',
+    faunaEvidence: 'reference-source/localized-fauna-evidence-zh-Hans.json',
+  })
+  assert.deepEqual(Intl.getCanonicalLocales('zh-Hans'), ['zh-Hans'])
+  assert.notEqual(Intl.getCanonicalLocales('zh-Hant')[0], 'zh-Hans')
 })
 
 test('locale metadata identities are unique and unsupported values fail closed', () => {
@@ -79,4 +100,11 @@ test('Polish reference overlay routing verifies deterministic runtime artifacts'
   assert.equal(result.provenanceRows, 4818)
   assert.equal(result.evidenceStatus, 'provisionally-accepted')
   assert.equal(localeMetadataFor('pl-PL').runtimeAvailable, true)
+})
+
+test('staged Simplified Chinese reference overlay routing fails at deterministic absent outputs', async () => {
+  await assert.rejects(
+    () => verifyCommittedReferenceNameOverlay(undefined, 'zh-Hans'),
+    /REFERENCE_NAME_ARTIFACT_MISSING: zh-Hans requires .*zh-Hans-reference-names\.ts/,
+  )
 })

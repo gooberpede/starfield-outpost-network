@@ -151,7 +151,7 @@ test('decodes string tables with an explicit locale policy', () => {
   assert.equal(encodingForLocale('de'), 'utf-8')
   assert.equal(encodingForLocale('de-DE'), 'utf-8')
   assert.equal(encodingForLocale('ja-JP'), 'utf-8')
-  for (const locale of ['es', 'es-ES', 'it', 'it-IT', 'ptbr', 'pt-BR', 'pl', 'pl-PL']) {
+  for (const locale of ['es', 'es-ES', 'it', 'it-IT', 'ptbr', 'pt-BR', 'pl', 'pl-PL', 'zhhans', 'zh-Hans']) {
     assert.equal(encodingForLocale(locale), 'utf-8')
   }
   assert.throws(
@@ -161,7 +161,7 @@ test('decodes string tables with an explicit locale policy', () => {
 })
 
 test('malformed UTF-8 fails without byte sniffing or fallback', () => {
-  for (const locale of ['fr', 'de', 'ja', 'es', 'it', 'ptbr', 'pl']) {
+  for (const locale of ['fr', 'de', 'ja', 'es', 'it', 'ptbr', 'pl', 'zhhans', 'zh-Hans']) {
     const tablePath = tempFile(`fixture_${locale}.strings`)
     const malformed = tableBytes(1, 'xx')
     malformed[16] = 0xC3
