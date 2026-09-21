@@ -6,6 +6,7 @@ import { jaJPMessages } from './locales/ja-JP.ts'
 import { esESMessages } from './locales/es-ES.ts'
 import { itITMessages } from './locales/it-IT.ts'
 import { ptBRMessages } from './locales/pt-BR.ts'
+import { plPLMessages } from './locales/pl-PL.ts'
 import type { LocaleMetadata, LocaleOverrides, SupportedLocale } from './types.ts'
 
 export interface LocaleRegistration extends LocaleMetadata {
@@ -37,5 +38,8 @@ export const localeRegistry: Record<SupportedLocale, LocaleRegistration> = {
   },
   'pt-BR': {
     id: 'pt-BR', shortLabel: 'PT-BR', displayName: 'Português (Brasil)', messages: ptBRMessages,
+  },
+  'pl-PL': {
+    id: 'pl-PL', shortLabel: 'PL-PL', displayName: 'Polski (Polska)', messages: plPLMessages,
   },
 }

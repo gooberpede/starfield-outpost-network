@@ -62,7 +62,7 @@
       "bethesdaToken": "pl",
       "stringTableEncoding": "utf-8",
       "catalogueRole": "full",
-      "runtimeAvailable": false
+      "runtimeAvailable": true
     }
   ]
 }

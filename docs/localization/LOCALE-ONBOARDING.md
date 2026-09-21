@@ -33,7 +33,7 @@ Bethesda’s support matrix currently lists:
 | Spanish (Spain) | Interface/Text + Voice | Yes | Supported |
 | Japanese | Interface/Text + Voice | Yes | Supported |
 | Italian | Interface/Text | Yes | Supported |
-| Polish | Interface/Text | Yes | Not onboarded |
+| Polish | Interface/Text | Yes | Runtime integrated; release closure pending |
 | Portuguese (Brazil) | Interface/Text | Yes | Supported |
 | Simplified Chinese | Interface/Text | Yes | Not onboarded |
 
@@ -47,10 +47,9 @@ The tracker is text/UI software, so Bethesda’s distinction between voice-suppo
 
 There is no required onboarding order. Japanese was deliberately onboarded early because it was likely to expose architectural weaknesses involving non-Latin script, font fallback, string length, composition, search, collation, and layout. Future additions do **not** need to proceed hardest-first.
 
-The remaining V1 targets are Polish and Simplified Chinese. Neither is
-onboarded, both deserve focused individual onboarding, and this document does
-not choose which should be next. Final locale-selector ordering will be reviewed
-after both are complete.
+Polish is runtime integrated with release closure pending. Simplified Chinese
+remains the final V1 target that is not onboarded. Final locale-selector ordering
+will be reviewed after both locale workstreams are complete.
 
 ---
 
@@ -1695,8 +1694,8 @@ These are planning considerations only, not implementation commitments.
 ## Latin-script locales
 
 French, German, Spanish (Spain), Italian, and Portuguese (Brazil) have verified
-the baseline Latin typography stack. Polish remains not onboarded and must make
-its own explicit typography decision during its focused onboarding.
+the baseline Latin typography stack. Polish uses the existing Latin stack at
+runtime, with final typography verification deferred to release closure.
 
 Potential issues include:
 
@@ -1710,10 +1709,11 @@ Potential issues include:
 
 ## Polish
 
-Polish is a remaining V1 target and is not onboarded. This document does not
-choose it ahead of Simplified Chinese.
+Polish is runtime integrated with its complete semantic catalogue and official
+reference overlay. It is not yet **Supported** because the final layout,
+accessibility, and release-closure matrix remains pending.
 
-Potential concerns to investigate only when onboarding begins:
+Release-closure concerns still requiring focused verification include:
 
 - inflection and grammatical case in tracker-authored parameterized messages;
 - string length;
@@ -1721,7 +1721,10 @@ Potential concerns to investigate only when onboarding begins:
 - diacritic rendering;
 - whether current message composition assumes English-like grammar.
 
-Do not implement Polish-specific grammar machinery in advance.
+Runtime Search uses lower-ranked decomposition folding plus the narrow
+search-only `ł` to `l` equivalence. Browser mapping accepts bare `pl`, exact
+`pl-PL`, and descendants of `pl-PL`; explicit other regional `pl-*` tags
+continue to later preferences. Polish remains runtime-available, not Supported.
 
 ## Simplified Chinese
 

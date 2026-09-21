@@ -21,6 +21,7 @@ import { getExportTooltip, getInorganicPresentTooltip } from '../src/ui/statusTo
 import { formatDecimal, formatInteger, formatList, formatPercent, getCollator } from '../src/localization/formatters.ts'
 import { enUSMessages } from '../src/localization/locales/en-US.ts'
 import { enGBMessages } from '../src/localization/locales/en-GB.ts'
+import { supportedLocaleIds } from '../src/localization/types.ts'
 import { setDocumentLanguage } from '../src/localization/documentLanguage.ts'
 import { getImportFailurePresentation } from '../src/ui/importErrorPresentation.ts'
 import { NetworkImportError } from '../src/data/importErrors.ts'
@@ -62,7 +63,7 @@ test('browser locale resolution maps supported French and German language famili
   assert.equal(resolveBrowserLocale(['xx-YY', 'en-US']), 'en-US')
 })
 
-test('browser locale resolution conservatively maps Spanish, Italian, and Brazilian Portuguese', () => {
+test('browser locale resolution conservatively maps regional runtime locales', () => {
   for (const language of ['es', 'es-ES', 'es-ES-x-private', 'ES-es-u-nu-latn']) {
     assert.equal(resolveBrowserLocale([language]), 'es-ES', language)
   }
@@ -72,12 +73,17 @@ test('browser locale resolution conservatively maps Spanish, Italian, and Brazil
   for (const language of ['pt', 'pt-BR', 'pt-BR-x-private', 'PT-br-u-nu-latn']) {
     assert.equal(resolveBrowserLocale([language]), 'pt-BR', language)
   }
+  for (const language of ['pl', 'pl-PL', 'pl-PL-x-private', 'PL-pl-u-nu-latn']) {
+    assert.equal(resolveBrowserLocale([language]), 'pl-PL', language)
+  }
 
   assert.equal(resolveBrowserLocale(['es-MX', 'en-US']), 'en-US')
   assert.equal(resolveBrowserLocale(['es-AR', 'fr-FR']), 'fr-FR')
   assert.equal(resolveBrowserLocale(['it-CH', 'de-DE']), 'de-DE')
   assert.equal(resolveBrowserLocale(['pt-PT', 'en-US']), 'en-US')
   assert.equal(resolveBrowserLocale(['pt-PT', 'es-ES']), 'es-ES')
+  assert.equal(resolveBrowserLocale(['pl-UA', 'fr-FR']), 'fr-FR')
+  assert.equal(resolveBrowserLocale(['pl-LT', 'en-US']), 'en-US')
 })
 
 test('application preferences persist separately and recover invalid values as Automatic', () => {
@@ -85,7 +91,7 @@ test('application preferences persist separately and recover invalid values as A
   assert.deepEqual(loadApplicationPreferences(storage), { localeOverride: null })
 
   for (const localeOverride of [
-    null, 'en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR',
+    null, 'en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR', 'pl-PL',
   ] as const) {
     saveApplicationPreferences({ localeOverride }, storage)
     assert.deepEqual(loadApplicationPreferences(storage), { localeOverride })
@@ -117,10 +123,12 @@ test('selector model exposes the effective closed label and dynamic Automatic ro
     { value: 'es-ES', label: 'Español (España)' },
     { value: 'it-IT', label: 'Italiano (Italia)' },
     { value: 'pt-BR', label: 'Português (Brasil)' },
+    { value: 'pl-PL', label: 'Polski (Polska)' },
   ])
   assert.equal(getLocaleSelectorOptions('es-ES')[0].label, 'Automatic (ES-ES)')
   assert.equal(getLocaleSelectorOptions('it-IT')[0].label, 'Automatic (IT-IT)')
   assert.equal(getLocaleSelectorOptions('pt-BR')[0].label, 'Automatic (PT-BR)')
+  assert.equal(getLocaleSelectorOptions('pl-PL')[0].label, 'Automatic (PL-PL)')
   assert.equal(resolveEffectiveLocale('en-US', ['en-GB']), 'en-US')
 
   const session = createCollectionEditingSession(createDefaultNetworkCollection())
@@ -246,7 +254,7 @@ test('collection import and export are locale-independent for every supported pr
   ]
   const fixture = serializeNetworkCollection(collection)
 
-  const results = (['en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE'] as const).map((localeOverride) => {
+  const results = supportedLocaleIds.map((localeOverride) => {
     saveApplicationPreferences({ localeOverride }, storage)
     const imported = deserializeNetworkCollection(fixture)
     return {
@@ -263,9 +271,7 @@ test('collection import and export are locale-independent for every supported pr
     assert.deepEqual(result.networkIds, ['stable-network'])
     assert.deepEqual(result.outpostIds, ['stable-outpost'])
   }
-  assert.deepEqual(results.map(({ localeOverride }) => localeOverride), [
-    'en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE',
-  ])
+  assert.deepEqual(results.map(({ localeOverride }) => localeOverride), [...supportedLocaleIds])
 })
 
 test('skill history labels use official names in the locale active at render time', () => {
@@ -286,6 +292,7 @@ test('locale-aware list formatting owns conjunction and punctuation', () => {
   assert.equal(formatList('en-GB', ['Aluminium', 'Iron']), 'Aluminium and Iron')
   assert.equal(formatList('fr-FR', ['Aluminium', 'Fer']), 'Aluminium et Fer')
   assert.equal(formatList('de-DE', ['Aluminium', 'Eisen']), 'Aluminium und Eisen')
+  assert.equal(formatList('pl-PL', ['Glin', 'Żelazo']), 'Glin i Żelazo')
 })
 
 test('locale-aware number helpers and collator use Intl presentation', () => {
@@ -300,6 +307,11 @@ test('locale-aware number helpers and collator use Intl presentation', () => {
   assert.equal(new Intl.PluralRules('de-DE').select(2), 'other')
   assert.ok(getCollator('fr-FR').compare('Item 2', 'Item 10') < 0)
   assert.ok(getCollator('de-DE').compare('Item 2', 'Item 10') < 0)
+  assert.equal(formatInteger('pl-PL', 1234), new Intl.NumberFormat('pl-PL', { maximumFractionDigits: 0 }).format(1234))
+  assert.equal(formatDecimal('pl-PL', 2 / 3), '0,67')
+  assert.equal(formatPercent('pl-PL', 0.25), '25%')
+  assert.equal(new Intl.PluralRules('pl-PL').select(2), 'few')
+  assert.ok(getCollator('pl-PL').compare('Element 2', 'Element 10') < 0)
 })
 
 test('document language follows initial and switched effective locale', () => {
@@ -318,6 +330,10 @@ test('document language follows initial and switched effective locale', () => {
   assert.equal(target.documentElement.lang, 'it-IT')
   setDocumentLanguage('pt-BR', target)
   assert.equal(target.documentElement.lang, 'pt-BR')
+  setDocumentLanguage('pl-PL', target)
+  assert.equal(target.documentElement.lang, 'pl-PL')
+  setDocumentLanguage('en-GB', target)
+  assert.equal(target.documentElement.lang, 'en-GB')
 })
 
 test('known import failures use stable descriptors and retain diagnostics', () => {

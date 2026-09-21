@@ -18,6 +18,7 @@ const conservativeRegionalLocales: Readonly<Record<string, SupportedLocale>> = {
   es: 'es-ES',
   it: 'it-IT',
   pt: 'pt-BR',
+  pl: 'pl-PL',
 }
 
 export function isSupportedLocale(value: unknown): value is SupportedLocale {

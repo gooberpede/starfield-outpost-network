@@ -52,7 +52,7 @@ test('locale metadata maps tracker identities, Bethesda tokens, encodings, and r
 
   assert.deepEqual(localeMetadataFor('pl-PL'), {
     trackerLocale: 'pl-PL', bethesdaToken: 'pl', stringTableEncoding: 'utf-8',
-    catalogueRole: 'full', runtimeAvailable: false,
+    catalogueRole: 'full', runtimeAvailable: true,
   })
   assert.deepEqual(localizationArtifactNames('pl'), {
     trackerLocale: 'pl-PL',
@@ -73,10 +73,10 @@ test('locale metadata identities are unique and unsupported values fail closed',
   assert.throws(() => localeMetadataFor('xx-XX'), /UNSUPPORTED_LOCALE/)
 })
 
-test('staged Polish reference overlay routing verifies deterministic artifacts while runtime stays inactive', async () => {
+test('Polish reference overlay routing verifies deterministic runtime artifacts', async () => {
   const result = await verifyCommittedReferenceNameOverlay(undefined, 'pl-PL')
   assert.equal(result.entityCount, 3561)
   assert.equal(result.provenanceRows, 4818)
   assert.equal(result.evidenceStatus, 'provisionally-accepted')
-  assert.equal(localeMetadataFor('pl-PL').runtimeAvailable, false)
+  assert.equal(localeMetadataFor('pl-PL').runtimeAvailable, true)
 })

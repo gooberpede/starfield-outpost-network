@@ -38,6 +38,7 @@ test('localized alphabetical sorting uses the active locale and stable ID fallba
     ['es-ES', [{ id: 'n2', name: 'Ñandú 10' }, { id: 'n1', name: 'Naranja 2' }], ['n1', 'n2']],
     ['it-IT', [{ id: 'e2', name: 'Èpsilon 10' }, { id: 'e1', name: 'Edera 2' }], ['e1', 'e2']],
     ['pt-BR', [{ id: 'a2', name: 'Árvore 10' }, { id: 'a1', name: 'Amora 2' }], ['a1', 'a2']],
+    ['pl-PL', [{ id: 'z2', name: 'Żuraw 10' }, { id: 'z1', name: 'Zamek 2' }], ['z1', 'z2']],
   ] as const) {
     assert.deepEqual(
       [...values].sort((left, right) => compareLocalizedItems(left, right, locale))
@@ -54,6 +55,10 @@ test('localized alphabetical sorting uses the active locale and stable ID fallba
   )
 
   assert.notEqual(getCollator('es-ES').compare('n', 'ñ'), 0)
+  for (const [plain, polish] of [['a', 'ą'], ['c', 'ć'], ['l', 'ł'], ['n', 'ń'], ['o', 'ó'], ['s', 'ś'], ['z', 'ź'], ['ź', 'ż']] as const) {
+    assert.ok(getCollator('pl-PL').compare(plain, polish) < 0, `${plain} / ${polish}`)
+  }
+  assert.ok(getCollator('pl-PL').compare('Element 2', 'Element 10') < 0)
 })
 
 test('localized system collation does not reorder domain and chronology boundaries', () => {

@@ -23,6 +23,8 @@ const references: ReferenceData = {
     { id: 'aqueous-hematite', name: 'Aqueous Hematite', shortName: 'HnCn', category: 'inorganic', rarity: 'unique', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
     { id: 'helium-3', name: 'Helium-3', shortName: 'He-3', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
     { id: 'ionic-liquids', name: 'Ionic Liquids', shortName: 'IL', category: 'inorganic', rarity: 'exotic', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
+    { id: 'copper', name: 'Copper', shortName: 'Cu', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
+    { id: 'lead', name: 'Lead', shortName: 'Pb', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
   ],
   products: [
     { id: 'zero-wire', name: 'Zero Wire', shortName: 'ZW', rarity: 'common' },
@@ -154,6 +156,47 @@ test('exact localized spelling outranks folded localized fallback matches', () =
   assert.deepEqual(
     getItemSearchMatches(catalogue, 'liquidos ionicos', 'es-ES').map(({ item }) => item.id),
     ['plain-spanish', 'ionic-liquids'],
+  )
+})
+
+test('Polish search folds diacritics and ł only as lower-ranked search aliases', () => {
+  const catalogue = buildItemSearchCatalogue(references, 'pl-PL')
+  for (const [localized, folded, id, english] of [
+    ['Żelazo', 'zelazo', 'iron', 'Iron'],
+    ['Miedź', 'miedz', 'copper', 'Copper'],
+    ['Ołów', 'olow', 'lead', 'Lead'],
+  ] as const) {
+    for (const query of [localized, folded, english]) {
+      const matches = getItemSearchMatches(catalogue, query, 'pl-PL')
+      assert.deepEqual(matches.map(({ item }) => item.id), [id], query)
+      assert.equal(matches[0].displayName, localized, query)
+    }
+  }
+
+  assert.equal(foldLocalizedItemSearchText('ĄĆĘŁŃÓŚŹŻ', 'pl-PL'), 'acelnoszz')
+  assert.equal(foldLocalizedItemSearchText("Ołów-Ruda'X", 'pl-PL'), "olow-ruda'x")
+  assert.equal(new Set(getItemSearchMatches(catalogue, 'Iron', 'pl-PL').map(({ key }) => key)).size, 1)
+})
+
+test('exact Polish spelling outranks a future folded collision deterministically', () => {
+  const base = buildItemSearchCatalogue(references, 'pl-PL').find(({ item }) => item.id === 'iron')!
+  const plain = {
+    ...base,
+    item: { type: 'resource' as const, id: 'plain-zelazo' },
+    key: 'resource:plain-zelazo',
+    displayName: 'Zelazo',
+    normalizedName: normalizeItemSearchText('Zelazo', 'pl-PL'),
+    foldedNormalizedName: foldLocalizedItemSearchText('Zelazo', 'pl-PL'),
+    normalizedAbbreviation: 'plain-zelazo',
+    aliases: [],
+  }
+  assert.deepEqual(
+    getItemSearchMatches([base, plain], 'Żelazo', 'pl-PL').map(({ item }) => item.id),
+    ['iron'],
+  )
+  assert.deepEqual(
+    getItemSearchMatches([base, plain], 'Zelazo', 'pl-PL').map(({ item }) => item.id),
+    ['plain-zelazo', 'iron'],
   )
 })
 

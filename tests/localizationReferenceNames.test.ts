@@ -113,6 +113,20 @@ test('runtime lookup registers complete Spanish, Italian, and Brazilian Portugue
   }
 })
 
+test('runtime lookup registers representative Polish reference-name families', () => {
+  for (const [kind, id, canonical, polish] of [
+    ['resource', 'aluminium', 'Aluminum', plPLReferenceNames.resource.aluminium],
+    ['product', 'adaptive-frame', 'Adaptive Frame', plPLReferenceNames.product['adaptive-frame']],
+    ['system', '119226', 'Kavnyk', plPLReferenceNames.system['119226']],
+    ['body', '01000801', "Va'ruun'kai", plPLReferenceNames.body['01000801']],
+    ['biome', '01012244', 'Rocky Desert', plPLReferenceNames.biome['01012244']],
+    ['species', '01039BE3', 'Hailpod', plPLReferenceNames.species['01039BE3']],
+    ['official-term', 'skill.outpost-management', 'Outpost Management', plPLReferenceNames['official-term']['skill.outpost-management']],
+  ] as const) {
+    assert.equal(getReferenceDisplayName(kind, id, canonical, 'pl-PL'), polish)
+  }
+})
+
 test('English overlays and missing Japanese fallbacks remain intact', () => {
   assert.equal(getReferenceDisplayName('resource', 'aluminium', 'Aluminum', 'en-US'), 'Aluminum')
   assert.equal(getReferenceDisplayName('resource', 'aluminium', 'Aluminum', 'en-GB'), 'Aluminium')

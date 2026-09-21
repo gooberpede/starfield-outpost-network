@@ -67,10 +67,12 @@ test('registry formatters provide visual and accessible chords', () => {
   assert.equal(formatAccessibleShortcutChord(next, 'es-ES'), 'Control más Alt más Flecha abajo')
   assert.equal(formatAccessibleShortcutChord(next, 'it-IT'), 'Control più Alt più Freccia giù')
   assert.equal(formatAccessibleShortcutChord(next, 'pt-BR'), 'Control mais Alt mais Seta para baixo')
+  assert.equal(formatAccessibleShortcutChord(next, 'pl-PL'), 'Control plus Alt plus Strzałka w dół')
   const redoWithShift = shortcutRegistry.find(({ id }) => id === 'redo-ctrl-shift-z')!
   assert.equal(formatAccessibleShortcutChord(redoWithShift, 'es-ES'), 'Control más Mayús más Z')
   assert.equal(formatAccessibleShortcutChord(redoWithShift, 'it-IT'), 'Control più Maiusc più Z')
   assert.equal(formatAccessibleShortcutChord(redoWithShift, 'pt-BR'), 'Control mais Shift mais Z')
+  assert.equal(formatAccessibleShortcutChord(redoWithShift, 'pl-PL'), 'Control plus Shift plus Z')
   assert.equal(formatShortcutChord(next), 'Ctrl + Alt + Arrow Down')
   assert.equal(formatShortcutChord(redoWithShift), 'Ctrl + Shift + Z')
 })

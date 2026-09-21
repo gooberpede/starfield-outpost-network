@@ -41,11 +41,12 @@ export function foldLocalizedItemSearchText(
   locale: SupportedLocale,
 ): string {
   const normalized = normalizeItemSearchText(value, locale)
-  if (!['fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR'].includes(locale)) {
+  if (!['fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR', 'pl-PL'].includes(locale)) {
     return normalized
   }
   const folded = normalized.normalize('NFD').replace(/\p{M}/gu, '').normalize('NFC')
-  return locale === 'it-IT' ? folded.replaceAll('’', "'") : folded
+  if (locale === 'it-IT') return folded.replaceAll('’', "'")
+  return locale === 'pl-PL' ? folded.replaceAll('ł', 'l') : folded
 }
 
 export function buildItemSearchCatalogue(

@@ -107,6 +107,7 @@ export function formatAccessibleShortcutChord(definition: ShortcutDefinition, lo
     'es-ES': { separator: ' más ', ctrl: 'Control', shift: 'Mayús', arrows: { Up: 'Flecha arriba', Down: 'Flecha abajo', Left: 'Flecha izquierda', Right: 'Flecha derecha' } },
     'it-IT': { separator: ' più ', ctrl: 'Control', shift: 'Maiusc', arrows: { Up: 'Freccia su', Down: 'Freccia giù', Left: 'Freccia sinistra', Right: 'Freccia destra' } },
     'pt-BR': { separator: ' mais ', ctrl: 'Control', shift: 'Shift', arrows: { Up: 'Seta para cima', Down: 'Seta para baixo', Left: 'Seta para a esquerda', Right: 'Seta para a direita' } },
+    'pl-PL': { separator: ' plus ', ctrl: 'Control', shift: 'Shift', arrows: { Up: 'Strzałka w górę', Down: 'Strzałka w dół', Left: 'Strzałka w lewo', Right: 'Strzałka w prawo' } },
   } satisfies Record<SupportedLocale, {
     separator: string
     ctrl: string

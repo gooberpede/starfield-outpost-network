@@ -1,5 +1,5 @@
 export const supportedLocaleIds = [
-  'en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR',
+  'en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR', 'pl-PL',
 ] as const
 export type SupportedLocale = typeof supportedLocaleIds[number]
 

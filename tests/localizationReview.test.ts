@@ -59,7 +59,7 @@ test('new runtime locales retain independent review-draft routes', () => {
   assert.equal(polishRoute.locale, 'pl-PL')
   assert.equal(polishRoute.source.createXliff, true)
   assert.equal(polishRoute.source.translations, plPLReviewDraft)
-  assert.equal(supportedLocaleIds.includes('pl-PL' as typeof supportedLocaleIds[number]), false)
+  assert.equal(supportedLocaleIds.includes('pl-PL'), true)
 })
 
 test('French and German Codex drafts are complete and token-safe', () => {
@@ -381,7 +381,7 @@ test('Polish DeepL evidence is fully imported and invalid candidates remain expl
       AdjudicationDecision === 'INVALID_DEEPL_REPAIRED' && /failed .* validation/.test(ReviewerNote)))
 })
 
-test('final Polish catalogue is review-derived, complete, safe, and runtime-inactive', async () => {
+test('final Polish catalogue is review-derived, complete, safe, and runtime-active', async () => {
   const review = await readFile(new URL('../docs/localization/pl-PL-review.csv', import.meta.url), 'utf8')
   const rows = parseAndValidateReviewCsv(review, 'pl-PL')
   const englishKeys = Object.keys(enUSMessages).sort()
@@ -417,7 +417,7 @@ test('final Polish catalogue is review-derived, complete, safe, and runtime-inac
   assert.equal(plPLMessages['cargo.interstellar'], 'Międzyukładowe połączenie towarowe')
   assert.equal(plPLMessages['outpost.body.label'], 'Ciało planetarne')
   assert.ok(Object.values(plPLMessages).every((value) => !value.includes('W gwiazdy')))
-  assert.equal(supportedLocaleIds.includes('pl-PL' as typeof supportedLocaleIds[number]), false)
+  assert.equal(supportedLocaleIds.includes('pl-PL'), true)
 })
 
 test('committed French and German XLIFF files match their current deterministic handoff representations', async () => {
@@ -497,7 +497,7 @@ test('Spanish, Italian, and Brazilian Portuguese final catalogues are complete, 
       .every(({ AdjudicationDecision }) => AdjudicationDecision === 'INVALID_DEEPL_REPAIRED'))
   }
   assert.deepEqual(supportedLocaleIds, [
-    'en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR',
+    'en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR', 'pl-PL',
   ])
 })
 
@@ -583,7 +583,7 @@ test('complete Japanese, French, and German catalogues satisfy the full-locale c
     assert.ok(rows.filter(({ ComparisonStatus }) => ComparisonStatus === 'INVALID_TOKENS').every(({ ReviewerNote }) => ReviewerNote))
   }
   assert.deepEqual(supportedLocaleIds, [
-    'en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR',
+    'en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR', 'pl-PL',
   ])
 })
 

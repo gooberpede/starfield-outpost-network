@@ -635,7 +635,7 @@ between invalid-skill and habitation validation.
 
 Localization is application presentation infrastructure under
 `src/localization/`. `en-US` is the complete baseline and fallback catalogue;
-`ja-JP`, `fr-FR`, `de-DE`, `es-ES`, `it-IT`, and `pt-BR` are complete runtime
+`ja-JP`, `fr-FR`, `de-DE`, `es-ES`, `it-IT`, `pt-BR`, and `pl-PL` are complete runtime
 catalogues, while regional variants such as `en-GB` may supply sparse overrides.
 Tests require complete locales to have
 exact key and placeholder parity with `en-US`; runtime fallback remains only as
@@ -646,9 +646,10 @@ The registry owns runtime catalogue registration so feature components do not
 contain per-locale branching. The tooling metadata contract at
 `reference-source/localization-locale-metadata.json` maps tracker tags to
 Bethesda tokens, encodings, catalogue roles, and runtime availability.
-Spanish (`es-ES`/`es`), Italian (`it-IT`/`it`), and Brazilian Portuguese
-(`pt-BR`/`ptbr`) are full runtime locales with complete semantic catalogues and
-official reference overlays. Tooling derives review, XLIFF, terminology, and
+Spanish (`es-ES`/`es`), Italian (`it-IT`/`it`), Brazilian Portuguese
+(`pt-BR`/`ptbr`), and Polish (`pl-PL`/`pl`) are full runtime locales with
+complete semantic catalogues and official reference overlays. Polish release
+closure remains pending. Tooling derives review, XLIFF, terminology, and
 reference-overlay paths from tracker tags; runtime support remains controlled
 by the separate typed registries. Browser mapping for these regional catalogues
 is conservative: bare language tags, the exact supported regional tag, and its
@@ -670,8 +671,8 @@ the effective locale changes.
 Reference display names use a separate sparse overlay keyed by stable reference
 kind and ID. Resolution is locale override, canonical runtime name, then raw ID.
 The overlay never changes reference identity or generated reference datasets.
-The generated Japanese, French, German, Spanish, Italian, and Brazilian
-Portuguese official-name overlays are registered at this seam for resource,
+The generated Japanese, French, German, Spanish, Italian, Brazilian Portuguese,
+and Polish official-name overlays are registered at this seam for resource,
 product, system, body, biome, species, and `official-term` names.
 Character skill slots map to five namespaced `official-term` IDs; their canonical
 English semantic labels remain the fallback, and game FormIDs do not enter
