@@ -1,0 +1,64 @@
+"EvidenceId","Locale","OfficialValue","RecommendedDefault"
+"term.outpost.standalone","pl-PL","Placówka","Placówka"
+"term.cargo-link.standalone","pl-PL","Połączenie towarowe","Połączenie towarowe"
+"term.inter-system-cargo-link.standalone","pl-PL","Międzyukładowe połączenie towarowe","Międzyukładowe połączenie towarowe"
+"term.inter-system.context-label","pl-PL","Połączenie towarowe międzyukładowe","Międzyukładowe"
+"term.biome.ui-label","pl-PL","Biomy:","Biom"
+"term.biome.narrative-ecosystem","pl-PL","Co za fascynujący biom...","Biom"
+"term.biome.narrative-loanword","pl-PL","Używał tylko roślin, grzybów, alg... ale miał katalog przypraw i smaków z najróżniejszych biomów.","Biom"
+"term.biome.shattered-space-environment","pl-PL","W biomach takich jak ten obficie występują materiały organiczne.","Biom"
+"term.biome.free-lanes-structured-label","pl-PL","Nazwa: Egzowieloryb filtrator
+
+Eksperyment: 097
+
+Biom: Oceany
+
+Pożądana cecha: Karmienie filtracyjne","Biom"
+"term.planet.outpost-context","pl-PL","Zbuduj placówkę na planecie","Planeta"
+"term.planetary-body.exact-phrase","pl-PL","Obecne dyrektywy misji priorytetyzują identyfikację i śledzenie asteroid oraz ciał planetarnych ze złożami rzadkich minerałów.","Ciało planetarne"
+"term.planetary-body.celestial-context","pl-PL","Od lat badam ciała niebieskie. ","Ciało planetarne"
+"term.star-system.target-context","pl-PL","Docelowy układ","Układ gwiezdny"
+"term.star-system.full-phrase","pl-PL","Indum. Tak nazywa się układ gwiezdny.","Układ gwiezdny"
+"skill.outpost-management.name","pl-PL","Zarządzanie placówką","Zarządzanie placówką"
+"skill.outpost-engineering.name","pl-PL","Inżynieria placówek","Inżynieria placówek"
+"skill.planetary-habitation.name","pl-PL","Zasiedlanie planet","Zasiedlanie planet"
+"skill.research-methods.name","pl-PL","Metody badawcze","Metody badawcze"
+"skill.special-projects.name","pl-PL","Projekty specjalne","Projekty specjalne"
+"term.x-tech.resource-name","pl-PL","X-Tech","X-Tech"
+"term.x-tech.free-lanes-context","pl-PL","Generał Tolliver Royce: A więc to jest ta tajna broń, którą mi obiecano? A kim jest ten dzieciak?
+
+Admirał Ode Balewa: Generale Royce, poznaj naszą tajną broń: Anwara Sinagę. 
+
+Generał Tolliver Royce: To jakiś żart? Mam pryszcze starsze niż ten chłopak! Moment... Sinaga? Jesteś synem Gity?
+
+Anwar Sinaga: Tak, proszę pana.
+
+Generał Tolliver Royce: Służyłem z nią. Genialna naukowczyni, a jeszcze lepsza osoba. Co cię tu sprowadza?
+
+Admirał Ode Balewa: Młody Anwar pomaga nam w dziale robotyki. To on zasugerował najnowszy projekt. 
+
+Anwar Sinaga: Tak, od kilku lat eksperymentuję z nowymi robotycznymi żołnierzami na lekkiej konstrukcji. W odróżnieniu od standardowego modelu A roboty te są budowane z myślą o zastosowaniach wojskowych. 
+
+Generał Tolliver Royce: Znam te metalowe puchy, dzieciaku. Niezdarne, powolne i durne jak chunksy. Nigdy bym takiemu nie zaufał, by pilnował tyłów.
+
+Anwar Sinaga: Zgadza się. Ale modyfikacje, których dokonałem, rozwiązują część tych problemów. Bardzo obiecujący jest też nowy stop wprowadzony do produkcji. Nazywam go X-Techem. W tej chwili wszystko jest czysto teoretyczne, ale uważam, że ma wiele potencjalnych zastosowań, od wzmocnienia materiałów po wzbogacenie obwodów.
+
+Admirał Ode Balewa: Niemniej jest to bardziej humanitarne. Pomyśl o tym, generale. Dzięki maszynom nie będziemy musieli poświęcić ani jednego ludzkiego życia, by wygrać wojnę.
+
+Generał Tolliver Royce: Ha. Powiedz to żołnierzom, do których będą strzelały.","X-Tech"
+"term.x-tech-power-core.item-name","pl-PL","Rdzeń mocy X-Techu","Rdzeń mocy X-Techu"
+"term.x-tech-power-core.extractor-reward","pl-PL","Zgodnie z obietnicą daję ci rdzeń mocy X-Techu, dzięki któremu zbudujesz własny ekstraktor, gdzie tylko zechcesz. A do tego prototypowy zakłócacz Novablast.","Rdzeń mocy X-Techu"
+"term.x-tech-power-core.handover","pl-PL","Tymczasem oto rdzeń mocy X-Techu zgodnie z obietnicą. Używaj go rozważnie.","Rdzeń mocy X-Techu"
+"term.x-tech-power-core.singular-reward","pl-PL","Jestem ci winien jeden rdzeń mocy X-Techu do dowolnego wykorzystania...","Rdzeń mocy X-Techu"
+"term.x-tech-power-core.reward-summary","pl-PL","Jeden rdzeń mocy X-Techu zgodnie z obietnicą. Używaj go rozważnie.","Rdzeń mocy X-Techu"
+"term.x-tech-power-core.outpost-context","pl-PL","Jeśli chodzi o moją część umowy, oto rdzeń mocy X-Techu do twojej osobistej placówki. Na pewno dobrze go wykorzystasz.","Rdzeń mocy X-Techu"
+"term.starfield.product-title","pl-PL","W gwiazdy","Starfield"
+"term.moon.satellite-context","pl-PL","Wchodzę w to, jeśli zabierzesz mnie z tego przeklętego księżyca!","Księżyc"
+"term.orbital.adjectival-context","pl-PL","Wchodzimy na orbitę.",""
+"term.outpost.free-lanes-context","pl-PL","Placówka skończona?","Placówka"
+"term.planet.free-lanes-context","pl-PL","Wygląda na to, że po ogołoceniu jakiejś planety z zasobów, po prostu przenoszą się na kolejną.","Planeta"
+"term.star-system.free-lanes-context","pl-PL","Ruszaj do układu Algorab","Układ gwiezdny"
+"term.cargo-pad.base-game-absence","pl-PL","",""
+"term.cargo-pad.shattered-space-absence","pl-PL","",""
+"term.cargo-pad.trackers-alliance-absence","pl-PL","",""
+"term.cargo-pad.free-lanes-absence","pl-PL","",""

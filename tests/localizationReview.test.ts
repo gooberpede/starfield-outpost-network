@@ -126,11 +126,10 @@ test('staged draft English-residue detection reports ordinary source words and e
   )
 })
 
-test('staged Polish constraints fail closed until reviewed values exist', () => {
-  assert.throws(
-    () => createReviewRows('pl-PL'),
-    /REVIEW_CONSTRAINTS_MISSING: pl-PL:/,
-  )
+test('staged Polish constraints are populated without creating a semantic draft', () => {
+  const rows = createReviewRows('pl-PL')
+  assert.ok(rows.some(({ OfficialTermConstraints }) => OfficialTermConstraints))
+  assert.ok(rows.every(({ CodexTranslation }) => CodexTranslation === ''))
 })
 
 test('Polish plural contract documents native categories while preserving one/other syntax', () => {
@@ -246,6 +245,37 @@ test('Spanish, Italian, and Brazilian Portuguese constraints cover every concept
     assert.match(byKey.get('matrix.heading')!.OfficialTermConstraints, /strategy=phrase/)
   }
   assert.throws(() => createReviewRows('xx-XX'), /REVIEW_CONSTRAINTS_MISSING/)
+})
+
+test('Polish review constraints are complete, contextual, deterministic, and fail closed', async () => {
+  const rows = createReviewRows('pl-PL')
+  assert.deepEqual(rows, createReviewRows('pl-PL'))
+  assert.ok(rows.some(({ OfficialTermConstraints }) => OfficialTermConstraints))
+  assert.throws(() => createReviewRows('pl'), /REVIEW_CONSTRAINTS_MISSING/)
+
+  const byKey = new Map(rows.map((row) => [row.Key, row]))
+  assert.match(byKey.get('character.skill.outpostManagement')!.OfficialTermConstraints, /Zarządzanie placówką \[strategy=phrase\]/)
+  assert.match(byKey.get('cargo.heading')!.OfficialTermConstraints, /Połączenie towarowe \[strategy=semantic-concept\]/)
+  assert.match(byKey.get('matrix.heading')!.OfficialTermConstraints, /Macierz zasobów \[strategy=phrase\]/)
+  assert.match(byKey.get('matrix.column.present')!.OfficialTermConstraints, /Obecność \[strategy=key-scoped, variants=/)
+  assert.match(byKey.get('matrix.column.inputs')!.OfficialTermConstraints, /Wymagane materiały \[strategy=semantic-concept, variants=/)
+  assert.match(byKey.get('outpost.navigation.reshuffleButton')!.OfficialTermConstraints, /Zmień kolejność \[strategy=key-scoped, variants=/)
+  assert.match(byKey.get('outpost.body.select')!.OfficialTermConstraints, /Ciało planetarne \[strategy=semantic-concept\]/)
+  assert.match(byKey.get('outpost.system.label')!.OfficialTermConstraints, /Układ gwiezdny.*variants=układ gwiezdny \| układ/)
+  assert.match(byKey.get('about.description')!.OfficialTermConstraints, /product\.starfield=Starfield \[strategy=phrase\]/)
+  assert.doesNotMatch(byKey.get('about.description')!.OfficialTermConstraints, /W gwiazdy/)
+
+  const xTechRows = rows.filter(({ OfficialTermConstraints }) => OfficialTermConstraints.includes('term.x-tech='))
+  assert.ok(xTechRows.length > 0)
+  assert.ok(xTechRows.every(({ OfficialTermConstraints }) =>
+    /strategy=semantic-concept, variants=X-Tech \| X-Techem \| X-Techu/.test(OfficialTermConstraints)))
+
+  const glossary = await readFile(new URL('../docs/localization/POLISH-GLOSSARY.md', import.meta.url), 'utf8')
+  const classifiedIds = [...glossary.matchAll(/^\| `((?:term|skill)\.[^`]+)` \| ([ABCD]) \|/gm)]
+  assert.equal(classifiedIds.length, 19)
+  assert.equal(new Set(classifiedIds.map((match) => match[1])).size, 19)
+  assert.match(glossary, /\*\*`ciało planetarne`\*\*/)
+  assert.match(glossary, /`Starfield` is invariant/)
 })
 
 test('committed French and German XLIFF files match their current deterministic handoff representations', async () => {

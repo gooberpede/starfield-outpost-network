@@ -25,6 +25,9 @@ const frenchValues = parseOfficialTerminologyValuesCsv(
 const germanValues = parseOfficialTerminologyValuesCsv(
   await readFile(new URL('official-terminology-values-de-DE.csv', directory), 'utf8'),
 )
+const polishValuesBytes = await readFile(new URL('official-terminology-values-pl-PL.csv', directory))
+const polishValuesSource = new TextDecoder('utf-8', { fatal: true }).decode(polishValuesBytes)
+const polishValues = parseOfficialTerminologyValuesCsv(polishValuesSource)
 const stagedValues = Object.fromEntries(await Promise.all(['es-ES', 'it-IT', 'pt-BR'].map(async (locale) => [
   locale,
   parseOfficialTerminologyValuesCsv(await readFile(new URL(`official-terminology-values-${locale}.csv`, directory), 'utf8')),
@@ -120,16 +123,28 @@ test('staged terminology locales resolve complete deterministic official values 
   assert.throws(() => localizationVerificationCommands('xx-XX'), /UNSUPPORTED_LOCALE/)
 })
 
-test('Polish terminology routing fails closed until the locale artifact exists', async () => {
-  await assert.rejects(
-    () => verifyOfficialTerminology('pl-PL'),
-    /TERMINOLOGY_VALUES_MISSING:.*official-terminology-values-pl-PL\.csv/,
-  )
+test('Polish terminology closes deterministically under strict UTF-8', async () => {
+  assert.deepEqual(await verifyOfficialTerminology('pl-PL'), { rows: 37, terms: 19, locale: 'pl-PL', values: 37 })
   assert.deepEqual(localizationVerificationCommands('pl-PL'), [
     ['validate-localized-name-provenance.mjs'],
     ['verify-official-terminology.mjs', '--locale', 'pl-PL'],
     ['verify-reference-name-overlay.mjs', '--locale', 'pl-PL'],
   ])
+  assert.doesNotThrow(() => new TextDecoder('utf-8', { fatal: true }).decode(polishValuesBytes))
+  assert.equal(polishValues.length, 37)
+  assert.equal(polishValues.filter(({ OfficialValue }) => OfficialValue).length, 33)
+  assert.equal(polishValues.filter(({ OfficialValue, RecommendedDefault }) => !OfficialValue && !RecommendedDefault).length, 4)
+
+  const byId = new Map(polishValues.map((row) => [row.EvidenceId, row]))
+  assert.equal(byId.get('term.outpost.standalone').RecommendedDefault, 'Placówka')
+  assert.equal(byId.get('term.cargo-link.standalone').RecommendedDefault, 'Połączenie towarowe')
+  assert.equal(byId.get('term.inter-system-cargo-link.standalone').RecommendedDefault, 'Międzyukładowe połączenie towarowe')
+  assert.equal(byId.get('term.x-tech.resource-name').RecommendedDefault, 'X-Tech')
+  assert.equal(byId.get('term.x-tech.free-lanes-context').OfficialValue.includes('X-Techem'), true)
+  assert.equal(byId.get('term.x-tech-power-core.item-name').RecommendedDefault, 'Rdzeń mocy X-Techu')
+  assert.equal(byId.get('term.planetary-body.exact-phrase').RecommendedDefault, 'Ciało planetarne')
+  assert.equal(byId.get('term.starfield.product-title').OfficialValue, 'W gwiazdy')
+  assert.equal(byId.get('term.starfield.product-title').RecommendedDefault, 'Starfield')
 })
 
 test('Spanish, Italian, and Brazilian Portuguese recommendations keep evidence separate from tracker defaults', () => {
