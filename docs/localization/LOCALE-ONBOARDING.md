@@ -30,11 +30,11 @@ Bethesda’s support matrix currently lists:
 | English | Interface/Text + Voice | Yes | Supported |
 | French | Interface/Text + Voice | Yes | Supported |
 | German | Interface/Text + Voice | Yes | Supported |
-| Spanish (Spain) | Interface/Text + Voice | Yes | Release closure pending native 200% zoom and Narrator smoke |
+| Spanish (Spain) | Interface/Text + Voice | Yes | Supported |
 | Japanese | Interface/Text + Voice | Yes | Supported |
-| Italian | Interface/Text | Yes | Release closure pending native 200% zoom and Narrator smoke |
+| Italian | Interface/Text | Yes | Supported |
 | Polish | Interface/Text | Yes | Not onboarded |
-| Portuguese (Brazil) | Interface/Text | Yes | Release closure pending native 200% zoom and Narrator smoke |
+| Portuguese (Brazil) | Interface/Text | Yes | Supported |
 | Simplified Chinese | Interface/Text | Yes | Not onboarded |
 
 Authority:
@@ -47,7 +47,10 @@ The tracker is text/UI software, so Bethesda’s distinction between voice-suppo
 
 There is no required onboarding order. Japanese was deliberately onboarded early because it was likely to expose architectural weaknesses involving non-Latin script, font fallback, string length, composition, search, collation, and layout. Future additions do **not** need to proceed hardest-first.
 
-A reasonable future strategy is to use one or more relatively straightforward Latin-script locales to prove that this document and the current tooling make onboarding routine. Languages expected to expose larger language-specific concerns, including Simplified Chinese and potentially Polish, may be deferred until later. This is a planning option, not a fixed roadmap.
+The remaining V1 targets are Polish and Simplified Chinese. Neither is
+onboarded, both deserve focused individual onboarding, and this document does
+not choose which should be next. Final locale-selector ordering will be reviewed
+after both are complete.
 
 ---
 
@@ -1517,15 +1520,15 @@ unchanged.
 
 ---
 
-## 19.6 Spanish, Italian, and Brazilian Portuguese release-closure profiles
+## 19.6 Spanish, Italian, and Brazilian Portuguese profiles
 
-These locales are release-closure candidates but are not yet **Supported**:
+These locales are **Supported**:
 
-| Locale | Semantic catalogue | Official reference overlay | Fauna composition | Runtime | Release closure |
-|---|---|---|---|---|---|
-| `es-ES` | Complete | Complete | Provisionally accepted | Integrated | Native 200% zoom and Narrator smoke pending |
-| `it-IT` | Complete | Complete | Provisionally accepted | Integrated | Native 200% zoom and Narrator smoke pending |
-| `pt-BR` | Complete | Complete | Provisionally accepted | Integrated | Native 200% zoom and Narrator smoke pending |
+| Locale | Semantic catalogue | Official reference overlay | Fauna composition | Runtime | True 200% zoom | Tracker status |
+|---|---|---|---|---|---|---|
+| `es-ES` | Complete | Complete | Provisionally accepted | Integrated | PASS | Supported |
+| `it-IT` | Complete | Complete | Provisionally accepted | Integrated | PASS | Supported |
+| `pt-BR` | Complete | Complete | Provisionally accepted | Integrated | PASS | Supported |
 
 Their 37-row official terminology artifacts resolve
 the shared 19-term evidence contract, and their approved glossaries are:
@@ -1587,20 +1590,27 @@ preferences before applying the ordinary application fallback.
 
 ### Spanish (Spain) — `es-ES`
 
-- Tracker status: **Release closure pending**. The 414-key semantic catalogue, 37-row
-  terminology contract, 3,561-entity reference overlay, and 922 composed-fauna
-  predictions are complete. Fauna composition remains provisionally accepted
-  from the recorded Codos/Jemison evidence.
-- Runtime selection, conservative `es`/`es-ES` browser mapping, persisted
-  preference, exact `document.lang`, Spanish collation/formatting, localized
-  shortcut speech, canonical-English search aliases, accent folding, and exact
-  `ñ` priority are complete.
-- Windows/Chromium QA passed at 1366px, 1600px, and 200%-equivalent reflow.
-  Keyboard-only dialogs, Search/Search Results, Resource Matrix, Planned
-  Supply, Validation, and focus restoration passed. Import/export visual and
-  live-region feedback includes the localized filename; invalid JSON remains
-  non-destructive. Accented glyphs, `ü`, `ñ`/`Ñ`, `¿`, and `¡` rendered without
-  missing glyphs.
+- Tracker status: **Supported**. Tracker locale `es-ES`; Bethesda token `es`;
+  strict UTF-8; selector label `Español (España)`.
+- The complete semantic catalogue, official 19-term/37-row terminology contract,
+  and official reference overlay are complete. The overlay resolves 3,561
+  entities from 4,818 qualified provenance rows with 0 unresolved identities.
+  Fauna composition remains provisionally accepted from the recorded
+  Codos/Jemison evidence; the two truncated three-component scanner labels
+  confirm visible order and separators but not every possible rendered form.
+- Runtime registration, persisted selection, exact `document.lang`, Spanish
+  collation/formatting, and localized shortcut speech are complete. Browser
+  mapping accepts `es`, `es-ES`, and descendants of `es-ES`; an explicit other
+  regional `es-*` continues to later browser preferences.
+- Search uses lower-ranked diacritic/combining-mark folding, including `n` as a
+  fallback for `ñ`; exact localized spelling outranks the folded form, and
+  canonical English aliases remain searchable.
+- The baseline Latin UI/font policy is accepted; accented glyphs, `ü`, `ñ`/`Ñ`,
+  `¿`, `¡`, and uppercase forms rendered without missing glyphs.
+- Windows/Chromium QA passed at 1366px and 1600px, and true browser-controlled
+  200% zoom passed. Keyboard-only dialogs and representative workspaces passed.
+  Import/export visual and live-region feedback was verified with localized
+  filenames, and invalid JSON remained non-destructive.
 - `Muy deficiente` is visibly clipped by the frozen Solar/Wind control at
   desktop widths, while the complete localized value remains available in its
   accessible name. This is non-blocking presentation pressure and does not
@@ -1608,23 +1618,29 @@ preferences before applying the ordinary application fallback.
 
 ### Italian — `it-IT`
 
-- Tracker status: **Release closure pending**. The 414-key semantic catalogue, 37-row
-  terminology contract, 3,561-entity reference overlay, and 922 composed-fauna
-  predictions are complete. Fauna composition remains provisionally accepted
-  from the recorded Jemison/Ternion III evidence.
-- Runtime selection, conservative `it`/`it-IT` browser mapping, persisted
-  preference, exact `document.lang`, Italian collation/formatting, localized
-  shortcut speech, canonical-English search aliases, accent folding, and
-  straight/curly-apostrophe equivalence are complete. Exact localized spelling
-  retains priority. The apostrophe equivalence is covered by a focused
-  synthetic item-search case because the official names containing U+2019 in
-  the current overlay are outside the resource/product Search population.
-- Windows/Chromium QA passed at 1366px, 1600px, and 200%-equivalent reflow.
-  Keyboard-only dialogs, Search/Search Results, Resource Matrix, Planned
-  Supply, Validation, and focus restoration passed. Import/export visual and
-  live-region feedback includes the localized filename; invalid JSON remains
-  non-destructive. Accented vowels plus curly and straight apostrophes rendered
-  without missing glyphs or malformed elision.
+- Tracker status: **Supported**. Tracker locale `it-IT`; Bethesda token `it`;
+  strict UTF-8; selector label `Italiano (Italia)`.
+- The complete semantic catalogue, official 19-term/37-row terminology contract,
+  and official reference overlay are complete. The overlay resolves 3,561
+  entities from 4,818 qualified provenance rows with 0 unresolved identities.
+  Fauna composition remains provisionally accepted from the recorded
+  Jemison/Ternion III evidence; no supplied label exercises all three
+  components, and one screenshot contains no visible fauna label.
+- Runtime registration, persisted selection, exact `document.lang`, Italian
+  collation/formatting, and localized shortcut speech are complete. Browser
+  mapping accepts `it`, `it-IT`, and descendants of `it-IT`; an explicit other
+  regional `it-*`, such as `it-CH`, continues to later browser preferences.
+- Search uses lower-ranked accent folding and straight/curly-apostrophe
+  equivalence. Exact official punctuation outranks the normalized form, and
+  canonical English aliases remain searchable. The apostrophe case has focused
+  synthetic coverage because current U+2019 overlay names are outside Search's
+  resource/product population.
+- The baseline Latin UI/font policy is accepted; accented vowels and curly and
+  straight apostrophes rendered without missing glyphs or malformed elision.
+- Windows/Chromium QA passed at 1366px and 1600px, and true browser-controlled
+  200% zoom passed. Keyboard-only dialogs and representative workspaces passed.
+  Import/export visual and live-region feedback was verified with localized
+  filenames, and invalid JSON remained non-destructive.
 - `Molto scarso` is visibly clipped by the frozen Solar/Wind control at desktop
   widths, while the complete localized value remains available in its
   accessible name. This is non-blocking presentation pressure and does not
@@ -1632,35 +1648,43 @@ preferences before applying the ordinary application fallback.
 
 ### Portuguese (Brazil) — `pt-BR`
 
-- Tracker status: **Release closure pending**. The 414-key semantic catalogue, 37-row
-  terminology contract, 3,561-entity reference overlay, and 922 composed-fauna
-  predictions are complete. Fauna composition remains provisionally accepted
-  from the recorded Montara Luna/Jemison evidence.
-- Runtime selection, conservative `pt`/`pt-BR` browser mapping, persisted
-  preference, exact `document.lang`, Brazilian Portuguese collation/formatting,
-  localized shortcut speech, canonical-English search aliases, diacritic
-  folding, and exact localized priority are complete.
-- Windows/Chromium QA passed at 1366px, 1600px, and 200%-equivalent reflow.
-  Keyboard-only dialogs, Search/Search Results, Resource Matrix, Planned
-  Supply, Validation, and focus restoration passed. Import/export visual and
-  live-region feedback includes the localized filename; invalid JSON remains
-  non-destructive. Acute, circumflex, grave, tilde, cedilla, diaeresis, and
-  uppercase accented forms rendered without missing glyphs. `Muito ruim`
-  remains usable in the frozen Solar/Wind control.
+- Tracker status: **Supported**. Tracker locale `pt-BR`; Bethesda token `ptbr`;
+  strict UTF-8; selector label `Português (Brasil)`.
+- The complete semantic catalogue, official 19-term/37-row terminology contract,
+  and official reference overlay are complete. The overlay resolves 3,561
+  entities from 4,818 qualified provenance rows with 0 unresolved identities.
+  Fauna composition remains provisionally accepted from the Montara
+  Luna/Jemison evidence, which includes full examples of all three component
+  shapes plus two repeated truncated three-component labels.
+- Runtime registration, persisted selection, exact `document.lang`, Brazilian
+  Portuguese collation/formatting, and localized shortcut speech are complete.
+  Browser mapping accepts `pt`, `pt-BR`, and descendants of `pt-BR`; `pt-PT`
+  and other explicit non-Brazilian `pt-*` continue to later preferences.
+- Search uses lower-ranked accent, tilde, and cedilla folding. Exact localized
+  spelling outranks the folded form, canonical English aliases remain
+  searchable, and no European Portuguese synonym expansion is applied.
+- The baseline Latin UI/font policy is accepted; acute, circumflex, grave,
+  tilde, cedilla, diaeresis, and uppercase accented forms rendered without
+  missing glyphs.
+- Windows/Chromium QA passed at 1366px and 1600px, and true browser-controlled
+  200% zoom passed. Keyboard-only dialogs and representative workspaces passed.
+  Import/export visual and live-region feedback was verified with localized
+  filenames, and invalid JSON remained non-destructive. `Muito ruim` remained
+  usable in the tested frozen Solar/Wind control and is not a clipping defect.
 
 For all three profiles, automated catalogue, terminology, provenance,
 reference-name, search, collation, browser-mapping, document-language, and
-runtime regression gates pass. Accessible names, descriptions, dialog names,
-shortcut speech, and live regions expose complete localized semantics without
-obvious English fallback. Audible Narrator verification and true
-browser-controlled 200% zoom could not be exercised in the release-closure
-environment. The established Windows/Chromium semantic baseline,
-constrained-width 200%-equivalent reflow, and automated/component coverage
-passed, but the two explicit manual gates must be completed before Supported
-status is recorded. Native-speaker review was unavailable and is desirable but
-non-blocking. Apple/WebKit remains deferred. Working XLIFF files remain in place
-until all planned localization is complete, and Polish plus Simplified Chinese
-remain outstanding.
+runtime regression gates pass. Manual Narrator smoke testing generally exposed
+localized names, labels, and status text, and other representative checks
+passed. The shared shortcut-announcement, shortcut-interception, compact Cargo
+Link control, Resource Matrix compact-control, and intermittent focus/utterance
+questions are global accessibility follow-up recorded in `docs/BACKLOG.md`, not
+locale-specific support blockers; these locales are not described as fully
+Narrator-certified. Native-language naturalness was not independently verified
+by a native speaker. Native-speaker review remains desirable when available but
+is not a hard V1 support gate. Apple/WebKit remains deferred and this status
+does not claim Safari, VoiceOver, or iPhone certification. Working XLIFF files
+remain in place until Polish and Simplified Chinese are complete.
 
 ---
 
@@ -1670,7 +1694,9 @@ These are planning considerations only, not implementation commitments.
 
 ## Latin-script locales
 
-French, German, Spanish (Spain), Italian, and Portuguese (Brazil) are likely to reuse most of the baseline typography stack, but this must be verified rather than assumed.
+French, German, Spanish (Spain), Italian, and Portuguese (Brazil) have verified
+the baseline Latin typography stack. Polish remains not onboarded and must make
+its own explicit typography decision during its focused onboarding.
 
 Potential issues include:
 
@@ -1682,11 +1708,10 @@ Potential issues include:
 - translated official terminology;
 - overflow at established breakpoints.
 
-The purpose of onboarding a comparatively straightforward locale next would be to prove that the current process is routine.
-
 ## Polish
 
-Polish is a long-term target and may reasonably be left until later if desired.
+Polish is a remaining V1 target and is not onboarded. This document does not
+choose it ahead of Simplified Chinese.
 
 Potential concerns to investigate only when onboarding begins:
 
@@ -1700,7 +1725,9 @@ Do not implement Polish-specific grammar machinery in advance.
 
 ## Simplified Chinese
 
-Simplified Chinese is a long-term target and is likely to be one of the more demanding remaining locales.
+Simplified Chinese is a remaining V1 target, is not onboarded, and is likely to
+be one of the more demanding remaining locales. This document does not choose
+it ahead of Polish.
 
 Likely areas requiring explicit verification include:
 

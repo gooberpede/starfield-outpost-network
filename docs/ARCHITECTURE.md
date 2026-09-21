@@ -635,8 +635,9 @@ between invalid-skill and habitation validation.
 
 Localization is application presentation infrastructure under
 `src/localization/`. `en-US` is the complete baseline and fallback catalogue;
-`ja-JP`, `fr-FR`, and `de-DE` are complete runtime catalogues, while regional variants such
-as `en-GB` may supply sparse overrides. Tests require complete locales to have
+`ja-JP`, `fr-FR`, `de-DE`, `es-ES`, `it-IT`, and `pt-BR` are complete runtime
+catalogues, while regional variants such as `en-GB` may supply sparse overrides.
+Tests require complete locales to have
 exact key and placeholder parity with `en-US`; runtime fallback remains only as
 defensive resilience. The semantic
 catalogue is the boundary for tracker-authored visible copy, accessible names,
@@ -646,13 +647,16 @@ contain per-locale branching. The tooling metadata contract at
 `reference-source/localization-locale-metadata.json` maps tracker tags to
 Bethesda tokens, encodings, catalogue roles, and runtime availability.
 Spanish (`es-ES`/`es`), Italian (`it-IT`/`it`), and Brazilian Portuguese
-(`pt-BR`/`ptbr`) are currently registered there as non-runtime full-locale
-contracts. Tooling derives review, XLIFF, terminology, and reference-overlay
-paths from those tracker tags and fails closed while required artifacts are
-absent. Runtime support remains controlled by the separate typed registries.
-Browser language families map `fr-*` to the single supported `fr-FR` catalogue
-and `de-*` to the single supported `de-DE` catalogue; this is fallback reuse,
-not a claim of separately translated regional variants. Baseline keys are derived from
+(`pt-BR`/`ptbr`) are full runtime locales with complete semantic catalogues and
+official reference overlays. Tooling derives review, XLIFF, terminology, and
+reference-overlay paths from tracker tags; runtime support remains controlled
+by the separate typed registries. Browser mapping for these regional catalogues
+is conservative: bare language tags, the exact supported regional tag, and its
+descendants map to the catalogue, while an explicit other region continues to
+later browser preferences. Browser language families map `fr-*` to the single
+supported `fr-FR` catalogue and `de-*` to the single supported `de-DE`
+catalogue; this is fallback reuse, not a claim of separately translated
+regional variants. Baseline keys are derived from
 the complete catalogue, while interpolation validates both missing and
 unexpected named parameters at runtime and in tests.
 
@@ -666,8 +670,9 @@ the effective locale changes.
 Reference display names use a separate sparse overlay keyed by stable reference
 kind and ID. Resolution is locale override, canonical runtime name, then raw ID.
 The overlay never changes reference identity or generated reference datasets.
-The generated Japanese, French, and German official-name overlays are registered at this seam for
-resource, product, system, body, biome, species, and `official-term` names.
+The generated Japanese, French, German, Spanish, Italian, and Brazilian
+Portuguese official-name overlays are registered at this seam for resource,
+product, system, body, biome, species, and `official-term` names.
 Character skill slots map to five namespaced `official-term` IDs; their canonical
 English semantic labels remain the fallback, and game FormIDs do not enter
 runtime or persisted state. Tracker-authored copy therefore remains

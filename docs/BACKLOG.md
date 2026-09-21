@@ -275,17 +275,16 @@ Starfield text/interface language set:
 - Portuguese (Brazil);
 - Simplified Chinese.
 
-The supported Bethesda-language targets now comprise English, Japanese, French,
-and German. `en-GB` remains a sparse English override rather than a separate
-Bethesda language. Five substantial locale onboardings remain for V1: Spanish
-(Spain), Italian, Polish, Portuguese (Brazil), and Simplified Chinese. Implement
-them in manageable, coherent parcels rather than one giant batch. Spanish
-(Spain), Italian, and Portuguese (Brazil) may plausibly form a later three-
-locale tranche; Polish and Simplified Chinese likely deserve separate focused
-tranches. These are strategic options, not irrevocably settled batches. Do not
-settle final locale tags in this backlog. Each parcel should preserve the
-existing localization architecture, exact key/placeholder parity tooling,
-review process, and reference-name provenance/overlay approach where applicable.
+The supported Bethesda-language targets now comprise English, French, German,
+Spanish (Spain), Japanese, Italian, and Portuguese (Brazil). `en-GB` remains a
+sparse English override rather than a separate Bethesda language. The only
+substantial V1 locale onboardings remaining are Polish and Simplified Chinese;
+both likely deserve focused individual onboarding. Do not choose or begin the
+next locale as an incidental part of closure work. Final locale-selector
+ordering will be reviewed after all planned V1 locales are onboarded. Each
+remaining parcel should preserve the existing localization architecture, exact
+key/placeholder parity tooling, review process, and reference-name
+provenance/overlay approach where applicable.
 
 The semantic localization boundary includes tracker-authored UI, accessibility
 text, help/tooltips, validation, status/transient feedback, and session history
@@ -296,8 +295,9 @@ display is introduced later. Persisted/schema formats and export filename
 timestamps remain invariant unless separately redesigned.
 
 Native-speaker review for supported non-English locales remains desirable when
-available but is not a hard V1 release gate. French and German remain Supported
-without it.
+available but is not a hard V1 release gate. Its absence is a known limitation;
+screen-reader testing by a non-speaker does not substitute for native-language
+editorial review.
 
 **Post-program XLIFF cleanup:** while locale onboarding remains active, working
 `.xliff` files under `docs/localization/` are acceptable. After all planned
@@ -380,6 +380,31 @@ Deferred accessibility/platform follow-up:
   programmatic focus transitions, accessibility-tree ordering, nearby labels,
   and focus restoration/repair without assuming the Solar control is the root
   cause;
+- investigate why Narrator announces shortcut action labels but not the
+  shortcut chords themselves. Verify whether `aria-keyshortcuts`, visible
+  keycaps, accessible descriptions, and localized speech formatting reach the
+  element Narrator actually announces, including differences among browse,
+  scan, and focus modes;
+- investigate Windows Narrator/browser interception of global shortcuts as one
+  shared interaction issue. With Narrator active, `Ctrl + Alt + ArrowUp` and
+  `Ctrl + Alt + ArrowDown` did not perform previous/next-outpost and produced
+  “Not on table”; `/` was frequently or consistently unavailable for Search
+  focus. Determine whether Narrator reserves the chords, mode or focus changes
+  event delivery, or a documented alternate interaction is needed. Preserve
+  the current bindings until reviewed;
+- verify the compact Cargo Link marker/control's role, accessible name and
+  state, keyboard behavior, and redundancy with the Cargo Link accessible
+  summary. Mouse activation of `✷⇄✷` did not itself prompt a new Narrator
+  utterance, while keyboard focus included it in the header description and
+  the visual tooltip remained available. Do not assume tooltip text must be
+  spoken on click;
+- verify that compact Resource Matrix controls expose enough accessible name,
+  description, state, and table/header context to distinguish the item and
+  action without relying on a visual tooltip. Labels such as `T-G-R` may be
+  insufficient in isolation. Preserve Matrix geometry;
+- treat Narrator's one-off “international sort” utterance while focus was on
+  the Spanish locale option as informational unless reproducible evidence
+  identifies incorrect application semantics;
 - test practical target comfort and interaction with a touchpad and Windows
   touchscreen when suitable hardware is available;
 - perform Safari/VoiceOver and iPhone/WebKit accessibility smoke testing when a
