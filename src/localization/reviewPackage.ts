@@ -88,9 +88,45 @@ type ConstraintValue = string | {
 }
 
 const constraintValuesByLocale: Readonly<Record<string, Readonly<Record<string, ConstraintValue>>>> = {
-  // Registered before glossary content exists; review routing still fails on
-  // the absent draft, while public validators can exercise the staged contract.
-  'zh-Hans': {},
+  'zh-Hans': {
+    'term.inter-system-cargo-link': { value: '跨星系货运链接', strategy: 'phrase' },
+    'term.cargo-link': { value: '货运链接', strategy: 'phrase' },
+    'term.outpost': { value: '哨站', strategy: 'phrase' },
+    'term.biome': { value: '生物群系', strategy: 'semantic-concept', variants: ['生物群系', '生物群落', '生态群落'] },
+    'term.planet': { value: '行星', strategy: 'semantic-concept', variants: ['行星', '星球'] },
+    'term.planetary-body': { value: '行星体', strategy: 'phrase' },
+    'term.star-system': { value: '星系', strategy: 'phrase' },
+    'skill.outpost-management': { value: '哨站管理', strategy: 'phrase' },
+    'skill.outpost-engineering': { value: '哨站工程', strategy: 'phrase' },
+    'skill.planetary-habitation': { value: '行星居住', strategy: 'phrase' },
+    'skill.research-methods': { value: '研究方法', strategy: 'phrase' },
+    'skill.special-projects': { value: '特殊项目', strategy: 'phrase' },
+    'term.x-tech-power-core': { value: 'X技术能量核心', strategy: 'phrase' },
+    'term.x-tech': { value: 'X技术', strategy: 'phrase' },
+    'product.starfield-localized': { value: '星空', strategy: 'semantic-concept' },
+    'product.starfield-brand': { value: 'Starfield', strategy: 'key-scoped' },
+    'glossary.planned-supply': { value: '计划供应', strategy: 'key-scoped' },
+    'glossary.present': { value: '存在', strategy: 'key-scoped', variants: ['存在', '可用'] },
+    'glossary.producing': { value: '生产中', strategy: 'key-scoped', variants: ['生产中', '开始生产', '停止生产'] },
+    'glossary.inputs': { value: '所需材料', strategy: 'semantic-concept', variants: ['所需材料', '所需资源'] },
+    'glossary.logistics': { value: '物流', strategy: 'key-scoped' },
+    'glossary.manufacturing': { value: '制造', strategy: 'semantic-concept' },
+    'glossary.validation': { value: '检查', strategy: 'semantic-concept', variants: ['检查', '问题'] },
+    'glossary.resource-matrix': { value: '资源状态表', strategy: 'phrase' },
+    'glossary.reshuffle': { value: '调整顺序', strategy: 'key-scoped', variants: ['调整顺序', '完成排序'] },
+    'glossary.lock-order': { value: '锁定顺序', strategy: 'key-scoped' },
+    'glossary.inorganic': { value: '无机', strategy: 'semantic-concept' },
+    'glossary.organic': { value: '有机', strategy: 'semantic-concept' },
+    'glossary.network': { value: '哨站网络', strategy: 'semantic-concept', variants: ['哨站网络', '网络'] },
+    'glossary.active-production': { value: '当前生产', strategy: 'semantic-concept' },
+    'glossary.source': { value: '来源', strategy: 'semantic-concept', variants: ['来源', '来源哨站'] },
+    'glossary.destination': { value: '目的地', strategy: 'semantic-concept' },
+    'glossary.file-import-export': { value: '导入 / 导出', strategy: 'key-scoped' },
+    'glossary.undo-redo': { value: '撤销 / 重做', strategy: 'key-scoped' },
+    'glossary.validation-error': { value: '错误', strategy: 'semantic-concept' },
+    'glossary.validation-warning': { value: '警告', strategy: 'semantic-concept' },
+    'glossary.validation-info': { value: '信息', strategy: 'semantic-concept' },
+  },
   'pl-PL': {
     'term.inter-system-cargo-link': { value: 'Międzyukładowe połączenie towarowe', strategy: 'semantic-concept', variants: ['międzyukładowe połączenie towarowe', 'połączenie towarowe międzyukładowe'] },
     'term.cargo-link': { value: 'Połączenie towarowe', strategy: 'semantic-concept' },
@@ -505,11 +541,14 @@ function constraintsOf(key: MessageKey, locale: string): string {
   if (!Object.keys(localeValues).length) return ''
   return applicable
     .map((constraint) => {
-      const value = localeValues[constraint.id]
-      if (!value) throw new Error(`REVIEW_CONSTRAINTS_MISSING: ${locale}:${constraint.id}.`)
-      if (typeof value === 'string') return `${constraint.id}=${value}`
+      const constraintId = locale === 'zh-Hans' && constraint.id === 'product.starfield'
+        ? (key === 'referenceFatal.report.subject' ? 'product.starfield-brand' : 'product.starfield-localized')
+        : constraint.id
+      const value = localeValues[constraintId]
+      if (!value) throw new Error(`REVIEW_CONSTRAINTS_MISSING: ${locale}:${constraintId}.`)
+      if (typeof value === 'string') return `${constraintId}=${value}`
       const variants = value.variants?.length ? `, variants=${value.variants.join(' | ')}` : ''
-      return `${constraint.id}=${value.value} [strategy=${value.strategy}${variants}]`
+      return `${constraintId}=${value.value} [strategy=${value.strategy}${variants}]`
     })
     .join('; ')
 }

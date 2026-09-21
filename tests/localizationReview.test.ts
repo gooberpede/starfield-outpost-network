@@ -164,12 +164,42 @@ test('Simplified Chinese residue checks catch copied English across Han boundari
   assert.doesNotThrow(() => createReviewRows('zh-Hans', { 'about.closeDialog': '关闭“关于”对话框' }))
 })
 
-test('Simplified Chinese staging keeps review routing explicit before glossary values exist', () => {
+test('Simplified Chinese staging keeps review routing explicit while glossary constraints are active', async () => {
   assert.throws(
     () => reviewRouteForLocale('zh-Hans'),
     /REVIEW_DRAFT_MISSING: zh-Hans requires an independent draft at src\/localization\/reviewDrafts\/zh-Hans\.ts\. Staged locale onboarding is incomplete\./,
   )
-  assert.ok(createReviewRows('zh-Hans').every(({ OfficialTermConstraints }) => !OfficialTermConstraints))
+  const rows = createReviewRows('zh-Hans')
+  assert.deepEqual(rows, createReviewRows('zh-Hans'))
+  assert.ok(rows.filter(({ OfficialTermConstraints }) => OfficialTermConstraints).length > 100)
+
+  const byKey = new Map(rows.map((row) => [row.Key, row]))
+  assert.match(byKey.get('cargo.heading')!.OfficialTermConstraints, /term\.cargo-link=货运链接 \[strategy=phrase\]/)
+  assert.match(byKey.get('cargo.interstellar')!.OfficialTermConstraints, /term\.inter-system-cargo-link=跨星系货运链接 \[strategy=phrase\]/)
+  assert.match(byKey.get('character.skill.outpostManagement')!.OfficialTermConstraints, /哨站管理 \[strategy=phrase\]/)
+  assert.match(byKey.get('outpost.body.select')!.OfficialTermConstraints, /term\.planetary-body=行星体 \[strategy=phrase\]/)
+  assert.match(byKey.get('outpost.system.select')!.OfficialTermConstraints, /term\.star-system=星系 \[strategy=phrase\]/)
+  assert.match(byKey.get('matrix.column.present')!.OfficialTermConstraints, /存在 \[strategy=key-scoped, variants=存在 \| 可用\]/)
+  assert.match(byKey.get('matrix.column.inputs')!.OfficialTermConstraints, /所需材料 \[strategy=semantic-concept, variants=/)
+  assert.match(byKey.get('outpost.navigation.reshuffleButton')!.OfficialTermConstraints, /调整顺序 \[strategy=key-scoped, variants=/)
+  assert.match(byKey.get('help.organic.availablePlanet')!.OfficialTermConstraints, /term\.planet=行星.*variants=行星 \| 星球/)
+  assert.match(byKey.get('about.description')!.OfficialTermConstraints, /product\.starfield-localized=星空 \[strategy=semantic-concept\]/)
+  assert.doesNotMatch(byKey.get('about.description')!.OfficialTermConstraints, /product\.starfield-brand/)
+  assert.match(byKey.get('referenceFatal.report.subject')!.OfficialTermConstraints, /product\.starfield-brand=Starfield \[strategy=key-scoped\]/)
+  assert.doesNotMatch(byKey.get('referenceFatal.report.subject')!.OfficialTermConstraints, /product\.starfield-localized/)
+
+  const stale = rows.map((row) => row.Key === 'matrix.column.present'
+    ? { ...row, OfficialTermConstraints: '' }
+    : row)
+  assert.throws(() => parseAndValidateReviewCsv(serializeReviewRows(stale), 'zh-Hans'), /REVIEW_CONSTRAINTS_STALE/)
+
+  const glossary = await readFile(new URL('../docs/localization/SIMPLIFIED-CHINESE-GLOSSARY.md', import.meta.url), 'utf8')
+  const classifiedIds = [...glossary.matchAll(/^\| `((?:term|skill)\.[^`]+)` \| ([ABCD]) \|/gm)]
+  assert.equal(classifiedIds.length, 19)
+  assert.equal(new Set(classifiedIds.map((match) => match[1])).size, 19)
+  assert.match(glossary, /Prefer `行星` for standalone selectors/)
+  assert.match(glossary, /Use `星空` in ordinary localized references/)
+  assert.match(glossary, /There are no Simplified-Chinese-specific ordinary-English allowlist words/)
 })
 
 test('Simplified Chinese plural and placeholder contracts preserve shared structure', () => {

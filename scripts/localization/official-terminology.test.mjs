@@ -28,6 +28,9 @@ const germanValues = parseOfficialTerminologyValuesCsv(
 const polishValuesBytes = await readFile(new URL('official-terminology-values-pl-PL.csv', directory))
 const polishValuesSource = new TextDecoder('utf-8', { fatal: true }).decode(polishValuesBytes)
 const polishValues = parseOfficialTerminologyValuesCsv(polishValuesSource)
+const simplifiedChineseValuesBytes = await readFile(new URL('official-terminology-values-zh-Hans.csv', directory))
+const simplifiedChineseValuesSource = new TextDecoder('utf-8', { fatal: true }).decode(simplifiedChineseValuesBytes)
+const simplifiedChineseValues = parseOfficialTerminologyValuesCsv(simplifiedChineseValuesSource)
 const stagedValues = Object.fromEntries(await Promise.all(['es-ES', 'it-IT', 'pt-BR'].map(async (locale) => [
   locale,
   parseOfficialTerminologyValuesCsv(await readFile(new URL(`official-terminology-values-${locale}.csv`, directory), 'utf8')),
@@ -123,13 +126,42 @@ test('staged terminology locales resolve complete deterministic official values 
   assert.throws(() => localizationVerificationCommands('xx-XX'), /UNSUPPORTED_LOCALE/)
 })
 
-test('Simplified Chinese terminology and locale closure route to deterministic missing staged artifacts', async () => {
+test('Simplified Chinese terminology closes deterministically under strict UTF-8', async () => {
   assert.deepEqual(localizationVerificationCommands('zh-Hans'), [
     ['validate-localized-name-provenance.mjs'],
     ['verify-official-terminology.mjs', '--locale', 'zh-Hans'],
     ['verify-reference-name-overlay.mjs', '--locale', 'zh-Hans'],
   ])
-  await assert.rejects(() => verifyOfficialTerminology('zh-Hans'), /TERMINOLOGY_VALUES_MISSING:.*official-terminology-values-zh-Hans\.csv/)
+  assert.deepEqual(await verifyOfficialTerminology('zh-Hans'), {
+    rows: 37, terms: 19, locale: 'zh-Hans', values: 37,
+  })
+  assert.doesNotThrow(() => new TextDecoder('utf-8', { fatal: true }).decode(simplifiedChineseValuesBytes))
+  assert.doesNotThrow(() => validateOfficialTerminologyValues(rows, simplifiedChineseValues, 'zh-Hans'))
+  assert.equal(simplifiedChineseValues.length, 37)
+  assert.equal(simplifiedChineseValues.filter(({ OfficialValue }) => OfficialValue).length, 33)
+  assert.equal(simplifiedChineseValues.filter(({ OfficialValue, RecommendedDefault }) =>
+    !OfficialValue && !RecommendedDefault).length, 4)
+
+  const byId = new Map(simplifiedChineseValues.map((row) => [row.EvidenceId, row]))
+  assert.equal(byId.get('term.outpost.standalone').RecommendedDefault, '哨站')
+  assert.equal(byId.get('term.cargo-link.standalone').RecommendedDefault, '货运链接')
+  assert.equal(byId.get('term.inter-system-cargo-link.standalone').RecommendedDefault, '跨星系货运链接')
+  assert.equal(byId.get('term.planetary-body.exact-phrase').RecommendedDefault, '行星体')
+  assert.equal(byId.get('term.star-system.full-phrase').RecommendedDefault, '星系')
+  assert.equal(byId.get('term.x-tech.resource-name').OfficialValue, 'X技术')
+  assert.equal(byId.get('term.x-tech.resource-name').RecommendedDefault, 'X技术')
+  assert.equal(byId.get('term.x-tech-power-core.item-name').RecommendedDefault, 'X技术能量核心')
+  assert.equal(byId.get('term.starfield.product-title').OfficialValue, '星空')
+  assert.equal(byId.get('term.starfield.product-title').RecommendedDefault, '星空')
+  assert.deepEqual([
+    byId.get('skill.outpost-management.name').RecommendedDefault,
+    byId.get('skill.outpost-engineering.name').RecommendedDefault,
+    byId.get('skill.planetary-habitation.name').RecommendedDefault,
+    byId.get('skill.research-methods.name').RecommendedDefault,
+    byId.get('skill.special-projects.name').RecommendedDefault,
+  ], ['哨站管理', '哨站工程', '行星居住', '研究方法', '特殊项目'])
+  assert.ok(rows.filter(({ EvidenceKind }) => EvidenceKind === 'absence')
+    .every(({ EvidenceId }) => !byId.get(EvidenceId).OfficialValue && !byId.get(EvidenceId).RecommendedDefault))
 })
 
 test('Polish terminology closes deterministically under strict UTF-8', async () => {
