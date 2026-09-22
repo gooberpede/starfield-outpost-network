@@ -35,17 +35,15 @@ import type {
 } from '../../domain/referenceData'
 import type { BiomeButtonGroup } from '../../domain/bodyResourceAvailability.ts'
 
-import {
-  getSolarEfficiencyLabel,
-  getWindEfficiencyLabel,
-} from '../powerEfficiencyPresentation'
 import { contextHelpText } from '../contextHelpText'
 import { getPowerEfficiencyTooltip } from '../statusTooltips'
 import { ContextHelp } from './ContextHelp'
 import { useLocalization } from '../../localization/LocalizationContext.ts'
+import { getCompactDisplayText } from '../../localization/compactDisplay.ts'
 import { getReferenceDisplayName } from '../../localization/referenceNames.ts'
 import { getBiomeGroupDisplayName } from '../biomePresentation.ts'
 import { compareLocalizedItems } from '../localizedCollation.ts'
+import { PowerEfficiencyIndicator } from './PowerEfficiencyIndicator.tsx'
 
 import './OutpostDetails.css'
 
@@ -147,8 +145,6 @@ export function OutpostDetails({
   const windOutput = currentBody?.windTurbinePower ?? null
   const solarEfficiency = getSolarEfficiency(solarOutput)
   const windEfficiency = getWindEfficiency(windOutput)
-  const solarEfficiencyLabel = getSolarEfficiencyLabel(solarEfficiency, locale)
-  const windEfficiencyLabel = getWindEfficiencyLabel(windEfficiency, locale)
   const availableBodies = eligibleBodies.filter(
     (body) => body.systemId === outpost.systemId,
   )
@@ -236,21 +232,21 @@ export function OutpostDetails({
         </label>
 
         <div className="outpost-details__field outpost-details__efficiency">
-          <span>{t('outpost.solar.label')}</span>
+          <span>{getCompactDisplayText(locale, 'outpost-details.solar-heading')}</span>
           <output
             tabIndex={0}
             title={getPowerEfficiencyTooltip(t('outpost.solar.label'), solarEfficiency, solarOutput, locale)}
             aria-label={getPowerEfficiencyTooltip(t('outpost.solar.label'), solarEfficiency, solarOutput, locale)}
-          >{solarEfficiencyLabel}</output>
+          ><PowerEfficiencyIndicator state={solarEfficiency} /></output>
         </div>
 
         <div className="outpost-details__field outpost-details__efficiency">
-          <span>{t('outpost.wind.label')}</span>
+          <span>{getCompactDisplayText(locale, 'outpost-details.wind-heading')}</span>
           <output
             tabIndex={0}
             title={getPowerEfficiencyTooltip(t('outpost.wind.label'), windEfficiency, windOutput, locale)}
             aria-label={getPowerEfficiencyTooltip(t('outpost.wind.label'), windEfficiency, windOutput, locale)}
-          >{windEfficiencyLabel}</output>
+          ><PowerEfficiencyIndicator state={windEfficiency} /></output>
         </div>
 
         <div className="outpost-details__field outpost-details__biomes">

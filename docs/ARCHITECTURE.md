@@ -669,6 +669,14 @@ preferences use a dedicated localStorage key and are not part of
 The provider also owns `document.documentElement.lang` and updates it whenever
 the effective locale changes.
 
+Approved compact visible copy is a separate presentation layer in
+`src/localization/compactDisplay.ts`. It is keyed by stable surface/concept
+identity and locale, falls back deterministically to the full semantic message,
+and does not alter or weaken full-catalogue key and placeholder parity. Feature
+components request compact text through this resolver rather than branching on
+locale. Full semantic messages remain authoritative for accessible names,
+tooltips, validation, history, prose, and unconstrained surfaces.
+
 Reference display names use a separate sparse overlay keyed by stable reference
 kind and ID. Resolution is locale override, canonical runtime name, then raw ID.
 The overlay never changes reference identity or generated reference datasets.

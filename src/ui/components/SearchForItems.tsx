@@ -27,6 +27,7 @@ import {
 } from '../itemSearchPosition.ts'
 import './SearchForItems.css'
 import { focusAndReveal } from '../focusVisibility.ts'
+import { getCompactDisplayText } from '../../localization/compactDisplay.ts'
 
 interface Props {
   inputRef: RefObject<HTMLInputElement | null>
@@ -69,7 +70,7 @@ export function SearchForItems({
   onDraftQueryChange, onHighlightChange, onAutocompleteOpenChange, onSubmit,
   onResultsOpenChange, onPalettePositionChange, onSelectOutpost,
 }: Props) {
-  const { t } = useLocalization()
+  const { locale, t } = useLocalization()
   const id = useId().replaceAll(':', '')
   const listboxId = `item-search-listbox-${id}`
   const descriptionId = `item-search-description-${id}`
@@ -327,7 +328,7 @@ export function SearchForItems({
           aria-activedescendant={highlightedMatchKey
             ? `item-search-option-${id}-${highlightedMatchKey.replaceAll(':', '-')}`
             : undefined}
-          placeholder={t('search.input.placeholder')}
+          placeholder={getCompactDisplayText(locale, 'item-search.placeholder')}
           value={draftQuery}
           onFocus={() => onAutocompleteOpenChange(matches.length > 0)}
           onChange={(event) => {

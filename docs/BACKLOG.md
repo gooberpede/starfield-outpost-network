@@ -322,20 +322,6 @@ deciding whether locale-on-demand loading is worthwhile. See
   variants. Correct the reference-name presentation or localization overlay
   path while preserving canonical IDs and reference keys; do not assume source
   data should be mutated.
-- **Localized Search placeholder truncation:** Localized Search placeholders can
-  truncate at constrained desktop widths. French and German remain usable and
-  accessible, but visible placeholder copy is partially clipped. Review later
-  whether shorter locale-specific placeholder copy or a separately approved
-  UI-geometry change is preferable.
-- **Localized `Very Poor` control capacity:** The accepted French, German,
-  Italian, Portuguese, and Spanish Solar translations (`Très mauvais`,
-  `Sehr schlecht`, `Molto scarso`, `Muito ruim`, and `Muy deficiente`) exceed
-  the current fixed control's visible capacity. This is
-  visual only; no functionality or accessibility blocker was found, and the
-  complete localized value is exposed semantically. A later mitigation may use
-  approved copy treatment, a redundant tooltip/accessible description, or a
-  separately reviewed control-geometry change. Do not shorten correct
-  translations merely to fit the current control.
 - **Resource Matrix localized header capacity:** Manual evidence confirms a
   shared visible header-capacity defect in at least French, German, Italian,
   Polish, and Spanish. Longer headings wrap awkwardly, expand across multiple
@@ -343,14 +329,6 @@ deciding whether locale-on-demand loading is worthwhile. See
   usable and no translation error is indicated. Investigate the shared Matrix
   column/heading design in a dedicated brief; do not introduce locale-specific
   geometry workarounds. See
-  `docs/audits/CROSS-LOCALE-COMPACT-LAYOUT-CAPACITY-REVIEW.md`.
-- **Polish Outpost Details Solar/Wind alignment:** `ENERGIA SŁONECZNA` and
-  `ENERGIA WIATROWA` wrap to two lines and place the Solar/Wind controls lower
-  than adjacent System, Body, and Biome controls. This is currently observed in
-  Polish and has not been reproduced in other manually checked locales. Keep it
-  distinct from localized `Very Poor` value-width pressure, do not shorten the
-  accepted translations to fit, and address it through a later cross-locale
-  Outpost Details capacity/layout brief. See
   `docs/audits/CROSS-LOCALE-COMPACT-LAYOUT-CAPACITY-REVIEW.md`.
 - **About and application versioning:** Expand the About dialog to show the
   application version, support/contact details, and a Ko-Fi link while

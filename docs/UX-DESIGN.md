@@ -902,6 +902,35 @@ stable-ID fallback. Body/orbit sequence, biome occurrence order, resource
 topology, persisted outpost order, validation order, source-class order, and
 history chronology retain their established domain or user ordering.
 
+## Compact localized display copy
+
+A compact visible label may use an explicitly approved, surface-specific
+localized variant when the full semantic message does not fit an intentionally
+dense control. The full message remains authoritative for accessible names,
+tooltips/help, validation, history, prose, and other surfaces. Compact variants
+must be resolved centrally, fall back to the full message, and must not be
+invented through automatic abbreviation or truncation.
+
+The Outpost Details Solar/Wind headings use this convention, including Polish
+`Słońce` and `Wiatr`. The Search field uses the same convention only for its
+visible placeholder, including French `Rechercher…` and German `Suchen…`; its
+full accessible instruction remains unchanged.
+
+## Qualitative power indicators
+
+Solar and Wind suitability use one passive, four-segment technical indicator
+instead of localized visible state text. Very Poor fills one segment, Poor two,
+Normal three, and Good four. Wind None leaves all segments empty and adds a
+diagonal structural mark. Unknown retains the four-cell structure and adds a
+question mark, so it is distinct from both None and Very Poor without color.
+
+The graphic is decorative and exposes no numerical meter/progress semantics.
+Its focusable parent output retains the full localized source and qualitative
+state through its accessible name and detailed tooltip. Segments are not focus
+targets. No multiplier, percentage, generator count, throughput, or numeric
+segment label is visible. Forced-colors styling preserves segment outlines,
+filled state, the None slash, the Unknown mark, and the parent focus outline.
+
 # Accessibility baseline
 
 Accessibility should be addressed locally and consistently without allowing a narrow UI task to expand into an unrelated full-application redesign.

@@ -6,6 +6,20 @@ import { translate } from '../localization/catalog.ts'
 import type { SupportedLocale } from '../localization/types.ts'
 
 export type PowerEfficiencyLabel = string
+export type PowerEfficiencyState = SolarEfficiency | WindEfficiency
+
+const filledSegmentCounts: Record<PowerEfficiencyState, number> = {
+  'very-poor': 1,
+  poor: 2,
+  normal: 3,
+  good: 4,
+  none: 0,
+  unknown: 0,
+}
+
+export function getPowerEfficiencyFilledSegmentCount(state: PowerEfficiencyState): number {
+  return filledSegmentCounts[state]
+}
 
 /** Keeps compact presentation wording separate from the domain buckets. */
 export function getSolarEfficiencyLabel(
