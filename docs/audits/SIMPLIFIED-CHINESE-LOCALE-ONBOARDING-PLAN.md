@@ -4,6 +4,8 @@ Audit date: 2026-09-21
 
 Runtime integration update: 2026-09-22
 
+Manual closure update: 2026-09-22
+
 Target tracker locale: `zh-Hans`
 
 Bethesda token: `zhhans`
@@ -37,14 +39,23 @@ The locale-scoped `:lang(zh-Hans)` font stack is `'Microsoft YaHei UI'`,
 Chinese, and no geometry or line-breaking rules changed.
 
 Focused and repository-wide automated verification passed for this runtime
-integration. Manual normal-scale, true 200% zoom, keyboard-only, Windows
-Narrator, glyph/typography, and layout-capacity QA remains pending and is
-required before the locale is described as fully supported. Final selector
-ordering and Apple/WebKit work also remain separate follow-up tasks.
+integration. Normal-scale manual smoke testing passed, and true
+browser-controlled 200% zoom passed with no observed text overflow or clipping.
+Manual Windows Narrator interaction passed structurally across the tested
+surfaces: roles, states, table/control positions, numeric values, Latin text,
+and untranslated user-authored content remained exposed. Narrator consistently
+skipped Chinese text on the test environment, so Chinese spoken output was not
+verified and the locale is not described as Narrator-certified for Chinese
+speech. Known shortcut interception remains shared/global debt.
+
+Steps 1–7 are complete. Simplified Chinese is fully closed/supported within the
+project's tested Windows/Chromium scope, with no Chinese-specific blocker.
+Step 8 — Post-localization cleanup — is next. Final selector ordering,
+Apple/WebKit rendering, and VoiceOver remain separate Step 8/deferred work.
 
 ## 1. Executive summary
 
-Simplified Chinese is ready to enter the established locale-onboarding process. The correct contract is:
+Simplified Chinese completed the established locale-onboarding process under the contract:
 
 ```text
 zh-Hans -> zhhans -> strict UTF-8 -> full catalogue
@@ -450,14 +461,14 @@ Prefer parameterized additions covering:
 
 ## 28. Recommended implementation sequence
 
-1. **Locale contracts/tooling extension:** add staged metadata, types/artifact contracts, review routing, English-residue hardening, and parameterized tests.
-2. **Official terminology and glossary:** resolve all 37 evidence rows into Chinese values and create the three-class glossary/constraints.
-3. **Independent semantic draft and XLIFF:** create the draft, 414-key (or current baseline-count) review CSV, validate parity, and freeze one XLIFF 1.2 handoff.
-4. **DeepL import/adjudication/final catalogue:** validate the round trip, record invalid output, adjudicate neutrally, and generate the complete catalogue.
-5. **Reference overlay and fauna evidence:** generate the 3,561-name overlay/sidecar, create evidence support, and record opportunistic screenshots without changing provenance.
-6. **Runtime integration:** register catalogue/overlay, browser policy, selector label, search tests, collation, shortcut speech, `document.lang`, and explicit Chinese system-font policy.
-7. **Layout/accessibility/release closure:** run automated closure plus the 1366/1600/200%/keyboard/Narrator/typography/import-export matrix; document the locale profile.
-8. **Post-localization cleanup:** final selector ordering, XLIFF relocation/cleanup, bundle/startup review, cross-locale capacity review, and deferred global/platform work.
+1. **Complete — Locale contracts/tooling extension:** staged metadata, types/artifact contracts, review routing, English-residue hardening, and parameterized tests.
+2. **Complete — Official terminology and glossary:** all 37 evidence rows resolved into Chinese values with three-class glossary/constraints.
+3. **Complete — Independent semantic draft and XLIFF:** complete 414-key review evidence and deterministic XLIFF 1.2 handoff.
+4. **Complete — DeepL import/adjudication/final catalogue:** validated round trip, recorded invalid output, neutral adjudication, and complete final catalogue.
+5. **Complete — Reference overlay and fauna evidence:** complete 3,561-name overlay/sidecar and accepted evidence support.
+6. **Complete — Runtime integration:** catalogue/overlay registration, browser policy, selector label, search, collation, shortcut speech, `document.lang`, and Chinese system-font policy.
+7. **Complete — Layout/accessibility/release closure:** automated/runtime QA, normal-scale smoke, true 200% zoom, keyboard/Narrator structural testing, typography, and import/export coverage are recorded in `docs/audits/SIMPLIFIED-CHINESE-LOCALE-QA.md`.
+8. **Next — Post-localization cleanup:** final selector ordering, XLIFF relocation/cleanup, bundle/startup review, cross-locale capacity review, and deferred global/platform work.
 
 Stages 1 and 2 may share one implementation brief if the reviewer wants a single tooling/terminology tranche; stages 3 and 4 should remain separated by the external DeepL handoff; overlay evidence and runtime activation should remain reviewable boundaries.
 
@@ -494,7 +505,8 @@ No stop condition was met during this audit.
 
 ## 31. Post-localization cleanup implications
 
-After Chinese release closure, immediately schedule the program-level work already deferred until all locales exist:
+Chinese release closure is complete. The next tranche is the program-level work
+already deferred until all locales exist:
 
 - decide final selector ordering across all supported locales;
 - move working XLIFF handoffs to the ignored location and update defaults/docs/tests while retaining durable review evidence;
@@ -504,9 +516,11 @@ After Chinese release closure, immediately schedule the program-level work alrea
 - perform Apple/WebKit rendering and VoiceOver smoke tests when suitable hardware is available;
 - simplify localization tooling only where the completed nine-locale set demonstrates repeated maintenance cost.
 
-## 32. Explicit user decisions/blockers before implementation
+## 32. Resolved implementation decisions
 
-There is no architecture blocker. A separate implementation brief should explicitly approve or confirm:
+The implementation decisions formerly listed here were resolved by the
+completed contracts, tooling, evidence, translation, runtime, and closure
+tranches:
 
 1. the recommended browser policy, especially bare `zh -> zh-Hans`;
 2. selector label `简体中文` without a country;
@@ -515,7 +529,8 @@ There is no architecture blocker. A separate implementation brief should explici
 5. who performs final Chinese editorial/native review and the authorized DeepL handoff;
 6. acceptance of official source strings that look internal or unusually mixed, unless provenance review identifies a real source defect.
 
-Do not proceed into Simplified Chinese implementation without that separate brief.
+No implementation or closure blocker remains. Step 8 requires its own scoped
+brief and is not performed by this status update.
 
 ## Audit diagnostics and provenance
 

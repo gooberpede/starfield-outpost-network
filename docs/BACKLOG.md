@@ -260,10 +260,10 @@ completed first. It means that work affecting distribution, usability, safety,
 and maintainability should increasingly be evaluated against the needs of a
 public-facing application rather than only the developer's own use.
 
-### Further localization coverage
+### Localization coverage and post-localization cleanup
 
-Localization is the remaining major V1 development phase. V1 targets the full
-Starfield text/interface language set:
+Locale onboarding for the full V1 Starfield text/interface language set is
+complete:
 
 - English;
 - French;
@@ -276,15 +276,21 @@ Starfield text/interface language set:
 - Simplified Chinese.
 
 The supported Bethesda-language targets now comprise English, French, German,
-Spanish (Spain), Japanese, Italian, Polish, and Portuguese (Brazil). `en-GB`
-remains a sparse English override rather than a separate Bethesda language.
-Simplified Chinese (`zh-Hans`, Bethesda token `zhhans`) is not onboarded and is
-the only substantial V1 locale onboarding remaining. Do not begin it as an
-incidental part of closure work. Final locale-selector ordering will be reviewed
-after Simplified Chinese is onboarded. The remaining parcel should preserve the
-existing localization architecture, exact key/placeholder parity tooling,
-review process, and reference-name provenance/overlay approach where
-applicable.
+Spanish (Spain), Japanese, Italian, Polish, Portuguese (Brazil), and Simplified
+Chinese. `en-GB` remains a sparse English override rather than a separate
+Bethesda language. Simplified Chinese (`zh-Hans`, Bethesda token `zhhans`) has
+completed automated/runtime QA, normal-scale smoke testing, true
+browser-controlled 200% zoom, and structural Narrator interaction testing.
+Chinese speech itself was not verified because Narrator consistently skipped
+Chinese text on the test environment; this is an explicit environment
+limitation rather than a Chinese-specific application blocker.
+
+Post-localization cleanup is now the next tranche. It includes final
+locale-selector ordering, XLIFF relocation/cleanup, measured bundle/startup
+review, cross-locale compact-layout capacity review, reconsideration of shared
+Narrator/shortcut/focus debt, Apple/WebKit and VoiceOver testing when suitable
+hardware exists, and evidence-based tooling simplification. Do not implement
+those items incidentally; each still needs appropriate scope and review.
 
 The semantic localization boundary includes tracker-authored UI, accessibility
 text, help/tooltips, validation, status/transient feedback, and session history
@@ -299,20 +305,21 @@ available but is not a hard V1 release gate. Its absence is a known limitation;
 screen-reader testing by a non-speaker does not substitute for native-language
 editorial review.
 
-**Post-program XLIFF cleanup:** while locale onboarding remains active, working
-`.xliff` files under `docs/localization/` are acceptable. After all planned
-localization work is complete, move working/handoff XLIFF files to an ignored
+**Post-program XLIFF cleanup:** locale onboarding is complete, so moving working
+`.xliff` handoffs out of `docs/localization/` is now due as separately scoped
+post-localization cleanup work. Move working/handoff XLIFF files to an ignored
 `.local-work/localization/...` location and update generator defaults, scripts,
 documentation, and tests that assume `docs/localization/`. Keep durable review
 evidence in review CSVs, glossaries, locale profiles, manifests, final
 catalogues, and reference overlays. Current deterministic XLIFF representations
 remain current handoffs, not historical proof of the exact bytes originally
-sent to DeepL. Do not perform this move during active onboarding.
+sent to DeepL. Do not perform the move incidentally outside the cleanup tranche.
 
-**Post-localization bundle review:** after planned locale onboarding is 
-complete, remeasure bundle composition and startup performance, with 
+**Post-localization bundle review:** planned locale onboarding is complete;
+remeasure bundle composition and startup performance as separately scoped
+post-localization cleanup work, with
 particular attention to statically bundled locale catalogues and reference-
-name overlays. Consider lazy locale loading only if measurements show 
+name overlays. Consider lazy locale loading only if measurements show
 meaningful benefit.
 
 ### Pre-release polish

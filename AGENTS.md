@@ -95,6 +95,15 @@ Read the relevant files before changing behaviour.
 
 Before significant implementation work, consult the relevant documentation when present:
 
+Temporary task-planning identifiers from implementation briefs, conversations,
+audits, onboarding plans, or agent work breakdowns must not leak into unrelated
+durable documentation, whether creating or updating it. Numbered Steps, Parcels,
+Batches, Phases, or Tranches may remain in the document that defines and owns
+that sequence; other documents should describe the underlying feature, state,
+finding, or work directly rather than depending on temporary numbering. A
+sequence that is itself a durable product or project concept may retain its
+identifier.
+
 - `docs/ARCHITECTURE.md`
   - technical architecture and state ownership.
 

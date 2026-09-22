@@ -35,7 +35,7 @@ Bethesda’s support matrix currently lists:
 | Italian | Interface/Text | Yes | Supported |
 | Polish | Interface/Text | Yes | Supported |
 | Portuguese (Brazil) | Interface/Text | Yes | Supported |
-| Simplified Chinese | Interface/Text | Yes | Runtime active; manual QA pending |
+| Simplified Chinese | Interface/Text | Yes | Supported |
 
 Authority:
 
@@ -47,9 +47,12 @@ The tracker is text/UI software, so Bethesda’s distinction between voice-suppo
 
 There is no required onboarding order. Japanese was deliberately onboarded early because it was likely to expose architectural weaknesses involving non-Latin script, font fallback, string length, composition, search, collation, and layout. Future additions do **not** need to proceed hardest-first.
 
-Polish is supported. Simplified Chinese runtime integration is complete, with
-manual layout, typography, 200% zoom, keyboard, and Narrator QA still pending.
-Final locale-selector ordering remains a separate post-localization review.
+Polish and Simplified Chinese are supported. Simplified Chinese automated/runtime
+QA, normal-scale smoke testing, and true browser-controlled 200% zoom passed.
+Manual Narrator interaction passed structurally, but Chinese speech itself could
+not be verified because Narrator consistently skipped Chinese text on the test
+environment. Final locale-selector ordering remains a separate
+post-localization review.
 
 ---
 
@@ -1683,7 +1686,7 @@ Narrator-certified. Native-language naturalness was not independently verified
 by a native speaker. Native-speaker review remains desirable when available but
 is not a hard V1 support gate. Apple/WebKit remains deferred and this status
 does not claim Safari, VoiceOver, or iPhone certification. Working XLIFF files
-remain in place until Simplified Chinese onboarding is complete.
+remain in place pending the separate post-localization cleanup tranche.
 
 ## 19.7 Polish — `pl-PL`
 
@@ -1755,13 +1758,15 @@ Native-speaker editorial review was unavailable and remains desirable but is
 not a hard V1 support gate; Narrator testing by a non-speaker is not a
 substitute. Apple/WebKit verification remains deferred, so this status does not
 claim Safari, VoiceOver, or iPhone/iPad certification. Working XLIFF files and
-locale-selector order remain unchanged until Simplified Chinese is onboarded.
+locale-selector order remain unchanged pending the separate post-localization
+cleanup tranche.
 
 ---
 
-# 20. Future-locale planning notes
+# 20. Locale maintenance and future-locale planning notes
 
-These are planning considerations only, not implementation commitments.
+These are maintenance and future-planning considerations, not implementation
+commitments.
 
 ## Latin-script locales
 
@@ -1816,13 +1821,27 @@ or Simplified/Traditional conversion. Shortcut speech preserves `Control`,
 `Alt`, and `Shift`, with `加` and localized arrow names. A locale-scoped
 `:lang(zh-Hans)` rule selects Microsoft YaHei UI, Microsoft YaHei, PingFang SC,
 Noto Sans CJK SC, `system-ui`, and `sans-serif` in that order without adding a
-font dependency. Automated runtime verification passes. Manual normal-scale,
-true 200% zoom, keyboard-only, Windows Narrator, glyph/typography, and
-layout-capacity QA remains pending, so this profile does not yet claim full
-support. No geometry or Chinese-specific line-breaking changes were made.
-Final locale-selector ordering and Apple/WebKit verification remain deferred.
+font dependency. Automated/runtime verification and normal-scale manual smoke
+testing pass. True browser-controlled 200% zoom passed with no observed text
+overflow or clipping. Manual Narrator interaction passed structurally across
+the tested surfaces: roles, states, table/control positions, numeric values,
+Latin text, and untranslated user-authored values were exposed. Narrator
+consistently skipped Chinese labels, descriptions, tooltips, and other Chinese
+strings on the test environment, so Chinese spoken output was not verified.
+This may reflect missing suitable Chinese Narrator/language support, but that
+cause is not proven.
 
-Likely areas requiring explicit verification include:
+Simplified Chinese is **Supported** and Layout/accessibility/release closure is
+complete within the project's tested Windows/Chromium scope. This status is not
+Chinese-speech Narrator certification and does not claim all global
+accessibility or high-zoom debt is resolved. Known Narrator shortcut
+interception remains shared/global debt rather than a Chinese-specific blocker.
+No geometry or Chinese-specific line-breaking changes were made. Final
+locale-selector ordering, XLIFF cleanup, cross-locale compact-capacity review,
+bundle/startup measurement, and Apple/WebKit/VoiceOver verification remain the
+next post-localization or deferred work.
+
+Areas preserved for cross-locale post-localization review include:
 
 - CJK font stack;
 - tracking/case behavior;
@@ -1831,9 +1850,8 @@ Likely areas requiring explicit verification include:
 - line breaking;
 - compact-control density.
 
-Japanese work gives the project a strong starting point, but Japanese-specific policies must not be copied mechanically into Chinese.
-
-For example, the Japanese fauna U+0020 rule is evidence for Japanese only until equivalent Chinese evidence is obtained.
+The final Chinese composition evidence independently confirmed its U+0020 fauna
+separator policy; it does not rely on Japanese evidence.
 
 ---
 
