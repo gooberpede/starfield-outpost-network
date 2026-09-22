@@ -71,6 +71,32 @@ test('committed Polish screenshot evidence maps all supplied frames and covers e
   assert.ok(evidence.observations.every((item) => item.matchStatus === 'scanner-case-only' && item.truncated === false))
 })
 
+test('committed Simplified Chinese screenshot evidence exactly maps every supplied frame and composition shape', async () => {
+  const { readFile } = await import('node:fs/promises')
+  const { parse } = await import('csv-parse/sync')
+  const rows = parse(await readFile(new URL('../../reference-source/localized-name-provenance.csv', import.meta.url)), { columns: true, bom: true })
+  const overlay = parseGeneratedReferenceNameModule(await readFile(new URL('../../src/localization/generated/zh-Hans-reference-names.ts', import.meta.url), 'utf8'), 'zh-Hans')
+  const occurrences = JSON.parse(await readFile(new URL('../../public/reference-data/planet-species.json', import.meta.url), 'utf8'))
+  const groupedOccurrences = Map.groupBy(occurrences, (item) => item.speciesId)
+  const bodyIdsByFauna = new Map([...groupedOccurrences].map(([faunaId, faunaOccurrences]) => [
+    faunaId, new Set(faunaOccurrences.map((occurrence) => occurrence.bodyId)),
+  ]))
+  const predictions = composedFaunaPredictions(rows, overlay, 'zh-Hans', { bodyIdsByFauna })
+  const evidence = JSON.parse(await readFile(new URL('../../reference-source/localized-fauna-evidence-zh-Hans.json', import.meta.url), 'utf8'))
+  assert.deepEqual(validateFaunaEvidence(evidence, predictions, 'zh-Hans'), {
+    status: 'provisionally-accepted', support: 'independently-observed', observationCount: 11, contradictions: 0,
+  })
+  assert.deepEqual(Object.fromEntries([...Map.groupBy(evidence.observations, (item) => item.componentShape)].map(([shape, items]) => [shape, items.length])), {
+    'prefix+species': 6, 'prefix+species+diet': 4, 'species+diet': 1,
+  })
+  assert.deepEqual(Object.fromEntries([...Map.groupBy(evidence.observations, (item) => item.bodyName)].map(([body, items]) => [body, items.length])), {
+    Jemison: 6, 'Montara Luna': 5,
+  })
+  assert.ok(evidence.observations.every((item) => item.matchStatus === 'exact' && item.truncated === false))
+  assert.ok(evidence.observations.every((item) => item.observedText === item.predictedText))
+  assert.ok(evidence.observations.every((item) => !/[【】]/u.test(item.observedText)))
+})
+
 test('committed provenance closes all 922 composed fauna and 2,179 components by shape', async () => {
   const { readFile } = await import('node:fs/promises')
   const { parse } = await import('csv-parse/sync')

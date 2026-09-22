@@ -102,9 +102,10 @@ test('Polish reference overlay routing verifies deterministic runtime artifacts'
   assert.equal(localeMetadataFor('pl-PL').runtimeAvailable, true)
 })
 
-test('staged Simplified Chinese reference overlay routing fails at deterministic absent outputs', async () => {
-  await assert.rejects(
-    () => verifyCommittedReferenceNameOverlay(undefined, 'zh-Hans'),
-    /REFERENCE_NAME_ARTIFACT_MISSING: zh-Hans requires .*zh-Hans-reference-names\.ts/,
-  )
+test('staged Simplified Chinese reference overlay verifies while runtime remains inactive', async () => {
+  const result = await verifyCommittedReferenceNameOverlay(undefined, 'zh-Hans')
+  assert.equal(result.entityCount, 3561)
+  assert.equal(result.provenanceRows, 4818)
+  assert.equal(result.evidenceStatus, 'provisionally-accepted')
+  assert.equal(localeMetadataFor('zh-Hans').runtimeAvailable, false)
 })

@@ -8,6 +8,7 @@ import { esESReferenceNames } from '../src/localization/generated/es-ES-referenc
 import { itITReferenceNames } from '../src/localization/generated/it-IT-reference-names.ts'
 import { ptBRReferenceNames } from '../src/localization/generated/pt-BR-reference-names.ts'
 import { plPLReferenceNames } from '../src/localization/generated/pl-PL-reference-names.ts'
+import { zhHANSReferenceNames } from '../src/localization/generated/zh-Hans-reference-names.ts'
 import { getSkillDisplayName, officialTermBySkill } from '../src/localization/officialTerms.ts'
 import { getReferenceDisplayName } from '../src/localization/referenceNames.ts'
 
@@ -35,6 +36,17 @@ test('generated Polish reference-name module preserves representative official v
   assert.equal(plPLReferenceNames.species['00048A34'], 'Drapież. Papugosokół')
   assert.equal(plPLReferenceNames.species['0019B89C'], 'Trzodn. Kosigłów Roślinożerca')
   assert.equal(plPLReferenceNames['official-term']['skill.outpost-management'], 'Zarządzanie placówką')
+})
+
+test('generated Simplified Chinese reference-name module preserves official literals', () => {
+  assert.equal(zhHANSReferenceNames.resource['x-tech'], 'X技术')
+  assert.equal(zhHANSReferenceNames.resource['helium-3'], '氦-3')
+  assert.equal(zhHANSReferenceNames.system['119224'], '天狼星-B')
+  assert.equal(zhHANSReferenceNames.body['000116C1'], '_RL082Orbital')
+  assert.equal(zhHANSReferenceNames.species['0019B899'], '卡拉蜗 [食腐动物]')
+  assert.equal(zhHANSReferenceNames.species['0019B89C'], '[畜牧] 绞刀 [食草动物]')
+  assert.equal(zhHANSReferenceNames.species['00048A34'], '[顶级掠食者] 鹦鹉鹰')
+  assert.equal(zhHANSReferenceNames['official-term']['skill.outpost-management'], '哨站管理')
 })
 
 test('Polish reference corpus retains official punctuation and has no new search-fold collisions', () => {

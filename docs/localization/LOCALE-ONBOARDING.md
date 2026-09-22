@@ -1780,17 +1780,40 @@ Potential issues include:
 
 ## Simplified Chinese
 
-Simplified Chinese (`zh-Hans`, Bethesda token `zhhans`) is the only remaining V1
-target and is not onboarded. It is likely to be one of the more demanding
-locales. Final locale-selector ordering remains deferred until it is onboarded.
+Simplified Chinese (`zh-Hans`, Bethesda token `zhhans`) remains runtime-inactive
+with `runtimeAvailable: false`, but its semantic catalogue, official terminology,
+and official reference-name overlay are complete. The overlay resolves all 3,561
+canonical entities from 4,818 qualified provenance rows with 0 unresolved,
+duplicate, or unexpected mappings. All nine authoritative `zhhans` string
+tables decode under strict UTF-8, and deterministic regeneration is enforced by
+the generated-module and sidecar hashes. Bethesda's official values are
+authoritative and are preserved literally, including mixed Han/Latin text,
+punctuation, abbreviations, and internal-looking values. No machine translation
+or Simplified/Traditional conversion fills reference-name gaps.
+
+The unchanged generalized fauna model produces 922 names from 2,179 ordered
+component occurrences: 267 `prefix + species`, 335 `prefix + species + diet`,
+and 320 `species + diet`. Eleven supplied first-party Jemison and Montara Luna
+screenshots yielded eleven full exact comparisons across all three shapes with
+0 contradictions and 0 unresolved observations. The rendered labels confirm
+one literal U+0020 space between non-empty components and ASCII square brackets,
+including `[群聚] 珊瑚虫`, `卡拉蜗 [食腐动物]`, and
+`[畜牧] 绞刀 [食草动物]`. The durable evidence record is
+`reference-source/localized-fauna-evidence-zh-Hans.json`; screenshot binaries
+remain outside tracked source. No Chinese-specific renderer branch or manual
+fauna exception table is used.
+
+Runtime activation remains a separate stage. This overlay is not imported by
+the runtime reference-name registry, and Simplified Chinese is not exposed in
+the selector or browser-language resolver. No Chinese search normalization,
+collation, font, CSS, `document.lang`, shortcut-speech, or layout behavior is
+enabled by this stage. Final locale-selector ordering remains deferred until
+runtime onboarding is complete.
 
 Likely areas requiring explicit verification include:
 
 - CJK font stack;
 - tracking/case behavior;
-- official string extraction/encoding;
-- punctuation;
-- dynamically composed names;
 - search aliases;
 - collation;
 - line breaking;

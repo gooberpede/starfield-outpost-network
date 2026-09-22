@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
-  "trackerLocale": "pl-PL",
-  "bethesdaToken": "pl",
+  "trackerLocale": "zh-Hans",
+  "bethesdaToken": "zhhans",
   "encoding": "utf-8",
   "gameVersion": "1.16.244.0",
   "provenanceSha256": "7C3D3464C8DC3BC6CDF521C676F0E2CEF01F79CE287AAF253E80390BEFF67608",
@@ -16,65 +16,65 @@
     {
       "plugin": "SFBGS00D.esm",
       "tableType": "dlstrings",
-      "memberName": "strings/sfbgs00d_pl.dlstrings",
-      "size": 96684,
-      "sha256": "28D25A289D0EB3903895A6C551DAF8799EC7160931C1DEA2029533B724AB5530"
+      "memberName": "strings/sfbgs00d_zhhans.dlstrings",
+      "size": 85132,
+      "sha256": "421FA4BD3E6EBE7AA87CB1F0374856F9B701E1E641FCDF839F1A2BE908DD6739"
     },
     {
       "plugin": "SFBGS00D.esm",
       "tableType": "ilstrings",
-      "memberName": "strings/sfbgs00d_pl.ilstrings",
-      "size": 470025,
-      "sha256": "D2CBDA7E3414F921AD7E76BBD44938355ED8A1D24017EF72E6F51291B54CBF2D"
+      "memberName": "strings/sfbgs00d_zhhans.ilstrings",
+      "size": 453485,
+      "sha256": "F56D2271EBA8EA20060560050FD64B826D0A50A89C76564F36952D627F63CABA"
     },
     {
       "plugin": "SFBGS00D.esm",
       "tableType": "strings",
-      "memberName": "strings/sfbgs00d_pl.strings",
-      "size": 120870,
-      "sha256": "5E44A1C6E216A12B0E6E08FFD2D4C90D7E0B20E3FDE2448450331B3C9E266372"
+      "memberName": "strings/sfbgs00d_zhhans.strings",
+      "size": 104201,
+      "sha256": "0994CFC00A03A74F6D693CF243734001AB84019F81DB5B2C5747731BDE905379"
     },
     {
       "plugin": "ShatteredSpace.esm",
       "tableType": "dlstrings",
-      "memberName": "strings/shatteredspace_pl.dlstrings",
-      "size": 178824,
-      "sha256": "C8506895E4D581AED5DFEAA59537761B14AAF503386AE823152A17F08E49945F"
+      "memberName": "strings/shatteredspace_zhhans.dlstrings",
+      "size": 160386,
+      "sha256": "0E1C9E37DCDC8D341AA1BAB893F50A19C2D0CD6E285F20DBC41B6F1AE0083AFE"
     },
     {
       "plugin": "ShatteredSpace.esm",
       "tableType": "ilstrings",
-      "memberName": "strings/shatteredspace_pl.ilstrings",
-      "size": 1358524,
-      "sha256": "9C8151E211E96F625945A194AEF240AAF776DCCD3031DB7DEA7D008F9C8FB7ED"
+      "memberName": "strings/shatteredspace_zhhans.ilstrings",
+      "size": 1269745,
+      "sha256": "B63F745570D6D53060BD14919B392CE0C271988041ED029AAA36A78E643E825F"
     },
     {
       "plugin": "ShatteredSpace.esm",
       "tableType": "strings",
-      "memberName": "strings/shatteredspace_pl.strings",
-      "size": 198654,
-      "sha256": "B0478D2AFF23A89DE507671CA3F0235909BFA2C5BC83D55F4499D28DD95476CF"
+      "memberName": "strings/shatteredspace_zhhans.strings",
+      "size": 171719,
+      "sha256": "877F41ED1BEAE323718BF29CFC102BAF43945E8B053B9337F9A5E769108F9FC6"
     },
     {
       "plugin": "Starfield.esm",
       "tableType": "dlstrings",
-      "memberName": "strings/starfield_pl.dlstrings",
-      "size": 1108928,
-      "sha256": "960A5D6EE766395BB6011CD405C2FE6D1582A59756DEF49D88757E50E1C58F7E"
+      "memberName": "strings/starfield_zhhans.dlstrings",
+      "size": 963842,
+      "sha256": "54567EF7A3390E54A32F79962D777A7C18F9CFD1849BB7EC66B8340725778454"
     },
     {
       "plugin": "Starfield.esm",
       "tableType": "ilstrings",
-      "memberName": "strings/starfield_pl.ilstrings",
-      "size": 9677004,
-      "sha256": "8C33E2C1B59E0ACEFDF77269A71738C6670F345DDA05CDE26B965DD53A4A2E22"
+      "memberName": "strings/starfield_zhhans.ilstrings",
+      "size": 9282749,
+      "sha256": "89E174382D84A90095471DC9DFEC0BE27892DCD1E74C980E83FFA552E62D93B5"
     },
     {
       "plugin": "Starfield.esm",
       "tableType": "strings",
-      "memberName": "strings/starfield_pl.strings",
-      "size": 1693159,
-      "sha256": "227E0C977363EADEDE6AD4BE4B3AB0297B955BA4F76BD906AD7223D1AD64DF90"
+      "memberName": "strings/starfield_zhhans.strings",
+      "size": 1513638,
+      "sha256": "193767750367832CEAAB4530C699E00CD97EBF0739F513923C2D447EFF85A3D4"
     }
   ],
   "entityCount": 3561,
@@ -105,11 +105,11 @@
   "compositionEvidence": {
     "status": "provisionally-accepted",
     "support": "independently-observed",
-    "observationCount": 8,
+    "observationCount": 11,
     "contradictions": 0,
-    "evidenceSha256": "9FF35D517DEA5D11A9F9CD69F7D4601B3EA9FE54298E7F9EC3C6D80C16343BF0"
+    "evidenceSha256": "22B52497619749A77316D8ADE72362592D0867AF9FF5E22AEF0061D3D93B34A3"
   },
-  "generatedModuleSha256": "6EBD9468169D2CD06F8A2ABF47A6B40A8AD35A1BADB6B6476DF30B01707E04AE",
+  "generatedModuleSha256": "4F03C754ABAC053004FF8B61B3657ACD48ADFBE5F42FD9735E8042ECB46E866B",
   "generator": {
     "toolVersion": "3.0.0"
   }

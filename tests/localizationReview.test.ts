@@ -291,9 +291,16 @@ test('Simplified Chinese draft and frozen handoff are complete, safe, and determ
   assert.equal((xliff.match(/<target state="new"><\/target>/g) ?? []).length, 414)
   assert.equal((xliff.match(/x-english-source-sha256/g) ?? []).length, 414)
   assert.equal(JSON.parse(metadataSource).locales.find(({ trackerLocale }: { trackerLocale: string }) => trackerLocale === 'zh-Hans').runtimeAvailable, false)
-  await assert.rejects(readFile(new URL('../src/localization/generated/zh-Hans-reference-names.ts', import.meta.url), 'utf8'), /ENOENT/)
-  await assert.rejects(readFile(new URL('../reference-source/localized-reference-names-zh-Hans-manifest.json', import.meta.url), 'utf8'), /ENOENT/)
-  await assert.rejects(readFile(new URL('../reference-source/localized-fauna-evidence-zh-Hans.json', import.meta.url), 'utf8'), /ENOENT/)
+  assert.match(
+    await readFile(new URL('../src/localization/generated/zh-Hans-reference-names.ts', import.meta.url), 'utf8'),
+    /export const zhHANSReferenceNames/,
+  )
+  const overlayManifest = JSON.parse(await readFile(new URL('../reference-source/localized-reference-names-zh-Hans-manifest.json', import.meta.url), 'utf8'))
+  assert.equal(overlayManifest.entityCount, 3561)
+  assert.equal(overlayManifest.provenanceRowCount, 4818)
+  const faunaEvidence = JSON.parse(await readFile(new URL('../reference-source/localized-fauna-evidence-zh-Hans.json', import.meta.url), 'utf8'))
+  assert.equal(faunaEvidence.observations.length, 11)
+  assert.equal(faunaEvidence.status, 'provisionally-accepted')
 })
 
 test('Simplified Chinese DeepL evidence is fully imported and neutrally adjudicated', async () => {
