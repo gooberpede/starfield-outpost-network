@@ -10,10 +10,11 @@ import { itITMessages } from '../src/localization/locales/it-IT.ts'
 import { jaJPMessages } from '../src/localization/locales/ja-JP.ts'
 import { plPLMessages } from '../src/localization/locales/pl-PL.ts'
 import { ptBRMessages } from '../src/localization/locales/pt-BR.ts'
+import { zhHansMessages } from '../src/localization/locales/zh-Hans.ts'
 import {
   accidentalEnglishResidueOf, comparisonStatus, createReviewCsv, createReviewRows, englishSourceSha256, hasValidPluralSyntax,
   createReviewXliff, finalCatalogueFromReview, importReviewXliff,
-  parametersOf, parseAndValidateReviewCsv, protectedTokensOf, serializeReviewRows,
+  parametersOf, parseAndValidateReviewCsv, pluralParametersOf, protectedTokensOf, serializeReviewRows,
 } from '../src/localization/reviewPackage.ts'
 import { deDEReviewDraft } from '../src/localization/reviewDrafts/de-DE.ts'
 import { esESReviewDraft } from '../src/localization/reviewDrafts/es-ES.ts'
@@ -21,6 +22,7 @@ import { frFRReviewDraft } from '../src/localization/reviewDrafts/fr-FR.ts'
 import { itITReviewDraft } from '../src/localization/reviewDrafts/it-IT.ts'
 import { plPLReviewDraft } from '../src/localization/reviewDrafts/pl-PL.ts'
 import { ptBRReviewDraft } from '../src/localization/reviewDrafts/pt-BR.ts'
+import { zhHansReviewDraft } from '../src/localization/reviewDrafts/zh-Hans.ts'
 import { adjudicateReviewRows } from '../src/localization/reviewAdjudication.ts'
 import { supportedLocaleIds } from '../src/localization/types.ts'
 import { reviewRouteForLocale } from '../scripts/localization/review-routing.ts'
@@ -164,13 +166,24 @@ test('Simplified Chinese residue checks catch copied English across Han boundari
   assert.doesNotThrow(() => createReviewRows('zh-Hans', { 'about.closeDialog': '关闭“关于”对话框' }))
 })
 
-test('Simplified Chinese staging keeps review routing explicit while glossary constraints are active', async () => {
-  assert.throws(
-    () => reviewRouteForLocale('zh-Hans'),
-    /REVIEW_DRAFT_MISSING: zh-Hans requires an independent draft at src\/localization\/reviewDrafts\/zh-Hans\.ts\. Staged locale onboarding is incomplete\./,
-  )
-  const rows = createReviewRows('zh-Hans')
-  assert.deepEqual(rows, createReviewRows('zh-Hans'))
+test('Simplified Chinese review routing is explicit while runtime remains staged', async () => {
+  const route = reviewRouteForLocale('zh-Hans')
+  assert.equal(route.source.createXliff, true)
+  assert.equal(route.source.translations, zhHansReviewDraft)
+  assert.deepEqual(route.artifacts, {
+    trackerLocale: 'zh-Hans',
+    review: 'docs/localization/zh-Hans-review.csv',
+    xliff: 'docs/localization/zh-Hans-deepl.xliff',
+    reviewDraft: 'src/localization/reviewDrafts/zh-Hans.ts',
+    catalogue: 'src/localization/locales/zh-Hans.ts',
+    catalogueExport: 'zhHansMessages',
+    terminologyValues: 'reference-source/official-terminology-values-zh-Hans.csv',
+    module: 'src/localization/generated/zh-Hans-reference-names.ts',
+    sidecar: 'reference-source/localized-reference-names-zh-Hans-manifest.json',
+    faunaEvidence: 'reference-source/localized-fauna-evidence-zh-Hans.json',
+  })
+  const rows = createReviewRows('zh-Hans', zhHansReviewDraft)
+  assert.deepEqual(rows, createReviewRows('zh-Hans', zhHansReviewDraft))
   assert.ok(rows.filter(({ OfficialTermConstraints }) => OfficialTermConstraints).length > 100)
 
   const byKey = new Map(rows.map((row) => [row.Key, row]))
@@ -200,6 +213,209 @@ test('Simplified Chinese staging keeps review routing explicit while glossary co
   assert.match(glossary, /Prefer `行星` for standalone selectors/)
   assert.match(glossary, /Use `星空` in ordinary localized references/)
   assert.match(glossary, /There are no Simplified-Chinese-specific ordinary-English allowlist words/)
+})
+
+test('Simplified Chinese draft and frozen handoff are complete, safe, and deterministic', async () => {
+  const englishKeys = Object.keys(enUSMessages).sort() as (keyof typeof enUSMessages)[]
+  assert.deepEqual(Object.keys(zhHansReviewDraft).sort(), englishKeys)
+  const rows = createReviewRows('zh-Hans', zhHansReviewDraft)
+  assert.equal(rows.length, 414)
+  for (const key of englishKeys) {
+    const value = zhHansReviewDraft[key]
+    assert.match(value, /\S/, key)
+    assert.deepEqual(parametersOf(value), parametersOf(enUSMessages[key]), `${key}:parameters`)
+    assert.equal(hasValidPluralSyntax(value), true, `${key}:plural`)
+    assert.deepEqual(accidentalEnglishResidueOf(enUSMessages[key], value, 'zh-Hans'), [], `${key}:English residue`)
+    for (const token of protectedTokensOf(enUSMessages[key])) assert.ok(value.includes(token), `${key}:${token}`)
+  }
+
+  assert.deepEqual([
+    zhHansReviewDraft['character.skill.outpostManagement'],
+    zhHansReviewDraft['character.skill.outpostEngineering'],
+    zhHansReviewDraft['character.skill.planetaryHabitation'],
+    zhHansReviewDraft['character.skill.researchMethods'],
+    zhHansReviewDraft['character.skill.specialProjects'],
+  ], ['哨站管理', '哨站工程', '行星居住', '研究方法', '特殊项目'])
+  assert.equal(zhHansReviewDraft['cargo.interstellar'], '跨星系货运链接')
+  assert.equal(zhHansReviewDraft['outpost.body.label'], '行星体')
+  assert.equal(zhHansReviewDraft['outpost.system.label'], '星系')
+  assert.equal(zhHansReviewDraft['matrix.heading'], '资源状态表')
+  assert.equal(zhHansReviewDraft['matrix.column.present'], '存在')
+  assert.equal(zhHansReviewDraft['matrix.column.producing'], '生产中')
+  assert.equal(zhHansReviewDraft['matrix.column.inputs'], '所需材料')
+  assert.equal(zhHansReviewDraft['matrix.column.logistics'], '物流')
+  assert.equal(zhHansReviewDraft['matrix.section.manufacturing'], '制造')
+  assert.equal(zhHansReviewDraft['plannedSupply.heading'], '计划供应')
+  assert.equal(zhHansReviewDraft['validation.counts'], '{errors}个错误 · {warnings}个警告 · {info}条信息')
+  assert.equal(
+    zhHansReviewDraft['validation.plannedSupplyUnresolved'],
+    '计划供应中有{count}{count, plural, one {个物品尚未解决} other {个物品尚未解决}}：{itemList}。',
+  )
+  assert.match(zhHansReviewDraft['about.description'], /星空/)
+  assert.match(zhHansReviewDraft['referenceFatal.report.subject'], /Starfield/)
+
+  for (const key of ['cargo.pad.count', 'validation.issueCount', 'validation.plannedSupplyUnresolved', 'search.results.found'] as const) {
+    const branches = [...zhHansReviewDraft[key].matchAll(/one \{([^{}]*)\} other \{([^{}]*)\}/g)]
+    assert.equal(branches.length, 1, key)
+    assert.equal(branches[0][1], branches[0][2], key)
+    for (const count of [0, 1, 2, 10]) {
+      const rendered = zhHansReviewDraft[key]
+        .replace(/\{count, plural, one \{([^{}]*)\} other \{([^{}]*)\}\}/g, '$2')
+        .replaceAll('{count}', String(count))
+        .replace('{itemList}', '铝、铁')
+        .replace('{searchItem}', '铝')
+      assert.doesNotMatch(rendered, /\{(?:count|itemList|searchItem)/, `${key}:${count}`)
+    }
+  }
+
+  const [csv, xliff, metadataSource] = await Promise.all([
+    readFile(new URL('../docs/localization/zh-Hans-review.csv', import.meta.url), 'utf8'),
+    readFile(new URL('../docs/localization/zh-Hans-deepl.xliff', import.meta.url), 'utf8'),
+    readFile(new URL('../reference-source/localization-locale-metadata.json', import.meta.url), 'utf8'),
+  ])
+  const committedRows = parseAndValidateReviewCsv(csv, 'zh-Hans')
+  for (const [index, row] of committedRows.entries()) {
+    const frozen = rows[index]
+    assert.deepEqual(
+      [row.Key, row.Locale, row.EnglishSource, row.EnglishSourceSha256, row.Context, row.Risk,
+        row.Parameters, row.ProtectedTokens, row.OfficialTermConstraints, row.CodexTranslation],
+      [frozen.Key, frozen.Locale, frozen.EnglishSource, frozen.EnglishSourceSha256, frozen.Context,
+        frozen.Risk, frozen.Parameters, frozen.ProtectedTokens, frozen.OfficialTermConstraints,
+        frozen.CodexTranslation],
+    )
+  }
+  assert.equal(xliff, createReviewXliff(rows, 'zh-Hans'))
+  assert.match(xliff, /xliff version="1\.2"/)
+  assert.match(xliff, /target-language="zh-Hans"/)
+  assert.equal((xliff.match(/<trans-unit /g) ?? []).length, 414)
+  assert.equal((xliff.match(/<target state="new"><\/target>/g) ?? []).length, 414)
+  assert.equal((xliff.match(/x-english-source-sha256/g) ?? []).length, 414)
+  assert.equal(JSON.parse(metadataSource).locales.find(({ trackerLocale }: { trackerLocale: string }) => trackerLocale === 'zh-Hans').runtimeAvailable, false)
+  await assert.rejects(readFile(new URL('../src/localization/generated/zh-Hans-reference-names.ts', import.meta.url), 'utf8'), /ENOENT/)
+  await assert.rejects(readFile(new URL('../reference-source/localized-reference-names-zh-Hans-manifest.json', import.meta.url), 'utf8'), /ENOENT/)
+  await assert.rejects(readFile(new URL('../reference-source/localized-fauna-evidence-zh-Hans.json', import.meta.url), 'utf8'), /ENOENT/)
+})
+
+test('Simplified Chinese DeepL evidence is fully imported and neutrally adjudicated', async () => {
+  const review = await readFile(new URL('../docs/localization/zh-Hans-review.csv', import.meta.url), 'utf8')
+  const rows = parseAndValidateReviewCsv(review, 'zh-Hans')
+  assert.equal(rows.length, 414)
+  assert.ok(rows.every(({ DeepLTranslation }) => DeepLTranslation.trim()))
+  assert.deepEqual(
+    Object.fromEntries(['IDENTICAL', 'TYPOGRAPHIC_ONLY', 'SUBSTANTIVE', 'INVALID_TOKENS']
+      .map((status) => [status, rows.filter(({ ComparisonStatus }) => ComparisonStatus === status).length])),
+    { IDENTICAL: 97, TYPOGRAPHIC_ONLY: 0, SUBSTANTIVE: 271, INVALID_TOKENS: 46 },
+  )
+  assert.deepEqual(
+    Object.fromEntries(['AGREED', 'CODEX', 'DEEPL', 'CUSTOM', 'INVALID_DEEPL_REPAIRED']
+      .map((decision) => [decision, rows.filter(({ AdjudicationDecision }) => AdjudicationDecision === decision).length])),
+    { AGREED: 97, CODEX: 249, DEEPL: 10, CUSTOM: 12, INVALID_DEEPL_REPAIRED: 46 },
+  )
+
+  const structural = rows.map((row) => {
+    const english = enUSMessages[row.Key]
+    return {
+      row,
+      placeholders: JSON.stringify(parametersOf(row.DeepLTranslation)) !== JSON.stringify(parametersOf(english)),
+      plural: !hasValidPluralSyntax(row.DeepLTranslation) ||
+        JSON.stringify(pluralParametersOf(row.DeepLTranslation)) !== JSON.stringify(pluralParametersOf(english)),
+      protectedToken: protectedTokensOf(english).some((token) => !row.DeepLTranslation.includes(token)),
+    }
+  })
+  assert.equal(structural.filter(({ placeholders }) => placeholders).length, 43)
+  assert.equal(structural.filter(({ plural }) => plural).length, 4)
+  assert.equal(structural.filter(({ protectedToken }) => protectedToken).length, 1)
+  assert.equal(structural.filter(({ placeholders, plural, protectedToken }) =>
+    placeholders || plural || protectedToken).length, 46)
+  assert.ok(rows.filter(({ ComparisonStatus }) => ComparisonStatus === 'INVALID_TOKENS')
+    .every(({ AdjudicationDecision, FinalTranslation, CodexTranslation, ReviewerNote }) =>
+      AdjudicationDecision === 'INVALID_DEEPL_REPAIRED' && FinalTranslation === CodexTranslation &&
+      /failed .* validation/.test(ReviewerNote)))
+
+  const qualityInvalidKeys = rows.filter((row) => row.ComparisonStatus !== 'INVALID_TOKENS' &&
+    accidentalEnglishResidueOf(enUSMessages[row.Key], row.DeepLTranslation, 'zh-Hans').length)
+    .map(({ Key }) => Key)
+  assert.deepEqual(qualityInvalidKeys, [
+    'shortcuts.action.focusSearchResults',
+    'shortcuts.group.cargoLinks',
+    'status.import.invalidCargoPad',
+  ])
+  assert.ok(qualityInvalidKeys.every((key) => rows.find((row) => row.Key === key)?.AdjudicationDecision === 'CODEX'))
+  assert.ok(rows.every(({ AdjudicationDecision, FinalTranslation, ReviewerNote }) =>
+    AdjudicationDecision && FinalTranslation && ReviewerNote.length >= 40))
+})
+
+test('final Simplified Chinese catalogue is review-derived, complete, and runtime-inactive', async () => {
+  const review = await readFile(new URL('../docs/localization/zh-Hans-review.csv', import.meta.url), 'utf8')
+  const rows = parseAndValidateReviewCsv(review, 'zh-Hans')
+  const englishKeys = Object.keys(enUSMessages).sort() as (keyof typeof enUSMessages)[]
+  assert.deepEqual(Object.keys(zhHansMessages).sort(), englishKeys)
+  assert.deepEqual(finalCatalogueFromReview(review, 'zh-Hans'), zhHansMessages)
+  assert.deepEqual(adjudicateReviewRows(rows), rows)
+
+  for (const key of englishKeys) {
+    const value = zhHansMessages[key]
+    assert.match(value, /\S/, key)
+    assert.deepEqual(parametersOf(value), parametersOf(enUSMessages[key]), `${key}:parameters`)
+    assert.equal(hasValidPluralSyntax(value), true, `${key}:plural`)
+    assert.deepEqual(accidentalEnglishResidueOf(enUSMessages[key], value, 'zh-Hans'), [], `${key}:English residue`)
+    for (const token of protectedTokensOf(enUSMessages[key])) assert.ok(value.includes(token), `${key}:${token}`)
+  }
+
+  assert.equal(zhHansMessages['about.description'], '用于记录《星空》哨站网络的追踪工具。')
+  assert.match(zhHansMessages['referenceFatal.report.subject'], /Starfield/)
+  assert.equal(zhHansMessages['cargo.interstellar'], '跨星系货运链接')
+  assert.equal(zhHansMessages['matrix.heading'], '资源状态表')
+  assert.equal(zhHansMessages['character.skill.planetaryHabitation'], '行星居住')
+  assert.equal(zhHansMessages['character.skill.specialProjects'], '特殊项目')
+  assert.equal(zhHansMessages['validation.counts'], '{errors}个错误 · {warnings}个警告 · {info}条信息')
+  const blindAuditCorrections = {
+    'matrix.section.imports': '进口',
+    'matrix.tooltip.export.inactive': '{item}未被导出。',
+    'status.drag.reorder': '拖放以重新排序 · 按 Esc 取消',
+    'matrix.tooltip.import.active': '{item}正在被导入。',
+    'referenceFatal.reason.buildMismatch': '参考数据属于应用的另一构建版本。',
+    'matrix.manufacturing.add': '添加制成品',
+    'plannedSupply.section.products': '制成品',
+    'shortcuts.group.importExport': '导入/导出',
+    'status.import.invalidExplicitPresence': '所选文件包含无效的显式资源存在数据。',
+    'validation.remediation.harvesting': '可在以下生物群系中采集：{biomes}',
+    'matrix.tooltip.xTech.add': '将{resource}标记为存在。如果有可用的X技术能量核心，即可在任意哨站开采该资源。',
+    'status.import.aggregateLimitExceeded': '此导入文件包含的条目过多，无法安全打开。',
+    'status.import.arrayLimitExceeded': '此导入文件的某个部分包含过多条目。',
+    'validation.activeProductionOrganicInvalid': '{resource}已标记为生产中，但无法在{biomes}通过哨站采集获得。',
+    'validation.activeProductionOrganicInvalidMany': '{resource}已标记为生产中，但无法在{biomes}这些生物群系通过哨站采集获得。',
+    'validation.activeProductionOrganicInvalidOne': '{resource}已标记为生产中，但无法在{biomes}生物群系通过哨站采集获得。',
+  } as const
+  for (const key of Object.keys(blindAuditCorrections) as (keyof typeof blindAuditCorrections)[]) {
+    assert.equal(zhHansMessages[key], blindAuditCorrections[key], key)
+  }
+  assert.equal(zhHansMessages['help.biomes'], '所选生物群系会将可用资源限制为能够在其中出现的资源。')
+  assert.equal(zhHansMessages['validation.unresolvedCargoExport'], '此项货物导出没有实际来源。')
+  assert.doesNotMatch(zhHansMessages['character.level.rejectedRestored'], /1 至 999/)
+  assert.doesNotMatch(zhHansMessages['character.level.rejectedEmpty'], /1 至 999/)
+  assert.doesNotMatch(zhHansMessages['character.skillRank.rejectedRestored'], /0 至 4/)
+  assert.doesNotMatch(zhHansMessages['character.skillRank.rejectedEmpty'], /0 至 4/)
+  assert.doesNotMatch(zhHansMessages['validation.outpostNameLength'], /25 个字符/)
+
+  for (const key of ['cargo.pad.count', 'validation.issueCount', 'validation.plannedSupplyUnresolved', 'search.results.found'] as const) {
+    const branches = [...zhHansMessages[key].matchAll(/one \{([^{}]*)\} other \{([^{}]*)\}/g)]
+    assert.equal(branches.length, 1, key)
+    assert.equal(branches[0][1], branches[0][2], key)
+    for (const count of [0, 1, 2, 10]) {
+      const rendered = zhHansMessages[key]
+        .replace(/\{count, plural, one \{([^{}]*)\} other \{([^{}]*)\}\}/g, '$2')
+        .replaceAll('{count}', String(count))
+        .replace('{itemList}', '铝、铁')
+        .replace('{searchItem}', '铝')
+      assert.doesNotMatch(rendered, /\{(?:count|itemList|searchItem)/, `${key}:${count}`)
+    }
+  }
+
+  const metadata = JSON.parse(await readFile(
+    new URL('../reference-source/localization-locale-metadata.json', import.meta.url), 'utf8',
+  ))
+  assert.equal(metadata.locales.find(({ trackerLocale }: { trackerLocale: string }) => trackerLocale === 'zh-Hans').runtimeAvailable, false)
 })
 
 test('Simplified Chinese plural and placeholder contracts preserve shared structure', () => {
@@ -240,6 +456,61 @@ test('Simplified Chinese plural and placeholder contracts preserve shared struct
   ), /REVIEW_INVALID_PLURAL_SYNTAX/)
   assert.throws(() => validateSimplifiedChineseTranslation('transfer.export.tooltip', '导出所有网络到 Json'),
     /REVIEW_INVALID_PROTECTED_TOKEN/)
+})
+
+test('Simplified Chinese disposable protocol shape exercises XLIFF placeholders and metadata', () => {
+  const keys = [
+    'about.closeDialog',
+    'common.removeItem',
+    'cargo.pad.count',
+    'about.attribution',
+    'transfer.export.tooltip',
+    'status.import.duplicateNetworkId',
+    'validation.manufacturingInputUnavailable',
+  ] as const
+  const rows = createReviewRows('zh-Hans', zhHansReviewDraft)
+    .filter(({ Key }) => (keys as readonly string[]).includes(Key))
+  const xliff = createReviewXliff(rows, 'zh-Hans')
+  assert.equal(rows.length, 7)
+  assert.match(xliff, /xliff version="1\.2"/)
+  assert.match(xliff, /source-language="en-US" target-language="zh-Hans"/)
+  assert.match(xliff, /<ph id="p\d+" equiv-text="\{item\}">\{item\}<\/ph>/)
+  assert.match(xliff, /<ph id="p\d+-open" equiv-text="\{count, plural, one \{"/)
+  assert.match(xliff, /<ph id="p\d+-other" equiv-text="\} other \{"/)
+  assert.match(xliff, /<ph id="p\d+-close" equiv-text="\}\}"/)
+  assert.match(xliff, /x-english-source-sha256/)
+  assert.match(xliff, /x-parameters/)
+  assert.match(xliff, /x-protected-tokens/)
+  assert.match(xliff, /<note from="context">/)
+  assert.match(xliff, /<note from="terminology">/)
+  assert.equal((xliff.match(/<target state="new"><\/target>/g) ?? []).length, 7)
+})
+
+test('Simplified Chinese import accepts flattened literal placeholders and records corrupted plurals', () => {
+  const review = createReviewCsv('zh-Hans', zhHansReviewDraft)
+  const xliff = createReviewXliff(createReviewRows('zh-Hans', zhHansReviewDraft), 'zh-Hans')
+  const sourceAsTarget = xliff.replace(/<target state="new"><\/target>/g, (_target, offset: number) => {
+    const unitStart = xliff.lastIndexOf('<trans-unit', offset)
+    const unitEnd = xliff.indexOf('</trans-unit>', offset)
+    const source = xliff.slice(unitStart, unitEnd).match(/<source>([\s\S]*?)<\/source>/)?.[1] ?? ''
+    return `<target state="translated">${source}</target>`
+  })
+  const flattened = sourceAsTarget
+    .replace(
+      /(<trans-unit id="common\.removeItem"[\s\S]*?<target[^>]*>)[\s\S]*?(<\/target>)/,
+      '$1移除{item}$2',
+    )
+    .replace(
+      /(<trans-unit id="cargo\.pad\.count"[\s\S]*?<target[^>]*>)[\s\S]*?(<\/target>)/,
+      '$1{数量，复数，一个 {条货运链接} 其他 {条货运链接}}$2',
+    )
+  const rows = parseAndValidateReviewCsv(
+    importReviewXliff(review, flattened, 'zh-Hans', { recordInvalidTokens: true }),
+    'zh-Hans',
+  )
+  assert.equal(rows.find(({ Key }) => Key === 'common.removeItem')?.DeepLTranslation, '移除{item}')
+  assert.notEqual(rows.find(({ Key }) => Key === 'common.removeItem')?.ComparisonStatus, 'INVALID_TOKENS')
+  assert.equal(rows.find(({ Key }) => Key === 'cargo.pad.count')?.ComparisonStatus, 'INVALID_TOKENS')
 })
 
 test('Simplified Chinese DeepL quality failures remain evidence but cannot become final text', () => {

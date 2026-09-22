@@ -220,6 +220,12 @@ DeepL currently supports Simplified Chinese through its translation language inv
 
 Before the real handoff, run a small disposable round trip to confirm that DeepL preserves the current `<ph>` representation and whether it rewrites target-language casing (`zh-Hans` versus `ZH-HANS` or `ZH`). If it does, add only BCP-47-equivalent canonicalization at import; do not weaken source-hash, stable-key, or token checks. Do not call DeepL until the glossary and independent draft are frozen.
 
+### Source-blinded re-adjudication record
+
+After the initial semantic adjudication, two source-blinded passes reviewed all 268 structurally valid, Chinese-quality-valid substantive disagreements: 72 unconstrained tracker strings and 196 terminology-constrained tracker strings. Candidate origin was hidden in both passes, while approved terminology constraints remained visible in the constrained pass. Reconciliation produced 16 material catalogue corrections; 49 rows judged equivalent retained their existing acceptable finals to avoid stylistic churn.
+
+The original adjudication and blind reviewer both used the GPT-5.6 Sol model family and configuration. This evidence is therefore source-blinded re-adjudication, not independent-model or native-speaker validation, and does not establish objective linguistic correctness. The accepted V1 process retains that limitation explicitly.
+
 ## 14. Reference-overlay readiness
 
 The generalized builder can produce the expected artifacts without provenance regeneration:
