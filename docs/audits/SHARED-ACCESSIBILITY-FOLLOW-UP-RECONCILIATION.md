@@ -47,7 +47,7 @@ not available and remain deferred platform coverage.
 | Resource Matrix visible focus | Corrected / manually verified within tested Windows/Edge scope | Matrix shortcut focus applies a transient authored indicator while retaining ordinary `:focus-visible` and pointer behavior. User manual checks passed for Resource Matrix, Inorganic Resources, Organic Resource, and Manufacturing focus in regular contrast and Windows High Contrast. |
 | Compact Resource Matrix context | Superseded structurally | The accessibility tree exposed table/row/cell context plus full action/item descriptions such as “Toggle Present for Lead”; automated component tests cover localized compact semantics. Do not retain a duplicate generic context item unless Narrator testing identifies a concrete missing announcement. |
 | Compact Cargo Link marker/context | Still open; needs targeted Narrator verification | Automated tests cover a localized full-name collapsed summary, but prior manual evidence found no new utterance from mouse activation of the marker. This may be expected tooltip/click behavior; do not change it without a precise speech/focus failure. |
-| Cargo Undo collapse/presentation behavior | Confirmed presentation-state regression; needs dedicated correction brief | Current Edge runtime evidence shows that deleting one of at least two expanded Cargo Links preserves the remaining links' presentation state immediately after deletion, but Undo restores the deleted link collapsed and also collapses every other Cargo Link. Preserve unrelated Cargo Link presentation state through Undo where consistent with the established history/presentation contract. The restored link's desired state remains a later design decision. |
+| Cargo Undo collapse/presentation behavior | Corrected after this audit | The point-in-time Edge evidence below identified a presentation reset on Undo. The correction now preserves current unrelated Cargo Link expansion state, restores the removed link expanded, and applies the same rule through Redo and another Undo without changing history snapshots. |
 | Fixed-chrome focus visibility | Corrected / manually verified within tested Windows/Edge scope | The shell measures Page Header height, shares Status Bar clearance across reachability and scroll insets, and routes application focus/restoration through one minimal reveal helper with nested-scroll and fixed-overlay handling. User manual checks at 100% and true browser-controlled 200% zoom passed for a long Navigation list, Resource Matrix, expanded Cargo Links, and Planned Supply, with no top or bottom occlusion. |
 | One-off “international sort” locale utterance | Not reproduced; retire as informational | No application semantic defect has been identified. Reopen only with repeatable evidence. |
 
@@ -64,12 +64,14 @@ The confirmed Edge reproduction is:
 6. Observe that the removed Cargo Link returns collapsed and all other Cargo
    Links also become collapsed.
 
-This is current direct runtime evidence and takes precedence over an inference
-from stable presentation-state keys. The regression belongs to a dedicated
-history/presentation-state correction brief. That brief should preserve
-unrelated Cargo Link presentation state through Undo where consistent with the
-existing contract; it should separately decide whether the restored Cargo Link
-returns expanded or collapsed.
+This was direct runtime evidence at the time of the audit and took precedence
+over an inference from stable presentation-state keys. The regression was
+assigned to a dedicated history/presentation-state correction brief.
+
+Subsequent disposition: the dedicated correction established that a restored
+Cargo Link returns expanded, because removal is available only from its
+expanded editor. Unrelated Cargo Links retain their current presentation state;
+the point-in-time reproduction above remains as historical audit evidence.
 
 ## Recommended follow-up boundaries
 

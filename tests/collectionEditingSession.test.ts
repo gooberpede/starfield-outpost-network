@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import type { NetworkCollection } from '../src/data/networkCollection'
-import { collectionEditingSessionReducer as reduce, createCollectionEditingSession, formatNetworkHistoryLabel, getHistoryPresentationReset, MAX_HISTORY_ENTRIES, normalizeHistoryState, type HistoryLabelDescriptor } from '../src/domain/collectionEditingSession.ts'
+import { collectionEditingSessionReducer as reduce, createCollectionEditingSession, formatNetworkHistoryLabel, getCargoPadHistoryPresentationChange, getHistoryPresentationReset, MAX_HISTORY_ENTRIES, normalizeHistoryState, type HistoryLabelDescriptor } from '../src/domain/collectionEditingSession.ts'
 import { createDefaultNetwork } from '../src/domain/defaults.ts'
 import type { OutpostNetwork } from '../src/domain/models'
 
@@ -377,5 +377,40 @@ test('membership detection ignores reorder but distinguishes outposts and cargo 
     navigation: true,
     cargo: true,
     search: true,
+  })
+})
+
+test('Cargo Pad removal traversal preserves the editor and describes only the removed pad', () => {
+  const value = collection()
+  value.networks[0].network.outposts[0].cargoPads = [
+    { id: 'p1', label: 'Pad 1', type: 'regular', outboundItems: [] },
+    { id: 'p2', label: 'Pad 2', type: 'regular', outboundItems: [] },
+  ]
+  let session = createCollectionEditingSession(value)
+  session = reduce(session, {
+    type: 'apply-active-network',
+    label: { key: 'history.deleteCargoPad' },
+    timestamp: 1,
+    update: (networkValue) => ({
+      ...networkValue,
+      outposts: networkValue.outposts.map((outpost) => outpost.id === 'a1'
+        ? { ...outpost, cargoPads: outpost.cargoPads.filter(({ id }) => id !== 'p1') }
+        : outpost),
+    }),
+  })
+
+  assert.deepEqual(getHistoryPresentationReset(session, 'undo'), {
+    navigation: false, cargo: false, search: false,
+  })
+  assert.deepEqual(getCargoPadHistoryPresentationChange(session, 'undo'), {
+    outpostId: 'a1', cargoPadId: 'p1', expanded: true,
+  })
+
+  session = reduce(session, { type: 'undo' })
+  assert.deepEqual(getHistoryPresentationReset(session, 'redo'), {
+    navigation: false, cargo: false, search: false,
+  })
+  assert.deepEqual(getCargoPadHistoryPresentationChange(session, 'redo'), {
+    outpostId: 'a1', cargoPadId: 'p1', expanded: false,
   })
 })

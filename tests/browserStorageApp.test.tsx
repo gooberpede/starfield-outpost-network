@@ -4,6 +4,8 @@ import App from '../src/App.tsx'
 import type { ReferenceData } from '../src/domain/referenceData.ts'
 import { LocalizationContext } from '../src/localization/LocalizationContext.ts'
 import { translate } from '../src/localization/catalog.ts'
+import { createDefaultNetwork, createDefaultOutpost } from '../src/domain/defaults.ts'
+import type { NetworkCollection } from '../src/data/networkCollection.ts'
 
 const referenceData: ReferenceData = {
   systems: [], bodies: [], bodyResources: [], resources: [], products: [],
@@ -16,6 +18,33 @@ function mount() {
     locale: 'en-US', automaticLocale: 'en-US', localeOverride: 'en-US',
     setLocaleOverride: vi.fn(), t: (key, parameters) => translate('en-US', key, parameters),
   }}><App referenceData={referenceData} /></LocalizationContext>)
+}
+
+function seedCargoPads(...padCounts: number[]) {
+  const network = createDefaultNetwork()
+  network.outposts = padCounts.map((padCount, outpostIndex) => ({
+    ...createDefaultOutpost([], `outpost-${outpostIndex + 1}`, `Outpost ${outpostIndex + 1}`),
+    cargoPads: Array.from({ length: padCount }, (_, padIndex) => ({
+      id: `pad-${outpostIndex + 1}-${padIndex + 1}`,
+      label: `Pad ${padIndex + 1}`,
+      type: 'regular' as const,
+      outboundItems: [],
+    })),
+  }))
+  const collection: NetworkCollection = {
+    schemaVersion: 1,
+    networks: [{ id: 'network-1', network }],
+    activeNetworkId: 'network-1',
+  }
+  localStorage.setItem('starfield-outpost-network', JSON.stringify(collection))
+}
+
+function cargoDisclosures() {
+  return screen.getAllByRole('button', { name: /^(?:Expand|Collapse) Cargo Link \d+$/ })
+}
+
+function cargoDisclosureStates() {
+  return cargoDisclosures().map((button) => button.getAttribute('aria-expanded'))
 }
 
 test('failed source survives mount and passive render; an edit allows replacement', async () => {
@@ -67,6 +96,53 @@ test('quota failure keeps editor mounted and warning persists until retry succee
     .toBe('Unsaved edit')
   view.unmount()
   write.mockRestore()
+})
+
+test('Cargo Pad removal Undo and Redo preserve unrelated expansion state', () => {
+  seedCargoPads(3)
+  mount()
+  cargoDisclosures().forEach((button) => fireEvent.click(button))
+  expect(cargoDisclosureStates()).toEqual(['true', 'true', 'true'])
+
+  fireEvent.click(screen.getByRole('button', { name: 'Remove Cargo Link 1' }))
+  expect(cargoDisclosureStates()).toEqual(['true', 'true'])
+
+  fireEvent.click(screen.getByRole('button', { name: 'Undo' }))
+  expect(cargoDisclosureStates()).toEqual(['true', 'true', 'true'])
+
+  fireEvent.click(screen.getByRole('button', { name: 'Redo' }))
+  expect(cargoDisclosureStates()).toEqual(['true', 'true'])
+
+  fireEvent.click(screen.getByRole('button', { name: 'Undo' }))
+  expect(cargoDisclosureStates()).toEqual(['true', 'true', 'true'])
+})
+
+test('Cargo Pad removal Undo preserves current mixed state and expands only the restored pad', () => {
+  seedCargoPads(3)
+  mount()
+  fireEvent.click(cargoDisclosures()[0])
+  fireEvent.click(cargoDisclosures()[2])
+  expect(cargoDisclosureStates()).toEqual(['true', 'false', 'true'])
+
+  fireEvent.click(screen.getByRole('button', { name: 'Remove Cargo Link 1' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Collapse Cargo Link 2' }))
+  expect(cargoDisclosureStates()).toEqual(['false', 'false'])
+
+  fireEvent.click(screen.getByRole('button', { name: 'Undo' }))
+  expect(cargoDisclosureStates()).toEqual(['true', 'false', 'false'])
+})
+
+test('the only restored Cargo Pad expands and expansion does not leak across outposts', () => {
+  seedCargoPads(1, 1)
+  mount()
+  fireEvent.click(cargoDisclosures()[0])
+  fireEvent.click(screen.getByRole('button', { name: 'Remove Cargo Link 1' }))
+  expect(screen.queryByRole('button', { name: /Cargo Link 1/ })).not.toBeInTheDocument()
+  fireEvent.click(screen.getByRole('button', { name: 'Undo' }))
+  expect(cargoDisclosureStates()).toEqual(['true'])
+
+  fireEvent.click(screen.getByRole('button', { name: 'Outpost 2' }))
+  expect(cargoDisclosureStates()).toEqual(['false'])
 })
 
 function dispatchShortcut(key: string, options: KeyboardEventInit = {}) {

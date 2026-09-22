@@ -297,6 +297,45 @@ export interface HistoryPresentationReset {
   search: boolean
 }
 
+export interface CargoPadHistoryPresentationChange {
+  outpostId: string
+  cargoPadId: string
+  expanded: boolean
+}
+
+/**
+ * Describes the one presentation-only Cargo adjustment implied by traversing
+ * a Cargo Pad removal. The history entry remains a domain snapshot; callers
+ * use this transient instruction only to preserve the editor's working state.
+ */
+export function getCargoPadHistoryPresentationChange(
+  session: CollectionEditingSession,
+  direction: 'undo' | 'redo',
+): CargoPadHistoryPresentationChange | null {
+  const entry = direction === 'undo'
+    ? session.history.past.at(-1)
+    : session.history.future.at(-1)
+  if (!entry || entry.label.key !== 'history.deleteCargoPad' ||
+    entry.before.context.networkId !== entry.after.context.networkId ||
+    entry.before.context.outpostId !== entry.after.context.outpostId ||
+    !entry.before.context.outpostId) return null
+
+  const networkId = entry.before.context.networkId
+  const outpostId = entry.before.context.outpostId
+  const beforePads = entry.before.collection.networks.find(({ id }) => id === networkId)
+    ?.network.outposts.find(({ id }) => id === outpostId)?.cargoPads ?? []
+  const afterPadIds = new Set(entry.after.collection.networks.find(({ id }) => id === networkId)
+    ?.network.outposts.find(({ id }) => id === outpostId)?.cargoPads.map(({ id }) => id) ?? [])
+  const removedPads = beforePads.filter(({ id }) => !afterPadIds.has(id))
+  if (removedPads.length !== 1 || beforePads.length !== afterPadIds.size + 1) return null
+
+  return {
+    outpostId,
+    cargoPadId: removedPads[0].id,
+    expanded: direction === 'undo',
+  }
+}
+
 export function getHistoryPresentationReset(
   session: CollectionEditingSession,
   direction: 'undo' | 'redo',
@@ -310,9 +349,11 @@ export function getHistoryPresentationReset(
   const networkChanged = normalizedTarget.context.networkId !== session.context.networkId
   const outpostChanged = normalizedTarget.context.outpostId !== session.context.outpostId
   const membership = getEditorMembershipChanges(entry)
+  const cargoPadPresentationChange = getCargoPadHistoryPresentationChange(session, direction)
   return {
     navigation: entry.resetsNetworkPresentation || networkChanged || membership.outposts,
-    cargo: entry.resetsNetworkPresentation || networkChanged || outpostChanged || membership.cargoPads,
+    cargo: entry.resetsNetworkPresentation || networkChanged || outpostChanged ||
+      (membership.cargoPads && !cargoPadPresentationChange),
     search: entry.resetsNetworkPresentation || networkChanged,
   }
 }

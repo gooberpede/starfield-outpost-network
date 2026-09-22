@@ -691,6 +691,12 @@ ellipsis cleanly while the full name remains available through a title.
 
 Expanded state exposes editing controls.
 
+Undoing Cargo Link removal restores the removed Cargo Link expanded while
+preserving the current expanded/collapsed state of every unrelated Cargo Link.
+Redo removes it without changing unrelated presentation state, and another
+Undo restores it expanded again. This is a deterministic presentation rule,
+not a replay of historical expansion state.
+
 The detailed summary format may evolve, but preserve the general pattern:
 
 - compact by default;

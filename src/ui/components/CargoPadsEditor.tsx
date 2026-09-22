@@ -69,6 +69,7 @@ import { useLocalization } from '../../localization/LocalizationContext.ts'
 import { formatInteger, formatList } from '../../localization/formatters.ts'
 import { getReferenceDisplayName } from '../../localization/referenceNames.ts'
 import { focusAndReveal } from '../focusVisibility.ts'
+import type { CargoPadHistoryPresentationChange } from '../../domain/collectionEditingSession.ts'
 
 interface CargoPadsEditorProps {
   commandRef?: RefObject<CargoPadsEditorCommands | null>
@@ -107,6 +108,7 @@ interface CargoPadsEditorProps {
   products: Product[]
   availableItems: CargoItem[]
   actuallyAvailableItems: CargoItem[]
+  historyPresentationChange?: CargoPadHistoryPresentationChange | null
 }
 
 export interface CargoPadsEditorCommands {
@@ -139,6 +141,7 @@ export function CargoPadsEditor({
   onDeleteCargoPad,
   onToggleExport,
   onToggleCargoPadType,
+  historyPresentationChange,
 }: CargoPadsEditorProps) {
   const { locale, t } = useLocalization()
   /*
@@ -167,6 +170,8 @@ export function CargoPadsEditor({
   const effectiveCommandRef = commandRef ?? localCommandRef
   const lastDisclosureRef = useRef<HTMLButtonElement>(null)
   const focusAddedPadRef = useRef(false)
+  const [appliedHistoryPresentationChange, setAppliedHistoryPresentationChange] =
+    useState<CargoPadHistoryPresentationChange | null>(null)
 
   const isDragActive = activeDrag !== null
   const canReshuffle = outpost.cargoPads.length >= 2
@@ -182,6 +187,22 @@ export function CargoPadsEditor({
       setActiveDrag(null)
       setIsReshuffling(false)
     }
+  }
+
+  if (historyPresentationChange &&
+    historyPresentationChange !== appliedHistoryPresentationChange &&
+    historyPresentationChange.outpostId === outpost.id) {
+    setAppliedHistoryPresentationChange(historyPresentationChange)
+    setExpandedPadIds((current) => {
+      const updated = { ...current }
+      if (historyPresentationChange.expanded &&
+        outpost.cargoPads.some(({ id }) => id === historyPresentationChange.cargoPadId)) {
+        updated[historyPresentationChange.cargoPadId] = true
+      } else {
+        delete updated[historyPresentationChange.cargoPadId]
+      }
+      return updated
+    })
   }
 
   function clearDrag() {

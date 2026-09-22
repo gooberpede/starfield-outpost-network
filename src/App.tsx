@@ -69,6 +69,7 @@ import {
   collectionEditingSessionReducer,
   createCollectionEditingSession,
   getHistoryPresentationReset,
+  getCargoPadHistoryPresentationChange,
 } from './domain/collectionEditingSession'
 
 import type {
@@ -334,6 +335,8 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
     useState(0)
   const [cargoPresentationEpoch, setCargoPresentationEpoch] =
     useState(0)
+  const [cargoHistoryPresentationChange, setCargoHistoryPresentationChange] =
+    useState<ReturnType<typeof getCargoPadHistoryPresentationChange>>(null)
 
   const selectedOutpost =
     network.outposts.find((outpost) => outpost.id === session.context.outpostId) ??
@@ -427,6 +430,7 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
   }, [collection])
 
   function selectOutpost(outpostId: string | null) {
+    setCargoHistoryPresentationChange(null)
     dispatchEditingSession({ type: 'select-outpost', outpostId })
   }
 
@@ -1522,6 +1526,7 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
     historyFocusRepairRef.current = document.activeElement instanceof HTMLElement
       ? document.activeElement : null
     const presentationReset = getHistoryPresentationReset(session, 'undo')
+    setCargoHistoryPresentationChange(getCargoPadHistoryPresentationChange(session, 'undo'))
     dispatchEditingSession({
       type: 'undo',
     })
@@ -1535,6 +1540,7 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
     historyFocusRepairRef.current = document.activeElement instanceof HTMLElement
       ? document.activeElement : null
     const presentationReset = getHistoryPresentationReset(session, 'redo')
+    setCargoHistoryPresentationChange(getCargoPadHistoryPresentationChange(session, 'redo'))
     dispatchEditingSession({
       type: 'redo',
     })
@@ -1577,11 +1583,13 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
   }
 
   function switchNetwork(networkId: string) {
+    setCargoHistoryPresentationChange(null)
     dispatchEditingSession({ type: 'switch-network', networkId })
     resetNetworkPresentationState()
   }
 
   function addNetwork() {
+    setCargoHistoryPresentationChange(null)
     dispatchEditingSession({
       type: 'add-network',
       networkId: crypto.randomUUID(),
@@ -1594,6 +1602,7 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
 
   /** Deletes the active slot or resets the sole slot after dialog consent. */
   function deleteOrResetNetwork() {
+    setCargoHistoryPresentationChange(null)
     if (collection.networks.length === 1) {
       dispatchEditingSession({
         type: 'reset-network',
@@ -2026,6 +2035,7 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
     importedCollection: NetworkCollection,
     fileName: string,
   ) {
+    setCargoHistoryPresentationChange(null)
     dispatchEditingSession({
       type: 'replace-collection',
       collection: importedCollection,
@@ -2305,6 +2315,7 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
             products={products}
             availableItems={availableCargoItems}
             actuallyAvailableItems={actuallyAvailableItems}
+            historyPresentationChange={cargoHistoryPresentationChange}
             onAddCargoPad={() =>
               addCargoPad(selectedOutpost.id)
             }

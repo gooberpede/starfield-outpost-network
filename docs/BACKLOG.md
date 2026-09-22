@@ -175,17 +175,6 @@ Current behaviour remains whole-collection immutable before/after snapshots with
 one deliberate operation per history entry and a 1,000-entry collection-global
 session cap.
 
-- **Cargo Link Undo presentation state:** This is a confirmed current Edge
-  presentation-state regression. With at least two Cargo Links expanded,
-  deleting one preserves the remaining links' expanded/collapsed state, but
-  invoking Undo restores the deleted link collapsed and collapses every other
-  Cargo Link. A dedicated correction should preserve unrelated Cargo Link
-  presentation state through Undo where consistent with the existing
-  history/presentation contract. Whether the restored link itself returns
-  expanded or collapsed remains open; do not change history semantics
-  unnecessarily. See
-  `docs/audits/SHARED-ACCESSIBILITY-FOLLOW-UP-RECONCILIATION.md`.
-
 ## Status bar
 
 The current status bar supports validation, transient action feedback,

@@ -1282,6 +1282,12 @@ membership changes reset Navigation; selected-outpost or cargo-pad membership
 changes reset Cargo. Stable-ID reorder alone resets neither. Ordinary
 same-outpost value edits preserve both through Undo/Redo.
 
+Cargo-pad removal is the narrow exception to the general cargo-pad membership
+reset. Traversing that action preserves the mounted Cargo editor so unrelated
+expanded/collapsed state remains current. A transient, presentation-only
+instruction expands the restored pad on Undo and removes its stale expansion
+key on Redo; it is not stored in collection history or persisted data.
+
 ---
 
 # 21. History branching
