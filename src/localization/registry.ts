@@ -7,6 +7,7 @@ import { esESMessages } from './locales/es-ES.ts'
 import { itITMessages } from './locales/it-IT.ts'
 import { ptBRMessages } from './locales/pt-BR.ts'
 import { plPLMessages } from './locales/pl-PL.ts'
+import { zhHansMessages } from './locales/zh-Hans.ts'
 import type { LocaleMetadata, LocaleOverrides, SupportedLocale } from './types.ts'
 
 export interface LocaleRegistration extends LocaleMetadata {
@@ -41,5 +42,8 @@ export const localeRegistry: Record<SupportedLocale, LocaleRegistration> = {
   },
   'pl-PL': {
     id: 'pl-PL', shortLabel: 'PL-PL', displayName: 'Polski (Polska)', messages: plPLMessages,
+  },
+  'zh-Hans': {
+    id: 'zh-Hans', shortLabel: '简体中文', displayName: '简体中文', messages: zhHansMessages,
   },
 }

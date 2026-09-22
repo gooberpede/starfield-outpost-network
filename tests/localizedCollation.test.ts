@@ -59,6 +59,7 @@ test('localized alphabetical sorting uses the active locale and stable ID fallba
     assert.ok(getCollator('pl-PL').compare(plain, polish) < 0, `${plain} / ${polish}`)
   }
   assert.ok(getCollator('pl-PL').compare('Element 2', 'Element 10') < 0)
+  assert.ok(getCollator('zh-Hans').compare('哨站 2', '哨站 10') < 0)
 })
 
 test('localized system collation does not reorder domain and chronology boundaries', () => {

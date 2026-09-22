@@ -166,7 +166,7 @@ test('Simplified Chinese residue checks catch copied English across Han boundari
   assert.doesNotThrow(() => createReviewRows('zh-Hans', { 'about.closeDialog': '关闭“关于”对话框' }))
 })
 
-test('Simplified Chinese review routing is explicit while runtime remains staged', async () => {
+test('Simplified Chinese review routing remains explicit after runtime activation', async () => {
   const route = reviewRouteForLocale('zh-Hans')
   assert.equal(route.source.createXliff, true)
   assert.equal(route.source.translations, zhHansReviewDraft)
@@ -290,7 +290,7 @@ test('Simplified Chinese draft and frozen handoff are complete, safe, and determ
   assert.equal((xliff.match(/<trans-unit /g) ?? []).length, 414)
   assert.equal((xliff.match(/<target state="new"><\/target>/g) ?? []).length, 414)
   assert.equal((xliff.match(/x-english-source-sha256/g) ?? []).length, 414)
-  assert.equal(JSON.parse(metadataSource).locales.find(({ trackerLocale }: { trackerLocale: string }) => trackerLocale === 'zh-Hans').runtimeAvailable, false)
+  assert.equal(JSON.parse(metadataSource).locales.find(({ trackerLocale }: { trackerLocale: string }) => trackerLocale === 'zh-Hans').runtimeAvailable, true)
   assert.match(
     await readFile(new URL('../src/localization/generated/zh-Hans-reference-names.ts', import.meta.url), 'utf8'),
     /export const zhHANSReferenceNames/,
@@ -352,7 +352,7 @@ test('Simplified Chinese DeepL evidence is fully imported and neutrally adjudica
     AdjudicationDecision && FinalTranslation && ReviewerNote.length >= 40))
 })
 
-test('final Simplified Chinese catalogue is review-derived, complete, and runtime-inactive', async () => {
+test('final Simplified Chinese catalogue is review-derived, complete, and runtime-active', async () => {
   const review = await readFile(new URL('../docs/localization/zh-Hans-review.csv', import.meta.url), 'utf8')
   const rows = parseAndValidateReviewCsv(review, 'zh-Hans')
   const englishKeys = Object.keys(enUSMessages).sort() as (keyof typeof enUSMessages)[]
@@ -422,7 +422,7 @@ test('final Simplified Chinese catalogue is review-derived, complete, and runtim
   const metadata = JSON.parse(await readFile(
     new URL('../reference-source/localization-locale-metadata.json', import.meta.url), 'utf8',
   ))
-  assert.equal(metadata.locales.find(({ trackerLocale }: { trackerLocale: string }) => trackerLocale === 'zh-Hans').runtimeAvailable, false)
+  assert.equal(metadata.locales.find(({ trackerLocale }: { trackerLocale: string }) => trackerLocale === 'zh-Hans').runtimeAvailable, true)
 })
 
 test('Simplified Chinese plural and placeholder contracts preserve shared structure', () => {
@@ -921,6 +921,7 @@ test('Spanish, Italian, and Brazilian Portuguese final catalogues are complete, 
   }
   assert.deepEqual(supportedLocaleIds, [
     'en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR', 'pl-PL',
+    'zh-Hans',
   ])
 })
 
@@ -1007,6 +1008,7 @@ test('complete Japanese, French, and German catalogues satisfy the full-locale c
   }
   assert.deepEqual(supportedLocaleIds, [
     'en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR', 'pl-PL',
+    'zh-Hans',
   ])
 })
 

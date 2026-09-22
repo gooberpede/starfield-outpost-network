@@ -86,12 +86,24 @@ test('browser locale resolution conservatively maps regional runtime locales', (
   assert.equal(resolveBrowserLocale(['pl-LT', 'en-US']), 'en-US')
 })
 
+test('browser locale resolution maps Simplified Chinese without absorbing Traditional Chinese', () => {
+  for (const language of ['zh', 'zh-Hans', 'zh-Hans-CN', 'zh-Hans-SG', 'zh-CN', 'zh-SG']) {
+    assert.equal(resolveBrowserLocale([language]), 'zh-Hans', language)
+  }
+  assert.equal(resolveBrowserLocale(['zh-Hans-TW']), 'zh-Hans')
+  for (const language of ['zh-Hant', 'zh-Hant-CN', 'zh-TW', 'zh-HK', 'zh-MO', 'zh-Latn-CN']) {
+    assert.equal(resolveBrowserLocale([language, 'fr-FR']), 'fr-FR', language)
+  }
+  assert.equal(resolveBrowserLocale(['zh-Hant-CN', 'zh-Hans-SG']), 'zh-Hans')
+})
+
 test('application preferences persist separately and recover invalid values as Automatic', () => {
   const storage = new MemoryStorage()
   assert.deepEqual(loadApplicationPreferences(storage), { localeOverride: null })
 
   for (const localeOverride of [
     null, 'en-US', 'en-GB', 'ja-JP', 'fr-FR', 'de-DE', 'es-ES', 'it-IT', 'pt-BR', 'pl-PL',
+    'zh-Hans',
   ] as const) {
     saveApplicationPreferences({ localeOverride }, storage)
     assert.deepEqual(loadApplicationPreferences(storage), { localeOverride })
@@ -124,11 +136,13 @@ test('selector model exposes the effective closed label and dynamic Automatic ro
     { value: 'it-IT', label: 'Italiano (Italia)' },
     { value: 'pt-BR', label: 'Português (Brasil)' },
     { value: 'pl-PL', label: 'Polski (Polska)' },
+    { value: 'zh-Hans', label: '简体中文' },
   ])
   assert.equal(getLocaleSelectorOptions('es-ES')[0].label, 'Automatic (ES-ES)')
   assert.equal(getLocaleSelectorOptions('it-IT')[0].label, 'Automatic (IT-IT)')
   assert.equal(getLocaleSelectorOptions('pt-BR')[0].label, 'Automatic (PT-BR)')
   assert.equal(getLocaleSelectorOptions('pl-PL')[0].label, 'Automatic (PL-PL)')
+  assert.equal(getLocaleSelectorOptions('zh-Hans')[0].label, 'Automatic (简体中文)')
   assert.equal(resolveEffectiveLocale('en-US', ['en-GB']), 'en-US')
 
   const session = createCollectionEditingSession(createDefaultNetworkCollection())
@@ -312,6 +326,7 @@ test('locale-aware number helpers and collator use Intl presentation', () => {
   assert.equal(formatPercent('pl-PL', 0.25), '25%')
   assert.equal(new Intl.PluralRules('pl-PL').select(2), 'few')
   assert.ok(getCollator('pl-PL').compare('Element 2', 'Element 10') < 0)
+  assert.ok(getCollator('zh-Hans').compare('哨站 2', '哨站 10') < 0)
 })
 
 test('document language follows initial and switched effective locale', () => {
@@ -332,6 +347,8 @@ test('document language follows initial and switched effective locale', () => {
   assert.equal(target.documentElement.lang, 'pt-BR')
   setDocumentLanguage('pl-PL', target)
   assert.equal(target.documentElement.lang, 'pl-PL')
+  setDocumentLanguage('zh-Hans', target)
+  assert.equal(target.documentElement.lang, 'zh-Hans')
   setDocumentLanguage('en-GB', target)
   assert.equal(target.documentElement.lang, 'en-GB')
 })

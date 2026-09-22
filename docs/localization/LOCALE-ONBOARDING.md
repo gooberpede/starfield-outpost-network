@@ -35,7 +35,7 @@ Bethesda’s support matrix currently lists:
 | Italian | Interface/Text | Yes | Supported |
 | Polish | Interface/Text | Yes | Supported |
 | Portuguese (Brazil) | Interface/Text | Yes | Supported |
-| Simplified Chinese | Interface/Text | Yes | Not onboarded |
+| Simplified Chinese | Interface/Text | Yes | Runtime active; manual QA pending |
 
 Authority:
 
@@ -47,9 +47,9 @@ The tracker is text/UI software, so Bethesda’s distinction between voice-suppo
 
 There is no required onboarding order. Japanese was deliberately onboarded early because it was likely to expose architectural weaknesses involving non-Latin script, font fallback, string length, composition, search, collation, and layout. Future additions do **not** need to proceed hardest-first.
 
-Polish is supported. Simplified Chinese remains the final V1 target that is not
-onboarded. Final locale-selector ordering will be reviewed after Simplified
-Chinese is onboarded.
+Polish is supported. Simplified Chinese runtime integration is complete, with
+manual layout, typography, 200% zoom, keyboard, and Narrator QA still pending.
+Final locale-selector ordering remains a separate post-localization review.
 
 ---
 
@@ -1780,9 +1780,9 @@ Potential issues include:
 
 ## Simplified Chinese
 
-Simplified Chinese (`zh-Hans`, Bethesda token `zhhans`) remains runtime-inactive
-with `runtimeAvailable: false`, but its semantic catalogue, official terminology,
-and official reference-name overlay are complete. The overlay resolves all 3,561
+Simplified Chinese (`zh-Hans`, Bethesda token `zhhans`) is runtime-active with
+`runtimeAvailable: true`; its semantic catalogue, official terminology, and
+official reference-name overlay are complete. The overlay resolves all 3,561
 canonical entities from 4,818 qualified provenance rows with 0 unresolved,
 duplicate, or unexpected mappings. All nine authoritative `zhhans` string
 tables decode under strict UTF-8, and deterministic regeneration is enforced by
@@ -1803,12 +1803,24 @@ including `[群聚] 珊瑚虫`, `卡拉蜗 [食腐动物]`, and
 remain outside tracked source. No Chinese-specific renderer branch or manual
 fauna exception table is used.
 
-Runtime activation remains a separate stage. This overlay is not imported by
-the runtime reference-name registry, and Simplified Chinese is not exposed in
-the selector or browser-language resolver. No Chinese search normalization,
-collation, font, CSS, `document.lang`, shortcut-speech, or layout behavior is
-enabled by this stage. Final locale-selector ordering remains deferred until
-runtime onboarding is complete.
+The shared runtime registry exposes selector label `简体中文` and imports the
+semantic catalogue and reference overlay. Browser negotiation accepts `zh`,
+`zh-Hans` and descendants, `zh-CN`, and `zh-SG`; explicit `zh-Hant` and its
+descendants plus `zh-TW`, `zh-HK`, and `zh-MO` continue to later preferences.
+Explicit script takes precedence over region. The active document language is
+exactly `zh-Hans`; shared collation uses base sensitivity and numeric ordering.
+
+Search retains exact localized-name, prefix, substring, English-alias,
+abbreviation, and curated-alternate behavior without pinyin, transliteration,
+or Simplified/Traditional conversion. Shortcut speech preserves `Control`,
+`Alt`, and `Shift`, with `加` and localized arrow names. A locale-scoped
+`:lang(zh-Hans)` rule selects Microsoft YaHei UI, Microsoft YaHei, PingFang SC,
+Noto Sans CJK SC, `system-ui`, and `sans-serif` in that order without adding a
+font dependency. Automated runtime verification passes. Manual normal-scale,
+true 200% zoom, keyboard-only, Windows Narrator, glyph/typography, and
+layout-capacity QA remains pending, so this profile does not yet claim full
+support. No geometry or Chinese-specific line-breaking changes were made.
+Final locale-selector ordering and Apple/WebKit verification remain deferred.
 
 Likely areas requiring explicit verification include:
 

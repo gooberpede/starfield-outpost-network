@@ -31,6 +31,17 @@ export function resolveBrowserLocale(
   for (const language of languages ?? []) {
     const normalized = language.trim().toLowerCase()
     const languageFamily = normalized.split('-', 1)[0]
+    if (languageFamily === 'zh') {
+      const subtags = normalized.split('-').slice(1)
+      const extensionIndex = subtags.findIndex((subtag) => subtag.length === 1)
+      const languageSubtags = extensionIndex === -1 ? subtags : subtags.slice(0, extensionIndex)
+      const explicitScript = languageSubtags.find((subtag) => /^[a-z]{4}$/.test(subtag))
+      if (explicitScript === 'hans') return 'zh-Hans'
+      if (explicitScript !== undefined) continue
+      const region = languageSubtags.find((subtag) => /^(?:[a-z]{2}|\d{3})$/.test(subtag))
+      if (region === undefined || region === 'cn' || region === 'sg') return 'zh-Hans'
+      continue
+    }
     const familyLocale = languageFamilyLocales[languageFamily]
     if (familyLocale) return familyLocale
     const conservativeLocale = conservativeRegionalLocales[languageFamily]

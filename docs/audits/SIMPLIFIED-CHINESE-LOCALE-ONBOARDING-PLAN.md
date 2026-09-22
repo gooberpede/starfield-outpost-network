@@ -2,11 +2,45 @@
 
 Audit date: 2026-09-21
 
+Runtime integration update: 2026-09-22
+
 Target tracker locale: `zh-Hans`
 
 Bethesda token: `zhhans`
 
 Installed game version inspected: `1.16.244.0`
+
+## Runtime integration status
+
+Runtime activation is implemented through the shared localization architecture.
+`zh-Hans` is registered with selector label `简体中文`, the complete 414-key
+semantic catalogue, and the verified 3,561-entry official reference-name
+overlay. Locale metadata now records `runtimeAvailable: true`.
+
+Automatic browser selection accepts bare `zh`, explicit `zh-Hans` and its
+descendants, and the `zh-CN` / `zh-SG` regional forms. Explicit `zh-Hant` and
+its descendants plus `zh-TW`, `zh-HK`, and `zh-MO` continue to later browser
+preferences. An explicit script controls the result, so `zh-Hans-TW` selects
+Simplified Chinese while `zh-Hant-CN` does not.
+
+The active locale sets `document.lang` to exactly `zh-Hans`. Locale-aware
+sorting uses the shared `Intl.Collator` path with `sensitivity: 'base'` and
+`numeric: true`. Search policy is unchanged: localized exact, prefix, and
+substring matches coexist with English aliases, abbreviations, and existing
+curated alternates; no pinyin, transliteration, or Simplified/Traditional
+conversion was added. Accessible shortcut speech retains `Control`, `Alt`, and
+`Shift`, and uses `加`, `上箭头`, `下箭头`, `左箭头`, and `右箭头`.
+
+The locale-scoped `:lang(zh-Hans)` font stack is `'Microsoft YaHei UI'`,
+`'Microsoft YaHei'`, `'PingFang SC'`, `'Noto Sans CJK SC'`, `system-ui`, and
+`sans-serif`, in that order. No font was bundled or fetched specifically for
+Chinese, and no geometry or line-breaking rules changed.
+
+Focused and repository-wide automated verification passed for this runtime
+integration. Manual normal-scale, true 200% zoom, keyboard-only, Windows
+Narrator, glyph/typography, and layout-capacity QA remains pending and is
+required before the locale is described as fully supported. Final selector
+ordering and Apple/WebKit work also remain separate follow-up tasks.
 
 ## 1. Executive summary
 

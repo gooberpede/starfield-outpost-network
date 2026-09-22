@@ -89,6 +89,24 @@ test('Japanese display and matching preserve the submitted stable identity', () 
   assert.equal(getItemSearchMatches(catalogue, 'Aluminum', 'ja-JP').length, 1)
 })
 
+test('Simplified Chinese search keeps exact, prefix, substring, English alias, and abbreviation tiers', () => {
+  const catalogue = buildItemSearchCatalogue(references, 'zh-Hans')
+  const aluminium = catalogue.find(({ key }) => key === 'resource:aluminium')
+  const adaptiveFrame = catalogue.find(({ key }) => key === 'product:adaptive-frame')
+  assert.equal(aluminium?.displayName, '铝')
+  assert.equal(adaptiveFrame?.displayName, '适应性框架')
+
+  for (const query of ['适应性框架', '适应性', '应性框', 'Adaptive Frame', 'AF']) {
+    const matches = getItemSearchMatches(catalogue, query, 'zh-Hans')
+    assert.deepEqual(matches.map(({ key }) => key), ['product:adaptive-frame'], query)
+    assert.equal(matches[0].displayName, '适应性框架', query)
+  }
+  assert.deepEqual(getItemSearchMatches(catalogue, 'Aluminum', 'zh-Hans')
+    .map(({ key }) => key), ['resource:aluminium'])
+  assert.deepEqual(getItemSearchMatches(catalogue, 'lv', 'zh-Hans'), [])
+  assert.deepEqual(getItemSearchMatches(catalogue, '鋁', 'zh-Hans'), [])
+})
+
 test('French and German search fold diacritics only as localized fallback aliases', () => {
   const french = buildItemSearchCatalogue(references, 'fr-FR')
   assert.equal(getItemSearchMatches(french, 'Hématite aqueuse', 'fr-FR')[0].item.id, 'aqueous-hematite')

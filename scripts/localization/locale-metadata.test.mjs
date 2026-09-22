@@ -71,7 +71,7 @@ test('locale metadata maps tracker identities, Bethesda tokens, encodings, and r
 
   assert.deepEqual(localeMetadataFor('zh-Hans'), {
     trackerLocale: 'zh-Hans', bethesdaToken: 'zhhans', stringTableEncoding: 'utf-8',
-    catalogueRole: 'full', runtimeAvailable: false,
+    catalogueRole: 'full', runtimeAvailable: true,
   })
   assert.deepEqual(localizationArtifactNames('zhhans'), {
     trackerLocale: 'zh-Hans',
@@ -102,10 +102,10 @@ test('Polish reference overlay routing verifies deterministic runtime artifacts'
   assert.equal(localeMetadataFor('pl-PL').runtimeAvailable, true)
 })
 
-test('staged Simplified Chinese reference overlay verifies while runtime remains inactive', async () => {
+test('Simplified Chinese reference overlay verifies for the active runtime locale', async () => {
   const result = await verifyCommittedReferenceNameOverlay(undefined, 'zh-Hans')
   assert.equal(result.entityCount, 3561)
   assert.equal(result.provenanceRows, 4818)
   assert.equal(result.evidenceStatus, 'provisionally-accepted')
-  assert.equal(localeMetadataFor('zh-Hans').runtimeAvailable, false)
+  assert.equal(localeMetadataFor('zh-Hans').runtimeAvailable, true)
 })

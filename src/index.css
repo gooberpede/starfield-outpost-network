@@ -76,6 +76,16 @@
     sans-serif;
 }
 
+:lang(zh-Hans) {
+  --ui-font:
+    'Microsoft YaHei UI',
+    'Microsoft YaHei',
+    'PingFang SC',
+    'Noto Sans CJK SC',
+    system-ui,
+    sans-serif;
+}
+
 /* Condensed Latin label tracking is too loose for ordinary Japanese text. */
 :lang(ja) :is(
   .page-header__network-label,
