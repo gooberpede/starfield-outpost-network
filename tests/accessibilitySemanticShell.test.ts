@@ -18,6 +18,24 @@ test('application source contains exactly one main landmark', async () => {
   assert.match(workspace, /<aside[\s\S]*aria-label=\{t\('cargo\.heading'\)\}/)
 })
 
+test('fixed chrome shares dynamic document scroll insets and one status reservation', async () => {
+  const [globalCss, statusCss, pageHeader, focusVisibility] = await Promise.all([
+    source('../src/index.css'),
+    source('../src/ui/layout/StatusBar.css'),
+    source('../src/ui/layout/PageHeader.tsx'),
+    source('../src/ui/focusVisibility.ts'),
+  ])
+
+  assert.match(globalCss, /--status-bar-height:\s*3\.5rem/)
+  assert.match(globalCss, /padding-bottom:\s*var\(--status-bar-height\)/)
+  assert.match(globalCss, /scroll-padding-block-start:\s*var\(--page-header-height\)/)
+  assert.match(globalCss, /scroll-padding-block-end:\s*var\(--status-bar-height\)/)
+  assert.match(statusCss, /height:\s*var\(--status-bar-height\)/)
+  assert.match(pageHeader, /observePageHeaderHeight\(headerRef\.current\)/)
+  assert.match(focusVisibility, /new ResizeObserver\(update\)/)
+  assert.doesNotMatch(focusVisibility, /77px|77 px/)
+})
+
 test('selected-outpost container stacks editing columns at their combined practical minimum', async () => {
   const [workspaceCss, detailsCss, matrixCss, plannedSupplyCss] = await Promise.all([
     source('../src/ui/layout/WorkspaceLayout.css'),
@@ -74,6 +92,7 @@ test('dense controls retain forced-colors cues and practical target sizes', asyn
   assert.match(matrixCss, /@media \(forced-colors: active\)[\s\S]*color:\s*ButtonText;[\s\S]*background:\s*ButtonFace;/)
   assert.match(matrixCss, /@media \(forced-colors: active\)[\s\S]*:disabled[\s\S]*border-style:\s*dashed;/)
   assert.match(matrixCss, /@media \(forced-colors: active\)[\s\S]*:focus-visible[\s\S]*outline-color:\s*CanvasText;/)
+  assert.match(matrixCss, /app-programmatic-focus-visible[\s\S]*outline-color:\s*CanvasText;/)
   assert.match(matrixCss, /\.outpost-status-matrix__compact-action[\s\S]*min-height:\s*1\.55rem/)
   assert.match(plannedSupplyCss, /@media \(forced-colors: active\)[\s\S]*data-state='planned'/)
   assert.match(plannedSupplyCss, /\.planned-supply__expand-toggle[\s\S]*width:\s*1\.5rem[\s\S]*height:\s*1\.5rem/)

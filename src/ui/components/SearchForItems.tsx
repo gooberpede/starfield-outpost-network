@@ -26,6 +26,7 @@ import {
   type PalettePosition,
 } from '../itemSearchPosition.ts'
 import './SearchForItems.css'
+import { focusAndReveal } from '../focusVisibility.ts'
 
 interface Props {
   inputRef: RefObject<HTMLInputElement | null>
@@ -159,12 +160,12 @@ export function SearchForItems({
   useLayoutEffect(() => {
     if (!isResultsOpen || !focusResultsAfterSubmitRef.current) return
     focusResultsAfterSubmitRef.current = false
-    paletteRef.current?.focus()
+    focusAndReveal(paletteRef.current)
   }, [isResultsOpen, palettePosition, submittedItemName])
 
   function closeResults() {
     onResultsOpenChange(false)
-    inputRef.current?.focus()
+    focusAndReveal(inputRef.current)
   }
 
   function startDrag(event: ReactPointerEvent<HTMLDivElement>) {

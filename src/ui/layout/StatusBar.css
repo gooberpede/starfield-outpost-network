@@ -6,8 +6,8 @@
  *
  * Architecture:
  *   The status bar is fixed to the bottom of the viewport and has a deliberate
- *   fixed height of 3.5rem. The global application root reserves the same
- *   amount of bottom space so workspace content can scroll fully above it.
+ *   fixed height defined by the shared shell token. The global application
+ *   root and document scroll inset use that same reservation.
  *
  *   Persistent session information and transient messages remain visible while
  *   the workspace scrolls.
@@ -25,7 +25,7 @@
   left: 0;
   z-index: 1000;
 
-  height: 3.5rem;
+  height: var(--status-bar-height);
   padding: 0 var(--page-gutter);
 
   display: grid;

@@ -68,6 +68,7 @@ import './CargoPadsEditor.css'
 import { useLocalization } from '../../localization/LocalizationContext.ts'
 import { formatInteger, formatList } from '../../localization/formatters.ts'
 import { getReferenceDisplayName } from '../../localization/referenceNames.ts'
+import { focusAndReveal } from '../focusVisibility.ts'
 
 interface CargoPadsEditorProps {
   commandRef?: RefObject<CargoPadsEditorCommands | null>
@@ -209,7 +210,7 @@ export function CargoPadsEditor({
   useLayoutEffect(() => {
     if (!focusAddedPadRef.current) return
     focusAddedPadRef.current = false
-    lastDisclosureRef.current?.focus()
+    focusAndReveal(lastDisclosureRef.current)
   }, [outpost.cargoPads.length])
 
   const areAllCargoPadsExpanded =
@@ -652,8 +653,7 @@ export function CargoPadsEditor({
     focusRegion: () => {
       const region = regionRef.current
       if (!region) return false
-      region.focus()
-      return true
+      return focusAndReveal(region, { showFocusRing: true })
     },
   }))
 

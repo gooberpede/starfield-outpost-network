@@ -33,6 +33,7 @@ import type {
 } from 'react'
 
 import './ValidationSummary.css'
+import { focusAndReveal } from '../focusVisibility.ts'
 
 import type {
   Outpost,
@@ -145,7 +146,7 @@ export function ValidationSummary({
       handleValidationShortcut(event, () => {
         if (isOpen) {
           if (panelRef.current?.contains(document.activeElement)) {
-            triggerRef.current?.focus()
+            focusAndReveal(triggerRef.current)
           }
           focusIssueAfterOpenRef.current = false
           setIsOpen(false)
@@ -165,9 +166,9 @@ export function ValidationSummary({
 
     focusIssueAfterOpenRef.current = false
     if (effectiveActiveIssueKey) {
-      issueRefs.current.get(effectiveActiveIssueKey)?.focus()
+      focusAndReveal(issueRefs.current.get(effectiveActiveIssueKey) ?? null)
     } else {
-      triggerRef.current?.focus()
+      focusAndReveal(triggerRef.current)
     }
   }, [effectiveActiveIssueKey, isOpen])
 
@@ -185,17 +186,17 @@ export function ValidationSummary({
 
     if (issueListHadFocusRef.current) {
       if (fallbackKey) {
-        issueRefs.current.get(fallbackKey)?.focus()
+        focusAndReveal(issueRefs.current.get(fallbackKey) ?? null)
       } else {
         issueListHadFocusRef.current = false
-        triggerRef.current?.focus()
+        focusAndReveal(triggerRef.current)
       }
     }
   }, [actionableKeys, activeIssueKey])
 
   function focusActionableIssue(key: string) {
     setActiveIssueKey(key)
-    issueRefs.current.get(key)?.focus()
+    focusAndReveal(issueRefs.current.get(key) ?? null)
   }
 
   function activateIssue(issue: ValidationIssue) {
@@ -210,7 +211,7 @@ export function ValidationSummary({
     if (event.key === 'Escape') {
       event.preventDefault()
       issueListHadFocusRef.current = false
-      triggerRef.current?.focus()
+      focusAndReveal(triggerRef.current)
       return
     }
 

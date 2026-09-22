@@ -23,6 +23,7 @@ import type {
   KeyboardEvent,
   RefObject,
 } from 'react'
+import { focusAndReveal } from '../focusVisibility.ts'
 
 interface UseModalDialogOptions {
   initialFocusRef: RefObject<HTMLElement | null>
@@ -50,12 +51,12 @@ export function useModalDialog({
       document.body.style.paddingRight = `${scrollbarWidth}px`
     }
 
-    initialFocusRef.current?.focus({ preventScroll: true })
+    focusAndReveal(initialFocusRef.current, { preventScroll: true })
 
     return () => {
       document.body.style.overflow = previousBodyOverflow
       document.body.style.paddingRight = previousBodyPaddingRight
-      previouslyFocusedElement?.focus({ preventScroll: true })
+      focusAndReveal(previouslyFocusedElement, { preventScroll: true })
     }
   }, [initialFocusRef])
 

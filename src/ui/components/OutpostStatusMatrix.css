@@ -18,6 +18,11 @@
   border-bottom: 1px solid var(--ui-rule);
 }
 
+.outpost-status-matrix.app-programmatic-focus-visible {
+  outline: 3px solid var(--ui-structural-dark);
+  outline-offset: 2px;
+}
+
 .outpost-status-matrix__heading-strip > h2 {
   margin: 0;
   color: var(--ui-text);
@@ -350,7 +355,8 @@
   cursor: not-allowed;
 }
 
-.outpost-status-matrix__state:focus-visible {
+.outpost-status-matrix__state:focus-visible,
+.outpost-status-matrix__state.app-programmatic-focus-visible {
   outline: 2px solid var(--ui-structural-dark);
   outline-offset: 2px;
 }
@@ -418,6 +424,8 @@
   }
 
   .outpost-status-matrix__state:focus-visible,
+  .outpost-status-matrix__state.app-programmatic-focus-visible,
+  .outpost-status-matrix.app-programmatic-focus-visible,
   .outpost-status-matrix__compact-action:focus-visible {
     outline-color: CanvasText;
   }

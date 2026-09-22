@@ -333,12 +333,6 @@ deciding whether locale-on-demand loading is worthwhile. See
   variants. Correct the reference-name presentation or localization overlay
   path while preserving canonical IDs and reference keys; do not assume source
   data should be mutated.
-- **Fixed-chrome content occlusion:** Focused or programmatically navigated
-  controls can disappear beneath the fixed header or footer/status bar,
-  especially at high magnification. Keyboard-focused or programmatically
-  navigated content should remain visible within the usable viewport between
-  fixed page chrome. The exact mitigation is intentionally open; this item does
-  not approve a geometry change.
 - **Localized Search placeholder truncation:** Localized Search placeholders can
   truncate at constrained desktop widths. French and German remain usable and
   accessible, but visible placeholder copy is partially clipped. Review later
@@ -395,12 +389,6 @@ Deferred accessibility/platform follow-up:
 The reconciled status and evidence boundary are recorded in
 `docs/audits/SHARED-ACCESSIBILITY-FOLLOW-UP-RECONCILIATION.md`.
 
-- investigate why Resource Matrix shortcuts successfully move programmatic
-  focus while the visible focus border or indicator sometimes fails to appear,
-  making a working shortcut seem non-functional. Consider `:focus-visible`,
-  programmatic focus state, scroll/focus timing, destination focus styling, and
-  whether the expected element receives visible focus treatment. Preserve the
-  shortcut bindings and matrix geometry; do not prescribe a redesign;
 - investigate intermittent Windows Narrator announcements of the Solar control
   when focus ownership is ambiguous. Check actual DOM focus ownership,
   programmatic focus transitions, accessibility-tree ordering, nearby labels,

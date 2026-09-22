@@ -805,6 +805,29 @@ Planned Supply may use horizontal overflow to preserve family/grid semantics.
 
 ---
 
+## Fixed chrome and focused content
+
+The sticky Page Header and fixed Status Bar define the usable vertical viewport
+for document-owned focused content. The shell measures the rendered Page Header
+rather than assuming a locale- or width-specific height, and one shared Status
+Bar reservation governs fixed geometry, document reachability, and logical
+scroll insets.
+
+Application-owned focus moves reveal their target with the smallest necessary
+movement. Nested local scrollports, such as Cargo Links and Validation, reveal
+their own content before the document is adjusted; fixed overlays and dialogs
+do not inherit document-chrome offsets. Focus restoration may preserve scroll
+initially, but must minimally correct a restored target that would otherwise be
+hidden by fixed chrome. Repeating a shortcut for an already-focused target must
+still enforce visibility.
+
+Resource Matrix shortcuts provide a deterministic authored focus indicator for
+both the Matrix region and editable Matrix state controls. This supplements
+normal keyboard `:focus-visible` behavior without adding pointer-focus rings or
+changing Matrix geometry.
+
+---
+
 ## Wrapping is appropriate for summaries
 
 Compact summaries that do not encode spatial hierarchy may wrap naturally.

@@ -126,6 +126,8 @@ test('final workspace and Cargo shortcuts use their visible action and focus con
 
   dispatchShortcut('g', { ctrlKey: true, altKey: true })
   expect(document.querySelector('.outpost-status-matrix')).toHaveFocus()
+  expect(document.querySelector('.outpost-status-matrix'))
+    .toHaveClass('app-programmatic-focus-visible')
   dispatchShortcut('p', { ctrlKey: true, altKey: true })
   expect(screen.getByRole('button', { name: 'Expand Planned Supply' })).toHaveFocus()
   dispatchShortcut('c', { ctrlKey: true, altKey: true })

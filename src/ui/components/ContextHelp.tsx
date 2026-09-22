@@ -12,6 +12,7 @@ import {
 
 import './ContextHelp.css'
 import { useLocalization } from '../../localization/LocalizationContext.ts'
+import { focusAndReveal } from '../focusVisibility.ts'
 
 interface ContextHelpProps {
   text: string
@@ -66,7 +67,7 @@ export function ContextHelp({ text, context }: ContextHelpProps) {
       if (event.key !== 'Escape') return
       event.preventDefault()
       setIsOpen(false)
-      triggerRef.current?.focus({ preventScroll: true })
+      focusAndReveal(triggerRef.current, { preventScroll: true })
     }
 
     placePopover()

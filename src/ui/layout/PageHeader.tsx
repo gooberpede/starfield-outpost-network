@@ -18,7 +18,8 @@
  *   - page-header layout or semantics change.
  */
 
-import type { ReactNode } from 'react'
+import { useLayoutEffect, useRef, type ReactNode } from 'react'
+import { observePageHeaderHeight } from '../focusVisibility.ts'
 
 import './PageHeader.css'
 
@@ -33,8 +34,15 @@ export function PageHeader({
   actions,
   networkActions,
 }: PageHeaderProps) {
+  const headerRef = useRef<HTMLElement>(null)
+
+  useLayoutEffect(() => {
+    if (!headerRef.current) return
+    return observePageHeaderHeight(headerRef.current)
+  }, [])
+
   return (
-    <header className="page-header">
+    <header ref={headerRef} className="page-header">
       <div className="page-header__main">
         {main}
       </div>

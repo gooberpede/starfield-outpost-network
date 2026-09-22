@@ -59,6 +59,7 @@ import {
   handleOutpostShortcut,
   handleSearchFocusShortcut,
 } from './ui/keyboardShortcuts'
+import { focusAndReveal } from './ui/focusVisibility.ts'
 
 import {
   validateNetwork,
@@ -308,8 +309,8 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
     if (!focusTarget) return
 
     navigationFocusTargetRef.current = null
-    if (focusTarget === 'hide') hideNavigationControlRef.current?.focus()
-    else showNavigationControlRef.current?.focus()
+    if (focusTarget === 'hide') focusAndReveal(hideNavigationControlRef.current)
+    else focusAndReveal(showNavigationControlRef.current)
   }, [isNavigationOpen])
 
   function showNavigation(focusPanelControl: boolean) {
@@ -348,7 +349,7 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
   useLayoutEffect(() => {
     if (focusSelectedOutpostAfterShortcutRef.current) {
       focusSelectedOutpostAfterShortcutRef.current = false
-      selectedOutpostNavigationRef.current?.focus()
+      focusAndReveal(selectedOutpostNavigationRef.current)
     }
 
     const previousFocus = historyFocusRepairRef.current
@@ -359,7 +360,7 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
       previousFocus.matches(':disabled') ||
       previousFocus.closest('[hidden], [aria-hidden="true"]')
     ) {
-      selectedOutpostNavigationRef.current?.focus()
+      focusAndReveal(selectedOutpostNavigationRef.current)
     }
   }, [collection, effectiveSelectedOutpostId])
 
@@ -694,7 +695,7 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
         focusSearch: () => {
           const input = searchInputRef.current
           if (!input) return false
-          input.focus()
+          focusAndReveal(input, { showFocusRing: true })
           if (input.value) input.select()
           return true
         },
@@ -712,8 +713,7 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
         let handled = false
         const focus = (target: HTMLElement | null, unavailable = false) => {
           if (!target || unavailable) return false
-          target.focus()
-          return true
+          return focusAndReveal(target, { showFocusRing: true })
         }
         const click = (target: HTMLButtonElement | null) => {
           if (!target || target.disabled) return false
@@ -743,7 +743,7 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
           case 'focus-search-results': {
             const palette = searchResultsRef.current
             if (palette) {
-              if (!palette.contains(document.activeElement)) palette.focus()
+              focusAndReveal(palette, { showFocusRing: true })
               handled = true
             }
             break

@@ -1455,6 +1455,9 @@ Current contents include:
 Behaviour:
 
 - sticky at the top of the viewport.
+- exposes its current rendered height through the shared shell geometry
+  contract, updated by `ResizeObserver` when wrapping, locale, zoom, or font
+  metrics change.
 
 ## Status bar
 
@@ -1472,8 +1475,18 @@ Current contents include:
 Behaviour:
 
 - fixed to the bottom of the viewport;
-- fixed height;
-- workspace bottom spacing reserves the same height so content is not covered.
+- fixed height from the shared Status Bar token;
+- workspace bottom spacing and document block-end scroll inset use the same
+  token so content is reachable and focus alignment respects the reservation.
+
+`src/ui/focusVisibility.ts` owns the presentation-only fixed-chrome focus
+contract. It focuses application targets, reveals nested vertical scroll owners
+first, excludes fixed overlays from document correction, then minimally adjusts
+the document between the rendered Page Header bottom and Status Bar top. A
+post-focus recheck covers layout settling and already-focused shortcut targets.
+The same module supplies the transient programmatic-focus class used by the
+Resource Matrix. No measured geometry, focus, or scroll state enters persistence
+or Undo/Redo history.
 
 Success messages expire automatically.
 
