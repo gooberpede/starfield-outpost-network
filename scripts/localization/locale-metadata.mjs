@@ -58,7 +58,7 @@ export function localizationArtifactNames(locale) {
   return {
     trackerLocale,
     review: `docs/localization/${trackerLocale}-review.csv`,
-    xliff: `docs/localization/${trackerLocale}-deepl.xliff`,
+    xliff: `.local-work/localization/${trackerLocale}/${trackerLocale}-deepl.xliff`,
     reviewDraft: `src/localization/reviewDrafts/${trackerLocale}.ts`,
     catalogue: `src/localization/locales/${trackerLocale}.ts`,
     catalogueExport: `${moduleIdentifierForLocale(trackerLocale)}Messages`,

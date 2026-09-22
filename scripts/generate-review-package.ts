@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
 import { createReviewCsv, createReviewRows, createReviewXliff, importReviewXliff } from '../src/localization/reviewPackage.ts'
@@ -13,8 +13,8 @@ const destination = path.resolve(artifacts.review)
 const xliffDestination = path.resolve(artifacts.xliff)
 const importIndex = args.indexOf('--import-xliff')
 if (importIndex >= 0) {
-  const importPath = args[importIndex + 1]
-  if (!importPath) throw new Error('Missing value for --import-xliff.')
+  const importArgument = args[importIndex + 1]
+  const importPath = importArgument && !importArgument.startsWith('--') ? importArgument : artifacts.xliff
   const [reviewSource, xliffSource] = await Promise.all([readFile(destination, 'utf8'), readFile(path.resolve(importPath), 'utf8')])
   const recordInvalidTokens = args.includes('--record-invalid-tokens')
   await writeFile(destination, importReviewXliff(reviewSource, xliffSource, locale, { recordInvalidTokens }), 'utf8')
@@ -22,7 +22,10 @@ if (importIndex >= 0) {
 } else {
   const rows = createReviewRows(locale, source.translations)
   const writes = [writeFile(destination, createReviewCsv(locale, source.translations), 'utf8')]
-  if (source.createXliff) writes.push(writeFile(xliffDestination, createReviewXliff(rows, locale), 'utf8'))
+  if (source.createXliff) {
+    await mkdir(path.dirname(xliffDestination), { recursive: true })
+    writes.push(writeFile(xliffDestination, createReviewXliff(rows, locale), 'utf8'))
+  }
   await Promise.all(writes)
   console.log(`Generated ${destination}`)
   if (source.createXliff) console.log(`Generated ${xliffDestination}`)

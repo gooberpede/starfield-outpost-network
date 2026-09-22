@@ -14,6 +14,11 @@ export interface LocaleRegistration extends LocaleMetadata {
   messages: LocaleOverrides
 }
 
+/** User-visible selector order: English variants first, then English language-name order. */
+export const localeSelectorLocaleIds: readonly SupportedLocale[] = [
+  'en-US', 'en-GB', 'fr-FR', 'de-DE', 'it-IT', 'ja-JP', 'pl-PL', 'pt-BR', 'zh-Hans', 'es-ES',
+]
+
 /** The single registration point for supported locale modules and metadata. */
 export const localeRegistry: Record<SupportedLocale, LocaleRegistration> = {
   'en-US': {

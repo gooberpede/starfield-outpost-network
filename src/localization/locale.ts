@@ -1,12 +1,12 @@
 import type {
   SupportedLocale,
 } from './types.ts'
-import { localeRegistry } from './registry.ts'
+import { localeRegistry, localeSelectorLocaleIds } from './registry.ts'
 
 export const DEFAULT_LOCALE: SupportedLocale = 'en-US'
 
-/** Data-driven selector metadata comes from the central locale registry. */
-export const supportedLocales = Object.values(localeRegistry)
+/** Data-driven selector metadata follows the settled user-visible order. */
+export const supportedLocales = localeSelectorLocaleIds.map((locale) => localeRegistry[locale])
 
 const languageFamilyLocales: Readonly<Record<string, SupportedLocale>> = {
   ja: 'ja-JP',

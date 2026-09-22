@@ -51,8 +51,51 @@ Polish and Simplified Chinese are supported. Simplified Chinese automated/runtim
 QA, normal-scale smoke testing, and true browser-controlled 200% zoom passed.
 Manual Narrator interaction passed structurally, but Chinese speech itself could
 not be verified because Narrator consistently skipped Chinese text on the test
-environment. Final locale-selector ordering remains a separate
-post-localization review.
+environment. The V1 locale-onboarding programme is complete.
+
+The final selector order is English (US), English (UK), French, German, Italian,
+Japanese, Polish, Portuguese (Brazil), Simplified Chinese, and Spanish (Spain):
+English variants first, then other locales by English language name. Working
+XLIFF handoffs live under ignored
+`.local-work/localization/<locale>/<locale>-deepl.xliff`; durable review CSVs,
+glossaries, profiles, catalogues, manifests, and overlays remain tracked.
+
+Post-localization measurements and reviews are recorded in:
+
+- `docs/benchmarks/LOCALIZATION-BUNDLE-AND-STARTUP-REVIEW.md`;
+- `docs/audits/CROSS-LOCALE-COMPACT-LAYOUT-CAPACITY-REVIEW.md`;
+- `docs/audits/SHARED-ACCESSIBILITY-FOLLOW-UP-RECONCILIATION.md`.
+
+The completed programme also exposed two plausible tooling simplifications for
+a later dedicated brief: derive repeated per-locale overlay verification/build
+registration from authoritative locale metadata, and reduce repeated locale
+imports/test registration where metadata can preserve the same fail-closed
+coverage. Explicit review-draft routing and per-locale editorial artifacts are
+useful clarity, not demonstrated maintenance debt, and should remain explicit.
+
+### Working XLIFF relocation inventory
+
+The seven tracked handoffs formerly under `docs/localization/` were working
+artifacts and have moved to the ignored convention below. `ja-JP` does not use
+the semantic-draft/DeepL XLIFF route, and the English catalogues do not require
+one.
+
+| Locale | Former tracked path | Current working path |
+| --- | --- | --- |
+| `fr-FR` | `docs/localization/fr-FR-deepl.xliff` | `.local-work/localization/fr-FR/fr-FR-deepl.xliff` |
+| `de-DE` | `docs/localization/de-DE-deepl.xliff` | `.local-work/localization/de-DE/de-DE-deepl.xliff` |
+| `es-ES` | `docs/localization/es-ES-deepl.xliff` | `.local-work/localization/es-ES/es-ES-deepl.xliff` |
+| `it-IT` | `docs/localization/it-IT-deepl.xliff` | `.local-work/localization/it-IT/it-IT-deepl.xliff` |
+| `pl-PL` | `docs/localization/pl-PL-deepl.xliff` | `.local-work/localization/pl-PL/pl-PL-deepl.xliff` |
+| `pt-BR` | `docs/localization/pt-BR-deepl.xliff` | `.local-work/localization/pt-BR/pt-BR-deepl.xliff` |
+| `zh-Hans` | `docs/localization/zh-Hans-deepl.xliff` | `.local-work/localization/zh-Hans/zh-Hans-deepl.xliff` |
+
+`npm run localization:review -- --locale <locale>` creates the directory and
+generates the working handoff. `--import-xliff` without a path consumes that
+locale's default working handoff; an explicit returned-file path remains
+supported. Adjudication consumes the durable review CSV, not the XLIFF. Stable
+keys, source hashes, locale identity, placeholders, protected tokens, and XLIFF
+1.2 structure retain their existing validation.
 
 ---
 
@@ -818,15 +861,15 @@ text, first prove that strict import rejects it. The explicit
 catalogue. The final row requires a separately token-valid translation and a
 reviewer note describing the repair or independent fallback.
 
-The committed generated source XLIFF is the deterministic **current handoff
+The generated source XLIFF is the deterministic **current working handoff
 representation** of the frozen semantic source and current review metadata. It
-may change when context or glossary-constraint metadata is corrected, so it is
-not immutable proof of the exact bytes historically submitted to a translation
-provider. A translated XLIFF returned by a provider is an exchange file: import
-its values into the review CSV. The review CSV is the durable evidence of the
-actual returned provider wording and the resulting editorial decisions. Do not
-retain additional provider output unless it supplies evidence not captured
-there.
+lives under ignored `.local-work/localization/<locale>/` and may change when
+context or glossary-constraint metadata is corrected, so it is not durable
+proof of the exact bytes historically submitted to a translation provider. A
+translated XLIFF returned by a provider is an exchange file: import its values
+into the review CSV. The review CSV is the durable evidence of the actual
+returned provider wording and the resulting editorial decisions. Do not retain
+additional provider output unless it supplies evidence not captured there.
 If sentence-level review disproves a tracker-owned glossary choice, update the
 glossary once and apply the correction consistently; do not diverge one message
 at a time. Official Bethesda-backed terminology remains authoritative subject
@@ -837,6 +880,7 @@ The current commands are:
 ```sh
 npm run localization:review -- --locale fr-FR
 npm run localization:review -- --locale de-DE
+npm run localization:review -- --locale fr-FR --import-xliff
 npm run localization:review -- --locale fr-FR --import-xliff path/to/translated-fr-FR.xliff
 npm run localization:review -- --locale de-DE --import-xliff path/to/translated-de-DE.xliff
 npm run localization:review:adjudicate -- --locale fr-FR
@@ -1541,7 +1585,7 @@ the shared 19-term evidence contract, and their approved glossaries are:
 
 The glossaries classify official Bethesda, tracker-owned, and context-sensitive
 terminology. Each locale has a completely adjudicated 414-key review CSV, a
-deterministic current-handoff XLIFF, and a generated semantic catalogue with
+deterministic working XLIFF generator, and a generated semantic catalogue with
 exact key, placeholder, plural, protected-token, and accidental-English
 validation. Review evidence preserves the independent Codex and DeepL witnesses,
 including explicit repairs for invalid DeepL token output.
@@ -1686,7 +1730,7 @@ Narrator-certified. Native-language naturalness was not independently verified
 by a native speaker. Native-speaker review remains desirable when available but
 is not a hard V1 support gate. Apple/WebKit remains deferred and this status
 does not claim Safari, VoiceOver, or iPhone certification. Working XLIFF files
-remain in place pending the separate post-localization cleanup tranche.
+use the ignored programme-level handoff location.
 
 ## 19.7 Polish — `pl-PL`
 
@@ -1757,9 +1801,9 @@ accessibility backlog items rather than Polish defects.
 Native-speaker editorial review was unavailable and remains desirable but is
 not a hard V1 support gate; Narrator testing by a non-speaker is not a
 substitute. Apple/WebKit verification remains deferred, so this status does not
-claim Safari, VoiceOver, or iPhone/iPad certification. Working XLIFF files and
-locale-selector order remain unchanged pending the separate post-localization
-cleanup tranche.
+claim Safari, VoiceOver, or iPhone/iPad certification. Working XLIFF files use
+the ignored programme-level handoff location, and the final locale-selector
+order is settled in the shared policy above.
 
 ---
 
@@ -1838,8 +1882,8 @@ accessibility or high-zoom debt is resolved. Known Narrator shortcut
 interception remains shared/global debt rather than a Chinese-specific blocker.
 No geometry or Chinese-specific line-breaking changes were made. Final
 locale-selector ordering, XLIFF cleanup, cross-locale compact-capacity review,
-bundle/startup measurement, and Apple/WebKit/VoiceOver verification remain the
-next post-localization or deferred work.
+and bundle/startup measurement are now complete at programme level.
+Apple/WebKit/VoiceOver verification remains deferred.
 
 Areas preserved for cross-locale post-localization review include:
 

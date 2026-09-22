@@ -175,11 +175,16 @@ Current behaviour remains whole-collection immutable before/after snapshots with
 one deliberate operation per history entry and a 1,000-entry collection-global
 session cap.
 
-- **Cargo Link Undo presentation state:** Deleting a Cargo Link and then using
-  Undo can collapse other, unrelated expanded Cargo Links. Investigate this as
-  a presentation/history regression and preserve unrelated presentation state
-  where that is consistent with the existing history/presentation contract;
-  do not change history semantics unnecessarily.
+- **Cargo Link Undo presentation state:** This is a confirmed current Edge
+  presentation-state regression. With at least two Cargo Links expanded,
+  deleting one preserves the remaining links' expanded/collapsed state, but
+  invoking Undo restores the deleted link collapsed and collapses every other
+  Cargo Link. A dedicated correction should preserve unrelated Cargo Link
+  presentation state through Undo where consistent with the existing
+  history/presentation contract. Whether the restored link itself returns
+  expanded or collapsed remains open; do not change history semantics
+  unnecessarily. See
+  `docs/audits/SHARED-ACCESSIBILITY-FOLLOW-UP-RECONCILIATION.md`.
 
 ## Status bar
 
@@ -285,12 +290,12 @@ Chinese speech itself was not verified because Narrator consistently skipped
 Chinese text on the test environment; this is an explicit environment
 limitation rather than a Chinese-specific application blocker.
 
-Post-localization cleanup is now the next tranche. It includes final
-locale-selector ordering, XLIFF relocation/cleanup, measured bundle/startup
-review, cross-locale compact-layout capacity review, reconsideration of shared
-Narrator/shortcut/focus debt, Apple/WebKit and VoiceOver testing when suitable
-hardware exists, and evidence-based tooling simplification. Do not implement
-those items incidentally; each still needs appropriate scope and review.
+The post-localization cleanup foundation is complete. Final selector ordering,
+working-XLIFF relocation, bundle/startup measurement, cross-locale compact
+capacity review, and shared accessibility reconciliation are recorded in the
+localization handbook and the linked benchmark/audit reports. Remaining
+corrections are separate, evidence-led backlog work. Apple/WebKit and VoiceOver
+testing still depends on suitable hardware.
 
 The semantic localization boundary includes tracker-authored UI, accessibility
 text, help/tooltips, validation, status/transient feedback, and session history
@@ -305,22 +310,16 @@ available but is not a hard V1 release gate. Its absence is a known limitation;
 screen-reader testing by a non-speaker does not substitute for native-language
 editorial review.
 
-**Post-program XLIFF cleanup:** locale onboarding is complete, so moving working
-`.xliff` handoffs out of `docs/localization/` is now due as separately scoped
-post-localization cleanup work. Move working/handoff XLIFF files to an ignored
-`.local-work/localization/...` location and update generator defaults, scripts,
-documentation, and tests that assume `docs/localization/`. Keep durable review
-evidence in review CSVs, glossaries, locale profiles, manifests, final
-catalogues, and reference overlays. Current deterministic XLIFF representations
-remain current handoffs, not historical proof of the exact bytes originally
-sent to DeepL. Do not perform the move incidentally outside the cleanup tranche.
-
-**Post-localization bundle review:** planned locale onboarding is complete;
-remeasure bundle composition and startup performance as separately scoped
-post-localization cleanup work, with
-particular attention to statically bundled locale catalogues and reference-
-name overlays. Consider lazy locale loading only if measurements show
-meaningful benefit.
+Working XLIFF handoffs now live under ignored
+`.local-work/localization/<locale>/`; durable review evidence remains tracked.
+The final bundle/startup review found acceptable warm local startup performance,
+but it did not resolve the deployed bandwidth question. A later focused
+measurement/design investigation should measure actual Cloudflare cold-load
+transfer and compression, repeat-visit caching, statically bundled locale and
+overlay contributions, active-locale-only loading feasibility, request cost,
+locale-switch latency, and caching of previously loaded locale assets before
+deciding whether locale-on-demand loading is worthwhile. See
+`docs/benchmarks/LOCALIZATION-BUNDLE-AND-STARTUP-REVIEW.md`.
 
 ### Pre-release polish
 
@@ -345,20 +344,31 @@ meaningful benefit.
   accessible, but visible placeholder copy is partially clipped. Review later
   whether shorter locale-specific placeholder copy or a separately approved
   UI-geometry change is preferable.
-- **Localized `Very Poor` control capacity:** The accepted German, Spanish, and
-  Italian Solar/Wind translations (`Sehr schlecht`, `Muy deficiente`, and
-  `Molto scarso`) exceed the current fixed control's visible capacity. This is
+- **Localized `Very Poor` control capacity:** The accepted French, German,
+  Italian, Portuguese, and Spanish Solar translations (`Très mauvais`,
+  `Sehr schlecht`, `Molto scarso`, `Muito ruim`, and `Muy deficiente`) exceed
+  the current fixed control's visible capacity. This is
   visual only; no functionality or accessibility blocker was found, and the
   complete localized value is exposed semantically. A later mitigation may use
   approved copy treatment, a redundant tooltip/accessible description, or a
   separately reviewed control-geometry change. Do not shorten correct
   translations merely to fit the current control.
-- **Shared localized compact-layout capacity:** Longer Polish Solar/Wind
-  headings and Resource Matrix header labels create visible alignment and
-  spacing pressure. Controls remain usable and meaning remains available, so
-  this is non-blocking shared cross-locale capacity/layout debt rather than a
-  Polish defect. Consider it alongside the existing localized control-capacity
-  work; do not introduce Polish-specific geometry fixes.
+- **Resource Matrix localized header capacity:** Manual evidence confirms a
+  shared visible header-capacity defect in at least French, German, Italian,
+  Polish, and Spanish. Longer headings wrap awkwardly, expand across multiple
+  lines, and make the header row tall or irregular even though controls remain
+  usable and no translation error is indicated. Investigate the shared Matrix
+  column/heading design in a dedicated brief; do not introduce locale-specific
+  geometry workarounds. See
+  `docs/audits/CROSS-LOCALE-COMPACT-LAYOUT-CAPACITY-REVIEW.md`.
+- **Polish Outpost Details Solar/Wind alignment:** `ENERGIA SŁONECZNA` and
+  `ENERGIA WIATROWA` wrap to two lines and place the Solar/Wind controls lower
+  than adjacent System, Body, and Biome controls. This is currently observed in
+  Polish and has not been reproduced in other manually checked locales. Keep it
+  distinct from localized `Very Poor` value-width pressure, do not shorten the
+  accepted translations to fit, and address it through a later cross-locale
+  Outpost Details capacity/layout brief. See
+  `docs/audits/CROSS-LOCALE-COMPACT-LAYOUT-CAPACITY-REVIEW.md`.
 - **About and application versioning:** Expand the About dialog to show the
   application version, support/contact details, and a Ko-Fi link while
   retaining appropriate existing attribution/about content. Establish an
@@ -381,6 +391,9 @@ No known BLOCKER, HIGH, MEDIUM, or LOW finding from that audit remains unresolve
 within the tested Windows/Chromium desktop scope.
 
 Deferred accessibility/platform follow-up:
+
+The reconciled status and evidence boundary are recorded in
+`docs/audits/SHARED-ACCESSIBILITY-FOLLOW-UP-RECONCILIATION.md`.
 
 - investigate why Resource Matrix shortcuts successfully move programmatic
   focus while the visible focus border or indicator sometimes fails to appear,
@@ -411,13 +424,6 @@ Deferred accessibility/platform follow-up:
   utterance, while keyboard focus included it in the header description and
   the visual tooltip remained available. Do not assume tooltip text must be
   spoken on click;
-- verify that compact Resource Matrix controls expose enough accessible name,
-  description, state, and table/header context to distinguish the item and
-  action without relying on a visual tooltip. Labels such as `T-G-R` may be
-  insufficient in isolation. Preserve Matrix geometry;
-- treat Narrator's one-off “international sort” utterance while focus was on
-  the Spanish locale option as informational unless reproducible evidence
-  identifies incorrect application semantics;
 - test practical target comfort and interaction with a touchpad and Windows
   touchscreen when suitable hardware is available;
 - perform Safari/VoiceOver and iPhone/WebKit accessibility smoke testing when a

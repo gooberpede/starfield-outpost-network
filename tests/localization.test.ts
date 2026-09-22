@@ -129,14 +129,14 @@ test('selector model exposes the effective closed label and dynamic Automatic ro
     { value: 'automatic', label: 'Automatic (EN-GB)' },
     { value: 'en-US', label: 'English (US)' },
     { value: 'en-GB', label: 'English (UK)' },
-    { value: 'ja-JP', label: '日本語' },
     { value: 'fr-FR', label: 'Français (France)' },
     { value: 'de-DE', label: 'Deutsch (Deutschland)' },
-    { value: 'es-ES', label: 'Español (España)' },
     { value: 'it-IT', label: 'Italiano (Italia)' },
-    { value: 'pt-BR', label: 'Português (Brasil)' },
+    { value: 'ja-JP', label: '日本語' },
     { value: 'pl-PL', label: 'Polski (Polska)' },
+    { value: 'pt-BR', label: 'Português (Brasil)' },
     { value: 'zh-Hans', label: '简体中文' },
+    { value: 'es-ES', label: 'Español (España)' },
   ])
   assert.equal(getLocaleSelectorOptions('es-ES')[0].label, 'Automatic (ES-ES)')
   assert.equal(getLocaleSelectorOptions('it-IT')[0].label, 'Automatic (IT-IT)')

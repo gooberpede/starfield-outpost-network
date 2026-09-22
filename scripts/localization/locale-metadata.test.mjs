@@ -41,7 +41,7 @@ test('locale metadata maps tracker identities, Bethesda tokens, encodings, and r
     assert.deepEqual(localizationArtifactNames(trackerLocale), {
       trackerLocale,
       review: `docs/localization/${trackerLocale}-review.csv`,
-      xliff: `docs/localization/${trackerLocale}-deepl.xliff`,
+      xliff: `.local-work/localization/${trackerLocale}/${trackerLocale}-deepl.xliff`,
       reviewDraft: `src/localization/reviewDrafts/${trackerLocale}.ts`,
       catalogue: `src/localization/locales/${trackerLocale}.ts`,
       catalogueExport: `${trackerLocale.slice(0, 2)}${trackerLocale.slice(3, 5)}Messages`,
@@ -59,7 +59,7 @@ test('locale metadata maps tracker identities, Bethesda tokens, encodings, and r
   assert.deepEqual(localizationArtifactNames('pl'), {
     trackerLocale: 'pl-PL',
     review: 'docs/localization/pl-PL-review.csv',
-    xliff: 'docs/localization/pl-PL-deepl.xliff',
+    xliff: '.local-work/localization/pl-PL/pl-PL-deepl.xliff',
     reviewDraft: 'src/localization/reviewDrafts/pl-PL.ts',
     catalogue: 'src/localization/locales/pl-PL.ts',
     catalogueExport: 'plPLMessages',
@@ -76,7 +76,7 @@ test('locale metadata maps tracker identities, Bethesda tokens, encodings, and r
   assert.deepEqual(localizationArtifactNames('zhhans'), {
     trackerLocale: 'zh-Hans',
     review: 'docs/localization/zh-Hans-review.csv',
-    xliff: 'docs/localization/zh-Hans-deepl.xliff',
+    xliff: '.local-work/localization/zh-Hans/zh-Hans-deepl.xliff',
     reviewDraft: 'src/localization/reviewDrafts/zh-Hans.ts',
     catalogue: 'src/localization/locales/zh-Hans.ts',
     catalogueExport: 'zhHansMessages',

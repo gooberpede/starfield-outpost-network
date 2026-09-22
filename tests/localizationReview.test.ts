@@ -173,7 +173,7 @@ test('Simplified Chinese review routing remains explicit after runtime activatio
   assert.deepEqual(route.artifacts, {
     trackerLocale: 'zh-Hans',
     review: 'docs/localization/zh-Hans-review.csv',
-    xliff: 'docs/localization/zh-Hans-deepl.xliff',
+    xliff: '.local-work/localization/zh-Hans/zh-Hans-deepl.xliff',
     reviewDraft: 'src/localization/reviewDrafts/zh-Hans.ts',
     catalogue: 'src/localization/locales/zh-Hans.ts',
     catalogueExport: 'zhHansMessages',
@@ -268,9 +268,8 @@ test('Simplified Chinese draft and frozen handoff are complete, safe, and determ
     }
   }
 
-  const [csv, xliff, metadataSource] = await Promise.all([
+  const [csv, metadataSource] = await Promise.all([
     readFile(new URL('../docs/localization/zh-Hans-review.csv', import.meta.url), 'utf8'),
-    readFile(new URL('../docs/localization/zh-Hans-deepl.xliff', import.meta.url), 'utf8'),
     readFile(new URL('../reference-source/localization-locale-metadata.json', import.meta.url), 'utf8'),
   ])
   const committedRows = parseAndValidateReviewCsv(csv, 'zh-Hans')
@@ -284,7 +283,7 @@ test('Simplified Chinese draft and frozen handoff are complete, safe, and determ
         frozen.CodexTranslation],
     )
   }
-  assert.equal(xliff, createReviewXliff(rows, 'zh-Hans'))
+  const xliff = createReviewXliff(rows, 'zh-Hans')
   assert.match(xliff, /xliff version="1\.2"/)
   assert.match(xliff, /target-language="zh-Hans"/)
   assert.equal((xliff.match(/<trans-unit /g) ?? []).length, 414)
@@ -756,10 +755,7 @@ test('Polish draft and frozen DeepL handoff source remain complete, safe, and de
     assert.equal(branches[0][1], branches[0][2], key)
   }
 
-  const [committedCsv, committedXliff] = await Promise.all([
-    readFile(new URL('../docs/localization/pl-PL-review.csv', import.meta.url), 'utf8'),
-    readFile(new URL('../docs/localization/pl-PL-deepl.xliff', import.meta.url), 'utf8'),
-  ])
+  const committedCsv = await readFile(new URL('../docs/localization/pl-PL-review.csv', import.meta.url), 'utf8')
   const committedRows = parseAndValidateReviewCsv(committedCsv, 'pl-PL')
   for (const [index, row] of committedRows.entries()) {
     const frozen = rows[index]
@@ -771,7 +767,7 @@ test('Polish draft and frozen DeepL handoff source remain complete, safe, and de
         frozen.CodexTranslation],
     )
   }
-  assert.equal(committedXliff, createReviewXliff(rows, 'pl-PL'))
+  const committedXliff = createReviewXliff(rows, 'pl-PL')
   assert.match(committedXliff, /xliff version="1\.2"/)
   assert.match(committedXliff, /target-language="pl-PL"/)
   assert.equal((committedXliff.match(/<trans-unit /g) ?? []).length, englishKeys.length)
@@ -843,13 +839,10 @@ test('final Polish catalogue is review-derived, complete, safe, and runtime-acti
   assert.equal(supportedLocaleIds.includes('pl-PL'), true)
 })
 
-test('committed French and German XLIFF files match their current deterministic handoff representations', async () => {
+test('French and German review evidence produces deterministic XLIFF handoffs', async () => {
   for (const [locale, draft] of [['fr-FR', frFRReviewDraft], ['de-DE', deDEReviewDraft]] as const) {
     const frozenRows = createReviewRows(locale, draft)
-    const [csv, xliff] = await Promise.all([
-      readFile(new URL(`../docs/localization/${locale}-review.csv`, import.meta.url), 'utf8'),
-      readFile(new URL(`../docs/localization/${locale}-deepl.xliff`, import.meta.url), 'utf8'),
-    ])
+    const csv = await readFile(new URL(`../docs/localization/${locale}-review.csv`, import.meta.url), 'utf8')
     const committedRows = parseAndValidateReviewCsv(csv, locale)
     for (const [index, row] of committedRows.entries()) {
       const frozen = frozenRows[index]
@@ -861,19 +854,19 @@ test('committed French and German XLIFF files match their current deterministic 
           frozen.CodexTranslation],
       )
     }
+    const xliff = createReviewXliff(frozenRows, locale)
     assert.equal(xliff, createReviewXliff(frozenRows, locale))
+    assert.equal((xliff.match(/<trans-unit /g) ?? []).length, frozenRows.length)
+    assert.match(xliff, new RegExp(`target-language="${locale}"`))
   }
 })
 
-test('Spanish, Italian, and Brazilian Portuguese review evidence preserves deterministic handoffs', async () => {
+test('Spanish, Italian, and Brazilian Portuguese review evidence produces deterministic handoffs', async () => {
   for (const [locale, draft] of [
     ['es-ES', esESReviewDraft], ['it-IT', itITReviewDraft], ['pt-BR', ptBRReviewDraft],
   ] as const) {
     const rows = createReviewRows(locale, draft)
-    const [csv, xliff] = await Promise.all([
-      readFile(new URL(`../docs/localization/${locale}-review.csv`, import.meta.url), 'utf8'),
-      readFile(new URL(`../docs/localization/${locale}-deepl.xliff`, import.meta.url), 'utf8'),
-    ])
+    const csv = await readFile(new URL(`../docs/localization/${locale}-review.csv`, import.meta.url), 'utf8')
     const frozenRows = createReviewRows(locale, draft)
     const committedRows = parseAndValidateReviewCsv(csv, locale)
     for (const [index, row] of committedRows.entries()) {
@@ -891,7 +884,10 @@ test('Spanish, Italian, and Brazilian Portuguese review evidence preserves deter
       assert.ok(row.FinalTranslation, `${locale}:${row.Key}:FinalTranslation`)
       assert.ok(row.ReviewerNote, `${locale}:${row.Key}:ReviewerNote`)
     }
+    const xliff = createReviewXliff(rows, locale)
     assert.equal(xliff, createReviewXliff(rows, locale), locale)
+    assert.equal((xliff.match(/<trans-unit /g) ?? []).length, rows.length, locale)
+    assert.match(xliff, new RegExp(`target-language="${locale}"`), locale)
   }
 })
 
