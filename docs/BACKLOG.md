@@ -460,11 +460,16 @@ default local-only development server. See [Deployment](DEPLOYMENT.md) for
 current policy; the [whole-product security audit](audits/codex-whole-product-security-audit.md)
 records the earlier point-in-time findings.
 
-- **HSTS:** An initial 24-hour policy (`max-age=86400`) is implemented in
-  `public/_headers`. `includeSubDomains` and `preload` are intentionally omitted.
-  The initial rollout has been verified in staging and production, including
-  the production custom-domain response. Review or lengthen the policy only at
-  an appropriate later grooming point.
+- **HSTS:** The initial 24-hour rollout was verified in staging and production,
+  including the production custom-domain response. The active approved
+  repository policy is now 30 days (`max-age=2592000`) in `public/_headers`;
+  deployed verification remains pending. After deployment and verification,
+  defer the next HSTS review until the 30-day policy has run continuously for
+  at least 30 days. That review must re-check production and staging responses,
+  DNS/subdomain inventory, certificate state, HTTP-to-HTTPS redirects, and any
+  competing HSTS sources before considering `max-age=31536000` as a candidate.
+  `includeSubDomains` remains intentionally omitted. `preload` remains
+  intentionally omitted and is a separate future decision.
 - **Public-launch indexing:** Remove the temporary pre-release `noindex` and
   robots controls as part of the public-launch parcel. Keep detailed deployment
   procedure in [Deployment](DEPLOYMENT.md).

@@ -81,20 +81,37 @@ analytics/telemetry service.
   from `fonts.googleapis.com` and font binaries from `fonts.gstatic.com` are
   allowed. Object content, framing, and workers are denied. Camera,
   microphone, and geolocation are denied. Cloudflare's `nosniff` and referrer
-  policy defaults are retained. An initial 24-hour HSTS policy
-  (`Strict-Transport-Security: max-age=86400`) is defined in `public/_headers`
-  without `includeSubDomains` or `preload`; staging and production deployment
-  verification remain pending. See the
+  policy defaults are retained. The initial 24-hour HSTS rollout was verified
+  on staging and production, including the custom production domain. The
+  repository policy is now 30 days
+  (`Strict-Transport-Security: max-age=2592000`) in `public/_headers`, without
+  `includeSubDomains` or `preload`; deployed verification of the 30-day policy
+  remains pending. See the
   [CSP and security headers benchmark](benchmarks/CLOUDFLARE-CSP-SECURITY-HEADERS.md).
 - External Google Fonts remain accepted for V1. Self-hosting or removal needs
   a concrete reason from later testing.
 - Cloudflare Web Analytics / RUM remains disabled: there is no telemetry
   requirement, and its injected `static.cloudflareinsights.com` beacon
   conflicted with the CSP. Do not loosen CSP merely to enable it.
-- Cloudflare Access / Zero Trust is not used because setup required payment
-  details outside project constraints. Unadvertised URLs and non-indexing
-  provide limited pre-release visibility, **not access control**. Do not place
-  sensitive data on staging on the assumption that it is private.
+- Cloudflare Access protects preview and versioned
+  `*.starfield-outpost-network.pages.dev` hosts. The bare production
+  `starfield-outpost-network.pages.dev` hostname remains public and redirects
+  to the public custom production domain. Non-indexing on public production is
+  crawler guidance, **not access control**.
+
+Re-review HSTS only after the 30-day policy has been continuously deployed for
+at least 30 days. Re-check the production and staging HSTS responses, complete
+DNS/subdomain inventory, certificate state, HTTP-to-HTTPS redirects, and any
+possible competing HSTS sources. If those checks remain healthy,
+`max-age=31536000` may be considered as the next candidate; this is not advance
+approval for a one-year policy. Keep `includeSubDomains` and `preload` as
+separate decisions.
+
+The 30-day policy is a stronger rollback commitment than the initial 24-hour
+policy: a client may enforce HTTPS for up to 30 days after its last qualifying
+response. Removing the header does not immediately clear cached client state.
+`max-age=0` clears HSTS only after the client successfully reaches the host over
+valid HTTPS; it is rollback guidance, not part of the current policy.
 
 For earlier hosting and security evidence, see the [production hosting
 readiness benchmark](benchmarks/PRODUCTION-HOSTING-READINESS.md), [first Pages
