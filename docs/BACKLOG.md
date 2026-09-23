@@ -340,9 +340,11 @@ deciding whether locale-on-demand loading is worthwhile. See
   editorial candidates or require shorter copy.
 - **Resource Matrix technical-token geometry:** Open for `R-COOH` / `SiH3Cl`;
   technical-token/button sizing is separate from accepted header geometry.
-- **Resource Matrix/Cargo Links section-heading alignment:** Open. Their outer title
-  strips have a reported vertical alignment discrepancy. Review separately;
-  the Matrix column-header geometry correction does not change either strip.
+- **Resource Matrix/Cargo Links section-heading alignment:** Closed. Their peer
+  title strips now share a control-safe minimum-height and border-box contract;
+  the Cargo title/count group centres within it while the Matrix Search keeps
+  its established dimensions. Matrix column/body and Cargo body geometry are
+  unchanged.
 - **About and application versioning:** Expand the About dialog to show the
   application version, support/contact details, and a Ko-Fi link while
   retaining appropriate existing attribution/about content. Establish an

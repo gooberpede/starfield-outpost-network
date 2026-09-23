@@ -101,6 +101,9 @@
 }
 
 .workspace-layout__content {
+  /* The sibling Matrix and Cargo title strips share this control-safe height. */
+  --workspace-section-heading-min-height: calc(2.2rem + 1px);
+
   display: grid;
   grid-template-columns:
     minmax(0, 3fr)

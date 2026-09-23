@@ -28,7 +28,9 @@
   position: relative;
   display: flex;
   gap: 0.5rem;
-  align-items: baseline;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: var(--workspace-section-heading-min-height);
   margin: 0 0 0.45rem;
   padding: 0.38rem 0 0.32rem 0.65rem;
   border-bottom: 1px solid var(--ui-rule);

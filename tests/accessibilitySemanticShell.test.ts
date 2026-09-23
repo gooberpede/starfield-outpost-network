@@ -24,6 +24,18 @@ test('Matrix header presentation preserves the shared body-track and control con
   assert.match(css, /\.outpost-status-matrix__heading-tail > \.context-help\s*\{[^}]*padding: 0\.3rem;/)
 })
 
+test('peer workspace section headings share the control-safe height contract', async () => {
+  const [workspaceCss, matrixCss, cargoCss] = await Promise.all([
+    source('../src/ui/layout/WorkspaceLayout.css'),
+    source('../src/ui/components/OutpostStatusMatrix.css'),
+    source('../src/ui/components/CargoPadsEditor.css'),
+  ])
+
+  assert.match(workspaceCss, /--workspace-section-heading-min-height:\s*calc\(2\.2rem \+ 1px\)/)
+  assert.match(matrixCss, /\.outpost-status-matrix__heading-strip\s*\{[^}]*box-sizing:\s*border-box;[^}]*min-height:\s*var\(--workspace-section-heading-min-height\)/)
+  assert.match(cargoCss, /\.cargo-pads__heading\s*\{[^}]*align-items:\s*center;[^}]*box-sizing:\s*border-box;[^}]*min-height:\s*var\(--workspace-section-heading-min-height\)/)
+})
+
 test('application source contains exactly one main landmark', async () => {
   const [app, workspace] = await Promise.all([
     source('../src/App.tsx'),

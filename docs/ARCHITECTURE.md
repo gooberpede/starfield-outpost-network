@@ -1518,6 +1518,11 @@ The main application workspace currently separates:
 
 `WorkspaceLayout` owns the major positioning.
 
+Its two operational columns also expose a shared, control-safe minimum height
+for the Resource Matrix and Cargo Links title strips. The peer components own
+their typography and controls, while this layout-level contract keeps their
+outer boundaries aligned without coupling their body geometry.
+
 The exact long-term scrolling behaviour of the major workspace regions is intentionally unresolved.
 
 In particular:
