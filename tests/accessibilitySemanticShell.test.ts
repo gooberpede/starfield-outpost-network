@@ -6,6 +6,24 @@ async function source(path: string): Promise<string> {
   return readFile(new URL(path, import.meta.url), 'utf8')
 }
 
+test('Matrix header presentation preserves the shared body-track and control contract', async () => {
+  const css = await source('../src/ui/components/OutpostStatusMatrix.css')
+  assert.match(css, /--outpost-matrix-columns:\s*minmax\(7\.5rem, 1\.35fr\)\s*minmax\(6rem, 0\.9fr\)\s*minmax\(6rem, 0\.55fr\)\s*minmax\(7rem, 0\.65fr\)\s*minmax\(4\.25rem, 1\.35fr\)\s*minmax\(7\.25rem, 1fr\)/)
+  assert.match(css, /\.outpost-status-matrix__header,\s*\.outpost-status-matrix__row\s*\{[^}]*grid-template-columns: var\(--outpost-matrix-columns\)/)
+  assert.match(css, /\.outpost-status-matrix__table\s*\{[^}]*min-width: 38rem/)
+  assert.match(css, /\.outpost-status-matrix__state,\s*\.outpost-status-matrix__state--editable\s*\{[^}]*width: 3\.2rem;[^}]*height: 1\.55rem;/)
+  assert.doesNotMatch(css, /:lang\(|\[lang[=|]/)
+  const labelRule = css.match(/\.outpost-status-matrix__header-label\s*\{([^}]*)\}/)?.[1] ?? ''
+  assert.match(labelRule, /overflow-wrap: normal/)
+  assert.match(labelRule, /word-break: normal/)
+  assert.doesNotMatch(labelRule, /anywhere|break-all|break-word/)
+  const logisticsRule = css.match(/\.outpost-status-matrix__header > \.outpost-status-matrix__logistics-heading\s*\{([^}]*)\}/)?.[1] ?? ''
+  assert.doesNotMatch(logisticsRule, /margin|transform|translate|position/)
+  assert.match(css, /\.outpost-status-matrix__inputs-heading > \.outpost-status-matrix__header-label\s*\{[^}]*margin-inline:[^;]*var\(--matrix-inputs-overhang\)[^;]*var\(--matrix-header-group-gap\)[^;]*var\(--matrix-inputs-overhang\)/)
+  assert.match(css, /\.outpost-status-matrix__heading-tail\s*\{[^}]*display: inline-flex;[^}]*white-space: nowrap;/)
+  assert.match(css, /\.outpost-status-matrix__heading-tail > \.context-help\s*\{[^}]*padding: 0\.3rem;/)
+})
+
 test('application source contains exactly one main landmark', async () => {
   const [app, workspace] = await Promise.all([
     source('../src/App.tsx'),

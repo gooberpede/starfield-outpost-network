@@ -79,6 +79,23 @@ interface Props {
 
 interface ItemDisplay { name: string; shortName: string }
 
+/** Keep help beside the final whole word, including when a heading wraps. */
+function MatrixHelpHeading({ label, helpText, className = '' }: {
+  label: string; helpText: string; className?: string;
+}) {
+  const lastSpace = label.lastIndexOf(' ')
+  const prefix = lastSpace < 0 ? '' : label.slice(0, lastSpace + 1)
+  const finalWord = label.slice(lastSpace + 1)
+  return <div role="columnheader" className={`outpost-status-matrix__help-heading ${className}`}>
+    <span className="outpost-status-matrix__header-label">
+      {prefix}<span className="outpost-status-matrix__heading-tail">
+        <span>{finalWord}</span>
+        <ContextHelp context={label} text={helpText} />
+      </span>
+    </span>
+  </div>
+}
+
 function ReadOnlyState({ item, lit, state, title = item.name, assistiveHidden = false, focusRef }: {
   item: ItemDisplay
   lit: boolean
@@ -273,19 +290,13 @@ export function OutpostStatusMatrix({
         <div className="outpost-status-matrix__header" role="row">
           <div role="columnheader">{t('matrix.column.item')}</div>
           <div role="columnheader">{t('matrix.column.source')}</div>
-          <div role="columnheader" className="outpost-status-matrix__help-heading">
-            {t('matrix.column.present')}
-            <ContextHelp context={t('matrix.column.present')} text={t(contextHelpText.present)} />
+          <MatrixHelpHeading label={t('matrix.column.present')} helpText={t(contextHelpText.present)} />
+          <MatrixHelpHeading label={t('matrix.column.producing')} helpText={t(contextHelpText.producing)} />
+          <div role="columnheader" className="outpost-status-matrix__inputs-heading">
+            <span className="outpost-status-matrix__header-label">{t('matrix.column.inputs')}</span>
           </div>
-          <div role="columnheader" className="outpost-status-matrix__help-heading">
-            {t('matrix.column.producing')}
-            <ContextHelp context={t('matrix.column.producing')} text={t(contextHelpText.producing)} />
-          </div>
-          <div role="columnheader">{t('matrix.column.inputs')}</div>
-          <div role="columnheader" className="outpost-status-matrix__help-heading">
-            {t('matrix.column.logistics')}
-            <ContextHelp context={t('matrix.column.logistics')} text={t(contextHelpText.logistics)} />
-          </div>
+          <MatrixHelpHeading label={t('matrix.column.logistics')} helpText={t(contextHelpText.logistics)}
+            className="outpost-status-matrix__logistics-heading" />
         </div>
       </div>
 

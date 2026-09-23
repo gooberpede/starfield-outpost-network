@@ -67,6 +67,53 @@ function makeOutpost(id: string, name: string, padCount = 0): Outpost {
 
 const noOp = vi.fn()
 
+describe('localized Matrix header geometry semantics', () => {
+  const locales: SupportedLocale[] = [
+    'en-US', 'en-GB', 'fr-FR', 'de-DE', 'it-IT', 'ja-JP', 'pl-PL', 'pt-BR', 'zh-Hans', 'es-ES',
+  ]
+  test.each(locales)('%s keeps full headings in order with owned, keyboard-accessible help', async (locale) => {
+    const user = userEvent.setup()
+    const outpost = makeOutpost('header', 'Header test')
+    const network = createDefaultNetwork()
+    network.outposts = [outpost]
+    const referenceData: ReferenceData = {
+      biomes: [], bodyBiomes: [], inorganicOccurrences: [], species: [], planetSpecies: [],
+      organicOccurrences: [], organicFarmingProfiles: [], systems: [], bodies: [],
+      resources: [], products: [], bodyResources: [], productRecipes: [],
+    }
+    localized(locale, <OutpostStatusMatrix
+      outpost={outpost} network={network} resources={[]} products={[]}
+      referenceData={referenceData} availableItems={[]} actuallyAvailableItems={[]}
+      onToggleResource={noOp} onToggleExplicitResourcePresence={noOp}
+      onToggleActiveProduction={noOp} onCommitManufacturing={noOp}
+    />)
+    const headings = screen.getAllByRole('columnheader')
+    const keys = ['item', 'source', 'present', 'producing', 'inputs', 'logistics'] as const
+    expect(headings).toHaveLength(keys.length)
+    for (const [index, key] of keys.entries()) {
+      const label = translate(locale, `matrix.column.${key}`)
+      expect(headings[index]).toHaveTextContent(label)
+      const help = within(headings[index]).queryByRole('button')
+      if (['present', 'producing', 'logistics'].includes(key)) {
+        expect(help).toHaveAccessibleName(expect.stringContaining(label))
+        const tail = help!.closest('.outpost-status-matrix__heading-tail')!
+        expect(tail.firstElementChild).toHaveTextContent(label.slice(label.lastIndexOf(' ') + 1))
+        const textNodes = headings[index].querySelector('.outpost-status-matrix__header-label')!.cloneNode(true) as HTMLElement
+        textNodes.querySelector('.context-help')!.remove()
+        expect(textNodes.textContent).toBe(label)
+        help!.focus()
+        await user.keyboard('{Enter}')
+        expect(help).toHaveAttribute('aria-expanded', 'true')
+        await user.keyboard('{Escape}')
+        expect(help).toHaveFocus()
+        expect(help).toHaveAttribute('aria-expanded', 'false')
+      } else {
+        expect(help).toBeNull()
+      }
+    }
+  })
+})
+
 describe('release accessibility semantics', () => {
   test('locale selector exposes its selected locale through a native semantic relationship', () => {
     localized('ja-JP', <TitleBar onAbout={noOp} />)

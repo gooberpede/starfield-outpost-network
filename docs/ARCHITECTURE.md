@@ -1907,6 +1907,17 @@ Pads remain in the right column. The matrix derives resource occurrence, actual
 availability, exports, and imports without adding presentation state to
 `OutpostNetwork`.
 
+`OutpostStatusMatrix.css` keeps one authoritative `--outpost-matrix-columns`
+template for header anchors and body rows. Any header-only presentation must
+preserve that template, table minimum width, and body controls. Help target
+reservation belongs to the header layer, not to domain or saved state. Inputs
+overhang is applied only to its nested label using shared spacing variables;
+the semantic cell retains its body-track position. A component-local heading
+helper keeps each final word and its help control together without changing
+catalogue text, help ownership, or DOM column order. See
+`docs/audits/RESOURCE-MATRIX-HEADER-GEOMETRY-VERIFICATION.md` for measurements
+and remaining manual acceptance.
+
 The editable outpost name owns a component-local draft and commits through
 `App.tsx`. Location selectors derive normal System and Body choices from the
 runtime body's `outpostAllowed` fact while retaining any current persisted

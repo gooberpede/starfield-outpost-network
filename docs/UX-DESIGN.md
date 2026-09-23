@@ -376,6 +376,20 @@ reordered or stacked, and Item remains sticky during horizontal scrolling. The
 matrix grows in normal vertical flow rather than owning an artificial vertical
 scrollbar; vertical scrolling belongs to the enclosing workspace/page context.
 
+Matrix header presentation may differ from body tracks, but each heading must
+remain visibly associated with its body controls. Keep label/help groups
+adjacent, reserve their full pointer targets and focus outlines, and use natural
+word boundaries. Inputs and Logistics need a clear visual gap, not merely
+non-overlapping boxes. The Inputs label may overhang both neighboring header
+regions while its semantic cell and presentation centre remain in the Inputs
+column. Borrow more of the unused Producing space to preserve clearance before
+Logistics; do not move Producing or Logistics out of their body-column anchors.
+Balance Inputs text at natural word boundaries. Keep the final whole word of
+each helped heading together with its help control, with enough line height
+for the full pointer target on each line. Full localized copy and body geometry
+remain unchanged. The current verification and manual acceptance status are in
+`docs/audits/RESOURCE-MATRIX-HEADER-GEOMETRY-VERIFICATION.md`.
+
 Use full names in Item and compact reference-data abbreviations in state cells.
 Derived active/available state is lit; derived inactive/unavailable state is
 dimmed but remains inspectable. Editable resource presence and production use

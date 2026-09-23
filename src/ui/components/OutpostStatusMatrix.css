@@ -76,6 +76,8 @@
 }
 
 .outpost-status-matrix__header {
+  --matrix-header-group-gap: 0.5rem;
+  --matrix-inputs-overhang: 0.25rem;
   position: sticky;
   z-index: 3;
   top: 0;
@@ -87,6 +89,8 @@
   font-family: var(--ui-font);
   font-size: 0.78rem;
   font-weight: 600;
+  /* Each line contains the complete .9rem + .6rem help target envelope. */
+  line-height: 1.5rem;
   letter-spacing: 0.065em;
   text-transform: uppercase;
 }
@@ -107,10 +111,60 @@
   }
 }
 
+/* Header spacing is independent of responsive body padding. The shared grid
+ * continues to anchor all six semantic headers and every body row. */
+.outpost-status-matrix__header > div {
+  padding: 0.1rem;
+}
+
+.outpost-status-matrix__header > div:nth-child(-n + 2) {
+  padding-inline: 0.3rem;
+}
+
 .outpost-status-matrix__header > .outpost-status-matrix__help-heading {
-  display: flex;
+  padding-inline: 0;
+}
+
+.outpost-status-matrix__header-label {
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.outpost-status-matrix__heading-tail {
+  display: inline-flex;
   align-items: center;
-  gap: 0.28rem;
+  gap: 0.15rem;
+  white-space: nowrap;
+  vertical-align: top;
+}
+
+/* ContextHelp expands its target by .3rem outside the visible button border.
+ * Reserve that entire envelope, including room for its 4px focus outline.
+ * The final word and help wrap together rather than drifting to a cell edge. */
+.outpost-status-matrix__heading-tail > .context-help {
+  padding: 0.3rem;
+}
+
+.outpost-status-matrix__header > .outpost-status-matrix__inputs-heading {
+  padding-inline: 0;
+}
+
+/* Only the label overhangs, not the semantic cell. The wider Producing track
+ * donates more space: shift the presentation midpoint by one grouping gap
+ * within Inputs, keeping room before anchored Logistics. Both sides use the
+ * same small overhang allowance; the extra start allowance is twice the gap.
+ * This is a header-only contract, independent of body track/control widths. */
+.outpost-status-matrix__inputs-heading > .outpost-status-matrix__header-label {
+  display: block;
+  margin-inline:
+    calc(-1 * (var(--matrix-inputs-overhang) + 2 * var(--matrix-header-group-gap)))
+    calc(-1 * var(--matrix-inputs-overhang));
+  text-align: center;
+  text-wrap: balance;
+}
+
+.outpost-status-matrix__header > .outpost-status-matrix__logistics-heading {
+  padding-inline-start: var(--matrix-header-group-gap);
 }
 
 .outpost-status-matrix__row > div {

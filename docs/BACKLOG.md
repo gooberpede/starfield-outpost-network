@@ -322,14 +322,27 @@ deciding whether locale-on-demand loading is worthwhile. See
   variants. Correct the reference-name presentation or localization overlay
   path while preserving canonical IDs and reference keys; do not assume source
   data should be mutated.
-- **Resource Matrix localized header capacity:** Manual evidence confirms a
-  shared visible header-capacity defect in at least French, German, Italian,
-  Polish, and Spanish. Longer headings wrap awkwardly, expand across multiple
-  lines, and make the header row tall or irregular even though controls remain
-  usable and no translation error is indicated. Investigate the shared Matrix
-  column/heading design in a dedicated brief; do not introduce locale-specific
-  geometry workarounds. See
-  `docs/audits/CROSS-LOCALE-COMPACT-LAYOUT-CAPACITY-REVIEW.md`.
+- **Resource Matrix localized header capacity:** Closed; accepted within the
+  tested Windows/Chromium scope.
+  The corrected implementation uses authorized two-sided Inputs overhang,
+  anchored Producing/Logistics, adjacent help groups, and natural balanced
+  wrapping. All ten locales pass the 1366×768 and 1600×900 browser checks with
+  body widths preserved; German remains whole and Spanish retains two lines
+  with clear Logistics separation. User-reported manual acceptance passes
+  ordinary layout across tested locales, true browser 200% zoom, Windows High
+  Contrast, and horizontal scrolling relative to established behavior: no
+  horizontal scrollbar at 1366px/100%; scrolling at 200% is unchanged and is
+  not a regression. Logistics heading/value alignment and help-label
+  association are accepted. See
+  `docs/audits/RESOURCE-MATRIX-HEADER-GEOMETRY-VERIFICATION.md`.
+- **Resource Matrix compact-copy/editorial candidates:** Deferred/open and
+  unapproved. Header-geometry acceptance does not approve the separate
+  editorial candidates or require shorter copy.
+- **Resource Matrix technical-token geometry:** Open for `R-COOH` / `SiH3Cl`;
+  technical-token/button sizing is separate from accepted header geometry.
+- **Resource Matrix/Cargo Links section-heading alignment:** Open. Their outer title
+  strips have a reported vertical alignment discrepancy. Review separately;
+  the Matrix column-header geometry correction does not change either strip.
 - **About and application versioning:** Expand the About dialog to show the
   application version, support/contact details, and a Ko-Fi link while
   retaining appropriate existing attribution/about content. Establish an
