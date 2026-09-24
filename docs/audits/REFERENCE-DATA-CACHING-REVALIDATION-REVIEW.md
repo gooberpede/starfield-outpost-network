@@ -31,6 +31,34 @@ bandwidth result, not evidence of a user-visible speed improvement.
 No runtime, header, Cloudflare, deployment, reference-data or test change was
 made by this audit.
 
+### Post-audit implementation acceptance
+
+The user completed authenticated staging acceptance after the recommended
+policy was implemented. This later evidence does not change or retroactively
+extend the audit measurements above.
+
+- environment: protected `staging`;
+- application commit: `0a0260c`;
+- browser: Microsoft Edge `153.0.4234.48` (Official build, 64-bit);
+- initial observed load: manifest plus all 13 reference-data assets returned
+  `304`;
+- warm reload 1: manifest plus all 13 assets returned `304`;
+- warm reload 2: manifest plus all 13 assets returned `304`;
+- forced reference-data failure followed by application Retry: manifest plus
+  all 13 assets returned `200`;
+- ordinary reload after the successful Retry: manifest plus all 13 assets
+  returned `304` again; and
+- overall result: **PASS**.
+
+This confirms in a real authenticated staging browser session that normal
+startup and reloads use the intended revalidation path, explicit Retry uses the
+stronger refresh path, and later ordinary loads return to normal revalidation.
+The observed behavior is consistent with the implemented `no-cache` manifest,
+`default` assets and `reload` Retry policy. This manual pass did not measure
+bandwidth and does not constitute production acceptance. Production and
+cross-deployment cache testing remain part of the final `1.0.0-rc.1` acceptance
+matrix.
+
 ## 1. Baseline and scope
 
 Audit date: **24 September 2026** (Australia/Sydney).
@@ -371,12 +399,15 @@ Access workaround.
 
 ## 14. Residual risks and limitations
 
-- Authenticated staging evidence was unavailable; staging remains mandatory in
-  the later acceptance matrix.
+- Authenticated staging evidence was unavailable during the audit itself. The
+  later implementation acceptance recorded above closes that staging check;
+  production and cross-deployment release-candidate coverage remain pending.
 - The production harness exercised real Chromium Fetch/cache behavior but not a
   tracked prototype build of the complete application. Loader sequencing and
-  integrity conclusions are supported by source/tests; the exact cache modes
-  still need acceptance after implementation.
+  integrity conclusions are supported by source/tests. At audit time, the exact
+  implemented cache modes still needed acceptance; the later staging evidence
+  above closes that environment while production release-candidate acceptance
+  remains outstanding.
 - Only Chrome 153 on this Windows host was measured. Other Chromium versions
   should follow HTTP semantics but remain implementation-dependent; one current
   release-browser pass is appropriate before release.

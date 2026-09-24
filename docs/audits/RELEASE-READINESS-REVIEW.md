@@ -194,11 +194,35 @@ Full names are exposed through existing titles/accessibility labels, but that do
 
 ### Reference caching and overlays are separate
 
-`referenceDataLoader.ts` fetches the manifest and all 13 assets with `cache: 'no-store'`. It checks status, MIME, bounded bytes, manifest structure/coherence, expected bundled dataset ID, each asset's exact-byte SHA-256, JSON parsing and lightweight shapes; startup mounts the editor only after a complete valid snapshot. `tests/referenceIntegrity.test.tsx` covers valid assets, mismatched builds, failed assets, missing crypto and gate/retry behavior. The fixed filenames and mixed/stale deployment threat explain the conservative cache choice; the code does not contain a separate comment proving that no other cache mode can preserve these invariants.
+**Post-review status, 24 September 2026:** the separately authorized caching
+investigation selected the split manifest/assets policy, implementation commit
+`0a0260c` completed authenticated protected-staging browser acceptance in
+Microsoft Edge `153.0.4234.48`, and the result was **PASS**. Normal observed
+loads returned 304s for the manifest and all 13 assets, Retry after a forced
+failure returned 200s for the complete snapshot, and the next ordinary reload
+returned to 304s. See
+[`REFERENCE-DATA-CACHING-REVALIDATION-REVIEW.md`](REFERENCE-DATA-CACHING-REVALIDATION-REVIEW.md)
+for the later evidence and its limits. This does not complete production or
+cross-deployment testing in the final `1.0.0-rc.1` acceptance matrix.
+
+At this review's baseline, `referenceDataLoader.ts` fetched the manifest and all
+13 assets with `cache: 'no-store'`. It checked status, MIME, bounded bytes,
+manifest structure/coherence, expected bundled dataset ID, each asset's
+exact-byte SHA-256, JSON parsing and lightweight shapes; startup mounted the
+editor only after a complete valid snapshot. `tests/referenceIntegrity.test.tsx`
+covered valid assets, mismatched builds, failed assets, missing crypto and
+gate/retry behavior. The fixed filenames and mixed/stale deployment threat
+explained the conservative cache choice; the code did not contain a separate
+comment proving that no other cache mode could preserve these invariants.
 
 The 23 September deployed bandwidth report measured 150,229 Brotli **HTTP body bytes** for reference data, separately from JS; browser header-inclusive Transfer Size and authenticated staging measurements were unavailable. The prototype measured an English initial-JS reduction of 102,274 bytes (43.1%) using **local** Brotli compression. These differ in unit, environment and repetition frequency; neither is an exact promised total page saving.
 
-A small separately authorized caching investigation is worthwhile but optional: compare current behavior with a revalidation-based candidate in isolation; check warm/cold loads, old app/new dataset and new app/stale dataset, corrupt bytes, failed requests and retry. Preserve every existing integrity check and fail-closed behavior. Require actual browser cache evidence before recommending implementation. If it needs versioned asset URLs, cache orchestration, a service worker or significant dataset-identity work, conclude **safe to defer** and return scope for later review. Do not change headers or caching in this audit.
+The review therefore recommended a small separately authorized caching
+investigation: compare the baseline with a revalidation-based candidate in
+isolation; check warm/cold loads, old app/new dataset and new app/stale dataset,
+corrupt bytes, failed requests and retry; and preserve every existing integrity
+check and fail-closed behavior. It required actual browser cache evidence before
+recommending implementation and made no header or caching change itself.
 
 The overlay restart point is `.local-work/reference-overlay-prototype/` plus `REFERENCE-OVERLAY-ON-DEMAND-PROTOTYPE.md`. Production integration still needs real protected-preview measurements, initial-load fallback policy acceptance, localized pending/error copy, failed-switch preference preservation, focus/announcements while the selector is disabled, retry/deduplication checks and the version-A page requesting an unopened chunk after deployment B. A never-loaded locale's offline failure is a real trade-off; the prototype's shell-level offline claims do not establish whole-app offline support while canonical reference startup remains network-dependent. Funding this work consumes the same deployment/manual/localization attention as the remaining gates.
 

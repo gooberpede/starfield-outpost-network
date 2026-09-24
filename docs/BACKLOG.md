@@ -305,8 +305,10 @@ Deployed bandwidth/compression measurement is complete; see
 prototype remains paused/post-release, with its code and measurements retained.
 Only staging automatically deploys previews; an experiment branch is not an
 automatic preview route. The completed caching investigation selected the
-pre-release split manifest/assets request policy; authenticated staging and
-release-candidate browser acceptance remain part of release verification.
+pre-release split manifest/assets request policy. Authenticated staging browser
+acceptance passed for implementation commit `0a0260c`; production and
+cross-deployment cache testing remain in the final `1.0.0-rc.1` acceptance
+matrix.
 
 ### Pre-release polish
 - **Resource Matrix localized header capacity:** Closed; accepted within the
