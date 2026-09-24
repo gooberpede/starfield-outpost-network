@@ -319,19 +319,38 @@ must be checked at publication; a private link is not public source access.
 
 ## Application versions
 
-Preparation retains development version **0.0.0**, sourced from package.json
-with matching lockfile root metadata. About shows a short commit and an honest
-local/modified or unverified status. At the deliberate candidate-testing gate,
-set **1.0.0-rc.1**; after candidate acceptance, set **1.0.0**. Any changed candidate
-needs a new candidate identity and relevant retesting. Tags use `v<version>`.
-Tag/release creation remains a separate authorized operation.
+The current pre-release line begins at **0.9.0-beta.1**. `package.json` is the
+application-version authority; the version commands synchronize both lockfile
+roots. About combines that application version with a separate short Git commit
+and an honest clean, modified or unverified status. Ordinary commits, builds and
+staging deployments do not change the application version.
+
+Maintainers advance deliberate checkpoints with:
+
+```sh
+npm run version:beta                 # 0.9.0-beta.1 -> 0.9.0-beta.2
+npm run version:rc -- 1.0.0          # start 1.0.0-rc.1 with an explicit target
+npm run version:rc                   # continue rc.1 -> rc.2
+npm run version:release              # promote beta/RC to its stable core
+npm run version:patch                # stable 1.0.0 -> 1.0.1
+npm run version:minor                # stable 1.0.1 -> 1.1.0
+npm run version:major                # stable 1.1.0 -> 2.0.0
+```
+
+Beta and RC continuation commands require an existing matching prerelease.
+Stable increments require a stable current version. Starting an RC train always
+requires an explicit stable target. These commands only update package metadata:
+they never commit, tag, push, publish or deploy. The formal **1.0.0-rc.1** cut and
+its acceptance remain future deliberate checkpoints.
 
 Future versions follow [SemVer](https://semver.org/): patch for compatible fixes,
 minor for compatible application features, major for incompatible supported
 application behavior or data-interchange contracts. Internal React component
 APIs are not public contracts. App versions are independent of save schemas,
 reference hashes, source-game versions and locale IDs; no migration is implied.
-The npm package remains private.
+The npm package remains private. Public release tags use `v<version>` and remain
+separate, explicitly authorized release operations; published tags must not be
+silently moved.
 
 ## Support
 

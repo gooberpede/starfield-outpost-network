@@ -364,3 +364,9 @@ Read README and Deployment for candidate/version/source conventions. A passing
 local build neither publishes source nor accepts a release candidate. Useful
 historical briefs, audits and benchmarks remain at their paths; packaging or
 history changes require separate authorization.
+
+Application versions are deliberate checkpoints, not per-commit identifiers.
+Use the maintainer commands documented in README to synchronize package and
+lockfile metadata; the Git commit remains the exact build identity. Review and
+test the resulting diff, then commit and sync manually. The version commands do
+not create commits or tags, push, publish, deploy, or accept a release candidate.

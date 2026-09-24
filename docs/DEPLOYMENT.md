@@ -176,11 +176,14 @@ and blocked-then-unblocked required-asset checks.
 
 ## Build identity and public source gate
 
-package.json is the application-version authority; keep both lockfile version
-roots consistent. Preparation remains 0.0.0. Deliberate candidate testing uses
-1.0.0-rc.1, accepted launch uses 1.0.0, and tags use `v<version>`. Changed candidates
-must be identified and retested; publication, tagging and deployment require
-separate authorization.
+package.json is the application-version authority; the repository version
+commands keep both lockfile roots consistent. The current pre-RC line begins at
+0.9.0-beta.1; a later deliberate candidate-testing checkpoint uses 1.0.0-rc.1,
+and accepted launch uses 1.0.0. Ordinary commits and staging deployments do not
+bump the version. See the README for command details. Version commands do not
+commit, tag, push, publish or deploy. Public tags use `v<version>` and remain
+separate authorized release operations; changed candidates must be identified
+and retested.
 
 The build resolves the actual checkout HEAD and Git status. Checkout evidence
 wins over configurable CF_PAGES_COMMIT_SHA. On CF_PAGES=1 with no Git, a valid

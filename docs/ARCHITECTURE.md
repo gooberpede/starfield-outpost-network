@@ -2046,6 +2046,9 @@ Preserve that separation unless a future design decision explicitly changes it.
 
 scripts/build-identity.ts reads package.json, checks lockfile version agreement,
 and resolves checkout/allowlisted CI commit evidence during Vite configuration.
+The dependency-free scripts/version-management.ts maintainer tool calculates
+explicit beta, RC and stable transitions and synchronizes package.json with both
+lockfile version roots. It is never invoked by builds, Git hooks or deployment.
 Only version, full commit, clean/modified/unknown status and a conditional source
 URL reach the typed src/buildIdentity.ts browser module. There are no runtime
 GitHub requests, environment dumps or timestamps. Git status includes tracked

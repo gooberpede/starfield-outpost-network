@@ -334,9 +334,10 @@ matrix.
   the Cargo title/count group centres within it while the Matrix Search keeps
   its established dimensions. Matrix column/body and Cargo body geometry are
   unchanged.
-- **About and application versioning:** Implementation prepared with localized
-  support/funding/licence links and package-sourced version/build identity.
-  Preparation stays 0.0.0; candidate 1.0.0-rc.1 and launch 1.0.0 are settled.
+- **About and application versioning:** Package-sourced version/build identity
+  and deliberate beta/RC/stable version commands are implemented. The initial
+  beta identity is 0.9.0-beta.1; the formal 1.0.0-rc.1 cut and launch 1.0.0 are
+  still future checkpoints.
   See `audits/RELEASE-PREPARATION-VERIFICATION.md` for evidence and outstanding
   manual acceptance. Publication sign-off, Ko-Fi page readiness, frozen-candidate
   acceptance and launch operations remain separate gates.

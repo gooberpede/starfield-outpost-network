@@ -1,7 +1,7 @@
 {
   "name": "starfield-outpost-network",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.9.0-beta.1",
   "type": "module",
   "engines": {
     "node": ">=24 <25"
@@ -26,6 +26,12 @@
     "localization:inputs:extract": "node scripts/localization/localization-inputs.mjs",
     "localization:review": "node --experimental-strip-types scripts/generate-review-package.ts",
     "localization:review:adjudicate": "node --experimental-strip-types scripts/adjudicate-review-package.ts",
+    "version:beta": "node --experimental-strip-types scripts/version-management.ts beta",
+    "version:rc": "node --experimental-strip-types scripts/version-management.ts rc",
+    "version:release": "node --experimental-strip-types scripts/version-management.ts release",
+    "version:patch": "node --experimental-strip-types scripts/version-management.ts patch",
+    "version:minor": "node --experimental-strip-types scripts/version-management.ts minor",
+    "version:major": "node --experimental-strip-types scripts/version-management.ts major",
     "benchmark:history": "node --expose-gc --experimental-strip-types scripts/history-benchmark.ts",
     "benchmark:import-capacity": "node scripts/import-capacity-benchmark.mjs",
     "reference:verify": "node --experimental-strip-types scripts/verify-reference-deployment.mjs",
