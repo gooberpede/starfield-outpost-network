@@ -270,6 +270,7 @@ export const enUSMessages = {
   'validation.duplicateOutpostName': '{count} outposts are named "{name}". Unique outpost names are recommended to avoid ambiguity.',
   'validation.interstellarHelium3': 'This Inter-System Cargo Link is sending cargo, but its outpost has no available Helium-3 supply.',
   'validation.invalidCharacterLevel': 'Character level is {level}, but a recorded character level must be a whole number from {minimum} to {maximum}.',
+  'validation.characterNameLength': 'Starfield character names normally use up to 25 characters.',
   'validation.invalidSkillLevel': '{skill} has level {level}, but valid skill levels are integers {minimum} through {maximum}.',
   'validation.missingCargoEndpoint': 'This cargo connection refers to a missing outpost or Cargo Link endpoint.',
   'validation.organicInputUnavailable': '{species} requires {input}, but {input} is not available at this outpost.',

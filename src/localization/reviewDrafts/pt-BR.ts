@@ -55,6 +55,7 @@ export const ptBRReviewDraft = buildReviewDraft({
   'validation.missingCargoEndpoint': 'Esta conexão de carga faz referência a um entreposto ou uma extremidade de vínculo de carga ausente.',
   'validation.organicInputUnavailable': '{species} requer {input}, mas {input} não está disponível neste entreposto.',
   'validation.outpostBodyNotEligible': 'Este entreposto fica em um corpo celeste que não pode abrigar entrepostos.',
+  'validation.characterNameLength': 'Os nomes de personagem em Starfield normalmente têm até 25 caracteres.',
   'validation.outpostNameLength': 'Starfield normalmente limita os nomes dos entrepostos a 25 caracteres; nomes maiores adicionados por mods continuam compatíveis.',
   'validation.outpostSkillLimit': 'Esta rede tem {count} entrepostos, mas o nível atual de {skill} permite no máximo {limit}.',
   'validation.planetaryHabitationRequirement': 'Este entreposto requer grau {required} em {skill}, mas o grau registrado do personagem é {recorded}.',

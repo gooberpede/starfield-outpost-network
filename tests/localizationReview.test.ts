@@ -306,11 +306,12 @@ test('Simplified Chinese DeepL evidence is fully imported and neutrally adjudica
   const review = await readFile(new URL('../docs/localization/zh-Hans-review.csv', import.meta.url), 'utf8')
   const allRows = parseAndValidateReviewCsv(review, 'zh-Hans')
   assert.equal(allRows.length, Object.keys(enUSMessages).length)
-  const additions = allRows.filter(row => row.ReviewerNote.startsWith('Release preparation copy:'))
-  assert.equal(additions.length, 17)
-  assert.ok(additions.every(row => row.Key.startsWith('about.') && !row.DeepLTranslation &&
+  const additions = allRows.filter(row => /^(?:Release preparation|Pre-release polish) copy:/.test(row.ReviewerNote))
+  assert.equal(additions.length, 18)
+  assert.ok(additions.every(row => !row.DeepLTranslation &&
     row.ComparisonStatus === 'MISSING' && row.AdjudicationDecision === 'CODEX' &&
-    row.FinalTranslation === row.CodexTranslation && row.ReviewerNote.includes('no new DeepL or native review')))
+    row.FinalTranslation === row.CodexTranslation && row.ReviewerNote.includes('no new DeepL or native review') &&
+    (row.Key.startsWith('about.') || row.Key === 'validation.characterNameLength')))
   const rows = allRows.filter(row => !additions.includes(row))
   assert.equal(rows.length, 413)
   assert.ok(rows.every(({ DeepLTranslation }) => DeepLTranslation.trim()))
@@ -790,11 +791,12 @@ test('Polish DeepL evidence is fully imported and invalid candidates remain expl
   const review = await readFile(new URL('../docs/localization/pl-PL-review.csv', import.meta.url), 'utf8')
   const allRows = parseAndValidateReviewCsv(review, 'pl-PL')
   assert.equal(allRows.length, Object.keys(enUSMessages).length)
-  const additions = allRows.filter(row => row.ReviewerNote.startsWith('Release preparation copy:'))
-  assert.equal(additions.length, 17)
-  assert.ok(additions.every(row => row.Key.startsWith('about.') && !row.DeepLTranslation &&
+  const additions = allRows.filter(row => /^(?:Release preparation|Pre-release polish) copy:/.test(row.ReviewerNote))
+  assert.equal(additions.length, 18)
+  assert.ok(additions.every(row => !row.DeepLTranslation &&
     row.ComparisonStatus === 'MISSING' && row.AdjudicationDecision === 'CODEX' &&
-    row.FinalTranslation === row.CodexTranslation && row.ReviewerNote.includes('no new DeepL or native review')))
+    row.FinalTranslation === row.CodexTranslation && row.ReviewerNote.includes('no new DeepL or native review') &&
+    (row.Key.startsWith('about.') || row.Key === 'validation.characterNameLength')))
   const rows = allRows.filter(row => !additions.includes(row))
   assert.equal(rows.length, 413)
   assert.ok(rows.every(({ DeepLTranslation }) => DeepLTranslation.trim()))
@@ -892,7 +894,7 @@ test('Spanish, Italian, and Brazilian Portuguese review evidence produces determ
           frozen.Risk, frozen.Parameters, frozen.ProtectedTokens, frozen.OfficialTermConstraints,
           frozen.CodexTranslation],
       )
-      if (row.ReviewerNote.startsWith('Release preparation copy:')) {
+      if (/^(?:Release preparation|Pre-release polish) copy:/.test(row.ReviewerNote)) {
         assert.equal(row.DeepLTranslation, '')
         assert.equal(row.ComparisonStatus, 'MISSING')
         assert.equal(row.AdjudicationDecision, 'CODEX')

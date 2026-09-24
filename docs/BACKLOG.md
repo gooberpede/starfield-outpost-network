@@ -227,10 +227,8 @@ Possible future improvements:
 - Keep the tracker's defensive persisted-name and export-filename safeguards
   distinct from Starfield's 25-character gameplay limit. Review the much
   higher application ceiling for unusually long character names; 196
-  characters is a tentative ceiling, not a settled product rule. Bound and
-  sanitize the export-filename fragment so a long persisted name cannot
-  consume the timestamp and `.json` filename budget, and prevent absurdly long
-  names from dominating transient/status-bar feedback.
+  characters is a tentative ceiling, not a settled product rule. Prevent
+  unusually long names from dominating transient/status-bar feedback.
 - richer import diagnostics or reporting beyond the implemented structured
   error categories and concise localized failure messages, including capacity
   and malformed-structure/identity failures, if the workflow warrants more
@@ -309,17 +307,6 @@ Only staging automatically deploys previews; an experiment branch is not an
 automatic preview route. Caching investigation remains separate optional work.
 
 ### Pre-release polish
-
-- **Character-name game-validity advisory:** Add a likely `INFO` validator for
-  Starfield's 25-character character-name maximum. The tracker may preserve
-  longer names; this is a gameplay-validity advisory, not an application
-  storage or import error, and it is separate from the higher defensive
-  application/export constraint described under import and export.
-- **Localized Sol system name:** Investigate why the system selector presents
-  the raw/canonical `SOL` form instead of localized `Sol` in both English
-  variants. Correct the reference-name presentation or localization overlay
-  path while preserving canonical IDs and reference keys; do not assume source
-  data should be mutated.
 - **Resource Matrix localized header capacity:** Closed; accepted within the
   tested Windows/Chromium scope.
   The corrected implementation uses authorized two-sided Inputs overhang,

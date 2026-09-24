@@ -278,6 +278,7 @@ export const zhHansReviewDraft = {
   'validation.missingCargoEndpoint': '此货运连接引用了缺失的哨站或货运链接端点。',
   'validation.organicInputUnavailable': '{species}需要{input}，但此哨站没有可用的{input}。',
   'validation.outpostBodyNotEligible': '此哨站位于无法建造哨站的行星体上。',
+  'validation.characterNameLength': '《星空》中的角色名称通常最多使用25个字符。',
   'validation.outpostNameLength': '《星空》通常将哨站名称限制为25个字符；仍支持模组中的更长名称。',
   'validation.outpostSkillLimit': '此哨站网络有{count}个哨站，但当前{skill}等级最多允许{limit}个。',
   'validation.planetaryHabitationRequirement': '此哨站需要{skill}{required}级，但记录的角色技能等级为{recorded}。',

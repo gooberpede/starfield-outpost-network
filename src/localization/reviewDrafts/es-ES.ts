@@ -55,6 +55,7 @@ export const esESReviewDraft = buildReviewDraft({
   'validation.missingCargoEndpoint': 'Esta conexión de carga hace referencia a un puesto o extremo de enlace de cargamento inexistente.',
   'validation.organicInputUnavailable': '{species} necesita {input}, pero {input} no está disponible en este puesto.',
   'validation.outpostBodyNotEligible': 'Este puesto se encuentra en un cuerpo celeste que no admite puestos.',
+  'validation.characterNameLength': 'Los nombres de personaje de Starfield suelen tener un máximo de 25 caracteres.',
   'validation.outpostNameLength': 'Starfield limita normalmente los nombres de los puestos a 25 caracteres; se siguen admitiendo nombres más largos añadidos mediante mods.',
   'validation.outpostSkillLimit': 'Esta red tiene {count} puestos, pero el nivel actual de {skill} permite un máximo de {limit}.',
   'validation.planetaryHabitationRequirement': 'Este puesto requiere el rango {required} de {skill}, pero el rango de personaje registrado es {recorded}.',

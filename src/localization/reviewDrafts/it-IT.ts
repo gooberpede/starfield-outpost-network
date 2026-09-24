@@ -55,6 +55,7 @@ export const itITReviewDraft = buildReviewDraft({
   'validation.missingCargoEndpoint': 'Questa connessione merci fa riferimento a un avamposto o a un’estremità di collegamento merci mancante.',
   'validation.organicInputUnavailable': '{species} richiede {input}, ma {input} non è disponibile in questo avamposto.',
   'validation.outpostBodyNotEligible': 'Questo avamposto si trova su un corpo celeste che non può ospitare avamposti.',
+  'validation.characterNameLength': 'I nomi dei personaggi in Starfield usano normalmente fino a 25 caratteri.',
   'validation.outpostNameLength': 'Starfield limita normalmente i nomi degli avamposti a 25 caratteri; i nomi più lunghi aggiunti dalle mod restano supportati.',
   'validation.outpostSkillLimit': 'Questa rete contiene {count} avamposti, ma il livello attuale di {skill} ne consente al massimo {limit}.',
   'validation.planetaryHabitationRequirement': 'Questo avamposto richiede il grado {required} di {skill}, ma il grado del personaggio registrato è {recorded}.',

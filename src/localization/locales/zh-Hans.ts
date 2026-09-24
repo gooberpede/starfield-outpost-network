@@ -395,6 +395,7 @@ export const zhHansMessages = {
   "validation.heading": "检查",
   "validation.interstellarHelium3": "此跨星系货运链接正在发送货物，但其哨站没有可用的氦-3供应。",
   "validation.invalidCharacterLevel": "角色等级为{level}，但记录的角色等级必须是{minimum}至{maximum}之间的整数。",
+  "validation.characterNameLength": "《星空》中的角色名称通常最多使用25个字符。",
   "validation.invalidSkillLevel": "{skill}等级为{level}，但有效技能等级必须是{minimum}至{maximum}之间的整数。",
   "validation.issueCount": "检查：{count}{count, plural, one {项问题} other {项问题}}",
   "validation.manufacturingInputUnavailable": "{product}需要{input}，但此哨站没有可用的{input}。",

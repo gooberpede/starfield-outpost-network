@@ -56,6 +56,7 @@ export const deDEReviewDraft = buildReviewDraft({
   'validation.bodySystemMismatch': 'Der für diesen Außenposten ausgewählte Himmelskörper gehört nicht zum ausgewählten Sternsystem.',
   'validation.interstellarHelium3': 'Dieser Intersystem-Frachtlink sendet Fracht, aber an seinem Außenposten ist keine Helium-3-Versorgung verfügbar.',
   'validation.missingCargoEndpoint': 'Diese Frachtverbindung verweist auf einen fehlenden Außenposten oder Frachtlink-Endpunkt.',
+  'validation.characterNameLength': 'Charakternamen in Starfield haben normalerweise höchstens 25 Zeichen.',
   'validation.outpostNameLength': 'Starfield begrenzt Außenpostennamen normalerweise auf 25 Zeichen; längere modifizierte Namen werden weiterhin unterstützt.',
   'validation.regularPadCrossSystem': 'Dieser Frachtlink ist mit einem Außenposten in einem anderen Sternsystem verbunden; verwende stattdessen einen Intersystem-Frachtlink.',
   'status.storage.recovery': 'Gespeicherte Browserdaten konnten nicht wiederhergestellt werden. Es wird eine temporäre Sammlung verwendet; das Original bleibt bis zu einer Bearbeitung erhalten.',

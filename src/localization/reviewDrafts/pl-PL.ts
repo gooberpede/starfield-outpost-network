@@ -278,6 +278,7 @@ export const plPLReviewDraft = {
   'validation.missingCargoEndpoint': 'Połączenie ładunkowe odwołuje się do brakującej placówki lub brakującego punktu końcowego połączenia towarowego.',
   'validation.organicInputUnavailable': 'Gatunek: {species}. Wymagany materiał jest niedostępny w tej placówce: {input}.',
   'validation.outpostBodyNotEligible': 'Ta placówka znajduje się na ciele planetarnym, na którym nie można budować placówek.',
+  'validation.characterNameLength': 'Imiona postaci w Starfield mają zwykle maksymalnie 25 znaków.',
   'validation.outpostNameLength': 'Starfield zwykle ogranicza nazwy placówek do 25 znaków; dłuższe nazwy dodane przez mody pozostają obsługiwane.',
   'validation.outpostSkillLimit': 'Liczba placówek w tej sieci: {count}. Umiejętność „{skill}” na obecnym poziomie pozwala na maksymalnie {limit}.',
   'validation.planetaryHabitationRequirement': 'Ta placówka wymaga rangi {required}. Umiejętność: {skill}. Zapisana ranga postaci: {recorded}.',

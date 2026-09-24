@@ -395,6 +395,7 @@ export const itITMessages = {
   "validation.heading": "Convalida",
   "validation.interstellarHelium3": "Questo collegamento merci intersistema invia merci, ma il suo avamposto non dispone di una fornitura di elio-3.",
   "validation.invalidCharacterLevel": "Il livello del personaggio è {level}, ma il livello registrato deve essere un numero intero compreso tra {minimum} e {maximum}.",
+  "validation.characterNameLength": "I nomi dei personaggi in Starfield usano normalmente fino a 25 caratteri.",
   "validation.invalidSkillLevel": "{skill} ha livello {level}, ma i livelli di abilità validi sono numeri interi compresi tra {minimum} e {maximum}.",
   "validation.issueCount": "Convalida: {count} {count, plural, one {problema} other {problemi}}",
   "validation.manufacturingInputUnavailable": "{product} richiede {input}, ma {input} non è disponibile in questo avamposto.",

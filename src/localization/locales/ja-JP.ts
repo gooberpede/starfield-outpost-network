@@ -270,6 +270,7 @@ export const jaJPMessages = {
   'validation.duplicateOutpostName': '{count}個の拠点が「{name}」という名前です。混乱を避けるため、拠点名は重複させないことを推奨します。',
   'validation.interstellarHelium3': 'この星系間貨物リンクは貨物を発送していますが、拠点で利用できるHe-3の供給がありません。',
   'validation.invalidCharacterLevel': 'キャラクターレベルは{level}ですが、記録できるレベルは{minimum}から{maximum}までの整数です。',
+  'validation.characterNameLength': 'スターフィールドのキャラクター名は通常25文字までです。',
   'validation.invalidSkillLevel': '{skill}のレベルは{level}ですが、有効なレベルは{minimum}から{maximum}までの整数です。',
   'validation.missingCargoEndpoint': 'この貨物接続が、存在しない拠点または接続先の貨物リンクを参照しています。',
   'validation.organicInputUnavailable': '{species}には{input}が必要ですが、この拠点では{input}を利用できません。',

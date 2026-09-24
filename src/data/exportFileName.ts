@@ -33,6 +33,8 @@ function toFileNameSegment(
     .replace(/^-+|-+$/g, '')
 }
 
+const MAX_CHARACTER_NAME_SEGMENT_LENGTH = 64
+
 /**
  * Pads one numeric date/time component to two digits.
  */
@@ -55,7 +57,7 @@ export function createNetworkExportFileName(
   now: Date = new Date(),
 ): string {
   const characterSegment =
-    toFileNameSegment(characterName)
+    toFileNameSegment(characterName).slice(0, MAX_CHARACTER_NAME_SEGMENT_LENGTH)
 
   const date =
     [

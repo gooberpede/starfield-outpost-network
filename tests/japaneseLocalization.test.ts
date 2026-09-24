@@ -57,7 +57,7 @@ test('Japanese is complete with exact key and placeholder parity', () => {
   const englishKeys = Object.keys(enUSMessages).sort()
   const japaneseKeys = Object.keys(jaJPMessages).sort()
   assert.deepEqual(japaneseKeys, englishKeys)
-  assert.equal(englishKeys.length, 430)
+  assert.equal(englishKeys.length, 431)
   assert.ok(Object.keys(enGBMessages).length < englishKeys.length)
   for (const key of englishKeys as MessageKey[]) {
     assert.deepEqual(parametersOf(jaJPMessages[key]), parametersOf(enUSMessages[key]), key)

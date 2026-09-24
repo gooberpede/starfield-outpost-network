@@ -18,8 +18,8 @@ export type ReferenceNameKind =
   | 'official-term'
 
 const referenceNameOverrides: Partial<Record<SupportedLocale, Partial<Record<ReferenceNameKind, Record<string, string>>>>> = {
-  'en-US': { resource: { aluminium: 'Aluminum' } },
-  'en-GB': { resource: { aluminium: 'Aluminium' } },
+  'en-US': { resource: { aluminium: 'Aluminum' }, system: { '0': 'Sol' } },
+  'en-GB': { resource: { aluminium: 'Aluminium' }, system: { '0': 'Sol' } },
   'ja-JP': jaJPReferenceNames,
   'fr-FR': frFRReferenceNames,
   'de-DE': deDEReferenceNames,

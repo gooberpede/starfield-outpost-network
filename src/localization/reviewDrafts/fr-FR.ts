@@ -55,6 +55,7 @@ export const frFRReviewDraft = buildReviewDraft({
   'validation.bodySystemMismatch': 'Le corps céleste sélectionné pour cet avant-poste n’appartient pas au système stellaire sélectionné.',
   'validation.interstellarHelium3': 'Cette liaison intersystème transporte du fret, mais son avant-poste ne dispose d’aucun approvisionnement en hélium-3.',
   'validation.missingCargoEndpoint': 'Cette connexion de fret fait référence à un avant-poste ou à une extrémité de liaison manquants.',
+  'validation.characterNameLength': 'Les noms de personnage dans Starfield comportent normalement jusqu’à 25 caractères.',
   'validation.outpostNameLength': 'Starfield limite normalement les noms d’avant-poste à 25 caractères ; les noms plus longs ajoutés par des mods restent pris en charge.',
   'validation.regularPadCrossSystem': 'Cette liaison est connectée à un avant-poste situé dans un autre système stellaire ; utilisez plutôt une liaison intersystème.',
   'status.storage.recovery': 'Les données enregistrées dans le navigateur n’ont pas pu être restaurées. Une collection temporaire est utilisée ; l’original est conservé jusqu’à la prochaine modification.',

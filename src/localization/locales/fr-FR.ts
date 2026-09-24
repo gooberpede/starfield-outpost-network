@@ -395,6 +395,7 @@ export const frFRMessages = {
   "validation.heading": "Validation",
   "validation.interstellarHelium3": "Cette liaison intersystème transporte du fret, mais son avant-poste ne dispose d’aucun approvisionnement en He-3.",
   "validation.invalidCharacterLevel": "Le niveau du personnage est {level}, mais le niveau enregistré doit être un nombre entier compris entre {minimum} et {maximum}.",
+  "validation.characterNameLength": "Les noms de personnage dans Starfield comportent normalement jusqu’à 25 caractères.",
   "validation.invalidSkillLevel": "La compétence {skill} a le niveau {level}, mais les niveaux de compétence valides sont des nombres entiers compris entre {minimum} et {maximum}.",
   "validation.issueCount": "Validation : {count} {count, plural, one {problème} other {problèmes}}",
   "validation.manufacturingInputUnavailable": "{product} nécessite {input}, mais {input} n'est pas disponible dans cet avant-poste.",

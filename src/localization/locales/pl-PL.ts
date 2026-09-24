@@ -395,6 +395,7 @@ export const plPLMessages = {
   "validation.heading": "Walidacja",
   "validation.interstellarHelium3": "To międzyukładowe połączenie towarowe wysyła ładunek, ale w jego placówce nie ma dostępnego zaopatrzenia w hel-3.",
   "validation.invalidCharacterLevel": "Poziom postaci: {level}. Zapisany poziom musi być liczbą całkowitą od {minimum} do {maximum}.",
+  "validation.characterNameLength": "Imiona postaci w Starfield mają zwykle maksymalnie 25 znaków.",
   "validation.invalidSkillLevel": "Umiejętność: {skill}. Poziom: {level}. Prawidłowe poziomy to liczby całkowite od {minimum} do {maximum}.",
   "validation.issueCount": "{count, plural, one {} other {}}Walidacja — liczba problemów: {count}",
   "validation.manufacturingInputUnavailable": "Produkt: {product}. Wymagany materiał jest niedostępny w tej placówce: {input}.",

@@ -47,6 +47,10 @@ import {
 } from './rules/invalidCharacterLevel'
 
 import {
+  characterNameLengthRule,
+} from './rules/characterNameLength'
+
+import {
   selfLinkedCargoPadRule,
 } from './rules/selfLinkedCargoPad'
 
@@ -116,6 +120,7 @@ export const validationRules: ValidationRule[] = [
   outpostSkillLimitRule,
   invalidSkillLevelRule,
   invalidCharacterLevelRule,
+  characterNameLengthRule,
   selfLinkedCargoPadRule,
   regularCargoPadCrossSystemRule,
   interstellarCargoHelium3Rule,

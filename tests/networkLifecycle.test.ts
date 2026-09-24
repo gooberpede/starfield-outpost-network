@@ -500,6 +500,40 @@ test('export filename supports name and level independently', () => {
   assert.equal(createNetworkExportFileName('', null, now), 'starfield-outposts-2026-08-26-125147.json')
 })
 
+test('export filename caps only the sanitized character-name segment', () => {
+  const now = new Date(2026, 7, 26, 12, 51, 47)
+  const suffix = '-26-2026-08-26-125147.json'
+  for (const length of [63, 64]) {
+    const segment = 'a'.repeat(length)
+    assert.equal(createNetworkExportFileName(segment, 26, now),
+      `starfield-outposts-${segment}${suffix}`)
+  }
+
+  for (const length of [65, 500]) {
+    assert.equal(createNetworkExportFileName('A'.repeat(length), 26, now),
+      `starfield-outposts-${'a'.repeat(64)}${suffix}`)
+  }
+
+  assert.equal(createNetworkExportFileName('  Ábc / Déf  ', 26, now),
+    `starfield-outposts-abc-def${suffix}`)
+  assert.equal(createNetworkExportFileName('Élodie 東京', 26, now),
+    `starfield-outposts-elodie${suffix}`)
+  assert.equal(createNetworkExportFileName('東京', 26, now),
+    'starfield-outposts-26-2026-08-26-125147.json')
+})
+
+test('filename truncation does not truncate exported or re-imported character data', () => {
+  const fullName = 'Character '.repeat(20).trim()
+  const value = collection()
+  value.networks[0].network.character.name = fullName
+  const serialized = serializeNetworkCollection(value)
+
+  assert.equal(JSON.parse(serialized).networks[0].network.character.name, fullName)
+  assert.equal(deserializeNetworkCollection(serialized).networks[0].network.character.name, fullName)
+  assert.match(createNetworkExportFileName(fullName, 42, new Date(2026, 7, 26, 12, 51, 47)),
+    /^starfield-outposts-[a-z0-9-]{64}-42-2026-08-26-125147\.json$/)
+})
+
 test('new collection starts with one stable active slot', () => {
   const fresh = createDefaultNetworkCollection()
   assert.equal(fresh.networks.length, 1)

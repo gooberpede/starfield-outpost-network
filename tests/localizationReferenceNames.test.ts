@@ -161,6 +161,14 @@ test('English overlays and missing Japanese fallbacks remain intact', () => {
   assert.equal(getReferenceDisplayName('resource', 'missing-id', undefined, 'ja-JP'), 'missing-id')
 })
 
+test('Sol uses its stable system identity for English display overrides', () => {
+  const systemId = '0'
+  assert.equal(getReferenceDisplayName('system', systemId, 'SOL', 'en-US'), 'Sol')
+  assert.equal(getReferenceDisplayName('system', systemId, 'SOL', 'en-GB'), 'Sol')
+  assert.equal(getReferenceDisplayName('system', systemId, 'SOL', 'ja-JP'), '太陽')
+  assert.equal(systemId, '0')
+})
+
 test('all character skills map to official-term IDs and canonical English fallbacks', () => {
   assert.deepEqual(officialTermBySkill, {
     outpostManagement: {

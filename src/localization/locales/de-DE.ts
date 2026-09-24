@@ -395,6 +395,7 @@ export const deDEMessages = {
   "validation.heading": "Validierung",
   "validation.interstellarHelium3": "Dieser Intersystem-Frachtlink sendet Fracht, aber an seinem Außenposten ist keine He-3-Versorgung verfügbar.",
   "validation.invalidCharacterLevel": "Die Charakterstufe beträgt {level}, aber eine erfasste Charakterstufe muss eine ganze Zahl zwischen {minimum} und {maximum} sein.",
+  "validation.characterNameLength": "Charakternamen in Starfield haben normalerweise höchstens 25 Zeichen.",
   "validation.invalidSkillLevel": "{skill} hat die Stufe {level}, gültige Fähigkeitsstufen sind jedoch ganze Zahlen von {minimum} bis {maximum}.",
   "validation.issueCount": "Validierung: {count} {count, plural, one {Problem} other {Probleme}}",
   "validation.manufacturingInputUnavailable": "{product} benötigt {input}, aber {input} ist an diesem Außenposten nicht verfügbar.",

@@ -107,6 +107,10 @@ An empty string is valid and means no name has been recorded.
 
 Do not substitute `null` for an unnamed character unless the persisted schema is deliberately changed.
 
+Names longer than Starfield's ordinary 25-character convention remain valid and
+are preserved in full. Domain validation reports one informational advisory for
+such a name; it does not block or alter editing, saving, importing, or exporting.
+
 ---
 
 ## 2.2 Character level
@@ -1119,6 +1123,10 @@ A failed import must not change:
 - selected outpost.
 
 Imported filenames are not domain data.
+
+Export filenames sanitize the character-name-derived segment and then cap only
+that segment at 64 characters. The persisted name and exported JSON remain
+unchanged, and the timestamp and `.json` suffix remain intact.
 
 The application does not maintain an ongoing relationship to the source JSON file.
 

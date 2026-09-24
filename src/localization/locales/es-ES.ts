@@ -395,6 +395,7 @@ export const esESMessages = {
   "validation.heading": "Validación",
   "validation.interstellarHelium3": "Este enlace de cargamento intersistema envía carga, pero su puesto no dispone de suministro de Helio-3.",
   "validation.invalidCharacterLevel": "El nivel del personaje es {level}, pero el nivel registrado debe ser un número entero comprendido entre {minimum} y {maximum}.",
+  "validation.characterNameLength": "Los nombres de personaje de Starfield suelen tener un máximo de 25 caracteres.",
   "validation.invalidSkillLevel": "{skill} tiene nivel {level}, pero los niveles de habilidad válidos son números enteros comprendidos entre {minimum} y {maximum}.",
   "validation.issueCount": "Validación: {count} {count, plural, one {incidencia} other {incidencias}}",
   "validation.manufacturingInputUnavailable": "{product} necesita {input}, pero {input} no está disponible en este puesto.",

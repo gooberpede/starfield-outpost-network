@@ -395,6 +395,7 @@ export const ptBRMessages = {
   "validation.heading": "Validação",
   "validation.interstellarHelium3": "Este vínculo de carga entre sistemas está enviando carga, mas seu entreposto não dispõe de suprimento de Hélio-3.",
   "validation.invalidCharacterLevel": "O nível do personagem é {level}, mas o nível registrado deve ser um número inteiro entre {minimum} e {maximum}.",
+  "validation.characterNameLength": "Os nomes de personagem em Starfield normalmente têm até 25 caracteres.",
   "validation.invalidSkillLevel": "{skill} está no nível {level}, mas os níveis válidos são números inteiros de {minimum} a {maximum}.",
   "validation.issueCount": "Validação: {count} {count, plural, one {problema} other {problemas}}",
   "validation.manufacturingInputUnavailable": "{product} requer {input}, mas {input} não está disponível neste entreposto.",
