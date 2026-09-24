@@ -96,7 +96,28 @@ describe('runtime integrity loader', () => {
     const changed = { ...manifest, assets: manifest.assets.map((entry, index) => index === 0 ? { ...entry, sha256: createHash('sha256').update(payload).digest('hex') } : entry) }
     changed.datasetId = 'sha256:' + createHash('sha256').update(canonicalDatasetContent(changed.assets)).digest('hex')
     serve((path) => path === 'biomes.json' ? response(payload) : undefined, changed)
-    await expect(loadReferenceData(undefined, changed.datasetId)).rejects.toMatchObject({ failure: { code: expected } })
+    await expect(loadReferenceData(undefined, 'normal', changed.datasetId)).rejects.toMatchObject({ failure: { code: expected } })
+  })
+  it('uses the split cache policy for an ordinary load', async () => {
+    serve()
+    await loadReferenceData()
+    const requests = vi.mocked(fetch).mock.calls
+    expect(requests[0]).toEqual(['/reference-data/manifest.json', expect.objectContaining({ cache: 'no-cache' })])
+    expect(requests.slice(1)).toHaveLength(referenceAssets.length)
+    expect(requests.slice(1).every(([, init]) => init?.cache === 'default')).toBe(true)
+  })
+  it('uses reload for the complete retry snapshot, then returns to the normal policy', async () => {
+    serve()
+    await loadReferenceData(undefined, 'retry')
+    let requests = vi.mocked(fetch).mock.calls
+    expect(requests).toHaveLength(referenceAssets.length + 1)
+    expect(requests.every(([, init]) => init?.cache === 'reload')).toBe(true)
+
+    vi.mocked(fetch).mockClear()
+    await loadReferenceData()
+    requests = vi.mocked(fetch).mock.calls
+    expect(requests[0]?.[1]?.cache).toBe('no-cache')
+    expect(requests.slice(1).every(([, init]) => init?.cache === 'default')).toBe(true)
   })
 })
 
@@ -133,8 +154,27 @@ describe('startup gate and fatal state', () => {
     expect(screen.getByRole('button', { name: 'Reload' })).toHaveFocus()
     await userEvent.click(screen.getByRole('button', { name: 'Reload' }))
     expect(renderApp).not.toHaveBeenCalled()
+    expect(load).toHaveBeenNthCalledWith(1, expect.any(AbortSignal), 'normal')
+    expect(load).toHaveBeenNthCalledWith(2, expect.any(AbortSignal), 'retry')
     resolve({ systems: [] } as unknown as ReferenceData)
     await waitFor(() => expect(screen.getByText('Editor mounted')).toBeInTheDocument())
     expect(renderApp).toHaveBeenCalledTimes(1)
+  })
+  it('reruns the complete snapshot with reload after a failed gate', async () => {
+    let manifestRequests = 0
+    serve((path) => path === 'manifest.json' && manifestRequests++ === 0 ? response('{}', 503) : undefined)
+    const renderApp = vi.fn(() => <div>Editor mounted</div>)
+    render(<LocalizationProvider><ReferenceStartupGate renderApp={renderApp} /></LocalizationProvider>)
+
+    expect(await screen.findByRole('heading', { level: 1, name: 'Reference data unavailable' })).toBeInTheDocument()
+    expect(vi.mocked(fetch).mock.calls[0]?.[1]?.cache).toBe('no-cache')
+    vi.mocked(fetch).mockClear()
+
+    await userEvent.click(screen.getByRole('button', { name: 'Reload' }))
+    await waitFor(() => expect(screen.getByText('Editor mounted')).toBeInTheDocument())
+    const retryRequests = vi.mocked(fetch).mock.calls
+    expect(retryRequests).toHaveLength(referenceAssets.length + 1)
+    expect(retryRequests[0]?.[0]).toBe('/reference-data/manifest.json')
+    expect(retryRequests.every(([, init]) => init?.cache === 'reload')).toBe(true)
   })
 })

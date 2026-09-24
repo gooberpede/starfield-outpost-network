@@ -304,7 +304,9 @@ Deployed bandwidth/compression measurement is complete; see
 `docs/audits/REFERENCE-OVERLAY-ON-DEMAND-PROTOTYPE.md`. The ignored overlay
 prototype remains paused/post-release, with its code and measurements retained.
 Only staging automatically deploys previews; an experiment branch is not an
-automatic preview route. Caching investigation remains separate optional work.
+automatic preview route. The completed caching investigation selected the
+pre-release split manifest/assets request policy; authenticated staging and
+release-candidate browser acceptance remain part of release verification.
 
 ### Pre-release polish
 - **Resource Matrix localized header capacity:** Closed; accepted within the

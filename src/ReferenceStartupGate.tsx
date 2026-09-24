@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import App from './App'
 import { loadReferenceData, ReferenceIntegrityError } from './data/referenceDataLoader'
-import type { ReferenceFailure } from './data/referenceDataLoader'
+import type { ReferenceFailure, ReferenceRequestMode } from './data/referenceDataLoader'
 import type { ReferenceData } from './domain/referenceData'
 import { ReferenceFatalState } from './ui/components/ReferenceFatalState'
 
 type GateState = { kind: 'pending' } | { kind: 'failed'; failure: ReferenceFailure } | { kind: 'ready'; data: ReferenceData }
 
 export function ReferenceStartupGate({ load = loadReferenceData, renderApp = (data: ReferenceData) => <App referenceData={data} /> }: {
-  load?: (signal?: AbortSignal) => Promise<ReferenceData>
+  load?: (signal?: AbortSignal, requestMode?: ReferenceRequestMode) => Promise<ReferenceData>
   renderApp?: (data: ReferenceData) => React.ReactNode
 }) {
   const [attempt, setAttempt] = useState(0)
@@ -16,7 +16,8 @@ export function ReferenceStartupGate({ load = loadReferenceData, renderApp = (da
   useEffect(() => {
     const controller = new AbortController()
     let active = true
-    void load(controller.signal).then((data) => {
+    const requestMode: ReferenceRequestMode = attempt === 0 ? 'normal' : 'retry'
+    void load(controller.signal, requestMode).then((data) => {
       if (active) setState({ kind: 'ready', data })
     }).catch((error: unknown) => {
       if (!active) return

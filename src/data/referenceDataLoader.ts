@@ -10,6 +10,13 @@ export type ReferenceFailureCode =
   | 'REF_ASSET_JSON' | 'REF_ASSET_SCHEMA' | 'REF_ASSET_SIZE' | 'REF_ASSET_HASH'
   | 'REF_LOADER_INTERNAL'
 
+export type ReferenceRequestMode = 'normal' | 'retry'
+
+const referenceRequestPolicy: Record<ReferenceRequestMode, { manifest: RequestCache; asset: RequestCache }> = {
+  normal: { manifest: 'no-cache', asset: 'default' },
+  retry: { manifest: 'reload', asset: 'reload' },
+}
+
 export interface ReferenceFailure {
   code: ReferenceFailureCode
   asset?: string
@@ -122,10 +129,10 @@ function validateShape(value: unknown, specification: readonly string[]): boolea
   }
   return true
 }
-async function fetchAsset(entry: ReferenceAssetEntry, specification: readonly string[], signal?: AbortSignal): Promise<unknown> {
+async function fetchAsset(entry: ReferenceAssetEntry, specification: readonly string[], cache: RequestCache, signal?: AbortSignal): Promise<unknown> {
   const asset = entry.path
   let response: Response
-  try { response = await fetch(`/reference-data/${asset}`, { cache: 'no-store', signal }) }
+  try { response = await fetch(`/reference-data/${asset}`, { cache, signal }) }
   catch { return fail({ code: 'REF_ASSET_FETCH', asset }) }
   if (!response.ok) return fail({ code: 'REF_ASSET_FETCH', asset, status: response.status })
   const type = mediaType(response)
@@ -140,9 +147,14 @@ async function fetchAsset(entry: ReferenceAssetEntry, specification: readonly st
   return parsed
 }
 
-export async function loadReferenceData(signal?: AbortSignal, expectedDatasetId = expectedReferenceDatasetId): Promise<ReferenceData> {
+export async function loadReferenceData(
+  signal?: AbortSignal,
+  requestMode: ReferenceRequestMode = 'normal',
+  expectedDatasetId = expectedReferenceDatasetId,
+): Promise<ReferenceData> {
+  const requestPolicy = referenceRequestPolicy[requestMode]
   let response: Response
-  try { response = await fetch('/reference-data/manifest.json', { cache: 'no-store', signal }) }
+  try { response = await fetch('/reference-data/manifest.json', { cache: requestPolicy.manifest, signal }) }
   catch { return fail({ code: 'REF_MANIFEST_FETCH' }) }
   if (!response.ok) return fail({ code: 'REF_MANIFEST_FETCH', status: response.status })
   const type = mediaType(response)
@@ -154,7 +166,7 @@ export async function loadReferenceData(signal?: AbortSignal, expectedDatasetId 
   const canonicalHash = await sha256(new TextEncoder().encode(canonicalDatasetContent(manifest.assets)))
   if (manifest.datasetId !== `sha256:${canonicalHash}`) return fail({ code: 'REF_MANIFEST_INVALID' })
   if (manifest.datasetId !== expectedDatasetId) return fail({ code: 'REF_BUILD_MISMATCH', expectedDatasetId, actualDatasetId: manifest.datasetId })
-  const settled = await Promise.allSettled(manifest.assets.map((entry, index) => fetchAsset(entry, referenceAssets[index], signal)))
+  const settled = await Promise.allSettled(manifest.assets.map((entry, index) => fetchAsset(entry, referenceAssets[index], requestPolicy.asset, signal)))
   const data: Record<string, unknown> = {}
   for (let index = 0; index < settled.length; index++) {
     const result = settled[index]
