@@ -219,7 +219,7 @@ test('Simplified Chinese draft and frozen handoff are complete, safe, and determ
   const englishKeys = Object.keys(enUSMessages).sort() as (keyof typeof enUSMessages)[]
   assert.deepEqual(Object.keys(zhHansReviewDraft).sort(), englishKeys)
   const rows = createReviewRows('zh-Hans', zhHansReviewDraft)
-  assert.equal(rows.length, 414)
+  assert.equal(rows.length, Object.keys(enUSMessages).length)
   for (const key of englishKeys) {
     const value = zhHansReviewDraft[key]
     assert.match(value, /\S/, key)
@@ -286,9 +286,9 @@ test('Simplified Chinese draft and frozen handoff are complete, safe, and determ
   const xliff = createReviewXliff(rows, 'zh-Hans')
   assert.match(xliff, /xliff version="1\.2"/)
   assert.match(xliff, /target-language="zh-Hans"/)
-  assert.equal((xliff.match(/<trans-unit /g) ?? []).length, 414)
-  assert.equal((xliff.match(/<target state="new"><\/target>/g) ?? []).length, 414)
-  assert.equal((xliff.match(/x-english-source-sha256/g) ?? []).length, 414)
+  assert.equal((xliff.match(/<trans-unit /g) ?? []).length, Object.keys(enUSMessages).length)
+  assert.equal((xliff.match(/<target state="new"><\/target>/g) ?? []).length, Object.keys(enUSMessages).length)
+  assert.equal((xliff.match(/x-english-source-sha256/g) ?? []).length, Object.keys(enUSMessages).length)
   assert.equal(JSON.parse(metadataSource).locales.find(({ trackerLocale }: { trackerLocale: string }) => trackerLocale === 'zh-Hans').runtimeAvailable, true)
   assert.match(
     await readFile(new URL('../src/localization/generated/zh-Hans-reference-names.ts', import.meta.url), 'utf8'),
@@ -304,18 +304,25 @@ test('Simplified Chinese draft and frozen handoff are complete, safe, and determ
 
 test('Simplified Chinese DeepL evidence is fully imported and neutrally adjudicated', async () => {
   const review = await readFile(new URL('../docs/localization/zh-Hans-review.csv', import.meta.url), 'utf8')
-  const rows = parseAndValidateReviewCsv(review, 'zh-Hans')
-  assert.equal(rows.length, 414)
+  const allRows = parseAndValidateReviewCsv(review, 'zh-Hans')
+  assert.equal(allRows.length, Object.keys(enUSMessages).length)
+  const additions = allRows.filter(row => row.ReviewerNote.startsWith('Release preparation copy:'))
+  assert.equal(additions.length, 17)
+  assert.ok(additions.every(row => row.Key.startsWith('about.') && !row.DeepLTranslation &&
+    row.ComparisonStatus === 'MISSING' && row.AdjudicationDecision === 'CODEX' &&
+    row.FinalTranslation === row.CodexTranslation && row.ReviewerNote.includes('no new DeepL or native review')))
+  const rows = allRows.filter(row => !additions.includes(row))
+  assert.equal(rows.length, 413)
   assert.ok(rows.every(({ DeepLTranslation }) => DeepLTranslation.trim()))
   assert.deepEqual(
     Object.fromEntries(['IDENTICAL', 'TYPOGRAPHIC_ONLY', 'SUBSTANTIVE', 'INVALID_TOKENS']
       .map((status) => [status, rows.filter(({ ComparisonStatus }) => ComparisonStatus === status).length])),
-    { IDENTICAL: 97, TYPOGRAPHIC_ONLY: 0, SUBSTANTIVE: 271, INVALID_TOKENS: 46 },
+    { IDENTICAL: 97, TYPOGRAPHIC_ONLY: 0, SUBSTANTIVE: 271, INVALID_TOKENS: 45 },
   )
   assert.deepEqual(
     Object.fromEntries(['AGREED', 'CODEX', 'DEEPL', 'CUSTOM', 'INVALID_DEEPL_REPAIRED']
       .map((decision) => [decision, rows.filter(({ AdjudicationDecision }) => AdjudicationDecision === decision).length])),
-    { AGREED: 97, CODEX: 249, DEEPL: 10, CUSTOM: 12, INVALID_DEEPL_REPAIRED: 46 },
+    { AGREED: 97, CODEX: 249, DEEPL: 10, CUSTOM: 12, INVALID_DEEPL_REPAIRED: 45 },
   )
 
   const structural = rows.map((row) => {
@@ -330,9 +337,9 @@ test('Simplified Chinese DeepL evidence is fully imported and neutrally adjudica
   })
   assert.equal(structural.filter(({ placeholders }) => placeholders).length, 43)
   assert.equal(structural.filter(({ plural }) => plural).length, 4)
-  assert.equal(structural.filter(({ protectedToken }) => protectedToken).length, 1)
+  assert.equal(structural.filter(({ protectedToken }) => protectedToken).length, 0)
   assert.equal(structural.filter(({ placeholders, plural, protectedToken }) =>
-    placeholders || plural || protectedToken).length, 46)
+    placeholders || plural || protectedToken).length, 45)
   assert.ok(rows.filter(({ ComparisonStatus }) => ComparisonStatus === 'INVALID_TOKENS')
     .every(({ AdjudicationDecision, FinalTranslation, CodexTranslation, ReviewerNote }) =>
       AdjudicationDecision === 'INVALID_DEEPL_REPAIRED' && FinalTranslation === CodexTranslation &&
@@ -781,19 +788,26 @@ test('Polish draft and frozen DeepL handoff source remain complete, safe, and de
 
 test('Polish DeepL evidence is fully imported and invalid candidates remain explicit', async () => {
   const review = await readFile(new URL('../docs/localization/pl-PL-review.csv', import.meta.url), 'utf8')
-  const rows = parseAndValidateReviewCsv(review, 'pl-PL')
-  assert.equal(rows.length, 414)
+  const allRows = parseAndValidateReviewCsv(review, 'pl-PL')
+  assert.equal(allRows.length, Object.keys(enUSMessages).length)
+  const additions = allRows.filter(row => row.ReviewerNote.startsWith('Release preparation copy:'))
+  assert.equal(additions.length, 17)
+  assert.ok(additions.every(row => row.Key.startsWith('about.') && !row.DeepLTranslation &&
+    row.ComparisonStatus === 'MISSING' && row.AdjudicationDecision === 'CODEX' &&
+    row.FinalTranslation === row.CodexTranslation && row.ReviewerNote.includes('no new DeepL or native review')))
+  const rows = allRows.filter(row => !additions.includes(row))
+  assert.equal(rows.length, 413)
   assert.ok(rows.every(({ DeepLTranslation }) => DeepLTranslation.trim()))
   assert.deepEqual(
     Object.fromEntries(['IDENTICAL', 'TYPOGRAPHIC_ONLY', 'SUBSTANTIVE', 'INVALID_TOKENS']
       .map((status) => [status, rows.filter(({ ComparisonStatus }) => ComparisonStatus === status).length])),
-    { IDENTICAL: 112, TYPOGRAPHIC_ONLY: 0, SUBSTANTIVE: 220, INVALID_TOKENS: 82 },
+    { IDENTICAL: 112, TYPOGRAPHIC_ONLY: 0, SUBSTANTIVE: 220, INVALID_TOKENS: 81 },
   )
   assert.deepEqual(
     Object.fromEntries(['PLACEHOLDERS', 'PROTECTED_TOKEN', 'PLURAL_SYNTAX']
       .map((issue) => [issue, rows.filter(({ ReviewerNote }) =>
         ReviewerNote.includes(`failed ${issue} validation`)).length])),
-    { PLACEHOLDERS: 64, PROTECTED_TOKEN: 14, PLURAL_SYNTAX: 4 },
+    { PLACEHOLDERS: 64, PROTECTED_TOKEN: 13, PLURAL_SYNTAX: 4 },
   )
   assert.ok(rows.filter(({ ComparisonStatus }) => ComparisonStatus === 'INVALID_TOKENS')
     .every(({ AdjudicationDecision, ReviewerNote }) =>
@@ -878,8 +892,14 @@ test('Spanish, Italian, and Brazilian Portuguese review evidence produces determ
           frozen.Risk, frozen.Parameters, frozen.ProtectedTokens, frozen.OfficialTermConstraints,
           frozen.CodexTranslation],
       )
-      assert.ok(row.DeepLTranslation, `${locale}:${row.Key}:DeepLTranslation`)
-      assert.notEqual(row.ComparisonStatus, 'MISSING', `${locale}:${row.Key}:ComparisonStatus`)
+      if (row.ReviewerNote.startsWith('Release preparation copy:')) {
+        assert.equal(row.DeepLTranslation, '')
+        assert.equal(row.ComparisonStatus, 'MISSING')
+        assert.equal(row.AdjudicationDecision, 'CODEX')
+      } else {
+        assert.ok(row.DeepLTranslation, `${locale}:${row.Key}:DeepLTranslation`)
+        assert.notEqual(row.ComparisonStatus, 'MISSING', `${locale}:${row.Key}:ComparisonStatus`)
+      }
       assert.ok(row.AdjudicationDecision, `${locale}:${row.Key}:AdjudicationDecision`)
       assert.ok(row.FinalTranslation, `${locale}:${row.Key}:FinalTranslation`)
       assert.ok(row.ReviewerNote, `${locale}:${row.Key}:ReviewerNote`)
@@ -966,7 +986,7 @@ test('Spanish and Brazilian Portuguese skill labels preserve verified official n
 
 test('complete Japanese, French, and German catalogues satisfy the full-locale contract', async () => {
   const invariantKeys = new Set([
-    'about.attribution', 'cargo.destination.linkedLocator', 'cargo.destination.padContents',
+    'about.attribution', 'about.version', 'about.build', 'cargo.destination.linkedLocator', 'cargo.destination.padContents',
     'history.benchmark', 'matrix.action.toggle', 'matrix.column.source', 'outpost.biomes.label',
     'outpost.solar.label', 'outpost.system.label', 'outpost.wind.label', 'power.label.normal',
     'power.label.unknown', 'power.quality.normal', 'power.tooltip.unknown', 'shortcuts.action.import',

@@ -1937,3 +1937,22 @@ What remains unverified?
 ```
 
 without reconstructing the answer from old conversations or implementation archaeology.
+
+## Maintenance copy provenance
+
+Release-preparation About copy was drafted and reviewed by Codex, without a new
+DeepL pass or native-speaker review. The seven adjudicated locale review CSVs
+retain unchanged historical decisions and record only added/replaced rows as
+single-source CODEX decisions with missing comparative evidence explicitly
+marked. Their catalogues are generated through the existing validated final-row
+path. Japanese retains its catalogue-derived review snapshot; en-GB remains a
+sparse override. The certificate-prescribed credit is invariant and replaces
+the earlier credit wording; historical provider evidence remains in Git history.
+Full key/placeholder guarantees use the current baseline, not an old key count.
+New translated explanatory copy does not replace the authoritative legal text.
+
+Owner iPhone 12/Safari basic production testing passed, including locale changes;
+this is partial platform evidence, not Apple/VoiceOver certification. Japanese
+X-Tech overflow and possible Cargo compression remain separately scoped. The
+overlay prototype is paused/post-release and only staging auto-deploys previews.
+See the preparation verification and Deployment for current status.

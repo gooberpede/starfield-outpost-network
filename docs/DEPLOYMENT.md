@@ -85,8 +85,8 @@ analytics/telemetry service.
   on staging and production, including the custom production domain. The
   repository policy is now 30 days
   (`Strict-Transport-Security: max-age=2592000`) in `public/_headers`, without
-  `includeSubDomains` or `preload`; deployed verification of the 30-day policy
-  remains pending. See the
+  `includeSubDomains` or `preload`. The owner verified the 30-day policy on
+  staging and production; a reminder already exists for the later review. See the
   [CSP and security headers benchmark](benchmarks/CLOUDFLARE-CSP-SECURITY-HEADERS.md).
 - External Google Fonts remain accepted for V1. Self-hosting or removal needs
   a concrete reason from later testing.
@@ -173,3 +173,28 @@ received the SPA shell.
 Staging returned 304 for a cache revalidation of that SPA response; production
 returned 200. Staging also passed normal startup, saved-data, locale-switching,
 and blocked-then-unblocked required-asset checks.
+
+## Build identity and public source gate
+
+package.json is the application-version authority; keep both lockfile version
+roots consistent. Preparation remains 0.0.0. Deliberate candidate testing uses
+1.0.0-rc.1, accepted launch uses 1.0.0, and tags use `v<version>`. Changed candidates
+must be identified and retested; publication, tagging and deployment require
+separate authorization.
+
+The build resolves the actual checkout HEAD and Git status. Checkout evidence
+wins over configurable CF_PAGES_COMMIT_SHA. On CF_PAGES=1 with no Git, a valid
+full environment SHA is retained but remains unverified. Branch names (including
+CF_PAGES_BRANCH), paths and other environment values are not exposed. Archives
+without Git build as local/unverified. Dirty or unverifiable builds never offer
+an exact pristine source link. These inputs follow the
+[Pages build documentation](https://developers.cloudflare.com/pages/configuration/build-configuration/).
+
+Before promoting a GPL-labelled public release, verify unauthenticated access
+to the exact deployed commit's corresponding source, scripts and lockfile in
+the existing repository, plus public Issues and About destinations. Verify
+deployed identity separately; local preparation does not identify today's
+production commit. Legal text is emitted from LICENSE and THIRD-PARTY-NOTICE.md
+under dist/legal; confirm these routes on the deployed host. Existing security,
+origin and indexing policy remains in force. The launch/indexing runbook and
+final candidate acceptance are separate work.

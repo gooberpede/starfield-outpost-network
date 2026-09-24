@@ -301,14 +301,12 @@ editorial review.
 
 Working XLIFF handoffs now live under ignored
 `.local-work/localization/<locale>/`; durable review evidence remains tracked.
-The final bundle/startup review found acceptable warm local startup performance,
-but it did not resolve the deployed bandwidth question. A later focused
-measurement/design investigation should measure actual Cloudflare cold-load
-transfer and compression, repeat-visit caching, statically bundled locale and
-overlay contributions, active-locale-only loading feasibility, request cost,
-locale-switch latency, and caching of previously loaded locale assets before
-deciding whether locale-on-demand loading is worthwhile. See
-`docs/benchmarks/LOCALIZATION-BUNDLE-AND-STARTUP-REVIEW.md`.
+Deployed bandwidth/compression measurement is complete; see
+`docs/audits/DEPLOYED-BANDWIDTH-AND-LOCALE-LOADING-REVIEW.md` and
+`docs/audits/REFERENCE-OVERLAY-ON-DEMAND-PROTOTYPE.md`. The ignored overlay
+prototype remains paused/post-release, with its code and measurements retained.
+Only staging automatically deploys previews; an experiment branch is not an
+automatic preview route. Caching investigation remains separate optional work.
 
 ### Pre-release polish
 
@@ -345,14 +343,12 @@ deciding whether locale-on-demand loading is worthwhile. See
   the Cargo title/count group centres within it while the Matrix Search keeps
   its established dimensions. Matrix column/body and Cargo body geometry are
   unchanged.
-- **About and application versioning:** Expand the About dialog to show the
-  application version, support/contact details, and a Ko-Fi link while
-  retaining appropriate existing attribution/about content. Establish an
-  application versioning scheme before public release; SemVer is the likely
-  direction and `package.json` the likely canonical source, but the exact
-  source/display mechanism remains open. A public project/site link may also be
-  included. External links should follow established accessibility and
-  localization conventions.
+- **About and application versioning:** Implementation prepared with localized
+  support/funding/licence links and package-sourced version/build identity.
+  Preparation stays 0.0.0; candidate 1.0.0-rc.1 and launch 1.0.0 are settled.
+  See `audits/RELEASE-PREPARATION-VERIFICATION.md` for evidence and outstanding
+  manual acceptance. Publication sign-off, Ko-Fi page readiness, frozen-candidate
+  acceptance and launch operations remain separate gates.
 - **Fatal-state recovery review:** Review, without presuming approval, whether
   the reference-data fatal screen should expose a raw, read-only browser-storage
   backup/export action.
@@ -376,6 +372,14 @@ The reconciled status and evidence boundary are recorded in
   programmatic focus transitions, accessibility-tree ordering, nearby labels,
   and focus restoration/repair without assuming the Solar control is the root
   cause;
+- **Narrator does not read About dialog static body text.** In Windows/Chromium
+  Narrator testing, the About dialog title and interactive links/buttons are
+  announced, but ordinary body paragraphs are not read. A focusable
+  `role="document"` region exposed the heading but did not make the remaining
+  text readable, so that workaround was not retained. The dialog remains
+  keyboard-operable, and its links and controls are accessible. Investigate
+  together with the existing Narrator browse/scan/focus-mode and announcement
+  issues. Manual acceptance is **FAIL**; About/Narrator closure is not claimed;
 - investigate why Narrator announces shortcut action labels but not the
   shortcut chords themselves. Verify whether `aria-keyshortcuts`, visible
   keycaps, accessible descriptions, and localized speech formatting reach the
@@ -408,13 +412,15 @@ testing reveals a concrete defect.
 
 ### Apple/WebKit compatibility verification
 
-- Re-test the public production build in Safari/WebKit.
+- Owner iPhone 12/Safari production testing passed basic outpost, cargo-link,
+  locale-switch and touch workflows; the blank-page symptom was not reproduced.
+  Japanese X-Tech overflow remains a specific optional pre-release investigation;
+  expanded Cargo compression is unconfirmed and remains post-release follow-up.
 - Perform a Safari/VoiceOver smoke test on macOS when a suitable environment is
   available.
 - Verify Japanese font fallback on iPhone, iPad, and macOS Safari.
 - Perform an iPhone/WebKit accessibility and rendering sanity check.
-- Investigate the current iPhone blank-page behavior if it is reproducible
-  against the public build.
+- Reopen the historical iPhone blank-page concern only if it recurs reproducibly.
 - Treat Apple mobile devices as compatibility, accessibility, and font-sanity
   targets, not a mobile-support commitment.
 
@@ -433,7 +439,8 @@ records the earlier point-in-time findings.
 - **HSTS:** The initial 24-hour rollout was verified in staging and production,
   including the production custom-domain response. The active approved
   repository policy is now 30 days (`max-age=2592000`) in `public/_headers`;
-  deployed verification remains pending. After deployment and verification,
+  the owner verified staging and production responses, without subdomains or
+  preload, and already has a reminder. After that verified rollout,
   defer the next HSTS review until the 30-day policy has run continuously for
   at least 30 days. That review must re-check production and staging responses,
   DNS/subdomain inventory, certificate state, HTTP-to-HTTPS redirects, and any
@@ -441,7 +448,7 @@ records the earlier point-in-time findings.
   `includeSubDomains` remains intentionally omitted. `preload` remains
   intentionally omitted and is a separate future decision.
 - **Public-launch indexing:** Remove the temporary pre-release `noindex` and
-  robots controls as part of the public-launch parcel. Keep detailed deployment
+  robots controls as part of the separately authorized public launch. Keep detailed deployment
   procedure in [Deployment](DEPLOYMENT.md).
 
 ---

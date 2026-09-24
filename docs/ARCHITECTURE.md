@@ -694,7 +694,7 @@ Supply groups use the active-locale collator with stable-ID tie-breakers.
 Body/orbit order, biome occurrence order, resource topology, persisted order,
 validation order, and history chronology retain their domain or user sequence.
 
-Japanese tracker-catalogue work closed after Parcels B1-B4 supplied the Codex
+Japanese tracker-catalogue work closed after comparative review supplied the Codex
 first draft, an independent English-source translation, keyed comparative
 adjudication, and final integration verification. The resulting catalogue has
 exact key and placeholder parity with the current `en-US` baseline. Official Japanese
@@ -743,14 +743,14 @@ project-owned semantic field map
     -> allowlisted record path and string-table type
 explicit BA2 inputs
     -> validated localization members and local official tables
-later Parcel D tooling
+reference-name overlay tooling
     -> localized text resolution and runtime overlays
 ```
 
-The C1 tooling lives under `scripts/localization/`. Its binary layer supports
+The narrow provenance tooling lives under `scripts/localization/`. Its binary layer supports
 only 24-byte record/group framing, recursive groups, compressed records, `XXXX`
 subrecord sizes, exact raw FormID selection for the audited signatures, and
-bounded signature scans used by C3 and C5 relationship resolution.
+bounded signature scans used by system and organic relationship resolution.
 The semantic layer, rather than the binary reader, decides whether a `FULL`
 subrecord is the intended localized field. Unknown, missing, or ambiguous shapes
 fail closed. The current component route is specifically bounded by serialized
@@ -763,7 +763,7 @@ normalized filename, size, SHA-256, declared load order, tool version, game
 version, and generation timestamp. No ESM, BA2, string-table contents, or raw
 record dumps belong in the repository.
 
-Parcel C2 adds a normalized, generated crosswalk for direct-name resources
+The direct-name generator produces a normalized, generated crosswalk for direct-name resources
 (inorganic, special/X-Tech, and organic harvest resources), products, biomes,
 and official skill terms:
 
@@ -776,7 +776,7 @@ canonical stable entity
 ```
 
 `reference-source/localized-name-provenance.csv` contains complete, qualified
-direct-name rows and C6's normalized composed-component rows.
+direct-name rows and normalized composed-component rows.
 `localized-name-provenance-unresolved.csv` preserves
 every target whose local plugin/table input or supported direct shape is missing;
 there are no silent drops. Recipe and biome occurrence sources are normalized to
@@ -790,7 +790,7 @@ table filenames, sizes, hashes, declared load order, game/tool version, and time
 in an ignored local manifest. Committed-crosswalk validation runs without local
 game data as part of the reference build.
 
-Parcel C3 extends that population with one direct row per canonical star system:
+The system generator extends that population with one direct row per canonical star system:
 
 ```text
 canonical system and its canonical body rows
@@ -808,7 +808,7 @@ use the same population and lookup path. A supported plugin may legitimately
 contribute zero targets, while missing, conflicting, ambiguous, or mismatched
 systems remain explicit in the unresolved crosswalk.
 
-Parcel C4 adds one direct row per canonical tracker body:
+The body generator adds one direct row per canonical tracker body:
 
 ```text
 canonical planet-directory row
@@ -827,7 +827,7 @@ explicit unresolved row until a target-specific semantic route is audited.
 Source/display differences use the same exact entity-scoped normalization
 policy as system names.
 
-Parcel C7 hardens direct-name ownership across the authoritative localization
+The provider layer verifies direct-name ownership across the authoritative localization
 source universe, which is exactly `Starfield.esm`, `ShatteredSpace.esm`, and
 `SFBGS00D.esm`. All three are ordinary full modules. The narrow provider layer
 reads their ordered TES4 `MAST` entries and normalizes each file-local FormID to:
@@ -850,30 +850,30 @@ Creations, and third-party mods remain outside tracker scope. `SFBGS050.esm`
 may remain in local historical configuration for compatibility, but it is not
 an authoritative tracker source and cannot participate in provider selection.
 
-Parcel C5 derives its complete organic target set from
+The organic generator derives its complete organic target set from
 `biome-organic-resources.csv`, collapsing Planet × Biome occurrence rows to one
 stable flora or fauna FormID. It reproduces the production exporter precedence:
 
 ```text
 flora: FLOR.FULL
 fauna: NPC_.FULL
-    > valid CCT composition (classification only; deferred to C6)
+    > valid CCT composition (resolved by the composed-fauna generator)
     > NPC_ TPLT -> LVLN entry NPC_ -> encounter-template NPC_.FULL
 ```
 
 Direct flora, direct fauna, and template-fauna `FULL` providers enter the
-normalized provenance crosswalk in C5. CCT classification includes native NPC
+normalized provenance crosswalk. CCT classification includes native NPC
 keywords, recursive OMOD includes, `NPC - Keyword` properties, and the audited
 INNR ordering of greatest keyword specificity, highest `YNAM`, then earliest
 rule. Different useful Object Template names and different encounter-template
 names fail closed. `localized-name-provenance-c6-fauna.csv` remains the exact
-C6 population boundary and records its resolved state, while
+composed-fauna population boundary and records its resolved state, while
 `localized-name-provenance-c5-fauna-lineage.csv` preserves the
 canonical NPC → LVLN → leveled NPC → encounter NPC audit path without denormalizing
 the main crosswalk. The current installed-game inventory is 153 direct flora,
-41 direct fauna, 5 template fauna, and 922 C6-composed fauna targets.
+41 direct fauna, 5 template fauna, and 922 composed-fauna targets.
 
-Parcel C6 resolves only those 922 committed targets through the audited CCT
+The composed-fauna generator resolves only those 922 committed targets through the audited CCT
 naming family:
 
 ```text
@@ -894,14 +894,14 @@ locale grammar table or format entity. Every useful Object Template combination
 is resolved independently and multiple final names fail closed. The audited
 installed population emits 2,179 component rows and reconstructs all 922
 English names exactly. The Japanese preview resolves the same qualified IDs and
-is a deterministic handoff for later overlay work, not runtime localization.
+is a deterministic verification handoff consumed by the overlay generator.
 
 Exact English equality remains the default verification rule. A structural
 canonical value is never rewritten merely to match localized display text. A
 localized value may differ only through a checked-in approval keyed by stable
 entity identity and exact expected source/display values. Once that exact
 provenance and approval are verified, the official localized string is
-authoritative for eventual localized display while `CanonicalEnglish` continues
+authoritative for localized display while `CanonicalEnglish` continues
 to preserve the structural source value.
 `localized-name-normalizations.csv` records the exact approved source/display
 pair and classification so committed-data validation can detect policy drift.
@@ -913,8 +913,8 @@ explicit BA2 v2 GNRL paths
     -> member-table enumeration
     -> exact plugin-base + locale + table-type selection
     -> ignored local official string tables + hashes
-    -> C2-C6 English verification and C6 Japanese handoff verification
-    -> future Parcel D locale overlays
+    -> English provenance verification and Japanese composed-name verification
+    -> committed locale overlays
 ```
 
 It never infers ownership from an archive filename and never crawls the game
@@ -981,7 +981,7 @@ User-facing cargo endpoint presentation uses the official `Cargo Link` and
 (`CargoPad`, `cargoPads`, `cargoPadId`, and the `interstellar` discriminator)
 remains intentionally unchanged; the terminology change is presentation-only.
 
-Parcel C8 integrates C1-C7 behind one fail-closed builder. The project-owned
+The integrated provenance pipeline uses one fail-closed builder. The project-owned
 policy at `reference-source/localization-provenance-policy.json` is the single
 allowlist for authoritative sources, expected TES4 master relationships,
 locale encodings, and the currently reviewed closure totals. Its authoritative
@@ -994,11 +994,11 @@ The integrated local pipeline is:
 
 ```text
 manifest and authoritative-input validation
-    -> canonical C2/C3/C4/C5 population by stable tracker identity
+    -> canonical direct/system/body/organic population by stable tracker identity
     -> direct, system/body, organic, and composed-fauna generation
-    -> C7 logical provider-chain selection
+    -> logical provider-chain selection
     -> entity-scoped normalization and exact English verification
-    -> qualified Japanese-ID availability and C6 reconstruction
+    -> qualified Japanese-ID availability and composed-fauna reconstruction
     -> resolved/unresolved/excluded coverage reconciliation
     -> row-shape validation and semantic drift comparison
     -> ignored machine-readable build report
@@ -2041,3 +2041,22 @@ The central architectural idea is:
 > model.
 
 Preserve that separation unless a future design decision explicitly changes it.
+
+## Application build identity and legal text
+
+scripts/build-identity.ts reads package.json, checks lockfile version agreement,
+and resolves checkout/allowlisted CI commit evidence during Vite configuration.
+Only version, full commit, clean/modified/unknown status and a conditional source
+URL reach the typed src/buildIdentity.ts browser module. There are no runtime
+GitHub requests, environment dumps or timestamps. Git status includes tracked
+and untracked non-ignored changes. Missing Git or status evidence remains
+unverified; only a clean verified checkout gets an exact source link. Branch
+names are not exposed. Application identity is independent of all persisted
+schemas, reference hashes, game-source versions and locale IDs.
+
+scripts/legal-assets.ts emits LICENSE and THIRD-PARTY-NOTICE.md verbatim as
+separate static text files and serves equivalent dev routes. About links to
+them on demand; legal texts do not enter JavaScript or startup fetches. Root
+sources own the text, avoiding manually maintained public copies. About owns
+only presentation and uses the shared modal/focus contract; opening it does
+not mutate collection state, storage or Undo/Redo.

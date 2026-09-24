@@ -57,7 +57,7 @@ test('Japanese is complete with exact key and placeholder parity', () => {
   const englishKeys = Object.keys(enUSMessages).sort()
   const japaneseKeys = Object.keys(jaJPMessages).sort()
   assert.deepEqual(japaneseKeys, englishKeys)
-  assert.equal(englishKeys.length, 414)
+  assert.equal(englishKeys.length, 430)
   assert.ok(Object.keys(enGBMessages).length < englishKeys.length)
   for (const key of englishKeys as MessageKey[]) {
     assert.deepEqual(parametersOf(jaJPMessages[key]), parametersOf(enUSMessages[key]), key)
@@ -68,7 +68,7 @@ test('Japanese preserves representative protected tokens and has no ordinary exa
   assert.match(jaJPMessages['about.description'], /スターフィールド/)
   assert.equal(
     jaJPMessages['about.attribution'],
-    'Cosmos icons created by gravisio - Flaticon',
+    'designed by gravisio from Flaticon',
   )
   assert.match(jaJPMessages['validation.interstellarHelium3'], /He-3/)
   assert.match(jaJPMessages['help.interSystem'], /He-3/)

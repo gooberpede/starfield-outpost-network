@@ -891,7 +891,7 @@ numbers, percentages, and display-name ordering use locale-aware formatters.
 Product names, stable IDs, schema/version tokens, filenames, and keyboard key
 tokens remain invariant where they are technical identity rather than prose.
 
-Japanese covers tracker-authored copy with a B1-B4-verified complete catalogue.
+Japanese covers tracker-authored copy with a comparatively reviewed complete catalogue.
 The locale selector identifies Japanese as `日本語`, including in its closed
 state. Ordinary Japanese interface text uses an explicit system-font stack
 beginning with Yu Gothic UI/Yu Gothic, with Hiragino Sans and Meiryo fallbacks.
@@ -1176,3 +1176,20 @@ Do not update this document for:
 - architectural module changes.
 
 Where practical, write principles first and use existing screens as examples rather than documenting every current pixel-level implementation.
+
+## About and support
+
+About presents concise application identity, local/modified build status,
+licence and third-party links, source, Issues, private email, voluntary developer
+support, a browser-save/export reminder and required favicon credit. App-owned
+copy is localized; the prescribed credit and technical identities stay invariant.
+The dialog is labelled by its visible heading and omits `aria-describedby`.
+Its body retains ordinary paragraphs and separate links, with no body-region
+or paragraph Tab stops. Narrator static-body reading remains an open defect in
+the shared accessibility backlog. The title-bar Close button hides its
+decorative glyph and uses localized visually hidden Close text. Long labels wrap
+and the bounded modal scrolls locally. About initially focuses its heading with
+`tabIndex={-1}`, opening at the top without adding the heading to Tab order.
+The shared modal hook retains Tab containment (including initial Shift+Tab),
+Escape, backdrop behavior and focus/reveal restoration. This
+does not alter workspace, Matrix or Cargo geometry.

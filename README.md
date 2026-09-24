@@ -28,7 +28,7 @@ The application currently supports:
 - domain validation and advisory warnings;
 - global contextual Undo/Redo across all networks;
 - automatic browser persistence;
-- browser-derived or explicitly selected US/UK English presentation;
+- browser-derived or explicitly selected English (US/UK), French, German, Italian, Japanese, Polish, Portuguese (Brazil), Simplified Chinese and Spanish (Spain) presentation;
 - whole-collection JSON import and export;
 - reference-data loading and reload status.
 
@@ -49,10 +49,10 @@ No separate application state-management framework is currently used.
 
 ## Development
 
-Install dependencies:
+Use Node.js 24 (package engine `>=24 <25`; verified with Node 24.21.0 and npm 11.19.0). Install the locked dependencies:
 
 ```sh
-npm install
+npm ci
 ```
 
 Start the development server:
@@ -73,13 +73,24 @@ Run the production build and TypeScript whole-project check:
 npm run build
 ```
 
+Run the automated suites and test type checks:
+
+```sh
+npm test
+npm run test:components
+npm run typecheck:tests
+npm run localization:verify
+npm run localization:terminology:verify
+npm run localization:provenance:verify
+```
+
 Run ESLint:
 
 ```sh
 npm run lint
 ```
 
-Rebuild and verify generated reference data explicitly:
+Ordinary checkout builds use committed generated inputs and require no installed game. Maintainer-only regeneration of provenance and localized overlays requires legally obtained local game inputs; never commit game binaries or string tables. Rebuild and verify reference data explicitly:
 
 ```sh
 npm run reference:build
@@ -159,7 +170,12 @@ When implementing a feature, read `AGENTS.md` first and then consult the relevan
 
 The application normally saves the ordered network collection and active network automatically in browser `localStorage`.
 
-JSON import/export is provided for portable backups and interchange.
+Networks are saved in this browser profile on this origin. There is no account
+sync or server backup. Export JSON before moving browsers/devices or clearing
+browser data. Import replaces the whole collection; export a backup first. If
+saving fails, export your in-memory work before closing the page. Unusually
+large, modded or outlier data may exceed the external-import envelope; universal
+re-import is not promised.
 
 Application preferences, including the Automatic/explicit locale selection,
 use a separate browser-storage record. They are not part of network data,
@@ -201,7 +217,7 @@ determine persisted identity.
 
 ### Localized-name provenance
 
-Parcel C1 includes a narrow, read-only build tool for recovering raw localized
+The provenance pipeline includes a narrow, read-only build tool for recovering raw localized
 string IDs from four audited `Starfield.esm` record fields. It is not a general
 plugin parser and is never used by the browser application. Ordinary CI uses
 project-authored synthetic bytes only; no Bethesda binary data is stored in the
@@ -227,28 +243,29 @@ Run the synthetic parser tests independently with:
 npm run localization:provenance:test
 ```
 
-Parcel C2 uses the same narrow reader to build the normalized
+The provenance generator uses the same narrow reader to build the normalized
 `reference-source/localized-name-provenance.csv` crosswalk for direct-name
-resources, products, biomes, and five official skill terms. Every canonical C2
+resources, products, biomes, and five official skill terms. Every canonical direct-name
 target is either in that file or in
 `reference-source/localized-name-provenance-unresolved.csv`; repeated recipe and
 BIOM occurrences do not duplicate entity provenance.
 
-Local regeneration requires a JSON config supplied with `--config`. It declares
-`gameVersion`, an ordered `plugins` array of `{ filename, path }`, and an explicit
-`localizationInputs` array of `{ plugin, tableType, path }`. Paths may be absolute
-or relative to the config file. Tables must already be legally extracted English
-`.strings`, `.dlstrings`, or `.ilstrings` files; archive names are deliberately
-not inferred. For example:
+Optional installed-game verification uses an explicit local JSON configuration
+and manifested, legally extracted localization inputs. Follow the current
+[provenance architecture](docs/ARCHITECTURE.md#142-build-time-localized-string-provenance-boundary)
+and [locale handbook](docs/localization/LOCALE-ONBOARDING.md) for the authoritative
+plugin, table and archive policy; do not infer ownership from archive names.
+For example:
 
 ```powershell
-npm run localization:provenance:build -- --config ".local-work/localization/provenance/c2-inputs.json"
+npm run localization:provenance:build -- --config ".local-work/localization/provenance/provenance-inputs.json"
 npm run localization:provenance:verify
 ```
 
-The first command reads plugins and tables only, deterministically rewrites the
-two crosswalk CSVs, and writes a local hash manifest under `.local-work/` by
-default. The second command validates committed schema, identity, and complete
+The first command verifies inputs and generated results, reports drift, and
+writes an ignored local report. It does not accept changed committed outputs
+unless the maintainer explicitly adds `--write` after review. The second command
+validates committed schema, identity, and complete
 resolved/unresolved coverage without requiring game files. `reference:build`
 runs the same validation gate before producing runtime reference JSON.
 
@@ -257,10 +274,12 @@ unresolved rows. Wrong IDs, tables, fields, plugins, or unexplained English
 mismatches fail regeneration. The verifier always follows record to raw ID to
 official English; it never selects an ID by matching English text.
 
-No Bethesda plugin, archive, or string-table content may be committed. C2 emits
-no Japanese data and does not alter runtime localization, UI, persistence, or
-network schemas. Later parcels C3-C8 cover deferred populations and provider
-inheritance; Parcel D will consume verified provenance for runtime overlays.
+No Bethesda plugin, archive or complete string-table binary may be committed.
+The integrated pipeline now covers direct, system, body, organic and composed
+fauna names and provider inheritance. Verified provenance supplies committed
+official-name overlays for all supported non-English locales. See
+[locale onboarding](docs/localization/LOCALE-ONBOARDING.md) for current generation
+and review instructions; historical briefs record earlier intermediate work.
 
 ## Project status
 
@@ -277,3 +296,72 @@ Deferred ideas should not be treated as implemented requirements unless explicit
 This is an independent fan/project-development tool related to *Starfield*.
 
 It is not affiliated with or endorsed by Bethesda Game Studios or Microsoft.
+
+## Licence and source
+
+Copyright (C) 2026 Gooberpede. Project-authored application/build/test code for
+which the project holds the relevant rights is licensed under the GNU GPL,
+version 3 or (at your option) any later version: **GPL-3.0-or-later**. It is
+provided without warranty, including implied merchantability or fitness for a
+particular purpose. See [LICENSE](LICENSE) and [third-party notices](THIRD-PARTY-NOTICE.md).
+The favicon, including historical versions, is separately licensed artwork
+excluded from that grant. Official game text and generated game-derived data
+are not relicensed as Gooberpede's code. Upstream software notices and applicable
+combined-work obligations remain intact. See the [provenance ledger](docs/THIRD-PARTY-REFERENCES.md).
+
+The existing [source repository](https://github.com/gooberpede/starfield-outpost-network)
+and its development history are retained. At public launch, the exact deployed
+commit's corresponding source, build scripts and lockfile must be publicly
+available there, alongside these build instructions. A clean About build links
+to its full commit; modified/unverified builds do not claim exact pristine
+source correspondence. Repository and Issues availability without authentication
+must be checked at publication; a private link is not public source access.
+
+## Application versions
+
+Preparation retains development version **0.0.0**, sourced from package.json
+with matching lockfile root metadata. About shows a short commit and an honest
+local/modified or unverified status. At the deliberate candidate-testing gate,
+set **1.0.0-rc.1**; after candidate acceptance, set **1.0.0**. Any changed candidate
+needs a new candidate identity and relevant retesting. Tags use `v<version>`.
+Tag/release creation remains a separate authorized operation.
+
+Future versions follow [SemVer](https://semver.org/): patch for compatible fixes,
+minor for compatible application features, major for incompatible supported
+application behavior or data-interchange contracts. Internal React component
+APIs are not public contracts. App versions are independent of save schemas,
+reference hashes, source-game versions and locale IDs; no migration is implied.
+The npm package remains private.
+
+## Support
+
+Use [GitHub Issues](https://github.com/gooberpede/starfield-outpost-network/issues)
+for reproducible bugs and feature suggestions. For private or alternative
+contact, email [support@starfieldoutposts.com](mailto:support@starfieldoutposts.com).
+Mailbox delivery and replies have been verified by the owner.
+
+Include application version/build, browser/OS versions, locale, concise steps
+and expected versus actual behavior. Prefer a small synthetic example; do not
+post real saved networks, credentials or personal data by default. Arrange a
+private, redacted example only if needed. Response times, feature implementation,
+fluent support in every language and contribution acceptance are not promised.
+
+[Support Gooberpede](https://ko-fi.com/gooberpede) voluntarily for the developer's
+Bethesda modding and tools work. Released projects are free to use. Tips or
+memberships do not purchase extra features, exclusives, access, priority support
+or delivery commitments. This describes the developer's offering and adds no
+restriction to GPL recipients. Ko-Fi page presentation and membership pricing
+remain a separate pre-launch task.
+
+## Platform and release status
+
+The interface is desktop-oriented. Existing acceptance primarily covers Windows/
+Chromium. Owner testing on iPhone 12/Safari passed basic production workflows,
+including locale changes and cargo linking; the earlier blank page was not
+reproduced. Japanese X-Tech overflow and possible expanded Cargo compression
+remain observations (compression cause unconfirmed). There is no phone-optimized
+support promise or comprehensive Apple/VoiceOver certification.
+
+Licensing/identity/About preparation does not mean publication, candidate
+acceptance or launch has occurred. See [preparation verification](docs/audits/RELEASE-PREPARATION-VERIFICATION.md)
+and [Deployment](docs/DEPLOYMENT.md) for remaining gates.

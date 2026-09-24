@@ -11,6 +11,14 @@ platform/environment constrained. The compact Matrix semantic-context concern
 is superseded by current structure. A separate Cargo Link Undo issue is a
 confirmed presentation-state regression rather than an accessibility defect.
 
+Subsequent owner Windows/Chromium Narrator testing confirmed an About static-body
+reading defect (manual **FAIL**). The title and interactive links/buttons are
+announced, but ordinary paragraphs are not read. A focusable `role="document"`
+region exposed the heading without making the remaining text readable and was
+removed. Close naming, top initial focus and keyboard operation are retained.
+This is an open defect, not merely an environment limitation or About/Narrator
+closure. Investigation is deferred to the shared Narrator follow-up.
+
 This was an inventory pass. No shortcut, focus, accessible-name, screen-reader,
 or runtime correction was made.
 
@@ -41,6 +49,7 @@ not available and remain deferred platform coverage.
 
 | Item | Current status | Evidence and next action |
 | --- | --- | --- |
+| About static body text | Manual FAIL; confirmed open defect | Owner Windows/Chromium Narrator testing could not read ordinary paragraphs although title, links and buttons were announced. The unsuccessful tabbable document-region workaround was removed. Investigate with browse/scan/focus-mode and announcement issues; keyboard operation and accessible links/controls remain. |
 | Narrator interception of global shortcuts | Still open; platform/environment constrained | Completed manual QA recorded `Ctrl+Alt+ArrowUp/Down` interception and intermittent `/` interception with Narrator. Ordinary browser shortcut tests remain green. A dedicated Windows Narrator/browser interaction brief is needed before changing bindings. |
 | Narrator omission of shortcut chord speech | Still open; platform/environment constrained | The Help dialog exposes localized action names and accessible `kbd` labels, but controls do not use `aria-keyshortcuts`, and current automation cannot establish spoken output. Investigate in the same Narrator brief. |
 | Ambiguous Solar announcement | Still open; intermittent and platform constrained | Prior manual evidence is cross-locale. No current source change proves it obsolete, and a non-Narrator browser cannot reproduce speech. Investigate actual focus ownership before changing the Solar control. |
@@ -77,7 +86,7 @@ the point-in-time reproduction above remains as historical audit evidence.
 
 1. A Windows Narrator/browser brief should jointly investigate shortcut event
    interception, chord speech, Solar focus ambiguity, and the compact Cargo
-   marker. It should preserve bindings until collision evidence supports a
+   marker, and the confirmed About static-body reading failure. It should preserve bindings until collision evidence supports a
    product decision.
 2. Apple/WebKit/VoiceOver remains a platform-validation brief when suitable
    hardware exists; no pass or failure is inferred here.

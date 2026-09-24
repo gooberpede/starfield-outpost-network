@@ -85,10 +85,15 @@ export function useModalDialog({
 
     const firstElement = focusableElements[0]
     const lastElement = focusableElements.at(-1)
+    const initialFocusElement = initialFocusRef.current
 
     if (
       event.shiftKey &&
-      document.activeElement === firstElement
+      (document.activeElement === firstElement ||
+        // A top heading may receive initial focus without joining Tab order.
+        (initialFocusElement !== null &&
+          document.activeElement === initialFocusElement &&
+          !focusableElements.includes(initialFocusElement)))
     ) {
       event.preventDefault()
       lastElement?.focus()

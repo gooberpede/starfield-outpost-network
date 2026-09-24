@@ -22,6 +22,7 @@ import type { MouseEvent } from 'react'
 import './AboutDialog.css'
 import { useLocalization } from '../../localization/LocalizationContext.ts'
 import { useModalDialog } from './useModalDialog'
+import { buildIdentity } from '../../buildIdentity.ts'
 
 interface AboutDialogProps {
   onClose: () => void
@@ -30,10 +31,9 @@ interface AboutDialogProps {
 export function AboutDialog({ onClose }: AboutDialogProps) {
   const { t } = useLocalization()
   const titleId = useId()
-  const descriptionId = useId()
-  const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const headingRef = useRef<HTMLHeadingElement>(null)
   const { dialogRef, handleKeyDown } = useModalDialog({
-    initialFocusRef: closeButtonRef,
+    initialFocusRef: headingRef,
     onClose,
   })
 
@@ -54,32 +54,50 @@ export function AboutDialog({ onClose }: AboutDialogProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        aria-describedby={descriptionId}
         onKeyDown={handleKeyDown}
       >
         <header className="about-dialog__header">
-          <h2 id={titleId}>{t('common.about')}</h2>
+          <h2 ref={headingRef} id={titleId} tabIndex={-1}>{t('common.about')}</h2>
           <button
             type="button"
             className="about-dialog__icon-close"
-            aria-label={t('about.closeDialog')}
             title={t('common.close')}
             onClick={onClose}
           >
-            ×
+            <span aria-hidden="true">×</span>
+            <span className="ui-visually-hidden">{t('common.close')}</span>
           </button>
         </header>
 
-        <div id={descriptionId} className="about-dialog__content">
+        <div className="about-dialog__content">
           <p className="about-dialog__app-name">
             Starfield Outpost Network
           </p>
           <p>{t('about.description')}</p>
           <p>
+            {t('about.version', { version: buildIdentity.version })}{' · '}
+            {t('about.build', { commit: buildIdentity.commit?.slice(0, 8) ?? '—' })}
+            {buildIdentity.status !== 'clean' && ` · ${t(buildIdentity.status === 'modified' ? 'about.modified' : 'about.unknown')}`}
+          </p>
+          <p>© 2026 Gooberpede. {t('about.licenseSummary')}</p>
+          <div className="about-dialog__links">
+            <a href="/legal/LICENSE.txt" target="_blank" rel="noopener noreferrer">{t('about.license')}</a>
+            <a href="/legal/THIRD-PARTY-NOTICE.txt" target="_blank" rel="noopener noreferrer">{t('about.notices')}</a>
+            <a href="https://github.com/gooberpede/starfield-outpost-network" target="_blank" rel="noopener noreferrer">{t('about.repository')}</a>
+            {buildIdentity.sourceUrl && <a href={buildIdentity.sourceUrl} target="_blank" rel="noopener noreferrer">{t('about.buildSource')}</a>}
+            <a href="https://github.com/gooberpede/starfield-outpost-network/issues" target="_blank" rel="noopener noreferrer">{t('about.issues')}</a>
+            <a href="mailto:support@starfieldoutposts.com">{t('about.contact')}</a>
+            <a href="https://ko-fi.com/gooberpede" target="_blank" rel="noopener noreferrer">{t('about.support')}</a>
+          </div>
+          <p>{t('about.funding')}</p>
+          <p>{t('about.backup')}</p>
+          <p>{t('about.unofficial')}</p>
+          <p>
+            {t('about.artwork')}{' '}
             <a
               href="https://www.flaticon.com/free-icons/cosmos"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               {t('about.attribution')}
             </a>
@@ -88,7 +106,6 @@ export function AboutDialog({ onClose }: AboutDialogProps) {
 
         <div className="about-dialog__actions">
           <button
-            ref={closeButtonRef}
             type="button"
             onClick={onClose}
           >

@@ -2,6 +2,13 @@
 
 Audit date: 23 September 2026 (Australia/Sydney).
 
+Current disposition: the later approved release-preparation decisions supersede
+this dated report's open-choice recommendations. Code licence, attribution,
+favicon retention, support/funding destinations and version convention are now
+settled. See [release preparation verification](RELEASE-PREPARATION-VERIFICATION.md)
+for implementation evidence and remaining manual/publication/candidate/launch
+gates. The original findings and evidence limits below remain historical evidence.
+
 ## Verdict and decision boundary
 
 **Not yet ready for deliberate public launch. The remaining path is finite and does not require finishing the backlog.** Five release gates remain: application/build identity; minimum About content; a usable support route; public-repository/licensing/publication sign-off; and acceptance of a frozen release candidate in disposable browser data. The first four can be prepared together after the user's decisions. Final deployment, repository publication and production indexing are **RELEASE DATE** operations, requiring later explicit authorization.

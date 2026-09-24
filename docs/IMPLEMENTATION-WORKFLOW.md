@@ -351,3 +351,16 @@ When a new idea emerges during implementation:
 
 - record it in the backlog if useful;
 - do not silently include it in the current batch.
+
+## Release preparation versus launch
+
+Keep preparation, manual acceptance, publication sign-off and launch operations
+distinct. Maintain package/lockfile version agreement and test modified/unknown
+identity as well as clean builds. Run the component, test-type, localization,
+build and lint checks and verify emitted legal outputs with
+`node --experimental-strip-types scripts/verify-release-dist.ts`.
+Use a disposable checkout-shaped copy for npm ci/build without game inputs.
+Read README and Deployment for candidate/version/source conventions. A passing
+local build neither publishes source nor accepts a release candidate. Useful
+historical briefs, audits and benchmarks remain at their paths; packaging or
+history changes require separate authorization.

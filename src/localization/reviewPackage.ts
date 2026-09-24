@@ -401,7 +401,7 @@ const terminologyConstraints: readonly Constraint[] = [
 ]
 
 const protectedTokenCandidates = [
-  'Cosmos icons created by gravisio - Flaticon', 'FormID', 'He-3', 'JSON',
+  'designed by gravisio from Flaticon', 'GPL-3.0-or-later', 'Gooberpede', 'Bethesda Game Studios', 'Bethesda', 'Microsoft', 'FormID', 'He-3', 'JSON',
   'Ctrl', 'Esc', 'Shift', 'ID',
 ] as const
 
@@ -447,10 +447,11 @@ const accidentalEnglishInvariantTokens = [
 
 const accidentalEnglishAllowedWords: Readonly<Record<string, ReadonlySet<string>>> = {
   'es-ES': new Set(['domesticable', 'error', 'fauna', 'flora', 'normal', 'norm', 'original', 'solar', 'local']),
-  'it-IT': new Set(['browser', 'fauna', 'file', 'flora', 'info', 'normal', 'norm', 'schema', 'standard', 'locale', 'local']),
-  'pt-BR': new Set(['fauna', 'flora', 'item', 'normal', 'norm', 'original', 'solar', 'local', 'status', 'standard']),
+  // Backup/server are established Italian computing nouns; backup is also used in Brazilian Portuguese.
+  'it-IT': new Set(['backup', 'server', 'browser', 'fauna', 'file', 'flora', 'info', 'normal', 'norm', 'schema', 'standard', 'locale', 'local']),
+  'pt-BR': new Set(['backup', 'site', 'fauna', 'flora', 'item', 'normal', 'norm', 'original', 'solar', 'local', 'status', 'standard']),
   // These are ordinary Polish cognates, not broad technical-English exemptions.
-  'pl-PL': new Set(['status', 'system']),
+  'pl-PL': new Set(['status', 'system', 'import']),
   'zh-Hans': new Set(),
 }
 
