@@ -20,7 +20,12 @@
  *   - the hierarchy of navigation versus selected-outpost content changes.
  */
 
-import type { ReactNode, Ref } from 'react'
+import {
+  useLayoutEffect,
+  useRef,
+  type ReactNode,
+  type Ref,
+} from 'react'
 
 import './WorkspaceLayout.css'
 import { useLocalization } from '../../localization/LocalizationContext.ts'
@@ -52,6 +57,66 @@ export function WorkspaceLayout({
   showNavigationControlRef,
 }: WorkspaceLayoutProps) {
   const { t } = useLocalization()
+  const topRef = useRef<HTMLDivElement>(null)
+  const cargoRailRef = useRef<HTMLElement>(null)
+
+  useLayoutEffect(() => {
+    const cargoRail = cargoRailRef.current
+    const pageHeader = document.querySelector<HTMLElement>('.page-header')
+    const statusBar = document.querySelector<HTMLElement>('.status-bar')
+
+    if (!cargoRail || !pageHeader || !statusBar) return
+
+    let isActive = true
+    let scheduledFrame: number | null = null
+
+    const updateCargoMaxHeight = () => {
+      if (!isActive) return
+      const railTop = cargoRail.getBoundingClientRect().top
+      const headerBottom = pageHeader.getBoundingClientRect().bottom
+      const statusTop = statusBar.getBoundingClientRect().top
+      const effectiveTop = Math.max(railTop, headerBottom)
+      const safeHeight = Math.max(0, Math.floor(statusTop - effectiveTop))
+      cargoRail.style.setProperty('--cargo-rail-max-height', `${safeHeight}px`)
+    }
+
+    const scheduleCargoMaxHeightUpdate = () => {
+      if (!isActive || scheduledFrame !== null) return
+      scheduledFrame = requestAnimationFrame(() => {
+        scheduledFrame = null
+        updateCargoMaxHeight()
+      })
+    }
+
+    updateCargoMaxHeight()
+
+    const resizeObserver = new ResizeObserver(scheduleCargoMaxHeightUpdate)
+    const observedElements = [
+      document.querySelector<HTMLElement>('.title-bar'),
+      pageHeader,
+      statusBar,
+      topRef.current,
+    ]
+    for (const element of observedElements) {
+      if (element) resizeObserver.observe(element)
+    }
+
+    window.addEventListener('scroll', scheduleCargoMaxHeightUpdate, { passive: true })
+    window.addEventListener('resize', scheduleCargoMaxHeightUpdate)
+    document.fonts?.ready.then(scheduleCargoMaxHeightUpdate)
+    document.fonts?.addEventListener('loadingdone', scheduleCargoMaxHeightUpdate)
+
+    return () => {
+      isActive = false
+      if (scheduledFrame !== null) cancelAnimationFrame(scheduledFrame)
+      resizeObserver.disconnect()
+      window.removeEventListener('scroll', scheduleCargoMaxHeightUpdate)
+      window.removeEventListener('resize', scheduleCargoMaxHeightUpdate)
+      document.fonts?.removeEventListener('loadingdone', scheduleCargoMaxHeightUpdate)
+      cargoRail.style.removeProperty('--cargo-rail-max-height')
+    }
+  }, [])
+
   return (
     <div className={`workspace-layout${
       isNavigationOpen ? '' : ' workspace-layout--navigation-collapsed'
@@ -79,7 +144,7 @@ export function WorkspaceLayout({
 
       <div className="workspace-layout__outpost">
         {top && (
-          <div className="workspace-layout__top">
+          <div ref={topRef} className="workspace-layout__top">
             {top}
           </div>
         )}
@@ -90,6 +155,7 @@ export function WorkspaceLayout({
           </div>
 
           <aside
+            ref={cargoRailRef}
             className="workspace-layout__right"
             aria-label={t('cargo.heading')}
           >

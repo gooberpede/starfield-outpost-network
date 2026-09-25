@@ -36,6 +36,27 @@ test('peer workspace section headings share the control-safe height contract', a
   assert.match(cargoCss, /\.cargo-pads__heading\s*\{[^}]*align-items:\s*center;[^}]*box-sizing:\s*border-box;[^}]*min-height:\s*var\(--workspace-section-heading-min-height\)/)
 })
 
+test('Cargo rail, shell, and list retain their separate geometry ownership', async () => {
+  const [workspace, workspaceCss, cargoCss] = await Promise.all([
+    source('../src/ui/layout/WorkspaceLayout.tsx'),
+    source('../src/ui/layout/WorkspaceLayout.css'),
+    source('../src/ui/components/CargoPadsEditor.css'),
+  ])
+
+  assert.match(workspace, /--cargo-rail-max-height/)
+  assert.match(workspace, /new ResizeObserver/)
+  assert.match(workspace, /requestAnimationFrame/)
+  assert.match(workspace, /addEventListener\('scroll', scheduleCargoMaxHeightUpdate, \{ passive: true \}\)/)
+  assert.match(workspace, /Math\.max\(railTop, headerBottom\)/)
+  assert.match(workspace, /Math\.max\(0, Math\.floor\(statusTop - effectiveTop\)\)/)
+  assert.doesNotMatch(workspace, /IntersectionObserver|naturalRailTop|isCargoRailSticky/)
+  assert.match(workspaceCss, /\.workspace-layout__right\s*\{[^}]*position:\s*sticky;[^}]*top:\s*var\(--page-header-height\)/s)
+  assert.match(workspaceCss, /@container selected-outpost \(max-width: 39rem\)[\s\S]*\.workspace-layout__right\s*\{[^}]*position:\s*static;[^}]*top:\s*auto;/)
+  assert.match(cargoCss, /\.cargo-pads\s*\{[^}]*max-height:\s*var\(\s*--cargo-rail-max-height/s)
+  assert.match(cargoCss, /\.cargo-pads__list\s*\{[^}]*flex:\s*1 1 auto;[^}]*min-height:\s*0;[^}]*overflow-y:\s*auto;/s)
+  assert.doesNotMatch(cargoCss, /100svh\s*-\s*12rem/)
+})
+
 test('application source contains exactly one main landmark', async () => {
   const [app, workspace] = await Promise.all([
     source('../src/App.tsx'),

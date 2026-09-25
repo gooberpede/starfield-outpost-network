@@ -112,6 +112,14 @@
   align-items: start;
 }
 
+.workspace-layout__right {
+  position: sticky;
+  top: var(--page-header-height);
+  align-self: start;
+  /* The layout effect replaces this conservative cap before first paint. */
+  --cargo-rail-max-height: 0px;
+}
+
 /*
  * Cargo needs 18rem and the Matrix needs roughly 20rem before its local
  * scroller ceases to be a practical viewport. Stack before those tracks and
@@ -120,5 +128,10 @@
 @container selected-outpost (max-width: 39rem) {
   .workspace-layout__content {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .workspace-layout__right {
+    position: static;
+    top: auto;
   }
 }
