@@ -1,7 +1,7 @@
 /**
- * Purpose: Normalize C2 canonical entities and verify direct localized-name provenance.
+ * Purpose: Normalize canonical direct-name entities and verify localized-name provenance.
  * Architecture: Canonical identity drives exact plugin/FormID reads; English is verification only.
- * Change this file when: a C2 population, schema, or explicit mismatch policy changes.
+ * Change this file when: a direct-name population, schema, or explicit mismatch policy changes.
  */
 import { parse } from 'csv-parse/sync'
 
@@ -29,13 +29,13 @@ export const REASON_CODES = new Set([
   'SYSTEM_NUMBER_MISSING', 'SYSTEM_NUMBER_CONFLICT', 'SYSTEM_STDT_NOT_FOUND',
   'SYSTEM_STDT_AMBIGUOUS', 'SYSTEM_NAME_MISMATCH',
   'ORGANIC_DIRECT_FULL_NOT_FOUND', 'FAUNA_CCT_CHAIN_UNSUPPORTED',
-  'FAUNA_CCT_NAME_AMBIGUOUS', 'DEFERRED_COMPOSED_FAUNA_C6',
+  'FAUNA_CCT_NAME_AMBIGUOUS', 'DEFERRED_COMPOSED_FAUNA',
   'FAUNA_TEMPLATE_NAME_NOT_FOUND', 'FAUNA_TEMPLATE_NAME_AMBIGUOUS',
   'FAUNA_TEMPLATE_CHAIN_UNSUPPORTED',
-  'C6_NPC_NOT_FOUND', 'C6_OBJECT_TEMPLATE_MISSING', 'C6_MULTIPLE_FINAL_NAMES',
-  'C6_REQUIRED_SPECIES_COMPONENT_MISSING', 'C6_INNR_RECORD_NOT_FOUND', 'C6_INNR_RULE_UNSUPPORTED',
-  'C6_WNAM_ZERO', 'C6_STRING_ID_MISSING', 'C6_PROVIDER_AMBIGUOUS',
-  'C6_ENGLISH_RECONSTRUCTION_MISMATCH', 'C6_UNSUPPORTED_LOCALE_ENCODING',
+  'COMPOSED_FAUNA_NPC_NOT_FOUND', 'COMPOSED_FAUNA_OBJECT_TEMPLATE_MISSING', 'COMPOSED_FAUNA_MULTIPLE_FINAL_NAMES',
+  'COMPOSED_FAUNA_REQUIRED_SPECIES_COMPONENT_MISSING', 'COMPOSED_FAUNA_INNR_RECORD_NOT_FOUND', 'COMPOSED_FAUNA_INNR_RULE_UNSUPPORTED',
+  'COMPOSED_FAUNA_WNAM_ZERO', 'COMPOSED_FAUNA_STRING_ID_MISSING', 'COMPOSED_FAUNA_PROVIDER_AMBIGUOUS',
+  'COMPOSED_FAUNA_ENGLISH_RECONSTRUCTION_MISMATCH', 'COMPOSED_FAUNA_UNSUPPORTED_LOCALE_ENCODING',
 ])
 
 export const OFFICIAL_TERMS = Object.freeze([
@@ -70,7 +70,7 @@ function target(entityKind, entityId, plugin, formId, canonicalEnglish, signatur
   }
 }
 
-export function buildC2Targets(sources) {
+export function buildDirectNameTargets(sources) {
   const policy = new Map(rows(sources.inorganicPolicy).map((row) => [row.ResourceFormID, row.ResourceId]))
   const metadataRows = rows(sources.itemMetadata)
   const metadata = new Map(metadataRows.map((row) => [`${row.ItemType}:${row.ItemFormID}`, row]))
@@ -249,7 +249,7 @@ export function generateProvenance(targets, recordsByPlugin, tablesByQualifiedKe
   }
   provenance.sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || Number(a.ComponentOrder) - Number(b.ComponentOrder))
   unresolved.sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || a.ReasonCode.localeCompare(b.ReasonCode))
-  if (provenance.length + unresolved.length !== targets.length) throw new Error('C2 coverage invariant failed.')
+  if (provenance.length + unresolved.length !== targets.length) throw new Error('Direct-name coverage invariant failed.')
   return { provenance, unresolved, normalizations }
 }
 

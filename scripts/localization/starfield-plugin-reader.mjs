@@ -10,7 +10,7 @@ export const RECORD_HEADER_SIZE = 24
 export const COMPRESSED_RECORD_FLAG = 0x00040000
 export const SUPPORTED_RECORD_SIGNATURES = new Set([
   'IRES', 'BIOM', 'PERK', 'STDT', 'PNDT',
-  // Parcel C5 follows only the record relationships required to classify the
+  // Organic provenance follows only the record relationships required to classify the
   // canonical organic-species population and locate its final FULL provider.
   'FLOR', 'NPC_', 'LVLN', 'KYWD', 'OMOD', 'INNR',
 ])
@@ -284,14 +284,14 @@ export function findRecordsInPlugin(pluginPath, selectors) {
   return finishSelections(wanted, found, pluginPath)
 }
 
-/** C5-only bounded relationship scan; callers supply the exact required signatures. */
+/** Bounded organic relationship scan; callers supply the exact required signatures. */
 export function findRecordsBySignaturesInPlugin(pluginPath, signatures) {
   const allowed = new Set(signatures)
   for (const signature of allowed) selectorKey({ signature, formId: 0 })
   return scanPlugin(pluginPath, (header) => allowed.has(header.signature))
 }
 
-/** C3-only population scan: system stars must be joined by numeric STDT.DNAM. */
+/** Bounded star-system population scan: system stars must be joined by numeric STDT.DNAM. */
 export function findStarRecordsInPlugin(pluginPath) {
   return scanPlugin(pluginPath, (header) => header.signature === 'STDT')
 }

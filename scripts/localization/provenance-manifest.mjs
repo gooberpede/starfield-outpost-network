@@ -5,7 +5,7 @@ import { stat } from 'node:fs/promises'
 import path from 'node:path'
 import { encodingForKnownLocale } from './locale-metadata.mjs'
 
-export const PROVENANCE_TOOL_VERSION = '8.0.0-c8'
+export const PROVENANCE_TOOL_VERSION = '1.0.0'
 
 export async function sha256File(filePath) {
   const hash = createHash('sha256')

@@ -1,7 +1,7 @@
 /**
  * Purpose: Resolve canonical star systems through PNDT.GNAM -> STDT.DNAM provenance.
  * Architecture: Canonical body rows own system identity; numeric game fields perform the join.
- * Change this file when: the audited C3 numeric field shapes or system population changes.
+ * Change this file when: the audited star-system numeric field shapes or system population changes.
  */
 import { parse } from 'csv-parse/sync'
 
@@ -46,7 +46,7 @@ function compareBody(left, right) {
     left.recordSourcePlugin.localeCompare(right.recordSourcePlugin)
 }
 
-export function buildC3Targets(planetDirectoryCsv) {
+export function buildStarSystemTargets(planetDirectoryCsv) {
   const bodyRows = parse(planetDirectoryCsv, { bom: true, columns: true, skip_empty_lines: true, trim: true })
   const systems = new Map()
   for (const row of bodyRows) {

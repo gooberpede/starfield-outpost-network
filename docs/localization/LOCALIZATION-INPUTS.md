@@ -64,11 +64,11 @@ and zlib-framed compressed members. Unsupported versions/types and malformed or
 truncated members fail with stable error codes. It does not support texture
 archives or arbitrary asset extraction.
 
-## Rerun C2-C6 with extracted locale tables
+## Rerun provenance generation with extracted locale tables
 
-Point the ignored provenance config at the intake manifest. C3 requires the
-declared official plugin set even when a plugin contributes zero canonical
-systems:
+Point the ignored provenance config at the intake manifest. Star-system
+provenance requires the declared official plugin set even when a plugin
+contributes zero canonical systems:
 
 ```json
 {
@@ -88,7 +88,7 @@ it is optional and non-authoritative. The builder ignores it for canonical
 coverage, record discovery, and provider selection. All other unallowlisted
 plugins are ignored as well.
 
-## Full Parcel C regeneration
+## Full provenance regeneration
 
 Prerequisites are Node/npm dependencies, the three authoritative ESMs, the
 explicitly configured BA2 archives, and extracted English/Japanese tables with
@@ -103,7 +103,8 @@ npm run localization:provenance:build
 ```
 
 Use `-- --config <path>` only for a non-default local config. The command
-validates inputs, runs the C1-C7 generation/provider logic, verifies English and
+validates inputs, runs direct-name, star-system, body, organic, composed-fauna,
+and official provider-chain logic, verifies English and
 Japanese data, reconciles coverage, compares fresh and committed artifacts, and
 writes `.local-work/localization/provenance/build-report.json`. It does not
 change committed files in normal mode. Missing authoritative plugins/tables,
@@ -126,9 +127,9 @@ The pipeline resolves English and Japanese text
 only through exact plugin, table type, and extracted string ID; it never reverse
 matches English.
 
-C3 derives its target set from `planet-directory.csv`, collapses body rows by
-stable numeric `StarSystemID`, and verifies that every PNDT body assigned to a
-system has the same audited `GNAM` system number. It then requires exactly one
+Star-system provenance derives its target set from `planet-directory.csv`,
+collapses body rows by stable numeric `StarSystemID`, and verifies that every
+PNDT body assigned to a system has the same audited `GNAM` system number. It then requires exactly one
 `STDT.DNAM` match across `Starfield.esm`, `ShatteredSpace.esm`, `SFBGS00D.esm`,
 and `SFBGS00D.esm`. Zero targets for a supported plugin are valid. Missing or
 conflicting system numbers, absent or ambiguous STDT matches, unsupported record
@@ -143,8 +144,8 @@ expected values. The resolved provenance row retains the structural
 localized display generation. The generated `localized-name-normalizations.csv`
 keeps each approved source/display pair visible and independently validated.
 
-C4 independently treats every row in `planet-directory.csv` as one canonical
-body target. `Planet`, `Moon`, and `Orbital` rows are peers for provenance:
+Body provenance independently treats every row in `planet-directory.csv` as
+one canonical body target. `Planet`, `Moon`, and `Orbital` rows are peers for provenance:
 membership comes only from the checked-in tracker population, never from a scan
 for additional PNDT or station records. Each target is looked up by its exact
 source plugin and FormID, and its name is read only from
@@ -160,22 +161,24 @@ orbitals such as The Eye, The Den, The Oracle, ECS Constant, and Deimos
 Staryard. Structural-source/display differences remain exact, entity-scoped
 normalizations; unsupported shapes remain explicit unresolved rows.
 
-C5 takes organic species only from `biome-organic-resources.csv` and
+Organic provenance takes species only from `biome-organic-resources.csv` and
 deduplicates its Planet × Biome occurrences by species type and stable FormID.
 Flora uses direct `FLOR.FULL`. Fauna follows the exporter precedence of direct
 `NPC_.FULL`, then valid CCT composition, then the bounded leveled/template route
-to an encounter `NPC_.FULL`. CCT evaluation is classification only in C5:
+to an encounter `NPC_.FULL`. CCT evaluation is classification only at this stage:
 native keywords, recursive OMOD includes, keyword properties, and INNR rule
-precedence identify the exact population deferred to C6, but no localized
-component IDs are emitted yet. Ambiguous CCT or template names fail closed.
+precedence identify the exact population deferred to composed-fauna provenance,
+but no localized component IDs are emitted yet. Ambiguous CCT or template names fail closed.
 
 Installed game version 1.16.244.0 currently yields 1,121 unique organic species
 from 3,855 occurrence rows: 153 direct flora, 41 direct fauna, 5 template fauna,
-and 922 composed fauna routed to C6. The generated C6 population artifact keeps
-those 922 target identities and records their resolved state; the separate five-row lineage artifact records each
-template fauna's canonical NPC, LVLN, leveled NPC, and encounter name provider.
+and 922 composed fauna routed to composed-fauna provenance. The generated
+population artifact keeps those 922 target identities and records their resolved
+state; the separate five-row lineage artifact records each template fauna's
+canonical NPC, LVLN, leveled NPC, and encounter name provider.
 
-C6 uses `localized-name-provenance-c6-fauna.csv` as its sole target population.
+Composed-fauna provenance uses
+`localized-name-provenance-composed-fauna.csv` as its sole target population.
 For each selected Object Template combination it unions native NPC keywords
 with `NKEY` properties from selected and recursively included OMODs, then maps
 `dn_CCTPrefixes` ruleset 0 to prefix, and `dn_CCTSuffixes` rulesets 0 and 1 to
@@ -190,8 +193,9 @@ and 267 prefix+species. It also locks 602/922/655 component occurrences,
 8/198/6 unique qualified prefix/species/diet IDs (212 overall), all 922 exact
 English reconstructions, all 922 Japanese qualified-ID lookups, eight serialized
 rule-order ties, 35 recursive-OMOD fauna, four Shattered Space targets, and zero
-ambiguities or unsupported cases. `localized-name-c6-fauna-ja-preview.csv` is a
-verified handoff for later overlay generation and is not consumed at runtime.
+ambiguities or unsupported cases.
+`localized-name-composed-fauna-ja-preview.csv` is a verified handoff for later
+overlay generation and is not consumed at runtime.
 
 String-table decoding is driven by
 `reference-source/localization-locale-metadata.json`: English uses Windows-1252,
@@ -210,7 +214,8 @@ intake, add its explicit encoding to the project policy, and add representative
 composed-name verification. Discovery, mapping, and extraction are
 locale-parameterized. A fresh CCT architecture audit is needed only if evidence
 contradicts the fixed prefix/species/diet model. Extraction alone does not create
-a runtime overlay or alter reference display behavior; that remains Parcel D.
+a runtime overlay or alter reference display behavior; that remains localized
+reference-name overlay generation.
 
 ## Patch and DLC review workflow
 
@@ -226,25 +231,28 @@ For a new official DLC, add it deliberately to
 inputs, extend canonical tracker data, and run this same workflow. New narrow
 record logic is required only if its naming shape is unsupported.
 
-## Parcel D handoff
+## Localized reference-name overlay handoff
 
-Parcel D consumes these project-owned contracts:
+Localized reference-name overlay generation consumes these project-owned
+contracts:
 
 - `localized-name-provenance.csv` for qualified direct/template identities and
   ordered composed component identities;
 - `localized-name-provenance-unresolved.csv` for the explicit unresolved state;
 - `localized-name-normalizations.csv` for entity-scoped English policy;
 - `localized-name-provenance-manifest.json` for exact reviewed input identity;
-- `localized-name-provenance-c6-fauna.csv` and
-  `localized-name-provenance-c5-fauna-lineage.csv` for organic lineage/population;
-- `localized-name-c6-fauna-ja-preview.csv` for verified C6 Japanese assembly;
+- `localized-name-provenance-composed-fauna.csv` and
+  `localized-name-provenance-template-fauna-lineage.csv` for organic
+  lineage/population;
+- `localized-name-composed-fauna-ja-preview.csv` for verified composed-fauna
+  Japanese assembly;
 - `.local-work/localization/provenance/build-report.json` for the local coverage,
   verification, and drift review.
 
 These artifacts already carry canonical tracker identity, FormIDs, field paths,
 provider ownership, exact English verification text, and composed-name rules.
-Parcel D must not rediscover them. Exact Japanese on-screen U+0020 separator
-fidelity remains a runtime/Creation Kit verification item.
+Overlay generation must not rediscover them. Exact Japanese on-screen U+0020
+separator fidelity remains a runtime/Creation Kit verification item.
 
 Repository-only verification remains:
 

@@ -4,7 +4,7 @@ import test from 'node:test'
 import { SEMANTIC_PATHS } from './localized-field-map.mjs'
 import { serializeCsv } from './localized-name-provenance.mjs'
 import {
-  buildC5Targets, C6_HANDOFF_HEADERS, extractObjectTemplateCombinations, extractOmodNamingRelationships,
+  buildOrganicTargets, COMPOSED_FAUNA_HANDOFF_HEADERS, extractObjectTemplateCombinations, extractOmodNamingRelationships,
   generateOrganicProvenance, ORGANIC_CLASSIFICATIONS, resolveCctClassification, selectInnrRule,
   TEMPLATE_LINEAGE_HEADERS, validateCommittedOrganicArtifacts,
 } from './organic-provenance.mjs'
@@ -52,7 +52,7 @@ test('builds one canonical flora/fauna target per stable species identity', () =
     'Flora,00000001,FloraOne,Plant,Starfield.esm',
     'Fauna,01000002,FaunaTwo,Animal,ShatteredSpace.esm',
   ].join('\n')
-  const result = buildC5Targets(csv)
+  const result = buildOrganicTargets(csv)
   assert.deepEqual(result.targets.map((item) => [item.entityKind, item.entityId, item.recordSignature]), [
     ['fauna', '01000002', 'NPC_'], ['flora', '00000001', 'FLOR'],
   ])
@@ -114,7 +114,7 @@ test('different useful Object Template combinations are ambiguous and fail close
   })
 })
 
-test('identical useful Object Template combination names remain one C6 classification', () => {
+test('identical useful Object Template combination names remain one composed-fauna classification', () => {
   const npc = record('NPC_', '00000001', [obts(2), obts(3)])
   const records = new Map([
     ['OMOD:00000002', provider('Starfield.esm', record('OMOD', '00000002', [omodData([], [4])]))],
@@ -158,7 +158,7 @@ test('direct FULL wins immediately and missing flora FULL is explicit', () => {
   assert.equal(result.unresolved[0].ReasonCode, 'ORGANIC_DIRECT_FULL_NOT_FOUND')
 })
 
-test('valid CCT composition defers to C6 before template fallback', () => {
+test('valid CCT composition defers to composed-fauna resolution before template fallback', () => {
   const item = target('fauna', '00000001', 'Composed Beast')
   const npc = record('NPC_', item.entityId, [subrecord('KWDA', bytes32(4)), obts(), subrecord('TPLT', bytes32(20))])
   const canonical = new Map([['Starfield.esm:NPC_:00000001', provider('Starfield.esm', npc)]])
@@ -167,7 +167,7 @@ test('valid CCT composition defers to C6 before template fallback', () => {
     { prefix: [], species: [{ ruleIndex: 0, stringId: 10, keywordIds: ['00000004'], ynam: 1 }], diet: [] },
   )
   assert.equal(result.classifications[0].classification, ORGANIC_CLASSIFICATIONS.COMPOSED_FAUNA)
-  assert.equal(result.unresolved[0].ReasonCode, 'DEFERRED_COMPOSED_FAUNA_C6')
+  assert.equal(result.unresolved[0].ReasonCode, 'DEFERRED_COMPOSED_FAUNA')
   assert.equal(result.handoff.length, 1)
 })
 
@@ -220,14 +220,14 @@ test('template fallback rejects different encounter names and missing usable nam
   ).unresolved[0].ReasonCode, 'FAUNA_TEMPLATE_NAME_NOT_FOUND')
 })
 
-test('committed validation locks C6 handoff identity and template provider lineage', () => {
+test('committed validation locks composed-fauna handoff identity and template provider lineage', () => {
   const composed = target('fauna', '00000001', 'Composed')
   const template = target('fauna', '00000002', 'Template')
   const provenance = [{
     EntityKind: 'fauna', EntityId: template.entityId, DisplayNameSourceKind: 'template',
     RecordSourcePlugin: 'Starfield.esm', RecordFormID: '00000020',
   }]
-  const unresolved = [{ EntityKind: 'fauna', EntityId: composed.entityId, ReasonCode: 'DEFERRED_COMPOSED_FAUNA_C6' }]
+  const unresolved = [{ EntityKind: 'fauna', EntityId: composed.entityId, ReasonCode: 'DEFERRED_COMPOSED_FAUNA' }]
   const handoff = [{
     EntityKind: 'fauna', EntityId: composed.entityId, SpeciesSourcePlugin: 'Starfield.esm',
     SpeciesFormID: composed.entityId, SpeciesEditorID: composed.speciesEditorId, CanonicalEnglish: composed.canonicalEnglish,
@@ -241,11 +241,11 @@ test('committed validation locks C6 handoff identity and template provider linea
     EncounterNPCSourcePlugin: 'Starfield.esm', EncounterNPCFormID: '00000020', CanonicalEnglish: template.canonicalEnglish,
   }]
   assert.equal(validateCommittedOrganicArtifacts(
-    provenance, unresolved, serializeCsv(C6_HANDOFF_HEADERS, handoff),
+    provenance, unresolved, serializeCsv(COMPOSED_FAUNA_HANDOFF_HEADERS, handoff),
     serializeCsv(TEMPLATE_LINEAGE_HEADERS, lineage), [composed, template],
   ).lineage.length, 1)
   assert.throws(() => validateCommittedOrganicArtifacts(
-    provenance, unresolved, serializeCsv(C6_HANDOFF_HEADERS, [{ ...handoff[0], SpeciesEditorID: 'Drift' }]),
+    provenance, unresolved, serializeCsv(COMPOSED_FAUNA_HANDOFF_HEADERS, [{ ...handoff[0], SpeciesEditorID: 'Drift' }]),
     serializeCsv(TEMPLATE_LINEAGE_HEADERS, lineage), [composed, template],
   ), /SpeciesEditorID/)
 })

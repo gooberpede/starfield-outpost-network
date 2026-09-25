@@ -1,5 +1,5 @@
 /**
- * Purpose: Classify canonical organic species and resolve Parcel C5 name provenance.
+ * Purpose: Classify canonical organic species and resolve organic name provenance.
  * Architecture: The tracker defines identity; narrow record readers reproduce the exporter precedence.
  * Change this file when: the production organic exporter changes its direct/CCT/template name routes.
  */
@@ -14,12 +14,12 @@ export const ORGANIC_CLASSIFICATIONS = Object.freeze({
   DIRECT_FLORA: 'RESOLVED_DIRECT_FLORA',
   DIRECT_FAUNA: 'RESOLVED_DIRECT_FAUNA',
   TEMPLATE_FAUNA: 'RESOLVED_TEMPLATE_FAUNA',
-  COMPOSED_FAUNA: 'DEFERRED_COMPOSED_FAUNA_C6',
-  RESOLVED_COMPOSED_FAUNA: 'RESOLVED_COMPOSED_FAUNA_C6',
+  COMPOSED_FAUNA: 'DEFERRED_COMPOSED_FAUNA',
+  RESOLVED_COMPOSED_FAUNA: 'RESOLVED_COMPOSED_FAUNA',
   UNRESOLVED: 'UNRESOLVED',
 })
 
-export const C6_HANDOFF_HEADERS = [
+export const COMPOSED_FAUNA_HANDOFF_HEADERS = [
   'EntityKind', 'EntityId', 'SpeciesSourcePlugin', 'SpeciesFormID', 'SpeciesEditorID',
   'CanonicalEnglish', 'Classification', 'Detail', 'ObjectTemplateCombinationCount', 'ResolvedCombinationName',
 ]
@@ -35,7 +35,7 @@ function sourceError(message) {
 }
 
 /** Deduplicate Planet x Biome occurrences by the exporter's stable species identity. */
-export function buildC5Targets(csv, authoritativePlugins = OFFICIAL_SYSTEM_PLUGINS) {
+export function buildOrganicTargets(csv, authoritativePlugins = OFFICIAL_SYSTEM_PLUGINS) {
   const occurrenceRows = parse(csv, { bom: true, columns: true, skip_empty_lines: true, trim: true })
   const targets = new Map()
   const occurrenceCounts = { flora: 0, fauna: 0 }
@@ -324,8 +324,8 @@ export function generateOrganicProvenance(targets, canonicalRecords, relationshi
         classifications.push({ item, classification: ORGANIC_CLASSIFICATIONS.UNRESOLVED, reasonCode: 'CANONICAL_SOURCE_ERROR' })
         continue
       }
-      const detail = `CCT composition resolves to ${cct.name}; localized component provenance is deferred to Parcel C6.`
-      unresolvedRows.push(unresolved(item, 'DEFERRED_COMPOSED_FAUNA_C6', detail))
+      const detail = `CCT composition resolves to ${cct.name}; localized component provenance is deferred to composed-fauna resolution.`
+      unresolvedRows.push(unresolved(item, 'DEFERRED_COMPOSED_FAUNA', detail))
       classifications.push({ item, classification: ORGANIC_CLASSIFICATIONS.COMPOSED_FAUNA })
       handoff.push({
         EntityKind: item.entityKind, EntityId: item.entityId, SpeciesSourcePlugin: item.recordSourcePlugin,
@@ -360,7 +360,7 @@ export function generateOrganicProvenance(targets, canonicalRecords, relationshi
   unresolvedRows.sort((a, b) => sort(a, b) || a.ReasonCode.localeCompare(b.ReasonCode))
   handoff.sort(sort)
   lineage.sort(sort)
-  if (provenance.length + unresolvedRows.length !== targets.length || classifications.length !== targets.length) throw new Error('C5 coverage invariant failed.')
+  if (provenance.length + unresolvedRows.length !== targets.length || classifications.length !== targets.length) throw new Error('Organic provenance coverage invariant failed.')
   return { provenance, unresolved: unresolvedRows, classifications, handoff, lineage, normalizations }
 }
 
@@ -389,49 +389,49 @@ function parseArtifact(csv, headers, name) {
   })
 }
 
-/** Repository-only validation locks canonical identity and checked-in C5 artifact consistency. */
+/** Repository-only validation locks canonical identity and checked-in organic artifact consistency. */
 export function validateCommittedOrganicArtifacts(provenance, unresolved, handoffCsv, lineageCsv, targets) {
   const targetByKey = new Map(targets.map((item) => [`${item.entityKind}:${item.entityId}`, item]))
   const organicProvenance = provenance.filter((row) => ['flora', 'fauna'].includes(row.EntityKind))
   const organicUnresolved = unresolved.filter((row) => ['flora', 'fauna'].includes(row.EntityKind))
-  const handoff = parseArtifact(handoffCsv, C6_HANDOFF_HEADERS, 'localized-name-provenance-c6-fauna.csv')
-  const lineage = parseArtifact(lineageCsv, TEMPLATE_LINEAGE_HEADERS, 'localized-name-provenance-c5-fauna-lineage.csv')
-  const deferred = new Set(organicUnresolved.filter((row) => row.ReasonCode === 'DEFERRED_COMPOSED_FAUNA_C6').map((row) => `${row.EntityKind}:${row.EntityId}`))
+  const handoff = parseArtifact(handoffCsv, COMPOSED_FAUNA_HANDOFF_HEADERS, 'localized-name-provenance-composed-fauna.csv')
+  const lineage = parseArtifact(lineageCsv, TEMPLATE_LINEAGE_HEADERS, 'localized-name-provenance-template-fauna-lineage.csv')
+  const deferred = new Set(organicUnresolved.filter((row) => row.ReasonCode === 'DEFERRED_COMPOSED_FAUNA').map((row) => `${row.EntityKind}:${row.EntityId}`))
   const composed = new Set(organicProvenance.filter((row) => row.DisplayNameSourceKind === 'composed').map((row) => `${row.EntityKind}:${row.EntityId}`))
   const template = new Map(organicProvenance.filter((row) => row.DisplayNameSourceKind === 'template').map((row) => [`${row.EntityKind}:${row.EntityId}`, row]))
 
-  const resolvedC6 = handoff.length > 0 && handoff.every((row) => row.Classification === ORGANIC_CLASSIFICATIONS.RESOLVED_COMPOSED_FAUNA)
-  const expectedC6 = resolvedC6 ? composed : deferred
-  if (handoff.length !== expectedC6.size || (resolvedC6 && deferred.size !== 0)) throw new Error('C6 fauna handoff count does not match its composed provenance state.')
+  const resolvedComposedFauna = handoff.length > 0 && handoff.every((row) => row.Classification === ORGANIC_CLASSIFICATIONS.RESOLVED_COMPOSED_FAUNA)
+  const expectedComposedFauna = resolvedComposedFauna ? composed : deferred
+  if (handoff.length !== expectedComposedFauna.size || (resolvedComposedFauna && deferred.size !== 0)) throw new Error('Composed-fauna handoff count does not match its provenance state.')
   const seenHandoff = new Set()
   for (const row of handoff) {
     const key = `${row.EntityKind}:${row.EntityId}`
     const target = targetByKey.get(key)
-    if (!target || !expectedC6.has(key) || seenHandoff.has(key)) throw new Error(`Invalid C6 fauna handoff identity ${key}.`)
+    if (!target || !expectedComposedFauna.has(key) || seenHandoff.has(key)) throw new Error(`Invalid composed-fauna handoff identity ${key}.`)
     seenHandoff.add(key)
     for (const [field, value] of [
       ['SpeciesSourcePlugin', target.recordSourcePlugin], ['SpeciesFormID', target.recordFormId],
       ['SpeciesEditorID', target.speciesEditorId], ['CanonicalEnglish', target.canonicalEnglish],
-      ['Classification', resolvedC6 ? ORGANIC_CLASSIFICATIONS.RESOLVED_COMPOSED_FAUNA : ORGANIC_CLASSIFICATIONS.COMPOSED_FAUNA],
-    ]) if (row[field] !== value) throw new Error(`C6 fauna handoff ${key} field ${field} does not match its canonical target.`)
-    if (!/^\d+$/.test(row.ObjectTemplateCombinationCount) || !row.ResolvedCombinationName) throw new Error(`C6 fauna handoff ${key} lacks audited CCT diagnostics.`)
+      ['Classification', resolvedComposedFauna ? ORGANIC_CLASSIFICATIONS.RESOLVED_COMPOSED_FAUNA : ORGANIC_CLASSIFICATIONS.COMPOSED_FAUNA],
+    ]) if (row[field] !== value) throw new Error(`Composed-fauna handoff ${key} field ${field} does not match its canonical target.`)
+    if (!/^\d+$/.test(row.ObjectTemplateCombinationCount) || !row.ResolvedCombinationName) throw new Error(`Composed-fauna handoff ${key} lacks audited CCT diagnostics.`)
   }
 
-  if (lineage.length !== template.size) throw new Error('C5 fauna lineage count does not match template provenance rows.')
+  if (lineage.length !== template.size) throw new Error('Template-fauna lineage count does not match template provenance rows.')
   const seenLineage = new Set()
   for (const row of lineage) {
     const key = `${row.EntityKind}:${row.EntityId}`
     const target = targetByKey.get(key)
     const provider = template.get(key)
-    if (!target || !provider || seenLineage.has(key)) throw new Error(`Invalid C5 template lineage identity ${key}.`)
+    if (!target || !provider || seenLineage.has(key)) throw new Error(`Invalid template-fauna lineage identity ${key}.`)
     seenLineage.add(key)
     for (const [field, value] of [
       ['CanonicalSourcePlugin', target.recordSourcePlugin], ['CanonicalNPCFormID', target.recordFormId],
       ['EncounterNPCSourcePlugin', provider.RecordSourcePlugin], ['EncounterNPCFormID', provider.RecordFormID],
       ['CanonicalEnglish', target.canonicalEnglish],
-    ]) if (row[field] !== value) throw new Error(`C5 template lineage ${key} field ${field} is inconsistent.`)
+    ]) if (row[field] !== value) throw new Error(`Template-fauna lineage ${key} field ${field} is inconsistent.`)
     for (const field of ['LeveledListSourcePlugin', 'LeveledListFormID', 'LeveledNPCSourcePlugin', 'LeveledNPCFormID']) {
-      if (!row[field]) throw new Error(`C5 template lineage ${key} is missing ${field}.`)
+      if (!row[field]) throw new Error(`Template-fauna lineage ${key} is missing ${field}.`)
     }
   }
   return { handoff, lineage }

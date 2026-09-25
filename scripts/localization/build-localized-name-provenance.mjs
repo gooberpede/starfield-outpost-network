@@ -4,15 +4,15 @@ import { execFileSync } from 'node:child_process'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { buildC2Targets, generateProvenance, ORGANIC_RESOURCE_ADDENDUM_IDS, PROVENANCE_HEADERS, serializeCsv, UNRESOLVED_HEADERS, validateCommittedCrosswalk } from './localized-name-provenance.mjs'
-import { buildC4Targets } from './body-provenance.mjs'
+import { buildDirectNameTargets, generateProvenance, ORGANIC_RESOURCE_ADDENDUM_IDS, PROVENANCE_HEADERS, serializeCsv, UNRESOLVED_HEADERS, validateCommittedCrosswalk } from './localized-name-provenance.mjs'
+import { buildBodyTargets } from './body-provenance.mjs'
 import {
-  C6_PREVIEW_HEADERS, generateComposedFaunaProvenance, parseC6Targets,
+  COMPOSED_FAUNA_PREVIEW_HEADERS, generateComposedFaunaProvenance, parseComposedFaunaTargets,
 } from './composed-fauna-provenance.mjs'
 import { localizationInputsFromManifest } from './localization-input-manifest.mjs'
 import { buildNameNormalizationPolicy, NAME_NORMALIZATION_HEADERS, NAME_NORMALIZATIONS, parseNameNormalizationsCsv, validateNameNormalizations } from './name-normalization-policy.mjs'
 import {
-  buildC5Targets, buildNamingRules, C6_HANDOFF_HEADERS, generateOrganicProvenance, ORGANIC_CLASSIFICATIONS, TEMPLATE_LINEAGE_HEADERS,
+  buildOrganicTargets, buildNamingRules, COMPOSED_FAUNA_HANDOFF_HEADERS, generateOrganicProvenance, ORGANIC_CLASSIFICATIONS, TEMPLATE_LINEAGE_HEADERS,
 } from './organic-provenance.mjs'
 import { createProvenanceManifest } from './provenance-manifest.mjs'
 import {
@@ -23,7 +23,7 @@ import {
   AUTHORITATIVE_LOCALIZATION_PLUGINS, buildSupportedProviderChains, logicalIdentityForRecord, readTes4MasterList,
 } from './official-master-provider-chains.mjs'
 import { findAvailableRecordsInPlugin, findRecordsBySignaturesInPlugin, findStarRecordsInPlugin } from './starfield-plugin-reader.mjs'
-import { buildC3Targets, generateSystemProvenance, OFFICIAL_SYSTEM_PLUGINS } from './star-system-provenance.mjs'
+import { buildStarSystemTargets, generateSystemProvenance, OFFICIAL_SYSTEM_PLUGINS } from './star-system-provenance.mjs'
 import { readStringTable } from './string-table-reader.mjs'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
@@ -35,16 +35,16 @@ const SOURCES = {
   biomeInorganic: 'reference-source/biome-inorganic-resources.csv',
   biomeOrganic: 'reference-source/biome-organic-resources.csv',
   planets: 'reference-source/planet-directory.csv',
-  c6Fauna: 'reference-source/localized-name-provenance-c6-fauna.csv',
+  composedFauna: 'reference-source/localized-name-provenance-composed-fauna.csv',
 }
 const PROVIDER_SIGNATURES = Object.freeze(['IRES', 'BIOM', 'PERK', 'STDT', 'PNDT', 'FLOR', 'NPC_', 'LVLN', 'OMOD', 'INNR'])
 const OUTPUT_PATHS = Object.freeze({
   provenance: 'reference-source/localized-name-provenance.csv',
   unresolved: 'reference-source/localized-name-provenance-unresolved.csv',
   normalizations: 'reference-source/localized-name-normalizations.csv',
-  c6Handoff: 'reference-source/localized-name-provenance-c6-fauna.csv',
-  c6Preview: 'reference-source/localized-name-c6-fauna-ja-preview.csv',
-  c5Lineage: 'reference-source/localized-name-provenance-c5-fauna-lineage.csv',
+  composedFauna: 'reference-source/localized-name-provenance-composed-fauna.csv',
+  composedFaunaPreview: 'reference-source/localized-name-composed-fauna-ja-preview.csv',
+  templateFaunaLineage: 'reference-source/localized-name-provenance-template-fauna-lineage.csv',
   manifest: 'reference-source/localized-name-provenance-manifest.json',
 })
 
@@ -89,11 +89,11 @@ export async function buildLocalizedNameProvenance(options) {
     for (const locale of policy.provenanceLocales) localizationInputs.push(...await localizationInputsFromManifest(intakeManifest, intakeManifestPath, locale, authoritativePluginNames))
   }
   const sources = await loadSources()
-  const { targets: c2Targets, statistics: c2Statistics } = buildC2Targets(sources)
-  const { targets: systemTargets, statistics: systemStatistics } = buildC3Targets(sources.planets)
-  const { targets: bodyTargets, statistics: bodyStatistics } = buildC4Targets(sources.planets, authoritativePluginNames)
-  const { targets: organicTargets, statistics: organicStatistics } = buildC5Targets(sources.biomeOrganic, authoritativePluginNames)
-  const c6Targets = parseC6Targets(sources.c6Fauna)
+  const { targets: directNameTargets, statistics: directNameStatistics } = buildDirectNameTargets(sources)
+  const { targets: systemTargets, statistics: systemStatistics } = buildStarSystemTargets(sources.planets)
+  const { targets: bodyTargets, statistics: bodyStatistics } = buildBodyTargets(sources.planets, authoritativePluginNames)
+  const { targets: organicTargets, statistics: organicStatistics } = buildOrganicTargets(sources.biomeOrganic, authoritativePluginNames)
+  const composedFaunaTargets = parseComposedFaunaTargets(sources.composedFauna)
   const pluginByName = new Map(plugins.map((item) => [item.filename, item]))
   const missingOfficialPlugins = authoritativePluginNames.filter((plugin) => !pluginByName.has(plugin))
   if (missingOfficialPlugins.length) throw new Error(`Missing required official plugin input(s): ${missingOfficialPlugins.join(', ')}.`)
@@ -105,7 +105,7 @@ export async function buildLocalizedNameProvenance(options) {
     const masters = readTes4MasterList(plugin.path)
     const expectedMasters = policy.authoritativePlugins.find((item) => item.filename === pluginName).masters
     if (JSON.stringify(masters) !== JSON.stringify(expectedMasters)) {
-      throw new Error(`C7 ${pluginName} full-module master list drifted: ${JSON.stringify(masters)}.`)
+      throw new Error(`Official provider-chain ${pluginName} full-module master list drifted: ${JSON.stringify(masters)}.`)
     }
     mastersByPlugin.set(pluginName, masters)
     authoritativeRecordsByPlugin.set(pluginName, findRecordsBySignaturesInPlugin(plugin.path, PROVIDER_SIGNATURES))
@@ -115,7 +115,7 @@ export async function buildLocalizedNameProvenance(options) {
   })), authoritativePluginNames)
   const recordsByPlugin = new Map()
   const recordTargets = [
-    ...c2Targets,
+    ...directNameTargets,
     ...systemTargets.flatMap((item) => item.bodies.map((body) => ({ ...body, entityKind: 'body-evidence' }))),
     ...bodyTargets,
   ]
@@ -155,33 +155,33 @@ export async function buildLocalizedNameProvenance(options) {
   }
   const normalizationPolicy = buildNameNormalizationPolicy()
   const providerContext = { mastersByPlugin, providerChains }
-  const c2Result = generateProvenance(c2Targets, recordsByPlugin, tables, normalizationPolicy, providerContext)
+  const directNameResult = generateProvenance(directNameTargets, recordsByPlugin, tables, normalizationPolicy, providerContext)
   const systemResult = generateSystemProvenance(systemTargets, recordsByPlugin, starRecordsByPlugin, tables, normalizationPolicy)
   const bodyResult = generateProvenance(bodyTargets, recordsByPlugin, tables, normalizationPolicy, providerContext)
   const organicResult = generateOrganicProvenance(
     organicTargets, organicCanonicalRecords, organicRelationshipRecords, tables,
     buildNamingRules(organicRelationshipRecords), normalizationPolicy,
   )
-  const c6Result = generateComposedFaunaProvenance(
-    c6Targets, organicCanonicalRecords, organicRelationshipRecords, organicProviderChains, localizedTables,
+  const composedFaunaResult = generateComposedFaunaProvenance(
+    composedFaunaTargets, organicCanonicalRecords, organicRelationshipRecords, organicProviderChains, localizedTables,
   )
-  const c6Keys = new Set(c6Targets.map((target) => `${target.EntityKind}:${target.EntityId}`))
-  const organicUnresolved = organicResult.unresolved.filter((row) => !c6Keys.has(`${row.EntityKind}:${row.EntityId}`))
-  const organicClassifications = organicResult.classifications.map((entry) => c6Keys.has(`${entry.item.entityKind}:${entry.item.entityId}`)
+  const composedFaunaKeys = new Set(composedFaunaTargets.map((target) => `${target.EntityKind}:${target.EntityId}`))
+  const organicUnresolved = organicResult.unresolved.filter((row) => !composedFaunaKeys.has(`${row.EntityKind}:${row.EntityId}`))
+  const organicClassifications = organicResult.classifications.map((entry) => composedFaunaKeys.has(`${entry.item.entityKind}:${entry.item.entityId}`)
     ? { ...entry, classification: ORGANIC_CLASSIFICATIONS.RESOLVED_COMPOSED_FAUNA }
     : entry)
   const result = {
-    provenance: [...c2Result.provenance, ...systemResult.provenance, ...bodyResult.provenance, ...organicResult.provenance, ...c6Result.provenance].sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || Number(a.ComponentOrder) - Number(b.ComponentOrder)),
-    unresolved: [...c2Result.unresolved, ...systemResult.unresolved, ...bodyResult.unresolved, ...organicUnresolved].sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || a.ReasonCode.localeCompare(b.ReasonCode)),
-    normalizations: [...systemResult.normalizations, ...bodyResult.normalizations, ...c2Result.normalizations, ...organicResult.normalizations],
+    provenance: [...directNameResult.provenance, ...systemResult.provenance, ...bodyResult.provenance, ...organicResult.provenance, ...composedFaunaResult.provenance].sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || Number(a.ComponentOrder) - Number(b.ComponentOrder)),
+    unresolved: [...directNameResult.unresolved, ...systemResult.unresolved, ...bodyResult.unresolved, ...organicUnresolved].sort((a, b) => a.EntityKind.localeCompare(b.EntityKind) || a.EntityId.localeCompare(b.EntityId) || a.ReasonCode.localeCompare(b.ReasonCode)),
+    normalizations: [...systemResult.normalizations, ...bodyResult.normalizations, ...directNameResult.normalizations, ...organicResult.normalizations],
   }
-  const population = buildCanonicalPopulation([c2Targets, systemTargets, bodyTargets, organicTargets])
+  const population = buildCanonicalPopulation([directNameTargets, systemTargets, bodyTargets, organicTargets])
   const coverage = validateCoverage(population, result.provenance, result.unresolved)
   validateProvenanceRowShapes(result.provenance)
   const japanese = verifyJapaneseAvailability(result.provenance, localizedTables)
-  const providerStatistics = validateInstalledC7Population(result, providerChains, mastersByPlugin, localizedTables, policy)
-  validateNameNormalizations(NAME_NORMALIZATIONS, [...c2Targets, ...systemTargets, ...bodyTargets, ...organicTargets], result.provenance, result.unresolved, result.normalizations)
-  const fatal = [...c2Result.unresolved, ...organicUnresolved].filter((row) => ['CANONICAL_SOURCE_ERROR', 'MISSING_STRING_ID', 'WRONG_FIELD', 'WRONG_PLUGIN', 'WRONG_TABLE'].includes(row.ReasonCode))
+  const providerStatistics = validateOfficialProviderChains(result, providerChains, mastersByPlugin, localizedTables, policy)
+  validateNameNormalizations(NAME_NORMALIZATIONS, [...directNameTargets, ...systemTargets, ...bodyTargets, ...organicTargets], result.provenance, result.unresolved, result.normalizations)
+  const fatal = [...directNameResult.unresolved, ...organicUnresolved].filter((row) => ['CANONICAL_SOURCE_ERROR', 'MISSING_STRING_ID', 'WRONG_FIELD', 'WRONG_PLUGIN', 'WRONG_TABLE'].includes(row.ReasonCode))
   if (fatal.length) throw new Error(`English provenance verification failed: ${fatal.map((row) => `${row.EntityKind}:${row.EntityId} ${row.ReasonCode}`).join(', ')}.`)
 
   const manifest = await createProvenanceManifest({
@@ -190,14 +190,16 @@ export async function buildLocalizedNameProvenance(options) {
   })
   const serialized = {
     provenance: serializeCsv(PROVENANCE_HEADERS, result.provenance), unresolved: serializeCsv(UNRESOLVED_HEADERS, result.unresolved),
-    normalizations: serializeCsv(NAME_NORMALIZATION_HEADERS, result.normalizations), c6Handoff: serializeCsv(C6_HANDOFF_HEADERS, c6Result.handoff),
-    c6Preview: serializeCsv(C6_PREVIEW_HEADERS, c6Result.preview), c5Lineage: serializeCsv(TEMPLATE_LINEAGE_HEADERS, organicResult.lineage),
+    normalizations: serializeCsv(NAME_NORMALIZATION_HEADERS, result.normalizations),
+    composedFauna: serializeCsv(COMPOSED_FAUNA_HANDOFF_HEADERS, composedFaunaResult.handoff),
+    composedFaunaPreview: serializeCsv(COMPOSED_FAUNA_PREVIEW_HEADERS, composedFaunaResult.preview),
+    templateFaunaLineage: serializeCsv(TEMPLATE_LINEAGE_HEADERS, organicResult.lineage),
   }
   let committedManifest
   try { committedManifest = JSON.parse(await readFile(path.join(ROOT, OUTPUT_PATHS.manifest), 'utf8')) } catch (error) { if (error.code !== 'ENOENT') throw error }
   const committedCrosswalk = validateCommittedCrosswalk(
     await readFile(path.join(ROOT, OUTPUT_PATHS.provenance), 'utf8'), await readFile(path.join(ROOT, OUTPUT_PATHS.unresolved), 'utf8'),
-    [...c2Targets, ...systemTargets, ...bodyTargets, ...organicTargets], { allowMissingTargets: true },
+    [...directNameTargets, ...systemTargets, ...bodyTargets, ...organicTargets], { allowMissingTargets: true },
   )
   const committed = {
     ...committedCrosswalk,
@@ -208,7 +210,7 @@ export async function buildLocalizedNameProvenance(options) {
     ...compareProvenanceArtifacts(result, committed),
   ]
   const supportingDrift = []
-  for (const key of ['c6Handoff', 'c6Preview', 'c5Lineage']) {
+  for (const key of ['composedFauna', 'composedFaunaPreview', 'templateFaunaLineage']) {
     if (serialized[key] !== await readFile(path.join(ROOT, OUTPUT_PATHS[key]), 'utf8')) supportingDrift.push({ category: 'structural', type: 'supporting-artifact-changed', key })
   }
   drift.push(...supportingDrift)
@@ -216,8 +218,8 @@ export async function buildLocalizedNameProvenance(options) {
   const entityKindCounts = Object.fromEntries([...new Set(result.provenance.map((row) => row.EntityKind))].sort().map((kind) => [kind, new Set(result.provenance.filter((row) => row.EntityKind === kind).map((row) => row.EntityId)).size]))
   const buildReport = {
     schemaVersion: 1, generatedAt: new Date().toISOString(), inputManifestIdentity: stableManifestIdentity(manifest),
-    inputPolicy, coverage, providerCounts: providerStatistics.nameProviders, entityKindCounts,
-    composition: c6Result.statistics, normalizationUsage: { approved: NAME_NORMALIZATIONS.length, used: result.normalizations.length, stale: 0 },
+    inputPolicy, provenanceClosure: coverage, officialProviderChains: providerStatistics.nameProviders, entityKindCounts,
+    composedFauna: composedFaunaResult.statistics, normalizationUsage: { approved: NAME_NORMALIZATIONS.length, used: result.normalizations.length, stale: 0 },
     verification: { englishMismatches: 0, japanese }, drift,
     outputFiles: Object.fromEntries(Object.entries(serialized).map(([key]) => [OUTPUT_PATHS[key], drift.some((item) => item.key === key || !item.key) ? 'review' : 'unchanged'])),
     remainingRuntimeVerification: 'Confirm exact Japanese on-screen U+0020 composed-name separator fidelity in the runtime or Creation Kit.',
@@ -237,18 +239,19 @@ export async function buildLocalizedNameProvenance(options) {
   return {
     ...result,
     statistics: {
-      ...c2Statistics, ...systemStatistics, ...bodyStatistics, ...organicStatistics, owningPluginCounts,
+      directNames: directNameStatistics, starSystems: systemStatistics, bodies: bodyStatistics, organic: organicStatistics, owningPluginCounts,
       bodyResolvedPluginCounts, bodyUnresolvedPluginCounts,
       orbitalResolved: bodyResult.provenance.filter((row) => orbitalIds.has(row.EntityId)).length,
       orbitalUnresolved: bodyResult.unresolved.filter((row) => orbitalIds.has(row.EntityId)).length,
       providerChains: providerStatistics,
     },
-    organic: { ...organicResult, unresolved: organicUnresolved, classifications: organicClassifications, handoff: c6Result.handoff }, c6: c6Result,
+    organic: { ...organicResult, unresolved: organicUnresolved, classifications: organicClassifications, handoff: composedFaunaResult.handoff },
+    composedFauna: composedFaunaResult,
     manifest, manifestPath: reportPath, buildReport,
   }
 }
 
-function validateInstalledC7Population(result, providerChains, mastersByPlugin, localizedTables, policy) {
+function validateOfficialProviderChains(result, providerChains, mastersByPlugin, localizedTables, policy) {
   const identities = new Set()
   let singleProviderRows = 0
   let overrideRows = 0
@@ -260,7 +263,7 @@ function validateInstalledC7Population(result, providerChains, mastersByPlugin, 
     )
     identities.add(identity.key)
     const chain = providerChains.get(identity.key)
-    if (!chain?.length) throw new Error(`C7 provider chain missing for ${row.EntityKind}:${row.EntityId}.`)
+    if (!chain?.length) throw new Error(`Official provider chain missing for ${row.EntityKind}:${row.EntityId}.`)
     if (chain.length === 1) singleProviderRows += 1
     else overrideRows += 1
     if (row.NameSourcePlugin === chain.at(-1).plugin) winnerOwnsRows += 1
@@ -275,10 +278,10 @@ function validateInstalledC7Population(result, providerChains, mastersByPlugin, 
     distinctRecords: identities.size, singleProviderRows, overrideRows, winnerOwnsRows, inheritedRows, nameProviders,
   }
   for (const key of ['resolvedEntities', 'provenanceRows', 'unresolvedRows']) {
-    if (statistics[key] !== policy.expectedClosure[key]) throw new Error(`C8 closure invariant ${key} expected ${policy.expectedClosure[key]}, received ${statistics[key]}.`)
+    if (statistics[key] !== policy.expectedClosure[key]) throw new Error(`Integrated provenance closure invariant ${key} expected ${policy.expectedClosure[key]}, received ${statistics[key]}.`)
   }
   if (JSON.stringify(nameProviders) !== JSON.stringify(policy.expectedClosure.providerRows)) {
-    throw new Error(`C7 installed name-provider counts drifted: ${JSON.stringify(nameProviders)}.`)
+    throw new Error(`Official name-provider counts drifted: ${JSON.stringify(nameProviders)}.`)
   }
   const muphrid = result.provenance.find((row) => row.EntityKind === 'body' && row.EntityId === '0005E364')
   const expected = {
@@ -286,11 +289,11 @@ function validateInstalledC7Population(result, providerChains, mastersByPlugin, 
     NameSourcePlugin: 'SFBGS00D.esm', NameStringTable: 'strings', NameStringID: '0000A682',
   }
   if (!muphrid || Object.entries(expected).some(([key, value]) => muphrid[key] !== value)) {
-    throw new Error(`C7 Muphrid IV regression failed: ${JSON.stringify(muphrid)}.`)
+    throw new Error(`Official provider-chain Muphrid IV regression failed: ${JSON.stringify(muphrid)}.`)
   }
   const japanese = localizedTables.get('SFBGS00D.esm:ja:strings')?.get(0xA682)
   if (muphrid.CanonicalEnglish !== 'Muphrid IV' || japanese !== 'ムフリドIV') {
-    throw new Error(`C7 Muphrid IV localized values drifted: en=${JSON.stringify(muphrid.CanonicalEnglish)}, ja=${JSON.stringify(japanese)}.`)
+    throw new Error(`Official provider-chain Muphrid IV localized values drifted: en=${JSON.stringify(muphrid.CanonicalEnglish)}, ja=${JSON.stringify(japanese)}.`)
   }
   const organicAddendumRows = result.provenance.filter((row) =>
     row.EntityKind === 'resource' && ORGANIC_RESOURCE_ADDENDUM_IDS.includes(row.EntityId))
@@ -300,7 +303,7 @@ function validateInstalledC7Population(result, providerChains, mastersByPlugin, 
     )
     const chain = providerChains.get(identity.key)
     return row.RecordSourcePlugin !== 'Starfield.esm' || row.NameSourcePlugin !== 'Starfield.esm' || chain?.length !== 1
-  })) throw new Error('C7 organic-resource addendum provider boundary drifted.')
+  })) throw new Error('Official provider-chain organic-resource addendum boundary drifted.')
   const gastronomic = organicAddendumRows.find((row) => row.EntityId === 'gastronomic-delight')
   const gastronomicExpected = {
     RecordSourcePlugin: 'Starfield.esm', RecordFormID: '0007782F', RecordSignature: 'IRES',
@@ -360,10 +363,10 @@ async function main() {
     `Organic classifications ${JSON.stringify(Object.fromEntries(organicCounts))}\n` +
     `Organic unresolved reasons ${JSON.stringify(Object.fromEntries(organicReasons))}\n`,
   )
-  process.stdout.write(`C6 ${JSON.stringify(report.c6.statistics)}\n`)
-  process.stdout.write(`C7 provider chains ${JSON.stringify(report.statistics.providerChains)}\n`)
+  process.stdout.write(`Composed fauna ${JSON.stringify(report.composedFauna.statistics)}\n`)
+  process.stdout.write(`Official provider chains ${JSON.stringify(report.statistics.providerChains)}\n`)
   process.stdout.write(
-    `C8 coverage ${JSON.stringify(report.buildReport.coverage)}; Japanese missing IDs ${report.buildReport.verification.japanese.missingIds}; ` +
+    `Integrated provenance coverage ${JSON.stringify(report.buildReport.provenanceClosure)}; Japanese missing IDs ${report.buildReport.verification.japanese.missingIds}; ` +
     `drift ${report.buildReport.drift.length}; mode ${report.buildReport.drift.length ? 'review' : 'no-drift'}\n` +
     `Authoritative plugins ${report.manifest.authoritativePlugins.map((plugin) => plugin.filename).join(', ')}\n` +
     `Build report ${report.manifestPath}\n`,

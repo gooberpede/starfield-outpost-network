@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 
 import {
-  buildC3Targets, extractPndtSystemNumber, extractStdtSystemNumber,
+  buildStarSystemTargets, extractPndtSystemNumber, extractStdtSystemNumber,
   generateSystemProvenance, indexStdtBySystemNumber, OFFICIAL_SYSTEM_PLUGINS,
 } from './star-system-provenance.mjs'
 import { buildNameNormalizationPolicy, NAME_NORMALIZATIONS, validateNameNormalizations } from './name-normalization-policy.mjs'
@@ -80,7 +80,7 @@ test('deduplicates canonical body rows into one stable system target', () => {
     'Starfield.esm,00000001,71456,Alpha Centauri',
     'ShatteredSpace.esm,01000003,119226,Kavnyk',
   ].join('\n')
-  const result = buildC3Targets(csv)
+  const result = buildStarSystemTargets(csv)
   assert.equal(result.statistics.bodyRows, 4)
   assert.equal(result.statistics.uniqueBodies, 3)
   assert.equal(result.statistics.canonicalSystems, 2)

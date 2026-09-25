@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 
 import {
-  assembleComposedName, buildC6RoleRules, collectEffectiveKeywordIds,
+  assembleComposedName, buildComposedFaunaRoleRules, collectEffectiveKeywordIds,
   ComposedFaunaError, generateComposedFaunaProvenance,
 } from './composed-fauna-provenance.mjs'
 
@@ -59,7 +59,7 @@ function fixture(zeroPrefix = false) {
 
 test('maps the two audited INNR records and rulesets to fixed semantic roles', () => {
   const { records, chains } = fixture()
-  const roles = buildC6RoleRules(records, chains)
+  const roles = buildComposedFaunaRoleRules(records, chains)
   assert.deepEqual(Object.fromEntries(Object.entries(roles).map(([role, value]) => [role, [value.order, value.ruleSetIndex, value.provider.record.formIdHex]])), {
     prefix: [0, 0, '00220394'], species: [1, 0, '003E8650'], diet: [2, 1, '003E8650'],
   })
@@ -98,6 +98,6 @@ test('a selected zero WNAM fails closed', () => {
   const target = [{ EntityKind: 'fauna', EntityId: '00000001', SpeciesSourcePlugin: 'Starfield.esm', SpeciesFormID: '00000001', CanonicalEnglish: 'Herding Dodo Scavenger' }]
   assert.throws(
     () => generateComposedFaunaProvenance(target, canonical, records, chains, tables, { enforceExpected: false }),
-    (error) => error instanceof ComposedFaunaError && error.code === 'C6_WNAM_ZERO',
+    (error) => error instanceof ComposedFaunaError && error.code === 'COMPOSED_FAUNA_WNAM_ZERO',
   )
 })

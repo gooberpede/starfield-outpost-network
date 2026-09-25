@@ -1,4 +1,4 @@
-/** Adapter from extracted localization-input manifests to the existing C2 table contract. */
+/** Adapter from extracted localization-input manifests to the direct-name table contract. */
 import { stat } from 'node:fs/promises'
 import path from 'node:path'
 

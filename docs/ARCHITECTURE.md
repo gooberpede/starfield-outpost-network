@@ -565,7 +565,7 @@ Duplicate body IDs and conflicting system, biome, resource crosswalk, or
 planet/species facts fail generation. Base-game and Shattered Space bodies remain
 in the catalogue, including ineligible bodies; selectors use outpostAllowed.
 
-The Batch 1 migration changed reference truth only. Batch 3 advances
+The biome-aware reference-data work changed reference truth first, then advanced
 `OutpostNetwork` to schema version 3: outposts persist body-biome occurrence IDs
 and active production uses a discriminated route union. Browser storage and JSON
 import migrate older resource-ID arrays. Known organics become
@@ -866,9 +866,9 @@ normalized provenance crosswalk. CCT classification includes native NPC
 keywords, recursive OMOD includes, `NPC - Keyword` properties, and the audited
 INNR ordering of greatest keyword specificity, highest `YNAM`, then earliest
 rule. Different useful Object Template names and different encounter-template
-names fail closed. `localized-name-provenance-c6-fauna.csv` remains the exact
+names fail closed. `localized-name-provenance-composed-fauna.csv` remains the exact
 composed-fauna population boundary and records its resolved state, while
-`localized-name-provenance-c5-fauna-lineage.csv` preserves the
+`localized-name-provenance-template-fauna-lineage.csv` preserves the
 canonical NPC → LVLN → leveled NPC → encounter NPC audit path without denormalizing
 the main crosswalk. The current installed-game inventory is 153 direct flora,
 41 direct fauna, 5 template fauna, and 922 composed-fauna targets.

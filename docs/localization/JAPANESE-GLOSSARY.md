@@ -3,7 +3,7 @@
 ## Status and scope
 
 This is the working terminology authority for tracker-authored Japanese copy.
-Parcel B3 comparatively adjudicated the Codex B1 draft against an independent
+Independent comparative review adjudicated the Codex first draft against an
 English-source DeepL pass. The catalogue is machine-reviewed, not
 human-approved; official terminology evidence has since been incorporated,
 while final native-language review remains outstanding.
@@ -53,7 +53,7 @@ catalogue.
 | organic source help | domesticable species | A flora/fauna source that the tracker permits as an outpost organic-production route. | 飼育可能な生物種 | Tracker-authored grammar around Bethesda-owned species names. Avoid bare `種`, which is unnatural in these sentences. |
 | compact power quality labels | Poor / Very Poor | Short labels for relative power quality, not physical size. | 低 / 極低 | Tracker-authored compact UI labels. Full tooltips use `低い` / `非常に低い`. |
 
-## Parcel B3 adjudication decisions
+## Comparative adjudication decisions
 
 - Keep `供給予定`: it represents virtual future supply, not inventory or a
   generic plan.

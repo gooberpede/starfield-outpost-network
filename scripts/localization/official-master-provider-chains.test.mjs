@@ -40,7 +40,7 @@ function inputs(base, shattered, patch) {
 }
 
 test('reads ordered TES4 MAST entries without interpreting unrelated header fields', async () => {
-  const directory = await mkdtemp(path.join(os.tmpdir(), 'c7-tes4-'))
+  const directory = await mkdtemp(path.join(os.tmpdir(), 'provider-chain-tes4-'))
   const pluginPath = path.join(directory, 'Fixture.esm')
   const payload = Buffer.concat([
     subrecord('HEDR', Buffer.alloc(12)), subrecord('MAST', Buffer.from('Starfield.esm\0')),

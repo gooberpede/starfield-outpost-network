@@ -1,7 +1,7 @@
 /**
- * Purpose: Resolve Parcel C6's bounded CCT-fauna population into component provenance.
+ * Purpose: Resolve the bounded composed-fauna population into component provenance.
  * Architecture: Canonical handoff IDs drive fixed-role INNR selection; localized text only verifies identity.
- * Change this file when: the audited CCT role mapping, selection rules, or C6 verification gates change.
+ * Change this file when: the audited CCT role mapping, selection rules, or composed-fauna verification gates change.
  */
 import { parse } from 'csv-parse/sync'
 
@@ -11,11 +11,11 @@ import {
 } from './organic-provenance.mjs'
 import { formatHex32 } from './starfield-plugin-reader.mjs'
 
-export const C6_RESOLVED_CLASSIFICATION = 'RESOLVED_COMPOSED_FAUNA_C6'
-export const C6_PREVIEW_HEADERS = [
+export const COMPOSED_FAUNA_RESOLVED_CLASSIFICATION = 'RESOLVED_COMPOSED_FAUNA'
+export const COMPOSED_FAUNA_PREVIEW_HEADERS = [
   'EntityKind', 'EntityId', 'CanonicalEnglish', 'JapanesePreview', 'ComponentShape', 'Separator',
 ]
-export const C6_EXPECTED = Object.freeze({
+export const COMPOSED_FAUNA_EXPECTED = Object.freeze({
   entities: 922,
   rows: 2179,
   shapes: Object.freeze({ 'prefix + species + diet': 335, 'species + diet': 320, 'prefix + species': 267 }),
@@ -57,15 +57,15 @@ function fail(code, message, context) {
   throw new ComposedFaunaError(code, message, context)
 }
 
-export function parseC6Targets(csv) {
+export function parseComposedFaunaTargets(csv) {
   const targets = parse(csv, { bom: true, columns: true, skip_empty_lines: true, trim: true })
   const seen = new Set()
   for (const row of targets) {
     const key = `${row.EntityKind}:${row.EntityId}`
     if (row.EntityKind !== 'fauna' || !/^[0-9A-F]{8}$/.test(row.EntityId) || row.EntityId !== row.SpeciesFormID || seen.has(key)) {
-      fail('C6_CANONICAL_SOURCE_ERROR', `Invalid or duplicate C6 target ${key}.`)
+      fail('COMPOSED_FAUNA_CANONICAL_SOURCE_ERROR', `Invalid or duplicate composed-fauna target ${key}.`)
     }
-    if (!row.SpeciesSourcePlugin || !row.SpeciesEditorID || !row.CanonicalEnglish) fail('C6_CANONICAL_SOURCE_ERROR', `Incomplete C6 target ${key}.`)
+    if (!row.SpeciesSourcePlugin || !row.SpeciesEditorID || !row.CanonicalEnglish) fail('COMPOSED_FAUNA_CANONICAL_SOURCE_ERROR', `Incomplete composed-fauna target ${key}.`)
     seen.add(key)
   }
   return targets.sort((left, right) => left.EntityId.localeCompare(right.EntityId))
@@ -76,18 +76,18 @@ function editorId(record) {
 }
 
 /** Resolve the audited record/ruleset-to-role mapping without inferring roles from text. */
-export function buildC6RoleRules(records, providerChains = new Map()) {
+export function buildComposedFaunaRoleRules(records, providerChains = new Map()) {
   const byEditorId = new Map()
   for (const provider of records.values()) {
     if (provider.record.signature === 'INNR') byEditorId.set(editorId(provider.record), provider)
   }
   return Object.fromEntries(ROLE_DEFINITIONS.map((definition) => {
     const provider = byEditorId.get(definition.editorId)
-    if (!provider) fail('C6_INNR_RECORD_NOT_FOUND', `${definition.editorId} was not found.`)
+    if (!provider) fail('COMPOSED_FAUNA_INNR_RECORD_NOT_FOUND', `${definition.editorId} was not found.`)
     const chain = providerChains.get(`INNR:${provider.record.formIdHex}`) ?? [provider]
-    if (chain.length !== 1) fail('C6_PROVIDER_AMBIGUOUS', `${definition.editorId} has ${chain.length} official providers.`)
+    if (chain.length !== 1) fail('COMPOSED_FAUNA_PROVIDER_AMBIGUOUS', `${definition.editorId} has ${chain.length} official providers.`)
     const rules = extractInnrRuleSets(provider.record)[definition.ruleSetIndex]
-    if (!rules) fail('C6_INNR_RULE_UNSUPPORTED', `${definition.editorId} ruleset ${definition.ruleSetIndex} is missing.`)
+    if (!rules) fail('COMPOSED_FAUNA_INNR_RULE_UNSUPPORTED', `${definition.editorId} ruleset ${definition.ruleSetIndex} is missing.`)
     return [definition.role, { ...definition, provider, rules }]
   }))
 }
@@ -101,7 +101,7 @@ export function collectEffectiveKeywordIds(record, topLevelOmodIds, records) {
     if (visited.has(formId)) return
     visited.add(formId)
     const provider = records.get(`OMOD:${formId}`)
-    if (!provider) fail('C6_INNR_RULE_UNSUPPORTED', `Naming OMOD ${formId} was not found.`)
+    if (!provider) fail('COMPOSED_FAUNA_INNR_RULE_UNSUPPORTED', `Naming OMOD ${formId} was not found.`)
     const relationships = extractOmodNamingRelationships(provider.record)
     for (const keywordId of relationships.keywordIds) keywords.add(keywordId)
     for (const included of relationships.includes) {
@@ -127,16 +127,16 @@ function sameRankMatches(rules, selected, keywordIds) {
 function resolveComponent(target, roleRules, keywordIds, tables, locale) {
   const rule = selectInnrRule(roleRules.rules, keywordIds)
   if (!rule) {
-    if (roleRules.required) fail('C6_REQUIRED_SPECIES_COMPONENT_MISSING', `${target.EntityId} has no species rule.`)
+    if (roleRules.required) fail('COMPOSED_FAUNA_REQUIRED_SPECIES_COMPONENT_MISSING', `${target.EntityId} has no species rule.`)
     return null
   }
-  if (rule.stringId === 0) fail('C6_WNAM_ZERO', `${target.EntityId} selected zero WNAM for ${roleRules.role}.`)
+  if (rule.stringId === 0) fail('COMPOSED_FAUNA_WNAM_ZERO', `${target.EntityId} selected zero WNAM for ${roleRules.role}.`)
   const provider = roleRules.provider
   const table = tables.get(`${provider.plugin}:${locale}:strings`)
-  if (!table) fail('C6_STRING_ID_MISSING', `${provider.plugin}:${locale}:strings was not supplied.`)
+  if (!table) fail('COMPOSED_FAUNA_STRING_ID_MISSING', `${provider.plugin}:${locale}:strings was not supplied.`)
   const value = table.get(rule.stringId)
-  if (value === undefined) fail('C6_STRING_ID_MISSING', `${provider.plugin}:${locale}:strings:${formatHex32(rule.stringId)} is missing.`)
-  if (value !== value.trim()) fail('C6_INNR_RULE_UNSUPPORTED', `${target.EntityId} selected ${roleRules.role} text with separator whitespace.`)
+  if (value === undefined) fail('COMPOSED_FAUNA_STRING_ID_MISSING', `${provider.plugin}:${locale}:strings:${formatHex32(rule.stringId)} is missing.`)
+  if (value !== value.trim()) fail('COMPOSED_FAUNA_INNR_RULE_UNSUPPORTED', `${target.EntityId} selected ${roleRules.role} text with separator whitespace.`)
   return {
     role: roleRules.role, order: roleRules.order, ruleSetIndex: roleRules.ruleSetIndex,
     ruleIndex: rule.ruleIndex, stringId: rule.stringId, value, provider,
@@ -146,22 +146,22 @@ function resolveComponent(target, roleRules, keywordIds, tables, locale) {
 
 function assertExpected(statistics) {
   const checks = [
-    ['entities', statistics.entities, C6_EXPECTED.entities], ['rows', statistics.rows, C6_EXPECTED.rows],
-    ['unique all', statistics.unique.all, C6_EXPECTED.unique.all],
-    ['rule-order ties', statistics.ruleOrderTies, C6_EXPECTED.ruleOrderTies],
-    ['recursive OMOD fauna', statistics.recursiveOmodFauna, C6_EXPECTED.recursiveOmodFauna],
-    ['Shattered Space entities', statistics.shatteredSpaceEntities, C6_EXPECTED.shatteredSpaceEntities],
+    ['entities', statistics.entities, COMPOSED_FAUNA_EXPECTED.entities], ['rows', statistics.rows, COMPOSED_FAUNA_EXPECTED.rows],
+    ['unique all', statistics.unique.all, COMPOSED_FAUNA_EXPECTED.unique.all],
+    ['rule-order ties', statistics.ruleOrderTies, COMPOSED_FAUNA_EXPECTED.ruleOrderTies],
+    ['recursive OMOD fauna', statistics.recursiveOmodFauna, COMPOSED_FAUNA_EXPECTED.recursiveOmodFauna],
+    ['Shattered Space entities', statistics.shatteredSpaceEntities, COMPOSED_FAUNA_EXPECTED.shatteredSpaceEntities],
   ]
   for (const role of ['prefix', 'species', 'diet']) {
-    checks.push([`${role} occurrences`, statistics.occurrences[role], C6_EXPECTED.occurrences[role]])
-    checks.push([`${role} unique`, statistics.unique[role], C6_EXPECTED.unique[role]])
+    checks.push([`${role} occurrences`, statistics.occurrences[role], COMPOSED_FAUNA_EXPECTED.occurrences[role]])
+    checks.push([`${role} unique`, statistics.unique[role], COMPOSED_FAUNA_EXPECTED.unique[role]])
   }
-  for (const [shape, expected] of Object.entries(C6_EXPECTED.shapes)) checks.push([shape, statistics.shapes[shape] ?? 0, expected])
-  for (const [name, actual, expected] of checks) if (actual !== expected) fail('C6_AUDITED_INVARIANT_DRIFT', `${name} expected ${expected}, received ${actual}.`)
+  for (const [shape, expected] of Object.entries(COMPOSED_FAUNA_EXPECTED.shapes)) checks.push([shape, statistics.shapes[shape] ?? 0, expected])
+  for (const [name, actual, expected] of checks) if (actual !== expected) fail('COMPOSED_FAUNA_AUDITED_INVARIANT_DRIFT', `${name} expected ${expected}, received ${actual}.`)
 }
 
 export function generateComposedFaunaProvenance(targets, canonicalRecords, relationshipRecords, providerChains, tables, options = {}) {
-  const roleRules = buildC6RoleRules(relationshipRecords, providerChains)
+  const roleRules = buildComposedFaunaRoleRules(relationshipRecords, providerChains)
   const provenance = []
   const preview = []
   const handoff = []
@@ -178,9 +178,9 @@ export function generateComposedFaunaProvenance(targets, canonicalRecords, relat
 
   for (const target of targets) {
     const npc = canonicalRecords.get(`${target.SpeciesSourcePlugin}:NPC_:${target.SpeciesFormID}`)
-    if (!npc) fail('C6_NPC_NOT_FOUND', `${target.SpeciesSourcePlugin}:NPC_:${target.SpeciesFormID} was not found.`)
+    if (!npc) fail('COMPOSED_FAUNA_NPC_NOT_FOUND', `${target.SpeciesSourcePlugin}:NPC_:${target.SpeciesFormID} was not found.`)
     const combinations = extractObjectTemplateCombinations(npc.record)
-    if (!combinations.length) fail('C6_OBJECT_TEMPLATE_MISSING', `${target.EntityId} has no Object Template combination.`)
+    if (!combinations.length) fail('COMPOSED_FAUNA_OBJECT_TEMPLATE_MISSING', `${target.EntityId} has no Object Template combination.`)
     const candidates = []
     let targetRecursive = false
     let targetTie = false
@@ -193,11 +193,11 @@ export function generateComposedFaunaProvenance(targets, canonicalRecords, relat
       candidates.push({ english, japanese, englishName: assembleComposedName(english), japaneseName: assembleComposedName(japanese) })
     }
     const usefulNames = [...new Set(candidates.map((candidate) => candidate.englishName).filter(Boolean))]
-    if (usefulNames.length > 1) fail('C6_MULTIPLE_FINAL_NAMES', `${target.EntityId} resolves to ${usefulNames.join(' | ')}.`)
+    if (usefulNames.length > 1) fail('COMPOSED_FAUNA_MULTIPLE_FINAL_NAMES', `${target.EntityId} resolves to ${usefulNames.join(' | ')}.`)
     const candidate = candidates.find((item) => item.englishName === usefulNames[0])
-    if (!candidate) fail('C6_REQUIRED_SPECIES_COMPONENT_MISSING', `${target.EntityId} has no useful combination.`)
+    if (!candidate) fail('COMPOSED_FAUNA_REQUIRED_SPECIES_COMPONENT_MISSING', `${target.EntityId} has no useful combination.`)
     if (candidate.englishName !== target.CanonicalEnglish) {
-      fail('C6_ENGLISH_RECONSTRUCTION_MISMATCH', `${target.EntityId} reconstructed ${JSON.stringify(candidate.englishName)} instead of ${JSON.stringify(target.CanonicalEnglish)}.`)
+      fail('COMPOSED_FAUNA_ENGLISH_RECONSTRUCTION_MISMATCH', `${target.EntityId} reconstructed ${JSON.stringify(candidate.englishName)} instead of ${JSON.stringify(target.CanonicalEnglish)}.`)
     }
     exactEnglishMatches += 1
     japaneseReconstructions += 1
@@ -227,7 +227,7 @@ export function generateComposedFaunaProvenance(targets, canonicalRecords, relat
       JapanesePreview: candidate.japaneseName, ComponentShape: shape, Separator: 'U+0020',
     })
     handoff.push({
-      ...target, Classification: C6_RESOLVED_CLASSIFICATION,
+      ...target, Classification: COMPOSED_FAUNA_RESOLVED_CLASSIFICATION,
       Detail: `CCT component provenance resolved and exact English/Japanese component lookup verified for ${target.CanonicalEnglish}.`,
       ResolvedCombinationName: candidate.englishName,
     })
@@ -240,45 +240,45 @@ export function generateComposedFaunaProvenance(targets, canonicalRecords, relat
     shatteredSpaceEntities: targets.filter((target) => target.SpeciesSourcePlugin === 'ShatteredSpace.esm').length,
   }
   if (options.enforceExpected !== false && JSON.stringify(ruleOrderTieIds.sort()) !== JSON.stringify(EXPECTED_RULE_ORDER_TIE_IDS)) {
-    fail('C6_AUDITED_INVARIANT_DRIFT', `Rule-order tie identities changed: ${ruleOrderTieIds.join(', ')}.`)
+    fail('COMPOSED_FAUNA_AUDITED_INVARIANT_DRIFT', `Rule-order tie identities changed: ${ruleOrderTieIds.join(', ')}.`)
   }
   if (options.enforceExpected !== false) assertExpected(statistics)
   return { provenance, preview, handoff, statistics }
 }
 
-export function validateCommittedC6Artifacts(provenance, unresolved, targetCsv, previewCsv) {
-  const targets = parseC6Targets(targetCsv)
+export function validateCommittedComposedFaunaArtifacts(provenance, unresolved, targetCsv, previewCsv) {
+  const targets = parseComposedFaunaTargets(targetCsv)
   const targetById = new Map(targets.map((target) => [target.EntityId, target]))
   const rows = provenance.filter((row) => row.EntityKind === 'fauna' && row.DisplayNameSourceKind === 'composed')
   const byEntity = new Map()
   for (const row of rows) {
-    if (!targetById.has(row.EntityId)) fail('C6_CANONICAL_SOURCE_ERROR', `Unexpected composed fauna ${row.EntityId}.`)
+    if (!targetById.has(row.EntityId)) fail('COMPOSED_FAUNA_CANONICAL_SOURCE_ERROR', `Unexpected composed fauna ${row.EntityId}.`)
     const pathMatch = row.NameFieldPath.match(/^Naming Rules\[(\d+)]\/Names\[(\d+)]\/WNAM - Text$/)
     if (row.RecordSignature !== 'INNR' || row.NameStringTable !== 'strings' || row.RecordSourcePlugin !== row.NameSourcePlugin ||
         !/^[0-9A-F]{8}$/.test(row.RecordFormID) || !/^[0-9A-F]{8}$/.test(row.NameStringID) ||
         !pathMatch) {
-      fail('C6_CANONICAL_SOURCE_ERROR', `Invalid composed provenance structure for ${row.EntityId}.`)
+      fail('COMPOSED_FAUNA_CANONICAL_SOURCE_ERROR', `Invalid composed provenance structure for ${row.EntityId}.`)
     }
     const definition = ROLE_DEFINITIONS.find((item) => item.role === row.ComponentRole)
-    if (!definition || row.ComponentOrder !== String(definition.order) || pathMatch[1] !== String(definition.ruleSetIndex) || !row.CanonicalEnglish) fail('C6_CANONICAL_SOURCE_ERROR', `Invalid semantic component slot for ${row.EntityId}.`)
+    if (!definition || row.ComponentOrder !== String(definition.order) || pathMatch[1] !== String(definition.ruleSetIndex) || !row.CanonicalEnglish) fail('COMPOSED_FAUNA_CANONICAL_SOURCE_ERROR', `Invalid semantic component slot for ${row.EntityId}.`)
     byEntity.set(row.EntityId, [...(byEntity.get(row.EntityId) ?? []), row])
   }
   for (const target of targets) {
     const entityRows = byEntity.get(target.EntityId) ?? []
     const roles = new Set(entityRows.map((row) => row.ComponentRole))
-    if (!roles.has('species') || entityRows.length !== roles.size || ![2, 3].includes(entityRows.length)) fail('C6_REQUIRED_SPECIES_COMPONENT_MISSING', `${target.EntityId} has an invalid committed component shape.`)
+    if (!roles.has('species') || entityRows.length !== roles.size || ![2, 3].includes(entityRows.length)) fail('COMPOSED_FAUNA_REQUIRED_SPECIES_COMPONENT_MISSING', `${target.EntityId} has an invalid committed component shape.`)
     const reconstructed = entityRows.sort((left, right) => Number(left.ComponentOrder) - Number(right.ComponentOrder)).map((row) => row.CanonicalEnglish).join(' ')
-    if (reconstructed !== target.CanonicalEnglish) fail('C6_ENGLISH_RECONSTRUCTION_MISMATCH', `${target.EntityId} committed components reconstruct ${JSON.stringify(reconstructed)}.`)
-    if (unresolved.some((row) => row.EntityKind === 'fauna' && row.EntityId === target.EntityId)) fail('C6_CANONICAL_SOURCE_ERROR', `${target.EntityId} remains unresolved.`)
-    if (target.Classification !== C6_RESOLVED_CLASSIFICATION) fail('C6_CANONICAL_SOURCE_ERROR', `${target.EntityId} remains in the deliberate-deferral state.`)
+    if (reconstructed !== target.CanonicalEnglish) fail('COMPOSED_FAUNA_ENGLISH_RECONSTRUCTION_MISMATCH', `${target.EntityId} committed components reconstruct ${JSON.stringify(reconstructed)}.`)
+    if (unresolved.some((row) => row.EntityKind === 'fauna' && row.EntityId === target.EntityId)) fail('COMPOSED_FAUNA_CANONICAL_SOURCE_ERROR', `${target.EntityId} remains unresolved.`)
+    if (target.Classification !== COMPOSED_FAUNA_RESOLVED_CLASSIFICATION) fail('COMPOSED_FAUNA_CANONICAL_SOURCE_ERROR', `${target.EntityId} remains in the deliberate-deferral state.`)
   }
   const previews = parse(previewCsv, { bom: true, columns: true, skip_empty_lines: true, trim: true })
   if (previews.length !== targets.length || previews.some((row) => !targetById.has(row.EntityId) || row.Separator !== 'U+0020' || !row.JapanesePreview)) {
-    fail('C6_CANONICAL_SOURCE_ERROR', 'Japanese preview does not cover the C6 population exactly.')
+    fail('COMPOSED_FAUNA_CANONICAL_SOURCE_ERROR', 'Japanese preview does not cover the composed-fauna population exactly.')
   }
   const previewById = new Map(previews.map((row) => [row.EntityId, row.JapanesePreview]))
   for (const [entityId, expected] of Object.entries(REPRESENTATIVE_JAPANESE)) {
-    if (previewById.get(entityId) !== expected) fail('C6_CANONICAL_SOURCE_ERROR', `Japanese representative ${entityId} drifted.`)
+    if (previewById.get(entityId) !== expected) fail('COMPOSED_FAUNA_CANONICAL_SOURCE_ERROR', `Japanese representative ${entityId} drifted.`)
   }
   const statistics = {
     entities: byEntity.size, rows: rows.length,

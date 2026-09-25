@@ -120,7 +120,7 @@ test('maps one plugin across multiple explicit archives and rejects ambiguity', 
   )
 })
 
-test('an exact extracted table resolves C2 while a wrong-plugin table does not', () => {
+test('an exact extracted table resolves direct names while a wrong-plugin table does not', () => {
   const tablePath = tempFile('fixture_en.strings')
   writeFileSync(tablePath, tableBytes(0xFC7, 'X-Tech'))
   const table = readStringTable(tablePath)

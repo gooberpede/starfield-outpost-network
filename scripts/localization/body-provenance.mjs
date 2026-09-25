@@ -1,5 +1,5 @@
 /**
- * Purpose: Define the canonical C4 body population for localized-name provenance.
+ * Purpose: Define the canonical body population for localized-name provenance.
  * Architecture: Tracker-ingested rows drive exact PNDT lookups; ESM contents never expand scope.
  * Change this file when: the canonical body source schema or audited body-name route changes.
  */
@@ -15,7 +15,7 @@ function compareTargets(left, right) {
 }
 
 /** Every canonical tracker row is one body target, including ingested orbitals. */
-export function buildC4Targets(planetDirectoryCsv, authoritativePlugins = OFFICIAL_SYSTEM_PLUGINS) {
+export function buildBodyTargets(planetDirectoryCsv, authoritativePlugins = OFFICIAL_SYSTEM_PLUGINS) {
   const rows = parse(planetDirectoryCsv, { bom: true, columns: true, skip_empty_lines: true, trim: true })
   const targets = []
   const identities = new Set()

@@ -9,6 +9,13 @@ import { findRecordsInPlugin, formatHex32, PluginReaderError } from './starfield
 
 export const AUDITED_GAME_VERSION = '1.16.244.0'
 export const AUDITED_STARFIELD_ESM_SHA256 = '1DABED00C3F4282DD3BB54D2E9601E40B577D8742D078B7CCEF203ADBFEF0DA7'
+const PROOF_MANIFEST_POLICY = Object.freeze({
+  authoritativePlugins: Object.freeze([
+    Object.freeze({ filename: 'Starfield.esm', moduleClass: 'full', masters: Object.freeze([]) }),
+  ]),
+  optionalCompatibilityPlugins: Object.freeze([]),
+  provenanceLocales: Object.freeze([]),
+})
 
 export const PROOF_TARGETS = Object.freeze([
   { label: 'Aluminum', signature: 'IRES', formId: 0x000057D6, semanticPath: SEMANTIC_PATHS.TOP_LEVEL_FULL, expectedIdHex: '00008155' },
@@ -33,10 +40,12 @@ function parseArguments(args) {
 
 export async function verifyProofTargets(options) {
   const manifest = await createProvenanceManifest({
-    pluginPaths: [options.pluginPath],
+    plugins: [{ filename: 'Starfield.esm', path: options.pluginPath }],
+    policy: PROOF_MANIFEST_POLICY,
+    mastersByPlugin: new Map([['Starfield.esm', []]]),
     gameVersion: AUDITED_GAME_VERSION,
   })
-  const plugin = manifest.plugins[0]
+  const plugin = manifest.authoritativePlugins[0]
   const records = findRecordsInPlugin(options.pluginPath, PROOF_TARGETS)
   const results = PROOF_TARGETS.map((target, index) => {
     const record = records[index]
@@ -56,7 +65,7 @@ async function main() {
   await mkdir(path.dirname(manifestPath), { recursive: true })
   await writeFile(manifestPath, `${JSON.stringify(report.manifest, null, 2)}\n`, 'utf8')
 
-  const plugin = report.manifest.plugins[0]
+  const plugin = report.manifest.authoritativePlugins[0]
   process.stdout.write(`Plugin ${plugin.filename}\nSize ${plugin.size}\nSHA-256 ${plugin.sha256}\n`)
   if (!report.hashMatchesAudit) {
     process.stderr.write(`WARNING: Hash differs from audited Starfield ${AUDITED_GAME_VERSION}; proof expectations may require re-audit.\n`)

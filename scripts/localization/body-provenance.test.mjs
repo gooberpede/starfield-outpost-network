@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 
-import { buildC4Targets } from './body-provenance.mjs'
+import { buildBodyTargets } from './body-provenance.mjs'
 import {
   generateProvenance, PROVENANCE_HEADERS, serializeCsv, UNRESOLVED_HEADERS, validateCommittedCrosswalk,
 } from './localized-name-provenance.mjs'
@@ -39,7 +39,7 @@ test('includes every canonical Planet, Moon, and Orbital row without semantic fi
     'Starfield.esm,00000001,Planet Target,Planet,1,Fixture',
     'ShatteredSpace.esm,01000002,Moon Target,Moon,2,DLC Fixture',
   ].join('\n')
-  const result = buildC4Targets(csv)
+  const result = buildBodyTargets(csv)
   assert.equal(result.statistics.canonicalBodies, 3)
   assert.deepEqual(result.statistics.bodyTypeCounts, { Planet: 1, Moon: 1, Orbital: 1 })
   assert.deepEqual(result.targets.map((target) => [target.entityId, target.bodyType]), [
@@ -56,7 +56,7 @@ test('resolves Planet, Moon, non-landable-like, and Orbital targets through the 
     'Starfield.esm,00000003,Non-landable Moon,Moon,1,Fixture',
     'Starfield.esm,00000004,The Den,Orbital,1,Fixture',
   ].join('\n')
-  const { targets } = buildC4Targets(csv)
+  const { targets } = buildBodyTargets(csv)
   const records = new Map([['Starfield.esm', new Map([
     ['PNDT:0005E2B6', pndt('0005E2B6', 0xA3B2, 'Akila inline')],
     ['PNDT:00000002', pndt('00000002', 2)],
@@ -81,13 +81,13 @@ test('resolves Planet, Moon, non-landable-like, and Orbital targets through the 
 })
 
 test('requires complete unique canonical body identities and supported source values', () => {
-  assert.throws(() => buildC4Targets(`${header}\nStarfield.esm,00000001,One,Planet,1,A\nStarfield.esm,00000001,Two,Moon,1,A`), /duplicate body identity/)
-  assert.throws(() => buildC4Targets(`${header}\nStarfield.esm,00000001,Station,Station,1,A`), /unsupported canonical body type/)
-  assert.throws(() => buildC4Targets(`${header}\nMod.esm,00000001,Planet,Planet,1,A`), /unsupported body source plugin/)
+  assert.throws(() => buildBodyTargets(`${header}\nStarfield.esm,00000001,One,Planet,1,A\nStarfield.esm,00000001,Two,Moon,1,A`), /duplicate body identity/)
+  assert.throws(() => buildBodyTargets(`${header}\nStarfield.esm,00000001,Station,Station,1,A`), /unsupported canonical body type/)
+  assert.throws(() => buildBodyTargets(`${header}\nMod.esm,00000001,Planet,Planet,1,A`), /unsupported body source plugin/)
 })
 
 test('approves only the exact entity-scoped orbital source/display difference', () => {
-  const target = buildC4Targets(`${header}\nStarfield.esm,00223320,_TridentLuxuryLinesOrbital,Orbital,72432,Cheyenne`).targets[0]
+  const target = buildBodyTargets(`${header}\nStarfield.esm,00223320,_TridentLuxuryLinesOrbital,Orbital,72432,Cheyenne`).targets[0]
   const records = new Map([['Starfield.esm', new Map([['PNDT:00223320', pndt('00223320', 0x2E08E)]])]])
   const policy = buildNameNormalizationPolicy()
   const exact = generateProvenance(
@@ -117,7 +117,7 @@ test('approves only the exact entity-scoped orbital source/display difference', 
 })
 
 test('committed-data validation locks the complete direct PNDT body shape', () => {
-  const target = buildC4Targets(`${header}\nShatteredSpace.esm,0102BA29,The Oracle,Orbital,119226,Kavnyk`).targets[0]
+  const target = buildBodyTargets(`${header}\nShatteredSpace.esm,0102BA29,The Oracle,Orbital,119226,Kavnyk`).targets[0]
   const row = {
     EntityKind: 'body', EntityId: '0102BA29', DisplayNameSourceKind: 'direct', ComponentOrder: '0', ComponentRole: 'complete',
     RecordSourcePlugin: 'ShatteredSpace.esm', RecordFormID: '0102BA29', RecordSignature: 'PNDT',

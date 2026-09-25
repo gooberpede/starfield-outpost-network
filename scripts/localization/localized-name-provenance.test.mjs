@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises'
 import test from 'node:test'
 
 import {
-  buildC2Targets, generateProvenance, ORGANIC_RESOURCE_ADDENDUM_IDS, PROVENANCE_HEADERS, serializeCsv,
+  buildDirectNameTargets, generateProvenance, ORGANIC_RESOURCE_ADDENDUM_IDS, PROVENANCE_HEADERS, serializeCsv,
   UNRESOLVED_HEADERS, validateCommittedCrosswalk, verifyEnglish,
 } from './localized-name-provenance.mjs'
 import { SEMANTIC_PATHS } from './localized-field-map.mjs'
@@ -89,7 +89,7 @@ test('deduplicates recipe and biome occurrences while retaining stable identitie
       '00000004,Starfield.esm,Rocky Desert,Resolved,00000003,FiberRecord,Fiber,Starfield.esm\n' +
       '00000004,Starfield.esm,Rocky Desert,Resolved,00000003,FiberRecord,Fiber,Starfield.esm\n',
   }
-  const result = buildC2Targets(sources)
+  const result = buildDirectNameTargets(sources)
   assert.equal(result.targets.filter((item) => item.entityId === 'adaptive-frame').length, 1)
   assert.equal(result.targets.filter((item) => item.entityKind === 'biome').length, 1)
   assert.equal(result.statistics.uniqueBiomes, 1)
@@ -100,7 +100,7 @@ test('deduplicates recipe and biome occurrences while retaining stable identitie
 })
 
 test('adds the 22 missing organic resources through canonical FormID joins', () => {
-  const result = buildC2Targets(committedSources)
+  const result = buildDirectNameTargets(committedSources)
   const resources = new Map(result.targets.filter((item) => item.entityKind === 'resource').map((item) => [item.entityId, item]))
   const expected = new Map([
     ['adhesive', '00077828'], ['amino-acids', '0007782A'], ['analgesic', '00077829'],
@@ -134,17 +134,17 @@ test('organic target assembly fails closed for inconsistent rows, unmatched meta
     biomeOrganic: 'BiomeFormID,BiomeSourceFile,BiomeName,ResourceResolutionStatus,ResourceFormID,ResourceEditorID,ResourceName,ResourceSourceFile\n' +
       ',,,Resolved,00000001,CanonicalRecord,Fiber,Starfield.esm\n',
   }
-  const consistent = buildC2Targets(base)
+  const consistent = buildDirectNameTargets(base)
   assert.equal(consistent.targets.find((item) => item.entityId === 'fiber').recordFormId, '00000001')
-  assert.throws(() => buildC2Targets({
+  assert.throws(() => buildDirectNameTargets({
     ...base,
     biomeOrganic: base.biomeOrganic + ',,,Resolved,00000001,ChangedRecord,Fiber,Starfield.esm\n',
   }), /conflicts/)
-  assert.throws(() => buildC2Targets({
+  assert.throws(() => buildDirectNameTargets({
     ...base,
     itemMetadata: base.itemMetadata + 'organic,00000002,HerbivoreVariant,Fiber,fiber-variant,\n',
   }), /unmatched metadata: 00000002/)
-  assert.throws(() => buildC2Targets({
+  assert.throws(() => buildDirectNameTargets({
     ...base,
     itemMetadata: base.itemMetadata + 'organic,00000002,HerbivoreVariant,Fiber,fiber,\n',
     biomeOrganic: base.biomeOrganic + ',,,Resolved,00000002,HerbivoreVariant,Fiber,Starfield.esm\n',
@@ -162,7 +162,7 @@ test('English verification classifies missing inputs/IDs, mismatches, and explic
 })
 
 test('Gastronomic Delight requires the exact entity-scoped display normalization', () => {
-  const gastronomic = buildC2Targets(committedSources).targets.find((item) => item.entityId === 'gastronomic-delight')
+  const gastronomic = buildDirectNameTargets(committedSources).targets.find((item) => item.entityId === 'gastronomic-delight')
   const records = new Map([['Starfield.esm', new Map([[
     'IRES:0007782F', parsedRecord('IRES', '0007782F', 0x81A0),
   ]])]])
@@ -265,7 +265,7 @@ test('committed validation rejects canonical drift in an unresolved row', () => 
   )
 })
 
-test('committed validation checks project-owned C3 system shape without inventing STDT identity', () => {
+test('committed validation checks project-owned star-system shape without inventing STDT identity', () => {
   const systemTarget = {
     entityKind: 'system', entityId: '71456', canonicalEnglish: 'Alpha Centauri',
     bodies: [{ recordSourcePlugin: 'Starfield.esm', recordFormId: '0003F5A1', recordSignature: 'PNDT' }],

@@ -1,5 +1,5 @@
 /**
- * Purpose: Apply C8 source policy, coverage, row-shape, locale, and drift gates.
+ * Purpose: Apply integrated source-policy, coverage, row-shape, locale, and drift gates.
  * Architecture: Pure helpers keep repository-only tests independent of installed game files.
  * Change this file when: The provenance build contract or drift vocabulary changes.
  */
