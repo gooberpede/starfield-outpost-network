@@ -1,5 +1,16 @@
 #!/usr/bin/env node
-/** Generate or verify one committed official reference-name overlay. */
+/**
+ * Purpose:
+ *   Generate or verify one committed official reference-name overlay and sidecar.
+ *
+ * Architecture:
+ *   Materializes names from verified provenance and manifested local string
+ *   tables, then enforces locale, identity, coverage, and drift checks. The
+ *   default path verifies; committed outputs change only in explicit write mode.
+ *
+ * Change this file when:
+ *   Overlay inputs, materialization, sidecar, locale, or write-gate policy changes.
+ */
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import path from 'node:path'
 import { parse } from 'csv-parse/sync'

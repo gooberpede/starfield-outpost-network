@@ -1,4 +1,16 @@
 #!/usr/bin/env node
+/**
+ * Purpose:
+ *   Generate, verify, and report the committed localized-name provenance artifacts.
+ *
+ * Architecture:
+ *   Canonical record identity drives plugin and string-table reads; English text
+ *   verifies that identity but never selects it. The default mode reports drift,
+ *   while committed artifacts change only through explicit reviewed `--write` mode.
+ *
+ * Change this file when:
+ *   Provenance orchestration, coverage, provider, drift, or write-gate policy changes.
+ */
 import { access, mkdir, readFile, writeFile } from 'node:fs/promises'
 import { execFileSync } from 'node:child_process'
 import path from 'node:path'
@@ -65,6 +77,8 @@ async function loadSources() {
 }
 
 export async function buildLocalizedNameProvenance(options) {
+  // Canonical identities select records and raw string IDs; English is a
+  // verification assertion, never a reverse lookup key.
   const configPath = path.resolve(options.configPath)
   const configDirectory = path.dirname(configPath)
   const config = JSON.parse(await readFile(configPath, 'utf8'))
@@ -226,6 +240,8 @@ export async function buildLocalizedNameProvenance(options) {
   }
   await mkdir(path.dirname(reportPath), { recursive: true })
   await writeFile(reportPath, `${JSON.stringify(buildReport, null, 2)}\n`, 'utf8')
+  // Reports are safe in verification mode; committed provenance changes require
+  // the maintainer to review drift and opt into the write boundary explicitly.
   if (options.write) {
     for (const [key, content] of Object.entries(serialized)) await writeFile(path.join(ROOT, OUTPUT_PATHS[key]), content, 'utf8')
     await writeFile(path.join(ROOT, OUTPUT_PATHS.manifest), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8')

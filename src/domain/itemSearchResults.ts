@@ -38,6 +38,8 @@ export function getItemSearchResults(
   const recipe = item.type === 'product'
     ? referenceData.productRecipes.find((candidate) => candidate.productId === item.id)
     : undefined
+  // `missing-inputs` is a feasibility statement, so emit it only for a known
+  // product whose complete direct recipe resolves against current reference data.
   const hasResolvedRecipe = recipe !== undefined && recipe.ingredients.every((ingredient) =>
     ingredient.item.type === 'resource'
       ? referenceData.resources.some((resource) => resource.id === ingredient.item.id)

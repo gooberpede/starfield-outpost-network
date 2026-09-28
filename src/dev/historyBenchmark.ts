@@ -129,7 +129,7 @@ function makeNetwork(networkOrdinal: number, outpostCount: number, padCount: num
   }
 }
 
-/** Mirrors the substantial 9/19/8 and 14/44/21 network shapes in the brief. */
+/** Covers the repository's substantial baseline and stress network shapes. */
 export function createRepresentativeBenchmarkCollection(variant = 0): NetworkCollection {
   const firstId = `bench-network-a-${variant}`
   const secondId = `bench-network-b-${variant}`

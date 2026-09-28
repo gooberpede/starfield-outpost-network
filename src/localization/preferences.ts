@@ -1,3 +1,15 @@
+/**
+ * Purpose:
+ *   Load and save presentation-only localization preferences.
+ *
+ * Architecture:
+ *   Uses a separate best-effort browser record from network persistence.
+ *   Preference failures fall back silently and never affect network data,
+ *   import/export, or Undo/Redo.
+ *
+ * Change this file when:
+ *   Application preference shape or its browser-storage policy changes.
+ */
 import { isSupportedLocale } from './locale.ts'
 import type { ApplicationPreferences, SupportedLocale } from './types.ts'
 

@@ -1,4 +1,16 @@
 #!/usr/bin/env node
+/**
+ * Purpose:
+ *   Exercise pinned localized-field proof targets against a local Starfield plugin.
+ *
+ * Architecture:
+ *   The audited game version and hash define the accepted proof profile. A hash
+ *   mismatch may yield useful observations, but acknowledgement only permits
+ *   review; it never silently redefines the pinned proof or accepted expectations.
+ *
+ * Change this file when:
+ *   The audited proof profile, target fields, or mismatch-review policy changes.
+ */
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -55,6 +67,8 @@ export async function verifyProofTargets(options) {
     }
     return { ...target, ...localized, compressed: record.compressed, pass: localized.idHex === target.expectedIdHex }
   })
+  // A mismatched hash can still produce observations for re-audit, but those
+  // observations cannot silently become proof for the pinned version profile.
   return { manifest, hashMatchesAudit: plugin.sha256 === AUDITED_STARFIELD_ESM_SHA256, results }
 }
 

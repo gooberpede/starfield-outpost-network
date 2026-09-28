@@ -1,4 +1,15 @@
-/** Validates deployment bytes before App mounts. */
+/**
+ * Purpose:
+ *   Load and validate deployed reference assets before the application mounts.
+ *
+ * Architecture:
+ *   Owns the bounded, fail-closed startup integrity gate and its stable failure
+ *   vocabulary. It verifies deployment identity and bytes; it does not repair
+ *   assets or interpret player network state.
+ *
+ * Change this file when:
+ *   Reference manifest, request, integrity, size, or startup failure policy changes.
+ */
 import type { ReferenceData } from '../domain/referenceData'
 import { expectedReferenceDatasetId } from '../generated/referenceDataset'
 import { canonicalDatasetContent, maxReferenceAssetBytes, maxReferenceManifestBytes, referenceAssets, referenceManifestSchemaVersion } from './referenceManifest'
@@ -14,6 +25,7 @@ export type ReferenceRequestMode = 'normal' | 'retry'
 
 const referenceRequestPolicy: Record<ReferenceRequestMode, { manifest: RequestCache; asset: RequestCache }> = {
   normal: { manifest: 'no-cache', asset: 'default' },
+  // A user retry must bypass both ordinary asset reuse and intermediary stale data.
   retry: { manifest: 'reload', asset: 'reload' },
 }
 
@@ -147,6 +159,12 @@ async function fetchAsset(entry: ReferenceAssetEntry, specification: readonly st
   return parsed
 }
 
+/**
+ * Startup is fail-closed across one integrity chain: manifest schema and build
+ * identity select the dataset, then bounded size, JSON media type, asset schema,
+ * and byte hash prove each deployed member belongs to that dataset. Accepting a
+ * partial or mixed deployment would make persisted IDs resolve unpredictably.
+ */
 export async function loadReferenceData(
   signal?: AbortSignal,
   requestMode: ReferenceRequestMode = 'normal',

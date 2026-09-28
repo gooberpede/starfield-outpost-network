@@ -1,3 +1,14 @@
+/**
+ * Purpose:
+ *   Style compact context-help triggers and their portalled viewport-level panels.
+ *
+ * Architecture:
+ *   Owns the enlarged pointer target and fixed panel presentation. Measured panel
+ *   coordinates, dismissal, and focus behavior remain in the component.
+ *
+ * Change this file when:
+ *   Context-help trigger geometry or portalled panel presentation changes.
+ */
 .context-help {
   position: relative;
   display: inline-flex;

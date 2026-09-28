@@ -30,10 +30,6 @@ import type {
 
 const RULE_ID = 'unresolved-cargo-export'
 
-/**
- * Finds cargo-pad exports whose outpost has neither an actual source nor
- * an exact matching Planned Supply placeholder for the exported item.
- */
 function validateUnresolvedCargoExports(
   network: Parameters<ValidationRule['validate']>[0],
   referenceData: Parameters<ValidationRule['validate']>[1],

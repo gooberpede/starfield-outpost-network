@@ -1,3 +1,14 @@
+/**
+ * Purpose:
+ *   Present the application's singleton contextual-help popover interaction.
+ *
+ * Architecture:
+ *   Owns portalled placement, dismissal, and focus return as transient UI state.
+ *   Help state is deliberately not lifted into the application or persisted model.
+ *
+ * Change this file when:
+ *   Context-help interaction, placement, dismissal, or focus behavior changes.
+ */
 import {
   useId,
   useLayoutEffect,
@@ -19,6 +30,8 @@ interface ContextHelpProps {
   context: string
 }
 
+// A document event coordinates portalled instances so only one help popover is
+// open without promoting this transient state into the application model.
 const openEventName = 'starfield-context-help-open'
 
 export function ContextHelp({ text, context }: ContextHelpProps) {

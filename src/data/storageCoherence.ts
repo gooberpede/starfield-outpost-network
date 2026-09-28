@@ -1,4 +1,15 @@
-/** Reject ambiguous stored source before permissive historical migration can drop it. */
+/**
+ * Purpose:
+ *   Reject incoherent stored data before historical migration runs.
+ *
+ * Architecture:
+ *   This is the strict pre-migration boundary for browser recovery. It protects
+ *   ambiguous user data from being normalized or dropped by deliberately
+ *   permissive migration code; it does not perform migration itself.
+ *
+ * Change this file when:
+ *   Supported stored shapes or pre-migration coherence requirements change.
+ */
 import { CURRENT_COLLECTION_SCHEMA_VERSION, type NetworkCollection } from './networkCollection.ts'
 import { CURRENT_SCHEMA_VERSION } from './networkMigration.ts'
 

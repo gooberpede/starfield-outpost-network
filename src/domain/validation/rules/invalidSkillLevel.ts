@@ -42,10 +42,6 @@ const skillIds = [
   'specialProjects',
 ] as const
 
-/**
- * Reports one issue for each recorded character skill whose stored level falls
- * outside the valid 0-4 range. Unrecorded null values are valid and skipped.
- */
 function validateInvalidSkillLevels(
   network: Parameters<ValidationRule['validate']>[0],
 ): ValidationIssue[] {

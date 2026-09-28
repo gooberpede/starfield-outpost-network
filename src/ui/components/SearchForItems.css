@@ -1,3 +1,14 @@
+/**
+ * Purpose:
+ *   Style item-search autocomplete and the movable viewport-level results palette.
+ *
+ * Architecture:
+ *   Owns search presentation, fixed palette/drag geometry, overflow, and compact
+ *   responsive states. Palette coordinates and interaction remain component state.
+ *
+ * Change this file when:
+ *   Search control, result palette, drag feedback, or responsive presentation changes.
+ */
 .item-search {
   position: relative;
   min-width: 0;

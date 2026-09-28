@@ -1,4 +1,15 @@
-/** Central policy for resource-presence mechanisms and their capability gates. */
+/**
+ * Purpose:
+ *   Decide how resources can be present at an outpost and which capabilities gate them.
+ *
+ * Architecture:
+ *   Centralizes natural, organic, and explicit presence mechanisms separately
+ *   from active production and derived availability. Reference facts remain the
+ *   source of truth for natural presence.
+ *
+ * Change this file when:
+ *   Presence mechanisms, capability gates, or activation eligibility changes.
+ */
 import {
   getPlanetaryOrganicFarmingRoutes,
   getOutpostAvailableInorganicResourceIds,

@@ -1,3 +1,14 @@
+/**
+ * Purpose:
+ *   Lay out the modal keyboard-shortcuts reference across desktop and narrow viewports.
+ *
+ * Architecture:
+ *   Owns dialog geometry, scrolling, shortcut-column collapse, and key styling;
+ *   dialog behavior and command metadata remain in TypeScript.
+ *
+ * Change this file when:
+ *   Shortcut-dialog layout, responsive breakpoint, or interaction styling changes.
+ */
 .shortcuts-dialog__backdrop {
   position: fixed;
   inset: 0;

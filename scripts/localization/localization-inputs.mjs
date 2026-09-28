@@ -1,4 +1,15 @@
-/** Manifest-driven intake for explicitly supplied Bethesda BA2 localization archives. */
+/**
+ * Purpose:
+ *   Intake explicitly supplied Bethesda localization archives into manifested local inputs.
+ *
+ * Architecture:
+ *   Discovers and extracts only configured localization members, records their
+ *   identities, and writes local-only artifacts. It does not infer archive
+ *   authority, mutate game files, or publish Bethesda data.
+ *
+ * Change this file when:
+ *   Localization intake configuration, extraction, manifest, or safety policy changes.
+ */
 import { createHash } from 'node:crypto'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'

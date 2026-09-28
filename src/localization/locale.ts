@@ -1,3 +1,14 @@
+/**
+ * Purpose:
+ *   Resolve browser and user locale choices to the supported locale registry.
+ *
+ * Architecture:
+ *   Owns conservative browser-locale matching and deterministic fallback. It
+ *   does not persist preferences or translate messages.
+ *
+ * Change this file when:
+ *   Supported locale matching, fallback, or selector presentation policy changes.
+ */
 import type {
   SupportedLocale,
 } from './types.ts'
@@ -14,6 +25,8 @@ const languageFamilyLocales: Readonly<Record<string, SupportedLocale>> = {
   de: 'de-DE',
 }
 
+// Some families have one unambiguous supported target. Regional languages do
+// not: they require an exact supported region rather than a broad language fallback.
 const conservativeRegionalLocales: Readonly<Record<string, SupportedLocale>> = {
   es: 'es-ES',
   it: 'it-IT',

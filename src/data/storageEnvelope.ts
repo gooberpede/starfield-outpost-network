@@ -1,4 +1,15 @@
-/** Resource boundary for app-owned browser storage, independent of file import. */
+/**
+ * Purpose:
+ *   Bound the work and memory used to inspect app-owned browser storage.
+ *
+ * Architecture:
+ *   Owns storage-specific depth, member, string, and collection limits. These
+ *   recovery bounds are intentionally separate from the stricter external-file
+ *   import envelope.
+ *
+ * Change this file when:
+ *   Browser storage capacity or traversal-safety policy changes.
+ */
 export const MAX_STORED_LENGTH = 4_194_304
 export const MAX_STORED_MEMBERS = 65_536
 export const MAX_STORED_STRING = 16_384

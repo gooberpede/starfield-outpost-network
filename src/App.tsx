@@ -1,3 +1,15 @@
+/**
+ * Purpose:
+ *   Compose the application and coordinate editing across saved networks.
+ *
+ * Architecture:
+ *   Owns collection/session orchestration, global history context, persistence
+ *   coordination, and presentation-only application state. Domain rules stay
+ *   in domain modules and transient UI state must not enter persisted networks.
+ *
+ * Change this file when:
+ *   Cross-feature application coordination or ownership of session-level state changes.
+ */
 import { getBiomeButtonGroups } from './domain/bodyResourceAvailability'
 import {
   useEffect,
@@ -1519,9 +1531,6 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
     )
   }
 
-  /**
-   * Moves the editing session backward by one undoable user action.
-   */
   function undo() {
     historyFocusRepairRef.current = document.activeElement instanceof HTMLElement
       ? document.activeElement : null
@@ -1533,9 +1542,6 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
     resetNetworkPresentationState(presentationReset)
   }
 
-  /**
-   * Moves the editing session forward by one previously undone user action.
-   */
   function redo() {
     historyFocusRepairRef.current = document.activeElement instanceof HTMLElement
       ? document.activeElement : null

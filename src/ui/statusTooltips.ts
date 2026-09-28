@@ -1,3 +1,15 @@
+/**
+ * Purpose:
+ *   Build localized status explanations from domain state and reference facts.
+ *
+ * Architecture:
+ *   Owns presentation wording and reference-name resolution, not the underlying
+ *   domain state. Callers supply already-derived status except where a tooltip
+ *   needs a narrowly defined reference-data fact.
+ *
+ * Change this file when:
+ *   Status explanation content or its reference-data presentation needs change.
+ */
 import type { ResourceProductionRoute } from '../domain/models.ts'
 import type {
   ReferenceData,
@@ -87,6 +99,8 @@ export function getOrganicPresentTooltip(
 ): string {
   if (route.type !== 'organic') return resourceName
 
+  // Farming eligibility is planet-level. Natural-biome organic occurrences are
+  // evidence of wild presence and must not substitute for planetSpecies here.
   const planetSpecies = referenceData.planetSpecies.find((entry) =>
     entry.bodyId === bodyId &&
     entry.speciesId === route.speciesId &&
@@ -107,6 +121,7 @@ export function getDomesticableSourceNames(
   const speciesById = new Map(referenceData.species.map((entry) => [
     entry.id, getReferenceDisplayName('species', entry.id, entry.name, locale),
   ]))
+  // Source choices follow planet-level domesticability, not natural-biome occurrence.
   const names = referenceData.planetSpecies
     .filter((entry) =>
       entry.bodyId === bodyId &&

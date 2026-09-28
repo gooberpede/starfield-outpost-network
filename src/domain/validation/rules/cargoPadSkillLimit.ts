@@ -32,11 +32,6 @@ import {
 const RULE_ID =
   'cargo-pad-skill-limit'
 
-/**
- * Reports one issue for each outpost that exceeds its known cargo-pad limit.
- * If the relevant skill rank is unrecorded, no capacity assertion can be made
- * and the rule returns no issues.
- */
 function validateCargoPadSkillLimit(
   network: Parameters<ValidationRule['validate']>[0],
 ): ValidationIssue[] {

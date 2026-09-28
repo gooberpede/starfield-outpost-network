@@ -34,11 +34,6 @@ import {
 const RULE_ID =
   'outpost-skill-limit'
 
-/**
- * Reports a single issue when the recorded network exceeds the character's
- * known outpost capacity. If the relevant skill rank is unrecorded, no
- * capacity assertion can be made and the rule returns no issue.
- */
 function validateOutpostSkillLimit(
   network: Parameters<ValidationRule['validate']>[0],
 ): ValidationIssue[] {

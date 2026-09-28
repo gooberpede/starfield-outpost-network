@@ -1,3 +1,15 @@
+/**
+ * Purpose:
+ *   Select, bound, read, and deserialize a whole-collection import file.
+ *
+ * Architecture:
+ *   Owns browser file I/O and parse-error presentation. Only a fully read and
+ *   validated collection crosses `onImport`; the application owns mutation,
+ *   selection repair, persistence, and the single Undo entry.
+ *
+ * Change this file when:
+ *   File selection, reading, import handoff, or import-error presentation changes.
+ */
 import { useRef } from 'react'
 import type { Ref } from 'react'
 import { deserializeNetworkCollection } from '../../data/serialization'
@@ -39,6 +51,8 @@ export function NetworkImportButton({
       onImportError(file.name, failure.reason, failure.diagnostic)
       return
     }
+    // Reading and deserialization finish before handoff; failures never acquire
+    // application mutation or history ownership through this component.
     const reader = new FileReader()
 
     reader.onload = () => {

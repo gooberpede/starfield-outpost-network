@@ -1,4 +1,16 @@
 #!/usr/bin/env node
+/**
+ * Purpose:
+ *   Verify committed localized-name provenance and supporting artifacts without game files.
+ *
+ * Architecture:
+ *   Rebuilds canonical target identity from repository sources, then checks
+ *   resolved/unresolved closure, schemas, normalizations, and catalogue
+ *   reconciliation. It reports only and never regenerates committed artifacts.
+ *
+ * Change this file when:
+ *   Repository provenance artifacts, closure expectations, or verification gates change.
+ */
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { parse } from 'csv-parse/sync'

@@ -1,4 +1,15 @@
-/** Narrow, read-only BA2 GNRL reader for build-time localization inputs. */
+/**
+ * Purpose:
+ *   Read bounded localization members from Bethesda BA2 GNRL archives.
+ *
+ * Architecture:
+ *   This build-time parser accepts only the audited GNRL/version/member surface
+ *   needed by localization intake. It validates offsets and compression bounds,
+ *   remains read-only, and is not a general archive extractor.
+ *
+ * Change this file when:
+ *   The supported BA2 localization surface or its safety limits change.
+ */
 import { closeSync, fstatSync, openSync, readSync } from 'node:fs'
 import path from 'node:path'
 import { inflateRawSync, inflateSync } from 'node:zlib'

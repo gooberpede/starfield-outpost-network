@@ -345,21 +345,19 @@ the completion report for later design review; do not silently implement them.
 
 ## Code style and comments
 
-Follow the existing TypeScript/React style in the repository.
+Follow the source-documentation standard in `docs/CODE-STYLE.md`.
 
-For substantial new or rewritten files, retain the repository's explanatory comment convention where useful:
+Comment intent, ownership, constraints, invariants, and non-obvious reasons;
+do not narrate straightforward implementation. Substantial owner modules should
+normally use the repository's concise `Purpose` / `Architecture` / `Change this
+file when` header. Small helpers and tests do not require boilerplate headers.
 
-- `Purpose`
-- `Architecture`
-- `Change this file when`
-
-Functions with non-obvious domain or state-management responsibilities should have short intent comments.
-
-Comments should explain **why** a boundary or behaviour exists, not restate obvious syntax.
-
-Avoid over-commenting trivial JSX or straightforward assignments.
-
-Preserve existing formatting conventions unless a formatter/tooling change is explicitly requested.
+Add function or boundary comments where a maintainer could otherwise simplify
+code incorrectly, especially around domain rules, persistence, Undo/Redo,
+reference-data identity, migrations, and browser workarounds. Keep current
+system truth in comments and change history in Git. Remove stale comments when
+behavior changes, and avoid JSDoc or parameter prose that merely repeats names
+and TypeScript types.
 
 ---
 

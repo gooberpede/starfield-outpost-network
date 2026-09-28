@@ -1,3 +1,15 @@
+/**
+ * Purpose:
+ *   Resolve semantic message keys into localized, parameterized text.
+ *
+ * Architecture:
+ *   Owns locale-to-baseline fallback, parameter interpolation, and plural
+ *   selection. Message ownership stays in catalogues and callers provide only
+ *   semantic keys and values.
+ *
+ * Change this file when:
+ *   Runtime message fallback, interpolation, or plural-resolution policy changes.
+ */
 import { enUSMessages } from './locales/en-US.ts'
 import { localeRegistry } from './registry.ts'
 import type {

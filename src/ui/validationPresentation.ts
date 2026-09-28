@@ -1,4 +1,15 @@
-/** Resolves structured validation facts into localized diagnostic presentation. */
+/**
+ * Purpose:
+ *   Resolve structured domain validation issues into localized diagnostics.
+ *
+ * Architecture:
+ *   Owns display-name lookup, contextual labels, remediation text, and stable
+ *   presentation order. Validation semantics remain in the domain layer, and
+ *   unresolved reference IDs remain visible rather than hiding diagnostics.
+ *
+ * Change this file when:
+ *   Validation issue presentation, localization, remediation, or ordering changes.
+ */
 import { getBiomeButtonGroups, isProductionRouteAvailable } from '../domain/bodyResourceAvailability.ts'
 import type { CargoItem, Outpost, ResourceProductionRoute } from '../domain/models.ts'
 import type { ReferenceData } from '../domain/referenceData.ts'
@@ -172,6 +183,8 @@ export function getValidationIssuePresentation(
   resolveName: ReferenceNameResolver = getReferenceDisplayName,
 ): ValidationIssuePresentation {
   const outpost = issue.outpostId ? outposts.find(({ id }) => id === issue.outpostId) : undefined
+  // Stable IDs are the diagnostic fallback: stale reference data must degrade
+  // presentation quality, never erase the issue or its actionable context.
   const outpostContext = issue.outpostId ? outpost?.name ?? issue.outpostId : null
   let padContext: string | null = null
   if (issue.cargoPadId) {

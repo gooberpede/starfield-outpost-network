@@ -1,3 +1,15 @@
+/**
+ * Purpose:
+ *   Build and validate deterministic localization review and adjudication packages.
+ *
+ * Architecture:
+ *   Owns review rows, evidence checks, comparison status, and handoff contracts
+ *   for project-authored message catalogues. It does not alter runtime locale
+ *   selection or reference-name provenance.
+ *
+ * Change this file when:
+ *   Localization review schema, validation, comparison, or adjudication policy changes.
+ */
 import { createHash } from 'node:crypto'
 import { parse } from 'csv-parse/sync'
 

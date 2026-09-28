@@ -1,4 +1,15 @@
-/** Browser persistence for the ordered collection of universe networks. */
+/**
+ * Purpose:
+ *   Initialize and persist the ordered network collection in browser storage.
+ *
+ * Architecture:
+ *   Owns recovery fallback and persistence status at the browser boundary. A
+ *   failed source is preserved until a later deliberate edit; import/export and
+ *   application history are owned elsewhere.
+ *
+ * Change this file when:
+ *   Browser initialization, recovery, save, or persistence-status policy changes.
+ */
 import {
   createDefaultNetworkCollection,
   migrateStoredNetworkData,

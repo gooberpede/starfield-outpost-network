@@ -1,4 +1,15 @@
-/** Declarative metadata and pure policy for application command shortcuts. */
+/**
+ * Purpose:
+ *   Define application command shortcuts and pure keyboard matching policy.
+ *
+ * Architecture:
+ *   The registry is the source of truth for execution and help presentation.
+ *   Matching records key-versus-code compatibility, optional Shift for `/`,
+ *   and whether text-only or broader editable focus suppresses each command.
+ *
+ * Change this file when:
+ *   Shortcut commands, chords, aliases, grouping, or editable-focus policy changes.
+ */
 import type { MessageKey, SupportedLocale } from '../localization/types.ts'
 
 export type ShortcutActionId = 'undo' | 'redo' | 'focus-search' | 'focus-search-results' | 'add-outpost' | 'previous-outpost' | 'next-outpost' | 'toggle-validation' | 'import' | 'export' | 'add-cargo-link' | 'expand-all-cargo-links' | 'collapse-all-cargo-links' | 'focus-navigation' | 'toggle-navigation' | 'focus-outpost-details' | 'focus-resource-matrix' | 'focus-cargo-links' | 'focus-planned-supply' | 'focus-first-inorganic' | 'focus-first-organic' | 'focus-manufacturing-action'

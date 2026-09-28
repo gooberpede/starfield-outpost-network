@@ -1,3 +1,15 @@
+/**
+ * Purpose:
+ *   Serialize network data and validate whole-collection external imports.
+ *
+ * Architecture:
+ *   Owns the JSON import/export boundary. External files are validated more
+ *   strictly than recoverable browser storage before application state receives
+ *   them; this module does not own mutation, selection, or Undo history.
+ *
+ * Change this file when:
+ *   Import/export shape, validation, or migration entry-point policy changes.
+ */
 import type { OutpostNetwork } from '../domain/models'
 import type { ReferenceData } from '../domain/referenceData'
 import { migrateNetworkData } from './networkMigration.ts'

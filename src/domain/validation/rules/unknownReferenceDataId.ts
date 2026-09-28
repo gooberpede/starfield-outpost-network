@@ -38,9 +38,6 @@ import type {
 const RULE_ID =
   'unknown-reference-data-id'
 
-/**
- * Returns true when a CargoItem refers to a known resource or product.
- */
 function cargoItemExists(
   item: CargoItem,
   referenceData: ReferenceData,
@@ -58,10 +55,6 @@ function cargoItemExists(
   )
 }
 
-/**
- * Reports network references that cannot be resolved against the currently
- * loaded reference-data catalogue.
- */
 function validateUnknownReferenceDataIds(
   network: Parameters<ValidationRule['validate']>[0],
   referenceData: Parameters<ValidationRule['validate']>[1],

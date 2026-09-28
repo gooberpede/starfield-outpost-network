@@ -25,10 +25,6 @@ import type {
 const RULE_ID =
   'self-linked-cargo-pad'
 
-/**
- * Reports one issue for each cargo link whose two endpoints identify the
- * same outpost and cargo pad.
- */
 function validateSelfLinkedCargoPads(
   network: Parameters<ValidationRule['validate']>[0],
 ): ValidationIssue[] {

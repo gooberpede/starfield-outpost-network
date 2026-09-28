@@ -1,3 +1,14 @@
+/**
+ * Purpose:
+ *   Define persisted initial network values and deterministic automatic names.
+ *
+ * Architecture:
+ *   Owns product defaults for newly created domain objects. It does not infer
+ *   values from reference data or presentation state.
+ *
+ * Change this file when:
+ *   New-network defaults or automatic outpost naming policy changes.
+ */
 import type {
   Outpost,
   OutpostNetwork,
@@ -18,6 +29,7 @@ export const createDefaultNetwork = (): OutpostNetwork => ({
       specialProjects: null,
     },
     capabilities: {
+      // X-Tech is enabled product policy; unlike unknown skill ranks, it is not unrecorded data.
       xTechExtraction: true,
     },
   },

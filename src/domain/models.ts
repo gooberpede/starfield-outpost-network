@@ -1,3 +1,15 @@
+/**
+ * Purpose:
+ *   Define persisted outpost-network entities, stable identities, and ownership relationships.
+ *
+ * Architecture:
+ *   These types describe player data, not reference records or presentation
+ *   state. Stable IDs carry identity; cargo links are network-owned while pad
+ *   selections remain pad-owned.
+ *
+ * Change this file when:
+ *   Persisted domain shape, identity, or entity ownership changes.
+ */
 import type {
   BodyBiomeId,
   PlanetaryBodyId,

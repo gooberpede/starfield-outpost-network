@@ -1,5 +1,16 @@
 #!/usr/bin/env node
-/** Repository-only integrity verification for the committed reference-name overlay. */
+/**
+ * Purpose:
+ *   Verify committed reference-name overlays and their provenance sidecars.
+ *
+ * Architecture:
+ *   Cross-checks generated modules, locale metadata, manifested provenance,
+ *   runtime reference identity, composition evidence, hashes, and coverage. It
+ *   requires no installed game data and never rewrites the artifacts it checks.
+ *
+ * Change this file when:
+ *   Overlay artifact structure, locale coverage, sidecar, or integrity gates change.
+ */
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { parse } from 'csv-parse/sync'

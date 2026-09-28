@@ -1,3 +1,15 @@
+/**
+ * Purpose:
+ *   Parse and validate committed official-terminology evidence and locale values.
+ *
+ * Architecture:
+ *   Evidence rows record why a term is supported; value rows record locale text
+ *   selected from that evidence. Keeping them separate preserves multiple proofs
+ *   and distinguishes explicit absence evidence from missing data.
+ *
+ * Change this file when:
+ *   Terminology evidence/value schemas or validation policy changes.
+ */
 import { parse } from 'csv-parse/sync'
 
 export const OFFICIAL_TERMINOLOGY_SCHEMA_VERSION = 2
@@ -12,6 +24,8 @@ export const OFFICIAL_TERMINOLOGY_VALUE_COLUMNS = [
   'EvidenceId', 'Locale', 'OfficialValue', 'RecommendedDefault',
 ]
 
+// `absence` is reviewed evidence that a value is not present; it must remain
+// distinguishable from a missing evidence row or missing locale value.
 const evidenceKinds = new Set(['standalone', 'contextual', 'absence'])
 const sourceUses = new Set(['canonical-content', 'terminology-evidence-only'])
 const stringTables = new Set(['strings', 'dlstrings', 'ilstrings'])

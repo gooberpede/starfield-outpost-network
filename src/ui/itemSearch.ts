@@ -1,4 +1,15 @@
-/** Pure localized catalogue construction and deterministic item matching. */
+/**
+ * Purpose:
+ *   Build the localized item-search catalogue and rank deterministic matches.
+ *
+ * Architecture:
+ *   Owns normalization, aliases, ambiguity marking, and match ordering. Domain
+ *   result facts such as presence, production, and recipe feasibility are
+ *   derived outside this presentation-search module.
+ *
+ * Change this file when:
+ *   Item-search normalization, catalogue identity, ranking, or ambiguity policy changes.
+ */
 import type { CargoItem } from '../domain/models.ts'
 import type { ReferenceData } from '../domain/referenceData.ts'
 import { getReferenceDisplayName } from '../localization/referenceNames.ts'

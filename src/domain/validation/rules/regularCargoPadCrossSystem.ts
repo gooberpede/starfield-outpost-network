@@ -26,10 +26,6 @@ import type {
 const RULE_ID =
   'regular-cargo-pad-cross-system'
 
-/**
- * Reports one issue for each regular cargo pad participating in a
- * cross-system cargo link.
- */
 function validateRegularCargoPadCrossSystem(
   network: Parameters<ValidationRule['validate']>[0],
 ): ValidationIssue[] {

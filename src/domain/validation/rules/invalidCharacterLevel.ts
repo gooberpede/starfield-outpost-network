@@ -30,10 +30,6 @@ const RULE_ID =
 const MIN_CHARACTER_LEVEL = 1
 const MAX_CHARACTER_LEVEL = 999
 
-/**
- * Reports an issue when a recorded character level is not a positive whole
- * number. An unrecorded null value is valid and produces no issue.
- */
 function validateInvalidCharacterLevel(
   network: Parameters<ValidationRule['validate']>[0],
 ): ValidationIssue[] {

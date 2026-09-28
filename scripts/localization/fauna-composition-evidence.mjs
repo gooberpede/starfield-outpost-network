@@ -1,4 +1,15 @@
-/** Validate and serialize the project-owned evidence record for composed fauna names. */
+/**
+ * Purpose:
+ *   Validate and serialize project-owned evidence for composed fauna names.
+ *
+ * Architecture:
+ *   Joins committed provenance with generated overlays, enforces composition
+ *   closure and review status, and emits deterministic evidence. It does not
+ *   infer official wording or treat pending observations as verified truth.
+ *
+ * Change this file when:
+ *   Fauna composition shapes, evidence schema, coverage, or review policy changes.
+ */
 import { parse } from 'csv-parse/sync'
 import { LOCALIZATION_LOCALE_METADATA } from './locale-metadata.mjs'
 

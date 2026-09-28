@@ -1,4 +1,15 @@
-/** Pure, immutable outpost edits shared by application history and regression tests. */
+/**
+ * Purpose:
+ *   Provide pure, immutable outpost transitions shared by application history and tests.
+ *
+ * Architecture:
+ *   Owns grouped domain edits and their collateral resets, but not history
+ *   entries or UI feedback. Callers can therefore record one deliberate user
+ *   operation around each returned network change.
+ *
+ * Change this file when:
+ *   Outpost transitions or their required collateral effects change.
+ */
 import type { Outpost, ResourceProductionRoute } from './models'
 import { getProductionRouteKey } from './productionRoutes.ts'
 import type { BodyBiomeId, PlanetaryBodyId, ResourceId, StarSystemId } from './referenceData'
