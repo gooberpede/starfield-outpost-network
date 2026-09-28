@@ -2,6 +2,17 @@ import { buildReviewDraft } from './buildDraft.ts'
 
 /** Independent Codex draft used by the German semantic review package. */
 export const deDEReviewDraft = buildReviewDraft({
+  "validation.activeProductionOrganicInvalidMany": "{resource} ist als produziert markiert, aber dieser Produzent ist auf diesem Planeten nicht für die organische Produktion geeignet.",
+  "validation.activeProductionOrganicInvalidOne": "{resource} ist als produziert markiert, aber dieser Produzent ist auf diesem Planeten nicht für die organische Produktion geeignet.",
+  "validation.activeProductionOrganicInvalid": "{resource} ist als produziert markiert, aber dieser Produzent ist auf diesem Planeten nicht für die organische Produktion geeignet.",
+  "help.organic.unavailableBiomes": "{resource} ist von dieser domestizierbaren Spezies auf diesem Planeten nicht verfügbar.",
+  "help.organic.unavailableBiome": "{resource} ist von dieser domestizierbaren Spezies auf diesem Planeten nicht verfügbar.",
+  "help.organic.unavailablePlanet": "{resource} ist von dieser domestizierbaren Spezies auf diesem Planeten nicht verfügbar.",
+  "help.organic.availableBiomes": "{resource} ist von einer domestizierbaren Spezies auf diesem Planeten erhältlich.",
+  "help.organic.availableSelectedBiome": "{resource} ist von einer domestizierbaren Spezies auf diesem Planeten erhältlich.",
+  "help.organic.availableBiome": "{resource} ist von einer domestizierbaren Spezies auf diesem Planeten erhältlich.",
+  "help.organic.availablePlanet": "{resource} ist von einer domestizierbaren Spezies auf diesem Planeten erhältlich.",
+  "help.biomes": "Die ausgewählten Biome beschränken die Verfügbarkeit anorganischer Ressourcen auf Ressourcen, die dort vorkommen können.",
   "about.version": "Version {version}",
   "about.build": "Build {commit}",
   "about.modified": "lokal / verändert",
@@ -40,7 +51,7 @@ export const deDEReviewDraft = buildReviewDraft({
   'validation.plannedSupplyUnresolved': '{count} {count, plural, one {Element} other {Elemente}} in Geplante Versorgung: {itemList}.',
   'validation.issueCount': 'Validierung: {count} {count, plural, one {Problem} other {Probleme}}',
   'validation.remediation.extraction': 'Zur Gewinnung verfügbar in: {biomes}',
-  'validation.remediation.harvesting': 'Zur Ernte verfügbar in: {biomes}',
+  "validation.remediation.harvesting": "Wähle einen gültigen domestizierbaren Produzenten auf diesem Planeten.",
   'validation.unresolvedCargoExport': 'Dieser Frachtexport hat keine tatsächliche Quelle.',
   'referenceFatal.diagnostic.asset': 'Datei',
   'referenceFatal.reason.assetContentType': 'Eine erforderliche Referenzdatei wurde mit dem falschen Inhaltstyp bereitgestellt.',

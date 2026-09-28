@@ -409,12 +409,16 @@ Fabricator quantity remains persisted but is not part of the current matrix UI.
 Outpost location controls include a flexible Biome toggle region beside stable
 System and Body selectors. Buttons wrap only inside that region. No pressed
 buttons means unrestricted/all body biomes; pressed buttons persist selected
-body-biome occurrence IDs. Equal signatures for one stable biome identity share
-one button, while different signatures receive numeric suffixes in biome-index
+body-biome occurrence IDs. Equal inorganic production signatures for one stable
+biome identity share one
+button, while different inorganic signatures receive numeric suffixes in biome-index
 order. The base display name resolves through that stable biome identity.
 
-Organic rows are source-specific and show canonical species names in Source.
-They sort plant, herbivore, carnivore, then by resource and species name. Inputs
+Biome controls constrain occurrence-backed inorganic availability. Organic rows
+are instead planet-level: every exact domesticable producer on the selected body
+remains available regardless of selected biome. They are source-specific and show
+canonical species names in Source, sorting plant, herbivore, carnivore, then by
+resource and species name. Inputs
 reuse manufacturing input cells. Input quantities remain in reference data for
 future throughput modelling but are not displayed because the current matrix
 validates resource availability rather than production capacity. Invalid active
@@ -678,6 +682,9 @@ its network-local committed position, so a later search in the same network
 reopens there; network and lifecycle boundaries reset the complete Search
 presentation session. Result outpost names are ordinary navigation buttons.
 Search remains visually subordinate to the Resource Matrix heading.
+
+Organic-resource `PRESENT` reflects at least one exact domesticable producer on
+the outpost's selected body and does not vary with biome selection.
 
 X-Tech is searchable by its name and `XT`. Its `PRESENT` flag reflects explicit
 outpost presence rather than character capability; the other flags reuse the

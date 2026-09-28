@@ -2,7 +2,8 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import {
-  getAvailableOrganicProductionRoutes,
+  getPlanetaryOrganicFarmingRoutes,
+  isOrganicFarmingRouteEligibleOnBody,
   getBiomeButtonGroups,
   getEffectiveBodyBiomeIds,
   getOutpostAvailableInorganicResourceIds,
@@ -15,6 +16,7 @@ import { unknownReferenceDataIdRule } from '../src/domain/validation/rules/unkno
 import { selectedBiomeValidForBodyRule } from '../src/domain/validation/rules/selectedBiomeValidForBody.ts'
 import { unspecifiedOrganicProductionSourceRule } from '../src/domain/validation/rules/unspecifiedOrganicProductionSource.ts'
 import { organicFarmingInputsUnavailableRule } from '../src/domain/validation/rules/organicFarmingInputsUnavailable.ts'
+import { activeProductionValidForBodyRule } from '../src/domain/validation/rules/activeProductionValidForBody.ts'
 import { createDefaultOutpost } from '../src/domain/defaults.ts'
 import {
   changeOutpostBody,
@@ -56,14 +58,18 @@ function referenceFixture() {
     species: [
       { id: 'plant-a', name: 'Plant A', type: 'flora' },
       { id: 'plant-b', name: 'Plant B', type: 'flora' },
+      { id: 'wild-plant', name: 'Wild Plant', type: 'flora' },
     ],
     planetSpecies: [
       { bodyId: 'body', speciesId: 'plant-a', sourceClass: 'plant', domesticable: true, resourceId: 'sealant' },
       { bodyId: 'body', speciesId: 'plant-b', sourceClass: 'plant', domesticable: true, resourceId: 'sealant' },
+      { bodyId: 'other', speciesId: 'plant-a', sourceClass: 'plant', domesticable: true, resourceId: 'sealant' },
+      { bodyId: 'body', speciesId: 'wild-plant', sourceClass: 'plant', domesticable: false, resourceId: 'sealant' },
     ],
     organicOccurrences: [
       { bodyBiomeId: 'b0', speciesId: 'plant-a' },
       { bodyBiomeId: 'b1', speciesId: 'plant-a' },
+      { bodyBiomeId: 'b1', speciesId: 'plant-b' },
       { bodyBiomeId: 'b3', speciesId: 'plant-b' },
     ],
     organicFarmingProfiles: [{ sourceClass: 'plant', inputs: [{ resourceId: 'water', quantity: 1 }] }],
@@ -92,12 +98,13 @@ test('empty and explicit-all biome scope are equivalent; subsets retain atmosphe
   assert.deepEqual(new Set(getOutpostAvailableInorganicResourceIds(data, 'body', [])),
     new Set(getOutpostAvailableInorganicResourceIds(data, 'body', all)))
   assert.deepEqual(getOutpostAvailableInorganicResourceIds(data, 'body', ['b0']).sort(), ['argon', 'iron'])
-  assert.deepEqual(getAvailableOrganicProductionRoutes(data, 'body', []),
-    getAvailableOrganicProductionRoutes(data, 'body', all))
-  assert.equal(getAvailableOrganicProductionRoutes(data, 'body', ['b0']).length, 1)
+  const planetaryRoutes = getPlanetaryOrganicFarmingRoutes(data, 'body')
+  assert.equal(planetaryRoutes.length, 2)
+  assert.deepEqual(planetaryRoutes, getPlanetaryOrganicFarmingRoutes(data, 'body'))
+  assert.ok(!getOutpostAvailableInorganicResourceIds(data, 'body', ['b0']).includes('copper'))
 })
 
-test('same-biome occurrences group by inorganic and source-specific organic signatures in index order', () => {
+test('same-biome occurrences group by inorganic-only production signatures in index order', () => {
   const groups = getBiomeButtonGroups(referenceFixture(), 'body')
   assert.deepEqual(groups.map(({ biomeId, baseLabel, ordinal }) => ({
     biomeId, baseLabel, ordinal,
@@ -113,6 +120,17 @@ test('same-biome occurrences group by inorganic and source-specific organic sign
   ])
 })
 
+test('planetary organic farming preserves exact producers and ignores natural biome occurrence', () => {
+  const data = referenceFixture()
+  const plantA = { type: 'organic', resourceId: 'sealant', speciesId: 'plant-a' }
+  const plantB = { type: 'organic', resourceId: 'sealant', speciesId: 'plant-b' }
+  assert.equal(isOrganicFarmingRouteEligibleOnBody(data, 'body', plantA), true)
+  assert.equal(isOrganicFarmingRouteEligibleOnBody(data, 'body', plantB), true)
+  assert.equal(isOrganicFarmingRouteEligibleOnBody(data, 'other', plantB), false)
+  assert.equal(isOrganicFarmingRouteEligibleOnBody(
+    data, 'body', { ...plantA, speciesId: 'missing' },
+  ), false)
+})
 test('multiple species routes collapse only at the downstream resource boundary', () => {
   const network = networkFixture()
   network.outposts[0].activeProduction = [
@@ -151,6 +169,24 @@ test('schema-3 export/import migrates while preserving biome IDs and routes', ()
   assert.equal(migrated.schemaVersion, 4)
   assert.deepEqual(migrated.outposts[0].selectedBiomeIds, network.outposts[0].selectedBiomeIds)
   assert.deepEqual(migrated.outposts[0].activeProduction, network.outposts[0].activeProduction)
+  const data = referenceFixture()
+  assert.equal(activeProductionValidForBodyRule.validate(migrated, data).length, 0)
+
+  const wrongBody = structuredClone(network)
+  wrongBody.outposts[0].bodyId = 'other'
+  wrongBody.outposts[0].activeProduction = [
+    { type: 'organic', resourceId: 'sealant', speciesId: 'plant-b' },
+  ]
+  const wrongBodyImport = deserializeNetwork(serializeNetwork(wrongBody), data)
+  assert.deepEqual(wrongBodyImport.outposts[0].selectedBiomeIds, ['b0', 'b1'])
+  assert.equal(activeProductionValidForBodyRule.validate(wrongBodyImport, data).length, 1)
+
+  const wildOnly = structuredClone(network)
+  wildOnly.outposts[0].activeProduction = [
+    { type: 'organic', resourceId: 'sealant', speciesId: 'wild-plant' },
+  ]
+  const wildOnlyImport = deserializeNetwork(serializeNetwork(wildOnly), data)
+  assert.equal(activeProductionValidForBodyRule.validate(wildOnlyImport, data).length, 1)
 })
 
 test('biome, unspecified-source, and farming-input validators have separate ownership', () => {
@@ -166,7 +202,7 @@ test('biome, unspecified-source, and farming-input validators have separate owne
   assert.equal(selectedBiomeValidForBodyRule.validate(network, data).length, 2)
   assert.equal(duplicateCollectionEntriesRule.validate(network).filter((issue) => issue.bodyBiomeId).length, 1)
   assert.equal(unspecifiedOrganicProductionSourceRule.validate(network).length, 1)
-  assert.equal(organicFarmingInputsUnavailableRule.validate(network, data).length, 0)
+  assert.equal(organicFarmingInputsUnavailableRule.validate(network, data).length, 1)
 
   outpost.selectedBiomeIds = ['b0']
   assert.equal(organicFarmingInputsUnavailableRule.validate(network, data).length, 1)

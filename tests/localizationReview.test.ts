@@ -27,6 +27,17 @@ import { adjudicateReviewRows } from '../src/localization/reviewAdjudication.ts'
 import { supportedLocaleIds } from '../src/localization/types.ts'
 import { reviewRouteForLocale } from '../scripts/localization/review-routing.ts'
 
+const planetaryOrganicCorrectionKeys = new Set([
+  'help.biomes',
+  'help.organic.availablePlanet', 'help.organic.availableBiome',
+  'help.organic.availableSelectedBiome', 'help.organic.availableBiomes',
+  'help.organic.unavailablePlanet', 'help.organic.unavailableBiome',
+  'help.organic.unavailableBiomes',
+  'validation.activeProductionOrganicInvalid',
+  'validation.activeProductionOrganicInvalidOne',
+  'validation.activeProductionOrganicInvalidMany',
+  'validation.remediation.harvesting',
+])
 function validateCodexTranslation(key: keyof typeof enUSMessages, translation: string): void {
   const rows = createReviewRows('de-DE').map((row) => row.Key === key
     ? { ...row, CodexTranslation: translation }
@@ -312,18 +323,23 @@ test('Simplified Chinese DeepL evidence is fully imported and neutrally adjudica
     row.ComparisonStatus === 'MISSING' && row.AdjudicationDecision === 'CODEX' &&
     row.FinalTranslation === row.CodexTranslation && row.ReviewerNote.includes('no new DeepL or native review') &&
     (row.Key.startsWith('about.') || row.Key === 'validation.characterNameLength')))
-  const rows = allRows.filter(row => !additions.includes(row))
-  assert.equal(rows.length, 413)
+  const corrections = allRows.filter((row) => planetaryOrganicCorrectionKeys.has(row.Key))
+  assert.equal(corrections.length, 12)
+  assert.ok(corrections.every((row) => !row.DeepLTranslation &&
+    row.ComparisonStatus === 'MISSING' && row.AdjudicationDecision === 'CODEX' &&
+    row.FinalTranslation === row.CodexTranslation))
+  const rows = allRows.filter(row => !additions.includes(row) && !corrections.includes(row))
+  assert.equal(rows.length, 401)
   assert.ok(rows.every(({ DeepLTranslation }) => DeepLTranslation.trim()))
   assert.deepEqual(
     Object.fromEntries(['IDENTICAL', 'TYPOGRAPHIC_ONLY', 'SUBSTANTIVE', 'INVALID_TOKENS']
       .map((status) => [status, rows.filter(({ ComparisonStatus }) => ComparisonStatus === status).length])),
-    { IDENTICAL: 97, TYPOGRAPHIC_ONLY: 0, SUBSTANTIVE: 271, INVALID_TOKENS: 45 },
+    { IDENTICAL: 97, TYPOGRAPHIC_ONLY: 0, SUBSTANTIVE: 259, INVALID_TOKENS: 45 },
   )
   assert.deepEqual(
     Object.fromEntries(['AGREED', 'CODEX', 'DEEPL', 'CUSTOM', 'INVALID_DEEPL_REPAIRED']
       .map((decision) => [decision, rows.filter(({ AdjudicationDecision }) => AdjudicationDecision === decision).length])),
-    { AGREED: 97, CODEX: 249, DEEPL: 10, CUSTOM: 12, INVALID_DEEPL_REPAIRED: 45 },
+    { AGREED: 97, CODEX: 242, DEEPL: 9, CUSTOM: 8, INVALID_DEEPL_REPAIRED: 45 },
   )
 
   const structural = rows.map((row) => {
@@ -393,18 +409,18 @@ test('final Simplified Chinese catalogue is review-derived, complete, and runtim
     'plannedSupply.section.products': '制成品',
     'shortcuts.group.importExport': '导入/导出',
     'status.import.invalidExplicitPresence': '所选文件包含无效的显式资源存在数据。',
-    'validation.remediation.harvesting': '可在以下生物群系中采集：{biomes}',
+    'validation.remediation.harvesting': '请选择此行星上有效的可养殖生产物种。',
     'matrix.tooltip.xTech.add': '将{resource}标记为存在。如果有可用的X技术能量核心，即可在任意哨站开采该资源。',
     'status.import.aggregateLimitExceeded': '此导入文件包含的条目过多，无法安全打开。',
     'status.import.arrayLimitExceeded': '此导入文件的某个部分包含过多条目。',
-    'validation.activeProductionOrganicInvalid': '{resource}已标记为生产中，但无法在{biomes}通过哨站采集获得。',
-    'validation.activeProductionOrganicInvalidMany': '{resource}已标记为生产中，但无法在{biomes}这些生物群系通过哨站采集获得。',
-    'validation.activeProductionOrganicInvalidOne': '{resource}已标记为生产中，但无法在{biomes}生物群系通过哨站采集获得。',
+    'validation.activeProductionOrganicInvalid': '{resource}已标记为生产中，但该生产物种不符合此行星的有机资源生产条件。',
+    'validation.activeProductionOrganicInvalidMany': '{resource}已标记为生产中，但该生产物种不符合此行星的有机资源生产条件。',
+    'validation.activeProductionOrganicInvalidOne': '{resource}已标记为生产中，但该生产物种不符合此行星的有机资源生产条件。',
   } as const
   for (const key of Object.keys(blindAuditCorrections) as (keyof typeof blindAuditCorrections)[]) {
     assert.equal(zhHansMessages[key], blindAuditCorrections[key], key)
   }
-  assert.equal(zhHansMessages['help.biomes'], '所选生物群系会将可用资源限制为能够在其中出现的资源。')
+  assert.equal(zhHansMessages['help.biomes'], '所选生物群系仅会将无机资源的可用范围限制为能在其中出现的资源。')
   assert.equal(zhHansMessages['validation.unresolvedCargoExport'], '此项货物导出没有实际来源。')
   assert.doesNotMatch(zhHansMessages['character.level.rejectedRestored'], /1 至 999/)
   assert.doesNotMatch(zhHansMessages['character.level.rejectedEmpty'], /1 至 999/)
@@ -797,19 +813,24 @@ test('Polish DeepL evidence is fully imported and invalid candidates remain expl
     row.ComparisonStatus === 'MISSING' && row.AdjudicationDecision === 'CODEX' &&
     row.FinalTranslation === row.CodexTranslation && row.ReviewerNote.includes('no new DeepL or native review') &&
     (row.Key.startsWith('about.') || row.Key === 'validation.characterNameLength')))
-  const rows = allRows.filter(row => !additions.includes(row))
-  assert.equal(rows.length, 413)
+  const corrections = allRows.filter((row) => planetaryOrganicCorrectionKeys.has(row.Key))
+  assert.equal(corrections.length, 12)
+  assert.ok(corrections.every((row) => !row.DeepLTranslation &&
+    row.ComparisonStatus === 'MISSING' && row.AdjudicationDecision === 'CODEX' &&
+    row.FinalTranslation === row.CodexTranslation))
+  const rows = allRows.filter(row => !additions.includes(row) && !corrections.includes(row))
+  assert.equal(rows.length, 401)
   assert.ok(rows.every(({ DeepLTranslation }) => DeepLTranslation.trim()))
   assert.deepEqual(
     Object.fromEntries(['IDENTICAL', 'TYPOGRAPHIC_ONLY', 'SUBSTANTIVE', 'INVALID_TOKENS']
       .map((status) => [status, rows.filter(({ ComparisonStatus }) => ComparisonStatus === status).length])),
-    { IDENTICAL: 112, TYPOGRAPHIC_ONLY: 0, SUBSTANTIVE: 220, INVALID_TOKENS: 81 },
+    { IDENTICAL: 112, TYPOGRAPHIC_ONLY: 0, SUBSTANTIVE: 217, INVALID_TOKENS: 72 },
   )
   assert.deepEqual(
     Object.fromEntries(['PLACEHOLDERS', 'PROTECTED_TOKEN', 'PLURAL_SYNTAX']
       .map((issue) => [issue, rows.filter(({ ReviewerNote }) =>
         ReviewerNote.includes(`failed ${issue} validation`)).length])),
-    { PLACEHOLDERS: 64, PROTECTED_TOKEN: 13, PLURAL_SYNTAX: 4 },
+    { PLACEHOLDERS: 55, PROTECTED_TOKEN: 13, PLURAL_SYNTAX: 4 },
   )
   assert.ok(rows.filter(({ ComparisonStatus }) => ComparisonStatus === 'INVALID_TOKENS')
     .every(({ AdjudicationDecision, ReviewerNote }) =>
@@ -894,7 +915,8 @@ test('Spanish, Italian, and Brazilian Portuguese review evidence produces determ
           frozen.Risk, frozen.Parameters, frozen.ProtectedTokens, frozen.OfficialTermConstraints,
           frozen.CodexTranslation],
       )
-      if (/^(?:Release preparation|Pre-release polish) copy:/.test(row.ReviewerNote)) {
+      if (/^(?:Release preparation|Pre-release polish) copy:/.test(row.ReviewerNote) ||
+        planetaryOrganicCorrectionKeys.has(row.Key)) {
         assert.equal(row.DeepLTranslation, '')
         assert.equal(row.ComparisonStatus, 'MISSING')
         assert.equal(row.AdjudicationDecision, 'CODEX')

@@ -217,6 +217,12 @@ Do not fold this broader status-bar review into unrelated feature work.
     `Inputs`, and `Logistics`, especially that `Logistics` means actually
     configured on a routed export rather than merely available to export.
 
+### Biome help wording precision
+
+Revisit `help.biomes` wording so it distinguishes biome-dependent inorganic 
+resources from body-wide atmospheric resources without making the help text 
+cumbersome. Update all locales together if a clearer formulation is found.
+
 ---
 
 ## Import, export, and storage

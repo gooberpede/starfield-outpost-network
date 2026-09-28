@@ -1082,3 +1082,43 @@ test('provider locale switches do not mutate network selection, outpost context,
     expect(serializeNetworkCollection(session.collection)).toBe(serializedBefore)
   }
 })
+
+test('Resource Matrix offers planet-eligible organic routes outside their natural biome', () => {
+  const outpost = makeOutpost('organic', 'Organic')
+  outpost.bodyId = 'body'
+  outpost.selectedBiomeIds = ['body-desert']
+  const network = createDefaultNetwork()
+  network.outposts = [outpost]
+  const fiber = {
+    id: 'fiber', name: 'Fiber', shortName: 'Fb', category: 'organic' as const,
+    rarity: 'common' as const, parentId: null, sortOrder: null, plannedSupplyPlacement: null,
+  }
+  const referenceData: ReferenceData = {
+    systems: [], bodies: [], bodyResources: [], products: [], productRecipes: [],
+    resources: [fiber],
+    biomes: [{ id: 'forest', name: 'Forest' }, { id: 'desert', name: 'Desert' }],
+    bodyBiomes: [
+      { id: 'body-forest', bodyId: 'body', biomeId: 'forest', biomeIndex: 0 },
+      { id: 'body-desert', bodyId: 'body', biomeId: 'desert', biomeIndex: 1 },
+    ],
+    inorganicOccurrences: [],
+    species: [{ id: 'plant', name: 'Fiber Plant', type: 'flora' }],
+    planetSpecies: [{
+      bodyId: 'body', speciesId: 'plant', sourceClass: 'plant',
+      domesticable: true, resourceId: 'fiber',
+    }],
+    organicOccurrences: [{ bodyBiomeId: 'body-forest', speciesId: 'plant' }],
+    organicFarmingProfiles: [],
+  }
+  localized('en-US', <OutpostStatusMatrix
+    outpost={outpost} network={network} resources={[fiber]} products={[]}
+    referenceData={referenceData} availableItems={[]} actuallyAvailableItems={[]}
+    onToggleResource={noOp} onToggleExplicitResourcePresence={noOp}
+    onToggleActiveProduction={noOp} onCommitManufacturing={noOp}
+  />)
+
+  expect(screen.getByRole('rowheader', { name: 'Fiber' })).toBeVisible()
+  expect(screen.getByText('Fiber Plant')).toBeVisible()
+  expect(screen.getByRole('button', { name: 'Toggle Producing from Fiber Plant for Fiber' })).toBeEnabled()
+  expect(screen.getByTitle('Fiber is available from a domesticable species on this planet.')).toBeVisible()
+})

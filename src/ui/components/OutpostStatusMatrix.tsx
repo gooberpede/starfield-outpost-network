@@ -5,7 +5,7 @@
  */
 import { useId, useMemo, useState, type ReactNode, type Ref } from 'react'
 import {
-  getAvailableOrganicProductionRoutes,
+  getPlanetaryOrganicFarmingRoutes,
   getOutpostAvailableInorganicResourceIds,
 } from '../../domain/bodyResourceAvailability'
 import {
@@ -210,9 +210,7 @@ export function OutpostStatusMatrix({
     'resource', X_TECH_RESOURCE_ID, xTech?.name, locale,
   )
 
-  const availableOrganicRoutes = getAvailableOrganicProductionRoutes(
-    referenceData, outpost.bodyId, outpost.selectedBiomeIds,
-  )
+  const availableOrganicRoutes = getPlanetaryOrganicFarmingRoutes(referenceData, outpost.bodyId)
   const availableOrganicKeys = new Set(availableOrganicRoutes.map(getProductionRouteKey))
   const organicRoutesByKey = new Map<string, ResourceProductionRoute>()
   for (const route of [...availableOrganicRoutes, ...outpost.activeProduction.filter(

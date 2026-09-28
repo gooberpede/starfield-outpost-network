@@ -1,4 +1,4 @@
-/** Reports known specific routes that current body/biome reference facts do not support. */
+/** Reports known specific routes that current body or exact producer facts do not support. */
 import { isProductionRouteAvailable } from '../../bodyResourceAvailability.ts'
 import type { ValidationIssue, ValidationRule } from '../types'
 import { usesExplicitPresence } from '../../resourcePresence.ts'
@@ -38,7 +38,7 @@ function validate(
 
 export const activeProductionValidForBodyRule: ValidationRule = {
   id: RULE_ID,
-  name: 'Active production valid for body and biome',
-  description: 'Flags active production routes unsupported by the selected body and biome scope.',
+  name: 'Active production valid for body',
+  description: 'Flags active production routes unsupported by body-level producer or biome facts.',
   category: 'operational', defaultSeverity: 'warning', validate,
 }

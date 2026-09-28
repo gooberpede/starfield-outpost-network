@@ -314,7 +314,12 @@ const terminologyConstraints: readonly Constraint[] = [
   { id: 'term.outpost', matches: sourceHas('Outpost') },
   { id: 'term.biome', matches: sourceHas('Biome') },
   { id: 'term.planet', matches: keyIs(
-    'help.organic.unavailablePlanet', 'help.organic.availablePlanet',
+    'help.organic.unavailablePlanet', 'help.organic.unavailableBiome',
+    'help.organic.unavailableBiomes', 'help.organic.availablePlanet',
+    'help.organic.availableBiome', 'help.organic.availableSelectedBiome',
+    'help.organic.availableBiomes', 'validation.activeProductionOrganicInvalid',
+    'validation.activeProductionOrganicInvalidOne',
+    'validation.activeProductionOrganicInvalidMany', 'validation.remediation.harvesting',
   ) },
   { id: 'term.planetary-body', matches: keyIs(...planetaryBodyKeys) },
   { id: 'term.star-system', matches: anyOf(

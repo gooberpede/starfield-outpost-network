@@ -2,6 +2,17 @@ import { buildReviewDraft } from './buildDraft.ts'
 
 /** Independent Codex draft used by the French semantic review package. */
 export const frFRReviewDraft = buildReviewDraft({
+  "validation.activeProductionOrganicInvalidMany": "{resource} est marqué comme produit, mais ce producteur n’est pas éligible à la production organique sur cette planète.",
+  "validation.activeProductionOrganicInvalidOne": "{resource} est marqué comme produit, mais ce producteur n’est pas éligible à la production organique sur cette planète.",
+  "validation.activeProductionOrganicInvalid": "{resource} est marqué comme produit, mais ce producteur n’est pas éligible à la production organique sur cette planète.",
+  "help.organic.unavailableBiomes": "{resource} n’est pas disponible auprès de cette espèce domesticable sur cette planète.",
+  "help.organic.unavailableBiome": "{resource} n’est pas disponible auprès de cette espèce domesticable sur cette planète.",
+  "help.organic.unavailablePlanet": "{resource} n’est pas disponible auprès de cette espèce domesticable sur cette planète.",
+  "help.organic.availableBiomes": "{resource} est disponible auprès d’une espèce domesticable sur cette planète.",
+  "help.organic.availableSelectedBiome": "{resource} est disponible auprès d’une espèce domesticable sur cette planète.",
+  "help.organic.availableBiome": "{resource} est disponible auprès d’une espèce domesticable sur cette planète.",
+  "help.organic.availablePlanet": "{resource} est disponible auprès d’une espèce domesticable sur cette planète.",
+  "help.biomes": "Les biomes sélectionnés limitent la disponibilité des ressources inorganiques à celles qui peuvent s’y trouver.",
   "about.version": "Version {version}",
   "about.build": "Compilation {commit}",
   "about.modified": "locale / modifiée",
@@ -40,7 +51,7 @@ export const frFRReviewDraft = buildReviewDraft({
   'validation.plannedSupplyUnresolved': '{count} {count, plural, one {élément} other {éléments}} dans l’approvisionnement planifié : {itemList}.',
   'validation.issueCount': 'Validation : {count} {count, plural, one {problème} other {problèmes}}',
   'validation.remediation.extraction': 'Extraction possible dans : {biomes}',
-  'validation.remediation.harvesting': 'Récolte possible dans : {biomes}',
+  "validation.remediation.harvesting": "Choisissez un producteur domesticable valide sur cette planète.",
   'validation.unresolvedCargoExport': 'Cette exportation de fret ne possède aucune source réelle.',
   'referenceFatal.diagnostic.asset': 'Fichier',
   'referenceFatal.reason.assetContentType': 'Un fichier de référence requis a été fourni avec un type de contenu incorrect.',

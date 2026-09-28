@@ -116,7 +116,7 @@ test('representative semantic paths render Japanese tracker copy', () => {
   assert.equal(translate('ja-JP', 'power.label.veryPoor'), '極低')
   assert.match(translate('ja-JP', 'help.organic.unavailableBiome', {
     resource: 'Fiber',
-  }), /この飼育可能な生物種/)
+  }), /この惑星/)
   assert.equal(translate('ja-JP', 'status.import.invalidJson').includes('JSON'), true)
   assert.match(translate('ja-JP', 'status.import.malformedEntry'), /形式が不正/)
   assert.equal(translate('ja-JP', 'search.results.close'), '検索結果を閉じる')

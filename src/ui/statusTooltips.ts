@@ -1,7 +1,3 @@
-import {
-  getBiomeButtonGroups,
-  isProductionRouteAvailable,
-} from '../domain/bodyResourceAvailability.ts'
 import type { ResourceProductionRoute } from '../domain/models.ts'
 import type {
   ReferenceData,
@@ -14,7 +10,6 @@ import type {
 import { translate } from '../localization/catalog.ts'
 import { formatDecimal, formatList, formatPercent, getCollator } from '../localization/formatters.ts'
 import { getReferenceDisplayName } from '../localization/referenceNames.ts'
-import { getBiomeGroupDisplayName } from './biomePresentation.ts'
 import type { SupportedLocale } from '../localization/types.ts'
 import type { ManufacturingProducingState } from './statusStates.ts'
 
@@ -81,33 +76,13 @@ export function getExplicitResourcePresentTooltip(
   return translate(locale, 'matrix.tooltip.xTech.present', { resource: resourceName })
 }
 
-function getSupportingSelectedBiomeNames(
-  referenceData: ReferenceData,
-  bodyId: string | null,
-  selectedBiomeIds: string[],
-  route: ResourceProductionRoute,
-  locale: SupportedLocale,
-): string[] {
-  if (selectedBiomeIds.length === 0) return []
-  const selectedIds = new Set(selectedBiomeIds)
-  return getBiomeButtonGroups(referenceData, bodyId)
-    .filter((group) => group.bodyBiomeIds.some((id) => selectedIds.has(id)))
-    .filter((group) => isProductionRouteAvailable(
-      referenceData,
-      bodyId,
-      group.bodyBiomeIds,
-      route,
-    ))
-    .map((group) => getBiomeGroupDisplayName(group, locale))
-}
-
 export function getOrganicPresentTooltip(
   resourceName: string,
   route: ResourceProductionRoute,
   isPresent: boolean,
   referenceData: ReferenceData,
   bodyId: string | null,
-  selectedBiomeIds: string[],
+  _selectedBiomeIds: string[],
   locale: SupportedLocale = 'en-US',
 ): string {
   if (route.type !== 'organic') return resourceName
@@ -119,40 +94,13 @@ export function getOrganicPresentTooltip(
     entry.domesticable)
   if (!planetSpecies) return resourceName
 
-  if (!isPresent) {
-    if (selectedBiomeIds.length === 0) {
-      return translate(locale, 'help.organic.unavailablePlanet', { resource: resourceName })
-    }
-    return translate(locale, selectedBiomeIds.length === 1
-      ? 'help.organic.unavailableBiome'
-      : 'help.organic.unavailableBiomes', { resource: resourceName })
-  }
-
-  if (selectedBiomeIds.length === 0) {
-    return translate(locale, 'help.organic.availablePlanet', { resource: resourceName })
-  }
-
-  const biomeNames = getSupportingSelectedBiomeNames(
-    referenceData,
-    bodyId,
-    selectedBiomeIds,
-    route,
-    locale,
-  )
-  if (biomeNames.length === 1) {
-    return translate(locale, 'help.organic.availableBiome', {
-      resource: resourceName, biome: biomeNames[0],
-    })
-  }
-  return translate(locale, selectedBiomeIds.length === 1
-    ? 'help.organic.availableSelectedBiome'
-    : 'help.organic.availableBiomes', { resource: resourceName })
+  return translate(locale, isPresent
+    ? 'help.organic.availablePlanet'
+    : 'help.organic.unavailablePlanet', { resource: resourceName })
 }
-
 export function getDomesticableSourceNames(
   referenceData: ReferenceData,
   bodyId: string | null,
-  selectedBiomeIds: string[],
   resourceId: ResourceId,
   locale: SupportedLocale = 'en-US',
 ): string[] {
@@ -164,12 +112,6 @@ export function getDomesticableSourceNames(
       entry.bodyId === bodyId &&
       entry.domesticable &&
       entry.resourceId === resourceId)
-    .filter((entry) => isProductionRouteAvailable(
-      referenceData,
-      bodyId,
-      selectedBiomeIds,
-      { type: 'organic', resourceId, speciesId: entry.speciesId },
-    ))
     .map((entry) => speciesById.get(entry.speciesId))
     .filter((name): name is string => Boolean(name))
 

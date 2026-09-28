@@ -9,6 +9,7 @@ import test from 'node:test'
 import {
   getBodyPresentResourceIds, getBodyAtmosphericResourceIds, getBodyBiomeResourceIds,
   getBodyDomesticableOrganicResourceIds, getBodyProductionResources,
+  getPlanetaryOrganicFarmingRoutes,
 } from '../src/domain/bodyResourceAvailability.ts'
 
 const productionIds = (data, bodyId) => getBodyProductionResources(data, bodyId).map((resource) => resource.id)
@@ -73,10 +74,50 @@ test('empty and unknown body selections return empty availability', () => {
 
 const generated = Object.fromEntries(await Promise.all([
   ['bodies', 'bodies'], ['resources', 'resources'], ['bodyResources', 'body-resources'],
-  ['planetSpecies', 'planet-species'], ['inorganicOccurrences', 'inorganic-occurrences'],
+  ['planetSpecies', 'planet-species'], ['species', 'species'],
+  ['inorganicOccurrences', 'inorganic-occurrences'],
   ['bodyBiomes', 'body-biomes'], ['organicOccurrences', 'organic-occurrences'],
 ].map(async ([key, file]) => [key, JSON.parse(await readFile(new URL(`../public/reference-data/${file}.json`, import.meta.url), 'utf8'))])))
 
+test('canonical planetary farming matches observed flora and fauna acceptance checks', () => {
+  const expected = {
+    'Archimedes III': {
+      flora: ['Lubricant', 'Pigment', 'Sealant'],
+      fauna: [],
+    },
+    Codos: {
+      flora: ['Analgesic', 'Solvent'],
+      fauna: [],
+    },
+    'Ternion III': {
+      flora: ['Fiber', 'Metabolic Agent', 'Pigment', 'Polymer', 'Structural'],
+      fauna: ['Nutrient', 'Polymer', 'Sealant', 'Spice'],
+    },
+  }
+  let foundCrossBiomeRoute = false
+  const speciesById = new Map(generated.species.map((entry) => [entry.id, entry]))
+  const resourceById = new Map(generated.resources.map((entry) => [entry.id, entry]))
+  for (const [bodyName, expectedByType] of Object.entries(expected)) {
+    const body = generated.bodies.find((entry) => entry.name === bodyName)
+    assert.ok(body, bodyName)
+    const routes = getPlanetaryOrganicFarmingRoutes(generated, body.id)
+    for (const type of ['flora', 'fauna']) {
+      const names = [...new Set(routes
+        .filter((route) => speciesById.get(route.speciesId)?.type === type)
+        .map((route) => resourceById.get(route.resourceId)?.name))]
+        .filter(Boolean).sort()
+      assert.deepEqual(names, expectedByType[type], `${bodyName} ${type}`)
+    }
+    for (const route of routes) {
+      const occurrences = new Set(generated.organicOccurrences
+        .filter((entry) => entry.speciesId === route.speciesId)
+        .map((entry) => entry.bodyBiomeId))
+      const bodyBiomes = generated.bodyBiomes.filter((entry) => entry.bodyId === body.id)
+      if (bodyBiomes.some((entry) => !occurrences.has(entry.id))) foundCrossBiomeRoute = true
+    }
+  }
+  assert.equal(foundCrossBiomeRoute, true)
+})
 test('generated atmospheric resources are present and production-valid without duplicates', (t) => {
   let atmosphericOnly
   let shared

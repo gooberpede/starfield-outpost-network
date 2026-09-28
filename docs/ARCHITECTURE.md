@@ -585,8 +585,10 @@ route and therefore existing availability, provenance, cargo, and Planned Supply
 retirement paths.
 
 `src/domain/bodyResourceAvailability.ts` owns effective biome scope, biome-aware
-inorganics, body-wide atmosphere, source-specific domesticable organic routes,
-and duplicate-name button grouping. It never rewrites persisted invalid IDs.
+inorganics, body-wide atmosphere, exact planetary domesticable organic farming
+routes derived from `planetSpecies`, and inorganic production-signature
+duplicate-name button grouping. Natural organic occurrence remains separately
+represented by `organicOccurrences` and does not gate farming. It never rewrites persisted invalid IDs.
 `src/domain/productionRoutes.ts` owns route keys, farming-profile input
 resolution, and the route-to-distinct-resource aggregation boundary used by
 availability and provenance.
@@ -611,7 +613,7 @@ entity and participate in category disambiguation. `App.tsx` owns its draft,
 submitted item, open state, and floating
 palette position above the outpost-keyed Matrix. Results are derived live from
 the active network by `src/domain/itemSearchResults.ts`: resource `PRESENT`
-mirrors the Matrix's recorded inorganic or source-specific biome-scoped organic
+mirrors the Matrix's recorded inorganic or source-specific planet-level organic
 state; the remaining ordered flags use production/manufacturing feasibility,
 routed imports and exports, and exact Planned Supply identity.
 

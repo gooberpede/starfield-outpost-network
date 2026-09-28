@@ -1,7 +1,8 @@
 /** Central policy for resource-presence mechanisms and their capability gates. */
 import {
-  getAvailableOrganicProductionRoutes,
+  getPlanetaryOrganicFarmingRoutes,
   getOutpostAvailableInorganicResourceIds,
+  isOrganicFarmingRouteEligibleOnBody,
 } from './bodyResourceAvailability.ts'
 import type { Character, Outpost, ResourceProductionRoute } from './models.ts'
 import type { ReferenceData, ResourceId } from './referenceData.ts'
@@ -29,7 +30,7 @@ export function isResourcePresentAtOutpost(
   const resource = referenceData.resources.find((candidate) => candidate.id === resourceId)
   if (resource?.category === 'inorganic') return outpost.localResources.includes(resourceId)
   if (resource?.category !== 'organic') return false
-  return getAvailableOrganicProductionRoutes(referenceData, outpost.bodyId, outpost.selectedBiomeIds)
+  return getPlanetaryOrganicFarmingRoutes(referenceData, outpost.bodyId)
     .some((route) => route.resourceId === resourceId)
 }
 
@@ -50,7 +51,7 @@ export function canActivateProductionRoute(
       hasExplicitResourcePresence(outpost, route.resourceId)
   }
   if (route.type === 'inorganic') return outpost.localResources.includes(route.resourceId)
-  return isResourcePresentAtOutpost(route.resourceId, outpost, referenceData)
+  return isOrganicFarmingRouteEligibleOnBody(referenceData, outpost.bodyId, route)
 }
 
 export function getInorganicMatrixResourceIds(

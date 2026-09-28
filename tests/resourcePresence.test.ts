@@ -155,3 +155,31 @@ test('atomic X-Tech removal is one undoable entry and Undo restores both fields'
   assert.deepEqual(session.collection.networks[0].network.outposts[0].explicitResourcePresence, [X_TECH_RESOURCE_ID])
   assert.equal(session.collection.networks[0].network.outposts[0].activeProduction.length, 1)
 })
+
+test('organic activation requires the exact planet-eligible producer route', () => {
+  const network = networkFixture()
+  const outpost = { ...network.outposts[0], bodyId: 'body', selectedBiomeIds: ['other-biome'] }
+  const data: ReferenceData = {
+    ...referenceData,
+    resources: [{
+      id: 'fiber', name: 'Fiber', shortName: 'Fb', category: 'organic', rarity: 'common',
+      parentId: null, sortOrder: null, plannedSupplyPlacement: null,
+    }],
+    species: [
+      { id: 'valid', name: 'Valid Plant', type: 'flora' },
+      { id: 'invalid', name: 'Invalid Plant', type: 'flora' },
+    ],
+    planetSpecies: [
+      { bodyId: 'body', speciesId: 'valid', sourceClass: 'plant', domesticable: true, resourceId: 'fiber' },
+      { bodyId: 'other', speciesId: 'invalid', sourceClass: 'plant', domesticable: true, resourceId: 'fiber' },
+    ],
+  }
+  assert.equal(canActivateProductionRoute(
+    network.character, outpost,
+    { type: 'organic', resourceId: 'fiber', speciesId: 'valid' }, data,
+  ), true)
+  assert.equal(canActivateProductionRoute(
+    network.character, outpost,
+    { type: 'organic', resourceId: 'fiber', speciesId: 'invalid' }, data,
+  ), false)
+})

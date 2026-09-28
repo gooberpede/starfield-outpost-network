@@ -1224,7 +1224,9 @@ Atmospheric inorganic occurrences belong to the body, never to a synthetic biome
 Global species identity (FormID, display name, flora/fauna type) is separate from
 planet/species facts and biome occurrences. Domesticability, harvested resource,
 and source class belong to the planet/species pair and must agree across biomes.
-Organic occurrences only record where the species occurs.
+Organic occurrences only record where the species occurs. Natural organic occurrence is
+biome-scoped; organic farming eligibility is planet/body-scoped and does not
+depend on the outpost's selected biome.
 
 Resolved input signatures define source classes: plant uses Water × 1; herbivore
 uses Water × 1 and Fiber × 2; carnivore uses Water × 1 and Nutrient × 2. Input
@@ -1242,8 +1244,10 @@ logical resource in the matrix, with its ordinary name and ID; no vapor identity
 or label is created.
 
 **Production-valid** resources are inorganics in the effective biome scope plus
-body-wide atmospheric inorganics, union domesticable organic species/resource
-routes occurring in that scope.
+body-wide atmospheric inorganics, union exact domesticable organic
+species/resource routes belonging to the selected body. Organic route validity
+requires matching body, species, and harvested resource; another producer of the
+same resource cannot make an invalid route valid.
 Wild-only organic presence does not permit local production. Farming inputs do
 not imply domesticability. Helpers in `bodyResourceAvailability.ts` are
 authoritative for matrix choices and validation. Future special production
@@ -1267,8 +1271,9 @@ to empty but remains persisted. Body changes, and system changes that clear body
 clear biome selection in the same undoable operation.
 
 Atmospheric inorganics remain available in every scope. Occurrences referencing
-the same stable biome identity share one button only when their inorganic and
-domesticable resource/species signatures match; otherwise the UI numbers them
+the same stable biome identity share one button only when their inorganic
+production signatures match; natural organic occurrence differences do not split
+production-facing biome controls. Otherwise the UI numbers them
 in `biomeIndex` order without changing canonical identity. Display-name
 localization uses the stable biome ID, never a body-biome occurrence ID, group
 key, or derived label.
@@ -1277,8 +1282,9 @@ key, or derived label.
 
 # 54. Organic production inputs
 
-Normal organic rows represent one domesticable species/resource route. Present
-is source-specific; Producing toggles that exact route. Rows order by plant,
+Normal organic rows represent one domesticable species/resource route on the
+selected body. Present is source-specific and planet-level; Producing toggles that
+exact route. Natural occurrence in a selected biome is not a farming prerequisite. Rows order by plant,
 herbivore, carnivore, then resource and species names.
 
 Inputs resolve from `OrganicFarmingProfileReference` and are validated per active

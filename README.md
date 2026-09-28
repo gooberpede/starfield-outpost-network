@@ -205,7 +205,8 @@ product/organic app IDs, abbreviations, tracker rarity, and sparse display
 overrides. Recipe COBJ provenance is validated only during generation.
 `biome-inorganic-resources.csv` and `biome-organic-resources.csv` supply biome,
 atmospheric, and species relationships. Body-level inventory is a derived
-compatibility index; organic matrix choices require domesticable species.
+compatibility index; organic matrix choices require an exact domesticable
+producer on the selected planet/body, independent of selected biome.
 The browser loads the generated JSON files
 under `public/reference-data/`.
 

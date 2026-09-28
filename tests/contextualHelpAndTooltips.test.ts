@@ -63,7 +63,7 @@ test('the seven contextual-help strings retain their approved copy', () => {
   )), {
     plannedSupply: 'Selected items act as placeholders until local or imported supply is established.',
     logistics: 'Items currently assigned to cargo links are displayed here.',
-    biomes: 'Selected biomes limit resource availability to resources that can occur in those biomes.',
+    biomes: 'Selected biomes limit inorganic resource availability to resources that can occur in those biomes.',
     present: 'Shows whether a resource can be present at this outpost.',
     producing: 'Shows whether this outpost is currently set to produce the resource or product.',
     interSystem: 'Inter-System Cargo Links can connect outposts in different star systems and require Helium-3.',
@@ -116,7 +116,7 @@ test('X-Tech add and explicit Present tooltips use localized messages', () => {
   )
 })
 
-test('organic Present tooltips use planet, named-biome, and plural-biome wording', () => {
+test('organic Present tooltips remain planet-level for every biome selection', () => {
   assert.equal(
     getOrganicPresentTooltip('Lubricant', organicRoute, true, referenceData, 'body', []),
     'Lubricant is available from a domesticable species on this planet.',
@@ -125,20 +125,20 @@ test('organic Present tooltips use planet, named-biome, and plural-biome wording
     getOrganicPresentTooltip(
       'Lubricant', organicRoute, true, referenceData, 'body', ['body-wetlands'],
     ),
-    'Lubricant is available from a domesticable species in Wetlands.',
+    'Lubricant is available from a domesticable species on this planet.',
   )
   assert.equal(
     getOrganicPresentTooltip(
       'Lubricant', organicRoute, true, referenceData, 'body',
       ['body-wetlands', 'body-forest'],
     ),
-    'Lubricant is available from a domesticable species in the selected biomes.',
+    'Lubricant is available from a domesticable species on this planet.',
   )
   assert.equal(
     getOrganicPresentTooltip(
       'Lubricant', organicRoute, false, referenceData, 'body', ['body-wetlands'],
     ),
-    'Lubricant is not available from this domesticable species in the selected biome.',
+    'Lubricant is not available from this domesticable species on this planet.',
   )
 })
 

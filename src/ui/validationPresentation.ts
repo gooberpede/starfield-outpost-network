@@ -92,8 +92,12 @@ function getIssueMessage(
     key === 'validation.xTechCapabilityPresent' ||
     key === 'validation.xTechRequiresPresence') && issue.cargoItem) {
     parameters = { resource: getCargoItemName(issue.cargoItem, data, locale, resolveName) }
-  } else if ((key === 'validation.activeProductionOrganicInvalid' ||
-    key === 'validation.activeProductionInorganicInvalid') && issue.cargoItem && outpost && data) {
+  } else if (key === 'validation.activeProductionOrganicInvalid' && issue.cargoItem && data) {
+    parameters = {
+      resource: getCargoItemName(issue.cargoItem, data, locale, resolveName),
+    }
+  } else if (key === 'validation.activeProductionInorganicInvalid' &&
+    issue.cargoItem && outpost && data) {
     const groups = getBiomeButtonGroups(data, outpost.bodyId)
     const names = [...new Set(outpost.selectedBiomeIds.length > 0
       ? outpost.selectedBiomeIds.map((id) => {
@@ -104,13 +108,9 @@ function getIssueMessage(
         })
       : groups.map((group) => getBiomeGroupDisplayName(group, locale, resolveName)))]
       .sort(getCollator(locale).compare)
-    key = key === 'validation.activeProductionOrganicInvalid'
-      ? names.length === 1
-        ? 'validation.activeProductionOrganicInvalidOne'
-        : 'validation.activeProductionOrganicInvalidMany'
-      : names.length === 1
-        ? 'validation.activeProductionInorganicInvalidOne'
-        : 'validation.activeProductionInorganicInvalidMany'
+    key = names.length === 1
+      ? 'validation.activeProductionInorganicInvalidOne'
+      : 'validation.activeProductionInorganicInvalidMany'
     parameters = {
       resource: getCargoItemName(issue.cargoItem, data, locale, resolveName),
       biomes: formatList(locale, names),
@@ -140,19 +140,20 @@ function getRemediation(
       if (resource.category !== 'inorganic') return null
       route = { type: 'inorganic', resourceId: issue.cargoItem.id }
     }
+    if (issue.speciesId) return null
     const names = getBiomeButtonGroups(data, outpost.bodyId)
       .filter((group) => isProductionRouteAvailable(data, outpost.bodyId, group.bodyBiomeIds, route))
       .map((group) => getBiomeGroupDisplayName(group, locale, resolveName))
       .sort(getCollator(locale).compare)
     if (names.length === 0) return null
-    return translate(locale, issue.speciesId
-      ? 'validation.remediation.harvesting'
-      : 'validation.remediation.extraction', { biomes: formatList(locale, names) })
+    return translate(locale, 'validation.remediation.extraction', {
+      biomes: formatList(locale, names),
+    })
   }
   if (issue.ruleId === 'unspecified-organic-production-source' &&
     issue.cargoItem?.type === 'resource' && outpost && data) {
     const names = getDomesticableSourceNames(
-      data, outpost.bodyId, outpost.selectedBiomeIds, issue.cargoItem.id, locale,
+      data, outpost.bodyId, issue.cargoItem.id, locale,
     )
     return names.length > 0
       ? translate(locale, 'validation.remediation.organicSources', {

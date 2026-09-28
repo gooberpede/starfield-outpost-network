@@ -43,9 +43,15 @@ const referenceData: ReferenceData = {
     bodyId: 'body-1', resourceId: 'iron',
     location: { type: 'biome', bodyBiomeId: 'body-mountain' },
   }],
-  species: [{ id: 'grazer', name: 'Grazing Beetle', type: 'fauna' }],
+  species: [
+    { id: 'grazer', name: 'Grazing Beetle', type: 'fauna' },
+    { id: 'outsider', name: 'Outsider Beetle', type: 'fauna' },
+  ],
   planetSpecies: [{
     bodyId: 'body-1', speciesId: 'grazer', sourceClass: 'herbivore',
+    domesticable: true, resourceId: 'fiber',
+  }, {
+    bodyId: 'other-body', speciesId: 'outsider', sourceClass: 'herbivore',
     domesticable: true, resourceId: 'fiber',
   }],
   organicOccurrences: [{ bodyBiomeId: 'body-mountain', speciesId: 'grazer' }],
@@ -91,7 +97,7 @@ test('active production diagnostics name routes, selected biomes, and reliable a
 
   const organicOutpost = makeOutpost({
     selectedBiomeIds: ['body-forest'],
-    activeProduction: [{ type: 'organic', resourceId: 'fiber', speciesId: 'grazer' }],
+    activeProduction: [{ type: 'organic', resourceId: 'fiber', speciesId: 'outsider' }],
   })
   const organicIssue = activeProductionValidForBodyRule.validate(
     makeNetwork(organicOutpost), referenceData,
@@ -100,11 +106,11 @@ test('active production diagnostics name routes, selected biomes, and reliable a
     getValidationIssuePresentation(
       organicIssue, [organicOutpost], referenceData,
     ).message,
-    'Fiber is marked as produced, but is not available for outpost harvesting in Forest biome.',
+    'Fiber is marked as produced, but this producer is not eligible for farming on this planet.',
   )
   assert.equal(
     getValidationIssuePresentation(organicIssue, [organicOutpost], referenceData).remediation,
-    'Available for harvesting in: Mountain',
+    null,
   )
 
   const withoutAlternatives = {
@@ -144,7 +150,7 @@ test('manufacturing and organic farming diagnostics name both structured facts',
 
   const farmingIssue = organicFarmingInputsUnavailableRule.validate(
     makeNetwork(makeOutpost({
-      selectedBiomeIds: ['body-mountain'],
+      selectedBiomeIds: ['body-forest'],
       activeProduction: [{ type: 'organic', resourceId: 'fiber', speciesId: 'grazer' }],
     })),
     referenceData,
@@ -433,9 +439,9 @@ test('unspecified organic production names the resource and valid sources', () =
     'Available from: Armoured Crawler and Grazing Beetle',
   )
 
-  const unavailableOutpost = { ...organicOutpost, selectedBiomeIds: ['body-forest'] }
+  const alternateBiomeOutpost = { ...organicOutpost, selectedBiomeIds: ['body-forest'] }
   assert.equal(
-    getValidationIssuePresentation(issue, [unavailableOutpost], expandedReferenceData).remediation,
-    null,
+    getValidationIssuePresentation(issue, [alternateBiomeOutpost], expandedReferenceData).remediation,
+    'Available from: Armoured Crawler and Grazing Beetle',
   )
 })

@@ -109,7 +109,10 @@ test('PRESENT mirrors source-specific organic Matrix semantics', () => {
   const wrongBiome = outpost('wrong-biome', { selectedBiomeIds: ['foreign'] })
   assert.deepEqual(getItemSearchResults(
     { type: 'resource', id: 'fiber' }, network([present, wrongBiome]), referenceData,
-  ), [{ outpostId: 'present', outpostName: 'present', flags: ['present'] }])
+  ), [
+    { outpostId: 'present', outpostName: 'present', flags: ['present'] },
+    { outpostId: 'wrong-biome', outpostName: 'wrong-biome', flags: ['present'] },
+  ])
 })
 
 test('recipe ingredients alone never create item results', () => {

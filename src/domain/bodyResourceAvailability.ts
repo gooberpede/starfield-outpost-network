@@ -1,5 +1,5 @@
 /**
- * Purpose: Derive biome-aware natural presence and source-specific production eligibility.
+ * Purpose: Derive biome-aware inorganic presence and planetary organic farming eligibility.
  * Architecture: Reference facts are interpreted here without editing persisted selections.
  * Change this file when: biome, atmosphere, or organic-source availability rules change.
  */
@@ -88,25 +88,34 @@ export function getOutpostAvailableInorganicResourceIds(
   return [...result]
 }
 
-export function getAvailableOrganicProductionRoutes(
+/** Exact domesticable producer routes are body-level; natural biome occurrence is independent. */
+export function getPlanetaryOrganicFarmingRoutes(
   referenceData: ReferenceData,
   bodyId: PlanetaryBodyId | null,
-  selectedBiomeIds: BodyBiomeId[],
 ): ResourceProductionRoute[] {
-  const effectiveIds = new Set(getEffectiveBodyBiomeIds(referenceData, bodyId, selectedBiomeIds))
-  const occurringSpecies = new Set(referenceData.organicOccurrences
-    .filter((entry) => effectiveIds.has(entry.bodyBiomeId))
-    .map((entry) => entry.speciesId))
   const routes = new Map<string, ResourceProductionRoute>()
   for (const entry of referenceData.planetSpecies) {
-    if (entry.bodyId !== bodyId || !entry.domesticable || !entry.resourceId ||
-      !occurringSpecies.has(entry.speciesId)) continue
+    if (entry.bodyId !== bodyId || !entry.domesticable || !entry.resourceId) continue
     const route: ResourceProductionRoute = {
       type: 'organic', resourceId: entry.resourceId, speciesId: entry.speciesId,
     }
     routes.set(getProductionRouteKey(route), route)
   }
   return [...routes.values()]
+}
+
+/** Validates the exact persisted producer rather than a resource-level substitute. */
+export function isOrganicFarmingRouteEligibleOnBody(
+  referenceData: ReferenceData,
+  bodyId: PlanetaryBodyId | null,
+  route: ResourceProductionRoute,
+): boolean {
+  if (route.type !== 'organic') return false
+  return referenceData.planetSpecies.some((entry) =>
+    entry.bodyId === bodyId &&
+    entry.speciesId === route.speciesId &&
+    entry.resourceId === route.resourceId &&
+    entry.domesticable)
 }
 
 export function isProductionRouteAvailable(
@@ -120,9 +129,7 @@ export function isProductionRouteAvailable(
       .includes(route.resourceId)
   }
   if (route.type === 'organic-unspecified') return false
-  const key = getProductionRouteKey(route)
-  return getAvailableOrganicProductionRoutes(referenceData, bodyId, selectedBiomeIds)
-    .some((candidate) => getProductionRouteKey(candidate) === key)
+  return isOrganicFarmingRouteEligibleOnBody(referenceData, bodyId, route)
 }
 
 /** Domesticability is a species fact, never inferred from farming inputs. */
@@ -130,7 +137,7 @@ export function getBodyDomesticableOrganicResourceIds(
   referenceData: ReferenceData,
   bodyId: PlanetaryBodyId | null,
 ): ResourceId[] {
-  return [...new Set(getAvailableOrganicProductionRoutes(referenceData, bodyId, [])
+  return [...new Set(getPlanetaryOrganicFarmingRoutes(referenceData, bodyId)
     .map((route) => route.resourceId))]
 }
 
@@ -149,24 +156,16 @@ export function getOutpostProductionResources(
 ): ResourceReference[] {
   const ids = new Set([
     ...getOutpostAvailableInorganicResourceIds(referenceData, bodyId, selectedBiomeIds),
-    ...getAvailableOrganicProductionRoutes(referenceData, bodyId, selectedBiomeIds)
+    ...getPlanetaryOrganicFarmingRoutes(referenceData, bodyId)
       .map((route) => route.resourceId),
   ])
   return referenceData.resources.filter((resource) => ids.has(resource.id))
 }
 
 function getBiomeSignature(referenceData: ReferenceData, bodyBiomeId: BodyBiomeId): string {
-  const inorganic = referenceData.inorganicOccurrences
+  return [...new Set(referenceData.inorganicOccurrences
     .filter((entry) => entry.location.type === 'biome' && entry.location.bodyBiomeId === bodyBiomeId)
-    .map((entry) => `i:${entry.resourceId}`)
-  const bodyBiome = referenceData.bodyBiomes.find((entry) => entry.id === bodyBiomeId)
-  const occurringSpecies = new Set(referenceData.organicOccurrences
-    .filter((entry) => entry.bodyBiomeId === bodyBiomeId).map((entry) => entry.speciesId))
-  const organic = referenceData.planetSpecies
-    .filter((entry) => entry.bodyId === bodyBiome?.bodyId && entry.domesticable && entry.resourceId &&
-      occurringSpecies.has(entry.speciesId))
-    .map((entry) => `o:${entry.resourceId}:${entry.speciesId}`)
-  return [...new Set([...inorganic, ...organic])].sort().join('|')
+    .map((entry) => entry.resourceId))].sort().join('|')
 }
 
 /** Groups occurrences of one stable biome and numbers unequal signatures in source order. */
