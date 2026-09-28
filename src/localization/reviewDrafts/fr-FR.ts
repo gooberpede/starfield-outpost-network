@@ -2,6 +2,8 @@ import { buildReviewDraft } from './buildDraft.ts'
 
 /** Independent Codex draft used by the French semantic review package. */
 export const frFRReviewDraft = buildReviewDraft({
+  'outpost.system.select': 'Sélectionner…',
+  'outpost.body.select': 'Sélectionner…',
   "validation.activeProductionOrganicInvalidMany": "{resource} est marqué comme produit, mais ce producteur n’est pas éligible à la production organique sur cette planète.",
   "validation.activeProductionOrganicInvalidOne": "{resource} est marqué comme produit, mais ce producteur n’est pas éligible à la production organique sur cette planète.",
   "validation.activeProductionOrganicInvalid": "{resource} est marqué comme produit, mais ce producteur n’est pas éligible à la production organique sur cette planète.",

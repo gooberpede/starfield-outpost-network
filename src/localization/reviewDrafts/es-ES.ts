@@ -93,7 +93,7 @@ export const esESReviewDraft = buildReviewDraft({
   'common.moveUp': 'Subir {item}', 'common.moveDown': 'Bajar {item}', 'common.dragToReorder': 'Arrastra {item} para reordenar',
   'about.description': 'Una herramienta para registrar redes de puestos de Starfield.',
   'shortcuts.action.focusSearch': 'Enfocar la búsqueda de elementos',
-  'outpost.name.label': 'Nombre del puesto', 'outpost.system.select': 'Selecciona un sistema...', 'outpost.body.select': 'Selecciona un cuerpo celeste...',
+  'outpost.name.label': 'Nombre del puesto', 'outpost.system.select': 'Selecciona...', 'outpost.body.select': 'Selecciona...',
   'outpost.referenceData.empty': 'No se han encontrado datos de referencia de recursos para este cuerpo celeste.',
   'production.empty': 'No se han seleccionado recursos locales.',
   'matrix.action.togglePresent': 'Alternar la presencia de {item}', 'matrix.action.toggleProducing': 'Alternar la producción de {item}',

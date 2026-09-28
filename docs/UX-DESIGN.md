@@ -937,6 +937,11 @@ The Outpost Details Solar/Wind headings use this convention, including Polish
 visible placeholder, including French `Rechercher…` and German `Suchen…`; its
 full accessible instruction remains unchanged.
 
+Outpost Details System and Body selects also use compact visible copy. Because
+their persistent field labels already supply the noun, each locale uses one
+concise action-only placeholder for both controls rather than repeating the
+System or Body label inside the select.
+
 ## Qualitative power indicators
 
 Solar and Wind suitability use one passive, four-segment technical indicator

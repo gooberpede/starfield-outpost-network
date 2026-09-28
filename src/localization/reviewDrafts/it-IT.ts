@@ -93,7 +93,7 @@ export const itITReviewDraft = buildReviewDraft({
   'common.moveUp': 'Sposta {item} in alto', 'common.moveDown': 'Sposta {item} in basso', 'common.dragToReorder': 'Trascina {item} per riordinare',
   'about.description': 'Uno strumento per registrare le reti di avamposti di Starfield.',
   'shortcuts.action.focusSearch': 'Attiva la ricerca di elementi',
-  'outpost.name.label': 'Nome avamposto', 'outpost.system.select': 'Seleziona sistema...', 'outpost.body.select': 'Seleziona corpo celeste...',
+  'outpost.name.label': 'Nome avamposto', 'outpost.system.select': 'Seleziona...', 'outpost.body.select': 'Seleziona...',
   'outpost.referenceData.empty': 'Nessun dato di riferimento delle risorse trovato per questo corpo celeste.',
   'production.empty': 'Nessuna risorsa locale selezionata.',
   'matrix.action.togglePresent': 'Attiva/disattiva la presenza di {item}', 'matrix.action.toggleProducing': 'Attiva/disattiva la produzione di {item}',

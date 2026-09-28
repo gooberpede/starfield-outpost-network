@@ -93,7 +93,7 @@ export const ptBRReviewDraft = buildReviewDraft({
   'common.moveUp': 'Mover {item} para cima', 'common.moveDown': 'Mover {item} para baixo', 'common.dragToReorder': 'Arraste {item} para reordenar',
   'about.description': 'Uma ferramenta para registrar redes de entrepostos de Starfield.',
   'shortcuts.action.focusSearch': 'Focar a pesquisa de itens',
-  'outpost.name.label': 'Nome do entreposto', 'outpost.system.select': 'Selecione o sistema...', 'outpost.body.select': 'Selecione o corpo celeste...',
+  'outpost.name.label': 'Nome do entreposto', 'outpost.system.select': 'Selecione...', 'outpost.body.select': 'Selecione...',
   'outpost.referenceData.empty': 'Nenhum dado de referência de recursos encontrado para este corpo celeste.',
   'production.empty': 'Nenhum recurso local foi selecionado.',
   'matrix.action.togglePresent': 'Alternar a presença de {item}', 'matrix.action.toggleProducing': 'Alternar a produção de {item}',

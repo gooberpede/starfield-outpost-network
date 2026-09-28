@@ -2,6 +2,8 @@ import { buildReviewDraft } from './buildDraft.ts'
 
 /** Independent Codex draft used by the German semantic review package. */
 export const deDEReviewDraft = buildReviewDraft({
+  'outpost.system.select': 'Auswählen...',
+  'outpost.body.select': 'Auswählen...',
   "validation.activeProductionOrganicInvalidMany": "{resource} ist als produziert markiert, aber dieser Produzent ist auf diesem Planeten nicht für die organische Produktion geeignet.",
   "validation.activeProductionOrganicInvalidOne": "{resource} ist als produziert markiert, aber dieser Produzent ist auf diesem Planeten nicht für die organische Produktion geeignet.",
   "validation.activeProductionOrganicInvalid": "{resource} ist als produziert markiert, aber dieser Produzent ist auf diesem Planeten nicht für die organische Produktion geeignet.",

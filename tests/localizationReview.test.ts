@@ -11,6 +11,7 @@ import { jaJPMessages } from '../src/localization/locales/ja-JP.ts'
 import { plPLMessages } from '../src/localization/locales/pl-PL.ts'
 import { ptBRMessages } from '../src/localization/locales/pt-BR.ts'
 import { zhHansMessages } from '../src/localization/locales/zh-Hans.ts'
+import { translate } from '../src/localization/catalog.ts'
 import {
   accidentalEnglishResidueOf, comparisonStatus, createReviewCsv, createReviewRows, englishSourceSha256, hasValidPluralSyntax,
   createReviewXliff, finalCatalogueFromReview, importReviewXliff,
@@ -38,6 +39,30 @@ const planetaryOrganicCorrectionKeys = new Set([
   'validation.activeProductionOrganicInvalidMany',
   'validation.remediation.harvesting',
 ])
+const conciseLocationPlaceholderKeys = new Set([
+  'outpost.system.select',
+  'outpost.body.select',
+])
+
+test('Outpost Details location placeholders stay concise beneath visible field labels', () => {
+  const expectedByLocale = {
+    'en-US': 'Select...',
+    'en-GB': 'Select...',
+    'fr-FR': 'Sélectionner…',
+    'de-DE': 'Auswählen...',
+    'it-IT': 'Seleziona...',
+    'ja-JP': '選択...',
+    'pl-PL': 'Wybierz...',
+    'pt-BR': 'Selecione...',
+    'zh-Hans': '请选择……',
+    'es-ES': 'Selecciona...',
+  } as const
+
+  for (const [locale, expected] of Object.entries(expectedByLocale)) {
+    assert.equal(translate(locale as keyof typeof expectedByLocale, 'outpost.system.select'), expected)
+    assert.equal(translate(locale as keyof typeof expectedByLocale, 'outpost.body.select'), expected)
+  }
+})
 function validateCodexTranslation(key: keyof typeof enUSMessages, translation: string): void {
   const rows = createReviewRows('de-DE').map((row) => row.Key === key
     ? { ...row, CodexTranslation: translation }
@@ -328,18 +353,24 @@ test('Simplified Chinese DeepL evidence is fully imported and neutrally adjudica
   assert.ok(corrections.every((row) => !row.DeepLTranslation &&
     row.ComparisonStatus === 'MISSING' && row.AdjudicationDecision === 'CODEX' &&
     row.FinalTranslation === row.CodexTranslation))
-  const rows = allRows.filter(row => !additions.includes(row) && !corrections.includes(row))
-  assert.equal(rows.length, 401)
+  const placeholderCorrections = allRows.filter((row) => conciseLocationPlaceholderKeys.has(row.Key))
+  assert.equal(placeholderCorrections.length, 2)
+  assert.ok(placeholderCorrections.every((row) => !row.DeepLTranslation &&
+    row.ComparisonStatus === 'MISSING' && row.AdjudicationDecision === 'CODEX' &&
+    row.FinalTranslation === row.CodexTranslation))
+  const rows = allRows.filter(row => !additions.includes(row) && !corrections.includes(row) &&
+    !placeholderCorrections.includes(row))
+  assert.equal(rows.length, 399)
   assert.ok(rows.every(({ DeepLTranslation }) => DeepLTranslation.trim()))
   assert.deepEqual(
     Object.fromEntries(['IDENTICAL', 'TYPOGRAPHIC_ONLY', 'SUBSTANTIVE', 'INVALID_TOKENS']
       .map((status) => [status, rows.filter(({ ComparisonStatus }) => ComparisonStatus === status).length])),
-    { IDENTICAL: 97, TYPOGRAPHIC_ONLY: 0, SUBSTANTIVE: 259, INVALID_TOKENS: 45 },
+    { IDENTICAL: 97, TYPOGRAPHIC_ONLY: 0, SUBSTANTIVE: 257, INVALID_TOKENS: 45 },
   )
   assert.deepEqual(
     Object.fromEntries(['AGREED', 'CODEX', 'DEEPL', 'CUSTOM', 'INVALID_DEEPL_REPAIRED']
       .map((decision) => [decision, rows.filter(({ AdjudicationDecision }) => AdjudicationDecision === decision).length])),
-    { AGREED: 97, CODEX: 242, DEEPL: 9, CUSTOM: 8, INVALID_DEEPL_REPAIRED: 45 },
+    { AGREED: 97, CODEX: 240, DEEPL: 9, CUSTOM: 8, INVALID_DEEPL_REPAIRED: 45 },
   )
 
   const structural = rows.map((row) => {
@@ -818,13 +849,19 @@ test('Polish DeepL evidence is fully imported and invalid candidates remain expl
   assert.ok(corrections.every((row) => !row.DeepLTranslation &&
     row.ComparisonStatus === 'MISSING' && row.AdjudicationDecision === 'CODEX' &&
     row.FinalTranslation === row.CodexTranslation))
-  const rows = allRows.filter(row => !additions.includes(row) && !corrections.includes(row))
-  assert.equal(rows.length, 401)
+  const placeholderCorrections = allRows.filter((row) => conciseLocationPlaceholderKeys.has(row.Key))
+  assert.equal(placeholderCorrections.length, 2)
+  assert.ok(placeholderCorrections.every((row) => !row.DeepLTranslation &&
+    row.ComparisonStatus === 'MISSING' && row.AdjudicationDecision === 'CODEX' &&
+    row.FinalTranslation === row.CodexTranslation))
+  const rows = allRows.filter(row => !additions.includes(row) && !corrections.includes(row) &&
+    !placeholderCorrections.includes(row))
+  assert.equal(rows.length, 399)
   assert.ok(rows.every(({ DeepLTranslation }) => DeepLTranslation.trim()))
   assert.deepEqual(
     Object.fromEntries(['IDENTICAL', 'TYPOGRAPHIC_ONLY', 'SUBSTANTIVE', 'INVALID_TOKENS']
       .map((status) => [status, rows.filter(({ ComparisonStatus }) => ComparisonStatus === status).length])),
-    { IDENTICAL: 112, TYPOGRAPHIC_ONLY: 0, SUBSTANTIVE: 217, INVALID_TOKENS: 72 },
+    { IDENTICAL: 111, TYPOGRAPHIC_ONLY: 0, SUBSTANTIVE: 216, INVALID_TOKENS: 72 },
   )
   assert.deepEqual(
     Object.fromEntries(['PLACEHOLDERS', 'PROTECTED_TOKEN', 'PLURAL_SYNTAX']
@@ -916,7 +953,7 @@ test('Spanish, Italian, and Brazilian Portuguese review evidence produces determ
           frozen.CodexTranslation],
       )
       if (/^(?:Release preparation|Pre-release polish) copy:/.test(row.ReviewerNote) ||
-        planetaryOrganicCorrectionKeys.has(row.Key)) {
+        planetaryOrganicCorrectionKeys.has(row.Key) || conciseLocationPlaceholderKeys.has(row.Key)) {
         assert.equal(row.DeepLTranslation, '')
         assert.equal(row.ComparisonStatus, 'MISSING')
         assert.equal(row.AdjudicationDecision, 'CODEX')
@@ -1054,7 +1091,7 @@ test('complete Japanese, French, and German catalogues satisfy the full-locale c
 
 test('French and German catalogues apply inclusive body and validation severity terminology', () => {
   for (const key of [
-    'outpost.body.label', 'outpost.body.select', 'outpost.referenceData.empty',
+    'outpost.body.label', 'outpost.referenceData.empty',
     'history.changeBody', 'history.clearBody', 'validation.bodySystemMismatch',
     'validation.outpostBodyNotEligible', 'validation.selectedBiomeInvalid',
     'validation.unknownBody', 'validation.unknownBiome', 'status.referenceData.loaded',

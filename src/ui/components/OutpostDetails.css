@@ -52,8 +52,8 @@
 .outpost-details__fields {
   display: grid;
   grid-template-columns:
-    minmax(10rem, 13rem)
-    minmax(10rem, 13rem)
+    minmax(10rem, 11rem)
+    minmax(10rem, 11rem)
     4.25rem
     4.25rem
     minmax(12rem, 1fr);
