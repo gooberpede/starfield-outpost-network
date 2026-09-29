@@ -1,7 +1,7 @@
 {
   "name": "starfield-outpost-network",
   "private": true,
-  "version": "0.9.0-beta.1",
+  "version": "1.0.0-rc.1",
   "type": "module",
   "engines": {
     "node": ">=24 <25"
