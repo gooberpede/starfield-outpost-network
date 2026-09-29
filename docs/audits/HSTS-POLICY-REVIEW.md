@@ -303,9 +303,9 @@ curl.exe --silent --show-error --max-time 20 --connect-timeout 10 --dump-header 
 new untracked report. No build or test suite was run because the audit changes
 documentation only and the brief does not require those checks. Final worktree
 inspection found no modified tracked file: the only file created by this audit
-is `docs/audits/HSTS-POLICY-REVIEW.md`; the supplied
-`docs/implementation-briefs/CODEX_AUDIT_BRIEF_hsts-policy-review.md` was already
-untracked and remains untouched.
+is `docs/audits/HSTS-POLICY-REVIEW.md`; the supplied audit brief, now listed in
+the [pre-1.0 implementation-history index](../implementation-briefs/ARCHIVE.md),
+was already untracked and remained untouched during this review.
 
 Limitations:
 

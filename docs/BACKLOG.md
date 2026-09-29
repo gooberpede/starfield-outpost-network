@@ -355,7 +355,7 @@ matrix.
 
 The whole-product accessibility audit and desktop correction batch were completed
 in September 2026. The final audit is recorded in
-`docs/audits/codex-whole-product-accessibility-audit.md`.
+[`docs/audits/codex-whole-product-accessibility-audit-final.md`](audits/codex-whole-product-accessibility-audit-final.md).
 
 No known BLOCKER, HIGH, MEDIUM, or LOW finding from that audit remains unresolved
 within the tested Windows/Chromium desktop scope.

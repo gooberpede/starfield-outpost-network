@@ -113,9 +113,9 @@ response. Removing the header does not immediately clear cached client state.
 `max-age=0` clears HSTS only after the client successfully reaches the host over
 valid HTTPS; it is rollback guidance, not part of the current policy.
 
-For earlier hosting and security evidence, see the [production hosting
-readiness benchmark](benchmarks/PRODUCTION-HOSTING-READINESS.md), [first Pages
-smoke test](benchmarks/CLOUDFLARE-STAGING-SMOKE-TEST.md), and [whole-product
+For current hosting and security evidence, see the [first Pages smoke
+test](benchmarks/CLOUDFLARE-STAGING-SMOKE-TEST.md), [deployed CSP and security
+headers](benchmarks/CLOUDFLARE-CSP-SECURITY-HEADERS.md), and [whole-product
 security audit](audits/codex-whole-product-security-audit.md). Those reports
 record their point-in-time state; this document owns the current deployment
 policy.

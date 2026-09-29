@@ -87,7 +87,7 @@ The browser import/export check used a disposable one-outpost collection on this
 
 ## Differences from local production preview
 
-The earlier [production-hosting readiness benchmark](PRODUCTION-HOSTING-READINESS.md) established that the local production preview rendered and reloaded. This Pages pass also rendered and reloaded, with no functional difference observed in those actions. Pages supplied the live HTTPS hostname and the response headers measured above, including the repository's deployed noindex rule. No concurrent side-by-side local header or timing measurement was made, so no cache or performance difference is claimed.
+The current [deployment guide](../DEPLOYMENT.md) owns production-hosting policy. The earlier local production preview and this Pages pass both rendered and reloaded, with no functional difference observed in those actions. Pages supplied the live HTTPS hostname and the response headers measured above, including the repository's deployed noindex rule. No concurrent side-by-side local header or timing measurement was made, so no cache or performance difference is claimed.
 
 ## Findings
 

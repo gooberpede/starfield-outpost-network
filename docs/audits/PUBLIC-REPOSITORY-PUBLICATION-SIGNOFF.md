@@ -33,7 +33,7 @@ source code.
 | Branch | `staging`, tracking `origin/staging` |
 | Commit | `e832b18df30d707f711e1fa6317e11da43b8eca0` |
 | Repository visibility | Private. The same-day release-readiness review records an authenticated GitHub metadata check; the repository was also unavailable through an unauthenticated public GitHub/API request during this audit. |
-| Initial worktree | No tracked changes. The supplied `docs/implementation-briefs/CODEX_AUDIT_BRIEF_public-repository-publication-signoff.md` was the only untracked file and was not modified. |
+| Initial worktree | No tracked changes. The supplied publication-signoff audit brief, now listed in the [pre-1.0 implementation-history index](../implementation-briefs/ARCHIVE.md), was the only untracked file and was not modified. |
 | Remote | `https://github.com/gooberpede/starfield-outpost-network.git` |
 
 The review inspected the files and populations required by the audit brief,

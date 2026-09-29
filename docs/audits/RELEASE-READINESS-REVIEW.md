@@ -22,7 +22,7 @@ The minimum path excludes on-demand overlays, caching changes, mobile/workspace 
 | Surface | Evidence obtained in this audit |
 | --- | --- |
 | Checkout | `staging`, `9b0c37e9d039063c58c2bff3a4d1d130760539e3`; exactly the preparation baseline, so no intervening changes to reconcile. |
-| Initial worktree | No tracked modifications. Only `docs/implementation-briefs/CODEX_AUDIT_BRIEF_release-readiness.md` was untracked. It was left untouched. |
+| Initial worktree | No tracked modifications. Only the supplied release-readiness audit brief, now listed in the [pre-1.0 implementation-history index](../implementation-briefs/ARCHIVE.md), was untracked. It was left untouched. |
 | History | Non-shallow clone; 218 commits reachable through local branches, remote-tracking branches and tags. Local `main` and `origin/main` point to `57e17c67222fe72b46ba692c7a32436c2e38e477`; local/remote-tracking `staging` point to the audit baseline. No local tags. Local Codex checkpoint refs also exist; they are not proposed publication refs. |
 | GitHub, authorized read-only connector | Repository `gooberpede/starfield-outpost-network` is **private**, default branch `main`. Paginated branch search completed with only `main` and `staging`; matching-ref API returned those same commit IDs and no tags. Releases and all-state issues returned empty arrays; Actions reported zero workflow runs. |
 | Production, authorized read-only Cloudflare management API | Canonical production deployment `f8d71a76-a7db-400b-8547-6812ab4a243a`, created `2026-09-23T03:34:18.500843Z`, successful, from `main` at `57e17c67222fe72b46ba692c7a32436c2e38e477`. This is deployment metadata, not a fresh public-browser smoke test. |
@@ -200,9 +200,9 @@ investigation selected the split manifest/assets policy, implementation commit
 Microsoft Edge `153.0.4234.48`, and the result was **PASS**. Normal observed
 loads returned 304s for the manifest and all 13 assets, Retry after a forced
 failure returned 200s for the complete snapshot, and the next ordinary reload
-returned to 304s. See
-[`REFERENCE-DATA-CACHING-REVALIDATION-REVIEW.md`](REFERENCE-DATA-CACHING-REVALIDATION-REVIEW.md)
-for the later evidence and its limits. This does not complete production or
+returned to 304s. See the current [reference-data loading architecture](../ARCHITECTURE.md#15-reference-data-loading)
+and the [pre-1.0 audit index](ARCHIVE.md) for the point-in-time evidence and its
+limits. This does not complete production or
 cross-deployment testing in the final `1.0.0-rc.1` acceptance matrix.
 
 At this review's baseline, `referenceDataLoader.ts` fetched the manifest and all

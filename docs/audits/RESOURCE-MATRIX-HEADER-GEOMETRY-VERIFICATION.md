@@ -241,8 +241,8 @@ Only heading markup and header-specific CSS change at runtime. No catalogue,
 body control, technical-token, Cargo panel, outer section-heading, persistence,
 domain, or history behavior changes.
 
-The preceding `RESOURCE-MATRIX-HEADING-EDITORIAL-REVIEW.md` remains unchanged as
-point-in-time evidence. UX and architecture document the header/body boundary.
+The [cross-locale compact-copy and visual-state review](CROSS-LOCALE-COMPACT-COPY-AND-VISUAL-STATE-REVIEW.md)
+is the current follow-up evidence. UX and architecture document the header/body boundary.
 The capacity backlog entry remains open for the corrections above; the outer
 section-heading discrepancy is now explicitly tracked. No editorial candidate
 or technical-token issue is closed.
