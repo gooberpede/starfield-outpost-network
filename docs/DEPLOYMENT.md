@@ -12,7 +12,7 @@ site from `main`. The application is a static Vite/React build with browser
 | Environment | Git branch | Origin | Deployment trigger | Browser data and indexing |
 | --- | --- | --- | --- | --- |
 | Dev / Integration | `staging` | `https://staging.starfield-outpost-network.pages.dev` | Automatic on pushes to `staging` (verified) | Disposable, origin-specific `localStorage`; previews remain non-indexed. Used for integration, browser, release-candidate, and Cloudflare-specific checks. |
-| Production | `main` | `https://starfieldoutposts.com` | Manual release after `main` is pushed; automatic production deployments are disabled (verified) | Single durable production origin for users' browser `localStorage`. The site is pre-release and non-indexed until an explicit public-launch decision. |
+| Production | `main` | `https://starfieldoutposts.com` | Manual release after `main` is pushed; automatic production deployments are disabled (verified) | Single durable production origin for users' browser `localStorage`. Public and crawlable since the 1.0.0 launch. |
 
 Browser data is local to each origin and browser profile. Staging data does not
 become production data when a commit is promoted. JSON export/import is the
@@ -72,10 +72,9 @@ analytics/telemetry service.
 
 ## Security and privacy
 
-- Pre-release production sends `X-Robots-Tag: noindex, nofollow` from
-  `public/_headers`. `public/robots.txt` contains `User-agent: *` and
-  `Disallow: /`. Keep these until the explicit public-launch decision.
-  Previews remain non-indexed through the same static files.
+- Public production does not send `X-Robots-Tag: noindex, nofollow`, and
+  `public/robots.txt` contains `User-agent: *` and `Allow: /`. Staging remains
+  protected by Cloudflare Access, so crawlers cannot reach the preview.
 - `public/_headers` supplies a restrictive CSP: scripts, reference-data
   connections, images, and static assets are same-origin; Google Fonts CSS
   from `fonts.googleapis.com` and font binaries from `fonts.gstatic.com` are
@@ -162,8 +161,8 @@ checks; that would be a separate design and configuration decision.
    deployment succeeded and is serving the expected commit.
 5. Smoke-test `https://starfieldoutposts.com`: load and reload, reference data,
    relevant changed behavior, browser persistence, and import/export where the
-   release affects them. Check the pre-release indexing/security headers until
-   the launch policy changes.
+   release affects them. Check indexing and security headers against the current
+   public-production policy.
 
 The nested reference-data 404 behavior has been verified on staging and the
 production custom domain. On staging, the manifest and 13 required JSON assets
@@ -201,3 +200,21 @@ production commit. Legal text is emitted from LICENSE and THIRD-PARTY-NOTICE.md
 under dist/legal; confirm these routes on the deployed host. Existing security,
 origin and indexing policy remains in force. The launch/indexing runbook and
 final candidate acceptance are separate work.
+
+## Public launch record
+
+Starfield Outpost Network 1.0.0 launched on 29 September 2026.
+
+| Field | Recorded value |
+| --- | --- |
+| Version | `1.0.0` |
+| Release commit | `be4539e8c01f5bd3c639b0df5ae92fee355926e8` |
+| Tag | `v1.0.0` |
+| GitHub Release | `https://github.com/gooberpede/starfield-outpost-network/releases/tag/v1.0.0` |
+| Production deployment | `0dca360b-2d60-4341-926a-9156a9f3d483`, successful at 2026-09-29 15:08 AEST |
+| Previous known-good deployment | `794f2d95-155e-42ab-84ae-204ba0cd880d` at `a215305380c94c213ad4c7845b5091d5be6a1d11` |
+| Canonical origin | `https://starfieldoutposts.com` |
+| Canonical redirects | `www` and the bare production `pages.dev` hostname permanently redirect to the apex while preserving path and query |
+| Public source | Repository, Issues, exact release commit, tag, documentation archives, and automatic release archives verified without authentication |
+| Indexing | No `X-Robots-Tag: noindex, nofollow`; `robots.txt` allows `/`; staging remains protected by Cloudflare Access |
+| Launch smoke | Passed identity, startup/reference data, 404 and SPA routing, persistence, locale, import/export, legal/support destinations, headers, redirects, and console checks |
