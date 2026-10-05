@@ -21,6 +21,7 @@
 
 import type {
   CargoItem,
+  CargoLink,
   Character,
   OutpostNetwork,
 } from '../models'
@@ -70,6 +71,8 @@ export interface ValidationIssue {
   messageKey: Extract<MessageKey, `validation.${string}`>
   parameters?: MessageParameters
   
+  cargoTarget?: { outpostId: string; cargoPadId?: string }
+  cargoRecords?: CargoLink[]
   cargoLinkId?: string
   outpostId?: string
   cargoPadId?: string

@@ -24,6 +24,7 @@
  * "no source" belong in the UI layer rather than here.
  */
 
+import { getEligibleCargoLinks } from './cargoConnections.ts'
 import type {
   CargoItem,
   OutpostNetwork,
@@ -112,7 +113,7 @@ export function getItemProvenanceAtOutpost(
    * locate the opposite endpoint and inspect that remote pad's outbound
    * contents.
    */
-  for (const link of network.cargoLinks) {
+  for (const link of getEligibleCargoLinks(network)) {
     let remoteEndpoint = null
 
     if (link.endpointA.outpostId === outpostId) {

@@ -66,7 +66,7 @@ export type NetworkUpdate = (network: OutpostNetwork) => OutpostNetwork
 
 export type CollectionEditingAction =
   | { type: 'apply-active-network'; label: HistoryLabelDescriptor; timestamp: number;
-      update: NetworkUpdate; outpostId?: string | null }
+      update: NetworkUpdate; outpostId?: string | null; expectedNetworkId?: string }
   | { type: 'select-outpost'; outpostId: string | null }
   | { type: 'switch-network'; networkId: string }
   | { type: 'add-network'; networkId: string; outpostId: string;
@@ -203,6 +203,7 @@ export function collectionEditingSessionReducer(
       return remember(session, state)
     }
     case 'apply-active-network': {
+      if (action.expectedNetworkId !== undefined && action.expectedNetworkId !== session.collection.activeNetworkId) return session
       const updated = action.update(getActiveSavedNetwork(session.collection).network)
       if (updated === getActiveSavedNetwork(session.collection).network) return session
       const collection = replaceActiveNetwork(session.collection, updated)

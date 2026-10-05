@@ -10,6 +10,8 @@
  * Change this file when:
  *   Cross-feature application coordination or ownership of session-level state changes.
  */
+import { selectCargoDestination, connectCargoPads, createRemoteCargoPadAndConnect, removeCargoPairing } from './domain/cargoConnections.ts'
+import type { CargoLinkEndpoint, CargoLink } from './domain/models.ts'
 import { getBiomeButtonGroups } from './domain/bodyResourceAvailability'
 import {
   useEffect,
@@ -1156,214 +1158,42 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
     )
   }
 
-  /**
-   * Removes the cargo link involving one pad and records the unlink as one
-   * Undo step.
-   *
-   * Unlinking may remove inbound availability, but it must not recreate Planned
-   * Supply automatically. Undo can still restore any earlier planning state
-   * because history retains the complete pre-action network snapshot.
-   */
-  function unlinkCargoPad(
-    outpostId: string,
-    cargoPadId: string,
-  ) {
-    const outpost =
-      network.outposts.find(
-        (candidate) =>
-          candidate.id === outpostId,
-      )
-
-    const cargoPad =
-      outpost?.cargoPads.find(
-        (candidate) =>
-          candidate.id === cargoPadId,
-      )
-
-    if (!outpost || !cargoPad) {
-      return
+  /** Reject stale render commands before mutation or collateral planning retirement. */
+  function applyCargoChange(owner: CargoLinkEndpoint, label: HistoryLabelDescriptor, update: NetworkUpdate) {
+    const expected = network
+    const parent = network.outposts.find(({ id }) => id === owner.outpostId)
+    const contextualLabel: HistoryLabelDescriptor = { ...label,
+      parameters: { ...label.parameters, outpost: parent?.name || owner.outpostId },
+      cargoPadOrdinalParameters: [{ parameter: 'pad', ordinal: (parent?.cargoPads.findIndex(({ id }) => id === owner.cargoPadId) ?? -1) + 1 }],
     }
-
-    const existingLink =
-      network.cargoLinks.find(
-        (link) =>
-          (
-            link.endpointA.outpostId === outpostId &&
-            link.endpointA.cargoPadId === cargoPadId
-          ) ||
-          (
-            link.endpointB.outpostId === outpostId &&
-            link.endpointB.cargoPadId === cargoPadId
-          ),
-      )
-
-    if (!existingLink) {
-      return
-    }
-
-    applyUndoableNetworkChange(
-      { key: 'history.unlinkCargoPad', parameters: { outpost: outpost.name },
-        cargoPadOrdinalParameters: [{
-          parameter: 'pad', ordinal: outpost.cargoPads.findIndex(({ id }) => id === cargoPadId) + 1,
-        }] },
-      (currentNetwork) => ({
-        ...currentNetwork,
-
-        cargoLinks:
-          currentNetwork.cargoLinks.filter(
-            (link) =>
-              link.id !== existingLink.id,
-          ),
-      }),
-    )
+    dispatchEditingSession({ type: 'apply-active-network', expectedNetworkId: activeSavedNetwork.id,
+      outpostId: owner.outpostId, label: contextualLabel, timestamp: Date.now(), update: (current) => {
+        if (current !== expected) return current
+        const changed = update(current)
+        return changed === current ? current : retireFulfilledPlannedSupply(changed, referenceData ?? undefined)
+      } })
   }
-
-  /**
-   * Creates or replaces one cargo-link relationship and records every related
-   * link mutation as one Undo step.
-   *
-   * Either endpoint may already participate in another link. Those competing
-   * relationships are removed before the new bidirectional link is created.
-   * Newly available inbound cargo may also retire Planned Supply entries.
-   */
-  function setCargoLink(
-    localOutpostId: string,
-    localCargoPadId: string,
-    remoteOutpostId: string,
-    remoteCargoPadId: string,
-  ) {
-    const localOutpost =
-      network.outposts.find(
-        (candidate) =>
-          candidate.id === localOutpostId,
-      )
-
-    const remoteOutpost =
-      network.outposts.find(
-        (candidate) =>
-          candidate.id === remoteOutpostId,
-      )
-
-    const localCargoPad =
-      localOutpost?.cargoPads.find(
-        (candidate) =>
-          candidate.id === localCargoPadId,
-      )
-
-    const remoteCargoPad =
-      remoteOutpost?.cargoPads.find(
-        (candidate) =>
-          candidate.id === remoteCargoPadId,
-      )
-
-    if (
-      !localOutpost ||
-      !remoteOutpost ||
-      !localCargoPad ||
-      !remoteCargoPad
-    ) {
-      return
-    }
-
-    const existingLocalLink =
-      network.cargoLinks.find(
-        (link) =>
-          (
-            link.endpointA.outpostId === localOutpostId &&
-            link.endpointA.cargoPadId === localCargoPadId
-          ) ||
-          (
-            link.endpointB.outpostId === localOutpostId &&
-            link.endpointB.cargoPadId === localCargoPadId
-          ),
-      )
-
-    const alreadyLinkedTogether =
-      existingLocalLink &&
-      (
-        (
-          existingLocalLink.endpointA.outpostId === localOutpostId &&
-          existingLocalLink.endpointA.cargoPadId === localCargoPadId &&
-          existingLocalLink.endpointB.outpostId === remoteOutpostId &&
-          existingLocalLink.endpointB.cargoPadId === remoteCargoPadId
-        ) ||
-        (
-          existingLocalLink.endpointB.outpostId === localOutpostId &&
-          existingLocalLink.endpointB.cargoPadId === localCargoPadId &&
-          existingLocalLink.endpointA.outpostId === remoteOutpostId &&
-          existingLocalLink.endpointA.cargoPadId === remoteCargoPadId
-        )
-      )
-
-    if (alreadyLinkedTogether) {
-      return
-    }
-
-    const label: HistoryLabelDescriptor =
-      existingLocalLink
-        ? { key: 'history.changeCargoLink', parameters: {
-            localOutpost: localOutpost.name, remoteOutpost: remoteOutpost.name,
-          }, cargoPadOrdinalParameters: [
-            { parameter: 'localPad', ordinal: localOutpost.cargoPads.findIndex(({ id }) => id === localCargoPadId) + 1 },
-            { parameter: 'remotePad', ordinal: remoteOutpost.cargoPads.findIndex(({ id }) => id === remoteCargoPadId) + 1 },
-          ] }
-        : { key: 'history.linkCargoPad', parameters: {
-            localOutpost: localOutpost.name, remoteOutpost: remoteOutpost.name,
-          }, cargoPadOrdinalParameters: [
-            { parameter: 'localPad', ordinal: localOutpost.cargoPads.findIndex(({ id }) => id === localCargoPadId) + 1 },
-            { parameter: 'remotePad', ordinal: remoteOutpost.cargoPads.findIndex(({ id }) => id === remoteCargoPadId) + 1 },
-          ] }
-
-    const newLink = {
-      id: crypto.randomUUID(),
-
-      endpointA: {
-        outpostId: localOutpostId,
-        cargoPadId: localCargoPadId,
-      },
-
-      endpointB: {
-        outpostId: remoteOutpostId,
-        cargoPadId: remoteCargoPadId,
-      },
-    }
-
-    applyUndoableNetworkChange(
-      label,
-      (currentNetwork) => {
-        const remainingLinks =
-          currentNetwork.cargoLinks.filter(
-            (link) =>
-              !(
-                (
-                  link.endpointA.outpostId === localOutpostId &&
-                  link.endpointA.cargoPadId === localCargoPadId
-                ) ||
-                (
-                  link.endpointB.outpostId === localOutpostId &&
-                  link.endpointB.cargoPadId === localCargoPadId
-                ) ||
-                (
-                  link.endpointA.outpostId === remoteOutpostId &&
-                  link.endpointA.cargoPadId === remoteCargoPadId
-                ) ||
-                (
-                  link.endpointB.outpostId === remoteOutpostId &&
-                  link.endpointB.cargoPadId === remoteCargoPadId
-                )
-              ),
-          )
-
-        return retireFulfilledPlannedSupply({
-          ...currentNetwork,
-
-          cargoLinks: [
-            ...remainingLinks,
-            newLink,
-          ],
-        }, referenceData ?? undefined)
-      },
-    )
+  function selectDestination(outpostId: string, cargoPadId: string, target: string) {
+    const owner = { outpostId, cargoPadId }
+    applyCargoChange(owner, target ? { key: 'history.cargoDestination', parameters: { destination: network.outposts.find(({ id }) => id === target)?.name ?? target } } : { key: 'history.unlinkCargoPad' },
+      (current) => selectCargoDestination(current, owner, target))
+  }
+  function setCargoLink(outpostId: string, cargoPadId: string, remoteOutpostId: string, remoteCargoPadId: string) {
+    const owner = { outpostId, cargoPadId }
+    const linkId = crypto.randomUUID()
+    applyCargoChange(owner, { key: 'history.cargoConnect' },
+      (current) => connectCargoPads(current, owner, { outpostId: remoteOutpostId, cargoPadId: remoteCargoPadId }, linkId))
+  }
+  function addRemoteCargo(outpostId: string, cargoPadId: string, target: string) {
+    const owner = { outpostId, cargoPadId }
+    const padId = crypto.randomUUID(), linkId = crypto.randomUUID()
+    applyCargoChange(owner, { key: 'history.cargoRemoteAdd' },
+      (current) => createRemoteCargoPadAndConnect(current, owner, target, padId, linkId, referenceData ?? undefined))
+  }
+  function repairCargo(outpostId: string, cargoPadId: string, record: CargoLink) {
+    const owner = { outpostId, cargoPadId }
+    applyCargoChange(owner, { key: 'history.cargoRepair', parameters: { id: record.id } },
+      (current) => removeCargoPairing(current, owner, record))
   }
 
   /**
@@ -2366,12 +2196,9 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
                 cargoPadId,
               )
             }
-            onUnlinkCargoPad={(cargoPadId) =>
-              unlinkCargoPad(
-                selectedOutpost.id,
-                cargoPadId,
-              )
-            }
+            onSelectDestination={(padId, target) => selectDestination(selectedOutpost.id, padId, target)}
+            onAddRemote={(padId, target) => addRemoteCargo(selectedOutpost.id, padId, target)}
+            onRemovePairing={(padId, record) => repairCargo(selectedOutpost.id, padId, record)}
             onSetCargoLink={(
               localCargoPadId,
               remoteOutpostId,
@@ -2413,6 +2240,7 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
                   network.outposts.some((outpost) => outpost.id === issue.outpostId)
                 ) {
                   selectOutpost(issue.outpostId)
+                  if (issue.cargoPadId) setCargoHistoryPresentationChange({ outpostId: issue.outpostId, cargoPadId: issue.cargoPadId, expanded: true })
                 }
               }}
               isModalOpen={isModalOpen}

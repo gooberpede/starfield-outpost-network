@@ -301,3 +301,127 @@ test.each([
   expect(search).not.toHaveFocus()
   expect(screen.getByRole('button', { name: /Validation: 0 issues/ })).toHaveAttribute('aria-expanded', 'false')
 })
+
+test('remote creation persists the selected destination and is one reversible native change', async () => {
+  seedCargoPads(1, 0)
+  const view = mount()
+  fireEvent.click(screen.getByRole('button', { name: 'Expand Cargo Link 1' }))
+  const outer = screen.getByRole('combobox', { name: 'Destination outpost' })
+  expect(screen.getByRole('option', { name: 'Outpost 2 — 0 cargo links' })).not.toBeDisabled()
+  fireEvent.change(outer, { target: { value: JSON.stringify(['id', 'outpost-2']) } })
+  fireEvent.blur(outer)
+  const read = () => JSON.parse(localStorage.getItem('starfield-outpost-network')!).networks[0].network
+  expect(read().outposts[0].cargoPads[0].destinationIntent).toEqual({ outpostId: 'outpost-2' })
+  view.unmount()
+  mount()
+  fireEvent.click(screen.getByRole('button', { name: 'Expand Cargo Link 1' }))
+  const select = screen.getByRole('combobox', { name: 'Destination cargo link' })
+  select.focus()
+  expect(select).toHaveValue(JSON.stringify(['empty']))
+  fireEvent.change(select, { target: { value: JSON.stringify(['add']) } })
+  expect(read().outposts[1].cargoPads).toHaveLength(1)
+  expect(read().outposts[1].cargoPads[0].outboundItems).toEqual([])
+  const padId = read().outposts[1].cargoPads[0].id
+  expect(select).toHaveValue(JSON.stringify(['id', padId]))
+  expect(select).toHaveFocus()
+  fireEvent.change(select, { target: { value: JSON.stringify(['empty']) } })
+  expect(select).toHaveValue(JSON.stringify(['id', padId]))
+  expect(read().cargoLinks).toHaveLength(1)
+  fireEvent.click(screen.getByRole('button', { name: 'Undo' }))
+  expect(read().outposts[1].cargoPads).toHaveLength(0)
+  expect(read().outposts[0].cargoPads[0].destinationIntent).toEqual({ outpostId: 'outpost-2' })
+  fireEvent.click(screen.getByRole('button', { name: 'Redo' }))
+  expect(read().outposts[1].cargoPads[0].id).toBe(padId)
+  fireEvent.change(screen.getByRole('combobox', { name: 'Destination cargo link' }), { target: { value: JSON.stringify(['add']) } })
+  expect(read().outposts[1].cargoPads).toHaveLength(2)
+  expect(read().cargoLinks).toHaveLength(1)
+  expect(read().outposts[1].cargoPads[0].destinationIntent).toBeUndefined()
+})
+
+test('conflict records stay visible and removal is available from a peripheral participant', () => {
+  seedCargoPads(1, 1, 1)
+  const raw = JSON.parse(localStorage.getItem('starfield-outpost-network')!)
+  const endpoint = (index: number) => ({ outpostId: `outpost-${index}`, cargoPadId: `pad-${index}-1` })
+  raw.networks[0].network.cargoLinks = [
+    { id: 'AB', endpointA: endpoint(1), endpointB: endpoint(2) },
+    { id: 'AC', endpointA: endpoint(1), endpointB: endpoint(3) },
+  ]
+  localStorage.setItem('starfield-outpost-network', JSON.stringify(raw))
+  mount()
+  fireEvent.click(screen.getByRole('button', { name: 'Outpost 2' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Expand Cargo Link 1' }))
+  expect(screen.getByRole('combobox', { name: 'Destination outpost' })).toBeDisabled()
+  fireEvent.click(screen.getByRole('button', { name: /^Remove pairing AB:/ }))
+  const read = () => JSON.parse(localStorage.getItem('starfield-outpost-network')!).networks[0].network
+  expect(read().cargoLinks.map((r: { id: string }) => r.id)).toEqual(['AC'])
+  expect(screen.getByRole('combobox', { name: 'Destination outpost' })).not.toBeDisabled()
+  fireEvent.click(screen.getByRole('button', { name: 'Undo' }))
+  expect(read().cargoLinks).toHaveLength(2)
+  expect(screen.getByRole('button', { name: /^Remove pairing AB:/ })).toBeEnabled()
+})
+
+test('retained empty missing reference uses unavailable status rather than the ordinary placeholder', () => {
+  seedCargoPads(1, 0)
+  const raw = JSON.parse(localStorage.getItem('starfield-outpost-network')!)
+  raw.networks[0].network.cargoLinks = [{ id: 'missing-pad',
+    endpointA: { outpostId: 'outpost-1', cargoPadId: 'pad-1-1' },
+    endpointB: { outpostId: 'outpost-2', cargoPadId: '' },
+  }]
+  localStorage.setItem('starfield-outpost-network', JSON.stringify(raw))
+  mount()
+  fireEvent.click(screen.getByRole('button', { name: 'Expand Cargo Link 1' }))
+  const padSelect = screen.getByRole('combobox', { name: 'Destination cargo link' })
+  expect(padSelect).toHaveValue(JSON.stringify(['status']))
+  expect(screen.getByRole('option', { name: 'Cargo Link unavailable ()' })).toBeDisabled()
+  fireEvent.change(padSelect, { target: { value: JSON.stringify(['empty']) } })
+  expect(padSelect).toHaveValue(JSON.stringify(['status']))
+  fireEvent.change(padSelect, { target: { value: JSON.stringify(['add']) } })
+  const read = () => JSON.parse(localStorage.getItem('starfield-outpost-network')!).networks[0].network
+  expect(read().cargoLinks[0].id).not.toBe('missing-pad')
+  fireEvent.click(screen.getByRole('button', { name: 'Undo' }))
+  expect(read().cargoLinks[0]).toEqual(raw.networks[0].network.cargoLinks[0])
+})
+
+test('remote Add retires planning in its snapshot and permits a later deliberate Add', () => {
+  seedCargoPads(1, 0)
+  const raw = JSON.parse(localStorage.getItem('starfield-outpost-network')!)
+  raw.networks[0].network.outposts[0].cargoPads[0].outboundItems = [{ type: 'resource', id: 'iron' }]
+  raw.networks[0].network.outposts[1].plannedSupply = [{ type: 'resource', id: 'iron' }]
+  localStorage.setItem('starfield-outpost-network', JSON.stringify(raw))
+  mount()
+  fireEvent.click(screen.getByRole('button', { name: 'Expand Cargo Link 1' }))
+  fireEvent.change(screen.getByRole('combobox', { name: 'Destination outpost' }), { target: { value: JSON.stringify(['id', 'outpost-2']) } })
+  const select = screen.getByRole('combobox', { name: 'Destination cargo link' })
+  if (!(select instanceof HTMLSelectElement)) throw new Error('Expected native select')
+  fireEvent.change(select, { target: { value: JSON.stringify(['add']) } })
+  const read = () => JSON.parse(localStorage.getItem('starfield-outpost-network')!).networks[0].network
+  expect(read().outposts[1].cargoPads).toHaveLength(1)
+  expect(read().outposts[1].plannedSupply).toHaveLength(0)
+  fireEvent.click(screen.getByRole('button', { name: 'Undo' }))
+  expect(read().outposts[1].cargoPads).toHaveLength(0)
+  expect(read().outposts[1].plannedSupply).toEqual([{ type: 'resource', id: 'iron' }])
+  expect(read().outposts[0].cargoPads).toHaveLength(1)
+  fireEvent.click(screen.getByRole('button', { name: 'Redo' }))
+  expect(read().outposts[1].plannedSupply).toHaveLength(0)
+  fireEvent.change(select, { target: { value: JSON.stringify(['add']) } })
+  expect(read().outposts[1].cargoPads).toHaveLength(2)
+  fireEvent.change(screen.getByRole('combobox', { name: 'Destination outpost' }), { target: { value: JSON.stringify(['empty']) } })
+  expect(read().cargoLinks).toHaveLength(0)
+  expect(read().outposts[1].plannedSupply).toHaveLength(0)
+})
+
+test('unfinished compact cargo keeps the outpost name and opens Validation without throwing', () => {
+  seedCargoPads(1, 0)
+  const raw: NetworkCollection = JSON.parse(localStorage.getItem('starfield-outpost-network')!)
+  raw.networks[0].network.outposts[0].cargoPads[0].destinationIntent = { outpostId: 'outpost-2' }
+  localStorage.setItem('starfield-outpost-network', JSON.stringify(raw))
+  const view = mount()
+  const destination = view.container.querySelector('.cargo-pad__destination')!
+  expect(destination.textContent).toBe('Outpost 2')
+  expect(destination).toHaveAttribute('title', 'Outpost 2 — choose Cargo Link')
+  expect(view.container.querySelector('.cargo-pad__inbound-summary')).toHaveTextContent('no remote link')
+  expect(cargoDisclosures()[0]).toHaveAccessibleDescription(/Outpost 2 — choose Cargo Link/)
+  fireEvent.click(screen.getByRole('button', { name: /Validation:/ }))
+  expect(screen.getByText('Choose or add a Cargo Link at Outpost 2 to finish this connection.')).toBeInTheDocument()
+  expect(screen.getByRole('textbox', { name: 'Character' })).toBeInTheDocument()
+})

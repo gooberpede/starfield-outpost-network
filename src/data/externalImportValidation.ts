@@ -4,6 +4,7 @@
  * current-shape checks establish the runtime contract and stable identity scopes.
  * Change this file when: persisted structures or supported migrations change.
  */
+import { validCargoIntents } from './cargoIntentValidation.ts'
 import type { NetworkCollection } from './networkCollection.ts'
 import { CURRENT_COLLECTION_SCHEMA_VERSION } from './networkCollection.ts'
 import { NetworkImportError } from './importErrors.ts'
@@ -235,8 +236,8 @@ function validateCargoLinks(value: unknown, path: string): void {
     const endpointA = link.endpointA as UnknownRecord
     const endpointB = link.endpointB as UnknownRecord
     const relationshipKey = [
-      `${endpointA.outpostId}:${endpointA.cargoPadId}`,
-      `${endpointB.outpostId}:${endpointB.cargoPadId}`,
+      JSON.stringify([endpointA.outpostId, endpointA.cargoPadId]),
+      JSON.stringify([endpointB.outpostId, endpointB.cargoPadId]),
     ].sort().join('|')
     if (relationshipKeys.has(relationshipKey)) failStructure(linkPath)
     relationshipKeys.add(relationshipKey)
@@ -253,6 +254,7 @@ export function validateExternalNetworkSource(value: unknown, path: string): voi
   if (sourceVersion > CURRENT_SCHEMA_VERSION) {
     throw new NetworkImportError('unsupported-network-schema', { version: sourceVersion })
   }
+  if (!validCargoIntents(network)) failStructure(path)
   validateCharacter(network.character, `${path}.character`, sourceVersion)
   requireArray(network.outposts, `${path}.outposts`).forEach(
     (outpost, index) => validateOutpost(outpost, `${path}.outposts[${index}]`, sourceVersion),
@@ -282,6 +284,7 @@ export function validateImportedCollection(collection: NetworkCollection): void 
     requireStableId(savedNetwork.id, networkIds, 'network')
     const path = `networks[${networkIndex}].network`
     const network = savedNetwork.network
+    if (!validCargoIntents(network)) failStructure(path)
     if (network.schemaVersion !== CURRENT_SCHEMA_VERSION) failStructure(`${path}.schemaVersion`)
     validateCharacter(network.character, `${path}.character`, CURRENT_SCHEMA_VERSION)
     validateCargoLinks(network.cargoLinks, `${path}.cargoLinks`)

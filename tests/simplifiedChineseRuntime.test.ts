@@ -15,7 +15,7 @@ import {
 
 test('Simplified Chinese runtime catalogue, selector, and reference overlay are complete', () => {
   assert.equal(supportedLocaleIds.includes('zh-Hans'), true)
-  assert.equal(Object.keys(zhHansMessages).length, 431)
+  assert.equal(Object.keys(zhHansMessages).length, 451)
   assert.equal(translate('zh-Hans', 'about.description'), zhHansMessages['about.description'])
   assert.deepEqual(getLocaleSelectorOptions('en-US').find(({ value }) => value === 'zh-Hans'), {
     value: 'zh-Hans', label: '简体中文',

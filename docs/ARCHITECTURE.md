@@ -264,6 +264,7 @@ interface CargoPad {
   label: string
   type: 'regular' | 'interstellar'
   outboundItems: CargoItem[]
+  destinationIntent?: { outpostId: string }
 }
 ```
 
@@ -316,6 +317,14 @@ This design was chosen because a cargo link is a relationship between **two spec
 Neither endpoint is inherently the source or destination.
 
 The relationship is bidirectional.
+
+The pure `cargoConnections.ts` owner indexes qualified endpoint tuples, classifies
+destination state, resolves structural routing and owns immutable cargo transitions.
+All supply consumers share that structural eligibility; raw invalid claims remain
+available to validation and explicit record repair. Destination intent is persisted
+on the pad only while no incident raw claim exists. App captures the expected
+network and snapshot, generates IDs outside reducer replay, and retires planning
+only after a successful atomic command. Rejected commands return the same state.
 
 Each cargo pad is intended to participate in at most one distinct cargo link. That rule is enforced through application logic and validation rather than through the TypeScript type itself.
 
@@ -1134,7 +1143,9 @@ When safe migration is impossible, the loader preserves recoverable user data ra
 For example:
 
 - outbound cargo may be retained;
-- an ambiguous legacy link may remain unlinked.
+- a browser legacy outpost-only choice survives as intent unless it competes with an exact claim.
+
+Nested network schema 5 preserves simple destination intent; collection schema stays 1. Supported schemas 1–4 migrate through their existing transformations. Raw source validation rejects malformed intent and intent plus any incident claim before reconstruction. Supported missing/self/conflicting exact claims retain their IDs. Valid schema-4 browser data is upgraded and saved during initialization, without waiting for a cargo edit.
 
 Migration should favour preservation over speculation. A malformed collection
 member or ambiguous identity now rejects the entire browser-storage recovery,

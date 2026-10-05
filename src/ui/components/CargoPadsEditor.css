@@ -329,3 +329,13 @@
   border-top: 1px solid var(--ui-rule);
   background: color-mix(in srgb, var(--ui-surface) 58%, var(--ui-background));
 }
+
+.cargo-pad__repair {
+  margin-bottom: 0.6rem;
+  overflow-wrap: anywhere;
+  font-size: 0.78rem;
+}
+
+.cargo-pad__repair > div {
+  margin-top: 0.4rem;
+}

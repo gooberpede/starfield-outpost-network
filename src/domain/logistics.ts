@@ -14,6 +14,7 @@
  *   - another UI needs a whole-outpost import or export summary.
  */
 
+import { getEligibleCargoLinks } from './cargoConnections.ts'
 import type {
   CargoItem,
   OutpostNetwork,
@@ -53,7 +54,7 @@ export function getRoutedExportDestinationNamesAtOutpost(
   if (!outpost) return destinationsByItem
 
   for (const pad of outpost.cargoPads) {
-    const link = network.cargoLinks.find((candidate) =>
+    const link = getEligibleCargoLinks(network).find((candidate) =>
       (
         candidate.endpointA.outpostId === outpostId &&
         candidate.endpointA.cargoPadId === pad.id
@@ -107,7 +108,7 @@ export function getImportSummariesAtOutpost(
     }
   >()
 
-  for (const link of network.cargoLinks) {
+  for (const link of getEligibleCargoLinks(network)) {
     const remoteEndpoint =
       link.endpointA.outpostId === outpostId
         ? link.endpointB

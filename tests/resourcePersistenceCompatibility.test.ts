@@ -85,7 +85,7 @@ test('legacy stable resource IDs survive import, edit, Undo/Redo, export, and re
   assert.deepEqual(resourceIds(session.collection.networks[0].network), stableIds)
   const reloaded = deserializeNetworkCollection(serializeNetworkCollection(session.collection))
   assert.deepEqual(resourceIds(reloaded.networks[0].network), stableIds)
-  assert.equal(reloaded.networks[0].network.schemaVersion, 4)
+  assert.equal(reloaded.networks[0].network.schemaVersion, 5)
   assert.equal(reloaded.networks[0].network.character.capabilities.xTechExtraction, true)
   assert.deepEqual(reloaded.networks[0].network.outposts[0].explicitResourcePresence, [])
 })

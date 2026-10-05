@@ -65,7 +65,7 @@ function initializeHistoricalSource(source: unknown) {
   const loaded = initializeNetworkCollection()
   assert.deepEqual(loaded.status, { kind: 'saved' })
   assert.equal(loaded.collection.schemaVersion, 1)
-  assert.ok(loaded.collection.networks.every(({ network }) => network.schemaVersion === 4))
+  assert.ok(loaded.collection.networks.every(({ network }) => network.schemaVersion === 5))
   const normalized = storage.getItem('starfield-outpost-network')
   assert.equal(normalized, JSON.stringify(loaded.collection))
   return { loaded: loaded.collection, raw, normalized }
@@ -422,7 +422,7 @@ test('external import preserves unknown references and supported historical sche
     Reflect.deleteProperty(historicalOutpost, 'explicitResourcePresence')
   }
   const migrated = deserializeNetworkCollection(JSON.stringify(historical))
-  assert.equal(migrated.networks[0].network.schemaVersion, 4)
+  assert.equal(migrated.networks[0].network.schemaVersion, 5)
   assert.equal(migrated.networks[0].network.character.capabilities.xTechExtraction, true)
 
   const routes = collection()
@@ -538,6 +538,6 @@ test('new collection starts with one stable active slot', () => {
   const fresh = createDefaultNetworkCollection()
   assert.equal(fresh.networks.length, 1)
   assert.equal(fresh.activeNetworkId, fresh.networks[0].id)
-  assert.equal(fresh.networks[0].network.schemaVersion, 4)
+  assert.equal(fresh.networks[0].network.schemaVersion, 5)
   assert.equal(fresh.networks[0].network.character.capabilities.xTechExtraction, true)
 })

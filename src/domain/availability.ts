@@ -20,6 +20,7 @@
  *   - external or manual supply sources are added.
  */
 
+import { getEligibleCargoLinks } from './cargoConnections.ts'
 import type {
   CargoItem,
   Outpost,
@@ -55,7 +56,7 @@ function getBaseActuallyAvailableItemsAtOutpost(
   }
 
   /* The remote pad's outbound selection supplies the whole local outpost. */
-  for (const link of network.cargoLinks) {
+  for (const link of getEligibleCargoLinks(network)) {
     const remoteEndpoint =
       link.endpointA.outpostId === outpost.id
         ? link.endpointB

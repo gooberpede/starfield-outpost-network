@@ -49,7 +49,7 @@ test('schema 3 defaults X-Tech state while schema 4 preserves false and explicit
   delete rawLegacy.character.capabilities
   delete rawLegacy.outposts[0].explicitResourcePresence
   const migrated = deserializeNetwork(JSON.stringify(rawLegacy))
-  assert.equal(migrated.schemaVersion, 4)
+  assert.equal(migrated.schemaVersion, 5)
   assert.equal(migrated.character.capabilities.xTechExtraction, true)
   assert.deepEqual(migrated.outposts[0].explicitResourcePresence, [])
 

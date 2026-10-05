@@ -146,7 +146,7 @@ test('schema migration preserves biomes and maps legacy organic production to un
   delete legacy.outposts[0].selectedBiomeIds
   legacy.outposts[0].activeProduction = ['iron', 'sealant', 'mangled']
   const migrated = migrateNetworkData(legacy, (id) => id === 'sealant' ? 'organic' : id === 'iron' ? 'inorganic' : undefined)
-  assert.equal(migrated.schemaVersion, 4)
+  assert.equal(migrated.schemaVersion, 5)
   assert.equal(migrated.character.capabilities.xTechExtraction, true)
   assert.deepEqual(migrated.outposts[0].explicitResourcePresence, [])
   assert.deepEqual(migrated.outposts[0].selectedBiomeIds, [])
@@ -166,7 +166,7 @@ test('schema-3 export/import migrates while preserving biome IDs and routes', ()
   network.outposts[0].selectedBiomeIds = ['b0', 'b1']
   network.outposts[0].activeProduction = [{ type: 'organic', resourceId: 'sealant', speciesId: 'plant-a' }]
   const migrated = deserializeNetwork(serializeNetwork(network), referenceFixture())
-  assert.equal(migrated.schemaVersion, 4)
+  assert.equal(migrated.schemaVersion, 5)
   assert.deepEqual(migrated.outposts[0].selectedBiomeIds, network.outposts[0].selectedBiomeIds)
   assert.deepEqual(migrated.outposts[0].activeProduction, network.outposts[0].activeProduction)
   const data = referenceFixture()

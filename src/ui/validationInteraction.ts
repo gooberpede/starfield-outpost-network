@@ -51,6 +51,8 @@ export function getValidationIssueIdentity(issue: ValidationIssue): string {
     issue.productId ?? '',
     issue.speciesId ?? '',
     issue.bodyBiomeId ?? '',
+    issue.cargoTarget ?? null,
+    issue.cargoRecords?.map((r) => [r.id, [r.endpointA, r.endpointB].map((e) => JSON.stringify([e.outpostId, e.cargoPadId])).sort()]).sort() ?? [],
     issue.messageKey,
     issue.parameters ?? {},
   ])

@@ -130,6 +130,31 @@ function getIssueMessage(
   return translate(locale, key, parameters)
 }
 
+// Cargo evidence is shared, but each message has its own strict interpolation
+// contract. Orphan and conflict records belong in remediation, not parameters.
+function getCargoIssueMessage(
+  issue: ValidationIssue,
+  outposts: Outpost[],
+  locale: SupportedLocale,
+): string | null {
+  const target = issue.cargoTarget
+  const destination = target
+    ? outposts.find(({ id }) => id === target.outpostId)?.name || target.outpostId
+    : ''
+  switch (issue.messageKey) {
+    case 'validation.cargoDestinationIncomplete':
+      return target ? translate(locale, issue.messageKey, { destination }) : null
+    case 'validation.cargoMissingOutpost':
+      return target ? translate(locale, issue.messageKey, { id: target.outpostId }) : null
+    case 'validation.cargoMissingPad':
+      return target ? translate(locale, issue.messageKey, { destination, id: target.cargoPadId ?? '' }) : null
+    case 'validation.cargoOrphan':
+      return translate(locale, issue.messageKey)
+    default:
+      return null
+  }
+}
+
 function getRemediation(
   issue: ValidationIssue,
   outpost: Outpost | undefined,
@@ -198,8 +223,14 @@ export function getValidationIssuePresentation(
     : outpostContext ?? padContext
   return {
     context,
-    message: getIssueMessage(issue, outpost, data, locale, resolveName),
-    remediation: getRemediation(issue, outpost, data, locale, resolveName),
+    message: getCargoIssueMessage(issue, outposts, locale)
+      ?? getIssueMessage(issue, outpost, data, locale, resolveName),
+    remediation: issue.cargoRecords?.map((record) => record.id + ': ' +
+      [record.endpointA, record.endpointB].map((e) => {
+        const parent = outposts.find(({id}) => id === e.outpostId)
+        const index = parent?.cargoPads.findIndex(({id}) => id === e.cargoPadId) ?? -1
+        return (parent?.name || e.outpostId) + ' / ' + (index < 0 ? e.cargoPadId : translate(locale, 'validation.context.pad', { ordinal: index + 1 })) + ' [' + JSON.stringify([e.outpostId, e.cargoPadId]) + ']'
+      }).join(' ↔ ')).join('; ') ?? getRemediation(issue, outpost, data, locale, resolveName),
   }
 }
 

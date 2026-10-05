@@ -20,9 +20,11 @@
  *   - the cargo-link selection interface changes;
  *
  * Do not put network-level cargo-link rules here. Those belong in
- * CargoPadsEditor or, later, in dedicated domain/data services.
+ * the cargoConnections domain owner.
  */
 
+import { formatCargoDestination } from '../../localization/cargoDestination.ts'
+import { encodeCargoOption as encode, decodeCargoOption as decode } from '../cargoDestinationOptions.ts'
 import { useId } from 'react'
 import type {
   CargoItem,
@@ -41,6 +43,11 @@ import { useLocalization } from '../../localization/LocalizationContext.ts'
 import { getReferenceDisplayName } from '../../localization/referenceNames.ts'
 
 interface CargoPadEditorProps {
+  unavailableOutpost?: boolean
+  unavailablePad?: boolean
+  blocked?: boolean
+  statusText?: string
+  onAddRemote?: () => void
   pad: CargoPad
   displayLabel: string
   outposts: Outpost[]
@@ -68,6 +75,11 @@ interface CargoPadEditorProps {
 }
 
 export function CargoPadEditor({
+  unavailableOutpost = false,
+  unavailablePad = false,
+  blocked = false,
+  statusText,
+  onAddRemote,
   pad,
   displayLabel,
   outposts,
@@ -103,6 +115,8 @@ export function CargoPadEditor({
   const availableDestinationPads =
     destinationOutpost?.cargoPads ?? []
 
+  const outerValue = blocked || unavailableOutpost ? encode({ kind: 'status' }) : destinationId ? encode({ kind: 'id', id: destinationId }) : encode({ kind: 'empty' })
+  const innerValue = unavailablePad ? encode({ kind: 'status' }) : destinationPadId ? encode({ kind: 'id', id: destinationPadId }) : encode({ kind: 'empty' })
   const isInterSystem = pad.type === 'interstellar'
   const hasActualHelium3 = actuallyAvailableItems.some(
     (item) => item.type === 'resource' && item.id === 'helium-3',
@@ -166,56 +180,47 @@ export function CargoPadEditor({
 
         <select
           aria-label={t('cargo.destination.outpost')}
-          value={destinationId}
-          onChange={(event) =>
-            onLinkedOutpostChange(event.target.value)
-          }
+          title={destinationOutpost ? formatCargoDestination(locale, destinationOutpost.name, destinationOutpost.cargoPads.length) : statusText ?? destinationId}
+          disabled={blocked}
+          value={outerValue}
+          onChange={(event) => {
+            const option = decode(event.currentTarget.value)
+            if (option?.kind === 'id') onLinkedOutpostChange(option.id)
+            else if (option?.kind === 'empty') onLinkedOutpostChange('')
+            event.currentTarget.value = outerValue
+          }}
         >
-          <option value="">{t('cargo.destination.unlinked')}</option>
-
+          <option value={encode({ kind: 'empty' })}>{t('cargo.destination.unlinked')}</option>
+          {blocked && <option disabled value={encode({ kind: 'status' })}>{statusText}</option>}
+          {!blocked && unavailableOutpost && <option disabled value={outerValue}>{t('cargo.destination.missingOutpost', { id: destinationId })}</option>}
           {availableDestinations.map((outpost) => (
-            <option
-              disabled={outpost.cargoPads.length === 0}
-              key={outpost.id}
-              value={outpost.id}
-            >
-              {outpost.cargoPads.length === 0
-                ? t('cargo.destination.noPads', { outpost: outpost.name })
-                : outpost.name}
+            <option key={outpost.id} value={encode({ kind: 'id', id: outpost.id })}>
+              {formatCargoDestination(locale, outpost.name, outpost.cargoPads.length)}
             </option>
           ))}
         </select>
-
-        {linkedOutpostId && (
-          <select
-            aria-label={t('cargo.destination.pad')}
-            value={destinationPadId}
-            onChange={(event) =>
-              onLinkedCargoPadChange(event.target.value)
-            }
-          >
-            <option value="">
-              {t('cargo.destination.selectPad')}
-            </option>
-
+        {destinationOutpost && !blocked && (
+          <select aria-label={t('cargo.destination.pad')} value={innerValue}
+            onChange={(event) => {
+              const option = decode(event.currentTarget.value)
+              if (option?.kind === 'id') onLinkedCargoPadChange(option.id)
+              else if (option?.kind === 'add') onAddRemote?.()
+              // A no-op native event must not leave an action or placeholder selected.
+              event.currentTarget.value = innerValue
+            }}>
+            <option value={encode({ kind: 'empty' })}>{t('cargo.destination.selectPad')}</option>
+            {unavailablePad &&
+              <option disabled value={innerValue}>{t('cargo.destination.missingPad', { id: destinationPadId })}</option>}
             {availableDestinationPads.map((destinationPad) => (
-              <option
-                key={destinationPad.id}
-                value={destinationPad.id}
-                aria-label={(getDestinationPadAccessibleLabel ?? getDestinationPadLabel)(
-                  destinationOutpost!.id, destinationPad.id,
-                )}
-              >
-                {getDestinationPadLabel(
-                  destinationOutpost!.id,
-                  destinationPad.id,
-                )}
+              <option key={destinationPad.id} value={encode({ kind: 'id', id: destinationPad.id })}
+                aria-label={(getDestinationPadAccessibleLabel ?? getDestinationPadLabel)(destinationOutpost.id, destinationPad.id)}>
+                {getDestinationPadLabel(destinationOutpost.id, destinationPad.id)}
               </option>
             ))}
+            <option value={encode({ kind: 'add' })}>{t('cargo.addButton')}</option>
           </select>
         )}
       </div>
-
       <CargoExportsEditor
         resources={resources}
         products={products}

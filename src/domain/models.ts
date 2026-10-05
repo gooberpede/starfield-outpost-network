@@ -108,11 +108,16 @@ export interface CargoLink {
  * level, while inbound contents are derived from the outbound contents
  * of the pad at the opposite end of the link.
  */
+export interface CargoDestinationIntent {
+  outpostId: string
+}
+
 export interface CargoPad {
   id: string
   label: string
   type: CargoPadType
   outboundItems: CargoItem[]
+  destinationIntent?: CargoDestinationIntent
 }
 
 export interface Outpost {

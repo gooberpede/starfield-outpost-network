@@ -45,6 +45,7 @@
  *     of a cargo link.
  */
 
+import { classifyCargoDestination, incident } from '../../domain/cargoConnections.ts'
 import {
   useEffect,
   useImperativeHandle,
@@ -77,9 +78,9 @@ interface CargoPadsEditorProps {
   maxCargoPads: number | null
   allOutposts: Outpost[]
   cargoLinks: CargoLink[]
-  onUnlinkCargoPad: (
-    cargoPadId: string,
-  ) => void
+  onSelectDestination: (padId: string, target: string) => void
+  onAddRemote: (padId: string, target: string) => void
+  onRemovePairing: (padId: string, record: CargoLink) => void
   onSetCargoLink: (
     localCargoPadId: string,
     remoteOutpostId: string,
@@ -132,7 +133,9 @@ export function CargoPadsEditor({
   products,
   availableItems,
   actuallyAvailableItems,
-  onUnlinkCargoPad,
+  onSelectDestination,
+  onAddRemote,
+  onRemovePairing,
   onSetCargoLink,
   onAddCargoPad,
   onMoveCargoPad,
@@ -144,14 +147,7 @@ export function CargoPadsEditor({
   historyPresentationChange,
 }: CargoPadsEditorProps) {
   const { locale, t } = useLocalization()
-  /*
-   * Selecting an outpost does not by itself constitute a cargo link.
-   * Keep that partial selection in UI state until the user chooses a
-   * specific remote cargo pad, at which point a CargoLink can be created.
-   */
-  const [draftLinkedOutpostIds, setDraftLinkedOutpostIds] =
-    useState<Record<string, string>>({})
-
+  const cargoNetwork = { outposts: allOutposts, cargoLinks }
   /*
   * Collapse state is presentation-only and deliberately does not belong in
   * the persisted outpost/network model.
@@ -426,45 +422,6 @@ export function CargoPadsEditor({
   }
 
   /**
-   * Finds the single network-level cargo link involving this pad.
-   *
-   * A Starfield cargo pad can participate in at most one cargo link,
-   * so callers expect either one relationship or no relationship.
-   */
-  function findCargoLink(padId: string) {
-    return cargoLinks.find(
-      (link) =>
-        (
-          link.endpointA.outpostId === outpost.id &&
-          link.endpointA.cargoPadId === padId
-        ) ||
-        (
-          link.endpointB.outpostId === outpost.id &&
-          link.endpointB.cargoPadId === padId
-        ),
-    )
-  }
-
-  /**
-   * Returns the endpoint at the opposite side of a bidirectional link.
-   *
-   * endpointA and endpointB have no source/destination meaning, so the
-   * local pad may appear on either side of the stored relationship.
-   */
-  function getRemoteEndpoint(
-    link: CargoLink,
-    localPadId: string,
-  ) {
-    const localIsEndpointA =
-      link.endpointA.outpostId === outpost.id &&
-      link.endpointA.cargoPadId === localPadId
-
-    return localIsEndpointA
-      ? link.endpointB
-      : link.endpointA
-  }
-
-  /**
    * Builds the descriptive label shown for a possible destination pad.
    *
    * The label exposes information that helps the user choose the intended
@@ -524,17 +481,12 @@ export function CargoPadsEditor({
     * candidate is already linked, resolve the opposite endpoint so the
     * user can see which existing relationship would be displaced.
     */
-    const existingLink = cargoLinks.find(
-      (link) =>
-        (
-          link.endpointA.outpostId === destinationOutpostId &&
-          link.endpointA.cargoPadId === destinationPadId
-        ) ||
-        (
-          link.endpointB.outpostId === destinationOutpostId &&
-          link.endpointB.cargoPadId === destinationPadId
-        ),
-    )
+    const destinationState = classifyCargoDestination(cargoNetwork, { outpostId: destinationOutpostId, cargoPadId: destinationPadId })
+    if (destinationState.kind === 'conflict' || destinationState.kind === 'self-reference') {
+      return t('cargo.destination.padContentsLinked', { pad: destinationPadDisplayLabel, contents: outboundLabel,
+        destination: t(destinationState.kind === 'conflict' ? 'validation.cargoPairingConflict' : 'validation.selfLinkedCargoPad') })
+    }
+    const existingLink = 'link' in destinationState ? destinationState.link : undefined
 
     if (!existingLink) {
       return t('cargo.destination.padContents', { pad: destinationPadDisplayLabel, contents: outboundLabel })
@@ -587,81 +539,16 @@ export function CargoPadsEditor({
     })
   }
 
-  /**
-   * Changes the draft remote-outpost selection for one cargo pad.
-   *
-   * Choosing another outpost removes an established link as one undoable
-   * network action, then keeps the new incomplete selection in UI state.
-   *
-   * Clearing the outpost selection is an explicit unlink action.
-   */
-  function changeLinkedOutpost(
-    localPadId: string,
-    linkedOutpostId: string,
-  ) {
-    const existingLink = findCargoLink(localPadId)
-    const remoteEndpoint = existingLink
-      ? getRemoteEndpoint(existingLink, localPadId)
-      : null
-    const currentSelection = existingLink
-      ? remoteEndpoint?.outpostId ?? ''
-      : draftLinkedOutpostIds[localPadId] ?? ''
-
-    if (linkedOutpostId === currentSelection) {
-      return
-    }
-
-    if (!linkedOutpostId) {
-      if (existingLink) {
-        onUnlinkCargoPad(localPadId)
-      }
-
-      setDraftLinkedOutpostIds((current) => {
-        const updated = { ...current }
-        delete updated[localPadId]
-        return updated
-      })
-
-      return
-    }
-
-    if (existingLink) {
-      onUnlinkCargoPad(localPadId)
-    }
-
-    setDraftLinkedOutpostIds((current) => ({
-      ...current,
-      [localPadId]: linkedOutpostId,
-    }))
+  function changeLinkedOutpost(localPadId: string, target: string) {
+    onSelectDestination(localPadId, target)
   }
-
-  /**
-   * Completes creation or replacement of one cargo-link relationship.
-   *
-   * The application layer owns all persisted mutations because completing this
-   * action may remove an existing link from either endpoint before creating the
-   * new relationship. Those related effects must form one Undo/Redo step.
-   */
-  function changeLinkedCargoPad(
-    localPadId: string,
-    remoteOutpostId: string,
-    remotePadId: string,
-  ) {
-    if (!remoteOutpostId || !remotePadId) {
-      return
-    }
-
-    onSetCargoLink(
-      localPadId,
-      remoteOutpostId,
-      remotePadId,
-    )
-
-    setDraftLinkedOutpostIds((current) => {
-      const updated = { ...current }
-      delete updated[localPadId]
-      return updated
-    })
+  function changeLinkedCargoPad(localPadId: string, remoteOutpostId: string, remotePadId: string) {
+    if (remoteOutpostId && remotePadId) onSetCargoLink(localPadId, remoteOutpostId, remotePadId)
+  }
+  function endpointLabel(endpoint: { outpostId: string; cargoPadId: string }): string {
+    const parent = allOutposts.find(({ id }) => id === endpoint.outpostId)
+    const ordinal = parent?.cargoPads.findIndex(({ id }) => id === endpoint.cargoPadId) ?? -1
+    return (parent?.name || endpoint.outpostId) + ' / ' + (ordinal < 0 ? endpoint.cargoPadId : t('cargo.pad.summary', { ordinal: formatInteger(locale, ordinal + 1) })) + ' [' + JSON.stringify([endpoint.outpostId, endpoint.cargoPadId]) + ']'
   }
 
   useImperativeHandle(effectiveCommandRef, () => ({
@@ -737,47 +624,24 @@ export function CargoPadsEditor({
         onDrop={dropCargoPad}
       >
         {outpost.cargoPads.map((pad, index) => {
-        const cargoLink = findCargoLink(pad.id)
-
-        const remoteEndpoint = cargoLink
-          ? getRemoteEndpoint(cargoLink, pad.id)
-          : null
-
-        const remoteOutpost = remoteEndpoint
-          ? allOutposts.find(
-              (candidate) =>
-                candidate.id === remoteEndpoint.outpostId,
-            )
-          : undefined
-
-        const remotePad = remoteOutpost && remoteEndpoint
-          ? remoteOutpost.cargoPads.find(
-              (candidate) =>
-                candidate.id === remoteEndpoint.cargoPadId,
-            )
-          : undefined
-
-        /*
-         * A completed link determines the selected outpost. Otherwise
-         * use any incomplete outpost selection currently held by the UI.
-         */
-        const hasDraftLinkedOutpost =
-          Object.prototype.hasOwnProperty.call(
-            draftLinkedOutpostIds,
-            pad.id,
-          )
-
-        /*
-         * Persisted network state wins while a link exists. This makes Undo
-         * restore the complete prior pairing even though the replacement
-         * outpost remains as presentation-only draft state for Redo.
-         */
-        const linkedOutpostId =
-          remoteEndpoint?.outpostId ??
-          (hasDraftLinkedOutpost ? draftLinkedOutpostIds[pad.id] : '')
-
-        const linkedCargoPadId =
-          remoteEndpoint?.cargoPadId ?? ''
+        const owner = { outpostId: outpost.id, cargoPadId: pad.id }
+        const destination = classifyCargoDestination(cargoNetwork, owner)
+        const remoteEndpoint = destination.kind === 'connected' ? destination.target : null
+        const remoteOutpost = remoteEndpoint ? allOutposts.find(({ id }) => id === remoteEndpoint.outpostId) : undefined
+        const remotePad = remoteOutpost?.cargoPads.find(({ id }) => id === remoteEndpoint?.cargoPadId)
+        const linkedOutpostId = 'target' in destination ? destination.target.outpostId : ''
+        const linkedCargoPadId = destination.kind === 'connected' || destination.kind === 'missing-pad' ? destination.target.cargoPadId : ''
+        const targetName = allOutposts.find(({ id }) => id === linkedOutpostId)?.name || linkedOutpostId
+        const destinationText = destination.kind === 'connected' || destination.kind === 'incomplete' ? targetName
+          : destination.kind === 'missing-outpost' ? t('cargo.destination.missingOutpost', { id: linkedOutpostId })
+          : destination.kind === 'missing-pad' ? targetName + ' — ' + t('cargo.destination.missingPad', { id: linkedCargoPadId })
+          : destination.kind === 'conflict' ? t('validation.cargoPairingConflict')
+          : destination.kind === 'self-reference' ? t('validation.selfLinkedCargoPad')
+          : t('cargo.destination.unlinked')
+        const destinationDescription = destination.kind === 'incomplete'
+          ? t('cargo.destination.incomplete', { outpost: targetName }) : destinationText
+        const repairRecords = destination.kind === 'conflict' ? destination.records
+          : 'link' in destination && destination.link && destination.kind !== 'connected' ? [destination.link] : []
 
         const isCollapsed =
           !(expandedPadIds[pad.id] ?? false)
@@ -798,7 +662,7 @@ export function CargoPadsEditor({
             : []
         const semanticSummaryId = `cargo-pad-semantic-summary-${pad.id}`
         const semanticSummary = t('cargo.pad.semanticSummary', {
-          destination: remoteOutpost?.name ?? t('cargo.destination.unlinked'),
+          destination: destinationDescription,
           outbound: outboundSummaryItems.length > 0
             ? formatList(locale, outboundSummaryItems.map(({ name }) => name))
             : t('cargo.pad.noOutboundCargo'),
@@ -883,9 +747,9 @@ export function CargoPadsEditor({
 
                   <div
                     className="cargo-pad__destination"
-                    title={remoteOutpost?.name}
+                    title={destinationDescription}
                   >
-                    {remoteOutpost?.name ?? t('cargo.destination.unlinked')}
+                    {destinationText}
                   </div>
                 </div>
 
@@ -925,14 +789,31 @@ export function CargoPadsEditor({
                       ) : (
                         <span>—</span>
                       )
-                    ) : null}
+                    ) : destination.kind === 'incomplete' ? <span>{t('cargo.pad.noRemoteLink')}</span> : null}
                   </div>
                 </div>
               </div>
 
               {!isCollapsed && (
                 <div className="cargo-pad__body">
+                  {repairRecords.length > 0 && <div className="cargo-pad__repair">
+                    <strong>{t('cargo.pairing.records')}</strong>
+                    {repairRecords.map((record) => {
+                      const endpoints = endpointLabel(record.endpointA) + ' ↔ ' + endpointLabel(record.endpointB)
+                      return <div key={record.id} title={record.id + ': ' + endpoints}>
+                        <div>{record.id}: {endpoints}</div>
+                        {incident(record, owner) && <button type="button"
+                          aria-label={t('cargo.pairing.removeLabel', { id: record.id, endpoints })}
+                          onClick={() => onRemovePairing(pad.id, record)}>{t('cargo.pairing.remove')}</button>}
+                      </div>
+                    })}
+                  </div>}
                   <CargoPadEditor
+                    unavailableOutpost={destination.kind === 'missing-outpost'}
+                    unavailablePad={destination.kind === 'missing-pad'}
+                    blocked={destination.kind === 'conflict' || destination.kind === 'self-reference'}
+                    statusText={destinationText}
+                    onAddRemote={() => onAddRemote(pad.id, linkedOutpostId)}
                     pad={pad}
                     displayLabel={displayPadLabel}
                     outposts={allOutposts}

@@ -1,7 +1,7 @@
 import type { OutpostNetwork } from './models'
 
 export const sampleNetwork: OutpostNetwork = {
-  schemaVersion: 4,
+  schemaVersion: 5,
 
   character: {
     name: '',

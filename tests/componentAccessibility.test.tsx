@@ -316,7 +316,7 @@ describe('release accessibility semantics', () => {
       <CargoPadsEditor
         outpost={outpost} maxCargoPads={6} allOutposts={[outpost]} cargoLinks={[]}
         resources={[]} products={[]} availableItems={[]} actuallyAvailableItems={[]}
-        onUnlinkCargoPad={noOp} onSetCargoLink={noOp} onAddCargoPad={noOp}
+        onSelectDestination={noOp} onAddRemote={noOp} onRemovePairing={noOp} onSetCargoLink={noOp} onAddCargoPad={noOp}
         onMoveCargoPad={noOp} onMoveCargoPadUp={noOp} onMoveCargoPadDown={noOp}
         onDeleteCargoPad={noOp} onToggleExport={noOp} onToggleCargoPadType={noOp}
       />
@@ -520,18 +520,19 @@ describe('release accessibility semantics', () => {
     const local = makeOutpost('local', 'Alpha', 1)
     const remote = makeOutpost('remote', 'Beta', 1)
     remote.cargoPads[0].outboundItems = [{ type: 'product', id: 'microsecond-regulator' }]
+    local.cargoPads[0].destinationIntent = { outpostId: 'remote' }
     localized('en-US', <CargoPadsEditor
       outpost={local} maxCargoPads={6} allOutposts={[local, remote]} cargoLinks={[]}
       resources={[]} products={[{
         id: 'microsecond-regulator', name: 'Microsecond Regulator', shortName: 'MRg', rarity: 'rare',
       }]} availableItems={[]} actuallyAvailableItems={[]}
-      onUnlinkCargoPad={noOp} onSetCargoLink={noOp} onAddCargoPad={noOp}
+      onSelectDestination={noOp} onAddRemote={noOp} onRemovePairing={noOp} onSetCargoLink={noOp} onAddCargoPad={noOp}
       onMoveCargoPad={noOp} onMoveCargoPadUp={noOp} onMoveCargoPadDown={noOp}
       onDeleteCargoPad={noOp} onToggleExport={noOp} onToggleCargoPadType={noOp}
     />)
 
     await user.click(screen.getByRole('button', { name: 'Expand Cargo Link 1' }))
-    await user.selectOptions(screen.getByRole('combobox', { name: 'Destination outpost' }), 'remote')
+    expect(screen.getByRole('combobox', { name: 'Destination outpost' })).toHaveValue(JSON.stringify(['id', 'remote']))
     const option = screen.getByRole('option', { name: 'Cargo Link 1: (Microsecond Regulator)' })
     expect(option).toHaveTextContent('Cargo Link 1: (MRg)')
   })
@@ -562,7 +563,7 @@ describe('release accessibility semantics', () => {
         products={[]}
         availableItems={[]}
         actuallyAvailableItems={[]}
-        onUnlinkCargoPad={noOp}
+        onSelectDestination={noOp} onAddRemote={noOp} onRemovePairing={noOp}
         onSetCargoLink={noOp}
         onAddCargoPad={noOp}
         onMoveCargoPad={noOp}
@@ -590,7 +591,7 @@ describe('release accessibility semantics', () => {
     localized('ja-JP', <CargoPadsEditor
       outpost={outpost} maxCargoPads={6} allOutposts={[outpost]} cargoLinks={[]}
       resources={[]} products={[]} availableItems={[]} actuallyAvailableItems={[]}
-      onUnlinkCargoPad={noOp} onSetCargoLink={noOp} onAddCargoPad={noOp}
+      onSelectDestination={noOp} onAddRemote={noOp} onRemovePairing={noOp} onSetCargoLink={noOp} onAddCargoPad={noOp}
       onMoveCargoPad={noOp} onMoveCargoPadUp={noOp} onMoveCargoPadDown={noOp}
       onDeleteCargoPad={noOp} onToggleExport={noOp} onToggleCargoPadType={noOp}
     />)
@@ -618,7 +619,7 @@ describe('release accessibility semantics', () => {
       outpost={alpha} maxCargoPads={6} allOutposts={[alpha, beta]}
       cargoLinks={[{ id: 'link', endpointA: { outpostId: 'alpha', cargoPadId: 'alpha-pad-1' }, endpointB: { outpostId: 'beta', cargoPadId: 'beta-pad-1' } }]}
       resources={resources} products={products} availableItems={[]} actuallyAvailableItems={[]}
-      onUnlinkCargoPad={noOp} onSetCargoLink={noOp} onAddCargoPad={noOp}
+      onSelectDestination={noOp} onAddRemote={noOp} onRemovePairing={noOp} onSetCargoLink={noOp} onAddCargoPad={noOp}
       onMoveCargoPad={noOp} onMoveCargoPadUp={noOp} onMoveCargoPadDown={noOp}
       onDeleteCargoPad={noOp} onToggleExport={noOp} onToggleCargoPadType={noOp}
     />)
@@ -647,7 +648,7 @@ describe('release accessibility semantics', () => {
       <CargoPadsEditor
         outpost={outposts[0]} maxCargoPads={6} allOutposts={outposts} cargoLinks={[]}
         resources={[]} products={[]} availableItems={[]} actuallyAvailableItems={[]}
-        onUnlinkCargoPad={noOp} onSetCargoLink={noOp} onAddCargoPad={noOp}
+        onSelectDestination={noOp} onAddRemote={noOp} onRemovePairing={noOp} onSetCargoLink={noOp} onAddCargoPad={noOp}
         onMoveCargoPad={noOp} onMoveCargoPadUp={noOp} onMoveCargoPadDown={noOp}
         onDeleteCargoPad={noOp} onToggleExport={noOp} onToggleCargoPadType={noOp}
       />

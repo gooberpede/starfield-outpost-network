@@ -22,3 +22,15 @@ test('clean identity links full source SHA and renders unusual version text with
   expect(screen.queryByRole('img')).toBeNull()
   expect(screen.queryByText(/local \/ modified|local \/ unverified/)).toBeNull()
 })
+
+import { supportedLocaleIds } from '../src/localization/types.ts'
+test.each(supportedLocaleIds)('About release history link is safe and localized in %s', (locale) => {
+  render(<LocalizationContext value={{ locale, automaticLocale: locale, localeOverride: null,
+    setLocaleOverride: vi.fn(), t: (key, params) => translate(locale, key, params) }}>
+    <AboutDialog onClose={vi.fn()} />
+  </LocalizationContext>)
+  const link = screen.getByRole('link', { name: translate(locale, 'about.releaseNotes') })
+  expect(link).toHaveAttribute('href', 'https://github.com/gooberpede/starfield-outpost-network/releases')
+  expect(link).toHaveAttribute('target', '_blank')
+  expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+})

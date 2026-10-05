@@ -18,6 +18,7 @@
  *   - validator registration order needs to change.
  */
 
+import { incompleteCargoDestinationRule } from './rules/incompleteCargoDestination.ts'
 import {
   unresolvedCargoExportRule,
 } from './rules/unresolvedCargoExport'
@@ -114,6 +115,7 @@ import { xTechProductionRequiresPresenceRule } from './rules/xTechProductionRequ
  */
 export const validationRules: ValidationRule[] = [
   unresolvedCargoExportRule,
+  incompleteCargoDestinationRule,
   missingCargoLinkEndpointRule,
   cargoPadLinkedMultipleTimesRule,
   cargoPadSkillLimitRule,

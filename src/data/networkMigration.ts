@@ -1,10 +1,11 @@
 /**
- * Purpose: Upgrade persisted/imported network shapes to schema version 4.
+ * Purpose: Upgrade persisted/imported network shapes to schema version 5.
  * Architecture: Migration preserves recoverable IDs; validation owns contradictions.
  * Change this file when: the persisted network schema changes.
  */
 import type {
   CargoItem,
+  CargoPad,
   CargoLink,
   Character,
   OutpostNetwork,
@@ -12,7 +13,7 @@ import type {
 } from '../domain/models'
 import type { ResourceCategory, ResourceId } from '../domain/referenceData'
 
-export const CURRENT_SCHEMA_VERSION = 4
+export const CURRENT_SCHEMA_VERSION = 5
 
 type ResourceCategoryResolver = (resourceId: ResourceId) => ResourceCategory | undefined
 
@@ -91,9 +92,9 @@ function migrateRoute(
 
 function cargoLinkKey(endpointA: CargoLink['endpointA'], endpointB: CargoLink['endpointB']) {
   return [
-    `${endpointA.outpostId}:${endpointA.cargoPadId}`,
-    `${endpointB.outpostId}:${endpointB.cargoPadId}`,
-  ].sort().join('|')
+    JSON.stringify([endpointA.outpostId, endpointA.cargoPadId]),
+    JSON.stringify([endpointB.outpostId, endpointB.cargoPadId]),
+  ].sort().map((key) => JSON.stringify(key)).join()
 }
 
 export function migrateNetworkData(
@@ -119,7 +120,7 @@ export function migrateNetworkData(
       throw new Error('The selected file contains invalid explicit resource presence data.')
     }
     const rawPads = Array.isArray(rawOutpost.cargoPads) ? rawOutpost.cargoPads : []
-    const cargoPads = rawPads.map((rawPad) => {
+    const cargoPads: CargoPad[] = rawPads.map((rawPad) => {
       if (!isRecord(rawPad) || typeof rawPad.id !== 'string' ||
         typeof rawPad.label !== 'string' ||
         (rawPad.type !== 'regular' && rawPad.type !== 'interstellar')) {
@@ -147,6 +148,12 @@ export function migrateNetworkData(
         label: rawPad.label,
         type: padType,
         outboundItems: outboundItems as CargoItem[],
+        ...(isRecord(rawPad.destinationIntent) && typeof rawPad.destinationIntent.outpostId === 'string'
+          ? { destinationIntent: { outpostId: rawPad.destinationIntent.outpostId } }
+          : sourceSchemaVersion === 1 && destination?.type === 'outpost' &&
+            typeof destination.outpostId === 'string' && destination.outpostId.length > 0 &&
+            !('cargoPadId' in destination)
+            ? { destinationIntent: { outpostId: destination.outpostId } } : {}),
       }
     })
 
@@ -199,7 +206,14 @@ export function migrateNetworkData(
   return {
     schemaVersion: CURRENT_SCHEMA_VERSION,
     character: migrateCharacter(value.character, sourceSchemaVersion),
-    outposts,
+    // Legacy outpost-only evidence cannot compete with retained exact claims.
+    outposts: sourceSchemaVersion === 1 ? outposts.map((outpost) => ({ ...outpost,
+      cargoPads: outpost.cargoPads.map((pad) => {
+        if (!pad.destinationIntent || !migratedLinks.some((link) =>
+          [link.endpointA, link.endpointB].some((e) => e.outpostId === outpost.id && e.cargoPadId === pad.id))) return pad
+        const copy = { ...pad }; delete copy.destinationIntent; return copy
+      }),
+    })) : outposts,
     cargoLinks: migratedLinks,
   }
 }

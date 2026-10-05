@@ -1,99 +1,47 @@
 /**
- * missingCargoLinkEndpoint.ts
- *
- * Purpose:
- *   Detects cargo links whose stored endpoint no longer resolves to an
- *   existing outpost and cargo pad.
- *
- * Architecture:
- *   Cargo links are network-level references. This validator checks those
- *   references without mutating or repairing the network.
- *
- *   One issue is emitted for each broken endpoint so the user can see
- *   exactly which side of a cargo link is invalid.
- *
- * Change this file when:
- *   - cargo-link endpoint structure changes;
- *   - endpoint resolution rules change;
- *   - broken-link diagnostics need richer context.
+ * Purpose: Diagnose retained missing references without fabricating deletion history.
+ * Architecture: Surviving owners receive repair navigation; wholly orphaned
+ * claims retain network-scoped evidence. Missing parents suppress missing pads.
+ * Change this file when: missing cargo evidence or diagnostic ownership changes.
  */
-
-import type {
-  CargoLinkEndpoint,
-} from '../../models'
-
-import type {
-  ValidationIssue,
-  ValidationRule,
-} from '../types'
-
-const RULE_ID =
-  'cargo-link-endpoint-missing'
-
-/**
- * Returns true when an endpoint resolves to both an existing outpost and
- * an existing cargo pad within that outpost.
- */
-function endpointExists(
-  endpoint: CargoLinkEndpoint,
-  network: Parameters<ValidationRule['validate']>[0],
-): boolean {
-  const outpost =
-    network.outposts.find(
-      (candidate) =>
-        candidate.id === endpoint.outpostId,
-    )
-
-  if (!outpost) {
-    return false
-  }
-
-  return outpost.cargoPads.some(
-    (cargoPad) =>
-      cargoPad.id === endpoint.cargoPadId,
-  )
-}
-
-/**
- * Checks both sides of every persisted cargo link.
- */
-function validateMissingCargoLinkEndpoints(
-  network: Parameters<ValidationRule['validate']>[0],
-): ValidationIssue[] {
-  const issues: ValidationIssue[] = []
-
-  for (const link of network.cargoLinks) {
-    const endpoints = [
-      link.endpointA,
-      link.endpointB,
-    ]
-
-    for (const endpoint of endpoints) {
-      if (endpointExists(endpoint, network)) {
-        continue
+import { resolveEndpoint, endpointKey, analyzeCargoConnections } from '../../cargoConnections.ts'
+import type { CargoLinkEndpoint } from '../../models.ts'
+import type { ValidationIssue, ValidationRule } from '../types.ts'
+export const missingCargoLinkEndpointRule: ValidationRule = {
+  id: 'cargo-link-endpoint-missing', name: 'Missing cargo endpoint',
+  description: 'Flags unavailable targets retained in pairing claims or unfinished choices.',
+  category: 'structural', defaultSeverity: 'error',
+  validate(network) {
+    const issues = new Map<string, ValidationIssue>()
+    const analysis = analyzeCargoConnections(network)
+    for (const link of network.cargoLinks) {
+      const endpoints = [link.endpointA, link.endpointB]
+      const owners = endpoints.filter((e) => resolveEndpoint(network, e).pad)
+      for (const target of endpoints) {
+        const resolved = resolveEndpoint(network, target)
+        if (resolved.pad) continue
+        const evidence = resolved.outpost ? target : { outpostId: target.outpostId }
+        const add = (owner?: CargoLinkEndpoint) => {
+          const key = JSON.stringify([owner ? endpointKey(owner) : null, evidence])
+          const existing = issues.get(key)
+          const records = [...(existing?.cargoRecords ?? []), link]
+          const unique = [...new Map(records.map((r) => [r.id, r])).values()].sort((a,b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0)
+          issues.set(key, { ...owner, ruleId: this.id, category: 'structural', severity: 'error',
+            messageKey: !owner ? 'validation.cargoOrphan' : resolved.outpost ? 'validation.cargoMissingPad' : 'validation.cargoMissingOutpost',
+            cargoTarget: evidence, cargoRecords: unique })
+        }
+        if (owners.length) owners.forEach(add)
+        else add()
       }
-
-      issues.push({
-        ruleId: RULE_ID,
-        category: 'structural',
-        severity: 'error',
-        messageKey: 'validation.missingCargoEndpoint',
-        outpostId: endpoint.outpostId,
-        cargoPadId: endpoint.cargoPadId,
-      })
     }
-  }
-
-  return issues
+    for (const outpost of network.outposts) for (const pad of outpost.cargoPads) {
+      const owner = { outpostId: outpost.id, cargoPadId: pad.id }
+      const target = pad.destinationIntent
+      if (target && !analysis.at(owner).length && !network.outposts.some(({id}) => id === target.outpostId)) {
+        issues.set(JSON.stringify([endpointKey(owner), target]), { ...owner,
+          ruleId: this.id, category: 'structural', severity: 'error', messageKey: 'validation.cargoMissingOutpost', cargoTarget: target })
+      }
+    }
+    return [...issues.values()]
+  },
 }
-
-export const missingCargoLinkEndpointRule:
-  ValidationRule = {
-    id: RULE_ID,
-    name: 'Missing cargo link endpoint',
-    description:
-      'Flags cargo links whose endpoint no longer resolves to an existing outpost and cargo pad.',
-    category: 'structural',
-    defaultSeverity: 'error',
-    validate: validateMissingCargoLinkEndpoints,
-  }

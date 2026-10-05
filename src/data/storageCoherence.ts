@@ -10,6 +10,7 @@
  * Change this file when:
  *   Supported stored shapes or pre-migration coherence requirements change.
  */
+import { validCargoIntents } from './cargoIntentValidation.ts'
 import { CURRENT_COLLECTION_SCHEMA_VERSION, type NetworkCollection } from './networkCollection.ts'
 import { CURRENT_SCHEMA_VERSION } from './networkMigration.ts'
 
@@ -46,7 +47,7 @@ function validateNetworkSource(value: unknown): void {
   }
   if (version >= 4) requireShape(record(character.capabilities) &&
     typeof character.capabilities.xTechExtraction === 'boolean')
-  if (version >= 4) requireShape(value.schemaVersion === CURRENT_SCHEMA_VERSION)
+  requireShape(validCargoIntents(value))
   for (const outpost of value.outposts) {
     requireShape(record(outpost) && validId(outpost.id) && typeof outpost.name === 'string')
     for (const field of ['selectedBiomeIds', 'localResources', 'explicitResourcePresence']) {
@@ -92,7 +93,7 @@ function validateNetworkSource(value: unknown): void {
           requireShape(record(link.destination) && link.destination.type === 'outpost' &&
             typeof link.destination.outpostId === 'string')
           // Schema 1 could identify an outpost without its exact pad. Migration
-          // retains exports and leaves that relationship unlinked.
+          // retains exports and the unfinished outpost choice.
           if ('cargoPadId' in link.destination) {
             requireShape(typeof link.destination.cargoPadId === 'string')
           }
@@ -112,7 +113,7 @@ function validateNetworkSource(value: unknown): void {
       }
       const a = link.endpointA
       const b = link.endpointB
-      const key = [`${a.outpostId}:${a.cargoPadId}`, `${b.outpostId}:${b.cargoPadId}`].sort().join('|')
+      const key = [JSON.stringify([a.outpostId, a.cargoPadId]), JSON.stringify([b.outpostId, b.cargoPadId])].sort().join('|')
       requireShape(!relationships.has(key))
       relationships.add(key)
     }
@@ -143,6 +144,7 @@ export function validateRecoveredCollection(collection: NetworkCollection): void
     requireShape(validId(saved.id) && !networkIds.has(saved.id) &&
       saved.network.schemaVersion === CURRENT_SCHEMA_VERSION)
     networkIds.add(saved.id)
+    validateNetworkSource(saved.network)
     const outpostIds = new Set<string>()
     const linkIds = new Set<string>()
     for (const outpost of saved.network.outposts) {

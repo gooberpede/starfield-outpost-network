@@ -15,7 +15,7 @@ import type {
 } from './models'
 
 export const createDefaultNetwork = (): OutpostNetwork => ({
-  schemaVersion: 4,
+  schemaVersion: 5,
 
   character: {
     name: '',

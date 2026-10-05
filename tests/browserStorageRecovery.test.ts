@@ -106,7 +106,7 @@ test('historical migration is coherent; failed normalized re-save leaves recover
   const store = storage(old)
   store.failNextWrite = true
   const loaded = initializeNetworkCollection()
-  assert.equal(loaded.collection.networks[0].network.schemaVersion, 4)
+  assert.equal(loaded.collection.networks[0].network.schemaVersion, 5)
   assert.equal(loaded.status.kind, 'unsaved')
   assert.equal(store.value, old)
   assert.equal(store.writes, 1)

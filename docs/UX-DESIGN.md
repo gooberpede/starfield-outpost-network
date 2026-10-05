@@ -748,6 +748,25 @@ the same two ways; the internal `interstellar` identity remains unchanged.
 
 ---
 
+Remote destination selectors persist unfinished outpost choices on native change.
+Unlinked comes first, followed by other outposts in recorded order with localized
+counts of all Cargo Links, including zero. The pad selector has its placeholder,
+any unavailable selected status, existing pads, then **+ Add Cargo Link**. Add
+always appends a fresh empty remote pad and connects it in one Undo action, while
+remaining at the local card. A placeholder selection is not an unlink command.
+
+Collapsed and expanded destination summaries share the same classification:
+unlinked, unfinished, connected, missing parent/pad, conflicting, or self reference.
+An unfinished destination shows only the selected outpost name in the header and
+localized “no remote link” text in the inbound summary position. Its tooltip and
+accessible summary retain the instruction to choose a Cargo Link.
+Only structurally eligible pairs show inbound cargo. Expanded structural repair
+shows stable record IDs and both endpoint locators; only incident records offer
+**Remove this pairing**. Validation navigation can reveal that cargo card without
+closing the panel or changing data. Conflicts disable ordinary destination edits,
+while identified-record removal remains available. All option values use disjoint
+UI namespaces, and rejected native changes restore the controlled value.
+
 # Labels, abbreviations, and tooltips
 
 ## Abbreviations

@@ -547,13 +547,22 @@ Do not model the link itself as one-way unless the domain design is deliberately
 
 ---
 
+A pad may independently record an unfinished destination as
+`destinationIntent: { outpostId }`. It records only a deliberate outpost choice,
+never an exact pad or former partner. Intent and any incident raw pairing claim
+are mutually exclusive. Without either, a pad is unlinked even if it exports cargo.
+Selecting a different outpost removes an unambiguous former pairing and stores
+only the acting pad's new intent. Unlink, replacement and ordinary deletion leave
+former partners unlinked with their exports and types intact. Deleting the target
+of an independent unfinished choice preserves that target ID as missing evidence.
+
 # 17. One link per cargo pad
 
 Each cargo pad may participate in at most one distinct cargo link.
 
 A pad appearing in multiple network-level links is invalid.
 
-The application has a validator for this condition.
+The application has a validator for this condition. Directly competing records produce one structural error at every surviving participating pad, including the peripheral participants. AB plus AC produces exactly three entries. The expanded editor permits removing one incident record by its stable ID; ordinary ambiguous selections never choose a winner.
 
 When editing links, prefer preventing creation of invalid duplicate relationships where practical, while preserving validation as a safeguard for imported or stale data.
 
@@ -697,7 +706,7 @@ delete downstream export configuration
 
 # 26. Inbound cargo
 
-Inbound cargo is derived.
+Inbound cargo is derived. Only exact pairings whose two qualified endpoints exist, differ, and have no competing raw record route cargo. Missing, self, conflicting claims and unfinished intent never supply items. Fuel, location, type, skill and unresolved-export diagnostics do not otherwise gate resolved routing.
 
 For an outpost involved in a cargo link:
 
@@ -1022,7 +1031,9 @@ The UI should generally prevent these when practical.
 Examples:
 
 - linking a pad to itself;
-- selecting a cargo pad already committed to another link.
+- an ambiguous connection change that would guess a conflicting record.
+
+An occupied, unambiguous pad remains selectable: replacement disconnects the former partners cleanly in the same operation.
 
 ## Temporarily incomplete but meaningful
 
@@ -1158,7 +1169,7 @@ When persisted legacy data cannot be migrated with certainty:
 
 For example, if an old cargo link names a destination outpost but not the exact destination pad, the application should not guess the pad.
 
-Outbound cargo configuration may still be retained.
+Outbound cargo configuration may still be retained. Browser-only historical outpost choices are retained as unfinished intent when they do not compete with exact claims. Exact claims take precedence over incompatible legacy outpost-only evidence; no forbidden dual representation is invented.
 
 This recovery principle applies to browser storage. External files must first
 pass strict structural and stable-identity checks so lossy recovery cannot make

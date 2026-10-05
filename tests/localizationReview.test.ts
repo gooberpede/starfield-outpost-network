@@ -28,6 +28,15 @@ import { adjudicateReviewRows } from '../src/localization/reviewAdjudication.ts'
 import { supportedLocaleIds } from '../src/localization/types.ts'
 import { reviewRouteForLocale } from '../scripts/localization/review-routing.ts'
 
+const cargoCopyKeys = new Set([
+  'about.releaseNotes', 'cargo.destination.count.one', 'cargo.destination.count.few', 'cargo.destination.count.other',
+  'cargo.pad.noRemoteLink', 'cargo.destination.incomplete', 'cargo.destination.missingOutpost', 'cargo.destination.missingPad',
+  'cargo.pairing.records', 'cargo.pairing.remove', 'cargo.pairing.removeLabel',
+  'validation.cargoDestinationIncomplete', 'validation.cargoMissingOutpost', 'validation.cargoMissingPad',
+  'validation.cargoOrphan', 'validation.cargoPairingConflict', 'history.cargoDestination', 'history.cargoConnect',
+  'history.cargoRemoteAdd', 'history.cargoRepair',
+])
+
 const planetaryOrganicCorrectionKeys = new Set([
   'help.biomes',
   'help.organic.availablePlanet', 'help.organic.availableBiome',
@@ -359,7 +368,7 @@ test('Simplified Chinese DeepL evidence is fully imported and neutrally adjudica
     row.ComparisonStatus === 'MISSING' && row.AdjudicationDecision === 'CODEX' &&
     row.FinalTranslation === row.CodexTranslation))
   const rows = allRows.filter(row => !additions.includes(row) && !corrections.includes(row) &&
-    !placeholderCorrections.includes(row))
+    !placeholderCorrections.includes(row) && !cargoCopyKeys.has(row.Key))
   assert.equal(rows.length, 399)
   assert.ok(rows.every(({ DeepLTranslation }) => DeepLTranslation.trim()))
   assert.deepEqual(
@@ -855,7 +864,7 @@ test('Polish DeepL evidence is fully imported and invalid candidates remain expl
     row.ComparisonStatus === 'MISSING' && row.AdjudicationDecision === 'CODEX' &&
     row.FinalTranslation === row.CodexTranslation))
   const rows = allRows.filter(row => !additions.includes(row) && !corrections.includes(row) &&
-    !placeholderCorrections.includes(row))
+    !placeholderCorrections.includes(row) && !cargoCopyKeys.has(row.Key))
   assert.equal(rows.length, 399)
   assert.ok(rows.every(({ DeepLTranslation }) => DeepLTranslation.trim()))
   assert.deepEqual(
@@ -953,7 +962,7 @@ test('Spanish, Italian, and Brazilian Portuguese review evidence produces determ
           frozen.CodexTranslation],
       )
       if (/^(?:Release preparation|Pre-release polish) copy:/.test(row.ReviewerNote) ||
-        planetaryOrganicCorrectionKeys.has(row.Key) || conciseLocationPlaceholderKeys.has(row.Key)) {
+        planetaryOrganicCorrectionKeys.has(row.Key) || conciseLocationPlaceholderKeys.has(row.Key) || cargoCopyKeys.has(row.Key)) {
         assert.equal(row.DeepLTranslation, '')
         assert.equal(row.ComparisonStatus, 'MISSING')
         assert.equal(row.AdjudicationDecision, 'CODEX')
@@ -1316,4 +1325,17 @@ test('invalid DeepL evidence requires explicit repair or replacement provenance'
     ? { ...row, AdjudicationDecision: 'DEEPL' as const }
     : row)
   assert.throws(() => parseAndValidateReviewCsv(serializeReviewRows(invalidAsDeepL), 'fr-FR'), /REVIEW_DECISION_CONTRADICTS_EVIDENCE/)
+})
+
+test('cargo destination copy has explicit provisional Codex evidence in every reviewed locale', async () => {
+  for (const locale of ['fr-FR','de-DE','es-ES','it-IT','pt-BR','pl-PL','zh-Hans']) {
+    const rows = parseAndValidateReviewCsv(await readFile(new URL('../docs/localization/' + locale + '-review.csv', import.meta.url), 'utf8'), locale).filter(row => cargoCopyKeys.has(row.Key))
+    assert.equal(rows.length, 20)
+    for (const row of rows) {
+      assert.equal(row.DeepLTranslation, '')
+      assert.equal(row.AdjudicationDecision, 'CODEX')
+      assert.equal(row.FinalTranslation, row.CodexTranslation)
+      assert.match(row.ReviewerNote, /no new DeepL or native review/)
+    }
+  }
 })

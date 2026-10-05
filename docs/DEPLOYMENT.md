@@ -218,3 +218,26 @@ Starfield Outpost Network 1.0.0 launched on 29 September 2026.
 | Public source | Repository, Issues, exact release commit, tag, documentation archives, and automatic release archives verified without authentication |
 | Indexing | No `X-Robots-Tag: noindex, nofollow`; `robots.txt` allows `/`; staging remains protected by Cloudflare Access |
 | Launch smoke | Passed identity, startup/reference data, 404 and SPA routing, persistence, locale, import/export, legal/support destinations, headers, redirects, and console checks |
+
+## Upcoming save-format compatibility and rollback
+
+The local `1.1.0-rc.1` candidate targets a future `1.1.0` release; it is not a
+published or deployed release. It writes nested network schema 5 inside collection
+schema 1. Valid older browser data is migrated and normalized-saved during
+initialization, before the player uses the new Cargo feature.
+
+Version 1.0.0 cannot read schema 5. External imports are rejected; browser startup
+enters recovery fallback instead of displaying the upgraded collection. Initial
+preservation of unread raw bytes is not safe downgrade support: a later deliberate
+persisted edit in the old reader can overwrite those bytes. Exporting the fallback
+collection does not recover the unread source.
+
+Capture an export usable by 1.0 **before upgrading**. Restoring that export omits
+later edits; a fresh export from the new reader is not automatically an old-format
+backup. Never lower the schema number to force import: the old reader can silently
+drop destination intent. Preserve valuable data before recovery edits.
+
+A later release plan must distinguish rollback to a verified schema-5-capable build
+from rollback to 1.0. Fix-forward or a separately verified compatible recovery build
+may be required. This task adds no downgrade converter or startup backup service,
+and the historical launch record above remains unchanged.
