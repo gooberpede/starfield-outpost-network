@@ -84,6 +84,7 @@ export function AboutDialog({ onClose }: AboutDialogProps) {
             <a href="/legal/LICENSE.txt" target="_blank" rel="noopener noreferrer">{t('about.license')}</a>
             <a href="/legal/THIRD-PARTY-NOTICE.txt" target="_blank" rel="noopener noreferrer">{t('about.notices')}</a>
             <a href="https://github.com/gooberpede/starfield-outpost-network" target="_blank" rel="noopener noreferrer">{t('about.repository')}</a>
+            <a href="https://github.com/gooberpede/starfield-outpost-network/releases" target="_blank" rel="noopener noreferrer">{t('about.releaseNotes')}</a>
             {buildIdentity.sourceUrl && <a href={buildIdentity.sourceUrl} target="_blank" rel="noopener noreferrer">{t('about.buildSource')}</a>}
             <a href="https://github.com/gooberpede/starfield-outpost-network/issues" target="_blank" rel="noopener noreferrer">{t('about.issues')}</a>
             <a href="mailto:support@starfieldoutposts.com">{t('about.contact')}</a>

@@ -45,6 +45,7 @@ test.each(supportedLocaleIds)('%s About preserves localized Close, top focus and
   const expected = [
     '/legal/LICENSE.txt', '/legal/THIRD-PARTY-NOTICE.txt',
     'https://github.com/gooberpede/starfield-outpost-network',
+    'https://github.com/gooberpede/starfield-outpost-network/releases',
     ...(buildIdentity.sourceUrl ? [buildIdentity.sourceUrl] : []),
     'https://github.com/gooberpede/starfield-outpost-network/issues',
     'mailto:support@starfieldoutposts.com', 'https://ko-fi.com/gooberpede',
