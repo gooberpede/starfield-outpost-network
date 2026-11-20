@@ -1,6 +1,6 @@
 # HSTS follow-up decision · 21 November 2026
 
-**HSTS-FU-B — retain the 30-day apex policy.** Production served exactly one `Strict-Transport-Security: max-age=2592000` on both the application and a static file. The owner verified the same policy by 23 September, 59 calendar days before this review. Continued operation is a reasonable inference. The outstanding decision evidence is the production deployment and incident history, current Cloudflare settings and renewal status, and an authenticated staging response. No material production fault surfaced in the samples. Keep both `includeSubDomains` and `preload` omitted.
+**HSTS-FU-B — retain the 30-day apex policy.** Production served exactly one `Strict-Transport-Security: max-age=2592000` on both the application and a static file. The owner verified the same policy by 23 September, 59 calendar days before this review. Continued operation is a reasonable inference. The owner has now confirmed the authenticated staging response. The remaining decision evidence covers production deployment and incident history, current Cloudflare settings and certificate renewal, and planned changes affecting HTTPS. No material production fault surfaced in the samples. Keep both `includeSubDomains` and `preload` omitted.
 
 ## Baseline and observation period
 
@@ -37,7 +37,9 @@ Bounded GETs used normal certificate and hostname validation, with redirects dis
 | HTTPS staging.starfield-outpost-network.pages.dev | R | Pass | 302 | Cloudflare Access login for the staging hostname | 0 |
 | HTTPS 9b356e75.starfield-outpost-network.pages.dev | R | Pass | 302 | Cloudflare Access login for this versioned hostname | 0 |
 
-Both preview Locations used the project's Access login host and a host-specific `/cdn-cgi/access/login/` path. The bare-host redirect excluded both probes. The browser reached the staging sign-in page. Post-authentication staging HSTS remains unmeasured.
+Both preview Locations used the project's Access login host and a host-specific `/cdn-cgi/access/login/` path. The bare-host redirect excluded both probes. The browser reached the staging sign-in page. The independent staging probe ended at Access.
+
+**Owner-observed staging evidence, supplied 21 November 2026.** After authenticating through Cloudflare Access, the owner inspected `https://staging.starfield-outpost-network.pages.dev/` in Edge DevTools. The application returned `200 OK` with `Strict-Transport-Security: max-age=2592000` on Cloudflare build `9e3005a`. This closes the authenticated staging check.
 
 ## Current DNS, certificates and policy ownership
 
@@ -62,19 +64,19 @@ The repository declares one site-wide HSTS field in `public/_headers`. Both samp
 
 ## Owner verification before reconsideration
 
-The dashboard required sign-in, and no authenticated Cloudflare API connection was available in this session. September's account values provide comparison points only. If this recommendation is accepted, keep the current header and collect the following dated read-only evidence.
+At approximately 10:33 AEDT on 21 November the in-app dashboard again required sign-in. Computer Use could not verify the current Edge URL to inspect another dashboard session, and no authenticated Cloudflare API connection was available. No specific infrastructure or certificate change threatening HTTPS was identified in the records reviewed. Future owner plans remain unverified. September's account values provide comparison points only. If this recommendation is accepted, keep the current header and collect the following dated read-only evidence.
 
-1. **Pages deployments and incidents.** Filter to Production from 22 September through this review. Confirm the first successful production ID and serving time, every subsequent deployment or rollback, its active interval and SHA, and the current production ID. Match each revision to the header. Review available response samples, uptime, incident and certificate notices for interruptions or alternate values. Identify any uncovered interval.
+1. **Pages deployments and incidents.** Filter to Production from 22 September through this review. Confirm the first successful production ID and serving time, every subsequent deployment or rollback, its active interval and SHA, and the current production ID. Match each revision to the header. Review failed attempts and whether they displaced a working deployment. Reconcile available uptime records, incident and security notifications with this report’s deployment table. Deployment and incident records can support continuity without sampling every individual response.
 2. **Zone and DNS.** Verify active/unpaused state, the complete DNS inventory, configured targets and proxy status for apex and `www`, wildcard and delegated names, and active Pages custom-domain associations. Record which service owns the `www` redirect.
-3. **TLS and continuity.** Verify SSL/TLS mode, active edge packs and SANs for both hosts, validation and renewal settings, pending issuance or renewal errors, and domain renewal ownership. Confirm any planned nameserver, proxy, host, certificate or subdomain changes over the next year and the HTTPS recovery path.
-4. **Redirects and competing headers.** Check zone HSTS and all directives, Always Use HTTPS, account Bulk Redirects, zone Redirect Rules, response-header transforms, applicable ruleset phases and Worker routes/Pages Functions. Record matched hosts, priorities, path/query settings and any header override. Resolve any conflict with the observed responses.
-5. **Pages environments and Access.** Confirm manual production from `main`, preview triggers restricted to `staging`, and Access policy coverage for branch/version aliases. Using an authorized staging login, inspect the final static HTML response for exactly one `max-age=2592000` field. Record status, deployment identity and field count without login parameters.
+3. **TLS and continuity.** In SSL/TLS Overview and Edge Certificates, verify encryption mode, Universal SSL status, active packs, SANs and expiry for both hosts. Check automatic renewal, pending domain validation, issuance or renewal errors, relevant notifications and domain renewal ownership. Confirm any planned nameserver, proxy, host, certificate or subdomain changes over the next year and the HTTPS recovery path.
+4. **Redirects and competing headers.** Check zone HSTS and all directives, Always Use HTTPS, account Bulk Redirects, zone Redirect Rules, response-header transforms, the single-redirect, bulk-redirect and response-header phases (`http_request_dynamic_redirect`, `http_request_redirect`, `http_response_headers_transform`) and Worker routes/Pages Functions. Record matched hosts, priorities, path/query settings and any header override. Resolve any conflict with the observed responses.
+5. **Pages environments and Access.** Confirm manual production from `main`, preview triggers restricted to `staging`, and Access policy coverage for branch/version aliases.
 
 Review those results against the live matrix. If they establish continuity, one effective apex header source and a viable year-long recovery commitment, seek separate implementation authorization for `max-age=31536000` alone. A material fault warrants separate remediation first.
 
 ## Future release sequencing
 
-The local and remote branches were identical, with zero commits unique to either side. The public 1.1.0 tag resolves to HEAD and the live script contains that SHA. Promoting today's staging tree therefore introduces no unrelated application delta. The older candidate wording in the deployment guide predates the published release.
+At the initial audit the local and remote branches were identical, with zero commits unique to either side. The public 1.1.0 tag resolves to HEAD and the live script contains that SHA. At the continuation, local staging had advanced one commit to `3d499d1` while main remained at `9e3005a`. The delta contained only the audit and its supplied brief. The older candidate wording in the deployment guide predates the published release.
 
 At implementation time, recheck both remote tips **and the live production revision**. If still aligned, verify the isolated header change on authenticated staging, review the complete production delta, and use the separately authorized manual production release. If staging has advanced, wait for its next accepted release or base an explicitly authorized header-only hotfix on the verified production baseline and reconcile it into staging. Preserve existing release tags and verify the live apex, redirects and preview boundary after deployment. A header rollback should use a compatible application build because 1.0 cannot read upgraded 1.1 saves. [Deployment and save compatibility](../DEPLOYMENT.md)
 
