@@ -83,7 +83,8 @@ analytics/telemetry service.
   policy defaults are retained. The owner verified the 30-day HSTS policy on staging
   and production. On 21 November 2026 the public apex still served one
   `Strict-Transport-Security: max-age=2592000` on release `1.1.0`.
-  The staging candidate sets `max-age=31536000` in `public/_headers` and omits
+  The owner verified the one-year header on authenticated staging build
+  `0cb48e4`. Its policy sets `max-age=31536000` in `public/_headers` and omits
   both `includeSubDomains` and `preload`. See the
   [decision and staging evidence](audits/HSTS-30-DAY-FOLLOW-UP-REVIEW.md#one-year-policy-decision).
 - External Google Fonts remain accepted for V1. Self-hosting or removal needs

@@ -434,9 +434,7 @@ default local-only development server. See [Deployment](DEPLOYMENT.md) for
 current policy; the [whole-product security audit](audits/codex-whole-product-security-audit.md)
 records the earlier point-in-time findings.
 
-- **HSTS promotion.** The owner approved a one-year apex policy for staging.
-  Production promotion requires authenticated staging verification and separate
-  approval. The absence of competing Response Header Transform Rules remains
+- **HSTS promotion.** The owner verified the one-year policy on authenticated staging. Production promotion awaits separate approval. The absence of competing Response Header Transform Rules remains
   unconfirmed. See the [follow-up audit](audits/HSTS-30-DAY-FOLLOW-UP-REVIEW.md).
 - **Public-launch indexing:** Remove the temporary pre-release `noindex` and
   robots controls as part of the separately authorized public launch. Keep detailed deployment
