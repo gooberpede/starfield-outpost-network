@@ -748,6 +748,8 @@ the same two ways; the internal `interstellar` identity remains unchanged.
 
 ---
 
+The expanded Inter-System button reports actual Helium-3 at this outpost or its eligible partner. Its tooltip and accessible description identify the source or explain the shortage. Planned Supply alone leaves the indicator unfuelled. A fuel warning names both outposts and appears as a readable, non-navigable row because either can supply the route.
+
 Remote destination selectors persist unfinished outpost choices on native change.
 Unlinked comes first, followed by other outposts in recorded order with localized
 counts of all Cargo Links, including zero. The pad selector has its placeholder,

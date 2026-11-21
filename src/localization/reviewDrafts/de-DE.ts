@@ -2,6 +2,9 @@ import { buildReviewDraft } from './buildDraft.ts'
 
 /** Independent Codex draft used by the German semantic review package. */
 export const deDEReviewDraft = buildReviewDraft({
+  "cargo.fuel.remote": "{item} ist am verbundenen Außenposten verfügbar.",
+  "cargo.fuel.neither": "An keinem der beiden Außenposten ist {item} tatsächlich verfügbar.",
+  "help.interSystem": "He-3 an einem der beiden Außenposten versorgt den Intersystem-Frachtlink in beide Richtungen. Eine geplante Versorgung hebt die Treibstoffwarnung auf. Die Anzeige berücksichtigt nur die tatsächliche Versorgung.",
   "about.releaseNotes": "Versionshinweise",
   "cargo.destination.count.one": "{outpost} — {count} Frachtlink",
   "cargo.destination.count.few": "{outpost} — {count} Frachtlinks",
@@ -87,7 +90,7 @@ export const deDEReviewDraft = buildReviewDraft({
   'matrix.tooltip.export.inactive': '{item} wird nicht exportiert.',
   'cargo.interSystem.button': 'Intersystem',
   'validation.bodySystemMismatch': 'Der für diesen Außenposten ausgewählte Himmelskörper gehört nicht zum ausgewählten Sternsystem.',
-  'validation.interstellarHelium3': 'Dieser Intersystem-Frachtlink sendet Fracht, aber an seinem Außenposten ist keine Helium-3-Versorgung verfügbar.',
+  "validation.interstellarHelium3": "An keinem der beiden Außenposten ({outposts}) ist eine He-3-Versorgung vorhanden oder geplant.",
   'validation.missingCargoEndpoint': 'Diese Frachtverbindung verweist auf einen fehlenden Außenposten oder Frachtlink-Endpunkt.',
   'validation.characterNameLength': 'Charakternamen in Starfield haben normalerweise höchstens 25 Zeichen.',
   'validation.outpostNameLength': 'Starfield begrenzt Außenpostennamen normalerweise auf 25 Zeichen; längere modifizierte Namen werden weiterhin unterstützt.',

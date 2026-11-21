@@ -1,6 +1,8 @@
 import type { MessageCatalogue } from '../types.ts'
 
 export const itITMessages = {
+  "cargo.fuel.remote": "{item} è disponibile presso l’avamposto collegato.",
+  "cargo.fuel.neither": "Nessuno dei due avamposti dispone di una fornitura effettiva di {item}.",
   "about.releaseNotes": "Note di rilascio",
   "cargo.destination.count.one": "{outpost} — {count} collegamento merci",
   "cargo.destination.count.few": "{outpost} — {count} collegamenti merci",
@@ -110,7 +112,7 @@ export const itITMessages = {
   "help.forContext": "Aiuto per {context}",
   "help.inorganicPresentPossible": "{resource} potrebbe essere presente in questo avamposto.",
   "help.inorganicPresentRecorded": "{resource} risulta presente in questo avamposto.",
-  "help.interSystem": "I collegamenti merci intersistema possono connettere avamposti in sistemi stellari diversi e richiedono elio-3.",
+  "help.interSystem": "L’elio-3 di uno dei due avamposti alimenta il collegamento merci intersistema in entrambe le direzioni. Una fornitura pianificata elimina l’avviso sul carburante. L’indicatore mostra solo la disponibilità effettiva.",
   "help.logistics": "Qui sono mostrati gli elementi attualmente assegnati ai collegamenti merci.",
   "help.organic.availableBiome": "{resource} è disponibile da una specie domesticabile su questo pianeta.",
   "help.organic.availableBiomes": "{resource} è disponibile da una specie domesticabile su questo pianeta.",
@@ -413,7 +415,7 @@ export const itITMessages = {
   "validation.filter.info": "Informazione",
   "validation.filter.warning": "Avvisi",
   "validation.heading": "Convalida",
-  "validation.interstellarHelium3": "Questo collegamento merci intersistema invia merci, ma il suo avamposto non dispone di una fornitura di elio-3.",
+  "validation.interstellarHelium3": "Nessuno dei due avamposti ({outposts}) dispone di una fornitura di elio-3 o ne ha una in programma.",
   "validation.invalidCharacterLevel": "Il livello del personaggio è {level}, ma il livello registrato deve essere un numero intero compreso tra {minimum} e {maximum}.",
   "validation.characterNameLength": "I nomi dei personaggi in Starfield usano normalmente fino a 25 caratteri.",
   "validation.invalidSkillLevel": "{skill} ha livello {level}, ma i livelli di abilità validi sono numeri interi compresi tra {minimum} e {maximum}.",

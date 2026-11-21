@@ -2,6 +2,8 @@ import type { MessageCatalogue } from '../types.ts'
 
 /** Complete Japanese tracker catalogue after comparative machine-assisted adjudication. */
 export const jaJPMessages = {
+  "cargo.fuel.remote": "接続先の拠点で{item}を利用できます。",
+  "cargo.fuel.neither": "どちらの拠点にも{item}の実際の供給がありません。",
   "about.releaseNotes": "リリースノート",
   "cargo.destination.count.one": "{outpost} — 貨物リンク{count}基",
   "cargo.destination.count.few": "{outpost} — 貨物リンク{count}基",
@@ -288,7 +290,7 @@ export const jaJPMessages = {
   'validation.duplicatePlannedSupply': '{item}がこの拠点の供給予定に複数回含まれています。',
   'validation.duplicateOutboundItem': '{item}がこの貨物リンクの搬出項目に複数回含まれています。',
   'validation.duplicateOutpostName': '{count}個の拠点が「{name}」という名前です。混乱を避けるため、拠点名は重複させないことを推奨します。',
-  'validation.interstellarHelium3': 'この星系間貨物リンクは貨物を発送していますが、拠点で利用できるHe-3の供給がありません。',
+  "validation.interstellarHelium3": "このリンクの両端（{outposts}）には、He-3の供給も供給計画もありません。",
   'validation.invalidCharacterLevel': 'キャラクターレベルは{level}ですが、記録できるレベルは{minimum}から{maximum}までの整数です。',
   'validation.characterNameLength': 'スターフィールドのキャラクター名は通常25文字までです。',
   'validation.invalidSkillLevel': '{skill}のレベルは{level}ですが、有効なレベルは{minimum}から{maximum}までの整数です。',
@@ -412,7 +414,7 @@ export const jaJPMessages = {
   "help.biomes": "選択したバイオームは、そこで産出可能な無機資源の利用可否のみを制限します。",
   'help.present': 'この拠点に資源が存在し得るかを示します。',
   'help.producing': 'この拠点が現在、その資源または製造品を生産する設定になっているかを示します。',
-  'help.interSystem': '星系間貨物リンクは異なる星系の拠点同士を接続でき、He-3を必要とします。',
+  "help.interSystem": "星系間貨物リンクは、どちらかの拠点にHe-3があれば双方向に運用できます。供給を計画すると燃料の警告は消えます。ボタンには実際の供給だけが反映されます。",
   'help.validation': 'エラーは無効な状態、警告は不完全または不整合な状態、情報は有用なフォローアップ項目を示します。',
   'help.forContext': '{context}のヘルプ',
   "help.organic.unavailablePlanet": "この惑星では、この飼育・栽培可能な種から{resource}を生産できません。",

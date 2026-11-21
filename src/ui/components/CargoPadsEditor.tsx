@@ -44,6 +44,7 @@
  *   - the UI needs additional derived information about the remote end
  *     of a cargo link.
  */
+import type { CargoFuelSource } from '../../domain/cargoFuel.ts'
 
 import { classifyCargoDestination, incident } from '../../domain/cargoConnections.ts'
 import {
@@ -59,6 +60,7 @@ import type { DragEvent } from 'react'
 import type {
   CargoItem,
   CargoLink,
+  CargoLinkEndpoint,
   Outpost,
   Product,
   Resource,
@@ -108,7 +110,7 @@ interface CargoPadsEditorProps {
   resources: Resource[]
   products: Product[]
   availableItems: CargoItem[]
-  actuallyAvailableItems: CargoItem[]
+  fuelSourceAt: (endpoint: CargoLinkEndpoint) => CargoFuelSource
   historyPresentationChange?: CargoPadHistoryPresentationChange | null
 }
 
@@ -132,7 +134,7 @@ export function CargoPadsEditor({
   resources,
   products,
   availableItems,
-  actuallyAvailableItems,
+  fuelSourceAt,
   onSelectDestination,
   onAddRemote,
   onRemovePairing,
@@ -821,7 +823,7 @@ export function CargoPadsEditor({
                     resources={resources}
                     products={products}
                     availableItems={availableItems}
-                    actuallyAvailableItems={actuallyAvailableItems}
+                    fuelSource={fuelSourceAt({ outpostId: outpost.id, cargoPadId: pad.id })}
                     onRemove={() => removeCargoPad(pad.id)}
                     onToggleExport={(item) =>
                       onToggleExport(

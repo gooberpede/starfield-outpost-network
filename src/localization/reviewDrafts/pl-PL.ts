@@ -6,6 +6,8 @@
 import type { MessageCatalogue } from '../types.ts'
 
 export const plPLReviewDraft = {
+  "cargo.fuel.remote": "W połączonej placówce jest dostępny zasób {item}.",
+  "cargo.fuel.neither": "W żadnej z połączonych placówek nie ma rzeczywistego zaopatrzenia w zasób {item}.",
   "about.releaseNotes": "Informacje o wydaniu",
   "cargo.destination.count.one": "{outpost} — {count} połączenie towarowe",
   "cargo.destination.count.few": "{outpost} — {count} połączenia towarowe",
@@ -292,7 +294,7 @@ export const plPLReviewDraft = {
   'validation.duplicatePlannedSupply': 'Pozycja występuje więcej niż raz w planowanym zaopatrzeniu tej placówki: {item}.',
   'validation.duplicateOutboundItem': 'Pozycja występuje więcej niż raz w ładunku wychodzącym tego połączenia towarowego: {item}.',
   'validation.duplicateOutpostName': 'Liczba placówek o nazwie „{name}”: {count}. Zaleca się używanie unikatowych nazw placówek, aby uniknąć niejednoznaczności.',
-  'validation.interstellarHelium3': 'To międzyukładowe połączenie towarowe wysyła ładunek, ale w jego placówce nie ma dostępnego zaopatrzenia w hel-3.',
+  "validation.interstellarHelium3": "Żadna z placówek ({outposts}) nie ma dostępnego ani planowanego zaopatrzenia w hel-3.",
   'validation.invalidCharacterLevel': 'Poziom postaci: {level}. Zapisany poziom musi być liczbą całkowitą od {minimum} do {maximum}.',
   'validation.invalidSkillLevel': 'Umiejętność: {skill}. Poziom: {level}. Prawidłowe poziomy to liczby całkowite od {minimum} do {maximum}.',
   'validation.missingCargoEndpoint': 'Połączenie ładunkowe odwołuje się do brakującej placówki lub brakującego punktu końcowego połączenia towarowego.',
@@ -416,7 +418,7 @@ export const plPLReviewDraft = {
   "help.biomes": "Wybrane biomy ograniczają dostępność zasobów nieorganicznych do tych, które mogą w nich występować.",
   'help.present': 'Wskazuje, czy zasób może występować w tej placówce.',
   'help.producing': 'Wskazuje, czy ta placówka jest skonfigurowana do produkcji danego zasobu lub produktu.',
-  'help.interSystem': 'Międzyukładowe połączenia towarowe mogą łączyć placówki w różnych układach gwiezdnych i wymagają helu-3.',
+  "help.interSystem": "Hel-3 z jednej z placówek zasila międzyukładowe połączenie towarowe w obu kierunkach. Zaplanowanie zaopatrzenia usuwa ostrzeżenie o paliwie. Wskaźnik uwzględnia tylko rzeczywiste zaopatrzenie.",
   'help.validation': 'Błędy oznaczają nieprawidłowe stany, ostrzeżenia — stany niepełne lub niespójne, a informacje wskazują przydatne dalsze działania.',
   'help.forContext': 'Pomoc — kontekst: {context}',
   "help.organic.unavailablePlanet": "Ten gatunek możliwy do hodowli na tej planecie nie zapewnia zasobu: {resource}.",

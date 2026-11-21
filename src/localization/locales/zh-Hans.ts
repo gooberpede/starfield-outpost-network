@@ -1,6 +1,8 @@
 import type { MessageCatalogue } from '../types.ts'
 
 export const zhHansMessages = {
+  "cargo.fuel.remote": "相连的哨站可供应{item}。",
+  "cargo.fuel.neither": "两个哨站均无{item}的实际供应。",
   "about.releaseNotes": "发行说明",
   "cargo.destination.count.one": "{outpost} — {count}个货运链接",
   "cargo.destination.count.few": "{outpost} — {count}个货运链接",
@@ -110,7 +112,7 @@ export const zhHansMessages = {
   "help.forContext": "{context}的帮助",
   "help.inorganicPresentPossible": "{resource}可能存在于此哨站。",
   "help.inorganicPresentRecorded": "{resource}已记录为存在于此哨站。",
-  "help.interSystem": "跨星系货运链接可以连接不同星系中的哨站，并且需要氦-3。",
+  "help.interSystem": "任一端的哨站供应氦-3，即可支持跨星系货运链接双向运行。计划供应可消除燃料警告。按钮仅显示实际供应情况。",
   "help.logistics": "当前已分配到货运链接的物品会显示在这里。",
   "help.organic.availableBiome": "此行星上的可养殖物种可以提供{resource}。",
   "help.organic.availableBiomes": "此行星上的可养殖物种可以提供{resource}。",
@@ -413,7 +415,7 @@ export const zhHansMessages = {
   "validation.filter.info": "信息",
   "validation.filter.warning": "警告",
   "validation.heading": "检查",
-  "validation.interstellarHelium3": "此跨星系货运链接正在发送货物，但其哨站没有可用的氦-3供应。",
+  "validation.interstellarHelium3": "此链接两端的哨站（{outposts}）均无氦-3供应，也没有供应计划。",
   "validation.invalidCharacterLevel": "角色等级为{level}，但记录的角色等级必须是{minimum}至{maximum}之间的整数。",
   "validation.characterNameLength": "《星空》中的角色名称通常最多使用25个字符。",
   "validation.invalidSkillLevel": "{skill}等级为{level}，但有效技能等级必须是{minimum}至{maximum}之间的整数。",

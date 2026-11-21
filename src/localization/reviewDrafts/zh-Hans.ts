@@ -6,6 +6,8 @@
 import type { MessageCatalogue } from '../types.ts'
 
 export const zhHansReviewDraft = {
+  "cargo.fuel.remote": "相连的哨站可供应{item}。",
+  "cargo.fuel.neither": "两个哨站均无{item}的实际供应。",
   "about.releaseNotes": "发行说明",
   "cargo.destination.count.one": "{outpost} — {count}个货运链接",
   "cargo.destination.count.few": "{outpost} — {count}个货运链接",
@@ -292,7 +294,7 @@ export const zhHansReviewDraft = {
   'validation.duplicatePlannedSupply': '{item}在此哨站的计划供应中出现了多次。',
   'validation.duplicateOutboundItem': '{item}在此货运链接的出站物品中出现了多次。',
   'validation.duplicateOutpostName': '有{count}个哨站名为“{name}”。建议使用唯一的哨站名称以免混淆。',
-  'validation.interstellarHelium3': '此跨星系货运链接正在发送货物，但其哨站没有可用的氦-3供应。',
+  "validation.interstellarHelium3": "此链接两端的哨站（{outposts}）均无氦-3供应，也没有供应计划。",
   'validation.invalidCharacterLevel': '角色等级为{level}，但记录的角色等级必须是{minimum}至{maximum}之间的整数。',
   'validation.invalidSkillLevel': '{skill}等级为{level}，但有效技能等级必须是{minimum}至{maximum}之间的整数。',
   'validation.missingCargoEndpoint': '此货运连接引用了缺失的哨站或货运链接端点。',
@@ -416,7 +418,7 @@ export const zhHansReviewDraft = {
   "help.biomes": "所选生物群系仅会将无机资源的可用范围限制为能在其中出现的资源。",
   'help.present': '显示资源是否可以存在于此哨站。',
   'help.producing': '显示此哨站当前是否配置为生产该资源或产品。',
-  'help.interSystem': '跨星系货运链接可以连接不同星系中的哨站，并且需要氦-3。',
+  "help.interSystem": "任一端的哨站供应氦-3，即可支持跨星系货运链接双向运行。计划供应可消除燃料警告。按钮仅显示实际供应情况。",
   'help.validation': '错误表示无效状态，警告表示不完整或不一致的状态，信息则提示值得跟进的项目。',
   'help.forContext': '{context}的帮助',
   "help.organic.unavailablePlanet": "此行星上可养殖的物种无法提供{resource}。",

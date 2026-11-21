@@ -619,9 +619,9 @@ Do not silently change the pad type or move the outpost to repair the condition.
 
 Interstellar cargo pads can support cross-system cargo links.
 
-The application currently applies a Helium-3 supply rule to interstellar cargo use.
+A resolved pair of interstellar pads in different known systems can carry cargo in both directions when either outpost has Helium-3. Validation reports one operational warning per link when neither end has actual or planned supply, even with empty exports. Either outpost can resolve the warning.
 
-The exact presence/availability check is implemented in domain validation and should remain centralized there rather than duplicated in React UI code.
+Both Inter-System buttons reflect actual supply at either end, including inbound Helium-3. Planned Supply alone leaves them unfuelled. A pad without a qualifying partner uses only local actual availability.
 
 Interstellar support does not imply unlimited throughput.
 

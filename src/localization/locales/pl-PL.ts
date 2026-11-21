@@ -1,6 +1,8 @@
 import type { MessageCatalogue } from '../types.ts'
 
 export const plPLMessages = {
+  "cargo.fuel.remote": "W połączonej placówce jest dostępny zasób {item}.",
+  "cargo.fuel.neither": "W żadnej z połączonych placówek nie ma rzeczywistego zaopatrzenia w zasób {item}.",
   "about.releaseNotes": "Informacje o wydaniu",
   "cargo.destination.count.one": "{outpost} — {count} połączenie towarowe",
   "cargo.destination.count.few": "{outpost} — {count} połączenia towarowe",
@@ -110,7 +112,7 @@ export const plPLMessages = {
   "help.forContext": "Pomoc — kontekst: {context}",
   "help.inorganicPresentPossible": "Ten zasób może występować w placówce: {resource}.",
   "help.inorganicPresentRecorded": "Jawnie zapisano obecność zasobu w tej placówce: {resource}.",
-  "help.interSystem": "Międzyukładowe połączenia towarowe mogą łączyć placówki w różnych układach gwiezdnych i wymagają helu-3.",
+  "help.interSystem": "Hel-3 z jednej z placówek zasila międzyukładowe połączenie towarowe w obu kierunkach. Zaplanowanie zaopatrzenia usuwa ostrzeżenie o paliwie. Wskaźnik uwzględnia tylko rzeczywiste zaopatrzenie.",
   "help.logistics": "Tutaj są wyświetlane pozycje przypisane obecnie do połączeń towarowych.",
   "help.organic.availableBiome": "Zasób jest dostępny z gatunku możliwego do hodowli na tej planecie: {resource}.",
   "help.organic.availableBiomes": "Zasób jest dostępny z gatunku możliwego do hodowli na tej planecie: {resource}.",
@@ -413,7 +415,7 @@ export const plPLMessages = {
   "validation.filter.info": "Informacje",
   "validation.filter.warning": "Ostrzeżenia",
   "validation.heading": "Walidacja",
-  "validation.interstellarHelium3": "To międzyukładowe połączenie towarowe wysyła ładunek, ale w jego placówce nie ma dostępnego zaopatrzenia w hel-3.",
+  "validation.interstellarHelium3": "Żadna z placówek ({outposts}) nie ma dostępnego ani planowanego zaopatrzenia w hel-3.",
   "validation.invalidCharacterLevel": "Poziom postaci: {level}. Zapisany poziom musi być liczbą całkowitą od {minimum} do {maximum}.",
   "validation.characterNameLength": "Imiona postaci w Starfield mają zwykle maksymalnie 25 znaków.",
   "validation.invalidSkillLevel": "Umiejętność: {skill}. Poziom: {level}. Prawidłowe poziomy to liczby całkowite od {minimum} do {maximum}.",

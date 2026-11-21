@@ -2,6 +2,8 @@ import { buildReviewDraft } from './buildDraft.ts'
 
 /** Independent Spanish (Spain) Codex draft used only by the semantic review package. */
 export const esESReviewDraft = buildReviewDraft({
+  "cargo.fuel.remote": "{item} está disponible en el puesto conectado.",
+  "cargo.fuel.neither": "Ninguno de los dos puestos dispone de suministro real de {item}.",
   "about.releaseNotes": "Notas de la versión",
   "cargo.destination.count.one": "{outpost} — {count} enlace de cargamento",
   "cargo.destination.count.few": "{outpost} — {count} enlaces de cargamento",
@@ -69,7 +71,7 @@ export const esESReviewDraft = buildReviewDraft({
   'validation.bodySystemMismatch': 'El cuerpo celeste seleccionado para este puesto no pertenece al sistema estelar seleccionado.',
   'validation.cargoPadSkillLimit': 'Este puesto tiene {count} enlaces de cargamento, pero el nivel actual de {skill} permite un máximo de {limit}.',
   'validation.duplicateOutpostName': 'Hay {count} puestos llamados «{name}». Se recomiendan nombres únicos para evitar ambigüedades.',
-  'validation.interstellarHelium3': 'Este enlace de cargamento intersistema envía carga, pero su puesto no dispone de suministro de Helio-3.',
+  "validation.interstellarHelium3": "Ninguno de los dos puestos ({outposts}) dispone de suministro de Helio-3 ni lo tiene previsto.",
   'validation.invalidCharacterLevel': 'El nivel del personaje es {level}, pero un nivel registrado debe ser un número entero del {minimum} al {maximum}.',
   'validation.invalidSkillLevel': '{skill} tiene el nivel {level}, pero los niveles válidos son números enteros del {minimum} al {maximum}.',
   'validation.missingCargoEndpoint': 'Esta conexión de carga hace referencia a un puesto o extremo de enlace de cargamento inexistente.',
@@ -100,7 +102,7 @@ export const esESReviewDraft = buildReviewDraft({
   "help.biomes": "Los biomas seleccionados limitan la disponibilidad de recursos inorgánicos a los que pueden aparecer en ellos.",
   'help.present': 'Indica si un recurso puede estar presente en este puesto.',
   'help.producing': 'Indica si este puesto está configurado actualmente para producir el recurso o producto.',
-  'help.interSystem': 'Los enlaces de cargamento intersistema conectan puestos de distintos sistemas estelares y necesitan Helio-3.',
+  "help.interSystem": "El Helio-3 de cualquiera de los dos puestos abastece el enlace de cargamento intersistema en ambos sentidos. El suministro previsto elimina el aviso de combustible. El indicador solo refleja el suministro real.",
   'help.validation': 'Los errores identifican estados no válidos, las advertencias estados incompletos o incoherentes y la información señala acciones de seguimiento útiles.',
   'search.input.description': 'Escribe el nombre o la abreviatura de un elemento y confirma el elemento que quieres buscar.',
   'search.results.dragInstructions': 'Mueve los resultados de búsqueda con las teclas de flecha. Mantén pulsada Shift para avanzar más.',

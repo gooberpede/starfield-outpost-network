@@ -26,6 +26,8 @@ export function isValidationIssueActionable(
   issue: ValidationIssue,
   validOutpostIds: ReadonlySet<string>,
 ): boolean {
+  // Either end can resolve this link-wide warning.
+  if (issue.ruleId === 'interstellar-cargo-helium-3') return false
   return Boolean(issue.outpostId && validOutpostIds.has(issue.outpostId))
 }
 

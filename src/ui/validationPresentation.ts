@@ -142,6 +142,10 @@ function getCargoIssueMessage(
     ? outposts.find(({ id }) => id === target.outpostId)?.name || target.outpostId
     : ''
   switch (issue.messageKey) {
+    case 'validation.interstellarHelium3': {
+      const ends = (issue.linkedOutpostIds ?? []).map(id => outposts.find(outpost => outpost.id === id)?.name.trim() || id)
+      return translate(locale, issue.messageKey, { outposts: formatList(locale, ends) })
+    }
     case 'validation.cargoDestinationIncomplete':
       return target ? translate(locale, issue.messageKey, { destination }) : null
     case 'validation.cargoMissingOutpost':

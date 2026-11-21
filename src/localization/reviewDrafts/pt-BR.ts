@@ -2,6 +2,8 @@ import { buildReviewDraft } from './buildDraft.ts'
 
 /** Independent Brazilian Portuguese Codex draft used only by the semantic review package. */
 export const ptBRReviewDraft = buildReviewDraft({
+  "cargo.fuel.remote": "{item} está disponível no entreposto conectado.",
+  "cargo.fuel.neither": "Nenhum dos dois entrepostos dispõe de suprimento efetivo de {item}.",
   "about.releaseNotes": "Notas da versão",
   "cargo.destination.count.one": "{outpost} — {count} vínculo de carga",
   "cargo.destination.count.few": "{outpost} — {count} vínculos de carga",
@@ -69,7 +71,7 @@ export const ptBRReviewDraft = buildReviewDraft({
   'validation.bodySystemMismatch': 'O corpo celeste selecionado para este entreposto não pertence ao sistema estelar selecionado.',
   'validation.cargoPadSkillLimit': 'Este entreposto tem {count} vínculos de carga, mas o nível atual de {skill} permite no máximo {limit}.',
   'validation.duplicateOutpostName': '{count} entrepostos têm o nome “{name}”. Recomendamos nomes exclusivos para evitar ambiguidades.',
-  'validation.interstellarHelium3': 'Este vínculo de carga entre sistemas está enviando carga, mas seu entreposto não dispõe de suprimento de Hélio-3.',
+  "validation.interstellarHelium3": "Nenhum dos dois entrepostos ({outposts}) dispõe de suprimento de Hélio-3 nem tem um suprimento planejado.",
   'validation.invalidCharacterLevel': 'O nível do personagem é {level}, mas um nível registrado precisa ser um número inteiro de {minimum} a {maximum}.',
   'validation.invalidSkillLevel': '{skill} está no nível {level}, mas os níveis válidos são números inteiros de {minimum} a {maximum}.',
   'validation.missingCargoEndpoint': 'Esta conexão de carga faz referência a um entreposto ou uma extremidade de vínculo de carga ausente.',
@@ -100,7 +102,7 @@ export const ptBRReviewDraft = buildReviewDraft({
   "help.biomes": "Os biomas selecionados limitam a disponibilidade de recursos inorgânicos aos recursos que podem ocorrer neles.",
   'help.present': 'Mostra se um recurso pode estar presente neste entreposto.',
   'help.producing': 'Mostra se este entreposto está configurado para produzir o recurso ou produto.',
-  'help.interSystem': 'Vínculos de carga entre sistemas podem conectar entrepostos em sistemas estelares diferentes e exigem Hélio-3.',
+  "help.interSystem": "O Hélio-3 de qualquer um dos entrepostos abastece o vínculo de carga entre sistemas nos dois sentidos. Um suprimento planejado elimina o aviso de combustível. O indicador considera apenas o suprimento efetivo.",
   'help.validation': 'Erros identificam estados inválidos, avisos identificam estados incompletos ou incoerentes e informações destacam ações úteis de acompanhamento.',
   'search.input.description': 'Digite o nome ou a abreviação de um item e confirme o item que deseja pesquisar.',
   'search.results.dragInstructions': 'Mova os resultados da pesquisa com as teclas de seta. Mantenha Shift pressionado para passos maiores.',

@@ -1,6 +1,8 @@
 import type { MessageCatalogue } from '../types.ts'
 
 export const frFRMessages = {
+  "cargo.fuel.remote": "{item} est disponible à l’avant-poste relié.",
+  "cargo.fuel.neither": "Aucun des deux avant-postes ne dispose réellement de {item}.",
   "about.releaseNotes": "Notes de version",
   "cargo.destination.count.one": "{outpost} — {count} liaison de fret",
   "cargo.destination.count.few": "{outpost} — {count} liaisons de fret",
@@ -110,7 +112,7 @@ export const frFRMessages = {
   "help.forContext": "Aide pour {context}",
   "help.inorganicPresentPossible": "La {resource} peut être présente dans cet avant-poste.",
   "help.inorganicPresentRecorded": "{resource} est répertoriée comme présente dans cet avant-poste.",
-  "help.interSystem": "Les liaisons intersystème peuvent relier des avant-postes situés dans différents systèmes stellaires et nécessitent de l’He-3.",
+  "help.interSystem": "Un apport en hélium-3 à une extrémité alimente la liaison de fret intersystème dans les deux sens. Un approvisionnement prévu lève l’avertissement de carburant. Le bouton indique uniquement l’approvisionnement réel.",
   "help.logistics": "Les objets actuellement affectés aux liaisons sont affichés ici.",
   "help.organic.availableBiome": "{resource} est disponible auprès d’une espèce domesticable sur cette planète.",
   "help.organic.availableBiomes": "{resource} est disponible auprès d’une espèce domesticable sur cette planète.",
@@ -413,7 +415,7 @@ export const frFRMessages = {
   "validation.filter.info": "Information",
   "validation.filter.warning": "Avertissements",
   "validation.heading": "Validation",
-  "validation.interstellarHelium3": "Cette liaison intersystème transporte du fret, mais son avant-poste ne dispose d’aucun approvisionnement en He-3.",
+  "validation.interstellarHelium3": "Aucun des deux avant-postes ({outposts}) ne dispose d’un approvisionnement en hélium-3, même prévu.",
   "validation.invalidCharacterLevel": "Le niveau du personnage est {level}, mais le niveau enregistré doit être un nombre entier compris entre {minimum} et {maximum}.",
   "validation.characterNameLength": "Les noms de personnage dans Starfield comportent normalement jusqu’à 25 caractères.",
   "validation.invalidSkillLevel": "La compétence {skill} a le niveau {level}, mais les niveaux de compétence valides sont des nombres entiers compris entre {minimum} et {maximum}.",

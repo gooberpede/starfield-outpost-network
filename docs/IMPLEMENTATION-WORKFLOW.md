@@ -251,6 +251,12 @@ The important requirement is that the review artifact includes every file intend
 
 ---
 
+## Independent review
+
+Implementation and audit briefs require one independent reviewer sub-agent by default. Only the source brief may authorize additional agents, up to three concurrent sub-agents. The primary owns implementation and repairs. The reviewer independently challenges the original brief, evidence, full diff (including new files), checks and negative cases. The reviewer does not implement repairs.
+
+Keep dated rounds and the final report under `.local-work/independent-review/<task>/`. Record the base commit and exact diff identity, criteria, evidence, challenged assumptions, defects, repairs and disposition. Preserve previous rounds privately. REWORK requires corrections and another review by the independent reviewer. BLOCKED or an unavailable reviewer precludes completion. Completion requires ACCEPT on the exact final snapshot, including version changes. The owner reviews the diff and manually accepts staging before separately authorizing release operations.
+
 ## Diff review
 
 ChatGPT reviews the diff for:

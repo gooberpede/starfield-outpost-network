@@ -29,6 +29,7 @@ import { supportedLocaleIds } from '../src/localization/types.ts'
 import { reviewRouteForLocale } from '../scripts/localization/review-routing.ts'
 
 const cargoCopyKeys = new Set([
+  'help.interSystem', 'validation.interstellarHelium3', 'cargo.fuel.remote', 'cargo.fuel.neither',
   'about.releaseNotes', 'cargo.destination.count.one', 'cargo.destination.count.few', 'cargo.destination.count.other',
   'cargo.pad.noRemoteLink', 'cargo.destination.incomplete', 'cargo.destination.missingOutpost', 'cargo.destination.missingPad',
   'cargo.pairing.records', 'cargo.pairing.remove', 'cargo.pairing.removeLabel',
@@ -369,17 +370,17 @@ test('Simplified Chinese DeepL evidence is fully imported and neutrally adjudica
     row.FinalTranslation === row.CodexTranslation))
   const rows = allRows.filter(row => !additions.includes(row) && !corrections.includes(row) &&
     !placeholderCorrections.includes(row) && !cargoCopyKeys.has(row.Key))
-  assert.equal(rows.length, 399)
+  assert.equal(rows.length, 397)
   assert.ok(rows.every(({ DeepLTranslation }) => DeepLTranslation.trim()))
   assert.deepEqual(
     Object.fromEntries(['IDENTICAL', 'TYPOGRAPHIC_ONLY', 'SUBSTANTIVE', 'INVALID_TOKENS']
       .map((status) => [status, rows.filter(({ ComparisonStatus }) => ComparisonStatus === status).length])),
-    { IDENTICAL: 97, TYPOGRAPHIC_ONLY: 0, SUBSTANTIVE: 257, INVALID_TOKENS: 45 },
+    { IDENTICAL: 97, TYPOGRAPHIC_ONLY: 0, SUBSTANTIVE: 255, INVALID_TOKENS: 45 },
   )
   assert.deepEqual(
     Object.fromEntries(['AGREED', 'CODEX', 'DEEPL', 'CUSTOM', 'INVALID_DEEPL_REPAIRED']
       .map((decision) => [decision, rows.filter(({ AdjudicationDecision }) => AdjudicationDecision === decision).length])),
-    { AGREED: 97, CODEX: 240, DEEPL: 9, CUSTOM: 8, INVALID_DEEPL_REPAIRED: 45 },
+    { AGREED: 97, CODEX: 238, DEEPL: 9, CUSTOM: 8, INVALID_DEEPL_REPAIRED: 45 },
   )
 
   const structural = rows.map((row) => {
@@ -865,12 +866,12 @@ test('Polish DeepL evidence is fully imported and invalid candidates remain expl
     row.FinalTranslation === row.CodexTranslation))
   const rows = allRows.filter(row => !additions.includes(row) && !corrections.includes(row) &&
     !placeholderCorrections.includes(row) && !cargoCopyKeys.has(row.Key))
-  assert.equal(rows.length, 399)
+  assert.equal(rows.length, 397)
   assert.ok(rows.every(({ DeepLTranslation }) => DeepLTranslation.trim()))
   assert.deepEqual(
     Object.fromEntries(['IDENTICAL', 'TYPOGRAPHIC_ONLY', 'SUBSTANTIVE', 'INVALID_TOKENS']
       .map((status) => [status, rows.filter(({ ComparisonStatus }) => ComparisonStatus === status).length])),
-    { IDENTICAL: 111, TYPOGRAPHIC_ONLY: 0, SUBSTANTIVE: 216, INVALID_TOKENS: 72 },
+    { IDENTICAL: 111, TYPOGRAPHIC_ONLY: 0, SUBSTANTIVE: 214, INVALID_TOKENS: 72 },
   )
   assert.deepEqual(
     Object.fromEntries(['PLACEHOLDERS', 'PROTECTED_TOKEN', 'PLURAL_SYNTAX']
@@ -1327,10 +1328,10 @@ test('invalid DeepL evidence requires explicit repair or replacement provenance'
   assert.throws(() => parseAndValidateReviewCsv(serializeReviewRows(invalidAsDeepL), 'fr-FR'), /REVIEW_DECISION_CONTRADICTS_EVIDENCE/)
 })
 
-test('cargo destination copy has explicit provisional Codex evidence in every reviewed locale', async () => {
+test('cargo destination and fuel copy have explicit provisional Codex evidence in every reviewed locale', async () => {
   for (const locale of ['fr-FR','de-DE','es-ES','it-IT','pt-BR','pl-PL','zh-Hans']) {
     const rows = parseAndValidateReviewCsv(await readFile(new URL('../docs/localization/' + locale + '-review.csv', import.meta.url), 'utf8'), locale).filter(row => cargoCopyKeys.has(row.Key))
-    assert.equal(rows.length, 20)
+    assert.equal(rows.length, 24)
     for (const row of rows) {
       assert.equal(row.DeepLTranslation, '')
       assert.equal(row.AdjudicationDecision, 'CODEX')

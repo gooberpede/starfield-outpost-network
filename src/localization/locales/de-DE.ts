@@ -1,6 +1,8 @@
 import type { MessageCatalogue } from '../types.ts'
 
 export const deDEMessages = {
+  "cargo.fuel.remote": "{item} ist am verbundenen Außenposten verfügbar.",
+  "cargo.fuel.neither": "An keinem der beiden Außenposten ist {item} tatsächlich verfügbar.",
   "about.releaseNotes": "Versionshinweise",
   "cargo.destination.count.one": "{outpost} — {count} Frachtlink",
   "cargo.destination.count.few": "{outpost} — {count} Frachtlinks",
@@ -110,7 +112,7 @@ export const deDEMessages = {
   "help.forContext": "Hilfe zu {context}",
   "help.inorganicPresentPossible": "{resource} ist möglicherweise an diesem Außenposten vorhanden.",
   "help.inorganicPresentRecorded": "{resource} ist an diesem Außenposten als vorhanden verzeichnet.",
-  "help.interSystem": "Intersystem-Frachtlinks können Außenposten in verschiedenen Sternsystemen verbinden und benötigen He-3.",
+  "help.interSystem": "He-3 an einem der beiden Außenposten versorgt den Intersystem-Frachtlink in beide Richtungen. Eine geplante Versorgung hebt die Treibstoffwarnung auf. Die Anzeige berücksichtigt nur die tatsächliche Versorgung.",
   "help.logistics": "Hier werden die Gegenstände angezeigt, die derzeit den Frachtlinks zugewiesen sind.",
   "help.organic.availableBiome": "{resource} ist von einer domestizierbaren Spezies auf diesem Planeten erhältlich.",
   "help.organic.availableBiomes": "{resource} ist von einer domestizierbaren Spezies auf diesem Planeten erhältlich.",
@@ -413,7 +415,7 @@ export const deDEMessages = {
   "validation.filter.info": "Information",
   "validation.filter.warning": "Warnungen",
   "validation.heading": "Validierung",
-  "validation.interstellarHelium3": "Dieser Intersystem-Frachtlink sendet Fracht, aber an seinem Außenposten ist keine He-3-Versorgung verfügbar.",
+  "validation.interstellarHelium3": "An keinem der beiden Außenposten ({outposts}) ist eine He-3-Versorgung vorhanden oder geplant.",
   "validation.invalidCharacterLevel": "Die Charakterstufe beträgt {level}, aber eine erfasste Charakterstufe muss eine ganze Zahl zwischen {minimum} und {maximum} sein.",
   "validation.characterNameLength": "Charakternamen in Starfield haben normalerweise höchstens 25 Zeichen.",
   "validation.invalidSkillLevel": "{skill} hat die Stufe {level}, gültige Fähigkeitsstufen sind jedoch ganze Zahlen von {minimum} bis {maximum}.",

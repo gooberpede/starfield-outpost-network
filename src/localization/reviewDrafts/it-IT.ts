@@ -2,6 +2,8 @@ import { buildReviewDraft } from './buildDraft.ts'
 
 /** Independent Italian Codex draft used only by the semantic review package. */
 export const itITReviewDraft = buildReviewDraft({
+  "cargo.fuel.remote": "{item} è disponibile presso l’avamposto collegato.",
+  "cargo.fuel.neither": "Nessuno dei due avamposti dispone di una fornitura effettiva di {item}.",
   "about.releaseNotes": "Note di rilascio",
   "cargo.destination.count.one": "{outpost} — {count} collegamento merci",
   "cargo.destination.count.few": "{outpost} — {count} collegamenti merci",
@@ -69,7 +71,7 @@ export const itITReviewDraft = buildReviewDraft({
   'validation.bodySystemMismatch': 'Il corpo celeste selezionato per questo avamposto non appartiene al sistema stellare selezionato.',
   'validation.cargoPadSkillLimit': 'Questo avamposto ha {count} collegamenti merci, ma il livello attuale di {skill} ne consente al massimo {limit}.',
   'validation.duplicateOutpostName': '{count} avamposti si chiamano «{name}». Si consigliano nomi univoci per evitare ambiguità.',
-  'validation.interstellarHelium3': 'Questo collegamento merci intersistema invia merci, ma il suo avamposto non dispone di una fornitura di elio-3.',
+  "validation.interstellarHelium3": "Nessuno dei due avamposti ({outposts}) dispone di una fornitura di elio-3 o ne ha una in programma.",
   'validation.invalidCharacterLevel': 'Il livello del personaggio è {level}, ma un livello registrato deve essere un numero intero da {minimum} a {maximum}.',
   'validation.invalidSkillLevel': '{skill} è al livello {level}, ma i livelli validi sono numeri interi da {minimum} a {maximum}.',
   'validation.missingCargoEndpoint': 'Questa connessione merci fa riferimento a un avamposto o a un’estremità di collegamento merci mancante.',
@@ -100,7 +102,7 @@ export const itITReviewDraft = buildReviewDraft({
   "help.biomes": "I biomi selezionati limitano la disponibilità delle risorse inorganiche a quelle che possono comparire al loro interno.",
   'help.present': 'Indica se una risorsa può essere presente in questo avamposto.',
   'help.producing': 'Indica se questo avamposto è attualmente configurato per produrre la risorsa o il prodotto.',
-  'help.interSystem': 'I collegamenti merci intersistema possono connettere avamposti in sistemi stellari diversi e richiedono elio-3.',
+  "help.interSystem": "L’elio-3 di uno dei due avamposti alimenta il collegamento merci intersistema in entrambe le direzioni. Una fornitura pianificata elimina l’avviso sul carburante. L’indicatore mostra solo la disponibilità effettiva.",
   'help.validation': 'Gli errori indicano stati non validi, gli avvisi stati incompleti o incoerenti e le informazioni evidenziano utili azioni successive.',
   'search.input.description': 'Digita il nome o l’abbreviazione di un elemento, quindi conferma l’elemento da cercare.',
   'search.results.dragInstructions': 'Sposta i risultati di ricerca con i tasti freccia. Tieni premuto Shift per spostamenti più ampi.',

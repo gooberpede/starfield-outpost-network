@@ -315,7 +315,7 @@ describe('release accessibility semantics', () => {
       />
       <CargoPadsEditor
         outpost={outpost} maxCargoPads={6} allOutposts={[outpost]} cargoLinks={[]}
-        resources={[]} products={[]} availableItems={[]} actuallyAvailableItems={[]}
+        resources={[]} products={[]} availableItems={[]} fuelSourceAt={() => 'local-unavailable'}
         onSelectDestination={noOp} onAddRemote={noOp} onRemovePairing={noOp} onSetCargoLink={noOp} onAddCargoPad={noOp}
         onMoveCargoPad={noOp} onMoveCargoPadUp={noOp} onMoveCargoPadDown={noOp}
         onDeleteCargoPad={noOp} onToggleExport={noOp} onToggleCargoPadType={noOp}
@@ -525,7 +525,7 @@ describe('release accessibility semantics', () => {
       outpost={local} maxCargoPads={6} allOutposts={[local, remote]} cargoLinks={[]}
       resources={[]} products={[{
         id: 'microsecond-regulator', name: 'Microsecond Regulator', shortName: 'MRg', rarity: 'rare',
-      }]} availableItems={[]} actuallyAvailableItems={[]}
+      }]} availableItems={[]} fuelSourceAt={() => 'local-unavailable'}
       onSelectDestination={noOp} onAddRemote={noOp} onRemovePairing={noOp} onSetCargoLink={noOp} onAddCargoPad={noOp}
       onMoveCargoPad={noOp} onMoveCargoPadUp={noOp} onMoveCargoPadDown={noOp}
       onDeleteCargoPad={noOp} onToggleExport={noOp} onToggleCargoPadType={noOp}
@@ -562,7 +562,7 @@ describe('release accessibility semantics', () => {
         resources={[]}
         products={[]}
         availableItems={[]}
-        actuallyAvailableItems={[]}
+        fuelSourceAt={() => 'local-unavailable'}
         onSelectDestination={noOp} onAddRemote={noOp} onRemovePairing={noOp}
         onSetCargoLink={noOp}
         onAddCargoPad={noOp}
@@ -590,7 +590,7 @@ describe('release accessibility semantics', () => {
     const outpost = makeOutpost('one', 'Alpha', 2)
     localized('ja-JP', <CargoPadsEditor
       outpost={outpost} maxCargoPads={6} allOutposts={[outpost]} cargoLinks={[]}
-      resources={[]} products={[]} availableItems={[]} actuallyAvailableItems={[]}
+      resources={[]} products={[]} availableItems={[]} fuelSourceAt={() => 'local-unavailable'}
       onSelectDestination={noOp} onAddRemote={noOp} onRemovePairing={noOp} onSetCargoLink={noOp} onAddCargoPad={noOp}
       onMoveCargoPad={noOp} onMoveCargoPadUp={noOp} onMoveCargoPadDown={noOp}
       onDeleteCargoPad={noOp} onToggleExport={noOp} onToggleCargoPadType={noOp}
@@ -618,7 +618,7 @@ describe('release accessibility semantics', () => {
     localized('en-US', <CargoPadsEditor
       outpost={alpha} maxCargoPads={6} allOutposts={[alpha, beta]}
       cargoLinks={[{ id: 'link', endpointA: { outpostId: 'alpha', cargoPadId: 'alpha-pad-1' }, endpointB: { outpostId: 'beta', cargoPadId: 'beta-pad-1' } }]}
-      resources={resources} products={products} availableItems={[]} actuallyAvailableItems={[]}
+      resources={resources} products={products} availableItems={[]} fuelSourceAt={() => 'local-unavailable'}
       onSelectDestination={noOp} onAddRemote={noOp} onRemovePairing={noOp} onSetCargoLink={noOp} onAddCargoPad={noOp}
       onMoveCargoPad={noOp} onMoveCargoPadUp={noOp} onMoveCargoPadDown={noOp}
       onDeleteCargoPad={noOp} onToggleExport={noOp} onToggleCargoPadType={noOp}
@@ -647,7 +647,7 @@ describe('release accessibility semantics', () => {
       />
       <CargoPadsEditor
         outpost={outposts[0]} maxCargoPads={6} allOutposts={outposts} cargoLinks={[]}
-        resources={[]} products={[]} availableItems={[]} actuallyAvailableItems={[]}
+        resources={[]} products={[]} availableItems={[]} fuelSourceAt={() => 'local-unavailable'}
         onSelectDestination={noOp} onAddRemote={noOp} onRemovePairing={noOp} onSetCargoLink={noOp} onAddCargoPad={noOp}
         onMoveCargoPad={noOp} onMoveCargoPadUp={noOp} onMoveCargoPadDown={noOp}
         onDeleteCargoPad={noOp} onToggleExport={noOp} onToggleCargoPadType={noOp}
@@ -813,7 +813,7 @@ describe('release accessibility semantics', () => {
         { id: 'helium-3', name: 'Helium-3', shortName: 'He-3', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
         { id: 'iron', name: 'Iron', shortName: 'Fe', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
         { id: 'copper', name: 'Copper', shortName: 'Cu', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
-      ]} products={[]} availableItems={[{ type: 'resource', id: 'copper' }]} actuallyAvailableItems={[]}
+      ]} products={[]} availableItems={[{ type: 'resource', id: 'copper' }]} fuelSource="local-unavailable"
       linkedOutpostId="" linkedCargoPadId="" onLinkedOutpostChange={noOp}
       onLinkedCargoPadChange={noOp} getDestinationPadLabel={() => ''}
     />)
@@ -850,7 +850,7 @@ describe('release accessibility semantics', () => {
       currentOutpostId="one" onRemove={noOp} onToggleExport={noOp}
       onToggleType={noOp} resources={[
         { id: 'helium-3', name: 'Helium-3', shortName: 'He-3', category: 'inorganic', rarity: 'common', parentId: null, sortOrder: null, plannedSupplyPlacement: 'family' },
-      ]} products={[]} availableItems={[helium3]} actuallyAvailableItems={[helium3]}
+      ]} products={[]} availableItems={[helium3]} fuelSource="local"
       linkedOutpostId="" linkedCargoPadId="" onLinkedOutpostChange={noOp}
       onLinkedCargoPadChange={noOp} getDestinationPadLabel={() => ''}
     />)
@@ -870,7 +870,7 @@ describe('release accessibility semantics', () => {
       displayLabel="Cargo Link 1" outposts={[makeOutpost('one', 'Alpha')]}
       currentOutpostId="one" onRemove={noOp} onToggleExport={noOp}
       onToggleType={noOp} resources={[]} products={[]} availableItems={[]}
-      actuallyAvailableItems={[]} linkedOutpostId="" linkedCargoPadId=""
+      fuelSource="local-unavailable" linkedOutpostId="" linkedCargoPadId=""
       onLinkedOutpostChange={noOp} onLinkedCargoPadChange={noOp}
       getDestinationPadLabel={() => ''}
     />)

@@ -73,6 +73,7 @@ export interface ValidationIssue {
   
   cargoTarget?: { outpostId: string; cargoPadId?: string }
   cargoRecords?: CargoLink[]
+  linkedOutpostIds?: string[]
   cargoLinkId?: string
   outpostId?: string
   cargoPadId?: string

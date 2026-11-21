@@ -10,6 +10,7 @@
  * Change this file when:
  *   Cross-feature application coordination or ownership of session-level state changes.
  */
+import { resolveCargoFuel } from './domain/cargoFuel.ts'
 import { selectCargoDestination, connectCargoPads, createRemoteCargoPadAndConnect, removeCargoPairing } from './domain/cargoConnections.ts'
 import type { CargoLinkEndpoint, CargoLink } from './domain/models.ts'
 import { getBiomeButtonGroups } from './domain/bodyResourceAvailability'
@@ -410,6 +411,10 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
           referenceData ?? undefined,
         )
       : []
+
+  const cargoFuel = resolveCargoFuel(network, referenceData, id => id === selectedOutpost?.id
+    ? actuallyAvailableItems
+    : getActuallyAvailableItemsAtOutpost(id, network, referenceData))
 
   /**
    * Current validation results for the recorded network.
@@ -2150,7 +2155,7 @@ function App({ referenceData }: { referenceData: ReferenceData }) {
             resources={resources}
             products={products}
             availableItems={availableCargoItems}
-            actuallyAvailableItems={actuallyAvailableItems}
+            fuelSourceAt={cargoFuel.sourceAt}
             historyPresentationChange={cargoHistoryPresentationChange}
             onAddCargoPad={() =>
               addCargoPad(selectedOutpost.id)

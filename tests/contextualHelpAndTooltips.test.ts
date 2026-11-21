@@ -66,7 +66,7 @@ test('the seven contextual-help strings retain their approved copy', () => {
     biomes: 'Selected biomes limit inorganic resource availability to resources that can occur in those biomes.',
     present: 'Shows whether a resource can be present at this outpost.',
     producing: 'Shows whether this outpost is currently set to produce the resource or product.',
-    interSystem: 'Inter-System Cargo Links can connect outposts in different star systems and require Helium-3.',
+    interSystem: 'Helium-3 at either end supplies an Inter-System Cargo Link in both directions. Planned Supply clears the fuel warning. The indicator shows actual supply only.',
     validation: 'Errors identify invalid states, warnings identify incomplete or inconsistent states, and info highlights useful follow-up items.',
   })
 })

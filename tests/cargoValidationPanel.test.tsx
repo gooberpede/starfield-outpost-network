@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import { expect, test, vi } from 'vitest'
 import { createDefaultNetwork, createDefaultOutpost } from '../src/domain/defaults.ts'
 import { incompleteCargoDestinationRule } from '../src/domain/validation/rules/incompleteCargoDestination.ts'
@@ -8,6 +8,8 @@ import { selfLinkedCargoPadRule } from '../src/domain/validation/rules/selfLinke
 import { LocalizationContext } from '../src/localization/LocalizationContext.ts'
 import { translate } from '../src/localization/catalog.ts'
 import { supportedLocaleIds } from '../src/localization/types.ts'
+import { fuelNetwork, fuelReference } from './cargoFuelFixture.ts'
+import { interstellarCargoHelium3Rule } from '../src/domain/validation/rules/interstellarCargoHelium3.ts'
 import { ValidationSummary } from '../src/ui/components/ValidationSummary.tsx'
 
 const cases = ['incomplete', 'missing-intent', 'missing-outpost', 'missing-pad', 'orphan', 'conflict', 'self'] as const
@@ -50,4 +52,45 @@ for (const locale of supportedLocaleIds) test.each(cases)(`Validation opens for 
     expect(view.container.textContent).toContain(kind === 'orphan' ? 'orphan-record' : 'AB')
     expect(view.container.textContent).toContain(kind === 'orphan' ? 'gone-A' : 'AC')
   }
+})
+
+for (const locale of supportedLocaleIds) test('link-wide fuel warning is readable in ' + locale, () => {
+  const n = fuelNetwork()
+  n.outposts[1].name = ''
+  const issues = interstellarCargoHelium3Rule.validate(n, fuelReference)
+  const navigate = vi.fn()
+  render(<LocalizationContext value={{ locale, automaticLocale: locale, localeOverride: locale,
+    setLocaleOverride: vi.fn(), t: (key, params) => translate(locale, key, params),
+  }}><ValidationSummary issues={issues} outposts={n.outposts} referenceData={fuelReference}
+    onNavigateToIssue={navigate} /></LocalizationContext>)
+  fireEvent.click(screen.getByRole('button', { name: translate(locale, 'validation.issueCount', { count: 1 }) }))
+  const row = screen.getByRole('listitem')
+  expect(row).toHaveTextContent('Station A')
+  expect(row.textContent).toMatch(/B/)
+  expect(within(row).queryByRole('button')).toBeNull()
+  fireEvent.click(row)
+  fireEvent.keyDown(row, { key: 'Enter' })
+  fireEvent.keyDown(row, { key: ' ' })
+  expect(navigate).not.toHaveBeenCalled()
+})
+
+test('the worklist skips the link warning when moving focus and activating repairs', () => {
+  const n = fuelNetwork()
+  const [fuel] = interstellarCargoHelium3Rule.validate(n, fuelReference)
+  const repairs = n.outposts.slice(0, 2).map(outpost => ({
+    ...fuel, ruleId: 'outpost-name-length', outpostId: outpost.id,
+    messageKey: 'validation.outpostNameLength' as const,
+  }))
+  const navigate = vi.fn()
+  render(<LocalizationContext value={{ locale: 'en-US', automaticLocale: 'en-US', localeOverride: 'en-US',
+    setLocaleOverride: vi.fn(), t: (key, params) => translate('en-US', key, params),
+  }}><ValidationSummary issues={[repairs[0], fuel, repairs[1]]} outposts={n.outposts}
+    referenceData={fuelReference} onNavigateToIssue={navigate} /></LocalizationContext>)
+  fireEvent.click(screen.getByRole('button', { name: 'Validation: 3 issues' }))
+  const actions = within(screen.getByRole('list')).getAllByRole('button')
+  expect(actions).toHaveLength(2)
+  fireEvent.keyDown(actions[0], { key: 'ArrowDown' })
+  expect(actions[1]).toHaveFocus()
+  fireEvent.keyDown(actions[1], { key: 'Enter' })
+  expect(navigate).toHaveBeenCalledWith(repairs[1])
 })

@@ -2,6 +2,9 @@ import { buildReviewDraft } from './buildDraft.ts'
 
 /** Independent Codex draft used by the French semantic review package. */
 export const frFRReviewDraft = buildReviewDraft({
+  "cargo.fuel.remote": "{item} est disponible à l’avant-poste relié.",
+  "cargo.fuel.neither": "Aucun des deux avant-postes ne dispose réellement de {item}.",
+  "help.interSystem": "Un apport en hélium-3 à une extrémité alimente la liaison de fret intersystème dans les deux sens. Un approvisionnement prévu lève l’avertissement de carburant. Le bouton indique uniquement l’approvisionnement réel.",
   "about.releaseNotes": "Notes de version",
   "cargo.destination.count.one": "{outpost} — {count} liaison de fret",
   "cargo.destination.count.few": "{outpost} — {count} liaisons de fret",
@@ -86,7 +89,7 @@ export const frFRReviewDraft = buildReviewDraft({
   'history.linkCargoPad': 'Relier {localOutpost} / {localPad} à {remoteOutpost} / {remotePad}',
   'matrix.tooltip.export.inactive': '{item} n’est pas exporté.',
   'validation.bodySystemMismatch': 'Le corps céleste sélectionné pour cet avant-poste n’appartient pas au système stellaire sélectionné.',
-  'validation.interstellarHelium3': 'Cette liaison intersystème transporte du fret, mais son avant-poste ne dispose d’aucun approvisionnement en hélium-3.',
+  "validation.interstellarHelium3": "Aucun des deux avant-postes ({outposts}) ne dispose d’un approvisionnement en hélium-3, même prévu.",
   'validation.missingCargoEndpoint': 'Cette connexion de fret fait référence à un avant-poste ou à une extrémité de liaison manquants.',
   'validation.characterNameLength': 'Les noms de personnage dans Starfield comportent normalement jusqu’à 25 caractères.',
   'validation.outpostNameLength': 'Starfield limite normalement les noms d’avant-poste à 25 caractères ; les noms plus longs ajoutés par des mods restent pris en charge.',

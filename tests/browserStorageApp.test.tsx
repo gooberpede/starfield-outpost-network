@@ -1,5 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { expect, test, vi } from 'vitest'
+import { end, fuelNetwork, fuelReference, helium } from './cargoFuelFixture.ts'
+import { encodeCargoOption } from '../src/ui/cargoDestinationOptions.ts'
 import App from '../src/App.tsx'
 import type { ReferenceData } from '../src/domain/referenceData.ts'
 import { LocalizationContext } from '../src/localization/LocalizationContext.ts'
@@ -13,11 +15,11 @@ const referenceData: ReferenceData = {
   species: [], planetSpecies: [], organicOccurrences: [], organicFarmingProfiles: [],
 }
 
-function mount() {
+function mount(reference = referenceData) {
   return render(<LocalizationContext value={{
     locale: 'en-US', automaticLocale: 'en-US', localeOverride: 'en-US',
     setLocaleOverride: vi.fn(), t: (key, parameters) => translate('en-US', key, parameters),
-  }}><App referenceData={referenceData} /></LocalizationContext>)
+  }}><App referenceData={reference} /></LocalizationContext>)
 }
 
 function seedCargoPads(...padCounts: number[]) {
@@ -424,4 +426,82 @@ test('unfinished compact cargo keeps the outpost name and opens Validation witho
   fireEvent.click(screen.getByRole('button', { name: /Validation:/ }))
   expect(screen.getByText('Choose or add a Cargo Link at Outpost 2 to finish this connection.')).toBeInTheDocument()
   expect(screen.getByRole('textbox', { name: 'Character' })).toBeInTheDocument()
+})
+
+test('linked Inter-System buttons reflect actual supply through navigation, type edits and Undo', () => {
+  const network = fuelNetwork()
+  network.outposts[1].activeProduction.push({ type: 'inorganic', resourceId: 'helium-3' })
+  localStorage.setItem('starfield-outpost-network', JSON.stringify({
+    schemaVersion: 1, activeNetworkId: 'n', networks: [{ id: 'n', network }],
+  }))
+  mount(fuelReference)
+  function indicator() {
+    const expand = screen.queryByRole('button', { name: 'Expand Cargo Link 1' })
+    if (expand) fireEvent.click(expand)
+    return screen.getByRole('button', { name: 'Inter-System' })
+  }
+  function check(source: string, state: string) {
+    const button = indicator()
+    expect(button).toHaveAttribute('aria-pressed', String(state !== 'regular'))
+    expect(button).toHaveAttribute('data-fuel-state', state)
+    expect(button).toHaveAttribute('data-fuelled', String(state === 'fuelled'))
+    if (source) {
+      expect(button).toHaveAccessibleDescription(source)
+      expect(button.getAttribute('title')).toContain(source)
+      expect(document.getElementById(button.getAttribute('aria-describedby')!)).toHaveTextContent(source)
+    } else expect(button).not.toHaveAttribute('aria-describedby')
+  }
+  check('Helium-3 is available at the linked outpost.', 'fuelled')
+  fireEvent.click(screen.getByRole('button', { name: 'Station B' }))
+  check('Helium-3 is available at this outpost.', 'fuelled')
+  expect(screen.getByRole('button', { name: 'Undo' })).toBeDisabled()
+  fireEvent.click(indicator())
+  check('', 'regular')
+  fireEvent.click(screen.getByRole('button', { name: 'Station A' }))
+  check('Helium-3 is not available at this outpost.', 'unfuelled')
+  fireEvent.click(screen.getByRole('button', { name: 'Undo' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Station A' }))
+  check('Helium-3 is available at the linked outpost.', 'fuelled')
+  const destination = screen.getByRole('combobox', { name: 'Destination outpost' })
+  fireEvent.change(destination, { target: { value: encodeCargoOption({ kind: 'empty' }) } })
+  check('Helium-3 is not available at this outpost.', 'unfuelled')
+  fireEvent.change(destination, { target: { value: encodeCargoOption({ kind: 'id', id: 'B' }) } })
+  check('Helium-3 is not available at this outpost.', 'unfuelled')
+  fireEvent.change(screen.getByRole('combobox', { name: 'Destination cargo link' }), {
+    target: { value: encodeCargoOption({ kind: 'id', id: 'pad' }) },
+  })
+  check('Helium-3 is available at the linked outpost.', 'fuelled')
+
+})
+
+test('removing an inbound fuel export updates the open worklist and both inter-system indicators', () => {
+  const network = fuelNetwork()
+  network.outposts[1].cargoPads.push({ id: 'feed', label: 'Feed', type: 'regular', outboundItems: [] })
+  network.outposts[2].cargoPads[0].type = 'regular'
+  network.outposts[2].systemId = 'B'
+  network.outposts[2].cargoPads[0].outboundItems.push(helium)
+  network.cargoLinks.push({ id: 'feed', endpointA: end('C'), endpointB: { outpostId: 'B', cargoPadId: 'feed' } })
+  localStorage.setItem('starfield-outpost-network', JSON.stringify({
+    schemaVersion: 1, activeNetworkId: 'n', networks: [{ id: 'n', network }],
+  }))
+  mount(fuelReference)
+  const warning = /Neither end of this link/
+  fireEvent.click(screen.getByRole('button', { name: /^Validation:/ }))
+  expect(screen.queryByText(warning)).toBeNull()
+  fireEvent.click(screen.getByRole('button', { name: 'Station C' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Expand Cargo Link 1' }))
+  fireEvent.click(screen.getByRole('button', { name: /Toggle export for helium-3/i }))
+  expect(screen.getAllByText(warning)).toHaveLength(1)
+  for (const name of ['Station A', 'Station B']) {
+    fireEvent.click(screen.getByRole('button', { name }))
+    fireEvent.click(screen.getByRole('button', { name: 'Expand Cargo Link 1' }))
+    const indicator = screen.getByRole('button', { name: 'Inter-System' })
+    expect(indicator).toHaveAttribute('aria-pressed', 'true')
+    expect(indicator).toHaveAttribute('data-fuel-state', 'unfuelled')
+    expect(indicator).toHaveAttribute('data-fuelled', 'false')
+    expect(indicator).toHaveAccessibleDescription('Neither linked outpost has an actual supply of Helium-3.')
+    expect(indicator).toHaveAttribute('title', expect.stringContaining('Neither linked outpost'))
+  }
+  fireEvent.click(screen.getByRole('button', { name: 'Undo' }))
+  expect(screen.queryByText(warning)).toBeNull()
 })

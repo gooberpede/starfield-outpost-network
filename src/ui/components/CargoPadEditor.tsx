@@ -22,6 +22,7 @@
  * Do not put network-level cargo-link rules here. Those belong in
  * the cargoConnections domain owner.
  */
+import type { CargoFuelSource } from '../../domain/cargoFuel.ts'
 
 import { formatCargoDestination } from '../../localization/cargoDestination.ts'
 import { encodeCargoOption as encode, decodeCargoOption as decode } from '../cargoDestinationOptions.ts'
@@ -42,6 +43,13 @@ import './CargoPadEditor.css'
 import { useLocalization } from '../../localization/LocalizationContext.ts'
 import { getReferenceDisplayName } from '../../localization/referenceNames.ts'
 
+const fuelDescriptionKeys = {
+  local: 'matrix.tooltip.input.available',
+  remote: 'cargo.fuel.remote',
+  neither: 'cargo.fuel.neither',
+  'local-unavailable': 'matrix.tooltip.input.unavailable',
+} as const
+
 interface CargoPadEditorProps {
   unavailableOutpost?: boolean
   unavailablePad?: boolean
@@ -58,7 +66,7 @@ interface CargoPadEditorProps {
   resources: Resource[]
   products: Product[]
   availableItems: CargoItem[]
-  actuallyAvailableItems: CargoItem[]
+  fuelSource: CargoFuelSource
   linkedOutpostId: string
   linkedCargoPadId: string
   onLinkedOutpostChange: (outpostId: string) => void
@@ -87,7 +95,7 @@ export function CargoPadEditor({
   resources,
   products,
   availableItems,
-  actuallyAvailableItems,
+  fuelSource,
   onRemove,
   onToggleExport,
   onToggleType,
@@ -118,9 +126,7 @@ export function CargoPadEditor({
   const outerValue = blocked || unavailableOutpost ? encode({ kind: 'status' }) : destinationId ? encode({ kind: 'id', id: destinationId }) : encode({ kind: 'empty' })
   const innerValue = unavailablePad ? encode({ kind: 'status' }) : destinationPadId ? encode({ kind: 'id', id: destinationPadId }) : encode({ kind: 'empty' })
   const isInterSystem = pad.type === 'interstellar'
-  const hasActualHelium3 = actuallyAvailableItems.some(
-    (item) => item.type === 'resource' && item.id === 'helium-3',
-  )
+  const hasActualHelium3 = fuelSource === 'local' || fuelSource === 'remote'
   const fuelState = getInterstellarFuelState(isInterSystem, hasActualHelium3)
   const helium3Name = getReferenceDisplayName(
     'resource',
@@ -129,9 +135,7 @@ export function CargoPadEditor({
     locale,
   )
   const fuelDescription = isInterSystem
-    ? t(hasActualHelium3
-        ? 'matrix.tooltip.input.available'
-        : 'matrix.tooltip.input.unavailable', { item: helium3Name })
+    ? t(fuelDescriptionKeys[fuelSource], { item: helium3Name })
     : null
   const interSystemTooltip = fuelDescription
     ? t('validation.context.separator', {

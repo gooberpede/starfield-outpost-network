@@ -1,6 +1,8 @@
 import type { MessageCatalogue } from '../types.ts'
 
 export const ptBRMessages = {
+  "cargo.fuel.remote": "{item} está disponível no entreposto conectado.",
+  "cargo.fuel.neither": "Nenhum dos dois entrepostos dispõe de suprimento efetivo de {item}.",
   "about.releaseNotes": "Notas da versão",
   "cargo.destination.count.one": "{outpost} — {count} vínculo de carga",
   "cargo.destination.count.few": "{outpost} — {count} vínculos de carga",
@@ -110,7 +112,7 @@ export const ptBRMessages = {
   "help.forContext": "Ajuda para {context}",
   "help.inorganicPresentPossible": "{resource} pode estar presente neste entreposto.",
   "help.inorganicPresentRecorded": "{resource} consta como presente neste entreposto.",
-  "help.interSystem": "Vínculos de carga entre sistemas podem conectar entrepostos em sistemas estelares diferentes e exigem Hélio-3.",
+  "help.interSystem": "O Hélio-3 de qualquer um dos entrepostos abastece o vínculo de carga entre sistemas nos dois sentidos. Um suprimento planejado elimina o aviso de combustível. O indicador considera apenas o suprimento efetivo.",
   "help.logistics": "Os itens atualmente atribuídos a vínculos de carga são exibidos aqui.",
   "help.organic.availableBiome": "{resource} está disponível em uma espécie domesticável neste planeta.",
   "help.organic.availableBiomes": "{resource} está disponível em uma espécie domesticável neste planeta.",
@@ -413,7 +415,7 @@ export const ptBRMessages = {
   "validation.filter.info": "Informação",
   "validation.filter.warning": "Avisos",
   "validation.heading": "Validação",
-  "validation.interstellarHelium3": "Este vínculo de carga entre sistemas está enviando carga, mas seu entreposto não dispõe de suprimento de Hélio-3.",
+  "validation.interstellarHelium3": "Nenhum dos dois entrepostos ({outposts}) dispõe de suprimento de Hélio-3 nem tem um suprimento planejado.",
   "validation.invalidCharacterLevel": "O nível do personagem é {level}, mas o nível registrado deve ser um número inteiro entre {minimum} e {maximum}.",
   "validation.characterNameLength": "Os nomes de personagem em Starfield normalmente têm até 25 caracteres.",
   "validation.invalidSkillLevel": "{skill} está no nível {level}, mas os níveis válidos são números inteiros de {minimum} a {maximum}.",

@@ -508,6 +508,10 @@ rules; it does not replace them.
 
 ---
 
+## Independent review
+
+Implementation and audit briefs require one independent reviewer sub-agent. Only the source brief can raise the cap, to at most three concurrent sub-agents. Follow the independent-review procedure in `docs/IMPLEMENTATION-WORKFLOW.md`, including private local review rounds, implementer-owned repairs, final exact-snapshot ACCEPT, and owner diff review and manual acceptance.
+
 ## Git behaviour
 
 Do not commit, push, create branches, rewrite history, or modify remote repository state unless explicitly asked.

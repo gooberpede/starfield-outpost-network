@@ -1,5 +1,7 @@
 /** Complete baseline catalogue. Every supported message must exist here. */
 export const enUSMessages = {
+  "cargo.fuel.remote": "{item} is available at the linked outpost.",
+  "cargo.fuel.neither": "Neither linked outpost has an actual supply of {item}.",
   "about.releaseNotes": "Release notes",
   "cargo.destination.count.one": "{outpost} — {count} cargo link",
   "cargo.destination.count.few": "{outpost} — {count} cargo links",
@@ -288,7 +290,7 @@ export const enUSMessages = {
   'validation.duplicatePlannedSupply': '{item} appears more than once in this outpost\'s Planned Supply.',
   'validation.duplicateOutboundItem': '{item} appears more than once in this Cargo Link\'s outbound items.',
   'validation.duplicateOutpostName': '{count} outposts are named "{name}". Unique outpost names are recommended to avoid ambiguity.',
-  'validation.interstellarHelium3': 'This Inter-System Cargo Link is sending cargo, but its outpost has no available Helium-3 supply.',
+  "validation.interstellarHelium3": "Neither end of this link ({outposts}) has available or planned Helium-3.",
   'validation.invalidCharacterLevel': 'Character level is {level}, but a recorded character level must be a whole number from {minimum} to {maximum}.',
   'validation.characterNameLength': 'Starfield character names normally use up to 25 characters.',
   'validation.invalidSkillLevel': '{skill} has level {level}, but valid skill levels are integers {minimum} through {maximum}.',
@@ -412,7 +414,7 @@ export const enUSMessages = {
   "help.biomes": "Selected biomes limit inorganic resource availability to resources that can occur in those biomes.",
   'help.present': 'Shows whether a resource can be present at this outpost.',
   'help.producing': 'Shows whether this outpost is currently set to produce the resource or product.',
-  'help.interSystem': 'Inter-System Cargo Links can connect outposts in different star systems and require Helium-3.',
+  "help.interSystem": "Helium-3 at either end supplies an Inter-System Cargo Link in both directions. Planned Supply clears the fuel warning. The indicator shows actual supply only.",
   'help.validation': 'Errors identify invalid states, warnings identify incomplete or inconsistent states, and info highlights useful follow-up items.',
   'help.forContext': 'Help for {context}',
   "help.organic.unavailablePlanet": "{resource} is not available from this domesticable species on this planet.",
