@@ -81,3 +81,11 @@ At the initial audit the local and remote branches were identical, with zero com
 At implementation time, recheck both remote tips **and the live production revision**. If still aligned, verify the isolated header change on authenticated staging, review the complete production delta, and use the separately authorized manual production release. If staging has advanced, wait for its next accepted release or base an explicitly authorized header-only hotfix on the verified production baseline and reconcile it into staging. Preserve existing release tags and verify the live apex, redirects and preview boundary after deployment. A header rollback should use a compatible application build because 1.0 cannot read upgraded 1.1 saves. [Deployment and save compatibility](../DEPLOYMENT.md)
 
 This report is the only audit-created file. The review made no source, hosting, DNS, policy, deployment or remote Git changes.
+
+## One-year policy decision
+
+**21 November 2026, owner observations.** The owner confirmed healthy DNS, Pages custom domain, TLS and Cloudflare-managed certificates, disabled dashboard HSTS, no Worker routes, and correct configuration of both Bulk Redirect entries. Production remains on the accepted 1.1.0 build. The owner reported no known unresolved certificate, domain-validation or service incidents and no planned infrastructure changes affecting HTTPS within the next year. The absence of competing Response Header Transform Rules remains unconfirmed.
+
+**Independent baseline.** The production apex returned 200 with exactly one `Strict-Transport-Security: max-age=2592000`. Its application script contained the `v1.1.0` commit `9e3005aff9487f11343b39a7534a2070b429ad5f`. Local and remote main and staging matched at `d8de3bfef2e4ac27e14260e72b495062aa909466`. Only the historical review and its brief differed from the production revision.
+
+**Decision.** Proceed on staging with `max-age=31536000` alone. Production promotion requires separate authorization. Serving this policy commits the issuing host to HTTPS continuity for a year from each client's last qualifying response. A shorter lifetime or `max-age=0` reaches only returning clients over valid HTTPS. Preserve DNS, routing and valid certificates for clients retaining the longer expiry.

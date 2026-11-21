@@ -80,13 +80,12 @@ analytics/telemetry service.
   from `fonts.googleapis.com` and font binaries from `fonts.gstatic.com` are
   allowed. Object content, framing, and workers are denied. Camera,
   microphone, and geolocation are denied. Cloudflare's `nosniff` and referrer
-  policy defaults are retained. The initial 24-hour HSTS rollout was verified
-  on staging and production, including the custom production domain. The
-  repository policy is now 30 days
-  (`Strict-Transport-Security: max-age=2592000`) in `public/_headers`, without
-  `includeSubDomains` or `preload`. The owner verified the 30-day policy on
-  staging and production; a reminder already exists for the later review. See the
-  [CSP and security headers benchmark](benchmarks/CLOUDFLARE-CSP-SECURITY-HEADERS.md).
+  policy defaults are retained. The owner verified the 30-day HSTS policy on staging
+  and production. On 21 November 2026 the public apex still served one
+  `Strict-Transport-Security: max-age=2592000` on release `1.1.0`.
+  The staging candidate sets `max-age=31536000` in `public/_headers` and omits
+  both `includeSubDomains` and `preload`. See the
+  [decision and staging evidence](audits/HSTS-30-DAY-FOLLOW-UP-REVIEW.md#one-year-policy-decision).
 - External Google Fonts remain accepted for V1. Self-hosting or removal needs
   a concrete reason from later testing.
 - Cloudflare Web Analytics / RUM remains disabled: there is no telemetry
@@ -98,19 +97,15 @@ analytics/telemetry service.
   to the public custom production domain. Non-indexing on public production is
   crawler guidance, **not access control**.
 
-Re-review HSTS only after the 30-day policy has been continuously deployed for
-at least 30 days. Re-check the production and staging HSTS responses, complete
-DNS/subdomain inventory, certificate state, HTTP-to-HTTPS redirects, and any
-possible competing HSTS sources. If those checks remain healthy,
-`max-age=31536000` may be considered as the next candidate; this is not advance
-approval for a one-year policy. Keep `includeSubDomains` and `preload` as
-separate decisions.
+Before promoting the one-year policy, verify the authenticated staging application
+response and obtain separate production authorization. After an approved manual
+deployment, verify the production build identity and exact header on the live apex.
 
-The 30-day policy is a stronger rollback commitment than the initial 24-hour
-policy: a client may enforce HTTPS for up to 30 days after its last qualifying
-response. Removing the header does not immediately clear cached client state.
-`max-age=0` clears HSTS only after the client successfully reaches the host over
-valid HTTPS; it is rollback guidance, not part of the current policy.
+Maintain working DNS, routing and valid TLS for the issuing hostname for a full
+year after its last one-year response, including through migrations or recovery.
+Removing the header leaves cached expiry in place. Shortening the lifetime or
+sending `max-age=0` updates only clients that reconnect over valid HTTPS.
+A client with a cached policy and a broken TLS path cannot receive the correction.
 
 For current hosting and security evidence, see the [first Pages smoke
 test](benchmarks/CLOUDFLARE-STAGING-SMOKE-TEST.md), [deployed CSP and security
